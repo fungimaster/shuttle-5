@@ -57,9 +57,7 @@ var webpackConfig = merge(baseWebpackConfig, {
         // (See here: https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#puppeteerlaunchoptions)
         //headless: false // Display the browser window when rendering. Useful for debugging.
       }),
-      postProcess: function (context) {
-        var zendesk = `<!--Start of Zendesk Chat Script-->
- 
+      postProcess: function (context) { 
         return context;
       },
     }),
