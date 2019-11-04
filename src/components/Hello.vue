@@ -7,7 +7,7 @@
     <div class="theme text-center">
       <div class="container">
         <img src="https://res.cloudinary.com/oredev/image/upload/2019/html/tema-1.svg" alt="">
-        <h2 class="when">6-8 Nov 2019 - Malmö, Sweden</h2>
+        <h2 class="when">Matchplay 2020</h2>
       </div>
 
     </div>
