@@ -32,7 +32,7 @@ const store = new Vuex.Store({
         count: 0,
         maproom: '',
         speaker: {},
-        conferencename: 'Øredev 2019',
+        conferencename: 'Matchplay 2020',
         docimage: 'https://res.cloudinary.com/oredev/image/upload/b_rgb:e8e8e8/v1558424486/2019/html/tema-1.jpg'
     },
     getters: {
