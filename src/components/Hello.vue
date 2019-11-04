@@ -7,7 +7,7 @@
     <div class="theme text-center">
       <div class="container">
         <img src="https://res.cloudinary.com/oredev/image/upload/2019/html/tema-1.svg" alt="">
-        <h2 class="when">Matchplay 2020 05 01</h2>
+        <h2 class="when">Matchplay 2020 Johan S</h2>
       </div>
 
     </div>
