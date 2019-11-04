@@ -1,0 +1,126 @@
+# redirect aliases to the primary domain
+[[redirects]]
+  from = "https://oredev.com"
+  to = "https://oredev.org"
+[[redirects]]
+  from = "https://oredev.com/*"
+  to = "https://oredev.org/:splat"
+[[redirects]]
+  from = "https://www.oredev.com"
+  to = "https://oredev.org"
+[[redirects]]
+  from = "https://www.oredev.com/*"
+  to = "https://oredev.org/:splat"
+[[redirects]]
+  from = "https://oredev.se"
+  to = "https://oredev.org"
+[[redirects]]
+  from = "https://oredev.se/*"
+  to = "https://oredev.org/:splat"
+[[redirects]]
+  from = "https://www.oredev.se"
+  to = "https://oredev.org"
+[[redirects]]
+  from = "https://www.oredev.se/*"
+  to = "https://oredev.org/:splat"
+[[redirects]]
+  from = "https://oredev.dk"
+  to = "https://oredev.org"
+[[redirects]]
+  from = "https://oredev.dk/*"
+  to = "https://oredev.org/:splat"
+[[redirects]]
+  from = "https://www.oredev.dk"
+  to = "https://oredev.org"
+[[redirects]]
+  from = "https://www.oredev.dk/*"
+  to = "https://oredev.org/:splat"
+[[redirects]]
+  from = "https://competent-ardinghelli-19f390.netlify.com/*"
+  to = "https://oredev.org/:splat"
+
+# 2009
+[[redirects]]
+  from = "/2009"
+  to = "https://archive.oredev.org/oredev2009/2009/start.html"
+[[redirects]]
+  from = "/oredev2009/*"
+  to = "https://archive.oredev.org/oredev2009/:splat"
+
+# 2010
+[[redirects]]
+  from = "/2010"
+  to = "https://archive.oredev.org/oredev2010/2010.html"
+[[redirects]]
+  from = "/oredev2010/*"
+  to = "https://archive.oredev.org/oredev2010/:splat"
+
+# 2011
+[[redirects]]
+  from = "/2011"
+  to = "https://archive.oredev.org/oredev2011/2011/start.html"
+[[redirects]]
+  from = "/oredev2011/*"
+  to = "https://archive.oredev.org/oredev2011/:splat"
+
+# 2012
+[[redirects]]
+  from = "/2012"
+  to = "https://archive.oredev.org/oredev2012/2012/start.html"
+[[redirects]]
+  from = "/oredev2012/*"
+  to = "https://archive.oredev.org/oredev2012/:splat"
+
+# 2013
+[[redirects]]
+  from = "/2013"
+  to = "https://archive.oredev.org/oredev2013/2013.html"
+[[redirects]]
+  from = "/oredev2013/*"
+  to = "https://archive.oredev.org/oredev2013/:splat"
+
+# 2014
+[[redirects]]
+  from = "/2014"
+  to = "https://archive.oredev.org/oredev2014/index.html"
+[[redirects]]
+  from = "/oredev2014/*"
+  to = "https://archive.oredev.org/oredev2014/:splat"
+
+# 2015
+[[redirects]]
+  from = "/2015"
+  to = "https://archive.oredev.org/2015/2015.html"
+[[redirects]]
+  from = "/2015/*"
+  to = "https://archive.oredev.org/2015/2015/:splat"
+
+# 2016
+[[redirects]]
+  from = "/2016"
+  to = "https://archive.oredev.org/2016/2016.html"
+[[redirects]]
+  from = "/2016/*"
+  to = "https://archive.oredev.org/2016/2016/:splat"
+
+# 2017
+[[redirects]]
+  from = "/2017"
+  to = "https://archive.oredev.org/2017/2017/start.html"
+[[redirects]]
+  from = "/2017/*"
+  to = "https://archive.oredev.org/2017/2017/:splat"
+
+
+# 2018
+[[redirects]]
+  from = "/2018"
+  to = "https://archive.oredev.org/2018/2018.html"
+[[redirects]]
+  from = "/2018/*"
+  to = "https://archive.oredev.org/2018/2018/:splat"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
