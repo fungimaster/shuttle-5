@@ -105,96 +105,7 @@
             </b-col>
           </b-row>
 
-          <b-row class="mt-5">
-            <b-col>
-              <h2>Best companies</h2>
-            </b-col>
-          </b-row>
-          <b-row no-gutters>
-            <b-col md="4" class="gold">
-              <b-row no-gutters>
-                <b-col md="6" class="silver">
-                  <a href="https://www.resursjobs.com/" target="_blank">
-                    <img src="https://res.cloudinary.com/oredev/image/upload/2019/sponsors/resursbank" alt="">
-                  </a>
-                </b-col>
-                <b-col md="6" class="silver">
-                  <a href="https://www.keylane.com/" target="_blank">
-                    <img src="https://res.cloudinary.com/oredev/image/upload/2019/sponsors/keylane" alt="">
-                  </a>
-                </b-col>
-                <b-col md="6" class="silver">
-                  <a href="https://www.progress.com/ui-ux-tools" target="_blank">
-                    <img src="https://res.cloudinary.com/oredev/image/upload/2019/sponsors/progress" alt="">
-                  </a>
-                </b-col>
-                <b-col md="6" class="silver">
-                  <a href="https://www.hogia.se/?utm_source=web&utm_campaign=oredev_19" target="_blank">
-                    <img src="https://res.cloudinary.com/oredev/image/upload/2019/sponsors/hogia" alt="">
-                  </a>
-                </b-col>
-              </b-row>
-            </b-col>
-            <b-col md="4" class="gold">
-              <b-row no-gutters>
-                <b-col md="6" class="silver">
-                  <a href="https://www.fortnox.se" target="_blank">
-                    <img src="https://res.cloudinary.com/oredev/image/upload/2019/sponsors/fortnox" alt="">
-                  </a>
-                </b-col>
-                <b-col md="6" class="silver">
-                  <a href="https://www.qlik.com" target="_blank">
-                    <img src="/static/partners/qlik.png" alt="Best companies, Qlik" />
-                  </a>
-                </b-col>
-                <b-col md="6" class="silver">
-                  <a href="https://www.vp.dk/" target="_blank">
-                    <img src="/static/partners/vpsecurities.png" alt="Best companies, VP Securities" />
-                  </a>
-                </b-col>
-                <b-col md="6" class="silver">
-                  <a href="https://telavox.com" target="_blank">
-                    <img src="/static/partners/telavox.png" alt="Best companies, Telavox" />
-                  </a>
-                </b-col>
-              </b-row>
-            </b-col>
-            <b-col md="4" class="gold">
-              <b-row no-gutters>
-                <b-col md="6" class="silver">
-                  <a href="http://www.edp.se/" target="_blank">
-                    <img src="/static/partners/edp.png" alt="Best companies, EDP">
-                  </a>
-                </b-col>
-                <b-col md="6" class="silver">
-                  <a href="https://www.avensia.com" target="_blank">
-                    <img src="/static/partners/avensia.png" alt="Best companies, Avensia" />
-                  </a>
-                </b-col>
-                <b-col md="6" class="silver">
-                  <a href="https://www.citerus.se/" target="_blank">
-                    <img src="/static/partners/citerus.png" alt="Best companies, Citerus">
-                  </a>
-                </b-col>
-                <b-col md="6" class="silver">
-                  <a href="https://www.avegagroup.se/" target="_blank">
-                    <img src="/static/partners/avega.png" alt="Best companies, Avega Group" />
-                  </a>
-                </b-col>
-              </b-row>
-            </b-col>
-          </b-row>
-          <b-row no-gutters>
-            <b-col md="4" class="gold">
-              <b-row no-gutters>
-                <b-col md="6" class="silver">
-                  <a href="https://www.handelsbanken.se/" target="_blank">
-                    <img src="/static/partners/handelsbanken.png" alt="Best companies, Handelsebanken" />
-                  </a>
-                </b-col>
-              </b-row>
-            </b-col>
-          </b-row>
+          
         </b-col>
         <b-col xl="1"></b-col>
       </b-row>
@@ -210,8 +121,8 @@
               <b-row>
                 <b-col xl="2"></b-col>
                 <b-col>
-                  <h3>Øredev Developer Conference</h3>
-                  <h2>6 - 8 Nov 2019 Sweden</h2>
+                  <h3>Matchplay Sweden</h3>
+                  <h2>2019</h2>
                   <div class="newsletter mt-3 mb-5">
                     <form class="subscribe" name="SubscriberForm" action="http://www.anpdm.com/public/process-subscription-form.aspx?formId=424B50407448465D4671" method="post" target="_blank" id="newsletterForm">
 
@@ -236,19 +147,14 @@
                       <input type="hidden" name="pf_MailinglistName1" value="200918">
                     </form>
                   </div>
-                  <p>Öredev AB</p>
-                  <p>Hans Michelsensgatan 10, 5th floor</p>
-                  <p>SE-211 20 Malmö Sweden</p>
-                  <p>Phone: +46(0)70 245 62 94</p>
+                  <p>Matchplay AB</p>
+                  <p>Ängelholm</p>                  
+                  <p>Phone: +46(0)70 111 22 33</p>
                   <p class="links mb-5">
-                    <router-link to="/about" class="">About Öredev</router-link>
+                    <router-link to="/about" class="">Om Matchplay</router-link>
                     -
-                    <router-link to="/code-of-conduct" class="">Code of conduct</router-link>
-                    -
-                    <router-link to="/archive" class="">Archive</router-link>
+                    <router-link to="/code-of-conduct" class="">Code of conduct</router-link>                    
                     –
-                    <router-link to="/committee" class="">Committee</router-link><br />
-
                     <router-link to="/partnership" class="">Partnership</router-link>
                     -
                     <router-link to="/privacy-policy" class="">Privacy Policy</router-link>
@@ -319,7 +225,7 @@
   footer {
     margin-top: 12rem;
     padding: 10rem 0 0 0;
-    background: url(https://res.cloudinary.com/oredev/image/upload/2019/html/background-footer);
+    background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1807/v1572942209/matchplay/c640cf_402261724c71433c9662662c3114e5b8_mv2_d_4500_3000_s_4_2.png);
     background-repeat: no-repeat;
     background-position: top center;
     background-size: cover;
@@ -367,16 +273,10 @@
     display: inline-block;
   }
   footer .left {
-    background: url(https://res.cloudinary.com/oredev/image/upload/2019/html/theme-left-bottom);
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: bottom right;
+    
   }
   footer .right {
-    background: url(https://res.cloudinary.com/oredev/image/upload/2019/html/theme-right-bottom);
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: bottom left;
+    
   }
   footer .links a {
     color: #fff !important;

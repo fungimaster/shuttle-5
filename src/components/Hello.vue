@@ -4,25 +4,22 @@
     :title="doctitle"
 
     />
-    <div class="theme text-center">
-      <div class="container">
-        <img src="https://res.cloudinary.com/oredev/image/upload/2019/html/tema-1.svg" alt="">
+    <div class="hidden theme text-center">
+      <div class="container">    
         <h2 class="when">Matchplay 2020 Johan S</h2>
       </div>
-
     </div>
-
 
     <div class="come">
       <b-container>
         <b-row>
           <b-col xl="1"></b-col>
           <b-col>
-            <h2>COME TO ØREDEV AND REJUVENATE YOUR WORK, YOUR PROCESS, AND YOUR PERSONAL JOURNEY</h2>
-            <p class="">Øredev is the perfect blend, with one day of in-depth pre-conference workshops and three days of sessions, you will get tons of inspiration and learning to keep you creating your best work all year long.</p>
+            <h2>GÖR SOM HENKE OCH GRANEN, VAR MED I SVERIGES STÖRSTA GOLFTÄVLING FÖR AMATÖRER!</h2>
+            <p class="">Matchplay Invitational är en matchspelstävling för par med officiellt handikapp. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet. </p>
             <div class="buttons text-center">
-              <a href="/line-up" class="btn green-bg btn-lg text-white mb-3">Meet with experts</a>
-              <a href="/sessions" class="btn green-bg btn-lg text-white mb-3">Sharpen your skills</a>
+              <a href="/line-up" class="btn green-bg btn-lg text-white mb-3">Anmäl ditt lag!</a>
+              <a href="/sessions" class="btn green-bg btn-lg text-white mb-3">Läs mer om tävlingen</a>
             </div>
           </b-col>
           <b-col xl="1"></b-col>
@@ -31,133 +28,10 @@
     </div>
 
 
-    <div class="ticket">
-      <div class="top">
-      </div>
-      <b-container fluid>
-        <b-row>
-          <b-col xl="3" class="text-center mb-5">
-            <img src="https://res.cloudinary.com/oredev/image/upload/v1556786228/2019/html/icon-skull.svg" alt=""><img src="https://res.cloudinary.com/oredev/image/upload/v1556786228/2019/html/icon-skull.svg" alt=""><img src="https://res.cloudinary.com/oredev/image/upload/v1556786228/2019/html/icon-skull.svg" alt="">
-          </b-col>
-          <b-col class="mb-5">
-            <b-container>
-              <b-row>
-                <b-col xl="1"></b-col>
-                <b-col>
-                  <h2>GROUP DEAL</h2>
-                  <p>The more the merrier, bring all your friends and colleagues for the best experience and the best price!</p>
-                  <a href="/tickets" class="btn green-bg btn-lg text-white mt-4">Get my ticket</a>
-                </b-col>
-                <b-col xl="1"></b-col>
-              </b-row>
-            </b-container>
-          </b-col>
-          <b-col xl="3" class="text-center">
-            <img src="https://res.cloudinary.com/oredev/image/upload/v1556786228/2019/html/icon-skull.svg" alt=""><img src="https://res.cloudinary.com/oredev/image/upload/v1556786228/2019/html/icon-skull.svg" alt=""><img src="https://res.cloudinary.com/oredev/image/upload/v1556786228/2019/html/icon-skull.svg" alt="">
-          </b-col>
-        </b-row>
-      </b-container>
-      <div class="bottom">
-      </div>
-    </div>
+    
 
 
-    <div class="personas">
-      <b-row no-gutters>
-        <b-col xl="3" md="4" class="first">
-          <h2 class="green-bg text-white">Enhance your expertise in...</h2>
-        </b-col>
-        <b-col @click="[setTag('Android'), setStatus('sessions'), $router.push({ path: 'line-up' })]" xl="3" sm="4">
-          <div class="square start-persona">
-            <span class="green-bg text-white">Android</span>
-            <img src="https://res.cloudinary.com/oredev/image/upload/h_1020/f_auto,ar_1:1,c_crop,e_grayscale,g_face:center,w_620,z_1/2018_speakers/v-m-gonda-gmail-com" alt="">
-          </div>
-        </b-col>
-        <b-col @click="[setTag('AR & VR'), setStatus('sessions'), $router.push({ path: 'line-up' })]" xl="3" sm="4">
-          <div class="square start-persona">
-            <span class="green-bg text-white">AR & VR</span>
-            <img src="https://res.cloudinary.com/oredev/image/upload/w_620/f_auto,ar_1:1,c_crop,e_grayscale,g_face:center,h_620,z_1/2018_speakers/jimmy-apeoholic-se" alt="">
-          </div>
-        </b-col>
-        <b-col @click="[setTag('Architecture'), setStatus('sessions'), $router.push({ path: 'line-up' })]" xl="3" sm="4">
-          <div class="square start-persona">
-            <span class="green-bg text-white">Architecture</span>
-            <img src="https://res.cloudinary.com/oredev/image/upload/h_1000/f_auto,ar_1:1,c_crop,e_grayscale,g_face:center,w_620,z_1/2018_speakers/marianne-bellotti-gmail-com" alt="">
-          </div>
-        </b-col>
-
-        <b-col @click="[setTag('Data Science'), setStatus('sessions'), $router.push({ path: 'line-up' })]" xl="3" sm="4">
-          <div class="square start-persona">
-            <span class="green-bg text-white">Data Science</span>
-            <img src="https://res.cloudinary.com/oredev/image/upload/h_1520/f_auto,ar_1:1,c_crop,e_grayscale,g_face:center,w_620,z_1/2018_speakers/dalyag-gmail-com" alt="">
-          </div>
-        </b-col>
-        <b-col @click="[setTag('Polyglot & Fringe'), setStatus('sessions'), $router.push({ path: 'line-up' })]" xl="3" sm="4">
-          <div class="square start-persona">
-            <span class="green-bg text-white">Polyglot & Fringe</span>
-            <img src="https://res.cloudinary.com/oredev/image/upload/h_620/f_auto,ar_1:1,c_crop,e_grayscale,g_face:center,w_620,z_1/2018_speakers/hello-brooklynzelenka-com" alt="">
-          </div>
-        </b-col>
-        <b-col @click="[setTag('JVM'), setStatus('sessions'), $router.push({ path: 'line-up' })]" xl="3" sm="4">
-          <div class="square start-persona">
-            <span class="green-bg text-white">JVM</span>
-            <img src="https://res.cloudinary.com/oredev/image/upload/h_1020/f_auto,ar_1:1,c_crop,e_grayscale,g_face:center,w_620,z_1/2018_speakers/mail-hadihariri-com" alt="">
-          </div>
-        </b-col>
-        <b-col @click="[setTag('.NET'), setStatus('sessions'), $router.push({ path: 'line-up' })]" xl="3" sm="4">
-          <div class="square start-persona">
-            <span class="green-bg text-white">.NET</span>
-            <img src="https://res.cloudinary.com/oredev/image/upload/h_920/f_auto,ar_1:1,c_crop,e_grayscale,g_face:center,w_620,z_1/2018_speakers/tpeczek-gmail-com" alt="">
-          </div>
-        </b-col>
-
-        <b-col @click="[setTag('People & Teams'), setStatus('sessions'), $router.push({ path: 'line-up' })]" xl="3" sm="4">
-          <div class="square start-persona">
-            <span class="green-bg text-white">People & Teams</span>
-            <img src="https://res.cloudinary.com/oredev/image/upload/h_1100/f_auto,ar_1:1,c_crop,e_grayscale,g_face:center,w_620,z_1/2018_speakers/julia-lagom-solutions" alt="">
-          </div>
-        </b-col>
-        <b-col @click="[setTag('Quality & Test'), setStatus('sessions'), $router.push({ path: 'line-up' })]" xl="3" sm="4">
-          <div class="square start-persona">
-            <span class="green-bg text-white">Quality & Test</span>
-            <img src="https://res.cloudinary.com/oredev/image/upload/h_650/f_auto,ar_1:1,c_crop,e_grayscale,g_face:center,w_620,z_1/2018_speakers/n8ebel-goobar-io" alt="">
-          </div>
-        </b-col>
-        <b-col @click="[setTag('Security'), setStatus('sessions'), $router.push({ path: 'line-up' })]" xl="3" sm="4">
-          <div class="square start-persona">
-            <span class="green-bg text-white">Security</span>
-            <img src="https://res.cloudinary.com/oredev/image/upload/h_1900/f_auto,ar_1:1,c_crop,e_grayscale,g_face:center,w_620,z_1/2018_speakers/r-rdegges-com" alt="">
-          </div>
-        </b-col>
-        <b-col @click="[setTag('Web'), setStatus('sessions'), $router.push({ path: 'line-up' })]" xl="3" sm="4">
-          <div class="square start-persona">
-            <span class="green-bg text-white">Web</span>
-            <img src="https://res.cloudinary.com/oredev/image/upload/h_820/f_auto,ar_1:1,c_crop,e_grayscale,g_face:center,w_620,z_1/2018_speakers/traumverloren-gmail-com" alt="">
-          </div>
-        </b-col>
-        <b-col @click="[setTag('Keynote'), setStatus('sessions'), $router.push({ path: 'line-up' })]" xl="3" sm="4">
-          <div class="square start-persona">
-            <span class="green-bg text-white">Keynote</span>
-            <img src="https://res.cloudinary.com/oredev/image/upload/h_920/f_auto,ar_1:1,c_crop,e_grayscale,g_face:center,w_620,z_1/2018_speakers/cecilia-rheologica-com" alt="">
-          </div>
-        </b-col>
-        <b-col @click="[setTag('DevOps'), setStatus('sessions'), $router.push({ path: 'line-up' })]" xl="3" sm="4">
-          <div class="square start-persona">
-            <span class="green-bg text-white">DevOps</span>
-            <img src="https://res.cloudinary.com/oredev/image/upload/h_620/f_auto,ar_1:1,c_crop,e_grayscale,g_face:center,w_620,z_1/2018_speakers/carlos-apache-org" alt="">
-          </div>
-        </b-col>
-        <b-col @click="[setTag('Cloud'), setStatus('sessions'), $router.push({ path: 'line-up' })]" xl="3" sm="4">
-          <div class="square start-persona">
-            <span class="green-bg text-white">Cloud</span>
-            <img src="https://res.cloudinary.com/oredev/image/upload/h_1700/f_auto,ar_1:1,c_crop,e_grayscale,g_face:center,w_620,z_3/2018_speakers/robin-moffatt-me" alt="">
-          </div>
-        </b-col>
-        <b-col xl="3" md="4" class="last">
-          <h2 class="green-bg text-white">Meet experts, nurture your curiosity, dare to marvel</h2>
-        </b-col>
-      </b-row>
-    </div>
+    
 
 
     <div class="teaser-container">
@@ -204,35 +78,7 @@
     </div>
 
 
-    <b-container fluid class="theme-description">
-      <b-row>
-        <b-col xl="2" class="left">
-        </b-col>
-        <b-col>
-          <b-container>
-            <b-row>
-              <b-col xl="1"></b-col>
-              <b-col class="stars">
-                <img src="https://res.cloudinary.com/oredev/image/upload/v1556786227/2019/html/icon-star.jpg" alt="">
-                <img src="https://res.cloudinary.com/oredev/image/upload/v1556786227/2019/html/icon-star.jpg" alt="">
-                <img src="https://res.cloudinary.com/oredev/image/upload/v1556786227/2019/html/icon-star.jpg" alt="">
-                <img src="https://res.cloudinary.com/oredev/image/upload/v1556786227/2019/html/icon-star.jpg" alt="">
-                <img src="https://res.cloudinary.com/oredev/image/upload/v1556786227/2019/html/icon-star.jpg" alt="">
-                <h2 class="mt-3">Psyched</h2>
-                <p>Although Freud died long before GitHub, assembly, and Twitter, we want to argue that several of his theories are expressed in the ways we develop tech, and in the tech itself.</p>
-
-                <p>We like to think of software as something completely rational, unbiased, running on cold-hearted machines. But our minds that design and write the programs come loaded with a  hefty set of issues. This year, our keynote speakers will reflect on topics such as cognitive aspects of software design, the drives behind the development of tech, morality and biases in AI, etc.</p>
-
-                <p>Technology changes but we are bringing it into the world using the same brains that were around 1,000 years ago, even 10,000. We are not implying Freud was right about everything. We simply want to explore technology from the vantage point of psychology, morality, and philosophy. We the curious!</p>
-              </b-col>
-              <b-col xl="1"></b-col>
-            </b-row>
-          </b-container>
-        </b-col>
-        <b-col xl="2" class="right">
-        </b-col>
-      </b-row>
-    </b-container>
+    
 
   </div>
 </template>
@@ -342,9 +188,9 @@
     }
   }
   .come {
-    background: url(https://res.cloudinary.com/oredev/image/upload/f_auto,q_65/v1556784443/2019/html/background-start-2.jpg);
+    background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/o_45/v1572940143/matchplay/matchplay_bg.jpg);
     background-repeat: no-repeat;
-    background-position: center;
+    background-position: top center;
     background-size: cover;
     color: #fff;
     padding: 180px 0 180px 0;
@@ -353,7 +199,7 @@
     }
   }
   .come h2 {
-    color: $pink
+    color: $orange
   }
   .come h2, .come a {
     text-transform: uppercase;
