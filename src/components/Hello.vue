@@ -117,10 +117,13 @@
             </soap:Body>\
           </soapenv:Envelope>';
 
-this.axios.post('https://gitstage.golf.se',
+this.axios.post('https://gitapi.golf.se/Member/Member3/GetGolferInfoByGolfId',
            xmls,
            {headers:
-             { 'Content-Type': 'application/x-www-form-urlencoded' }
+             {'Host': 'gitstage.golf.se',
+             'Content-Type': 'text/xml; charset=utf-8',
+             'Content-Length': 10000,
+            'SOAPAction': 'http://gitapi.golf.se/Member/Member3/GetGolferInfoByGolfId'}
            }).then(res=>{
              console.log(res);
            }).catch(err=>{console.log(err)});
