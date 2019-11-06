@@ -19,7 +19,7 @@
             <p class="">Matchplay Invitational är en matchspelstävling för par med officiellt handikapp. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet. </p>
             <div class="buttons text-center">
               <a href="/line-up" class="btn green-bg btn-lg text-white mb-3">Anmäl ditt lag!</a>
-              <a href="/sessions" class="btn green-bg btn-lg text-white mb-3">Läs mer om tävlingen</a>
+              <a href="/sessions" class="btn green-bg btn-lg text-white mb-3">Är du kvalificerad?</a>
             </div>
           </b-col>
           <b-col xl="1"></b-col>
@@ -43,6 +43,10 @@
             <b-row class="mb-5 mt-5">
               <b-col md="6" order-md="2" class="teaser-content">
                 <h3 class="green">Challenge</h3>
+                <input type="text">
+                   <button v-on:click="getGolfId()" class="tag text-center">
+                Kolla golf id
+              </button>
                 <p>Challenge yourself, learn new technical know-hows and explore areas you're not familiar with!</p>
                 <p>With 150 sessions, the other challenge will be to choose.</p>
               </b-col>
@@ -97,6 +101,29 @@
     methods: {
       goRouter: function() {
         this.$router.push({ path: 'line-up' })
+      },
+      getGolfId: function() {
+       let xmls='<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://gitapi.golf.se/Member/Member3" xmlns:types="http://gitapi.golf.se/Member/Member3/encodedTypes" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">\
+            <soap:Header>\
+            <tns:SoapAuthenticationHeader>\
+            <user xsi:type="xsd:string">WF1102-091</user>\
+            <password xsi:type="xsd:string">ghj3h5</password>\
+            </tns:SoapAuthenticationHeader>\
+            </soap:Header>\
+            <soap:Body soap:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">\
+            <tns:GetGolferInfoByGolfId>\
+            <golfID xsi:type="xsd:string">780110-015</golfID>\
+            </tns:GetGolferInfoByGolfId>\
+            </soap:Body>\
+          </soapenv:Envelope>';
+
+this.axios.post('http://gitapi.golf.se/Member/Member3/GetGolferInfoByGolfId',
+           xmls,
+           {headers:
+             {'Content-Type': 'text/xml'}
+           }).then(res=>{
+             console.log(res);
+           }).catch(err=>{console.log(err)});
       }
     }
   }
@@ -188,15 +215,33 @@
     }
   }
   .come {
-    background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/o_45/v1572940143/matchplay/matchplay_bg.jpg);
+    background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_2390/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg);
     background-repeat: no-repeat;
-    background-position: top center;
+    /*background-position: bottom 30% right 0;*/
     background-size: cover;
     color: #fff;
     padding: 180px 0 180px 0;
-    @media (max-width: 767px) {
-      padding: 5rem 0 5rem 0;
+    @media (min-width: 320px) {
+      padding: 15rem 0 5rem 0;
+      background-position: bottom 10% right 0;
     }
+    @media (min-width: 480px) {
+      padding: 12rem 0 5rem 0;
+      background-position: bottom 0% right 0;
+    }
+    @media (min-width: 768px) {
+     background-position: bottom 32% right 0;
+    }
+
+    @media (min-width: 992px) {
+     background-position: bottom 51% right 0;
+    }
+
+     @media (min-width: 1200px) {
+     background-position: bottom 55% right 0;
+    }  
+
+
   }
   .come h2 {
     color: $orange
