@@ -117,7 +117,7 @@
             </soap:Body>\
           </soapenv:Envelope>';
 
-this.axios.post('http://gitapi.golf.se/Member/Member3/GetGolferInfoByGolfId',
+this.axios.post('https://gitapi.golf.se/Member/Member3/GetGolferInfoByGolfId',
            xmls,
            {headers:
              {'Content-Type': 'text/xml'}
