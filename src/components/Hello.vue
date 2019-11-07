@@ -200,7 +200,7 @@ this.axios.post('http://gitsys.golf.se/WSAPI/Ver_3/Member/Member3.asmx',
 
             var newGolferData = {};
             
-            newGolferData.firstname = 'Namn: ' + firstname + lastname;
+            newGolferData.firstname = 'Namn: ' + firstname + ' ' + lastname;
             //newGolferData.lastname = lastname
             newGolferData.club = 'Klubb: ' + club;
             newGolferData.hcp = 'HCP: ' + hcp;
