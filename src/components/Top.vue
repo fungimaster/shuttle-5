@@ -2,7 +2,7 @@
   <b-navbar toggleable="lg" fixed="top">
     <b-navbar-brand>
       <router-link class="" to="/">
-      <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_100/v1572940752/matchplay/matchplayinv.png" alt="">
+      <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_100/v1573118127/matchplay/matchplay-new-logo-2020.png" alt="">
     </router-link>
   </b-navbar-brand>
 
@@ -10,16 +10,14 @@
 
   <b-collapse id="nav-collapse" is-nav class="text-center">
     <div class="d-lg-none mt-5 mb-2">
-      <h1 class="theme">Psyched</h1>
-      <p class="text-uppercase">6-8 Nov 2019 - Malmö, Sweden</p>
+      <h1 class="hidden theme">Psyched</h1>
+      <p class="text-uppercase">Matchplay 2020</p>
     </div>
-    <b-navbar-nav class="ml-auto">
-      <b-nav-item to="/tickets">Tickets</b-nav-item>
-      <b-nav-item :to="{path: '/line-up', query: {tags:$route.query.tags, day:$route.query.day}}">Line-up</b-nav-item>
-      <b-nav-item :to="{path: '/sessions', query: {tags:$route.query.tags, day:$route.query.day}}">Sessions</b-nav-item>
+    <b-navbar-nav class="ml-auto">      
+      <!-- <b-nav-item :to="{path: '/line-up', query: {tags:$route.query.tags, day:$route.query.day}}">Line-up</b-nav-item> -->      
       <b-nav-item to="/info">Info</b-nav-item>
       <!--a class="nav-item nav-link text-dark show-search-button nav-link" href="#search" data-toggle="collapse" aria-expanded="false" aria-controls="search"><i class="material-icons mobile-search">search</i></a-->
-      <b-nav-item to="/my-schedule"><i class="material-icons">calendar_today</i><span class="my-count text-center">{{ $store.state.count }}</span></b-nav-item>
+      <b-nav-item title="login" to="/my-schedule"><i class="material-icons">face</i></b-nav-item>
     </b-navbar-nav>
   </b-collapse>
 </b-navbar>

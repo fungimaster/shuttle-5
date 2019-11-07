@@ -15,11 +15,11 @@
         <b-row>
           <b-col xl="1"></b-col>
           <b-col>
-            <h2>GÖR SOM HENKE OCH GRANEN, VAR MED I SVERIGES STÖRSTA GOLFTÄVLING FÖR AMATÖRER!</h2>
+            <h2>MATCHPLAY ÄR EN MATCHSPELSTÄVLING FÖR PAR MED OFFICELLT HANDIKAPP.</h2>
             <p class="">Matchplay Invitational är en matchspelstävling för par med officiellt handikapp. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet. </p>
             <div class="buttons text-center">
-              <a href="/line-up" class="btn green-bg btn-lg text-white mb-3">Anmäl ditt lag!</a>
-              <a href="/sessions" class="btn green-bg btn-lg text-white mb-3">Är du kvalificerad?</a>
+              <a href="/line-up" class="btn blue-bg btn-lg text-white mb-3">Anmäl ditt lag</a>
+              <a href="/sessions" class="btn blue-bg btn-lg text-white mb-3">Hantera ditt lag här</a>
             </div>
           </b-col>
           <b-col xl="1"></b-col>
@@ -39,42 +39,41 @@
         <b-row>
           <b-col xl="1"></b-col>
           <b-col>
-            <h2 class="teaser-header pink">A mashup of practical knowledge and wild inspiration</h2>
+            <h2 class="teaser-header orange">Anmäl ditt lag här!</h2>
             <b-row class="mb-5 mt-5">
-              <b-col md="6" order-md="2" class="teaser-content">
-                <h3 class="green">Challenge</h3>
+              <b-col md="12" class="teaser-content">
+               <!--
                 <input type="text">
                    <button v-on:click="getGolfId()" class="tag text-center">
                 Kolla golf id
-              </button>
-                <p>Challenge yourself, learn new technical know-hows and explore areas you're not familiar with!</p>
-                <p>With 150 sessions, the other challenge will be to choose.</p>
-              </b-col>
-              <b-col md="6" order-md="1" class="teaser-content">
-                <img src="https://res.cloudinary.com/oredev/image/upload/f_auto,w_510/2019/html/challenge">
-              </b-col>
+              </button>-->
+                       
+                <p>Börja med att ange ditt golf id så hämtar vi en del av informationen automatiskt från Svenska Golfförbundet.</p>
+                
+  <div class="form-group">
+    <!--<label for="golfid">Ange ditt golf id:</label>-->
+    <input type="text" class="form-control" id="golfid" placeholder="T.ex. 720101-001" value="780110-015">
+    <span id="helpAccountId" class="small form-text text-muted">Vi sparar INTE dina personuppgifter genom att fortsätta.</span>
+  </div>
+  <button type="submit" v-on:click="getGolfId()" class="btn blue-bg">Fortsätt</button>
+
+<div id="golfid_result" style="margin-top:20px;">
+</div>
+
+              </b-col>             
             </b-row>
 
-            <b-row class="mb-5 mt-5">
+            <b-row class="hidden mb-5 mt-5">
               <b-col md="6" class="teaser-content">
                 <h3 class="orange">Connect</h3>
                 <p>Social media keeps you connected to your peers. However, there’s no substitution for meeting IRL.</p>
                 <p>With 1200 participants, which conversation will you jump in?</p>
               </b-col>
               <b-col md="6" class="teaser-content">
-                <img src="https://res.cloudinary.com/oredev/image/upload/f_auto,w_510/2019/html/connect">
+                <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/f_auto,w_510/v1572940143/matchplay/matchplay_bg.jpg">              
               </b-col>
             </b-row>
 
-            <b-row class="mb-5 mt-5">
-              <b-col md="6" order-md="2" class="teaser-content">
-                <h3 class="red">Experience</h3>
-                <p>Break out of your office, open your mind and enjoy good discussions, good food and good coffee!</p>
-              </b-col>
-              <b-col md="6" order-md="1" class="teaser-content">
-                <img src="https://res.cloudinary.com/oredev/image/upload/f_auto,w_510/2019/html/experience" alt="">
-              </b-col>
-            </b-row>
           </b-col>
           <b-col xl="1"></b-col>
         </b-row>
@@ -102,30 +101,132 @@
       goRouter: function() {
         this.$router.push({ path: 'line-up' })
       },
-      getGolfId: function() {
-       let xmls='<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://gitapi.golf.se/Member/Member3" xmlns:types="http://gitapi.golf.se/Member/Member3/encodedTypes" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">\
-            <soap:Header>\
-            <tns:SoapAuthenticationHeader>\
-            <user xsi:type="xsd:string">WF1102-091</user>\
-            <password xsi:type="xsd:string">ghj3h5</password>\
-            </tns:SoapAuthenticationHeader>\
-            </soap:Header>\
-            <soap:Body soap:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">\
-            <tns:GetGolferInfoByGolfId>\
-            <golfID xsi:type="xsd:string">780110-015</golfID>\
-            </tns:GetGolferInfoByGolfId>\
-            </soap:Body>\
-          </soapenv:Envelope>';
+      getGolfId2: function(){
 
-this.axios.post('https://gitapi.golf.se/Member/Member3/GetGolferInfoByGolfId',
+let xmls='<soapenv:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mem="http://gitapi.golf.se/Member/Member3"\
+   <soapenv:Header>\
+      <SoapAuthenticationHeader xsi:type="mem:SoapAuthenticationHeader">\
+         <!--Optional:-->\
+         <user xsi:type="xsd:string">WF1102-091</user>\
+         <!--Optional:-->\
+         <password xsi:type="xsd:string">ghj3h5</password>\
+      </SoapAuthenticationHeader>\
+   </soapenv:Header>\
+   <soapenv:Body>\
+      <mem:GetGolferInfoByGolfId soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">\
+         <golfID xsi:type="xsd:string">780110-015</golfID>\
+      </mem:GetGolferInfoByGolfId>\
+   </soapenv:Body>\
+</soapenv:Envelope>';
+
+    var instance = this.axios.create({
+        
+    });
+
+    instance({
+        method: 'POST',
+        url: 'http://gitsys.golf.se/WSAPI/Ver_3/Member/Member3.asmx',
+        xmls,
+        headers: {'Accept-Encoding': 'gzip,deflate',
+'Content-Type': 'text/xml;charset=UTF-8',
+'SOAPAction': "http://gitapi.golf.se/Member/Member3/GetGolferInfoByGolfId",
+'Content-Length': 789,
+'Host': 'gitsys.golf.se',
+'Connection': 'Keep-Alive'
+             },
+    })
+        .then(function (response) {
+            res.json(response.data);
+           //console.log(response.data)
+        });
+
+
+
+      },
+
+      getGolfId: function(golfid) {
+        var golfid = document.getElementById('golfid').value;
+        console.log(golfid)
+       let xmls='<soapenv:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mem="http://gitapi.golf.se/Member/Member3">\
+   <soapenv:Header>\
+      <SoapAuthenticationHeader xsi:type="mem:SoapAuthenticationHeader">\
+         <!--Optional:-->\
+         <user xsi:type="xsd:string">WF1102-091</user>\
+         <!--Optional:-->\
+         <password xsi:type="xsd:string">ghj3h5</password>\
+      </SoapAuthenticationHeader>\
+   </soapenv:Header>\
+   <soapenv:Body>\
+      <mem:GetGolferInfoByGolfId soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">\
+         <golfID xsi:type="xsd:string">'+ golfid + '</golfID>\
+      </mem:GetGolferInfoByGolfId>\
+   </soapenv:Body>\
+</soapenv:Envelope>';
+
+this.axios.post('http://gitsys.golf.se/WSAPI/Ver_3/Member/Member3.asmx',
            xmls,
            {headers:
-             {'Host': 'gitstage.golf.se',
-             'Content-Type': 'text/xml; charset=utf-8',
-             'Content-Length': 10000,
-            'SOAPAction': 'http://gitapi.golf.se/Member/Member3/GetGolferInfoByGolfId'}
+          {'Content-Type': 'text/xml;charset=UTF-8',
+'SOAPAction': "http://gitapi.golf.se/Member/Member3/GetGolferInfoByGolfId"
+             }
            }).then(res=>{
-             console.log(res);
+             //return 'hej'
+             let xml = res.request.response;
+             //console.log(res.request.response);
+
+            //XML
+            var convert = require('xml-js');
+            var xml2 =
+            '<?xml version="1.0" encoding="utf-8"?>' +
+            '<note importance="high" logged="true">' +
+            '    <title>Happy</title>' +
+            '    <todo>Work</todo>' +
+            '    <todo>Play</todo>' +
+            '</note>';
+            var result1 = convert.xml2json(xml, {compact: true, spaces: 4});
+            //console.log(xml)
+            //var result2 = convert.xml2json(xml, {compact: false, spaces: 4});
+            //console.log(result2);
+            //console.log(xml.GetElementsByTagName("soap:Envelope")[0])
+            var options = {ignoreComment: true, alwaysChildren: false, compact: false};
+            var result = convert.xml2js(xml, options); // or convert.xml2json(xml, options)
+            
+            var golferdata = result.elements[0].elements[0].elements[1].elements;
+            var club = golferdata[1].elements[0].text;
+            var firstname = golferdata[2].elements[0].text;
+            var lastname = golferdata[3].elements[0].text;
+            var hcp = golferdata[7].elements[0].text;
+            var email = golferdata[12].elements[0].text;
+
+            var newGolferData = {};
+            
+            newGolferData.firstname = 'Namn: ' + firstname + lastname;
+            //newGolferData.lastname = lastname
+            newGolferData.club = 'Klubb: ' + club;
+            newGolferData.hcp = 'HCP: ' + hcp;
+            newGolferData.email = 'E-mail: ' + email;
+            
+            newGolferData.push;
+
+            console.log(newGolferData);
+
+var i;
+            for (i in newGolferData) {                
+            document.getElementById('golfid_result').innerHTML += newGolferData[i] + '<br>';
+            }
+           
+
+
+
+            
+            //console.log(result);
+            //END XML
+
+
+
+
+
+
            }).catch(err=>{console.log(err)});
       }
     }

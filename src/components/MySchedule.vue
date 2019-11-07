@@ -7,102 +7,40 @@
     <!---------------------------- SESSIONS --------------------------------------->
 
     <div class="container">
-      <div class="row mt-5 mb-5">
-        <div class="col-12">
-          <h1>My schedule</h1>
-          <div v-if="schedulecount > 0">
-            <a class="green-bg btn text-white" v-if="!this.myscheduleid"  v-b-modal.saveschedule><i class="material-icons align-middle">cloud_upload</i> Save my schedule</a>
-            <a class="green-bg btn text-white" v-if="this.revertmyschedule != ''"  v-on:click="revertSchedule()""><i class="material-icons align-middle">cloud_download</i> Revert to my schedule</a>
-          </div>
-        </div>
-      </div>
-      <div class="sessions">
-        <div v-if="schedulecount === 0" class="row justify-content-center no-my-schedule">
-          <div class="text-center">
-            <i class="material-icons h2 align-middle add green big">add_circle_outline</i>
-            <h2>Oops!</h2>
-            <p>
-              Looks like you didn't add any sessions to your schedule yet, but don't worry,<br>just go to <b-link to="/sessions">Sessions</b-link> and use the <i class="material-icons h2 align-middle add green">add_circle_outline</i> to get started!
-            </p>
-          </div>
-
-        </div>
-        <div v-else>
-
-          <div v-if="loadsessions" class="row mt-5 justify-content-center">
-            <c-spinner></c-spinner>
-          </div>
-          <div v-else>
-            <div  v-for="session in mySessions">
-              <h2 v-if="session.showDay">{{session.showDay}}</h2>
-              <div v-bind:class="[setVisibleSchedule(session.sessionTagMain, session.sessionTags, session.sessionScheduleDay), setActiveSchedule(session._id), session.sessionTagMain, session.sessionTags, 'day'+session.sessionScheduleDay]" class="row session">
-                <div class="col-md-2 col-10 order-1 order-md-1  time">
-                  <h2>{{session.sessionScheduleTime}}</h2>
-                </div>
-                <div class="col-md-9 col-12 order-12 order-md-2 main">
-                  <div class="row">
-                    <div class="col-8 speaker" v-on:click="showSpeaker(session.sessionSpeakerURL)">
-                      <i class="material-icons align-middle green">person</i> {{session.sessionSpeakerName}}
-                    </div>
-                    <div class="col-4 text-right room" v-on:click="showMap(session.sessionScheduleRoom)">
-                      {{session.sessionScheduleRoom}} <i class="material-icons align-middle green">place</i>
-                    </div>
-                    <div v-on:click="toggleText(session._id)" class="col-12 session-info">
-                      <h5><span class="fold-icons"><i :data-id=session._id class="material-icons hidden align-middle green">unfold_less</i><i :data-id=session._id class="material-icons align-middle green">unfold_more</i></span> <span class="session-title">{{session.sessionTitle}}</span></h5>
-
-                    </div>
-                  </div>
-                  <div :data-id=session._id class="col-md-12 session-text hidden">
-                    <h6>Key takeaways</h6>
-                    <ul>
-                      <li v-if="session.sessionKeyTakeAway1">{{session.sessionKeyTakeAway1}}</li>
-                      <li v-if="session.sessionKeyTakeAway2">{{session.sessionKeyTakeAway2}}</li>
-                      <li v-if="session.sessionKeyTakeAway3">{{session.sessionKeyTakeAway3}}</li>
-                      <li v-if="session.sessionKeyTakeAway4">{{session.sessionKeyTakeAway4}}</li>
-                    </ul>
-                    <p>
-                      {{session.sessionDescription}}
-                    </p>
-                  </div>
-                </div>
-                <div class="col-md-1 col-2 order-2 order-md-3 add-schedule text-sm-right" v-on:click="setSchedule(session._id, $event)">
-                  <i class="material-icons h2 align-middle add green">add_circle_outline</i>
-                  <i class="material-icons h2 align-middle remove pink">remove_circle_outline</i>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    
+       <b-row class="mb-5 mt-5">
+         
+              <b-col md="1" class="">
+               
+              </b-col>
+               <b-col md="10" class="">
+                 <h2 class="teaser-header orange">Logga in</h2>
+                 <br>
+               <form action="/action_page.php">
+  <div class="form-group">
+    <label for="email">Email address:</label>
+    <input type="email" class="form-control" id="email">
+  </div>
+  <div class="form-group">
+    <label for="pwd">Password:</label>
+    <input type="password" class="form-control" id="pwd">
+  </div>
+  <div class="form-group form-check">
+    <label class="form-check-label">
+      <input class="form-check-input" type="checkbox"> Remember me
+    </label>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+              </b-col>
+              <b-col md="1" class="">
+                  
+              </b-col>
+            </b-row>
 
     </div>
-    <c-map></c-map>
-    <b-modal fluid centered size="md" ref="speaker" id="saveschedule" class="" title="Save my schedule" hide-footer>
-    <div v-if="!this.myscheduleid">
-     <b-form @submit="saveSchedule">
-      <b-form-group
-        id="input-group-1"
-        label="Email address:"
-        label-for="input-1"
-        description="You will receive an email with a link to your schedule"
-      >
-        <b-form-input
-          id="input-1"
-          v-model="form.email"
-          type="email"
-          required
-          placeholder="Enter email"
-        >
-        </b-form-input>
-      </b-form-group>
-      <b-button type="submit" variant="primary">Submit</b-button>
-      </b-form>
-     </div>
-     <div v-if="this.myscheduleid">
-       <strong>Thanks for saving your schedule</strong>
-       <p>Please have a look in your inbox.</p>
-     </div>
-    </b-modal>
+    
+    
   </div>
 </template>
 

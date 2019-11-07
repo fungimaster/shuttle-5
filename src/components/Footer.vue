@@ -121,8 +121,7 @@
               <b-row>
                 <b-col xl="2"></b-col>
                 <b-col>
-                  <h3>Matchplay Sweden</h3>
-                  <h2>2019</h2>
+                  <h3>Matchplay Sweden</h3>                 
                   <div class="newsletter mt-3 mb-5">
                     <form class="subscribe" name="SubscriberForm" action="http://www.anpdm.com/public/process-subscription-form.aspx?formId=424B50407448465D4671" method="post" target="_blank" id="newsletterForm">
 
@@ -215,7 +214,7 @@
     max-width: 100%;
   }
   .sponsors h2 {
-    color: $pink;
+    color: $orange;
   }
   .sponsors a{
     background-color: #f5f5f5;

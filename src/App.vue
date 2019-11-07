@@ -38,6 +38,16 @@
   .pink {
     color: $pink !important;
   }
+  .blue {
+    color: $blue !important;
+  }
+  .blue-bg {
+    background: $blue !important;
+    color:#FFF;
+  }
+  .blue-light-bg {
+    background: $blue-light !important;
+  }
   .green {
     color: $green !important;
   }
