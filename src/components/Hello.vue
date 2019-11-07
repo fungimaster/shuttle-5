@@ -145,15 +145,16 @@ let xmls='<soapenv:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance
       },
 
       getGolfId: function(golfid) {
+
         var golfid = document.getElementById('golfid').value;
-        console.log(golfid)
+
        let xmls='<soapenv:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mem="http://gitapi.golf.se/Member/Member3">\
    <soapenv:Header>\
       <SoapAuthenticationHeader xsi:type="mem:SoapAuthenticationHeader">\
          <!--Optional:-->\
-         <user xsi:type="xsd:string">WF1102-091</user>\
+         <user xsi:type="xsd:string">' + process.env.VUE_APP_GIT_USERNAME + '</user>\
          <!--Optional:-->\
-         <password xsi:type="xsd:string">ghj3h5</password>\
+         <password xsi:type="xsd:string">'+ process.env.VUE_APP_GIT_PASSWORD +'</password>\
       </SoapAuthenticationHeader>\
    </soapenv:Header>\
    <soapenv:Body>\
@@ -176,13 +177,7 @@ this.axios.post('https://gitsys.golf.se/WSAPI/Ver_3/Member/Member3.asmx',
 
             //XML
             var convert = require('xml-js');
-            var xml2 =
-            '<?xml version="1.0" encoding="utf-8"?>' +
-            '<note importance="high" logged="true">' +
-            '    <title>Happy</title>' +
-            '    <todo>Work</todo>' +
-            '    <todo>Play</todo>' +
-            '</note>';
+           
             var result1 = convert.xml2json(xml, {compact: true, spaces: 4});
             //console.log(xml)
             //var result2 = convert.xml2json(xml, {compact: false, spaces: 4});
