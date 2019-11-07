@@ -163,7 +163,7 @@ let xmls='<soapenv:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance
    </soapenv:Body>\
 </soapenv:Envelope>';
 
-this.axios.post('http://gitsys.golf.se/WSAPI/Ver_3/Member/Member3.asmx',
+this.axios.post('https://gitsys.golf.se/WSAPI/Ver_3/Member/Member3.asmx',
            xmls,
            {headers:
           {'Content-Type': 'text/xml;charset=UTF-8',
