@@ -55,7 +55,7 @@
     <input type="text" class="form-control" id="golfid" placeholder="T.ex. 720101-001" value="780110-015">
     <span id="helpAccountId" class="small form-text text-muted">Vi sparar INTE dina personuppgifter genom att fortsätta.</span>
   </div>
-  <button type="submit" v-on:click="getGolfId()" class="btn blue-bg">Fortsätt</button>
+  <button type="submit" v-on:click="getGolfId3()" class="btn blue-bg">Fortsätt</button>
 
 <div id="golfid_result" style="margin-top:20px;">
 </div>
@@ -142,6 +142,30 @@ let xmls='<soapenv:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance
 
 
 
+      },
+
+      getGolfId3: function(golfid) {
+        var golfid = document.getElementById('golfid').value;
+               this.axios.get('https://colburn-chat-buxom-tamale.eu-gb.mybluemix.net/get_golfid?golfid=' + golfid, {
+            params: {
+              //ID: 12345
+            }
+          })
+          .then(response => {
+            //console.log(response.data);
+            var i;
+            for (i in response.data) {                
+            document.getElementById('golfid_result').innerHTML += response.data[i] + '<br>';
+            }
+            //this.speaker = response.data.plannedspeakers[0];
+            //$(".speaker-single").slideDown(200);
+            //this.loadspeakername = false;
+            //this.setDocTags();
+            return;
+          })
+          .catch(error => {
+            console.log(error);
+          });
       },
 
       getGolfId: function(golfid) {
