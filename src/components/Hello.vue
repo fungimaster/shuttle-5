@@ -153,6 +153,7 @@ let xmls='<soapenv:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance
           })
           .then(response => {
             //console.log(response.data);
+            document.getElementById('golfid_result').innerHTML = "";
             var i;
             for (i in response.data) {                
             document.getElementById('golfid_result').innerHTML += response.data[i] + '<br>';
@@ -227,11 +228,11 @@ this.axios.post('https://gitsys.golf.se/WSAPI/Ver_3/Member/Member3.asmx',
             
             newGolferData.push;
 
-            console.log(newGolferData);
-
+            //console.log(newGolferData);
+            document.getElementById('golfid_result').innerHTML = "1";
 var i;
             for (i in newGolferData) {                
-            document.getElementById('golfid_result').innerHTML += newGolferData[i] + '<br>';
+            //document.getElementById('golfid_result').innerHTML += newGolferData[i] + '<br>';
             }
            
 
