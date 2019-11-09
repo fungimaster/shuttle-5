@@ -11,100 +11,22 @@
           </b-row>
 
           <b-row no-gutters>
-            <b-col md="4" class="gold">
-              <a href="https://www.axis.com/en" target="_blank">
-                <img src="https://res.cloudinary.com/oredev/image/upload/2019/sponsors/axis" alt="">
+            <b-col md="4" class="gold p-2">
+              <a href="https://futureitpartner.se/" target="_blank">
+                <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1573315610/matchplay/future_logo.png" alt="">
+              </a>
+            </b-col>           
+            <b-col md="4" class="gold p-2 pt-4">
+              <a href="https://colburn.se" target="_blank">
+                <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1573315623/matchplay/Logo_Colburn.png" alt="">
               </a>
             </b-col>
-            <b-col md="4" class="gold">
-              <a href="https://www.ikea.com/"  target="_blank">
-                <img src="/static/partners/ikea.png" alt="" />
-              </a>
-            </b-col>
-            <b-col md="4" class="gold">
-              <b-row no-gutters>
-                <b-col md="6" class="silver">
-                  <a href="https://ravendb.net/" target="_blank">
-                    <img src="https://res.cloudinary.com/oredev/image/upload/2019/sponsors/ravendb" alt="">
-                  </a>
-                </b-col>
-                <b-col md="6" class="silver">
-                  <a href="https://malmo.se/" target="_blank">
-                    <img src="https://res.cloudinary.com/oredev/image/upload/2019/sponsors/malmostad" alt="">
-                  </a>
-                </b-col>
-                <b-col md="6" class="silver">
-                  <a href="https://www.holmbergs.com/" target="_blank">
-                    <img src="https://res.cloudinary.com/oredev/image/upload/2019/sponsors/holmbergs.png" alt="">
-                  </a>
-                </b-col>
-                <b-col md="6" class="silver">
-                  <a href="https://www.malmomassan.se/en/" target="_blank">
-                    <img src="https://res.cloudinary.com/oredev/image/upload/2019/sponsors/malmomassan" alt="">
-                  </a>
-                </b-col>
-              </b-row>
-            </b-col>
-          </b-row>
-
-          <b-row no-gutters>
-            <b-col md="4" class="gold">
-              <b-row no-gutters>
-                <b-col md="6" class="silver">
-                  <a href="https://www.oreilly.com" target="_blank">
-                    <img src="https://res.cloudinary.com/oredev/image/upload/2019/sponsors/oreilly" alt="">
-                  </a>
-                </b-col>
-                <b-col md="6" class="silver">
-                  <a href="https://open.spotify.com/show/1gXqSrlHmdqOZTmiMo19mR?si=gEEFJ8CpRWqpUTKzwXGo-Q" target="_blank">
-                    <img src="https://res.cloudinary.com/oredev/image/upload/2019/sponsors/kodsnack" alt="">
-                  </a>
-                </b-col>
-                <b-col md="6" class="silver">
-                  <a href="https://developer.ibm.com/" target="_blank">
-                    <img src="https://res.cloudinary.com/oredev/image/upload/2019/sponsors/ibm" alt="">
-                  </a>
-                </b-col>
-                <b-col md="6" class="silver">
-                  <a href="https://www.datormagazin.se" target="_blank">
-                    <img src="https://res.cloudinary.com/oredev/image/upload/2019/sponsors/datormagazin" alt="">
-                  </a>
-                </b-col>
-              </b-row>
-            </b-col>
-            <b-col md="4" class="gold">
-              <a href="https://solace.com" target="_blank">
-                <img src="https://res.cloudinary.com/oredev/image/upload/2019/sponsors/solace" alt="">
-              </a>
-            </b-col>
-            <b-col md="4" class="gold">
-              <a href="https://azure.microsoft.com/sv-se/"  target="_blank">
-                <img src="https://res.cloudinary.com/oredev/image/upload/2019/sponsors/microsoft.png" alt="">
+             <b-col md="4" class="gold p-2">
+              <a href="http://www.padelcrew.se/"  target="_blank">
+                <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1573316028/matchplay/padel-crew-logo31.png" alt="" />
               </a>
             </b-col>
           </b-row>
-          <b-row no-gutters>
-            <b-col md="4" class="gold">
-              <b-row no-gutters>
-                <b-col md="6" class="silver">
-                  <a href="https://www.youtube.com/channel/UCT0bL2CQIk1eANeXk57mxaA" target="_blank">
-                    <img src="https://res.cloudinary.com/oredev/image/upload/2019/sponsors/nighthacking" alt="">
-                  </a>
-                </b-col>
-                <b-col md="6" class="silver">
-                  <a href="https://www.jayway.com/"  target="_blank">
-                    <img src="https://res.cloudinary.com/oredev/image/upload/2019/sponsors/jayway" alt="">
-                  </a>
-                </b-col>
-                <b-col md="6" class="silver">
-                  <a href="https://www.devexpress.com"  target="_blank">
-                    <img src="https://res.cloudinary.com/oredev/image/upload/2019/sponsors/devexpress" alt="">
-                  </a>
-                </b-col>
-              </b-row>
-            </b-col>
-          </b-row>
-
           
         </b-col>
         <b-col xl="1"></b-col>
@@ -217,8 +139,8 @@
     color: $orange;
   }
   .sponsors a{
-    background-color: #f5f5f5;
-    border: 1px solid #fff;
+    
+    border: 0px solid #fff;
     display: block;
   }
   footer {

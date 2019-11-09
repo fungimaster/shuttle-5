@@ -10,7 +10,7 @@
       </div>
     </div>
 
-    <div class="come">
+    <div class="come hidden">
       <b-container>
         <b-row>
           <b-col xl="1"></b-col>
@@ -27,14 +27,30 @@
       </b-container>
     </div>
 
-
+<div class="hero">
+      <b-container>
+        <b-row>
+          <b-col md="10">
+            <h2>MATCHPLAY ÄR EN MATCHSPELSTÄVLING FÖR PAR MED OFFICELLT HANDIKAPP.</h2>
+            <p class="">Matchplay Invitational är en matchspelstävling för par med officiellt handikapp. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet. </p>
+            <div class="buttons text-left">
+              <a href="#register" class="btn blue-bg btn-lg text-white mb-3">Anmäl ditt lag</a>
+              <a href="/sessions" class="btn blue-bg btn-lg text-white mb-3">Hantera ditt lag här</a>
+            </div>
+          </b-col>
+          <b-col md="2" class="">
+           
+          </b-col>
+        </b-row>
+      </b-container>
+    </div>
     
 
 
     
 
 
-    <div class="teaser-container">
+    <div class="teaser-container" id="register">
       <b-container>
         <b-row>
           <b-col xl="1"></b-col>
@@ -47,17 +63,144 @@
                    <button v-on:click="getGolfId()" class="tag text-center">
                 Kolla golf id
               </button>-->
-                       
-                <p>Börja med att ange ditt golf id så hämtar vi en del av informationen automatiskt från Svenska Golfförbundet.</p>
-                
-  <div class="form-group">
-    <!--<label for="golfid">Ange ditt golf id:</label>-->
-    <input type="text" class="form-control" id="golfid" placeholder="T.ex. 720101-001" value="780110-015">
-    <span id="helpAccountId" class="small form-text text-muted">Vi sparar INTE dina personuppgifter genom att fortsätta.</span>
-  </div>
-  <button type="submit" v-on:click="getGolfId3()" class="btn blue-bg">Fortsätt</button>
+                 
 
-<div id="golfid_result" style="margin-top:20px;">
+  
+  <div class="form-group" v-if="showform1">
+    <img style="float:right;" src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120/v1573298924/matchplay/sgf_logo.jpg">      
+                <p>Börja med att ange ditt golf id så hämtar vi en del av informationen automatiskt från Svenska Golfförbundet.</p>
+                <br>
+    <!--<label for="golfid">Ange ditt golf id:</label>-->
+   
+    <input type="text" style="width:200px;" class="form-control" id="golfid" placeholder="T.ex. 720101-001" value="">
+     <button type="submit" v-on:click="getGolfId()" class="btn blue-bg mt-1">Fortsätt</button>
+     <br><br>
+    <span id="helpAccountId" class="small form-text text-muted">Vi sparar INTE dina personuppgifter genom att fortsätta.</span>
+  
+  </div>
+
+
+  <div>
+    <b-form @submit="onSubmit" @reset="onReset" v-if="showform2">
+     
+      <b-form-group
+        id="input-group-1"
+        label="Ditt Golf ID"
+        label-for="input-1"
+        label-cols="4" 
+        label-cols-lg="2" 
+        label-size="sm"              
+      >
+      <b-form-input
+          id="golfid"
+          v-model="form.golfid"
+          type="text"
+          label="Enter your name"         
+          required
+          readonly
+        ></b-form-input>
+      </b-form-group>
+       <b-form-group
+        id="input-group-1"
+        label="Förnamn"
+        label-for="input-1"  
+        label-cols="4" 
+        label-cols-lg="2" 
+        label-size="sm"           
+      >
+        <b-form-input
+          id="firstname"
+          v-model="form.firstname"
+          type="text"
+          required
+          readonly
+        ></b-form-input>
+       </b-form-group>
+        <b-form-group
+        id="input-group-1"
+        label="Efternamn"
+        label-for="input-1"   
+        label-cols="4" 
+        label-cols-lg="2" 
+        label-size="sm"          
+      >
+        <b-form-input
+          id="lastname"
+          v-model="form.lastname"
+          type="text"
+          required
+          readonly
+        ></b-form-input>
+        </b-form-group>
+         <b-form-group
+        id="input-group-1"
+        label="Medlemsklubb"
+        label-for="input-1"   
+        label-cols="4" 
+        label-cols-lg="2" 
+        label-size="sm"          
+      >
+         <b-form-input
+          id="club"
+          v-model="form.club"
+          type="text"
+          required
+          readonly
+        ></b-form-input>
+         </b-form-group>
+          <b-form-group
+        id="input-group-1"
+        label="Ditt HCP"
+        label-for="input-1"  
+        label-cols="4" 
+        label-cols-lg="2" 
+        label-size="sm"          
+      >
+         <b-form-input
+          id="hcp"
+          v-model="form.hcp"
+          type="text"
+          required
+          readonly
+        ></b-form-input>        
+      </b-form-group>
+
+      
+
+      <b-form-group 
+      id="input-group-3" 
+      label="Välj hemmaklubb för matcher" 
+      label-for="input-3"
+          label-cols="4" 
+        label-cols-lg="2" 
+        label-size="sm" 
+      >
+        <b-form-select
+          id="input-3"
+          v-model="form.food"
+          :options="foods"
+          required
+        ></b-form-select>
+      </b-form-group>
+
+      <b-form-group hidden id="input-group-4">
+        <b-form-checkbox-group v-model="form.checked" id="checkboxes-4">
+          <b-form-checkbox value="me">Check me out</b-form-checkbox>
+          <b-form-checkbox value="that">Check that out</b-form-checkbox>
+        </b-form-checkbox-group>
+      </b-form-group>
+
+      <b-button type="submit" variant="primary">Submit</b-button>
+      <b-button type="reset" variant="danger">Reset</b-button>
+    </b-form>
+    <b-card class="mt-3 hidden" header="Form Data Result">
+      <pre class="m-0">{{ form }}</pre>
+    </b-card>
+  </div>
+
+
+
+<div class="hidden" id="golfid_result" style="margin-top:20px;">
 </div>
 
               </b-col>             
@@ -88,12 +231,24 @@
 
 <script>
   import {tagsMixin} from '../mixins/tagsMixin';
-
+  
   export default {
     name: 'hello',
     data () {
       return {
-      doctitle: this.$store.state.conferencename
+      doctitle: this.$store.state.conferencename,
+      form: {
+          golfid: '',
+          firstname: '',
+          lastname: '',
+          hcp: '',
+          club: '',
+          food: null,
+          checked: []
+        },
+        foods: [{ text: 'Select One', value: null }, 'Carrots', 'Beans', 'Tomatoes', 'Corn'],
+        showform1: true,
+        showform2: false 
       }
     },
     mixins: [tagsMixin],
@@ -101,50 +256,7 @@
       goRouter: function() {
         this.$router.push({ path: 'line-up' })
       },
-      getGolfId2: function(){
-
-let xmls='<soapenv:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mem="http://gitapi.golf.se/Member/Member3"\
-   <soapenv:Header>\
-      <SoapAuthenticationHeader xsi:type="mem:SoapAuthenticationHeader">\
-         <!--Optional:-->\
-         <user xsi:type="xsd:string">WF1102-091</user>\
-         <!--Optional:-->\
-         <password xsi:type="xsd:string">ghj3h5</password>\
-      </SoapAuthenticationHeader>\
-   </soapenv:Header>\
-   <soapenv:Body>\
-      <mem:GetGolferInfoByGolfId soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">\
-         <golfID xsi:type="xsd:string">780110-015</golfID>\
-      </mem:GetGolferInfoByGolfId>\
-   </soapenv:Body>\
-</soapenv:Envelope>';
-
-    var instance = this.axios.create({
-        
-    });
-
-    instance({
-        method: 'POST',
-        url: 'http://gitsys.golf.se/WSAPI/Ver_3/Member/Member3.asmx',
-        xmls,
-        headers: {'Accept-Encoding': 'gzip,deflate',
-'Content-Type': 'text/xml;charset=UTF-8',
-'SOAPAction': "http://gitapi.golf.se/Member/Member3/GetGolferInfoByGolfId",
-'Content-Length': 789,
-'Host': 'gitsys.golf.se',
-'Connection': 'Keep-Alive'
-             },
-    })
-        .then(function (response) {
-            res.json(response.data);
-           //console.log(response.data)
-        });
-
-
-
-      },
-
-      getGolfId3: function(golfid) {
+      getGolfId: function(golfid) {
         var golfid = document.getElementById('golfid').value;
                this.axios.get('https://colburn-chat-buxom-tamale.eu-gb.mybluemix.net/get_golfid?golfid=' + golfid, {
             params: {
@@ -152,103 +264,50 @@ let xmls='<soapenv:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance
             }
           })
           .then(response => {
-            //console.log(response.data);
+            console.log(response.data);
             document.getElementById('golfid_result').innerHTML = "";
+
+            /*
             var i;
             for (i in response.data) {                
-            document.getElementById('golfid_result').innerHTML += response.data[i] + '<br>';
+               document.getElementById('golfid_result').innerHTML += response.data[i] + '<br>';
             }
+            */
             //this.speaker = response.data.plannedspeakers[0];
             //$(".speaker-single").slideDown(200);
             //this.loadspeakername = false;
             //this.setDocTags();
+            this.showform1 = false;
+            this.showform2 = true;
+            this.form.golfid = golfid;
+            this.form.firstname = response.data.firstname;
+            this.form.lastname = response.data.lastname;
+            this.form.club = response.data.club;
+            this.form.hcp = response.data.hcp;
             return;
           })
           .catch(error => {
             console.log(error);
           });
       },
-
-      getGolfId: function(golfid) {
-
-        var golfid = document.getElementById('golfid').value;
-
-       let xmls='<soapenv:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mem="http://gitapi.golf.se/Member/Member3">\
-   <soapenv:Header>\
-      <SoapAuthenticationHeader xsi:type="mem:SoapAuthenticationHeader">\
-         <!--Optional:-->\
-         <user xsi:type="xsd:string">' + process.env.VUE_APP_GIT_USERNAME + '</user>\
-         <!--Optional:-->\
-         <password xsi:type="xsd:string">'+ process.env.VUE_APP_GIT_PASSWORD +'</password>\
-      </SoapAuthenticationHeader>\
-   </soapenv:Header>\
-   <soapenv:Body>\
-      <mem:GetGolferInfoByGolfId soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">\
-         <golfID xsi:type="xsd:string">'+ golfid + '</golfID>\
-      </mem:GetGolferInfoByGolfId>\
-   </soapenv:Body>\
-</soapenv:Envelope>';
-
-this.axios.post('https://gitsys.golf.se/WSAPI/Ver_3/Member/Member3.asmx',
-           xmls,
-           {headers:
-          {'Content-Type': 'text/xml;charset=UTF-8',
-'SOAPAction': "http://gitapi.golf.se/Member/Member3/GetGolferInfoByGolfId"
-             }
-           }).then(res=>{
-             //return 'hej'
-             let xml = res.request.response;
-             //console.log(res.request.response);
-
-            //XML
-            var convert = require('xml-js');
-           
-            var result1 = convert.xml2json(xml, {compact: true, spaces: 4});
-            //console.log(xml)
-            //var result2 = convert.xml2json(xml, {compact: false, spaces: 4});
-            //console.log(result2);
-            //console.log(xml.GetElementsByTagName("soap:Envelope")[0])
-            var options = {ignoreComment: true, alwaysChildren: false, compact: false};
-            var result = convert.xml2js(xml, options); // or convert.xml2json(xml, options)
-            
-            var golferdata = result.elements[0].elements[0].elements[1].elements;
-            var club = golferdata[1].elements[0].text;
-            var firstname = golferdata[2].elements[0].text;
-            var lastname = golferdata[3].elements[0].text;
-            var hcp = golferdata[7].elements[0].text;
-            var email = golferdata[12].elements[0].text;
-
-            var newGolferData = {};
-            
-            newGolferData.firstname = 'Namn: ' + firstname + ' ' + lastname;
-            //newGolferData.lastname = lastname
-            newGolferData.club = 'Klubb: ' + club;
-            newGolferData.hcp = 'HCP: ' + hcp;
-            newGolferData.email = 'E-mail: ' + email;
-            
-            newGolferData.push;
-
-            //console.log(newGolferData);
-            document.getElementById('golfid_result').innerHTML = "1";
-var i;
-            for (i in newGolferData) {                
-            //document.getElementById('golfid_result').innerHTML += newGolferData[i] + '<br>';
-            }
-           
-
-
-
-            
-            //console.log(result);
-            //END XML
-
-
-
-
-
-
-           }).catch(err=>{console.log(err)});
+      onSubmit(evt) {
+        evt.preventDefault()
+        alert(JSON.stringify(this.form))
+      },
+      onReset(evt) {
+        evt.preventDefault()
+        // Reset our form values
+        this.form.email = ''
+        this.form.name = ''
+        this.form.food = null
+        this.form.checked = []
+        // Trick to reset/clear native browser form validation state
+        this.show = false
+        this.$nextTick(() => {
+          this.show = true
+        })
       }
+      
     }
   }
 </script>
@@ -256,6 +315,9 @@ var i;
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
   @import "../styles/variables.scss";
+
+
+
   img {
     max-width: 100%;
   }
@@ -338,31 +400,67 @@ var i;
       font-size: 1rem;
     }
   }
-  .come {
+
+.hero {
     background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_2390/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg);
+    
     background-repeat: no-repeat;
     /*background-position: bottom 30% right 0;*/
     background-size: cover;
     color: #fff;
     padding: 180px 0 180px 0;
+    background-position: right 0px top 0px;
     @media (min-width: 320px) {
-      padding: 15rem 0 5rem 0;
-      background-position: bottom 10% right 0;
+      padding: 6rem 0 5rem 0;
+      /*background-position: bottom 10% right 0;*/      
     }
     @media (min-width: 480px) {
-      padding: 12rem 0 5rem 0;
-      background-position: bottom 0% right 0;
+      padding: 7rem 0 5rem 0;
+      /*background-position: bottom 0% right 0;*/
     }
     @media (min-width: 768px) {
-     background-position: bottom 32% right 0;
+     /*background-position: bottom 32% right 0;*/
     }
 
     @media (min-width: 992px) {
-     background-position: bottom 51% right 0;
+     /*background-position: bottom 51% right 0;*/
     }
 
      @media (min-width: 1200px) {
-     background-position: bottom 55% right 0;
+     /*background-position: bottom 55% right 0;*/
+    }  
+
+
+  }
+
+  .come {
+    /*background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_2390/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg);*/
+    background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/v1573316365/matchplay/Henke.png);
+    
+    background-repeat: no-repeat;
+    /*background-position: bottom 30% right 0;*/
+    background-size: contain;
+    color: #fff;
+    padding: 180px 0 180px 0;
+    background-position: right 0px bottom;
+    @media (min-width: 320px) {
+      padding: 15rem 0 5rem 0;
+      /*background-position: bottom 10% right 0;*/      
+    }
+    @media (min-width: 480px) {
+      padding: 12rem 0 5rem 0;
+      /*background-position: bottom 0% right 0;*/
+    }
+    @media (min-width: 768px) {
+     /*background-position: bottom 32% right 0;*/
+    }
+
+    @media (min-width: 992px) {
+     /*background-position: bottom 51% right 0;*/
+    }
+
+     @media (min-width: 1200px) {
+     /*background-position: bottom 55% right 0;*/
     }  
 
 
@@ -489,5 +587,7 @@ var i;
     background-position: left center;
     background-size: cover;
   }
+
+ 
 
 </style>
