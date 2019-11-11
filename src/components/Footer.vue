@@ -1,6 +1,8 @@
 <template>
-  <div>
+  <div>   
     <b-container class="sponsors">
+       <hr class="mb-5">
+       
       <b-row>
         <b-col xl="1"></b-col>
         <b-col>

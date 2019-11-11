@@ -5,7 +5,7 @@ import Tickets from '@/components/Tickets'
 import Lineup from '@/components/Lineup'
 import Sessions from '@/components/Sessions'
 import Search from '@/components/Search'
-import MySchedule from '@/components/MySchedule'
+import Login from '@/components/Login'
 import Faq from '@/components/Faq'
 import About from '@/components/About'
 import Committee from '@/components/Committee'
@@ -59,15 +59,22 @@ export default new Router({
       component: Search
     },
     {
+      path: '/login',
+      name: 'Login',
+      component: Login
+    },   
+    /*
+    {
       path: '/my-schedule',
       name: 'MySchedule',
       component: MySchedule
-    },
+    },    
     {
       path: '/my-schedule/:id',
       name: 'MySchedule-id',
       component: MySchedule
     },
+    */
     {
       path: '/info',
       name: 'Faq',

@@ -7,25 +7,6 @@
       </div>
     </div>
 
-    <div class="come hidden">
-      <b-container>
-        <b-row>
-          <b-col xl="1"></b-col>
-          <b-col>
-            <h2>MATCHPLAY ÄR EN MATCHSPELSTÄVLING FÖR PAR MED OFFICELLT HANDIKAPP</h2>
-            <p
-              class
-            >Matchplay Invitational är en matchspelstävling för par med officiellt handikapp. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.</p>
-            <div class="buttons text-center">
-              <a href="/line-up" class="btn blue-bg btn-lg text-white mb-3">Anmäl ditt lag</a>
-              <a href="/sessions" class="btn blue-bg btn-lg text-white mb-3">Hantera ditt lag här</a>
-            </div>
-          </b-col>
-          <b-col xl="1"></b-col>
-        </b-row>
-      </b-container>
-    </div>
-
     <div class="hero">
       <b-container>
         <b-row>
@@ -36,7 +17,7 @@
             >Matchplay Invitational är en matchspelstävling för par med officiellt handikapp. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.</p>
             <div class="buttons text-left">
               <a href="#register" class="btn blue-bg btn-lg text-white mb-3">Anmäl ditt lag</a>
-              <a href="/sessions" class="btn blue-bg btn-lg text-white mb-3">Hantera ditt lag här</a>
+              <a href="/login" class="btn blue-bg btn-lg text-white mb-3">Hantera ditt lag här</a>
             </div>
           </b-col>
           <b-col md="2" class></b-col>
