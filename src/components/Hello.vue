@@ -86,7 +86,7 @@
                     
                   </b-button>
                   
-                   <b-form-invalid-feedback :state="validation">
+                   <b-form-invalid-feedback :state="validation" class="hidden">
         Ange ditt Golf ID med de 6 första siffrorna i ditt personnummer och sedan 3 siffror efter bindestrecket.
       </b-form-invalid-feedback>      
        <b-form-valid-feedback :state="validation" class="hidden">

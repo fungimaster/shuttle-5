@@ -8,9 +8,9 @@
       <b-row>
         <b-col xl="1"></b-col>
         <b-col>
-          <h1>CONFERENCE INFORMATION</h1>
-          <h4>DETAILS YOU MIGHT BE WONDERING ABOUT</h4>
-          <div class="icons-container text-center">
+          <h1>REGLER & ÖVRIG INFO</h1>
+          <h4>ALL NÖDVÄNDING INFORMATION KRING TÄVLINGEN MATCHPLAY</h4>
+          <div class="icons-container text-center hidden">
             <a href="#flight" class="">
               <i class="material-icons mt-5">airplanemode_active</i>
               <p>Flight</p>
@@ -47,14 +47,11 @@
 
           <div class="section first">
 
-            <h3>WHERE & WHEN</h3>
-            <p>The Øredev conference and workshops will be held at Malmö Mässan, Exhibition & Conference Center, located in Malmö Sweden, one station away (Hyllie station) from the Copenhagen airport.</p>
-            <p><span class="pink">Conference days:</span> Wednesday 6th to Friday 8th</p>
-            <p><span class="pink">Workshop day:</span>  Tuesday 5th of November</p>
-            <img class="mt-5 mb-5" src="https://res.cloudinary.com/oredev/image/upload/2019/html/map.png" alt="">
-
-            <h3 id="price" class="pt-5">Prices</h3>
-            <p>Choose a 1, 2, or 3 Conference Pass or 1 day workshop and choose which day(s) you will attend when you register.&nbsp; The workshop seats are limited so you have to choose them when you register.&nbsp;&nbsp;</p>
+            <h3>1. INGA REGIONER MATCHPLAY 2020</h3>
+            <p>2020 är året då Matchplay utvecklas digitalt och går ifrån den tradionella regionsindelningen och istället görs lottningen med hänsyn till avstånd så att alla i varje omgång får möta ett lag som är närmast geografiskt.</p>
+            
+            <h3 class="pt-5">2. ANMÄLAN</h3>
+            <p>Ni anmäler er via anmälningsformuläret på hemsidan. <a href="/#register">Klicka här</a> för att komma direkt till anmälan.</p>
             <p><span class="price-info">The prices are in Swedish crown (SEK) and exclusive of V.A.T..</span></p>
             <table class="register mt-4 mb-3">
               <tbody>
@@ -350,7 +347,7 @@
     }
   }
   .section.first {
-    margin-top: 80px;
+    margin-top: 10px;
   }
   .icons-container div, .icons-container a {
     display: inline-block;
