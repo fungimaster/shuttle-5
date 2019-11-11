@@ -89,7 +89,7 @@
                    <b-form-invalid-feedback :state="validation" v-if="showhelper">
         Ange ditt Golf ID med de 6 första siffrorna i ditt personnummer och sedan 3 siffror efter bindestrecket.
       </b-form-invalid-feedback>      
-       <b-form-valid-feedback :state="validation" class="hidden">
+       <b-form-valid-feedback :state="validation" v-if="showhelper">
         Ser bra ut!
       </b-form-valid-feedback>
                   <button type="submit" v-on:click="getGolfId()" class="hidden btn blue-bg mt-1">{{ contbutton1 }}</button>
