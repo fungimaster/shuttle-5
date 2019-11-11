@@ -1,11 +1,8 @@
 <template>
   <div>
-  <vue-headful
-    :title="doctitle"
-
-    />
+    <vue-headful :title="doctitle" />
     <div class="hidden theme text-center">
-      <div class="container">    
+      <div class="container">
         <h2 class="when">Matchplay 2020 Johan S</h2>
       </div>
     </div>
@@ -15,8 +12,10 @@
         <b-row>
           <b-col xl="1"></b-col>
           <b-col>
-            <h2>MATCHPLAY ÄR EN MATCHSPELSTÄVLING FÖR PAR MED OFFICELLT HANDIKAPP.</h2>
-            <p class="">Matchplay Invitational är en matchspelstävling för par med officiellt handikapp. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet. </p>
+            <h2>MATCHPLAY ÄR EN MATCHSPELSTÄVLING FÖR PAR MED OFFICELLT HANDIKAPP</h2>
+            <p
+              class
+            >Matchplay Invitational är en matchspelstävling för par med officiellt handikapp. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.</p>
             <div class="buttons text-center">
               <a href="/line-up" class="btn blue-bg btn-lg text-white mb-3">Anmäl ditt lag</a>
               <a href="/sessions" class="btn blue-bg btn-lg text-white mb-3">Hantera ditt lag här</a>
@@ -27,28 +26,23 @@
       </b-container>
     </div>
 
-<div class="hero">
+    <div class="hero">
       <b-container>
         <b-row>
           <b-col md="10">
-            <h2>MATCHPLAY ÄR EN MATCHSPELSTÄVLING FÖR PAR MED OFFICELLT HANDIKAPP.</h2>
-            <p class="">Matchplay Invitational är en matchspelstävling för par med officiellt handikapp. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet. </p>
+            <h2>MATCHPLAY ÄR EN MATCHSPELSTÄVLING FÖR PAR MED OFFICELLT HANDIKAPP</h2>
+            <p
+              class
+            >Matchplay Invitational är en matchspelstävling för par med officiellt handikapp. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.</p>
             <div class="buttons text-left">
               <a href="#register" class="btn blue-bg btn-lg text-white mb-3">Anmäl ditt lag</a>
               <a href="/sessions" class="btn blue-bg btn-lg text-white mb-3">Hantera ditt lag här</a>
             </div>
           </b-col>
-          <b-col md="2" class="">
-           
-          </b-col>
+          <b-col md="2" class></b-col>
         </b-row>
       </b-container>
     </div>
-    
-
-
-    
-
 
     <div class="teaser-container" id="register">
       <b-container>
@@ -58,152 +52,152 @@
             <h2 class="teaser-header orange">Anmäl ditt lag här!</h2>
             <b-row class="mb-5 mt-5">
               <b-col md="12" class="teaser-content">
-               <!--
-                <input type="text">
-                   <button v-on:click="getGolfId()" class="tag text-center">
-                Kolla golf id
-              </button>-->
-                 
+                <div class="form-group" v-if="showform1">
+                  <b-row class="mb-2">
+                    <b-col xs="10" sm="10">
+                      <p>Börja med att ange ditt golf id så hämtar vi en del av informationen automatiskt från Svenska Golfförbundet.</p>
+                    </b-col>
+                    <b-col xs="12" sm="2" class="d-none d-md-block">
+                      <img
+                        src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120/v1573298924/matchplay/sgf_logo.jpg"
+                      />
+                    </b-col>
+                  </b-row>
 
-  
-  <div class="form-group" v-if="showform1">
-    <img style="float:right;" src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120/v1573298924/matchplay/sgf_logo.jpg">      
-                <p>Börja med att ange ditt golf id så hämtar vi en del av informationen automatiskt från Svenska Golfförbundet.</p>
-                <br>
-    <!--<label for="golfid">Ange ditt golf id:</label>-->
-   
-    <input type="text" style="width:200px;" class="form-control" id="golfid" placeholder="T.ex. 720101-001" value="">
-     <button type="submit" v-on:click="getGolfId()" class="btn blue-bg mt-1">Fortsätt</button>
-     <br><br>
-    <span id="helpAccountId" class="small form-text text-muted">Vi sparar INTE dina personuppgifter genom att fortsätta.</span>
-  
-  </div>
+               <b-form inline @submit.stop.prevent @submit="getGolfId" @reset="onReset" v-if="showform1">
+                  <b-input :state="validation" v-model="golfid1"
+                    type="text"
+                    style="width:140px;"
+                    class="form-control mr-1"
+                    id="golfid1"
+                    placeholder="xxxxxx"
+                    value
+                  />                              
+                  -
+                  <b-input :state="validation" v-model="golfid2"
+                    type="text"
+                    style="width:100px;"
+                    class="form-control ml-1"                
+                    id="golfid2"
+                    placeholder="xxx"
+                    value
+                  />                  
+                  <b-button type="submit" variant="primary" class="btn blue-bg ml-1">Fortsätt till nästa steg</b-button>
+                   <b-form-invalid-feedback :state="validation">
+        Ange ditt Golf ID med de 6 första siffrorna i ditt personnummer och sedan 3 siffror efter bindestrecket.
+      </b-form-invalid-feedback>      
+       <b-form-valid-feedback :state="validation">
+        Ser bra ut!
+      </b-form-valid-feedback>
+                  <button type="submit" v-on:click="getGolfId()" class="hidden btn blue-bg mt-1">Fortsätt</button>
+                </b-form>                 
+                   <b-alert show class="mt-4 small form-text text-muted">Ditt golfid är dina 6 första siffror i ditt personnummer följt av ett 3-siffrigt nummer. Saknar du ditt golfid ber vi dig kontakta din hemmaklubb för hjälp.</b-alert>
+                  <span
+                    id="helpAccountId"
+                    class="small form-text text-muted"
+                  ></span>
+                </div>
 
+                <div>
+                  <b-form @submit="onSubmit" @reset="onReset" v-if="showform2">
+                    <b-form-group
+                      id="input-group-1"
+                      label="Ditt Golf ID"
+                      label-for="input-1"
+                      label-cols="4"
+                      label-cols-lg="2"
+                      label-size="sm"
+                    >
+                      <b-form-input
+                        id="golfid"
+                        v-model="form.golfid"
+                        type="text"
+                        label="Enter your name"
+                        required
+                        readonly
+                      ></b-form-input>
+                    </b-form-group>
+                    <b-form-group
+                      id="input-group-1"
+                      label="Förnamn"
+                      label-for="input-1"
+                      label-cols="4"
+                      label-cols-lg="2"
+                      label-size="sm"
+                    >
+                      <b-form-input
+                        id="firstname"
+                        v-model="form.firstname"
+                        type="text"
+                        required
+                        readonly
+                      ></b-form-input>
+                    </b-form-group>
+                    <b-form-group
+                      id="input-group-1"
+                      label="Efternamn"
+                      label-for="input-1"
+                      label-cols="4"
+                      label-cols-lg="2"
+                      label-size="sm"
+                    >
+                      <b-form-input
+                        id="lastname"
+                        v-model="form.lastname"
+                        type="text"
+                        required
+                        readonly
+                      ></b-form-input>
+                    </b-form-group>
+                    <b-form-group
+                      id="input-group-1"
+                      label="Medlemsklubb"
+                      label-for="input-1"
+                      label-cols="4"
+                      label-cols-lg="2"
+                      label-size="sm"
+                    >
+                      <b-form-input id="club" v-model="form.club" type="text" required readonly></b-form-input>
+                    </b-form-group>
+                    <b-form-group
+                      id="input-group-1"
+                      label="Ditt HCP"
+                      label-for="input-1"
+                      label-cols="4"
+                      label-cols-lg="2"
+                      label-size="sm"
+                    >
+                      <b-form-input id="hcp" v-model="form.hcp" type="text" required readonly></b-form-input>
+                    </b-form-group>
 
-  <div>
-    <b-form @submit="onSubmit" @reset="onReset" v-if="showform2">
-     
-      <b-form-group
-        id="input-group-1"
-        label="Ditt Golf ID"
-        label-for="input-1"
-        label-cols="4" 
-        label-cols-lg="2" 
-        label-size="sm"              
-      >
-      <b-form-input
-          id="golfid"
-          v-model="form.golfid"
-          type="text"
-          label="Enter your name"         
-          required
-          readonly
-        ></b-form-input>
-      </b-form-group>
-       <b-form-group
-        id="input-group-1"
-        label="Förnamn"
-        label-for="input-1"  
-        label-cols="4" 
-        label-cols-lg="2" 
-        label-size="sm"           
-      >
-        <b-form-input
-          id="firstname"
-          v-model="form.firstname"
-          type="text"
-          required
-          readonly
-        ></b-form-input>
-       </b-form-group>
-        <b-form-group
-        id="input-group-1"
-        label="Efternamn"
-        label-for="input-1"   
-        label-cols="4" 
-        label-cols-lg="2" 
-        label-size="sm"          
-      >
-        <b-form-input
-          id="lastname"
-          v-model="form.lastname"
-          type="text"
-          required
-          readonly
-        ></b-form-input>
-        </b-form-group>
-         <b-form-group
-        id="input-group-1"
-        label="Medlemsklubb"
-        label-for="input-1"   
-        label-cols="4" 
-        label-cols-lg="2" 
-        label-size="sm"          
-      >
-         <b-form-input
-          id="club"
-          v-model="form.club"
-          type="text"
-          required
-          readonly
-        ></b-form-input>
-         </b-form-group>
-          <b-form-group
-        id="input-group-1"
-        label="Ditt HCP"
-        label-for="input-1"  
-        label-cols="4" 
-        label-cols-lg="2" 
-        label-size="sm"          
-      >
-         <b-form-input
-          id="hcp"
-          v-model="form.hcp"
-          type="text"
-          required
-          readonly
-        ></b-form-input>        
-      </b-form-group>
+                    <b-form-group
+                      id="input-group-3"
+                      label="Välj hemmaklubb för matcher"
+                      label-for="input-3"
+                      label-cols="4"
+                      label-cols-lg="2"
+                      label-size="sm"
+                    >
+                      <b-form-select id="input-3" v-model="form.food" :options="foods" required></b-form-select>
+                    </b-form-group>
 
-      
+                    <b-form-group hidden id="input-group-4">
+                      <b-form-checkbox-group v-model="form.checked" id="checkboxes-4">
+                        <b-form-checkbox value="me">Check me out</b-form-checkbox>
+                        <b-form-checkbox value="that">Check that out</b-form-checkbox>
+                      </b-form-checkbox-group>
+                    </b-form-group>
 
-      <b-form-group 
-      id="input-group-3" 
-      label="Välj hemmaklubb för matcher" 
-      label-for="input-3"
-          label-cols="4" 
-        label-cols-lg="2" 
-        label-size="sm" 
-      >
-        <b-form-select
-          id="input-3"
-          v-model="form.food"
-          :options="foods"
-          required
-        ></b-form-select>
-      </b-form-group>
+                    <b-button type="submit" variant="primary" class="btn blue-bg ml-1">Fortsätt till betalning</b-button>
+                    <b-button type="reset" variant="danger">Reset</b-button>
+                  </b-form>
+                  <b-card class="mt-3 hidden" header="Form Data Result">
+                    <pre class="m-0">{{ form }}</pre>
+                  </b-card>
+                </div>
 
-      <b-form-group hidden id="input-group-4">
-        <b-form-checkbox-group v-model="form.checked" id="checkboxes-4">
-          <b-form-checkbox value="me">Check me out</b-form-checkbox>
-          <b-form-checkbox value="that">Check that out</b-form-checkbox>
-        </b-form-checkbox-group>
-      </b-form-group>
-
-      <b-button type="submit" variant="primary">Submit</b-button>
-      <b-button type="reset" variant="danger">Reset</b-button>
-    </b-form>
-    <b-card class="mt-3 hidden" header="Form Data Result">
-      <pre class="m-0">{{ form }}</pre>
-    </b-card>
-  </div>
-
-
-
-<div class="hidden" id="golfid_result" style="margin-top:20px;">
-</div>
-
-              </b-col>             
+                <div class="hidden" id="golfid_result" style="margin-top:20px;"></div>
+              </b-col>
             </b-row>
 
             <b-row class="hidden mb-5 mt-5">
@@ -213,381 +207,400 @@
                 <p>With 1200 participants, which conversation will you jump in?</p>
               </b-col>
               <b-col md="6" class="teaser-content">
-                <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/f_auto,w_510/v1572940143/matchplay/matchplay_bg.jpg">              
+                <img
+                  src="https://res.cloudinary.com/dn3hzwewp/image/upload/f_auto,w_510/v1572940143/matchplay/matchplay_bg.jpg"
+                />
               </b-col>
             </b-row>
-
           </b-col>
           <b-col xl="1"></b-col>
         </b-row>
       </b-container>
     </div>
-
-
-    
-
   </div>
 </template>
 
 <script>
-  import {tagsMixin} from '../mixins/tagsMixin';
-  
-  export default {
-    name: 'hello',
-    data () {
-      return {
+import { tagsMixin } from "../mixins/tagsMixin";
+
+export default {
+  name: "hello",
+  data() {
+    return {
+      golfid1: '',
+      golfid2: '',
       doctitle: this.$store.state.conferencename,
       form: {
-          golfid: '',
-          firstname: '',
-          lastname: '',
-          hcp: '',
-          club: '',
-          food: null,
-          checked: []
-        },
-        foods: [{ text: 'Select One', value: null }, 'Carrots', 'Beans', 'Tomatoes', 'Corn'],
-        showform1: true,
-        showform2: false 
+        golfid: "",
+        firstname: "",
+        lastname: "",
+        hcp: "",
+        club: "",
+        food: null,
+        checked: []
+      },
+      foods: [
+        { text: "Select One", value: null },
+        "Carrots",
+        "Beans",
+        "Tomatoes",
+        "Corn"
+      ],
+      showform1: true,
+      showform2: false
+    };
+  },
+  computed: {
+      validation() {
+        return this.golfid1.length === 6 && this.golfid2.length === 3;
       }
     },
-    mixins: [tagsMixin],
-    methods: {
-      goRouter: function() {
-        this.$router.push({ path: 'line-up' })
-      },
-      getGolfId: function(golfid) {
-        var golfid = document.getElementById('golfid').value;
-               this.axios.get('https://colburn-chat-buxom-tamale.eu-gb.mybluemix.net/get_golfid?golfid=' + golfid, {
+  mixins: [tagsMixin],
+  methods: {
+    goRouter: function() {
+      this.$router.push({ path: "line-up" });
+    },
+    getGolfId: function(golfid) {
+      var golfid1 = document.getElementById("golfid1").value;
+      var golfid2 = document.getElementById("golfid2").value;
+      this.axios
+        .get(
+          "https://colburn-chat-buxom-tamale.eu-gb.mybluemix.net/get_golfid?golfid=" +
+            golfid1 + '-' + golfid2,
+          {
             params: {
               //ID: 12345
             }
-          })
-          .then(response => {
-            console.log(response.data);
-            document.getElementById('golfid_result').innerHTML = "";
+          }
+        )
+        .then(response => {
+          console.log(response.data);
+          document.getElementById("golfid_result").innerHTML = "";
 
-            /*
+          /*
             var i;
             for (i in response.data) {                
                document.getElementById('golfid_result').innerHTML += response.data[i] + '<br>';
             }
             */
-            //this.speaker = response.data.plannedspeakers[0];
-            //$(".speaker-single").slideDown(200);
-            //this.loadspeakername = false;
-            //this.setDocTags();
-            this.showform1 = false;
-            this.showform2 = true;
-            this.form.golfid = golfid;
-            this.form.firstname = response.data.firstname;
-            this.form.lastname = response.data.lastname;
-            this.form.club = response.data.club;
-            this.form.hcp = response.data.hcp;
-            return;
-          })
-          .catch(error => {
-            console.log(error);
-          });
-      },
-      onSubmit(evt) {
-        evt.preventDefault()
-        alert(JSON.stringify(this.form))
-      },
-      onReset(evt) {
-        evt.preventDefault()
-        // Reset our form values
-        this.form.email = ''
-        this.form.name = ''
-        this.form.food = null
-        this.form.checked = []
-        // Trick to reset/clear native browser form validation state
-        this.show = false
-        this.$nextTick(() => {
-          this.show = true
+          //this.speaker = response.data.plannedspeakers[0];
+          //$(".speaker-single").slideDown(200);
+          //this.loadspeakername = false;
+          //this.setDocTags();
+          this.showform1 = false;
+          this.showform2 = true;
+          this.form.golfid = golfid1+'-'+golfid2;
+          this.form.firstname = response.data.firstname;
+          this.form.lastname = response.data.lastname;
+          this.form.club = response.data.club;
+          this.form.hcp = response.data.hcp;
+          return;
         })
-      }
-      
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    onSubmit(evt) {
+      evt.preventDefault();
+      alert(JSON.stringify(this.form));
+    },
+    onReset(evt) {
+      this.showform1 = true;
+      this.showform2 = false;
+      evt.preventDefault();
+      // Reset our form values
+      this.form.email = "";
+      this.form.name = "";
+      this.form.food = null;
+      this.form.checked = [];
+      // Trick to reset/clear native browser form validation state
+      this.show = false;
+      this.$nextTick(() => {
+        this.show = true;
+      });
     }
   }
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-  @import "../styles/variables.scss";
+@import "../styles/variables.scss";
 
-
-
-  img {
-    max-width: 100%;
+img {
+  max-width: 100%;
+}
+.theme {
+  padding: 10rem 0 5rem 0;
+  margin-top: -100px;
+  background: url(
+    https://res.cloudinary.com/oredev/image/upload/f_auto,q_65/2019/html/background-1.jpg
+  );
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  width: 100%;
+  /*height: 900px;*/
+  @media (max-width: 1450px) {
+    /*height: 650px;*/
+    padding: 8rem 0 3rem 0;
   }
-  .theme {
-    padding: 10rem 0 5rem 0;
-    margin-top: -100px;
-    background: url(https://res.cloudinary.com/oredev/image/upload/f_auto,q_65/2019/html/background-1.jpg);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
+  @media (max-width: 1200px) {
+    /*height: 600px;*/
+  }
+  @media (max-width: 991px) {
+    /*height: 480px;*/
+    padding: 5rem 0 3rem 0;
+  }
+  @media (max-width: 767px) {
+    margin-top: -20px;
+    background-size: 150%;
+
+    padding: 1.5rem 0 1.5rem 0;
+    /*padding-bottom: 40px;*/
+  }
+  @media (max-width: 575px) {
+    background-size: 200%;
+    overflow: hidden;
+  }
+}
+.theme .container {
+  @media (max-width: 575px) {
     width: 100%;
-    /*height: 900px;*/
-    @media (max-width: 1450px) {
-      /*height: 650px;*/
-      padding: 8rem 0 3rem 0;
-
-    }
-    @media (max-width: 1200px) {
-      /*height: 600px;*/
-    }
-    @media (max-width: 991px) {
-      /*height: 480px;*/
-      padding: 5rem 0 3rem 0;
-    }
-    @media (max-width: 767px) {
-      margin-top: -20px;
-      background-size: 150%;
-
-      padding: 1.5rem 0 1.5rem 0;
-      /*padding-bottom: 40px;*/
-    }
-    @media (max-width: 575px) {
-      background-size: 200%;
-      overflow: hidden;
-    }
+    padding: 0;
+    margin: 0;
   }
-  .theme .container {
-    @media (max-width: 575px) {
-      width: 100%;
-      padding: 0;
-      margin: 0;
-
-    }
+}
+.theme img {
+  /*margin-top: 200px;*/
+  width: 80%;
+  @media (max-width: 2000px) {
+    /*margin-top: 130px;*/
+    width: 65%;
   }
-  .theme img {
-    /*margin-top: 200px;*/
+  @media (max-width: 1450px) {
+    /*margin-top: 130px;*/
+    width: 60%;
+  }
+  @media (max-width: 991px) {
+    /*margin-top: 100px;*/
     width: 80%;
-    @media (max-width: 2000px) {
-      /*margin-top: 130px;*/
-      width: 65%;
-    }
-    @media (max-width: 1450px) {
-      /*margin-top: 130px;*/
-      width: 60%;
-    }
-    @media (max-width: 991px) {
-      /*margin-top: 100px;*/
-      width: 80%;
-    }
-    @media (max-width: 767px) {
-      /*margin-top: 30px;*/
-      width: 100%;
-
-    }
-    @media (max-width: 575px) {
-      width: 120% !important;
-      max-width: 120% !important;
-      margin-left: -10%;
-
-    }
   }
-  .theme h2 {
-    color: #fff;
-    margin: 40px 0 0 0;
-    @media (max-width: 767px) {
-      font-size: 1.3rem;
-      margin-top: 30px;
-    }
-    @media (max-width: 567px) {
-      font-size: 1rem;
-    }
+  @media (max-width: 767px) {
+    /*margin-top: 30px;*/
+    width: 100%;
   }
+  @media (max-width: 575px) {
+    width: 120% !important;
+    max-width: 120% !important;
+    margin-left: -10%;
+  }
+}
+.theme h2 {
+  color: #fff;
+  margin: 40px 0 0 0;
+  @media (max-width: 767px) {
+    font-size: 1.3rem;
+    margin-top: 30px;
+  }
+  @media (max-width: 567px) {
+    font-size: 1rem;
+  }
+}
 
 .hero {
-    background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_2390/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg);
-    
-    background-repeat: no-repeat;
-    /*background-position: bottom 30% right 0;*/
-    background-size: cover;
-    color: #fff;
-    padding: 180px 0 180px 0;
-    background-position: right 0px top 0px;
-    @media (min-width: 320px) {
-      padding: 6rem 0 5rem 0;
-      /*background-position: bottom 10% right 0;*/      
-    }
-    @media (min-width: 480px) {
-      padding: 7rem 0 5rem 0;
-      /*background-position: bottom 0% right 0;*/
-    }
-    @media (min-width: 768px) {
-     /*background-position: bottom 32% right 0;*/
-    }
+  background: url(
+    https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_2390/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg
+  );
 
-    @media (min-width: 992px) {
-     /*background-position: bottom 51% right 0;*/
-    }
-
-     @media (min-width: 1200px) {
-     /*background-position: bottom 55% right 0;*/
-    }  
-
-
+  background-repeat: no-repeat;
+  /*background-position: bottom 30% right 0;*/
+  background-size: cover;
+  color: #fff;
+  padding: 180px 0 180px 0;
+  background-position: right 0px top 0px;
+  @media (min-width: 320px) {
+    padding: 12rem 0 5rem 0;
+    /*background-position: bottom 10% right 0;*/
+  }
+  @media (min-width: 480px) {
+    padding: 8rem 0 8rem 0;
+    /*background-position: bottom 0% right 0;*/
+  }
+  @media (min-width: 768px) {
+    /*background-position: bottom 32% right 0;*/
   }
 
-  .come {
-    /*background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_2390/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg);*/
-    background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/v1573316365/matchplay/Henke.png);
-    
-    background-repeat: no-repeat;
-    /*background-position: bottom 30% right 0;*/
-    background-size: contain;
-    color: #fff;
-    padding: 180px 0 180px 0;
-    background-position: right 0px bottom;
-    @media (min-width: 320px) {
-      padding: 15rem 0 5rem 0;
-      /*background-position: bottom 10% right 0;*/      
-    }
-    @media (min-width: 480px) {
-      padding: 12rem 0 5rem 0;
-      /*background-position: bottom 0% right 0;*/
-    }
-    @media (min-width: 768px) {
-     /*background-position: bottom 32% right 0;*/
-    }
-
-    @media (min-width: 992px) {
-     /*background-position: bottom 51% right 0;*/
-    }
-
-     @media (min-width: 1200px) {
-     /*background-position: bottom 55% right 0;*/
-    }  
-
-
-  }
-  .come h2 {
-    color: $orange
-  }
-  .come h2, .come a {
-    text-transform: uppercase;
-  }
-  .come button, .come a {
-    padding: 20px;
-    margin: 0 10px;
+  @media (min-width: 992px) {
+    /*background-position: bottom 51% right 0;*/
   }
 
-  .come .buttons {
-    margin: 40px 0 0 0;
+  @media (min-width: 1200px) {
+    /*background-position: bottom 55% right 0;*/
   }
-  .ticket h2 {
-    text-transform: uppercase;
-    display: inline-block;
-    color: $pink;
+}
+
+.come {
+  /*background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_2390/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg);*/
+  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/v1573316365/matchplay/Henke.png);
+
+  background-repeat: no-repeat;
+  /*background-position: bottom 30% right 0;*/
+  background-size: contain;
+  color: #fff;
+  padding: 180px 0 180px 0;
+  background-position: right 0px bottom;
+  @media (min-width: 320px) {
+    padding: 15rem 0 5rem 0;
+    /*background-position: bottom 10% right 0;*/
   }
-  .ticket img {
-    display: inline-block;
-    margin: 0 10px;
+  @media (min-width: 480px) {
+    padding: 12rem 0 5rem 0;
+    /*background-position: bottom 0% right 0;*/
+  }
+  @media (min-width: 768px) {
+    /*background-position: bottom 32% right 0;*/
   }
 
-  .ticket .top {
-    background: url(https://res.cloudinary.com/oredev/image/upload/f_auto,q_65/v1556786227/2019/html/background-1_lower.jpg);
-    background-repeat: no-repeat;
-    background-position: bottom center;
-    background-size: cover;
-    width: 100%;
-    height: 300px;
-    @media (max-width: 767px) {
-      height: 5rem;
-    }
-  }
-  .ticket .bottom {
-    background: url(https://res.cloudinary.com/oredev/image/upload/v1556786227/2019/html/backround-1-top.jpg);
-    background-repeat: no-repeat;
-    background-position: top center;
-    background-size: cover;
-    width: 100%;
-    height: 300px;
-    @media (max-width: 767px) {
-      height: 5rem;
-    }
-  }
-  .personas {
-    max-width: 2650px;
-  }
-  .personas .start-persona img, .personas .first h2, .personas .last h2 {
-    border: 1px solid #fff;
-  }
-  .personas .start-persona {
-    cursor: pointer;
-  }
-  .personas .first h2, .personas .last h2{
-    width: 100%;
-    height: 100%;
-    padding: 40px;
-    text-transform: uppercase;
-    font-size: 3.2rem;
-    @media (max-width: 1700px) {
-      font-size: 2.1rem;
-    }
-    @media (max-width: 1200px) {
-      font-size: 1.5rem;
-    }
-  }
-  .personas .last h2{
-    font-size: 2.7rem;
-    @media (max-width: 1700px) {
-      font-size: 1.8rem;
-    }
-    @media (max-width: 1200px) {
-      font-size: 1.2rem;
-    }
-  }
-  .personas img {
-    max-width: 100%;
-  }
-  .personas span {
-    border-left: 1px solid #fff;
-    border-top: 1px solid #fff;
-    position: absolute;
-    padding: 15px;
-    text-transform: uppercase;
-  }
-  .teaser-container {
-    padding: 10rem 0 0 0;
-    @media (max-width: 767px) {
-      padding: 3rem 0;
-    }
-  }
-  .theme-description {
-    margin: 200px 0;
-    @media (max-width: 767px) {
-      margin: 0;
-    }
-  }
-  .theme-description .stars img{
-    @media (max-width: 767px) {
-      width: 50px;
-    }
-  }
-  .theme-description h2{
-    color: $pink;
-  }
-  .theme-description .middle {
-    padding: 4rem 0;
-  }
-  .theme-description .left {
-    background: url(https://res.cloudinary.com/oredev/image/upload/q_65/2019/html/left);
-    background-repeat: no-repeat;
-    background-position: right center;
-    background-size: cover;
-  }
-  .theme-description .right {
-    background: url(https://res.cloudinary.com/oredev/image/upload/q_65/2019/html/right);
-    background-repeat: no-repeat;
-    background-position: left center;
-    background-size: cover;
+  @media (min-width: 992px) {
+    /*background-position: bottom 51% right 0;*/
   }
 
- 
+  @media (min-width: 1200px) {
+    /*background-position: bottom 55% right 0;*/
+  }
+}
+.hero h2 {
+  color: #fff;
+  font-family: "Eurostile LT Std Demi", Arial, sans-serif;
+  font-weight: normal;
+  font-style: normal;
+}
 
+.come h2,
+.come a {
+  text-transform: uppercase;
+}
+.come button,
+.come a {
+  padding: 20px;
+  margin: 0 10px;
+}
+
+.come .buttons {
+  margin: 40px 0 0 0;
+}
+.ticket h2 {
+  text-transform: uppercase;
+  display: inline-block;
+  color: $pink;
+}
+.ticket img {
+  display: inline-block;
+  margin: 0 10px;
+}
+
+.ticket .top {
+  background: url(
+    https://res.cloudinary.com/oredev/image/upload/f_auto,q_65/v1556786227/2019/html/background-1_lower.jpg
+  );
+  background-repeat: no-repeat;
+  background-position: bottom center;
+  background-size: cover;
+  width: 100%;
+  height: 300px;
+  @media (max-width: 767px) {
+    height: 5rem;
+  }
+}
+.ticket .bottom {
+  background: url(https://res.cloudinary.com/oredev/image/upload/v1556786227/2019/html/backround-1-top.jpg);
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: cover;
+  width: 100%;
+  height: 300px;
+  @media (max-width: 767px) {
+    height: 5rem;
+  }
+}
+.personas {
+  max-width: 2650px;
+}
+.personas .start-persona img,
+.personas .first h2,
+.personas .last h2 {
+  border: 1px solid #fff;
+}
+.personas .start-persona {
+  cursor: pointer;
+}
+.personas .first h2,
+.personas .last h2 {
+  width: 100%;
+  height: 100%;
+  padding: 40px;
+  text-transform: uppercase;
+  font-size: 3.2rem;
+  @media (max-width: 1700px) {
+    font-size: 2.1rem;
+  }
+  @media (max-width: 1200px) {
+    font-size: 1.5rem;
+  }
+}
+.personas .last h2 {
+  font-size: 2.7rem;
+  @media (max-width: 1700px) {
+    font-size: 1.8rem;
+  }
+  @media (max-width: 1200px) {
+    font-size: 1.2rem;
+  }
+}
+.personas img {
+  max-width: 100%;
+}
+.personas span {
+  border-left: 1px solid #fff;
+  border-top: 1px solid #fff;
+  position: absolute;
+  padding: 15px;
+  text-transform: uppercase;
+}
+.teaser-container {
+  padding: 6rem 0 0 0;
+  @media (max-width: 767px) {
+    padding: 3rem 0;
+  }
+}
+.theme-description {
+  margin: 200px 0;
+  @media (max-width: 767px) {
+    margin: 0;
+  }
+}
+.theme-description .stars img {
+  @media (max-width: 767px) {
+    width: 50px;
+  }
+}
+.theme-description h2 {
+  color: $pink;
+}
+.theme-description .middle {
+  padding: 4rem 0;
+}
+.theme-description .left {
+  background: url(https://res.cloudinary.com/oredev/image/upload/q_65/2019/html/left);
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: cover;
+}
+.theme-description .right {
+  background: url(https://res.cloudinary.com/oredev/image/upload/q_65/2019/html/right);
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-size: cover;
+}
 </style>
