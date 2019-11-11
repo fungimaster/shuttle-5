@@ -50,7 +50,7 @@
           <b-col xl="1"></b-col>
           <b-col>
             <h2 class="teaser-header orange">Anmäl ditt lag här!</h2>
-            <b-row class="mb-5 mt-5">
+            <b-row class="mb-3 mt-3">
               <b-col md="12" class="teaser-content">
                 <div class="form-group" v-if="showform1">
                   <b-row class="mb-2">
@@ -66,7 +66,7 @@
 
                <b-form inline @submit.stop.prevent @submit="getGolfId" @reset="onReset" v-if="showform1">
                   <b-input :state="validation" v-model="golfid1"
-                    type="text"
+                    type="number"
                     style="width:140px;"
                     class="form-control mr-1"
                     id="golfid1"
@@ -74,28 +74,43 @@
                     value
                   />                              
                   -
-                  <b-input :state="validation" v-model="golfid2"
-                    type="text"
+                  <b-input :state="validation2" v-model="golfid2"
+                    type="number"
                     style="width:100px;"
                     class="form-control ml-1"                
                     id="golfid2"
                     placeholder="xxx"
                     value
                   />                  
-                  <b-button type="submit" variant="primary" class="btn blue-bg ml-1">Fortsätt till nästa steg</b-button>
+                  <b-button type="submit" variant="primary" class="btn blue-bg ml-0 mt-1 ml-sm-2 mt-sm-0"><b-spinner v-if="showloadgolfid" small type="grow" class="mr-2"></b-spinner>{{ contbutton1 }}
+                    
+                  </b-button>
+                  
                    <b-form-invalid-feedback :state="validation">
         Ange ditt Golf ID med de 6 första siffrorna i ditt personnummer och sedan 3 siffror efter bindestrecket.
       </b-form-invalid-feedback>      
-       <b-form-valid-feedback :state="validation">
+       <b-form-valid-feedback :state="validation" class="hidden">
         Ser bra ut!
       </b-form-valid-feedback>
-                  <button type="submit" v-on:click="getGolfId()" class="hidden btn blue-bg mt-1">Fortsätt</button>
-                </b-form>                 
-                   <b-alert show class="mt-4 small form-text text-muted">Ditt golfid är dina 6 första siffror i ditt personnummer följt av ett 3-siffrigt nummer. Saknar du ditt golfid ber vi dig kontakta din hemmaklubb för hjälp.</b-alert>
-                  <span
-                    id="helpAccountId"
-                    class="small form-text text-muted"
-                  ></span>
+                  <button type="submit" v-on:click="getGolfId()" class="hidden btn blue-bg mt-1">{{ contbutton1 }}</button>
+                </b-form> 
+                <b-alert class="mt-4 small form-text text-muted"
+      :show="dismissCountDown"
+      dismissible
+      variant="warning"
+      @dismissed="dismissCountDown=0"
+      @dismiss-count-down="countDownChanged"
+    >
+      <p>Vi kunde tyvärr inte hitta ditt Golf ID hos Svenska Golfförbundet, var vänlig försök igen.</p>
+      <b-progress
+        variant="warning"
+        :max="dismissSecs"
+        :value="dismissCountDown"
+        height="4px"
+      ></b-progress>
+    </b-alert>                
+                   <b-alert show class="mt-4 small form-text text-muted">Ditt golfid är dina 6 första siffror i ditt personnummer följt av ett 3-siffrigt nummer. Saknar du ditt golfid ber vi dig kontakta din hemmaklubb för hjälp.</b-alert>                  
+                   
                 </div>
 
                 <div>
@@ -227,6 +242,11 @@ export default {
   name: "hello",
   data() {
     return {
+      contbutton1: 'Fortsätt till nästa steg',
+      showloadgolfid: false,
+      dismissSecs: 5,
+      dismissCountDown: 0,
+      showDismissibleAlert: false,
       golfid1: '',
       golfid2: '',
       doctitle: this.$store.state.conferencename,
@@ -252,18 +272,32 @@ export default {
   },
   computed: {
       validation() {
-        return this.golfid1.length === 6 && this.golfid2.length === 3;
+        return this.golfid1.length === 6;
+        //return this.golfid1.length === 6 && this.golfid2.length === 3;
+      },
+       validation2() {        
+        return this.golfid2.length === 3;
       }
     },
   mixins: [tagsMixin],
   methods: {
+     countDownChanged(dismissCountDown) {
+        this.dismissCountDown = dismissCountDown
+      },
+      showAlert() {
+        this.dismissCountDown = this.dismissSecs
+      },
     goRouter: function() {
       this.$router.push({ path: "line-up" });
     },
-    getGolfId: function(golfid) {
+    getGolfId: function(golfid) {      
+      
       var golfid1 = document.getElementById("golfid1").value;
       var golfid2 = document.getElementById("golfid2").value;
-      this.axios
+      if (golfid1 === '' || golfid2 === '') return;
+      this.contbutton1 = 'Hämtar data från SGF';     
+      this.showloadgolfid = true;
+      this.axios      
         .get(
           "https://colburn-chat-buxom-tamale.eu-gb.mybluemix.net/get_golfid?golfid=" +
             golfid1 + '-' + golfid2,
@@ -273,20 +307,10 @@ export default {
             }
           }
         )
-        .then(response => {
-          console.log(response.data);
-          document.getElementById("golfid_result").innerHTML = "";
+        .then(response => {         
+          //console.log(response.data);         
 
-          /*
-            var i;
-            for (i in response.data) {                
-               document.getElementById('golfid_result').innerHTML += response.data[i] + '<br>';
-            }
-            */
-          //this.speaker = response.data.plannedspeakers[0];
-          //$(".speaker-single").slideDown(200);
-          //this.loadspeakername = false;
-          //this.setDocTags();
+          if (response.data != 'error') {          
           this.showform1 = false;
           this.showform2 = true;
           this.form.golfid = golfid1+'-'+golfid2;
@@ -294,9 +318,17 @@ export default {
           this.form.lastname = response.data.lastname;
           this.form.club = response.data.club;
           this.form.hcp = response.data.hcp;
+          this.showloadgolfid = false;
+          this.contbutton1 = 'Fortsätt till nästa steg';
           return;
+          } else {
+            //console.log('empty');
+            this.showAlert();
+            this.showloadgolfid = false;
+            return;
+          }
         })
-        .catch(error => {
+        .catch(error => {          
           console.log(error);
         });
     },

@@ -31,8 +31,60 @@
 <style lang="scss">
   @import "./styles/variables.scss";
 
+  @font-face {
+    font-family: 'Montserrat';
+    src:  url('../static/fonts/Montserrat-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+@font-face {
+    font-family: 'Montserrat Light';
+    src: url('../static/fonts/Montserrat-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+
+@font-face {
+    font-family: 'Montserrat Bold';
+    src: url('../static/fonts/Montserrat-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Eurostile LT Std';
+    src: url('../static/fonts/EurostileLTStd.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Eurostile LT Std Demi';
+    src: url('../static/fonts/EurostileLTStd-Demi.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Eurostile LT Std Bold';
+    src: url('../static/fonts/EurostileLTStd-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Tenby Four';
+    src: url('../static/fonts/TenbyFour.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
   body {
     font-size: 1.3rem !important;
+    font-family: 'Eurostile LT Std', Arial, sans-serif !important;
   }
 
   .pink {
@@ -143,6 +195,18 @@
   .btn-lg {
     padding: 20px;
   }
+
+  input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type=number] {
+    -moz-appearance:textfield; /* Firefox */
+}
+
   /*================ MENU ===============*/
   nav {
     background: #fff;
