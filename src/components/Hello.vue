@@ -58,7 +58,9 @@
                   />                              
                   -
                   <b-input :state="validation2" v-model="golfid2"
-                    type="number"
+                    inputmode="numeric"
+                    pattern="[0-9]*"
+                    type="text"
                     style="width:100px;"
                     class="form-control ml-1"                
                     id="golfid2"
