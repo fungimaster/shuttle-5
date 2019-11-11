@@ -47,7 +47,9 @@
 
                <b-form inline @submit.stop.prevent @submit="getGolfId" @reset="onReset" v-if="showform1">
                   <b-input :state="validation" v-model="golfid1"
-                    type="number"
+                    inputmode="numeric"
+                    pattern="[0-9]*"
+                    type="text"
                     style="width:140px;"
                     class="form-control mr-1"
                     id="golfid1"
