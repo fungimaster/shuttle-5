@@ -86,7 +86,7 @@
                     
                   </b-button>
                   
-                   <b-form-invalid-feedback :state="validation" class="hidden">
+                   <b-form-invalid-feedback :state="validation" v-if="showhelper">
         Ange ditt Golf ID med de 6 första siffrorna i ditt personnummer och sedan 3 siffror efter bindestrecket.
       </b-form-invalid-feedback>      
        <b-form-valid-feedback :state="validation" class="hidden">
@@ -242,6 +242,7 @@ export default {
   name: "hello",
   data() {
     return {
+      showhelper: false,
       contbutton1: 'Fortsätt till nästa steg',
       showloadgolfid: false,
       dismissSecs: 5,

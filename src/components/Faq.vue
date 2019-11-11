@@ -52,46 +52,7 @@
             
             <h3 class="pt-5">2. ANMÄLAN</h3>
             <p>Ni anmäler er via anmälningsformuläret på hemsidan. <a href="/#register">Klicka här</a> för att komma direkt till anmälan.</p>
-            <p><span class="price-info">The prices are in Swedish crown (SEK) and exclusive of V.A.T..</span></p>
-            <table class="register mt-4 mb-3">
-              <tbody>
-                <tr>
-                  <th><br></th><th class="pink">1 day-<br></th><th class="pink">2 days-<br></th><th class="pink">3 days-<br></th><th class="pink">3 days + Hotel<br></th>
-                </tr>
-                <tr class="green-light-bg">
-                  <td>Early Bird <br></td>
-                  <td>/<br></td>
-                  <td>/<br></td>
-                  <td>11 040<br></td>
-                  <td>14 565</td>
-                </tr>
-                <tr class="green-light-bg">
-                  <td>Regular <br></td>
-                  <td>9 800<br></td>
-                  <td>11 800<br></td>
-                  <td>13 800</td>
-                  <td>17 325<br></td>
-                </tr>
-                <tr class="green-light-bg">
-                  <td>Late registration <br></td>
-                  <td>10 800<br></td>
-                  <td>12 800<br></td>
-                  <td>14 800</td>
-                  <td>18 325<br></td>
-                </tr>
-              </tbody>
-            </table>
-            <p>The Buddies-offer is the best deal -&nbsp; Book your ticket with a friend or colleague, share hotel room with separated beds and split the cost of the hotel!</p>
-
-            <h3 class="mt-5">Payment Options</h3>
-            <p>
-              All prices are in Swedish Crown (SEK) and excl. VAT. If you don't choose to pay by credit card, we will invoice your company/organization after your registration.  Our payment terms are 15 days from the invoice date.
-            </p>
-
-            <h3 class="mt-5">Cancellation policy</h3>
-            <p>
-              Please note that once the registration has been made and the confirmation email has been sent out, the registration fee is non-refundable. In case of illness or unforeseen circumstances, ticket(s) can be transferred to a colleague without any charge, just contact us at info@oredev.org. In case there is not a sufficient number of registrations for a particular workshop, we reserve the right to cancel it one week prior to the conference. If a workshop is cancelled registered attendees will be contacted directly and they can register for another training or get a refund.
-            </p>
+                    
           </div>
 
           <div class="section">
@@ -335,7 +296,7 @@
     max-width: 100%;
   }
   h3 {
-    color: $pink;
+    color: $orange;
   }
   .section {
     padding: 13rem 0 0 0;

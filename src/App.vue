@@ -131,7 +131,7 @@
     text-transform: uppercase;
   }
   h1 {
-    color: $pink;
+    color: $orange;
     @media (max-width: 767px) {
       font-size: 1.6rem !important;
     }
@@ -180,7 +180,7 @@
     display: none !important;
   }
   a, a:visited {
-    color: $green !important;
+    color: $blue !important;
     text-decoration: none !important;
   }
   a:hover {
@@ -223,14 +223,14 @@ input[type=number] {
     margin-left: 30px;
   }
   .navbar-brand.router-link-exact-active {
-    fill: $pink;
+    fill: $blue;
 
   }
   a.router-link-exact-active {
-    fill: $pink !important;
+    fill: $blue !important;
   }
   a.router-link-active {
-    color: $pink !important;
+    color: $blue !important;
   }
   /*================ MENU END ===============*/
   /*================ TAGS ===============*/
