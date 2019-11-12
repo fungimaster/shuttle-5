@@ -58,6 +58,7 @@
                   />                              
                   -
                   <b-input :state="validation2" v-model="golfid2"
+                    ref="golfid2"
                     inputmode="numeric"
                     pattern="[0-9]*"
                     type="text"
@@ -258,6 +259,9 @@ export default {
   },
   computed: {
       validation() {
+        if (this.golfid1.length === 6) {
+          this.$refs.golfid2.$el.focus()
+        }
         return this.golfid1.length === 6;
         //return this.golfid1.length === 6 && this.golfid2.length === 3;
       },
