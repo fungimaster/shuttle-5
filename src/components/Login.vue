@@ -50,7 +50,7 @@
   import Map from "./map/Map";
 
   export default {
-    name: 'myschedule',
+    name: 'login',
     components: {
       'c-spinner':Spinner,
       'c-map':Map
