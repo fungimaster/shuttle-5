@@ -180,6 +180,7 @@ trylogin()
 .catch((err) => {  
    console.log('NOT logged in with creds, show error on form')
    parentVue.showerror = true;
+   parentVue.showloginspinner = false;
 });
 
     async function trylogin() { // (1)
