@@ -50,7 +50,7 @@
                     <form class="subscribe" name="SubscriberForm" action="http://www.anpdm.com/public/process-subscription-form.aspx?formId=424B50407448465D4671" method="post" target="_blank" id="newsletterForm">
 
                       <div class="input-group mb-3">
-                        <input required type="email" class="form-control" placeholder="Subscribe to newsletter" aria-label="Subscribe to newsletter" name="pf_Email" value="" id="email" v-model="email">
+                        <input required type="email" class="form-control" placeholder="Subscribe to newsletter" aria-label="Subscribe to newsletter" name="pf_Email" value="" id="email2" v-model="email2">
                         <div class="input-group-append">
                           <input type="submit" name="Submit" id="NewsletterSubmit" class="input-group-text green-bg text-white" value=">">
                         </div>
@@ -104,13 +104,13 @@
     name: 'footer',
     data () {
       return {
-        email: '',
+        email2: '',
         reg: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/
       }
     },
     methods: {
       isEmailValid: function() {
-        return (this.email == "")? "" : (this.reg.test(this.email)) ? 'has-success' : 'has-error';
+        return (this.email2 == "")? "" : (this.reg.test(this.email2)) ? 'has-success' : 'has-error';
       }
     },
     updated: function() {

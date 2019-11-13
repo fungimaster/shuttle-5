@@ -182,6 +182,22 @@
                       <b-form-select id="input-3" v-model="form.food" :options="foods" required></b-form-select>
                     </b-form-group>
 
+ <b-form-group
+                      id="input-group-1"
+                      label="Ange ett lösenord för att hantera din användare"
+                      label-for="input-1"
+                      label-cols="6"
+                      label-cols-lg="4"
+                      label-size="sm"
+                    >
+                      <b-form-input id="pwd" v-model="form.hcp" type="password" required></b-form-input>
+                                      <b-form-text id="password-help-block">
+      Your password must be 8-20 characters long, contain letters and numbers, and must not
+      contain spaces, special characters, or emoji.
+    </b-form-text>
+                    </b-form-group>
+   
+
                     <b-form-group hidden id="input-group-4">
                       <b-form-checkbox-group v-model="form.checked" id="checkboxes-4">
                         <b-form-checkbox value="me">Check me out</b-form-checkbox>

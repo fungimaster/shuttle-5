@@ -390,7 +390,7 @@ export const tagsMixin = {
     }
     this.schedulecount = this.schedule.length;
     this.$store.dispatch('counterUpdate', {count:this.schedule.length});
-    console.log("MIXIN MOUNTED")
+    //console.log("MIXIN MOUNTED")
 
   },
   beforeMount: function () {
