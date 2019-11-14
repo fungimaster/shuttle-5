@@ -284,13 +284,14 @@ server.on('login',(m)=>{
       //LOGIN
 
    const simpleDDP = require("simpleddp"); // nodejs 
-    //const ws = require("isomorphic-ws");    
+    const ws = require("isomorphic-ws");    
     const simpleDDPLogin = require("simpleddp-plugin-login").simpleDDPLogin;
  
     let opts = {
         endpoint: "wss://www.mobelutveckling.se/websocket",
-        SocketConstructor: WebSocket,
-        reconnectInterval: 5000
+        //endpoint: "wss://www.mobelutveckling.se/websocket",
+        SocketConstructor: ws
+        //reconnectInterval: 5000
     };
     const server = new simpleDDP(opts,[simpleDDPLogin]);
 
