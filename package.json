@@ -16,6 +16,7 @@
     "jquery": "^3.4.1",
     "popper.js": "^1.12.9",
     "prerender-spa-plugin": "^3.4.0",
+    "simpleddp": "^2.2.4",
     "vue": "^2.6.10",
     "vue-headful": "^2.0.1",
     "vue-router": "^3.0.1",
