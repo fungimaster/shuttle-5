@@ -282,8 +282,9 @@ server.on('login',(m)=>{
     },
     beforeMount: function() {
       //LOGIN
-/*
-    const simpleDDP = require("simpleddp"); // nodejs   
+
+    const simpleDDP = require("simpleddp"); // nodejs 
+    //import ws from 'isomorphic-ws';
     const simpleDDPLogin = require("simpleddp-plugin-login").simpleDDPLogin;
 
     let opts = {
@@ -324,7 +325,7 @@ server.on('login',(m)=>{
         parentVue.showlogin = true;
       }
     }
-    */
+    
     }
     
   }
