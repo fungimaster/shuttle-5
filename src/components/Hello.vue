@@ -25,7 +25,7 @@
       </b-container>
     </div>
 <!-- TEMP HIDDEN -->   
-    <div class="hidden teaser-container" id="register">
+    <div class="teaser-container" id="register">
       <b-container>
         <b-row>
           <b-col xl="1"></b-col>
