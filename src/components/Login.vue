@@ -9,8 +9,7 @@
     
        <b-row class="mb-5 mt-5">
          
-              <b-col md="1" class="">
-               
+              <b-col md="1" class="">               
               </b-col>
 
 <!---------------------------- LOGGED IN --------------------------------------->
@@ -144,6 +143,7 @@
       evt.preventDefault();         
       this.showloginspinner = true;
 
+/*
       //DDP LOGIN
       const simpleDDP = require("simpleddp");
       const simpleDDPLogin = require("simpleddp-plugin-login").simpleDDPLogin;
@@ -201,10 +201,11 @@ trylogin()
 server.on('login',(m)=>{
   console.log('User logged in as', m);
 });  
-
+*/
     },
 
     logout: function() {
+      /*
       //console.log('inne logout')
       const simpleDDP = require("simpleddp");
       const simpleDDPLogin = require("simpleddp-plugin-login").simpleDDPLogin;
@@ -239,6 +240,7 @@ server.on('login',(m)=>{
       server.on('logout',()=>{
         console.log('User logged out');
       });
+      */
     },
     setuserinfoform: function() {
       console.log('set userinfo form');
@@ -280,7 +282,7 @@ server.on('login',(m)=>{
     },
     beforeMount: function() {
       //LOGIN
-
+/*
     const simpleDDP = require("simpleddp"); // nodejs   
     const simpleDDPLogin = require("simpleddp-plugin-login").simpleDDPLogin;
 
@@ -322,7 +324,9 @@ server.on('login',(m)=>{
         parentVue.showlogin = true;
       }
     }
+    */
     }
+    
   }
 
 </script>

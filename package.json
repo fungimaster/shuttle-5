@@ -1,5 +1,5 @@
 {
-  "name": "oredev_web",
+  "name": "matchplay",
   "version": "1.0.0",
   "description": "A Vue.js project",
   "author": "Michel Bajnocy <michel@colburn.se>",
@@ -16,8 +16,6 @@
     "jquery": "^3.4.1",
     "popper.js": "^1.12.9",
     "prerender-spa-plugin": "^3.4.0",
-    "simpleddp": "^2.2.4",
-    "simpleddp-plugin-login": "^4.0.2",
     "vue": "^2.6.10",
     "vue-headful": "^2.0.1",
     "vue-router": "^3.0.1",
