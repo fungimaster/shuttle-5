@@ -24,8 +24,8 @@
         </b-row>
       </b-container>
     </div>
-
-    <div class="teaser-container" id="register">
+<!-- TEMP HIDDEN -->   
+    <div class="hidden teaser-container" id="register">
       <b-container>
         <b-row>
           <b-col xl="1"></b-col>
@@ -234,6 +234,61 @@
         </b-row>
       </b-container>
     </div>
+
+<div class="teaser-container" id="teaser1">
+ 
+  <b-container>
+<b-row>
+    <b-col xl="1"></b-col>
+    <b-col md="4">
+       <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1573661281/matchplay/henke-granen.png">
+    </b-col>
+    <b-col md="7">
+       <p>
+         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+       </p>
+    </b-col>
+</b-row>
+      </b-container>
+</div>
+
+<div class="teaser-container" id="teaser1">
+ 
+  <b-container>
+<b-row>
+    <b-col xl="1"></b-col>   
+    <b-col md="7">
+       <p>
+         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+       </p>
+    </b-col>
+     <b-col md="4">
+       <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_972/v1572940143/matchplay/matchplay_bg.jpg">
+    </b-col>
+</b-row>
+      </b-container>
+</div>
+
+<div class="teaser-container" id="teaser1">
+ 
+  <b-container>
+<b-row>
+    <b-col xl="1"></b-col>  
+     <b-col md="4">
+       <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_972/v1572942209/matchplay/c640cf_402261724c71433c9662662c3114e5b8_mv2_d_4500_3000_s_4_2.jpg">
+    </b-col> 
+    <b-col md="7">
+       <p>
+         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+       </p>
+    </b-col>
+    
+</b-row>
+      </b-container>
+</div>
+
+
+
   </div>
 </template>
 
