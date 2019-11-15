@@ -8,19 +8,26 @@
     </div>
 
     <div class="hero">
-      <b-container>
+      <b-container class="d-flex">
         <b-row>
-          <b-col md="10">
-            <h2>MATCHPLAY ÄR EN MATCHSPELSTÄVLING FÖR PAR MED OFFICELLT HANDIKAPP</h2>
+          <b-col md="9" sm="12">
+            <h2>VÄLKOMMEN TILL MATCHPLAY, GOLFTÄVLINGEN FÖR BÅDE PRIVATPERSONER OCH FÖRETAG</h2>
             <p
               class
-            >Matchplay Invitational är en matchspelstävling för par med officiellt handikapp. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.</p>
-            <div class="buttons text-left">
+            >Matchplay är en matchspelstävling för par med officiellt handikapp. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.</p>
+            
+             <b-alert show class="mt-4" variant="warning">
+                Anmälan öppnar i mitten av december 2019, håll koll via Facebook och Instagram!
+             </b-alert>
+                       
+            <div class=" hidden buttons text-left">
               <a href="#register" class="btn blue-bg btn-lg text-white mb-3">Anmäl ditt lag</a>
               <a href="/login" class="btn blue-bg btn-lg text-white mb-3">Hantera ditt lag här</a>
             </div>
           </b-col>
-          <b-col md="2" class></b-col>
+          <b-col md="3" class="d-none d-md-block pl-5 justify-content-center align-self-center">
+            <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/e_colorize,co_rgb:fff/v1573118127/matchplay/matchplay-new-logo-2020.png" alt="">
+          </b-col>
         </b-row>
       </b-container>
     </div>
@@ -28,11 +35,16 @@
     <div class="teaser-container" id="register">
       <b-container>
         <b-row>
-          <b-col xl="1"></b-col>
+         
           <b-col>
-            <h2 class="teaser-header orange">Anmäl ditt lag här!</h2>
+            <h2 class="hidden teaser-header orange">Anmäl ditt lag här!</h2>
+            <h2 class="teaser-header orange">Tills registreringen öppnar kan du kolla om du är kvalificerad att delta i tälvlingen här</h2>
             <b-row class="mb-3 mt-3">
               <b-col md="12" class="teaser-content">
+                  <h3 v-if="showqualified" class="mt-3 mb-4">
+                    Grattis, du kan vara med i tävlingen <i class="material-icons">tag_faces</i>
+                  </h3>
+
                 <div class="form-group" v-if="showform1">
                   <b-row class="mb-2">
                     <b-col xs="10" sm="10">
@@ -95,7 +107,7 @@
         height="4px"
       ></b-progress>
     </b-alert>                
-                   <b-alert show class="mt-4 small form-text text-muted">Ditt golfid är dina 6 första siffror i ditt personnummer följt av ett 3-siffrigt nummer. Saknar du ditt golfid ber vi dig kontakta din hemmaklubb för hjälp.</b-alert>                  
+                   <b-alert show class="mt-4 small form-text text-muted">Ditt golfid är dina 6 första siffror i ditt personnummer följt av ett 3-siffrigt nummer. Saknar du ditt golfid ber vi dig kontakta din hemmaklubb för hjälp. OBS! Vi sparar inga uppgifter genom att fortsätta.</b-alert>                  
                    
                 </div>
 
@@ -171,7 +183,7 @@
                       <b-form-input id="hcp" v-model="form.hcp" type="text" required readonly></b-form-input>
                     </b-form-group>
 
-                    <b-form-group
+                    <b-form-group hidden
                       id="input-group-3"
                       label="Välj hemmaklubb för matcher"
                       label-for="input-3"
@@ -182,7 +194,7 @@
                       <b-form-select id="input-3" v-model="form.food" :options="foods" required></b-form-select>
                     </b-form-group>
 
- <b-form-group
+ <b-form-group hidden
                       id="input-group-1"
                       label="Ange ett lösenord för att hantera din användare"
                       label-for="input-1"
@@ -197,16 +209,8 @@
     </b-form-text>
                     </b-form-group>
    
-
-                    <b-form-group hidden id="input-group-4">
-                      <b-form-checkbox-group v-model="form.checked" id="checkboxes-4">
-                        <b-form-checkbox value="me">Check me out</b-form-checkbox>
-                        <b-form-checkbox value="that">Check that out</b-form-checkbox>
-                      </b-form-checkbox-group>
-                    </b-form-group>
-
-                    <b-button type="submit" variant="primary" class="btn blue-bg ml-1">Fortsätt till betalning</b-button>
-                    <b-button type="reset" variant="danger">Reset</b-button>
+                    <b-button hidden type="submit" variant="primary" class="btn blue-bg ml-1">Fortsätt till betalning</b-button>
+                    <b-button type="reset" variant="danger">Sök igen</b-button>
                   </b-form>
                   <b-card class="mt-3 hidden" header="Form Data Result">
                     <pre class="m-0">{{ form }}</pre>
@@ -237,15 +241,26 @@
 
 <div class="teaser-container" id="teaser1">
  
+ 
+
   <b-container>
 <b-row>
-    <b-col xl="1"></b-col>
-    <b-col md="4">
+   
+   <b-col class="mb-3">
+<h2 class="teaser-header orange">TÄVLINGSINFORMATION</h2>
+   </b-col>
+</b-row>
+
+<b-row>
+   
+  
+
+    <b-col md="5">
        <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1573661281/matchplay/henke-granen.png">
     </b-col>
     <b-col md="7">
-       <p>
-         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+       <p class="mt-4 mt-md-0">
+         2020 är året då Matchplay utvecklas digitalt och går ifrån den tradionella regionsindelningen och istället görs lottningen med hänsyn till avstånd så att alla i varje omgång får möta ett lag som är närmast geografiskt. 2020 är också tävlingen ihopslagen med Matchplay Business så privatpersoner och företag spelar tillsammans. Priset för ett lag med privatpersoner är 900:- och för företag kostar det 2900:-. Det finns även möjlighet att lägga till olika sponsorpaket för synbarhet och marknadsföring under tävlingen.
        </p>
     </b-col>
 </b-row>
@@ -256,13 +271,12 @@
  
   <b-container>
 <b-row>
-    <b-col xl="1"></b-col>   
-    <b-col md="7">
-       <p>
-         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+  <b-col md="7">
+        <p class="mt-4 mt-md-0">
+         Matchplay spelas av 2-mannalag (herrlag, damlag eller mixade lag) bestående av medlemmar från klubbar anslutna till Svenska Golfförbundet. Alla deltagare måste ha ett officiellt HCP för att deltaga. Handicapgränsen är högst 32,0/spelare. Deltagare kan anmäla sig om man har högre HCP än 32, men kan aldrig tillhandahålla högre än 32 i spel. Man spelar från den tee SGF tävlingsbestämmelser säger på slopad bana. Kontrollera ovan om du är kvalificerad att delta i tävlingen!
        </p>
-    </b-col>
-     <b-col md="4">
+    </b-col>     
+     <b-col md="5">
        <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_972/v1572940143/matchplay/matchplay_bg.jpg">
     </b-col>
 </b-row>
@@ -273,13 +287,13 @@
  
   <b-container>
 <b-row>
-    <b-col xl="1"></b-col>  
-     <b-col md="4">
+    
+     <b-col md="5">
        <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_972/v1572942209/matchplay/c640cf_402261724c71433c9662662c3114e5b8_mv2_d_4500_3000_s_4_2.jpg">
     </b-col> 
     <b-col md="7">
-       <p>
-         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+        <p class="mt-4 mt-md-0">
+         Lottning kommer att ske den 24 april 2020 för hela Sverige. Matchplay har prioriteringar i lottningen som faller: 1. geografisk tillhörighet, 2. HCP i laget. Detta ger inte enbart kortare resor under det tidiga skedet av tävlingen, utan även en mer rättvis fördelning över lagens respektive HCP. Så fort lottningen är klar finns spelarträdet på hemsidan. I spelarträdet kommer ni kunna se vilket lag ni ska möta samt se statistik över avgjorda matcher.
        </p>
     </b-col>
     
@@ -300,7 +314,8 @@ export default {
   data() {
     return {
       showhelper: false,
-      contbutton1: 'Fortsätt till nästa steg',
+      //contbutton1: 'Fortsätt till nästa steg',
+      contbutton1 : 'Kvalificerad?',
       showloadgolfid: false,
       dismissSecs: 5,
       dismissCountDown: 0,
@@ -325,7 +340,8 @@ export default {
         "Corn"
       ],
       showform1: true,
-      showform2: false
+      showform2: false,
+      showqualified: false
     };
   },
   computed: {
@@ -380,7 +396,9 @@ export default {
           this.form.club = response.data.club;
           this.form.hcp = response.data.hcp;
           this.showloadgolfid = false;
-          this.contbutton1 = 'Fortsätt till nästa steg';
+          this.showqualified = true;
+          //this.contbutton1 = 'Fortsätt till nästa steg';
+          this.contbutton1 = 'Kvalificerad?';
           return;
           } else {
             //console.log('empty');
@@ -400,12 +418,13 @@ export default {
     onReset(evt) {
       this.showform1 = true;
       this.showform2 = false;
+      this.showqualified = false;
       evt.preventDefault();
       // Reset our form values
       this.form.email = "";
       this.form.name = "";
       this.form.food = null;
-      this.form.checked = [];
+      this.form.checked = [];      
       // Trick to reset/clear native browser form validation state
       this.show = false;
       this.$nextTick(() => {

@@ -17,7 +17,7 @@
       <!-- <b-nav-item :to="{path: '/line-up', query: {tags:$route.query.tags, day:$route.query.day}}">Line-up</b-nav-item> -->      
       <b-nav-item to="/info">Information om tävlingen</b-nav-item>
       <!--a class="nav-item nav-link text-dark show-search-button nav-link" href="#search" data-toggle="collapse" aria-expanded="false" aria-controls="search"><i class="material-icons mobile-search">search</i></a-->
-      <b-nav-item title="login" to="/login"><i class="material-icons">face</i></b-nav-item>
+      <b-nav-item hidden title="login" to="/login"><i class="material-icons">face</i></b-nav-item>
     </b-navbar-nav>
   </b-collapse>
 </b-navbar>

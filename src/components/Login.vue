@@ -275,23 +275,24 @@ server.on('login',(m)=>{
 
     updated: function() {
     },
-    beforeMounted:function(){
+    mounted:function(){
     
     
      
     },
-    mounted: function() {
+    beforeMounted: function() {
       //LOGIN
 
+   
+   /*
+   //const ws = require("isomorphic-ws");    
    const simpleDDP = require("simpleddp"); // nodejs 
-    const ws = require("isomorphic-ws");    
-    const simpleDDPLogin = require("simpleddp-plugin-login").simpleDDPLogin;
+   const simpleDDPLogin = require("simpleddp-plugin-login").simpleDDPLogin;
  
     let opts = {
-        endpoint: "wss://www.mobelutveckling.se/websocket",
-        //endpoint: "wss://www.mobelutveckling.se/websocket",
-        SocketConstructor: ws
-        //reconnectInterval: 5000
+        endpoint: "wss://mymeteorurl/websocket",       
+        SocketConstructor: WebSocket,
+        reconnectInterval: 5000
     };
     const server = new simpleDDP(opts,[simpleDDPLogin]);
 
@@ -326,7 +327,7 @@ server.on('login',(m)=>{
         parentVue.showlogin = true;
       }
     }
-    
+    */
     }
     
   }

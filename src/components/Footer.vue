@@ -4,7 +4,7 @@
        <hr class="mb-5">
        
       <b-row>
-        <b-col xl="1"></b-col>
+       
         <b-col>
           <b-row>
             <b-col>
@@ -46,7 +46,7 @@
                 <b-col xl="2"></b-col>
                 <b-col>
                   <h3>Matchplay Sweden</h3>                 
-                  <div class="newsletter mt-3 mb-5">
+                  <div class="hidden newsletter mt-3 mb-5">
                     <form class="subscribe" name="SubscriberForm" action="http://www.anpdm.com/public/process-subscription-form.aspx?formId=424B50407448465D4671" method="post" target="_blank" id="newsletterForm">
 
                       <div class="input-group mb-3">
@@ -70,20 +70,12 @@
                       <input type="hidden" name="pf_MailinglistName1" value="200918">
                     </form>
                   </div>
+                  <br>
                   <p>Matchplay AB</p>
                   <p>Ängelholm</p>                  
-                  <p>Phone: +46(0)70 111 22 33</p>
+                  <p>Telefon: 010 - 522 00 06</p>
                   <p class="links mb-5">
-                    <router-link to="/about" class="">Om Matchplay</router-link>
-                    -
-                    <router-link to="/code-of-conduct" class="">Code of conduct</router-link>                    
-                    –
-                    <router-link to="/partnership" class="">Partnership</router-link>
-                    -
-                    <router-link to="/privacy-policy" class="">Privacy Policy</router-link>
-                    -
-                    <router-link to="/convince-your-boss" class="">Convince your boss</router-link>
-
+                    <router-link to="/info" class="">Om Matchplay</router-link>                 
                   </p>
                 </b-col>
                 <b-col xl="2"></b-col>
