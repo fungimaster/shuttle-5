@@ -280,7 +280,7 @@ server.on('login',(m)=>{
      //const ws = require("isomorphic-ws");    
    
    const simpleDDP = require("simpleddp"); // nodejs 
-   const simpleDDPLogin = require("simpleddp-plugin-login").simpleDDPLogin;
+   //const simpleDDPLogin = require("simpleddp-plugin-login").simpleDDPLogin;
  /*
     var opts = {
         endpoint: "wss://www.mobelutveckling.se/websocket",       
