@@ -276,11 +276,12 @@ server.on('login',(m)=>{
     updated: function() {
     },
     mounted:function(){
+
      //const ws = require("isomorphic-ws");    
-   /*
+   
    const simpleDDP = require("simpleddp"); // nodejs 
    const simpleDDPLogin = require("simpleddp-plugin-login").simpleDDPLogin;
- 
+ /*
     var opts = {
         endpoint: "wss://www.mobelutveckling.se/websocket",       
         SocketConstructor: WebSocket,

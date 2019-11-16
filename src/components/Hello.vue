@@ -10,7 +10,7 @@
     <div class="hero">
       <b-container class="d-flex">
         <b-row>
-          <div class="col-12 col-md-9">
+          <b-col class="col-12 col-md-9">
             <h2>VÄLKOMMEN TILL MATCHPLAY, GOLFTÄVLINGEN FÖR BÅDE PRIVATPERSONER OCH FÖRETAG</h2>
             <p
               class
@@ -24,10 +24,10 @@
               <a href="#register" class="btn blue-bg btn-lg text-white mb-3">Anmäl ditt lag</a>
               <a href="/login" class="btn blue-bg btn-lg text-white mb-3">Hantera ditt lag här</a>
             </div>
-          </div>
-          <div class="col-md-3 d-none d-md-block pl-5 justify-content-center align-self-center">
+          </b-col>
+          <b-col class="col-md-3 d-none d-md-block pl-5 justify-content-center align-self-center">
             <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/e_colorize,co_rgb:fff/v1573118127/matchplay/matchplay-new-logo-2020.png" alt="">
-          </div>
+          </b-col>
         </b-row>
       </b-container>
     </div>
@@ -368,7 +368,7 @@ export default {
       this.$router.push({ path: "line-up" });
     },
     getGolfId: function(golfid) {      
-      event.preventDefault ? event.preventDefault() : (event.returnValue = false);
+      evt.preventDefault();
       var golfid1 = document.getElementById("golfid1").value;
       var golfid2 = document.getElementById("golfid2").value;
       if (golfid1 === '' || golfid2 === '') return;
