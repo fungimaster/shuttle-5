@@ -276,7 +276,7 @@
          Matchplay spelas av 2-mannalag (herrlag, damlag eller mixade lag) bestående av medlemmar från klubbar anslutna till Svenska Golfförbundet. Alla deltagare måste ha ett officiellt HCP för att deltaga. Handicapgränsen är högst 32,0/spelare. Deltagare kan anmäla sig om man har högre HCP än 32, men kan aldrig tillhandahålla högre än 32 i spel. Man spelar från den tee SGF tävlingsbestämmelser säger på slopad bana. Kontrollera ovan om du är kvalificerad att delta i tävlingen!
        </p>
     </b-col>     
-     <b-col md="5">
+     <b-col md="5" class="order-first order-md-last">
        <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_972/v1572940143/matchplay/matchplay_bg.jpg">
     </b-col>
 </b-row>
@@ -684,6 +684,9 @@ img {
   padding: 6rem 0 0 0;
   @media (max-width: 767px) {
     padding: 3rem 0;
+  }
+  @media (max-width: 575px) {
+    padding: 2rem 0;
   }
 }
 .theme-description {
