@@ -368,7 +368,7 @@ export default {
       this.$router.push({ path: "line-up" });
     },
     getGolfId: function(golfid) {      
-      
+      event.preventDefault ? event.preventDefault() : (event.returnValue = false);
       var golfid1 = document.getElementById("golfid1").value;
       var golfid2 = document.getElementById("golfid2").value;
       if (golfid1 === '' || golfid2 === '') return;
