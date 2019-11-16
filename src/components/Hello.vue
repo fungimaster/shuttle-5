@@ -10,7 +10,7 @@
     <div class="hero">
       <b-container class="d-flex">
         <b-row>
-          <b-col class="col-12 col-md-9">
+          <div class="col-12 col-md-9">
             <h2>VÄLKOMMEN TILL MATCHPLAY, GOLFTÄVLINGEN FÖR BÅDE PRIVATPERSONER OCH FÖRETAG</h2>
             <p
               class
@@ -24,10 +24,10 @@
               <a href="#register" class="btn blue-bg btn-lg text-white mb-3">Anmäl ditt lag</a>
               <a href="/login" class="btn blue-bg btn-lg text-white mb-3">Hantera ditt lag här</a>
             </div>
-          </b-col>
-          <b-col class="col-md-3 d-none d-md-block pl-5 justify-content-center align-self-center">
+          </div>
+          <div class="col-md-3 d-none d-md-block pl-5 justify-content-center align-self-center">
             <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/e_colorize,co_rgb:fff/v1573118127/matchplay/matchplay-new-logo-2020.png" alt="">
-          </b-col>
+          </div>
         </b-row>
       </b-container>
     </div>
