@@ -33,7 +33,7 @@ const store = new Vuex.Store({
         maproom: '',
         speaker: {},
         conferencename: 'Matchplay 2020',
-        docimage: 'https://res.cloudinary.com/oredev/image/upload/b_rgb:e8e8e8/v1558424486/2019/html/tema-1.jpg'
+        docimage: 'https://res.cloudinary.com/dn3hzwewp/image/upload/v1573118127/matchplay/matchplay-new-logo-2020.png'
     },
     getters: {
       //total: state => state.count
