@@ -297,7 +297,8 @@ server.on('login',(m)=>{
    
    
    //const ws = require("isomorphic-ws");    
-   const simpleDDP = require("simpleddp"); // nodejs 
+  /*
+  const simpleDDP = require("simpleddp"); // nodejs 
    const simpleDDPLogin = require("simpleddp-plugin-login").simpleDDPLogin;
  
     let opts = {
@@ -307,6 +308,7 @@ server.on('login',(m)=>{
     };
     const server = new simpleDDP(opts,[simpleDDPLogin]);
     this.showlogin = true;
+    */
 /*
     let parentVue = this;
 
