@@ -277,7 +277,7 @@ server.on('login',(m)=>{
     },
     mounted:function(){
      //const ws = require("isomorphic-ws");    
-   /*
+   
    const simpleDDP = require("simpleddp"); // nodejs 
    const simpleDDPLogin = require("simpleddp-plugin-login").simpleDDPLogin;
  
@@ -288,7 +288,7 @@ server.on('login',(m)=>{
     };
     const server = new simpleDDP(opts,[simpleDDPLogin]);
     this.showlogin = true;
-    */
+    
      
     },
     beforeMounted: function() {
