@@ -37,9 +37,8 @@ module.exports = {
         loader: 'babel-loader',
         include: [
           resolve('src'), 
-          resolve('test')
-          //resolve('node_modules/vue2-collapse')
-          //resolve('node_modules/simpleddp')
+          resolve('test'),          
+          resolve('node_modules/clone-deep')
         ]
       },
       {
