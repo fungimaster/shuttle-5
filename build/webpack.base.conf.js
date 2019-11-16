@@ -35,7 +35,12 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: [resolve('src'), resolve('test')]
+        include: [
+          resolve('src'), 
+          resolve('test'),
+          resolve('node_modules/vue2-collapse')
+          //resolve('node_modules/simpleddp')
+        ]
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,

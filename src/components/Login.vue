@@ -276,7 +276,17 @@ server.on('login',(m)=>{
     updated: function() {
     },
     mounted:function(){
-    
+     //const ws = require("isomorphic-ws");    
+   const simpleDDP = require("simpleddp"); // nodejs 
+   const simpleDDPLogin = require("simpleddp-plugin-login").simpleDDPLogin;
+ 
+    var opts = {
+        endpoint: "wss://www.mobelutveckling.se/websocket",       
+        SocketConstructor: WebSocket,
+        reconnectInterval: 5000
+    };
+    const server = new simpleDDP(opts,[simpleDDPLogin]);
+    this.showlogin = true;
     
      
     },
@@ -284,7 +294,7 @@ server.on('login',(m)=>{
       //LOGIN
 
    
-   /*
+   
    //const ws = require("isomorphic-ws");    
    const simpleDDP = require("simpleddp"); // nodejs 
    const simpleDDPLogin = require("simpleddp-plugin-login").simpleDDPLogin;
@@ -295,7 +305,8 @@ server.on('login',(m)=>{
         reconnectInterval: 5000
     };
     const server = new simpleDDP(opts,[simpleDDPLogin]);
-
+    this.showlogin = true;
+/*
     let parentVue = this;
 
     let auth_token = localStorage.getItem('auth_token');
