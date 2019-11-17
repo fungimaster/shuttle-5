@@ -99,7 +99,8 @@
   import {tagsMixin} from '../mixins/tagsMixin';
   import Spinner from "./spinner/Spinner";
   import Map from "./map/Map";
-
+const simpleDDP = require("simpleddp");
+const simpleDDPLogin = require("simpleddp-plugin-login").simpleDDPLogin;
   export default {
     name: 'login',
     components: {
@@ -276,7 +277,16 @@ server.on('login',(m)=>{
     updated: function() {
     },
     mounted:function(){
-   
+
+   console.log(simpleDDP);
+   console.log(simpleDDPLogin);
+
+    var opts = {
+        endpoint: "wss://www.mobelutveckling.se/websocket",       
+        SocketConstructor: WebSocket,
+        reconnectInterval: 5000
+    };
+    const server = new simpleDDP(opts,[simpleDDPLogin]);
      //const ws = require("isomorphic-ws");    
  /*  
    const simpleDDP = require("simpleddp"); // nodejs 
