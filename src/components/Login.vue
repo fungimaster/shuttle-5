@@ -9,11 +9,10 @@
     
        <b-row class="mb-5 mt-5">
          
-              <b-col md="1" class="">               
-              </b-col>
+             
 
 <!---------------------------- LOGGED IN --------------------------------------->
-<b-col md="10" class="" v-if="!showlogin">
+<b-col md="12" class="" v-if="!showlogin">
                 <h2 class="teaser-header orange">Din information</h2>
 
                     <b-form-input
@@ -50,7 +49,7 @@
 
  <!---------------------------- LOGIN --------------------------------------->
               
-               <b-col md="10" class="" v-if="showlogin">
+               <b-col md="12" class="" v-if="showlogin">
                  <h2 class="teaser-header orange">Logga in</h2>
                  <br>           
 
@@ -84,9 +83,7 @@
                 </b-form>
 
               </b-col>
-              <b-col md="1" class="">
-                  
-              </b-col>
+             
             </b-row>
 
     </div>
@@ -314,6 +311,7 @@ server.on('login',(m)=>{
       console.log('NOT logged in with token, show form')
       this.showlogin = true;
     }
+
   
     async function trytoken() { // (1)
       let response = await server.login({resume:auth_token}); // (2)

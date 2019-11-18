@@ -17,7 +17,7 @@
             >Matchplay är en matchspelstävling för par med officiellt handikapp. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.</p>
             
              <b-alert show class="mt-4" variant="warning">
-                Anmälan öppnar i mitten av december 2019, håll koll via Facebook och Instagram!
+                Anmälan för 2020 års tävling öppnar i mitten av december 2019, håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a>
              </b-alert>
                        
             <div class=" hidden buttons text-left">
@@ -368,7 +368,7 @@ export default {
       this.$router.push({ path: "line-up" });
     },
     getGolfId: function(golfid) {      
-      evt.preventDefault();
+      //evt.preventDefault();
       var golfid1 = document.getElementById("golfid1").value;
       var golfid2 = document.getElementById("golfid2").value;
       if (golfid1 === '' || golfid2 === '') return;

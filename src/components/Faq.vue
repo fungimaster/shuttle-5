@@ -27,7 +27,7 @@
       <b-row>
         <b-col xl="1"></b-col>
         <b-col class="mt-1">         
-          <div class="icons-container text-center">            
+          <div class="mt-3 icons-container text-center">            
             <a href="#2" class="">
               <i class="material-icons">assignment_turned_in</i>
               <p>Anmälan</p>
@@ -49,7 +49,7 @@
               <p>HANDICAP</p>
             </a>
             <a href="#9" class="">
-              <i class="material-icons mt-5">ballot</i>
+              <i class="material-icons">ballot</i>
               <p>Lottning</p>
             </a>
             <a href="#16" class="">
@@ -273,11 +273,14 @@ Vid lika efter 18 hål spelas särspelshål med början på hål 1 (sudden death
   .section.first {
     margin-top: 10px;
   }
-  .icons-container div, .icons-container a {
+  .icons-container div, .icons-container a {   
     display: inline-block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
     text-align: center;
     width: 12%;
-    padding-right: 0px;
+    padding-right: 0px;    
     @media (max-width: 991px) {
       width: 22%;
     }
@@ -287,7 +290,8 @@ Vid lika efter 18 hål spelas särspelshål med början på hål 1 (sudden death
   }
   .icons-container p {
     text-transform: uppercase;
-    font-size: 1rem;
+    font-size: 0.7rem !important;
+    padding-top:10px;
   }
   .icons-container i.material-icons {
     font-size: 35px;
@@ -326,6 +330,10 @@ Vid lika efter 18 hål spelas särspelshål med början på hål 1 (sudden death
     padding: 20px;
     width: 20%;
     text-align: center;
+    @media (max-width: 576px) {
+      font-size: 0.8rem;
+      padding: 5px;
+    }
     @media (max-width: 576px) {
       font-size: 0.8rem;
       padding: 5px;
