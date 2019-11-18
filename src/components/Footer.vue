@@ -71,11 +71,11 @@
                     </form>
                   </div>
                   <br>
-                  <p>Matchplay AB</p>
+                  <p class="hidden">Matchplay AB</p>
                   <p>Ängelholm</p>                  
                   <p>Telefon: 010 - 522 00 06</p>
                   <p class="links mb-5">
-                    <router-link to="/info" class="">Om Matchplay</router-link>                 
+                    <router-link hidden to="/info" class="">Om Matchplay</router-link>                 
                   </p>
                 </b-col>
                 <b-col xl="2"></b-col>

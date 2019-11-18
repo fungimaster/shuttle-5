@@ -17,7 +17,8 @@
             >Matchplay är en matchspelstävling för par med officiellt handikapp. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.</p>
             
              <b-alert show class="mt-4" variant="warning">
-                Anmälan för 2020 års tävling öppnar i mitten av december 2019, håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a>
+                Anmälan för 2020 års tävling öppnar i mitten av december 2019, håll utkik här på sidan för mer info!
+                <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
              </b-alert>
                        
             <div class=" hidden buttons text-left">
@@ -38,19 +39,31 @@
          
           <b-col>
             <h2 class="hidden teaser-header orange">Anmäl ditt lag här!</h2>
-            <h2 class="teaser-header orange">Tills registreringen öppnar kan du kolla om du är kvalificerad att delta i tälvlingen här</h2>
+            <h2 class="teaser-header orange">Tills registreringen öppnar kan du kolla om du är kvalificerad att delta i tälvlingen</h2>
             <b-row class="mb-3 mt-3">
               <b-col md="12" class="teaser-content">
                   <h3 v-if="showqualified" class="mt-3 mb-4">
                     Grattis, du kan vara med i tävlingen <i class="material-icons">tag_faces</i>
                   </h3>
 
+                   <h3 v-if="showqualified32" class="mt-3 mb-4">
+                    Grattis, du kan vara med i tävlingen men ditt handicap kommer räknas som 32 <i class="material-icons">tag_faces</i>
+                  </h3>
+
+                  <h3 v-if="showqualifiedNOT" class="mt-3 mb-4">
+                    Tyvärr kan du inte vara med i tävlingen, man måste ha 36 eller lägre...
+                  </h3>
+
+                   <h3 v-if="showqualifiedNOCLUB" class="mt-3 mb-4">
+                    Du verkar inte ha någon klubbtillhörighet, kontakta oss gärna om det inte stämmer!
+                  </h3>
+
                 <div class="form-group" v-if="showform1">
                   <b-row class="mb-2">
-                    <b-col xs="10" sm="10">
+                    <b-col xs="12" sm="12">
                       <p>Börja med att ange ditt golf id så hämtar vi en del av informationen automatiskt från Svenska Golfförbundet.</p>
                     </b-col>
-                    <b-col xs="12" sm="2" class="d-none d-md-block">
+                    <b-col hidden xs="12" sm="2" class="hidden d-none d-md-block">
                       <img
                         src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120/v1573298924/matchplay/sgf_logo.jpg"
                       />
@@ -239,7 +252,7 @@
       </b-container>
     </div>
 
-<div class="teaser-container" id="teaser1">
+<div class="teaser-container hidden" id="teaser1">
  
  
 
@@ -267,7 +280,7 @@
       </b-container>
 </div>
 
-<div class="teaser-container" id="teaser1">
+<div class="teaser-container hidden" id="teaser1">
  
   <b-container>
 <b-row>
@@ -283,7 +296,7 @@
       </b-container>
 </div>
 
-<div class="teaser-container" id="teaser1">
+<div class="teaser-container hidden" id="teaser1">
  
   <b-container>
 <b-row>
@@ -341,7 +354,10 @@ export default {
       ],
       showform1: true,
       showform2: false,
-      showqualified: false
+      showqualified: false,
+      showqualified32: false,
+      showqualifiedNOT: false,
+      showqualifiedNOCLUB: false
     };
   },
   computed: {
@@ -376,8 +392,8 @@ export default {
       this.showloadgolfid = true;
       this.axios      
         .get(
-          "https://colburn-chat-buxom-tamale.eu-gb.mybluemix.net/get_golfid?golfid=" +
-            golfid1 + '-' + golfid2,
+          "https://colburn-chat-buxom-tamale.eu-gb.mybluemix.net/get_golfid?golfid=" + golfid1 + '-' + golfid2,
+          //"http://localhost:3000/get_golfid?golfid=" + golfid1 + '-' + golfid2,
           {
             params: {
               //ID: 12345
@@ -387,16 +403,33 @@ export default {
         .then(response => {         
           //console.log(response.data);         
 
-          if (response.data != 'error') {          
+          if (response.data != 'error') {  
+            
           this.showform1 = false;
           this.showform2 = true;
           this.form.golfid = golfid1+'-'+golfid2;
           this.form.firstname = response.data.firstname;
           this.form.lastname = response.data.lastname;
           this.form.club = response.data.club;
-          this.form.hcp = response.data.hcp;
+          //this.form.hcp = response.data.hcp;
+          this.form.hcp = response.data.hcp.replace(/,/g, '.')
+
+          if (response.data.club == 'empty') {
+             this.showqualifiedNOCLUB = true;
+             return;
+          }
+          
+//console.log(this.form.hcp)
+          if (this.form.hcp < 32) {
+              this.showqualified = true;
+          } else if (this.form.hcp > 32 && this.form.hcp < 36.1 ) {
+              this.showqualified32 = true;
+          } else if (this.form.hcp > 36.0) {
+               this.showqualifiedNOT = true;
+          }
+
           this.showloadgolfid = false;
-          this.showqualified = true;
+          
           //this.contbutton1 = 'Fortsätt till nästa steg';
           this.contbutton1 = 'Kvalificerad?';
           return;
@@ -419,6 +452,9 @@ export default {
       this.showform1 = true;
       this.showform2 = false;
       this.showqualified = false;
+      this.showqualified32 = false;
+      this.showqualifiedNOT = false;
+      this.showqualifiedNOCLUB = false;  
       evt.preventDefault();
       // Reset our form values
       this.form.email = "";
