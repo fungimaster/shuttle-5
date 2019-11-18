@@ -69,6 +69,7 @@ var webpackConfig = merge(baseWebpackConfig, {
       sourceMap: true
     }),
     */
+   
    new UglifyJsPlugin({
             "uglifyOptions":
                 {

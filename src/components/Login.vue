@@ -99,8 +99,9 @@
   import {tagsMixin} from '../mixins/tagsMixin';
   import Spinner from "./spinner/Spinner";
   import Map from "./map/Map";
-const simpleDDP = require("simpleddp");
-const simpleDDPLogin = require("simpleddp-plugin-login").simpleDDPLogin;
+  const simpleDDP = require("simpleddp");
+  const simpleDDPLogin = require("simpleddp-plugin-login").simpleDDPLogin;
+ 
   export default {
     name: 'login',
     components: {
@@ -144,10 +145,10 @@ const simpleDDPLogin = require("simpleddp-plugin-login").simpleDDPLogin;
       evt.preventDefault();         
       this.showloginspinner = true;
 
-/*
+
       //DDP LOGIN
-      const simpleDDP = require("simpleddp");
-      const simpleDDPLogin = require("simpleddp-plugin-login").simpleDDPLogin;
+      //const simpleDDP = require("simpleddp");
+      //const simpleDDPLogin = require("simpleddp-plugin-login").simpleDDPLogin;
 
       let opts = {
           endpoint: "wss://www.mobelutveckling.se/websocket",
@@ -202,14 +203,14 @@ trylogin()
 server.on('login',(m)=>{
   console.log('User logged in as', m);
 });  
-*/
+
     },
 
     logout: function() {
-      /*
+      
       //console.log('inne logout')
-      const simpleDDP = require("simpleddp");
-      const simpleDDPLogin = require("simpleddp-plugin-login").simpleDDPLogin;
+      //const simpleDDP = require("simpleddp");
+      //const simpleDDPLogin = require("simpleddp-plugin-login").simpleDDPLogin;
 
       let opts = {
           endpoint: "wss://www.mobelutveckling.se/websocket",
@@ -241,7 +242,7 @@ server.on('login',(m)=>{
       server.on('logout',()=>{
         console.log('User logged out');
       });
-      */
+      
     },
     setuserinfoform: function() {
       console.log('set userinfo form');
@@ -278,19 +279,19 @@ server.on('login',(m)=>{
     },
     mounted:function(){
 
-   console.log(simpleDDP);
-   console.log(simpleDDPLogin);
+   //console.log(simpleDDP);
+   //console.log(simpleDDPLogin);
 
     var opts = {
         endpoint: "wss://www.mobelutveckling.se/websocket",       
         SocketConstructor: WebSocket,
         reconnectInterval: 5000
     };
-    const server = new simpleDDP(opts,[simpleDDPLogin]);
+    //const server = new simpleDDP(opts,[simpleDDPLogin]);
      //const ws = require("isomorphic-ws");    
- /*  
-   const simpleDDP = require("simpleddp"); // nodejs 
-   const simpleDDPLogin = require("simpleddp-plugin-login").simpleDDPLogin;
+ 
+   //const simpleDDP = require("simpleddp"); // nodejs 
+   //const simpleDDPLogin = require("simpleddp-plugin-login").simpleDDPLogin;
  
     var opts = {
         endpoint: "wss://www.mobelutveckling.se/websocket",       
@@ -298,8 +299,38 @@ server.on('login',(m)=>{
         reconnectInterval: 5000
     };
     const server = new simpleDDP(opts,[simpleDDPLogin]);
-    this.showlogin = true;
-    */
+   
+    let parentVue = this;
+
+    let auth_token = localStorage.getItem('auth_token');
+    if (auth_token) {
+      trytoken();
+      try {
+        resume();
+      } catch(e) {
+      //something went wrong, maybe the token is too old or not valid
+      }
+    } else {
+      console.log('NOT logged in with token, show form')
+      this.showlogin = true;
+    }
+  
+    async function trytoken() { // (1)
+      let response = await server.login({resume:auth_token}); // (2)
+      if (server._loggedIn) {
+        console.log('logged in with token',server.token);
+        parentVue.doctitle = 'Inloggad Matchplay';
+        let userinfo = server.collections.users[0].profile;
+        localStorage.setItem('userinfo',JSON.stringify(userinfo));
+        //console.log(server)
+        //populate values in user info form
+        parentVue.setuserinfoform();
+      } else {
+        console.log('NOT logged in with token, show form')
+        parentVue.showlogin = true;
+      }
+    }
+    
      
     },
     beforeMounted: function() {
