@@ -63,11 +63,6 @@
                     <b-col xs="12" sm="12">
                       <p>Börja med att ange ditt golf id så hämtar vi en del av informationen automatiskt från Svenska Golfförbundet.</p>
                     </b-col>
-                    <b-col hidden xs="12" sm="2" class="hidden d-none d-md-block">
-                      <img
-                        src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120/v1573298924/matchplay/sgf_logo.jpg"
-                      />
-                    </b-col>
                   </b-row>
 
                <b-form inline @submit.stop.prevent @submit="getGolfId" @reset="onReset" v-if="showform1">
