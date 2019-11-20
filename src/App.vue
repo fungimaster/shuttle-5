@@ -1,4 +1,3 @@
-
 <template>
   <div id="app">
     <Top></Top>
@@ -175,7 +174,7 @@
   }
   p, a, li, span, .btn {
     @media (max-width: 767px) {
-      font-size: 0.9rem !important;
+      font-size: 1rem !important;
     }
   }
   .hidden {
