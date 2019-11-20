@@ -33,7 +33,7 @@
       </b-container>
     </div>
 <!-- TEMP HIDDEN -->   
-    <div class="teaser-container" id="register">
+    <div class="teaser-container" id="register" ref="register">
       <b-container>
         <b-row>
          
