@@ -3,7 +3,7 @@
     <vue-headful :title="doctitle" />
     <div class="hidden theme text-center">
       <div class="container">
-        <h2 class="when">Matchplay 2020 Johan S</h2>
+        <h2 class="when">Matchplay 2020</h2>
       </div>
     </div>
 
@@ -16,7 +16,7 @@
               class
             >Matchplay är en matchspelstävling för par med officiellt handikapp. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.</p>
             
-             <b-alert show class="mt-4" variant="warning">
+             <b-alert show class="mt-4 small" variant="warning">
                 Anmälan för 2020 års tävling öppnar i mitten av december 2019, håll utkik här på sidan för mer info!
                 <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
              </b-alert>
@@ -62,11 +62,6 @@
                   <b-row class="mb-2">
                     <b-col xs="12" sm="12">
                       <p>Börja med att ange ditt golf id så hämtar vi en del av informationen automatiskt från Svenska Golfförbundet.</p>
-                    </b-col>
-                    <b-col hidden xs="12" sm="2" class="hidden d-none d-md-block">
-                      <img
-                        src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120/v1573298924/matchplay/sgf_logo.jpg"
-                      />
                     </b-col>
                   </b-row>
 
@@ -120,7 +115,7 @@
         height="4px"
       ></b-progress>
     </b-alert>                
-                   <b-alert show class="mt-4 small form-text text-muted">Ditt golfid är dina 6 första siffror i ditt personnummer följt av ett 3-siffrigt nummer. Saknar du ditt golfid ber vi dig kontakta din hemmaklubb för hjälp. OBS! Vi sparar inga uppgifter genom att fortsätta.</b-alert>                  
+                   <b-alert show class="mt-4 small form-text text-muted">Saknar du ditt golfid ber vi dig kontakta din hemmaklubb för hjälp.</b-alert>                  
                    
                 </div>
 
@@ -568,7 +563,7 @@ img {
   padding: 180px 0 180px 0;
   background-position: right 0px top 0px;
   @media (min-width: 320px) {
-    padding: 12rem 0 5rem 0;
+    padding: 6rem 0 5rem 0;
     /*background-position: bottom 10% right 0;*/
   }
   @media (min-width: 480px) {
