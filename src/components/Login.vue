@@ -13,43 +13,67 @@
 
 <!---------------------------- LOGGED IN --------------------------------------->
 <b-col md="12" class="" v-if="!showlogin">
-                <h2 class="teaser-header orange">Din information</h2>
+                <h2 class="teaser-header orange mt-5">Hej [namn från get meteor method]!</h2>
 
-                    <b-form-input
-                        id="firstName"
-                        v-model="userdetails.firstName"
-                        type="text"
-                        label="Förnamn"                        
-                        readonly
-                      ></b-form-input>
-                       <b-form-input
-                        id="lastName"
-                        v-model="userdetails.lastName"
-                        type="text"
-                        label="Efternamn"                        
-                        readonly
-                      ></b-form-input>
-                       <b-form-input
-                        id="mobile"
-                        v-model="userdetails.mobile"
-                        type="text"
-                        label="Mobilnr"                        
-                        readonly
-                      ></b-form-input>
-                       <b-form-input
-                        id="email"
-                        v-model="userdetails.email"
-                        type="text"
-                        label="E-post"                        
-                        readonly
-                      ></b-form-input>
+<b-alert show variant="primary small mt-4">
+  För att skapa ett lag trycker du på knappen "Skapa nytt lag" och fyller sedan i uppgifterna, ditt lag blir inte aktivt förrens du har betalat det.
+</b-alert>
 
-                <button class="btn btn-primary mt-2" v-on:click="logout()">Logga ut</button>
+<b-button variant="primary" class="mt-2" v-on:click="create_team()">Skapa nytt lag</b-button>
+
+ <b-form class="mt-4" @submit.stop.prevent @submit="createteam" v-if="showcreateteam">
+             <b-form-group>
+               <label for="type">Typ av lag (privat eller företag)</label>
+                <b-form-select 
+                v-model="team.selected" 
+                :options="options"
+                required
+                ></b-form-select>  
+             </b-form-group>
+
+<!-- Team name -->
+            <b-form-group v-if="team.selected === 'company'">
+              <label for="name">Lagnamn (visa endast för företag)</label>
+               <b-form-input
+                id="input-2"
+                v-model="team.name"
+                required
+                placeholder="Skriv in lagnamnet"
+              ></b-form-input>
+            </b-form-group>
+
+ <b-form-group v-if="team.selected === 'company'">
+             <b-form-file
+      v-model="team.file"
+      :state="Boolean(team.file)"
+      placeholder="Ladda upp din företagslogga"
+      drop-placeholder="Drop file here..."
+    ></b-form-file>
+    <div class="mt-3">Selected file: {{ team.file ? team.file.name : '' }}</div>
+ </b-form-group>
+
+            <b-form-group>
+              <label for="name">Medlemmar (3 boxar, välj namn/golfid till varje box?)</label>
+               <b-form-input
+                id="input-2"
+                v-model="team.members"
+                required
+                placeholder="Välj lagmedlemmar"
+              ></b-form-input>
+            </b-form-group>
+             
+             <b-button type="submit" variant="primary" class="btn blue-bg"><b-spinner v-if="showloginspinner" small type="grow" class="mr-2"></b-spinner>Spara</b-button>             
+                <b-alert v-if="showerror" variant="warning" show class="mt-4 small form-text text-muted">Din e-post eller lösenord stämmer inte, försök igen eller återställ ditt lösenord.</b-alert>   
+             </b-form>
+
+                    
+<hr>
+                <b-button variant="warning" class="mt-2" v-on:click="logout()">Logga ut</b-button>
               </b-col>
 
  <!---------------------------- LOGIN --------------------------------------->
               
-               <b-col md="12" class="" v-if="showlogin">
+               <b-col md="12" class="mt-3" v-if="showlogin">
                  <h2 class="teaser-header orange">Logga in</h2>
                  <br>           
 
@@ -98,6 +122,12 @@
   import Map from "./map/Map";
   const simpleDDP = require("simpleddp");
   const simpleDDPLogin = require("simpleddp-plugin-login").simpleDDPLogin;
+
+  let opts = {      
+        endpoint: "wss://matchplay.meteorapp.com/websocket",
+        SocketConstructor: WebSocket,
+        reconnectInterval: 5000
+    };
  
   export default {
     name: 'login',
@@ -116,9 +146,26 @@
     },
     data () {
       return {
+        //LOGIN
         showlogin: false,
         showloginspinner: false,
         showerror: false,
+        //END
+        //TEAM        
+        showcreateteam: true,
+        options: [
+          { value: null, text: 'Vänligen välj ett alternativ' },
+          { value: 'company', text: 'Företag' },
+          { value: 'private', text: 'Privat' }
+        ],
+        team: {
+          type: '',
+          selected: null,
+          file: null,
+          name:'',
+          shirts:''
+        },   
+        //END
         userdetails: {
           userId: '',
           firstName: '',
@@ -138,6 +185,9 @@
     },
     mixins: [tagsMixin],
     methods: {
+    createteam(evt) {
+        alert(JSON.stringify(this.team));
+    },     
     login(evt) {      
       evt.preventDefault();         
       this.showloginspinner = true;
@@ -147,11 +197,6 @@
       //const simpleDDP = require("simpleddp");
       //const simpleDDPLogin = require("simpleddp-plugin-login").simpleDDPLogin;
 
-      let opts = {
-          endpoint: "wss://www.mobelutveckling.se/websocket",
-          SocketConstructor: WebSocket,
-          reconnectInterval: 5000
-      };
       const server = new simpleDDP(opts,[simpleDDPLogin]);
 
       let password = this.form.pwd;
@@ -208,12 +253,7 @@ server.on('login',(m)=>{
       //console.log('inne logout')
       //const simpleDDP = require("simpleddp");
       //const simpleDDPLogin = require("simpleddp-plugin-login").simpleDDPLogin;
-
-      let opts = {
-          endpoint: "wss://www.mobelutveckling.se/websocket",
-          SocketConstructor: WebSocket,
-          reconnectInterval: 5000
-      };
+      
       const server = new simpleDDP(opts,[simpleDDPLogin]);
       let parentVue = this;
 
@@ -274,38 +314,57 @@ server.on('login',(m)=>{
 
     updated: function() {
     },
-    mounted:function(){
 
-   //console.log(simpleDDP);
-   //console.log(simpleDDPLogin);
+mounted: function() {
 
-    var opts = {
-        endpoint: "wss://www.mobelutveckling.se/websocket",       
-        SocketConstructor: WebSocket,
-        reconnectInterval: 5000
-    };
-    //const server = new simpleDDP(opts,[simpleDDPLogin]);
-     //const ws = require("isomorphic-ws");    
- 
-   //const simpleDDP = require("simpleddp"); // nodejs 
-   //const simpleDDPLogin = require("simpleddp-plugin-login").simpleDDPLogin;
- 
-    var opts = {
-        endpoint: "wss://www.mobelutveckling.se/websocket",       
-        SocketConstructor: WebSocket,
-        reconnectInterval: 5000
-    };
-    const server = new simpleDDP(opts,[simpleDDPLogin]);
-   
+    const server = new simpleDDP(opts,[simpleDDPLogin]);   
     let parentVue = this;
 
     let auth_token = localStorage.getItem('auth_token');
-    if (auth_token) {
+
+if (auth_token) {     
+trylogin()
+.then(() => { 
+   console.log('logged in with creds',server.token);      
+   parentVue.doctitle = 'Inloggad Matchplay';
+        //console.log(server)
+        let userinfo = server.collections.users[0].profile;
+        localStorage.setItem('userinfo',JSON.stringify(userinfo));
+        //console.log(server)
+        //populate values in user info form
+        parentVue.setuserinfoform();
+})
+.then((output) => {
+  
+})
+.catch((err) => {  
+   console.log('NOT logged in with creds, show error on form')
+    this.showlogin = true;
+});
+}
+
+// doAsyncOperation1() returns a promise.
+
+
+    async function trylogin() { // (1)
+      let response = await server.login({resume:auth_token}); // (2)  
+    }
+
+},
+
+    mounted_old:function(){
+   
+    const server = new simpleDDP(opts,[simpleDDPLogin]);   
+    let parentVue = this;
+
+    let auth_token = localStorage.getItem('auth_token');
+    if (auth_token) {     
       trytoken();
-      try {
-        resume();
-      } catch(e) {
+      try {        
+        resume();       
+      } catch(e) {        
       //something went wrong, maybe the token is too old or not valid
+      //this.showlogin = true;
       }
     } else {
       console.log('NOT logged in with token, show form')
@@ -315,9 +374,12 @@ server.on('login',(m)=>{
   
     async function trytoken() { // (1)
       let response = await server.login({resume:auth_token}); // (2)
+
+     
       if (server._loggedIn) {
         console.log('logged in with token',server.token);
         parentVue.doctitle = 'Inloggad Matchplay';
+        //console.log(server)
         let userinfo = server.collections.users[0].profile;
         localStorage.setItem('userinfo',JSON.stringify(userinfo));
         //console.log(server)
@@ -327,6 +389,7 @@ server.on('login',(m)=>{
         console.log('NOT logged in with token, show form')
         parentVue.showlogin = true;
       }
+      
     }
     
      
