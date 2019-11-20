@@ -384,6 +384,7 @@ export default {
       showloadgolfid: false,
       dismissSecs: 5,
       dismissCountDown: 0,
+test:'',
       showDismissibleAlert: false,
       golfid1: '',
       golfid2: '',
