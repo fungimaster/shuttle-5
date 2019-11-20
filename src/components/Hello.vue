@@ -3,7 +3,7 @@
     <vue-headful :title="doctitle" />
     <div class="hidden theme text-center">
       <div class="container">
-        <h2 class="when">Matchplay 2020 Johan S</h2>
+        <h2 class="when">Matchplay 2020</h2>
       </div>
     </div>
 
@@ -115,7 +115,7 @@
         height="4px"
       ></b-progress>
     </b-alert>                
-                   <b-alert show class="mt-4 small form-text text-muted">Ditt golfid är dina 6 första siffror i ditt personnummer följt av ett 3-siffrigt nummer. Saknar du ditt golfid ber vi dig kontakta din hemmaklubb för hjälp. OBS! Vi sparar inga uppgifter genom att fortsätta.</b-alert>                  
+                   <b-alert show class="mt-4 small form-text text-muted">Saknar du ditt golfid ber vi dig kontakta din hemmaklubb för hjälp. OBS! Vi sparar inga uppgifter genom att fortsätta.</b-alert>                  
                    
                 </div>
 
@@ -563,7 +563,7 @@ img {
   padding: 180px 0 180px 0;
   background-position: right 0px top 0px;
   @media (min-width: 320px) {
-    padding: 12rem 0 5rem 0;
+    padding: 6rem 0 5rem 0;
     /*background-position: bottom 10% right 0;*/
   }
   @media (min-width: 480px) {
