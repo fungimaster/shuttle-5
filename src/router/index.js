@@ -5,7 +5,7 @@ import Tickets from '@/components/Tickets'
 import Lineup from '@/components/Lineup'
 import Sessions from '@/components/Sessions'
 import Search from '@/components/Search'
-import Login from '@/components/Login'
+import MyMatchplay from '@/components/MyMatchplay'
 import Faq from '@/components/Faq'
 import About from '@/components/About'
 import Committee from '@/components/Committee'
@@ -59,9 +59,9 @@ export default new Router({
       component: Search
     },
     {
-      path: '/login',
-      name: 'Login',
-      component: Login
+      path: '/mymatchplay',
+      name: 'MyMatchplay',
+      component: MyMatchplay
     },   
     /*
     {

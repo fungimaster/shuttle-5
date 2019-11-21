@@ -130,7 +130,7 @@
     };
  
   export default {
-    name: 'login',
+    name: 'mymatchplay',
     components: {
       'c-spinner':Spinner,
       'c-map':Map
