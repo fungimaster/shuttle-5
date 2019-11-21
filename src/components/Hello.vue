@@ -593,7 +593,7 @@ img {
 
 .hero {
   background: url(
-    https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,q_69,w_461/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg
+      https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg
   );
 
   background-repeat: no-repeat;
@@ -611,10 +611,7 @@ img {
     /*background-position: bottom 0% right 0;*/
   }
   @media (min-width: 768px) {
-    /*background-position: bottom 32% right 0;*/
-    background: url(
-      https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_2390/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg      
-      );
+    /*background-position: bottom 32% right 0;*/   
   }
 
   @media (min-width: 992px) {
