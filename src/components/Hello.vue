@@ -216,10 +216,46 @@
       contain spaces, special characters, or emoji.
     </b-form-text>
                     </b-form-group>
-   
+
+<template>
+  <mailchimp-subscribe
+    url="https://matchplayinvitational.us17.list-manage.com/subscribe/post-json"
+    user-id="3495a2cf6609e5762bd6f3d3d"
+    list-id="2c3dba8bb7"
+    @error="onError"
+    @success="onSuccess"
+  >
+
+ <template v-slot="{ subscribe, setEmail, error, success, loading }">
+      <form @submit.prevent="subscribe">
+        <p class="mt-4">Vill du få ett meddelande när registreringen öppnar? Skriv din e-post nedan:</p>
+        <input type="email" @input="setEmail($event.target.value)" />
+        <b-button type="submit" variant="primary" class="btn blue-bg ml-1">Skicka</b-button>       
+        <div v-if="error">
+          <b-alert show class="mt-4 small" variant="warning">
+          {{ error }}                
+          </b-alert>
+          
+          </div>
+        <div v-if="success">
+          <b-alert show class="mt-4 small" variant="warning">
+             Tack, vi meddelar dig så fort registreringen öppnar!
+          </b-alert>
+          </div>
+        <div v-if="loading">Laddar...</div>
+      </form>
+    </template>
+  </mailchimp-subscribe>
+</template>
+<hr>
+
                     <b-button hidden type="submit" variant="primary" class="btn blue-bg ml-1">Fortsätt till betalning</b-button>
                     <b-button type="reset" variant="danger">Sök igen</b-button>
+
+   
+
                   </b-form>
+                  
                   <b-card class="mt-3 hidden" header="Form Data Result">
                     <pre class="m-0">{{ form }}</pre>
                   </b-card>
@@ -309,16 +345,20 @@
       </b-container>
 </div>
 
-
-
   </div>
 </template>
 
+
+
 <script>
+import MailchimpSubscribe from 'vue-mailchimp-subscribe'
 import { tagsMixin } from "../mixins/tagsMixin";
 
 export default {
   name: "hello",
+  components: {
+    MailchimpSubscribe,
+  },
   data() {
     return {
       showhelper: false,
@@ -553,7 +593,7 @@ img {
 
 .hero {
   background: url(
-    https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_2390/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg
+    https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,q_69,w_461/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg
   );
 
   background-repeat: no-repeat;
@@ -564,7 +604,7 @@ img {
   background-position: right 0px top 0px;
   @media (min-width: 320px) {
     padding: 6rem 0 5rem 0;
-    /*background-position: bottom 10% right 0;*/
+    /*background-position: bottom 10% right 0;*/    
   }
   @media (min-width: 480px) {
     padding: 8rem 0 8rem 0;
@@ -572,6 +612,9 @@ img {
   }
   @media (min-width: 768px) {
     /*background-position: bottom 32% right 0;*/
+    background: url(
+      https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_2390/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg      
+      );
   }
 
   @media (min-width: 992px) {

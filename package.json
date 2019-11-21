@@ -21,6 +21,7 @@
     "simpleddp-plugin-login": "^4.0.2",
     "vue": "^2.6.10",
     "vue-headful": "^2.0.1",
+    "vue-mailchimp-subscribe": "^1.1.0",
     "vue-router": "^3.1.3",
     "vue-simpleddp": "0.0.6-3",
     "vuex": "^3.1.2",
