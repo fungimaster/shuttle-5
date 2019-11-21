@@ -263,7 +263,7 @@
                   </b-row>
 
                   <b-alert show class="mt-4 small" variant="primary">
-                    När registreringen är genomförd väljder du att skapa ett eller flera lag och kan välja om det är privat eller företag samt betalningsalternativ.
+                    När registreringen är genomförd väljer du att skapa ett eller flera lag och kan välja om det är privat eller företag samt betalningsalternativ.
                   </b-alert>
 
                   <b-alert show v-if="showerror" variant="danger">
