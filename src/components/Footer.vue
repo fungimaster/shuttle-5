@@ -24,7 +24,7 @@
               </a>
             </b-col>
              <b-col md="4" class="gold p-5">
-              <a href="http://www.padelcrew.se/"  target="_blank">
+              <a href="https://www.padelcrew.se/"  target="_blank">
                 <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1573316028/matchplay/padel-crew-logo31.png" alt="" />
               </a>
             </b-col>
@@ -47,28 +47,7 @@
                 <b-col>
                   <h3>Matchplay Sweden</h3>                 
                   <div class="hidden newsletter mt-3 mb-5">
-                    <form class="subscribe" name="SubscriberForm" action="http://www.anpdm.com/public/process-subscription-form.aspx?formId=424B50407448465D4671" method="post" target="_blank" id="newsletterForm">
-
-                      <div class="input-group mb-3">
-                        <input required type="email" class="form-control" placeholder="Subscribe to newsletter" aria-label="Subscribe to newsletter" name="pf_Email" value="" id="email2" v-model="email2">
-                        <div class="input-group-append">
-                          <input type="submit" name="Submit" id="NewsletterSubmit" class="input-group-text green-bg text-white" value=">">
-                        </div>
-                      </div>
-
-
-                      <!--input type="submit" id="NewsletterSubmit" value="Submit"alt="Subscribe" name="Submit"-->
-
-                      <!-- Do not change name or type on submit button, to change visible text, change text for "value" -->
-                      <input type="hidden" name="pf_FormType" value="OptInForm">
-                      <input type="hidden" name="pf_OptInMethod" value="SingleOptInMethod">
-                      <input type="hidden" name="pf_CounterDemogrFields" value="0">
-                      <input type="hidden" name="pf_CounterMailinglists" value="1">
-                      <input type="hidden" name="pf_AccountId" value="10083">
-                      <input type="hidden" name="pf_ListById" value="1">
-                      <input type="hidden" name="pf_Version" value="2">
-                      <input type="hidden" name="pf_MailinglistName1" value="200918">
-                    </form>
+                    
                   </div>
                   <br>
                   <p class="hidden">Matchplay AB</p>
