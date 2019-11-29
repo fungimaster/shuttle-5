@@ -158,6 +158,7 @@
                 ></b-form-select>  
              </b-form-group>
 
+
 <!-- Team name -->
             <b-form-group class="mb-5" v-if="team.type === 'Company' && !team.is_readonly">
               <label for="name">Lagnamn</label>
@@ -185,21 +186,21 @@
     <b-col md="4" class="pl-0 pr-0 pr-md-2">
       <b-form-group>
               <label for="name">Lagkapten</label>
-               <b-form-input v-bind:readonly="team.is_readonly"
+               <b-form-input v-bind:readonly="true"
                 id="teamleadername"
                 v-model="team.teamleadername"                
-                placeholder="Golf id (xxxxxx-xxx)"                
+                placeholder="Golf id (xxxxxx-xxx)"                   
               ></b-form-input>
-              <b-button @click="checkGolfID(team.teamleadername)" v-if="!team.is_readonly" variant="info" size="sm" class="float-right mt-1"><b-spinner v-if="showspinner_1" small type="grow" class="mr-2"></b-spinner>Sök spelare</b-button>           
+              <b-button hidden @click="checkGolfID(team.teamleadername,'1')" v-if="!team.is_readonly" variant="info" size="sm" class="float-right mt-1"><b-spinner v-if="showspinner_1" small type="grow" class="mr-2"></b-spinner>Sök spelare</b-button>           
             </b-form-group>
 
-<b-alert v-if="team.showplayer1" variant="primary" show class="mt-4 small form-text">
-  {{team.player_1_name}}
-  {{team.player_1_hcp}}
-  </b-alert>   
+            <b-alert v-if="team.showplayer1" variant="primary" show class="mt-4 small form-text">
+            {{team.player_1_name}}
+            {{team.player_1_hcp}}
+            </b-alert>   
 
     </b-col>
-    <b-col md="4" class="pl-0 pr-0 pr-md-2">
+    <b-col md="4" class="pl-0 pr-0 pl-md-2 pr-md-2">
        <b-form-group>
               <label for="name">Lagmedlem</label>
                <b-form-input v-bind:readonly="team.is_readonly"
@@ -207,10 +208,37 @@
                 v-model="team.teammembername"
                 placeholder="Golf id (xxxxxx-xxx)"
               ></b-form-input>
-              <b-button v-if="!team.is_readonly" variant="info" size="sm" class="float-right mt-1">Sök spelare</b-button>  
+              <b-button @click="checkGolfID(team.teammembername,'2')" v-if="!team.is_readonly" variant="info" size="sm" class="float-right mt-1"><b-spinner v-if="showspinner_2" small type="grow" class="mr-2"></b-spinner>Sök spelare</b-button>  
             </b-form-group>
+           
+            <b-alert v-if="team.showplayer2" :variant="team.checkgolfidvariant2" show class="mt-4 small form-text">
+            Spelare: {{team.player_2_name}}<br>
+            HCP: {{team.player_2_hcp}}
+            
+            <b-form-input class="mt-2" v-if="!team.player_2_exists"                
+                v-model="team.teammemberemail"
+                placeholder="E-mail till deltagaren"
+                required
+              ></b-form-input>
+
+              <p class="mt-2" v-if="!team.player_2_exists">
+                När du sparar laget kommer vi skicka en inbjudan till din lagkamrat.
+              </p>
+
+              <p class="mt-2" v-if="team.player_2_exists">
+                Denna spelaren har ett konto i Matchplay och kommer bli notifierad när du sparar laget.
+              </p>
+            
+            <b-form-input hidden              
+                v-model="team.teammembergolfid"
+                placeholder="Golfid"
+                required
+              ></b-form-input>
+            
+            </b-alert>   
+
     </b-col>
-    <b-col md="4" class="pl-0 pr-0 pr-md-0">
+    <b-col md="4" class="pl-0 pr-0 pl-md-2 pr-md-2">
        <b-form-group>
               <label for="name">Reserv</label>
                <b-form-input v-bind:readonly="team.is_readonly"
@@ -218,24 +246,59 @@
                 v-model="team.teamreservename"                
                   placeholder="Golf id (xxxxxx-xxx)"
               ></b-form-input>
-              <b-button v-if="!team.is_readonly" variant="info" size="sm" class="float-right mt-1">Sök spelare</b-button>  
+               <b-button @click="checkGolfID(team.teamreservename,'3')" v-if="!team.is_readonly" variant="info" size="sm" class="float-right mt-1"><b-spinner v-if="showspinner_3" small type="grow" class="mr-2"></b-spinner>Sök spelare</b-button>  
             </b-form-group>
+
+                      
+                        <b-alert v-if="team.showplayer3" :variant="team.checkgolfidvariant3" show class="mt-4 small form-text">
+            Spelare: {{team.player_3_name}}<br>
+            HCP: {{team.player_3_hcp}}
+            
+            <b-form-input class="mt-2" v-if="!team.player_3_exists"                
+                v-model="team.teamreserveemail"
+                placeholder="E-mail till reserven"
+                required
+              ></b-form-input>
+
+              <p class="mt-2" v-if="!team.player_3_exists">
+                När du sparar laget kommer vi skicka en inbjudan till din lagkamrat
+                </p>
+            
+            <b-form-input hidden              
+                v-model="team.teamreservenamegolfid"
+                placeholder="Golfid"
+                required
+              ></b-form-input>
+            
+            </b-alert>
+           
+
     </b-col>
   </b-row>
 </b-container>
 
-            <!-- Course -->
-            <b-form-group class="mb-5" v-if="team.type != null">
-              <label for="name">Hemmaklubb för matcher</label>
-               <b-form-input v-bind:readonly="team.is_readonly"
-                id="course"
-                v-model="team.course"
-                required
-                placeholder="Sök efter hemmaklubb"
-              ></b-form-input>
-            </b-form-group>
 
-          <!-- Payment -->
+<!-- Course -->
+<b-form-group class="mb-5" v-if="team.type != null && !team.is_readonly">
+               <label for="type">Välj hemmaklubb för matcher<i v-b-popover.hover.top="'Välj en klubb som ligger nära där du bor eller tänkt spela dina matcher.'" title="Hjälp" class="help material-icons mr-2">help_outline</i></label>
+  <suggestions  
+    v-model="query"
+    :options="options"
+    :onInputChange="onCountryInputChange"
+    :onItemSelected="onSearchItemSelected" style="width:100%;">
+    <div slot="item" slot-scope="props" class="single-item">
+    <span class="name">{{props.item.title}}</span>
+  </div>
+  </suggestions> 
+    <b-form-input hidden
+                id="clubid"
+                v-model="team.clubid"
+                readonly
+                placeholder="Id på klubben"
+              ></b-form-input>
+</b-form-group>
+
+                    <!-- Payment -->
             <b-form-group class="mb-5" v-if="team.type != null && !team.is_readonly">
               <label for="name">Betalningsalternativ</label>
              
@@ -291,10 +354,13 @@
 <script>
   import {tagsMixin} from '../mixins/tagsMixin';
   import Spinner from "./spinner/Spinner";
-  import Map from "./map/Map";
+  import Suggestions from 'v-suggestions';
+  import 'v-suggestions/dist/v-suggestions.css';
+  //import Map from "./map/Map";  
+
   const simpleDDP = require("simpleddp");
   const simpleDDPLogin = require("simpleddp-plugin-login").simpleDDPLogin;
-
+  
   let opts = {      
         endpoint: "wss://matchplay.meteorapp.com/websocket",
         SocketConstructor: WebSocket,
@@ -305,7 +371,8 @@
     name: 'mymatchplay',
     components: {
       'c-spinner':Spinner,
-      'c-map':Map
+      'suggestions':Suggestions    
+      //'c-map':Map
     },
     watch:{
       '$route' (to, from){
@@ -317,7 +384,18 @@
       }
     },
     data () {
-      return {       
+       let clubs = [];
+       let countries = ['Afghanistan', 'Åland Islands', 'Albania', 'Algeria', 'American Samoa', 'AndorrA', 'Angola', 'Anguilla', 'Antarctica', 'Antigua and Barbuda', 'Argentina', 'Armenia', 'Aruba', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bermuda', 'Bhutan', 'Bolivia', 'Bosnia and Herzegovina', 'Botswana', 'Bouvet Island', 'Brazil', 'British Indian Ocean Territory', 'Brunei Darussalam', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Cape Verde', 'Cayman Islands', 'Central African Republic', 'Chad', 'Chile', 'China', 'Christmas Island', 'Cocos (Keeling) Islands', 'Colombia', 'Comoros', 'Congo', 'Congo, The Democratic Republic of the', 'Cook Islands', 'Costa Rica', 'Cote D\'Ivoire', 'Croatia', 'Cuba', 'Cyprus', 'Czech Republic', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic', 'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Eritrea', 'Estonia', 'Ethiopia', 'Falkland Islands (Malvinas)', 'Faroe Islands', 'Fiji', 'Finland', 'France', 'French Guiana', 'French Polynesia', 'French Southern Territories', 'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana', 'Gibraltar', 'Greece', 'Greenland', 'Grenada', 'Guadeloupe', 'Guam', 'Guatemala', 'Guernsey', 'Guinea', 'Guinea-Bissau', 'Guyana', 'Haiti', 'Heard Island and Mcdonald Islands', 'Holy See (Vatican City State)', 'Honduras', 'Hong Kong', 'Hungary', 'Iceland', 'India'];
+       return {      
+        //TYPEAHEAD CLUBS
+        query: '',
+      countries: countries,
+      clubs: clubs,
+      selectedClub: null,
+      options: {
+        placeholder: 'Välj hemmaklubb för laget',
+        inputClass: 'form-control'
+      },
         //GENERAL
         loading: true,
         //LOGIN
@@ -334,24 +412,40 @@
         showteamslist: false,
         showcreateteamhelper: false, 
         showspinner_1: false,
+        showspinner_2: false,
+        showspinner_3: false,
         teamoptions: [
           { value: null, text: 'Vänligen välj ett alternativ' },
           { value: 'Company', text: 'Företag' },
           { value: 'Private', text: 'Privat' }
         ],
         team: {
+          checkgolfidvariant2: 'primary',
+          checkgolfidvariant3: 'primary',
           showplayer1: false,
+          showplayer2: false,
+          showplayer3: false,
           player_1_name: '',
-          player_1_hcp: '',          
+          player_1_hcp: '',
+          player_1_exists: false,
+          player_2_name: '',         
+          player_2_hcp: '',
+          player_2_exists: false,
+          player_3_name: '',         
+          player_3_hcp: '',
+          player_3_exists: false,
           is_readonly: true,     
           type: null,
           file: null,
           company:'',
           teamname: '',
+          clubid:'',
           teamnamecompany: '',
           teamleader: '',
           teamleadername: '',
           teammembername: '',
+          teammembergolfid: '',
+          teammemberemail: '',
           teamreservename: '',
           name:'',
           shirts:'',
@@ -381,6 +475,38 @@
     },
     mixins: [tagsMixin],
     methods: {
+      getGolfClubs: function() {
+          this.axios      
+        .post(
+            "https://matchplay.meteorapp.com/methods/getGolfclubs"         
+        )
+        .then(response => {         
+          //console.log(response.data);
+          this.clubs = response.data;
+
+        })
+        .catch(error => {
+          //this.player_1_error = "Golfaren hittades inte... prova att skriva in golfid igen.";   
+          console.log(error);
+        });
+      },
+      onCountryInputChange (query) {
+        if (query.trim().length === 0) {
+          return null
+        }
+        //console.log(query)
+        
+        // return the matching countries as an array
+        return this.clubs.filter((club) => {          
+          return club.title.toLowerCase().includes(query.toLowerCase())
+        })
+      },
+    onSearchItemSelected (item) {      
+      this.selectedSearchItem = item.title;
+      this.query = item.title;
+      this.team.clubid = item._id;
+    },
+      
         register: function() {
                this.$router.push({ path: "/" });
                var element = this.$refs["register"];
@@ -415,10 +541,19 @@
       
       this.showcreateteamhelper = false;
 
+      //load clubs to const
+      this.getGolfClubs();
+      //end
+
       if (action === 'new') {
-        console.log('inne')
+        let userinfo = localStorage.getItem('userinfo');
+        userinfo = JSON.parse(userinfo);
         this.team.is_readonly=false;
         this.team = {};
+        //this.team.type = 'Private' //remove later
+        this.team.teamleadername = userinfo.golfid;
+        this.team.teammembername = '780110-010' //remove later
+        this.team.teamreservename = '780110-001' //remove later
       }
       this.showteamslist = false;
       this.showcreateteam = true;
@@ -511,13 +646,43 @@ server.on('login',(m)=>{
 });  
 
     },
-    checkGolfID: function(golfid) {   
+    checkGolfID: function(golfid,target) {
+      
+      let userinfo = localStorage.getItem('userinfo');
+      userinfo = JSON.parse(userinfo);
                 
       if (golfid === '') return;
       if (!golfid.includes("-")) return;
       if (!golfid.length === 10) return;
       
-      this.showspinner_1 = true;        
+      if (target === '2') {
+        this.showspinner_2 = true;
+        
+        //Check if own golf id search, not accepted
+        if (userinfo.golfid === golfid) {
+           this.team.checkgolfidvariant2 = "warning";
+           this.team.player_2_name = 'Du kan inte söka på ditt egna golf id.';
+           this.team.player_2_hcp = '';
+           this.team.player_2_exists = true;
+           this.team.showplayer2 = true;
+           this.showspinner_2 = false;
+           return;
+        }
+      }
+      
+      if (target === '3') {
+        this.showspinner_3 = true;
+        
+        //Check if own golf id search, not accepted
+        if (userinfo.golfid === golfid) {
+           this.team.checkgolfidvariant3 = "warning";
+           this.team.player_3_name = 'Du kan inte söka på ditt egna golf id.'
+           this.team.showplayer3 = true;
+           this.showspinner_3 = false;
+           return;
+        }
+              
+      }
 
       this.axios      
         .post(
@@ -536,11 +701,36 @@ server.on('login',(m)=>{
           } 
 
           if (!response.data.hasOwnProperty('notingit')) {  
-                    
-          this.team.player_1_name = response.data.firstname + ' ' + response.data.lastname;
-          this.team.player_1_hcp = response.data.hcp.replace(/,/g, '.');
+          
+          
+          if (target === '2') {
+          this.team.checkgolfidvariant2 = "primary";
+          this.team.showplayer2 = true;    
+          this.team.player_2_name = response.data.firstname + ' ' + response.data.lastname;
+          this.team.player_2_hcp = response.data.hcp.replace(/,/g, '.');
+          this.team.teammembergolfid = golfid;
+          this.team.player_2_exists = response.data.exists;
 
-          this.team.showplayer1 = true;
+          this.team.showplayer2 = true;
+          this.showspinner_2 = false;          
+          this.team.showplayer2 = true;
+          }
+
+          if (target === '3') {
+          this.team.checkgolfidvariant3 = "primary";
+          this.team.showplayer3 = true;    
+          this.team.player_3_name = response.data.firstname + ' ' + response.data.lastname;
+          this.team.player_3_hcp = response.data.hcp.replace(/,/g, '.');
+          this.team.teamreservegolfid = golfid;
+          this.team.player_3_exists = response.data.exists;
+
+          this.team.showplayer3 = true;
+          this.showspinner_3 = false;          
+          this.team.showplayer3 = true;
+          }
+          
+
+
 
           //this.form.hcp = response.data.hcp.replace(/,/g, '.')
 
@@ -559,19 +749,36 @@ server.on('login',(m)=>{
           }
           */
 
-          this.showspinner_1 = false;          
-         
+          
           return;
           } else {
-  
-          this.showspinner_1 = false;     
-          this.team.player_1_name = 'Hittade inte spelaren';
-          this.team.showplayer1 = true;
+           
+          if (target === '2') {
+            this.team.checkgolfidvariant2 = "danger";
+            this.team.player_2_name = 'Hittade inte spelaren';
+            this.team.player_2_hcp = '';
+            this.team.player_2_exists = true;          
+            this.showspinner_2 = false;          
+            this.team.showplayer2 = true;
+          }
+         
+                    
+          if (target === '3') {
+            this.team.checkgolfidvariant3 = "danger";
+            this.team.player_3_name = 'Hittade inte spelaren';
+            this.team.player_3_hcp = '';
+            this.team.player_3_exists =true;
+            this.showspinner_3 = false;          
+            this.team.showplayer3 = true;
+          }
             
             //this.showAlert();
             //this.showloadgolfid = false;
             return;
           }
+
+         
+
         })
         .catch(error => {
           //this.player_1_error = "Golfaren hittades inte... prova att skriva in golfid igen.";   
@@ -748,6 +955,11 @@ mounted: function() {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+.help {
+  margin-left:0.5em;
+  vertical-align: text-bottom;
+}
 
  .team h4 {
    font-size:1.2em;
