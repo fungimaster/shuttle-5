@@ -519,7 +519,7 @@
 			if (data.public_id !== '') {				
         //var uploadedFileUrl = data.secure_url;
 				//console.log(data);
-				var uploadedFileUrl = data.public_id;				
+				var uploadedFileUrl = data.secure_url;				
        
         parentVue.team.logo = uploadedFileUrl;
 			  //console.log(parentVue.team.logo)
