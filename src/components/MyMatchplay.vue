@@ -170,15 +170,28 @@
               ></b-form-input>
             </b-form-group>
 
+           
+ <b-button hidden @click="uploadCloudinary()"  variant="info" size="sm" class="float-right mt-1">Ladda upp</b-button>           
+           
+
  <b-form-group class="mb-5" v-if="team.type === 'Company' && !team.is_readonly">
    <label for="name">Företagslogotyp</label>
-             <b-form-file  style="font-size:0.9em;"
+             <b-form-file @input="uploadCloudinary()" style="font-size:0.9em;"
       v-model="team.file"
       :state="Boolean(team.file)"
       placeholder="Ladda upp din företagslogga"
       drop-placeholder="Drop file here..."
+      accept="image/jpeg, image/png, image/gif"
     ></b-form-file>
-    <div class="hidden mt-3">Vald logga: {{ team.file ? team.file.name : '' }}</div>
+   <b-form-input hidden
+                id="input-logo"
+                v-model="team.logo"
+              ></b-form-input>
+             
+   <img class="mt-2" v-bind:src="team.logo" v-if="team.type === 'Company'"/>
+    
+    
+    
  </b-form-group>
 
 <b-container fluid class="mb-5" v-if="team.type != null">
@@ -437,6 +450,7 @@
           is_readonly: true,     
           type: null,
           file: null,
+          logo: null,
           company:'',
           teamname: '',
           clubid:'',
@@ -475,6 +489,50 @@
     },
     mixins: [tagsMixin],
     methods: {
+      
+       uploadCloudinary: function() {
+
+      let parentVue = this;
+        
+      var CLOUDINARY_URL = '';
+      var CLOUDINARY_UPLOAD_PRESET = '';
+      var base_url = '';
+
+      CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/dn3hzwewp/image/upload';
+		  CLOUDINARY_UPLOAD_PRESET = 'vnozhel7';
+      base_url = 'https://res.cloudinary.com/dn3hzwewp/image/upload/c_thumb,w_200/';
+     
+      var formData = new FormData();
+      formData.append('file', this.team.file);
+      formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+
+       fetch(CLOUDINARY_URL, {
+    method: 'POST',
+    body: formData
+  })
+    .then(function(response) {		
+		
+		return response.json();
+	})
+    .then(function(data) {		
+      //if (data.secure_url !== '') {
+			if (data.public_id !== '') {				
+        //var uploadedFileUrl = data.secure_url;
+				//console.log(data);
+				var uploadedFileUrl = data.public_id;				
+       
+        parentVue.team.logo = uploadedFileUrl;
+			  //console.log(parentVue.team.logo)
+				//console.log('file type=' + $scope.data.fileType)
+				
+			
+				
+	
+				
+      }
+    })
+
+    },
       getGolfClubs: function() {
           this.axios      
         .post(
@@ -540,6 +598,7 @@
     create_team(action) {
       
       this.showcreateteamhelper = false;
+      window.scrollTo(0,0);
 
       //load clubs to const
       this.getGolfClubs();
@@ -549,7 +608,7 @@
         let userinfo = localStorage.getItem('userinfo');
         userinfo = JSON.parse(userinfo);
         this.team.is_readonly=false;
-        this.team = {};
+        //this.team = {};
         //this.team.type = 'Private' //remove later
         this.team.teamleadername = userinfo.golfid;
         this.team.teammembername = '780110-010' //remove later
@@ -564,7 +623,31 @@
        window.scrollTo(0,0);
     },
     save_team(evt) {
-        alert(JSON.stringify(this.team));
+        //alert(JSON.stringify(this.team));
+
+                 this.axios.post('https://matchplay.meteorapp.com/methods/addTeam', {
+                  "competition": "nyERPG5gcRJrjT3Wc",
+                  "course": this.team.clubid,
+                  "type": this.team.type,
+                  "paid": false,
+                  "teamleader": "asdfsf"            
+                }
+              )
+              .then(response => {  
+               console.log('save team',response.data)
+
+                if (response.data.hasOwnProperty('error')) {
+                  console.log("error")
+                  return;
+                }
+               
+               
+
+                return;
+              })
+              .catch(error => {
+                console.log(error);
+              });
          window.scrollTo(0,0);
     },     
     login(evt) {      
@@ -621,7 +704,8 @@ trylogin()
 })
 .catch((err) => {  
   console.log(err)
-   console.log('NOT logged in with creds, show error on form')
+   console.log('NOT logged in with creds, show error on form');
+
    parentVue.showerror = true;
    parentVue.showloginspinner = false;
 });
@@ -830,6 +914,7 @@ server.on('login',(m)=>{
 
         
         parentVue.makeToast('Du är nu utloggad.','primary');
+        this.$username = 'Logga in';
         
         window.scrollTo(0,0);
 
@@ -843,7 +928,7 @@ server.on('login',(m)=>{
       
     },
     setuserinfoform: function() {
-      console.log('set userinfo form');
+      //console.log('set userinfo form');
 
     let userinfo = localStorage.getItem('userinfo');
     if (userinfo) {
@@ -854,9 +939,12 @@ server.on('login',(m)=>{
         //console.log(userinfo)
         this.userdetails.firstname = userinfo.firstname;
 
+        this.$username = this.userdetails.firstname;
+       // console.log(this.$username)
+
         //check if user has teams or not
         if (userinfo.teams) {
-          console.log('show teams for user: ',userinfo.teams)
+          //console.log('show teams for user: ',userinfo.teams)
           this.showteamslist = true;
           this.showcreateteamhelper = false;
           this.teams = userinfo.teams;
@@ -901,7 +989,7 @@ mounted: function() {
     if (auth_token) {    
     trylogin()
     .then(() => { 
-      console.log('logged in with token in local storage',server.token);      
+      //console.log('logged in with token in local storage',server.token);      
       parentVue.doctitle = 'My Matchplay';            
 
           this.axios.post('https://matchplay.meteorapp.com/methods/getPlayerData', {
@@ -909,7 +997,7 @@ mounted: function() {
                 }
               )
               .then(response => {  
-               console.log('mounted',response.data)
+              // console.log('mounted',response.data)
 
                 if (response.data.hasOwnProperty('error')) {
                   console.log("error")
@@ -955,6 +1043,10 @@ mounted: function() {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+.file-input ~ .file-label::after {
+  content: 'Välj fil';
+}
 
 .help {
   margin-left:0.5em;

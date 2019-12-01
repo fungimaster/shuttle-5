@@ -24,6 +24,7 @@
     "vue-headful": "^2.0.1",
     "vue-router": "^3.1.3",
     "vue-simpleddp": "0.0.6-3",
+    "vue-tel-input": "^4.0.0",
     "vuex": "^3.1.2",
     "ws": "^7.2.0",
     "xml-js": "^1.6.11"

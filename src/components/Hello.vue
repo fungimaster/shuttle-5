@@ -196,6 +196,24 @@
 
                   <b-row>
                     <b-col lg="8">
+                       <b-form-group
+                      id="input-group-mobile"
+                      label="Mobilnr"
+                      label-for="input-1-mobile"
+                      size='lg'
+                      >
+                      <vue-tel-input v-model="mobile" v-bind="bindProps"
+                      ></vue-tel-input>
+                      <b-form-input hidden
+                      id="input-1-11"
+                      v-model="form.mobile2"                      
+                      type="text"
+                      required
+                      placeholder="Skriv ditt mobilnummer"
+                      >
+                      </b-form-input>
+                      
+                      </b-form-group>
                       <b-form-group
                       id="input-group-1"
                       label="E-post"
@@ -368,11 +386,44 @@
 
 <script>
 import { tagsMixin } from "../mixins/tagsMixin";
+/*import VuePhoneNumberInput from 'vue-phone-number-input';
+import 'vue-phone-number-input/dist/vue-phone-number-input.css';*/
+import { VueTelInput } from 'vue-tel-input'
 
 export default {
   name: "hello",
+components: {   
+      //'phone':VuePhoneNumberInput,
+     // 'phone':VueTelInput,
+      VueTelInput
+    },
   data() {
     return {
+   bindProps: {
+        mode: "international",
+        defaultCountry: "SE",
+        disabledFetchingCountry: false,
+        disabled: false,
+        disabledFormatting: false,
+        placeholder: "Skriv ditt mobilnummer",
+        required: true,
+        enabledCountryCode: false,
+        enabledFlags: true,
+        preferredCountries: [],
+        onlyCountries: ["SE","NO","DK"],
+        ignoredCountries: [],
+        autocomplete: "off",
+        name: "telephone",
+        maxLen: 25,
+        wrapperClasses: "",
+        inputClasses: "form-control",
+        dropdownOptions: {
+          disabledDialCode: false
+        },
+        inputOptions: {
+          showDialCode: false
+        }
+      },
       showhelper: false,
       //contbutton1: 'Fortsätt till nästa steg',
       contbutton1 : 'Fortsätt till nästa steg',
@@ -390,6 +441,7 @@ test:'',
       doctitle: this.$store.state.conferencename,
       form: {       
         golfid: "",
+        mobile: "",
         firstname: "",
         lastname: "",
         hcp: "",
@@ -399,7 +451,7 @@ test:'',
         password2:""
       },      
       showform1: true,
-      showform2: false,
+      showform2:false, //should be default false
       showqualified: false,
       showqualified32: false,
       showqualifiedNOT: false,
@@ -443,6 +495,7 @@ test:'',
     },
   mixins: [tagsMixin],
   methods: {
+
      countDownChanged(dismissCountDown) {
         this.dismissCountDown = dismissCountDown
       },
@@ -533,7 +586,8 @@ test:'',
               "password": this.form.password,
               "firstname": this.form.firstname,
               "lastname": this.form.lastname,                              
-              "golfid": this.form.golfid
+              "golfid": this.form.golfid,
+              "mobile": this.form.mobile
             }
           )
           .then(response => {            
@@ -765,6 +819,7 @@ img {
     /*background-position: bottom 55% right 0;*/
   }
 }
+
 
 .come {
   /*background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_2390/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg);*/
