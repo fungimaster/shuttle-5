@@ -52,12 +52,12 @@
               </b-col>        
 
 <!---------------------------- LOGGED IN --------------------------------------->
-<b-col md="12" class="" v-if="!showlogin">
+<b-col md="12" class="mt-3" v-if="!showlogin">
 
 <b-container>
   <b-row>
     <b-col md="6">
-      <h2 class="teaser-header orange mt-3">Hej {{userdetails.firstname}}!</h2>
+      <h2 hidden class="teaser-header orange mt-3">Hej {{userdetails.firstname}}!</h2>
     </b-col>
     <b-col md="6" class="text-right pt-1">
       <b-button variant="primary" class="blue-bg mt-2 mb-2" v-if="!showcreateteam" v-on:click="create_team('new')">Skapa nytt lag</b-button>
@@ -67,7 +67,7 @@
 </b-container>
 
                 
-<hr>
+<hr hidden>
 
 
 <!-- list of teams -->
@@ -94,7 +94,7 @@
 
       <div class="pt-0 pb-3">
         <span :id="'tooltip-course-' + idx">
-          <i class="material-icons mr-2">golf_course</i>{{team.course}}     
+          <i class="material-icons mr-2">golf_course</i>{{team.coursename}}     
           <b-tooltip :target="'tooltip-course-' + idx" triggers="hover" placement="top">
             Hemmaklubb för matcher
           </b-tooltip>
@@ -134,11 +134,13 @@
   För att skapa ett lag trycker du på knappen "Skapa nytt lag" och fyller sedan i uppgifterna, ditt lag blir inte aktivt förrens du har betalat det.
 </b-alert>
                    
+<!--   -->
+ <b-form class="mt-4" v-if="showcreateteam" @submit.stop.prevent @submit="save_state1">
 
- <b-form class="mt-4" @submit.stop.prevent @submit="save_team" v-if="showcreateteam">
-
-<!-- PAID HIDDEN -->
-           <b-container fluid class="mb-3 pl-0 pr-0">
+  <!-- STEP 1 -->
+  <div v-if="team.step === 1">
+          
+          <b-container hidden fluid class="mb-3 pl-0 pr-0">
               <b-row class="">
                 <b-col class="" style="color:green;" v-if="team.paid">
                    <i class="material-icons mr-2" style="vertical-align: sub;">attach_money</i>{{text.paidteam}}
@@ -152,47 +154,45 @@
              <b-form-group class="mb-5">
                <label for="type">Typ av lag</label>
                 <b-form-select v-bind:disabled="team.is_readonly"
+                id="type"
                 v-model="team.type" 
                 :options="teamoptions"
-                required
+                :state="validation_type"
+                required               
                 ></b-form-select>  
              </b-form-group>
 
-
-<!-- Team name -->
+             <!-- Team name -->
             <b-form-group class="mb-5" v-if="team.type === 'Company' && !team.is_readonly">
               <label for="name">Lagnamn</label>
                <b-form-input
-                id="input-2"
+                id="name"
                 v-model="team.name"
                 required
                 placeholder="Skriv in lagnamnet"
+                :state="validation_name"
               ></b-form-input>
             </b-form-group>
 
-           
- <b-button hidden @click="uploadCloudinary()"  variant="info" size="sm" class="float-right mt-1">Ladda upp</b-button>           
-           
+            <b-form-group class="mb-5" v-if="team.type === 'Company' && !team.is_readonly">
+              <label for="name">Företagslogotyp</label>
+                        <b-form-file @input="uploadCloudinary()" style="font-size:0.9em;"
+                  v-model="team.file"
+                  :state="Boolean(team.file)"
+                  placeholder="Ladda upp din företagslogga"
+                  drop-placeholder="Drop file here..."
+                  accept="image/jpeg, image/png, image/gif"
+                ></b-form-file>
+              <b-form-input hidden
+                            id="input-logo"
+                            v-model="team.logo"
+                          ></b-form-input>
+                        
+              <img class="mt-2" v-bind:src="team.logo" v-if="team.type === 'Company'"/>
+                
+            </b-form-group>
 
- <b-form-group class="mb-5" v-if="team.type === 'Company' && !team.is_readonly">
-   <label for="name">Företagslogotyp</label>
-             <b-form-file @input="uploadCloudinary()" style="font-size:0.9em;"
-      v-model="team.file"
-      :state="Boolean(team.file)"
-      placeholder="Ladda upp din företagslogga"
-      drop-placeholder="Drop file here..."
-      accept="image/jpeg, image/png, image/gif"
-    ></b-form-file>
-   <b-form-input hidden
-                id="input-logo"
-                v-model="team.logo"
-              ></b-form-input>
-             
-   <img class="mt-2" v-bind:src="team.logo" v-if="team.type === 'Company'"/>
-    
-    
-    
- </b-form-group>
+                   
 
 <b-container fluid class="mb-5" v-if="team.type != null">
   <b-row class="">
@@ -201,7 +201,7 @@
               <label for="name">Lagkapten</label>
                <b-form-input v-bind:readonly="true"
                 id="teamleadername"
-                v-model="team.teamleadername"                
+                v-model="team.teamleadername"               
                 placeholder="Golf id (xxxxxx-xxx)"                   
               ></b-form-input>
               <b-button hidden @click="checkGolfID(team.teamleadername,'1')" v-if="!team.is_readonly" variant="info" size="sm" class="float-right mt-1"><b-spinner v-if="showspinner_1" small type="grow" class="mr-2"></b-spinner>Sök spelare</b-button>           
@@ -220,6 +220,8 @@
                 id="teammembername"
                 v-model="team.teammembername"
                 placeholder="Golf id (xxxxxx-xxx)"
+                :state="validation_teammembername"
+                required
               ></b-form-input>
               <b-button @click="checkGolfID(team.teammembername,'2')" v-if="!team.is_readonly" variant="info" size="sm" class="float-right mt-1"><b-spinner v-if="showspinner_2" small type="grow" class="mr-2"></b-spinner>Sök spelare</b-button>  
             </b-form-group>
@@ -228,9 +230,11 @@
             Spelare: {{team.player_2_name}}<br>
             HCP: {{team.player_2_hcp}}
             
-            <b-form-input class="mt-2" v-if="!team.player_2_exists"                
+            <b-form-input class="mt-2" v-if="!team.player_2_exists"
+                id="teammemberemail"           
                 v-model="team.teammemberemail"
                 placeholder="E-mail till deltagaren"
+                :state="validation_teammemberemail"
                 required
               ></b-form-input>
 
@@ -244,8 +248,7 @@
             
             <b-form-input hidden              
                 v-model="team.teammembergolfid"
-                placeholder="Golfid"
-                required
+                placeholder="Golfid"                
               ></b-form-input>
             
             </b-alert>   
@@ -253,7 +256,7 @@
     </b-col>
     <b-col md="4" class="pl-0 pr-0 pl-md-2 pr-md-2">
        <b-form-group>
-              <label for="name">Reserv</label>
+              <label for="name">Reserv (valfri)</label>
                <b-form-input v-bind:readonly="team.is_readonly"
                 id="teamreservename"
                 v-model="team.teamreservename"                
@@ -270,7 +273,7 @@
             <b-form-input class="mt-2" v-if="!team.player_3_exists"                
                 v-model="team.teamreserveemail"
                 placeholder="E-mail till reserven"
-                required
+                required            
               ></b-form-input>
 
               <p class="mt-2" v-if="!team.player_3_exists">
@@ -278,9 +281,8 @@
                 </p>
             
             <b-form-input hidden              
-                v-model="team.teamreservenamegolfid"
-                placeholder="Golfid"
-                required
+                v-model="team.teamreservegolfid"
+                placeholder="Golfid"                
               ></b-form-input>
             
             </b-alert>
@@ -296,8 +298,11 @@
                <label for="type">Välj hemmaklubb för matcher<i v-b-popover.hover.top="'Välj en klubb som ligger nära där du bor eller tänkt spela dina matcher.'" title="Hjälp" class="help material-icons mr-2">help_outline</i></label>
   <suggestions  
     v-model="query"
+    id="query"
     :options="options"
     :onInputChange="onCountryInputChange"
+    :state="validation_query"
+    required
     :onItemSelected="onSearchItemSelected" style="width:100%;">
     <div slot="item" slot-scope="props" class="single-item">
     <span class="name">{{props.item.title}}</span>
@@ -311,8 +316,227 @@
               ></b-form-input>
 </b-form-group>
 
-                    <!-- Payment -->
-            <b-form-group class="mb-5" v-if="team.type != null && !team.is_readonly">
+ 
+             <!-- NEXT STATE --><!-- <b-spinner v-if="showloginspinner" small type="grow" class="mr-2"></b-spinner> -->
+             <b-button @click.prevent="cancel_team()" variant="danger"><i class="material-icons ml-2">arrow_back_ios</i>Avbryt</b-button>
+              <b-button class="mt-0 mt-sm-0 float-right" @click.prevent="next()" variant="success"><b-spinner v-if="showloginspinner" small type="grow" class="mr-2"></b-spinner>Välj tröjor<i class="ml-2 material-icons mr-2">arrow_forward_ios</i></b-button>
+             <b-button hidden v-if="!team.is_readonly" @click="save_state1()" variant="primary" class="btn blue-bg">Nästa steg (tröjor)</b-button>             
+             <b-button hidden variant="danger" v-if="showcreateteam" class="" v-on:click="cancel_team()">Avbryt</b-button>
+             <b-alert v-if="showerror" variant="warning" show class="mt-4 small form-text text-muted">Din e-post eller lösenord stämmer inte, försök igen eller återställ ditt lösenord.</b-alert>   
+            
+
+
+
+            
+  </div>
+
+  <!-- STEP 2 TRÖJOR -->
+  <div v-if="team.step === 2">
+
+  <b-alert variant="info" show class="mt-4 small form-text text-muted">Dags att välja pikeér från PING till dig och din lagmedlem. Välj 2 st pikeér totalt från herr/dam och ange storlek.
+    
+    </b-alert>   
+
+   <b-container class="mt-3 mb-3" >
+     <b-row class="mt-4">         
+        <b-col class="col-6 pl-0">
+            <b-button size="sm" class="mr-2" @click="shirtState(1)" :variant="team.giveaway.player1">Piké 1</b-button><b-img class="mr-2" id="shirtimage1" src=""></b-img>{{team.giveaway.setSize1}}<br>    
+        </b-col>
+        <b-col class="col-6 pl-0">
+        <b-button size="sm" class="mr-2" @click="shirtState(2)" :variant="team.giveaway.player2">Piké 2</b-button><b-img class="mr-2" id="shirtimage2" src=""></b-img>{{team.giveaway.setSize2}}<br>    
+        </b-col>
+       </b-row>
+       <b-row class="mt-4">
+        <b-col class="col-6 pl-0">
+<b-button class="" @click="setGender('male')" :variant="team.giveaway.malebutton">HERR</b-button>
+ <b-button class="" @click="setGender('female')" :variant="team.giveaway.femalebutton">DAM</b-button>
+        </b-col>        
+         <b-col class="col-6 text-right pr-0" v-if="team.giveaway.male && team.giveaway.shirtstate === 1">
+
+            <b-form-select inline v-if="team.giveaway.male"                
+                v-model="team.giveaway.maleshirtsize1" 
+                :options="team.giveaway.maleoptions"
+                 @change.native="myChange"              
+                ></b-form-select>  
+     
+         </b-col>
+         <b-col class="col-6 text-right pr-0" v-if="team.giveaway.male && team.giveaway.shirtstate === 2">
+
+            <b-form-select inline v-if="team.giveaway.male"                
+                v-model="team.giveaway.maleshirtsize2" 
+                :options="team.giveaway.maleoptions"
+                @change.native="myChange"                   
+                ></b-form-select>                 
+     
+         </b-col>
+
+          <b-col class="col-6 text-right pr-0" v-if="team.giveaway.female && team.giveaway.shirtstate === 1">
+
+            <b-form-select inline v-if="team.giveaway.female"                
+                v-model="team.giveaway.femaleshirtsize1" 
+                :options="team.giveaway.femaleoptions"
+                @change.native="myChange"                  
+                ></b-form-select>  
+     
+         </b-col>
+         <b-col class="col-6 text-right pr-0" v-if="team.giveaway.female && team.giveaway.shirtstate === 2">
+
+            <b-form-select inline v-if="team.giveaway.female"                
+                v-model="team.giveaway.femaleshirtsize2" 
+                :options="team.giveaway.femaleoptions"
+                @change.native="myChange"               
+                ></b-form-select>                 
+     
+         </b-col>
+
+       </b-row>      
+       
+   </b-container>  
+   
+  
+    <!-- HERR -->
+    <b-container class="mt-3 mb-3" v-if="team.giveaway.male">      
+      <b-row>
+        <b-col class="col-6 col-md-4 p-3 text-center shirt" v-bind:class="{ selected: isSelected1 }" @click="selectShirt('1')">
+          <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120,c_scale/v1575307928/matchplay/ping/1.png"></b-img>
+        </b-col>
+       <b-col class="col-6 col-md-4 p-3 text-center shirt" v-bind:class="{ selected: isSelected2 }" @click="selectShirt('2')">
+          <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120,c_scale/v1575307928/matchplay/ping/2.png"></b-img>          
+        </b-col>
+        <b-col class="col-6 col-md-4 p-3 text-center shirt" v-bind:class="{ selected: isSelected3 }" @click="selectShirt('3')">
+          <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120,c_scale/v1575307928/matchplay/ping/3.png"></b-img>          
+        </b-col>
+         <b-col class="col-6 col-md-4 p-3 text-center shirt" v-bind:class="{ selected: isSelected4 }" @click="selectShirt('4')">
+          <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120,c_scale/v1575307927/matchplay/ping/4.png"></b-img>          
+        </b-col>
+        <b-col class="col-6 col-md-4 p-3 text-center shirt" v-bind:class="{ selected: isSelected5 }" @click="selectShirt('5')">
+          <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120,c_scale/v1575307926/matchplay/ping/5.png"></b-img>          
+        </b-col>
+        <b-col class="col-6 col-md-4 p-3 text-center shirt" v-bind:class="{ selected: isSelected6 }" @click="selectShirt('6')">
+          <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120,c_scale/v1575307926/matchplay/ping/6.png"></b-img>          
+        </b-col>
+        <b-col class="col-6 col-md-4 p-3 text-center shirt" v-bind:class="{ selected: isSelected7 }" @click="selectShirt('7')">
+          <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120,c_scale/v1575307926/matchplay/ping/7.png"></b-img>          
+        </b-col>
+      </b-row>
+    </b-container>
+
+    <!-- DAM -->
+     <b-container class="mt-3 mb-3" v-if="team.giveaway.female">       
+      <b-row>
+        <b-col class="col-6 col-md-4 p-3 text-center shirt" v-bind:class="{ selected: isSelected8 }" @click="selectShirt('8')">
+          <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120,c_scale/v1575307927/matchplay/ping/8.png"></b-img>
+        </b-col>
+       <b-col class="col-6 col-md-4 p-3 text-center shirt" v-bind:class="{ selected: isSelected9 }" @click="selectShirt('9')">
+          <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120,c_scale/v1575307927/matchplay/ping/9.png"></b-img>
+        </b-col>
+      <b-col class="col-6 col-md-4 p-3 text-center shirt" v-bind:class="{ selected: isSelected10 }" @click="selectShirt('10')">
+          <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120,c_scale/v1575307927/matchplay/ping/10.png"></b-img>
+        </b-col>
+      <b-col class="col-6 col-md-4 p-3 text-center shirt" v-bind:class="{ selected: isSelected11 }" @click="selectShirt('11')">
+          <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120,c_scale/v1575307927/matchplay/ping/11.png"></b-img>
+        </b-col>
+      <b-col class="col-6 col-md-4 p-3 text-center shirt" v-bind:class="{ selected: isSelected12 }" @click="selectShirt('12')">
+          <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120,c_scale/v1575307927/matchplay/ping/12.png"></b-img>
+        </b-col>
+     <b-col class="col-6 col-md-4 p-3 text-center shirt" v-bind:class="{ selected: isSelected13 }" @click="selectShirt('13')">
+          <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120,c_scale/v1575307927/matchplay/ping/13.png"></b-img>
+        </b-col>
+       <b-col class="col-6 col-md-4 p-3 text-center shirt" v-bind:class="{ selected: isSelected14 }" @click="selectShirt('14')">
+          <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120,c_scale/v1575307926/matchplay/ping/14.png"></b-img>
+        </b-col>
+      </b-row>        
+    </b-container>
+
+    <b-container class="mt-3 mb-4 small">       
+      <b-row>
+         <b-col class="col-12 pl-0">
+            <h4>Valda pikeér</h4>
+          </b-col>
+      </b-row>
+        <b-row class="">        
+            <b-col class="col-6 pl-0">
+                Piké 1 | <b-img class="mr-2" id="shirtimage1b" src=""></b-img>{{team.giveaway.setSize1}}<br>    
+            </b-col>
+            <b-col class="col-6 pl-0">
+                Piké 2 | <b-img class="mr-2" id="shirtimage2b" src=""></b-img>{{team.giveaway.setSize2}}<br>    
+            </b-col>
+          </b-row>
+    </b-container>
+
+    <b-container class="mt-3 mb-4 small p-0"> 
+        <b-row>
+          <b-col>
+            <b-alert v-if="team.giveaway.shirtwarning" variant="warning" show class="mt-4 small form-text text-muted">Du ska välja 2 tröjor till ditt lag innan du kan fortsätta.</b-alert>
+          
+            </b-col>
+        </b-row>
+    </b-container>
+
+ <b-container class="mt-3 mb-4 small"> 
+   <b-row>
+      <b-col class="col-12 pl-0">
+            <h4>Skickas till adress:</h4>
+      </b-col>
+      <b-col class="col-12 pl-0">
+       
+               <b-form-input class="mb-2"
+                id="sponsname"
+                name="sponsname"
+                v-model="computedname"          
+                required
+                placeholder="Skriv in ditt namn"
+                :state="validate_sponsname"              
+              ></b-form-input>
+
+               <b-form-input class="mb-2"
+                id="sponsaddress"
+                name="streetaddress"
+                v-model="team.giveaway.sponsaddress"
+                required
+                placeholder="Skriv in din gatuadress"
+                :state="validate_sponsaddress"                             
+              ></b-form-input>
+
+              <b-form-input class="mb-2"
+                id="sponszipcode"
+                name="zipcode"
+                v-model="team.giveaway.sponszipcode"
+                required
+                placeholder="Skriv in ditt postnr"    
+                :state="validate_sponszipcode"                          
+              ></b-form-input>
+
+               <b-form-input class="mb-2"
+                id="sponscity"
+                name="city"
+                v-model="team.giveaway.sponscity"
+                required
+                placeholder="Skriv in din postort"  
+                :state="validate_sponscity"                            
+              ></b-form-input>
+          
+      </b-col>
+   </b-row>
+
+ </b-container>
+
+
+<small hidden>  
+    DEBUG 1: shirt 1 count = {{selectedShirt1}} | shirt = {{team.giveaway.shirt1}}<br>
+    DEBUG 2: shirt 2 count = {{selectedShirt2}} | shirt = {{team.giveaway.shirt2}}<br>
+</small>
+
+    <b-button @click.prevent="prev()" variant="light"><i class="material-icons ml-2">arrow_back_ios</i>Tillbaka till steg 2</b-button>
+    <b-button class="mt-2 mt-sm-0 float-right" @click.prevent="next()" variant="success"><b-spinner v-if="showloginspinner" small type="grow" class="mr-2"></b-spinner>Betalning<i class="ml-2 material-icons mr-2">arrow_forward_ios</i></b-button>
+    
+  </div>
+
+  
+
+  <!-- STEP 3 -->
+  <div v-if="team.step === 3">
+    <b-form-group class="mb-5" v-if="team.type != null && !team.is_readonly">
               <label for="name">Betalningsalternativ</label>
              
       <b-form-radio v-model="team.payment" name="some-radios" value="A">Swish</b-form-radio>
@@ -334,29 +558,50 @@
            <b-container fluid class="mb-3" v-if="team.payment === 'A'">
               <b-row class="">
                 <b-col class="">
-                    Swish logo<br>
-                    Swish amount<br>
-                    Swish user phone<br>
-                    Pay button
+                    <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_150/v1575278258/matchplay/swish.png" alt="swish"></b-img>
+                    <span v-if="team.type==='Private'">{{team.price_private}} SEK</span>
+                    <span v-if="team.type==='Company'">{{team.price_company}} SEK (exkl. moms)</span>
+                    
+                     <vue-tel-input v-model="team.swish.mobile" v-bind="bindProps"
+                      ></vue-tel-input>
+                                      
+                   <b-button show @click="swish()" variant="info" size="sm" class="float-right mt-1"><b-spinner v-if="showspinner_swish" small type="grow" class="mr-2"></b-spinner>Betala</b-button>           
+                
+                <br>
+                
                 </b-col>
               </b-row>
+              
            </b-container>
 
-           
+<button @click.prevent="prev()">Previous</button>
+    <button @click.prevent="next()">Next</button>
+
+  </div>
+
+  <!-- STEP 4 -->
+  <div v-if="team.step === 4">
+KLART
+<button @click.prevent="prev()">Previous</button>
+  </div>
+
+ </b-form>
+          
 
            
+<!--
+             <br/><br/>TEAM ID: {{team._id}} - showcreateteam: {{showcreateteam}}
+    -->     
              
-             <b-button v-if="!team.is_readonly" type="submit" variant="primary" class="btn blue-bg"><b-spinner v-if="showloginspinner" small type="grow" class="mr-2"></b-spinner>Spara</b-button>             
-            <b-button variant="danger" v-if="showcreateteam" class="" v-on:click="cancel_team()">Avbryt</b-button>
-                <b-alert v-if="showerror" variant="warning" show class="mt-4 small form-text text-muted">Din e-post eller lösenord stämmer inte, försök igen eller återställ ditt lösenord.</b-alert>   
-             </b-form>
 
                     
-<hr>
-<b-button @click="logoutPrompt" variant="warning">Logga ut</b-button>                
+
               </b-col>
              
             </b-row>
+
+<hr class="hidden">
+<b-button hidden @click="logoutPrompt" variant="warning">Logga ut</b-button>                
 
     </div>
   
@@ -369,6 +614,7 @@
   import Spinner from "./spinner/Spinner";
   import Suggestions from 'v-suggestions';
   import 'v-suggestions/dist/v-suggestions.css';
+  import { VueTelInput } from 'vue-tel-input'
   //import Map from "./map/Map";  
 
   const simpleDDP = require("simpleddp");
@@ -384,7 +630,8 @@
     name: 'mymatchplay',
     components: {
       'c-spinner':Spinner,
-      'suggestions':Suggestions    
+      'suggestions':Suggestions,
+      VueTelInput
       //'c-map':Map
     },
     watch:{
@@ -399,7 +646,33 @@
     data () {
        let clubs = [];
        let countries = ['Afghanistan', 'Åland Islands', 'Albania', 'Algeria', 'American Samoa', 'AndorrA', 'Angola', 'Anguilla', 'Antarctica', 'Antigua and Barbuda', 'Argentina', 'Armenia', 'Aruba', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bermuda', 'Bhutan', 'Bolivia', 'Bosnia and Herzegovina', 'Botswana', 'Bouvet Island', 'Brazil', 'British Indian Ocean Territory', 'Brunei Darussalam', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Cape Verde', 'Cayman Islands', 'Central African Republic', 'Chad', 'Chile', 'China', 'Christmas Island', 'Cocos (Keeling) Islands', 'Colombia', 'Comoros', 'Congo', 'Congo, The Democratic Republic of the', 'Cook Islands', 'Costa Rica', 'Cote D\'Ivoire', 'Croatia', 'Cuba', 'Cyprus', 'Czech Republic', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic', 'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Eritrea', 'Estonia', 'Ethiopia', 'Falkland Islands (Malvinas)', 'Faroe Islands', 'Fiji', 'Finland', 'France', 'French Guiana', 'French Polynesia', 'French Southern Territories', 'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana', 'Gibraltar', 'Greece', 'Greenland', 'Grenada', 'Guadeloupe', 'Guam', 'Guatemala', 'Guernsey', 'Guinea', 'Guinea-Bissau', 'Guyana', 'Haiti', 'Heard Island and Mcdonald Islands', 'Holy See (Vatican City State)', 'Honduras', 'Hong Kong', 'Hungary', 'Iceland', 'India'];
-       return {      
+       return {    
+         //mobile swish
+            bindProps: {
+        mode: "international",
+        defaultCountry: "SE",
+        disabledFetchingCountry: false,
+        disabled: false,
+        disabledFormatting: true,
+        placeholder: "Skriv ditt mobilnummer",
+        required: true,
+        enabledCountryCode: true,
+        enabledFlags: true,
+        preferredCountries: [],
+        onlyCountries: ["SE"],
+        ignoredCountries: [],
+        autocomplete: "on",        
+        name: "telephone",
+        maxLen: 25,
+        wrapperClasses: "",
+        inputClasses: "form-control",
+        dropdownOptions: {
+          disabledDialCode: false
+        },
+        inputOptions: {
+          showDialCode: false
+        }
+      },         
         //TYPEAHEAD CLUBS
         query: '',
       countries: countries,
@@ -407,10 +680,28 @@
       selectedClub: null,
       options: {
         placeholder: 'Välj hemmaklubb för laget',
-        inputClass: 'form-control'
+        inputClass: 'form-control course'
       },
         //GENERAL
         loading: true,
+        cloudinary: 'https://res.cloudinary.com/dn3hzwewp/image/upload/',
+        isSelected1: false,
+        isSelected2: false,
+        isSelected3: false,
+        isSelected4: false,
+        isSelected5: false,
+        isSelected6: false,
+        isSelected7: false,
+        isSelected8: false,
+        isSelected9: false,
+        isSelected10: false,
+        isSelected11: false,
+        isSelected12: false,
+        isSelected13: false,
+        isSelected14: false,
+
+        selectedShirt1: 0,
+        selectedShirt2: 0,
         //LOGIN
         showlogin: false,
         showloginspinner: false,
@@ -427,12 +718,61 @@
         showspinner_1: false,
         showspinner_2: false,
         showspinner_3: false,
+        showspinner_swish: false,
         teamoptions: [
           { value: null, text: 'Vänligen välj ett alternativ' },
           { value: 'Company', text: 'Företag' },
           { value: 'Private', text: 'Privat' }
         ],
         team: {
+          step: 1,
+          swish: {
+            mobile:''
+          },
+          giveaway: {
+            shirtwarning: false,
+             sponsname: '',
+            sponsaddress: '',           
+            sponszipcode:'',
+            sponscity:'',
+            setSize1: 'M',
+            setSize2: 'M',
+            shirtstate: 1,
+            player1: 'info',
+            player2: 'light',
+            showshirtimage: '',
+            shirt1:'',
+            shirt2:'',
+            male: true,
+            femalie: false,
+            malebutton: 'info',
+            femalebutton: 'light',            
+            maleshirtsize1: 'M',
+            maleshirtsize2: 'M',
+            maleoptions: [         
+          { value: 'S', text: 'S' },
+          { value: 'M', text: 'M' },
+          { value: 'L', text: 'L' },
+          { value: 'XL', text: 'XL' },
+          { value: 'XXL', text: 'XXL' },
+          { value: 'XXXL', text: 'XXXL' }
+          ],     
+            femaleshirtsize1: '38',
+            femaleshirtsize2: '38',     
+            femaleoptions: [         
+          { value: '34', text: '34' },
+          { value: '36', text: '36' },
+          { value: '38', text: '38' },
+          { value: '40', text: '40' },
+          { value: '42', text: '42' },
+          { value: '44', text: '44' },
+          { value: '46', text: '46' },
+          { value: '48', text: '48' }
+          ],
+          },
+          _id:'',
+          price_private: 900,
+          price_company: 2900,
           checkgolfidvariant2: 'primary',
           checkgolfidvariant3: 'primary',
           showplayer1: false,
@@ -454,12 +794,13 @@
           company:'',
           teamname: '',
           clubid:'',
+          coursename:'',
           teamnamecompany: '',
           teamleader: '',
           teamleadername: '',
           teammembername: '',
           teammembergolfid: '',
-          teammemberemail: '',
+          teammemberemail: 'jstenbeck@gmail.com',
           teamreservename: '',
           name:'',
           shirts:'',
@@ -481,14 +822,408 @@
         doctitle: 'Logga in'
       }
     },
-    computed: {
+    computed: {
+      computedname: {
+        get(){
+            //perform your logic
+            let userinfo = localStorage.getItem('userinfo');
+            userinfo = JSON.parse(userinfo);
+            this.team.giveaway.sponsname = userinfo.firstname + ' ' + userinfo.lastname;
+            return userinfo.firstname + ' ' + userinfo.lastname;
+            
+        },
+        set(newValue){
+            this.team.giveaway.sponsname = newValue;
+        }
 
+      }, 
+      //STEP 1 VALIDATION 
+      validation_type() {
+        return this.team.type !== null;       
+      },      
+      validation_teammembername() {                       
+        return this.team.teammembername.length === 10;
+      },
+       validation_teammemberemail() {       
+         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+         return re.test(String(this.team.teammemberemail).toLowerCase());
+      },
+      validation_name() {       
+        return this.team.name !== '';
+      },
+      validation_query() {       
+        return this.team.query !== '';
+      },
+      //STEP 2 VALIDATION
+      validate_sponsname() {
+        return this.team.giveaway.sponsname !== '';       
+      }, 
+      validate_sponsaddress() {
+        return this.team.giveaway.sponsaddress !== '';       
+      }, 
+      validate_sponszipcode() {
+        return this.team.giveaway.sponszipcode !== '';        
+      }, 
+       validate_sponscity() {
+        return this.team.giveaway.sponscity !== '';        
+      }
+      
     },
     created() {
      
     },
     mixins: [tagsMixin],
     methods: {
+      myChange(evt) {
+       let val = evt.target.value
+       // do something with val
+       
+        var selShirt = this.team.giveaway["shirt"+this.team.giveaway.shirtstate];
+        if (this.team.giveaway.female && selShirt < 8) {
+          //console.log('female size choosen on male shirt');
+          //clear image
+          document.getElementById("shirtimage" + this.team.giveaway.shirtstate).src = ''
+           document.getElementById("shirtimage" + this.team.giveaway.shirtstate+'b').src = ''
+          //clear selected shirt
+          this["selectedShirt"+this.team.giveaway.shirtstate] = 0; 
+          //clear count
+          this.team.giveaway["shirt"+this.team.giveaway.shirtstate] = 0;
+        }
+
+
+        this.team.giveaway['setSize'+this.team.giveaway.shirtstate] = val
+      },
+      shirtState(action) {
+
+      this.team.giveaway.shirtstate = action; //set which player(x) should be updated
+
+         this.clearShirts();
+         this['isSelected' + this.team.giveaway['shirt'+action]] = true;
+         
+
+      if (action === 1) {
+         this.team.giveaway.player1 = 'info';
+         this.team.giveaway.player2 = 'light';
+         
+      }
+
+      if (action === 2) {        
+         this.team.giveaway.player2 = 'info'
+         this.team.giveaway.player1 = 'light'
+         
+      }
+        
+      
+
+      },
+
+      clearShirts() {
+
+          var i;
+          for (i = 0; i < 15; i++) {                     
+           this["isSelected"+i] = false; 
+          }   
+
+        
+
+            
+      },
+      
+      selectShirt(shirt) {
+         
+         var selstate = this.team.giveaway.shirtstate;
+        this.team.giveaway["shirt"+this.team.giveaway.shirtstate] = shirt;
+        document.getElementById("shirtimage" + this.team.giveaway.shirtstate).src = 'https://res.cloudinary.com/dn3hzwewp/image/upload/h_30,c_scale,q_50/v1575307928/matchplay/ping/' + shirt + '.png';
+        document.getElementById("shirtimage" + this.team.giveaway.shirtstate + 'b').src = 'https://res.cloudinary.com/dn3hzwewp/image/upload/h_30,c_scale,q_50/v1575307928/matchplay/ping/' + shirt + '.png';
+        
+         if ( this["isSelected"+shirt]) {  
+           this["isSelected"+shirt] = false;
+           this['selectedShirt'+selstate] = 0;
+           this.team.giveaway['shirt'+selstate] = 0
+         } else {
+           this.clearShirts();
+           this["isSelected"+shirt] = true;
+            this['selectedShirt'+selstate] = 1;
+           if (this.team.giveaway.male) {
+            this.team.giveaway['setSize'+this.team.giveaway.shirtstate] = this.team.giveaway['maleshirtsize'+this.team.giveaway.shirtstate];
+           } else {
+             this.team.giveaway['setSize'+this.team.giveaway.shirtstate] = this.team.giveaway['femaleshirtsize'+this.team.giveaway.shirtstate];
+           }
+         }
+        
+
+      },
+
+
+
+      setGender(gender) {
+
+         var selShirt = this.team.giveaway["shirt"+this.team.giveaway.shirtstate];
+
+          if (gender === 'male') {
+           
+           console.log(this.team.giveaway.male,selShirt)
+/*
+           if (selShirt > 7) { //WOMAN selected = CLEAR
+            console.log('clear shirt and size');
+            document.getElementById("shirtimage" + this.team.giveaway.shirtstate).src = ''          
+            }
+  */          
+            /*
+            if (selShirt > 7) { //woman selected = CLEAR
+                 this["isSelected"+selShirt] = false;
+                 this.selectedShirt1 = 0;
+                 document.getElementById("shirtimage" + this.team.giveaway.shirtstate).src = ''            
+            }
+            */
+            
+
+            //this.team.giveaway["shirtsize"+this.team.giveaway.shirtstate] = "M"            
+            this.team.giveaway.male = true;
+            this.team.giveaway.female = false;
+            this.team.giveaway.malebutton = 'info'
+            this.team.giveaway.femalebutton = 'light'
+          }
+
+
+          if (gender === 'female') {
+
+            console.log(this.team.giveaway.male,selShirt)
+            /*
+            if (selShirt < 8) { //MAN selected = CLEAR
+            console.log('clear shirt and size');
+            document.getElementById("shirtimage" + this.team.giveaway.shirtstate).src = ''          
+            }
+            */
+/*
+            if (selShirt < 8) { //MAN selected = CLEAR
+                 this["isSelected"+selShirt] = false;
+                 this.selectedShirt1 = 0;
+                 document.getElementById("shirtimage" + this.team.giveaway.shirtstate).src = ''            
+            } 
+  */
+
+            //this.team.giveaway["shirtsize"+this.team.giveaway.shirtstate] = "38"        
+            this.team.giveaway.male = false;
+            this.team.giveaway.female = true;
+            this.team.giveaway.malebutton = 'light'
+            this.team.giveaway.femalebutton = 'info'
+          }
+
+      },
+
+    prev() {
+
+      this.team.step--;    
+      window.scrollTo(0,0);
+      
+      //this.query.options.inputClass = 'is-valid'
+
+    },
+    next() {
+
+      let element = '';
+      let parentVue = this;
+
+      //Validate step 1 fields
+      if (this.team.step === 1) {
+        
+        element = document.querySelector("#type");
+        if (element.classList.contains("is-invalid")) {
+            return;
+        }
+
+        if (this.team.type === 'Company') {
+          element = document.querySelector("#name");
+          if (element.classList.contains("is-invalid")) {
+              return;
+          }
+        }
+
+        element = document.querySelector("#teammembername");
+        if (element.classList.contains("is-invalid")) {
+            return;
+        }
+
+        element = document.querySelector("#teammemberemail");
+        if (element) {
+          if (element.classList.contains("is-invalid")) {
+              return;
+          }
+        }
+
+        //COURSE
+          var x = document.getElementsByClassName("course");
+          var i;
+          for (i = 0; i < x.length; i++) {                     
+            if (x[i].classList.contains("is-invalid")) return;
+            if (x[i].value === '') return;
+          }   
+       
+
+        //SAVE TEAM BEHIND THE SCENES IF team._id is empty
+
+        this.showloginspinner = true;
+
+        let userinfo = localStorage.getItem('userinfo');
+         userinfo = JSON.parse(userinfo);
+
+        let url = '';
+        let action = '';
+
+        if (this.team._id === '') { //addteam
+          url = 'https://matchplay.meteorapp.com/methods/addTeam';
+          action = 'add'
+        } else {
+          url = 'https://matchplay.meteorapp.com/methods/updateTeam'
+          action = 'update'
+        }
+
+                 this.axios.post(url, {
+                  "competition": "sFAc3dvrn2P9pXHAz",                 
+                  "course": this.team.clubid,
+                  "_id": this.team._id,
+                  "type": this.team.type,
+                  "paid": false,
+                  "teamleader": userinfo._id,
+                  "teamreserveemail": this.team.teamreserveemail,
+                  "teammembergolfid": this.team.teammembergolfid,
+                  "teammemberemail": this.team.teammemberemail,
+                  "teamreservegolfid": this.team.teamreservegolfid,
+                  "uistep":this.team.step              
+                }
+              )
+              .then(response => {  
+             
+                if (response.data.status ==='error') {
+                  console.log("error");
+                  return;
+                }
+
+                if (response.data.status ==='ok') {
+                  console.log('Team saved',response.data);
+                  if (action === 'add') {
+                    parentVue.team._id = response.data._id;
+                  }
+                  this.showloginspinner = false;
+                  this.team.step++;
+                  window.scrollTo(0,0);
+                }
+
+                
+              })
+              .catch(error => {
+                console.log(error);
+              });
+
+
+         
+        
+       
+         
+      }
+
+      //VALIDATE STEP 2
+      if (this.team.step === 2) {
+          this.team.giveaway.shirtwarning = false;
+          //DEBUG 1: shirt 1 count = {{selectedShirt1}} | shirt = {{team.giveaway.shirt1}}<br>
+          //DEBUG 2: shirt 2 count = {{selectedShirt2}} | shirt = {{team.giveaway.shirt2}}<br>
+
+          if (this.selectedShirt1 + this.selectedShirt2 !== 2) {
+            //console.log(this.selectedShirt1 + this.selectedShirt2)
+            this.team.giveaway.shirtwarning = true;
+          }
+
+        element = document.querySelector("#sponsname");
+        if (element.classList.contains("is-invalid")) {
+            return;
+        }
+
+        element = document.querySelector("#sponsaddress");
+        if (element.classList.contains("is-invalid")) {
+            return;
+        }
+        
+
+        element = document.querySelector("#sponszipcode");
+        if (element.classList.contains("is-invalid")) {
+            return;
+        }
+
+        element = document.querySelector("#sponscity");
+        if (element.classList.contains("is-invalid")) {
+            return;
+        }
+
+        //SAVE TEAM BEHIND THE SCENES
+
+        this.showloginspinner = true;
+
+        let userinfo = localStorage.getItem('userinfo');
+        userinfo = JSON.parse(userinfo);
+
+        let url = '';
+        let action = '';
+        
+        url = 'https://matchplay.meteorapp.com/methods/updateTeam'
+        action = 'update'       
+
+                 this.axios.post(url, {
+                  "competition": "sFAc3dvrn2P9pXHAz",              
+                  "_id": this.team._id,
+                  "sponsormerch": true,
+                  "item01": this.team.giveaway.shirt1,
+                  "item02": this.team.giveaway.shirt2,
+                  "property01": this.team.giveaway.setSize1,
+                  "property02": this.team.giveaway.setSize2,
+                  "sponsname": this.team.giveaway.sponsname,
+                  "sponsaddress": this.team.giveaway.sponsaddress,
+                  "sponszipcode": this.team.giveaway.sponszipcode,
+                  "sponscity": this.team.giveaway.sponscity,
+                  "uistep":this.team.step              
+                }
+              )
+              .then(response => {  
+             
+                if (response.data.status ==='error') {
+                  console.log("error");
+                  return;
+                }
+
+                if (response.data.status ==='ok') {
+                  console.log('Team saved',response.data);                  
+                  this.showloginspinner = false;
+                  this.team.step++;
+                  window.scrollTo(0,0);
+                }
+
+                
+              })
+              .catch(error => {
+                console.log(error);
+              });
+
+      }
+      
+      
+
+    },
+
+      swish: function() {
+
+          this.showspinner_swish = true;
+          let mobile = this.team.swish.mobile;
+          mobile = mobile.replace(/\s/g, "");
+          mobile = mobile.slice(1)
+
+          if (this.team.type === "Private") {
+             console.log(mobile,this.team.price_private)
+          }
+
+          if (this.team.type === "Company") {
+             console.log(mobile,this.team.price_company)
+          }
+      },
       
        uploadCloudinary: function() {
 
@@ -549,8 +1284,15 @@
         });
       },
       onCountryInputChange (query) {
-        if (query.trim().length === 0) {
-          return null
+
+        if (query.trim().length === 0) {      
+          var x = document.getElementsByClassName("course");
+          var i;
+          for (i = 0; i < x.length; i++) {            
+            x[i].classList.add("is-invalid");
+            x[i].classList.remove("is-valid");
+          }   
+          return null;
         }
         //console.log(query)
         
@@ -559,10 +1301,21 @@
           return club.title.toLowerCase().includes(query.toLowerCase())
         })
       },
-    onSearchItemSelected (item) {      
+    onSearchItemSelected (item) {   
+      
       this.selectedSearchItem = item.title;
       this.query = item.title;
       this.team.clubid = item._id;
+      this.team.course = item.title;
+
+      var x = document.getElementsByClassName("course");
+      var i;
+      for (i = 0; i < x.length; i++) {
+        x[i].classList.add("is-valid");
+        x[i].classList.remove("is-invalid");
+      }
+      
+      
     },
       
         register: function() {
@@ -582,11 +1335,13 @@
       edit_team(eventObj) {
        //console.log(eventObj);
 
-       this.team = eventObj;
+       //this.team = eventObj;
+       this.team.teamleader = eventObj.teamleader;
+      // console.log(eventObj)
 
        if (this.team.teamleader) {
           this.team.is_readonly=false;
-          this.create_team('edit');
+          this.create_team('edit',eventObj);
        } else {
           this.makeToast('Du är inte vald lagkapten till detta laget. Endast lagkaptenen kan redigera laget.','danger');
           this.team.is_readonly=true;
@@ -595,7 +1350,7 @@
 
        
       },
-    create_team(action) {
+    create_team(action,eventObj) {
       
       this.showcreateteamhelper = false;
       window.scrollTo(0,0);
@@ -614,6 +1369,22 @@
         this.team.teammembername = '780110-010' //remove later
         this.team.teamreservename = '780110-001' //remove later
       }
+
+      if (action === 'edit') {
+        let userinfo = localStorage.getItem('userinfo');
+        userinfo = JSON.parse(userinfo);
+        this.team.is_readonly=false;
+        this.team.type = eventObj.type;        
+        this.team_id = eventObj._id;
+        this.team.step = eventObj.uistep;
+        this.team.teamleadername = eventObj.teamleadername;     
+        console.log(this.team.giveaway);
+
+        //this.team = {};
+        //this.team.type = 'Private' //remove later
+       
+        }
+
       this.showteamslist = false;
       this.showcreateteam = true;
     },
@@ -622,15 +1393,68 @@
       this.showteamslist = true;
        window.scrollTo(0,0);
     },
-    save_team(evt) {
-        //alert(JSON.stringify(this.team));
+     save_state1(evt) {
+
+
+
+        
+         let userinfo = localStorage.getItem('userinfo');
+         userinfo = JSON.parse(userinfo);
 
                  this.axios.post('https://matchplay.meteorapp.com/methods/addTeam', {
-                  "competition": "nyERPG5gcRJrjT3Wc",
+                  "competition": "sFAc3dvrn2P9pXHAz",                 
                   "course": this.team.clubid,
                   "type": this.team.type,
                   "paid": false,
-                  "teamleader": "asdfsf"            
+                  "teamleader": userinfo._id,
+                  "teamreserveemail": this.team.teamreserveemail,
+                  "teammembergolfid": this.team.teammembergolfid,
+                  "teammemberemail": this.team.teammemberemail,
+                  "teamreservegolfid": this.team.teamreservegolfid                 
+                }
+              )
+              .then(response => {  
+               console.log('save team',response.data)
+
+                if (response.data.status === 'error') {
+                  console.log("error")
+                  return;
+                }
+
+              if (response.data.status === 'ok') {
+                 this.team.state = 2;
+                }
+    
+              })
+              .catch(error => {
+                console.log(error);
+              });
+
+
+              window.scrollTo(0,0);
+
+
+       
+     },
+     save_state2(evt) {
+       this.team.state = 3;
+     },          
+    save_team(evt) {
+        //alert(JSON.stringify(this.team));
+
+         let userinfo = localStorage.getItem('userinfo');
+         userinfo = JSON.parse(userinfo);
+
+                 this.axios.post('https://matchplay.meteorapp.com/methods/addTeam', {
+                  "competition": "sFAc3dvrn2P9pXHAz",                 
+                  "course": this.team.clubid,
+                  "type": this.team.type,
+                  "paid": false,
+                  "teamleader": userinfo._id,
+                  "teamreserveemail": this.team.teamreserveemail,
+                  "teammembergolfid": this.team.teammembergolfid,
+                  "teammemberemail": this.team.teammemberemail,
+                  "teamreservegolfid": this.team.teamreservegolfid                 
                 }
               )
               .then(response => {  
@@ -640,15 +1464,16 @@
                   console.log("error")
                   return;
                 }
-               
-               
 
                 return;
               })
               .catch(error => {
                 console.log(error);
               });
+
+
          window.scrollTo(0,0);
+
     },     
     login(evt) {      
       evt.preventDefault();         
@@ -1044,6 +1869,10 @@ mounted: function() {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
+.btn i {
+  vertical-align: sub;
+}
+
 .file-input ~ .file-label::after {
   content: 'Välj fil';
 }
@@ -1088,6 +1917,15 @@ mounted: function() {
     opacity: 0.2;
     line-height: 7rem;
     margin-left: -11rem;
+  }
+
+  .shirt {
+    cursor:poiner;
+  }
+
+  .selected {
+    background: #FFFFCC;
+
   }
 
 </style>

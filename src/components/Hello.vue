@@ -99,6 +99,16 @@
       </b-form-valid-feedback>
                   <button type="submit" v-on:click="getGolfId()" class="hidden btn blue-bg mt-1">{{ contbutton1 }}</button>
                 </b-form> 
+               
+               <b-alert class="mt-4 small form-text text-muted"
+      :show="dismissCountDown2"
+      variant="warning"
+     
+    >
+      <p>Du finns redan med i Matchplay som en registrerad spelare.</p>
+       <a href="/mymatchplay" class="btn blue-bg text-white mb-3">Logga in</a>
+    </b-alert>   
+               
                 <b-alert class="mt-4 small form-text text-muted"
       :show="dismissCountDown"
       dismissible
@@ -502,6 +512,9 @@ test:'',
       showAlert() {
         this.dismissCountDown = this.dismissSecs
       },
+      showAlert2() {
+        this.dismissCountDown2 = true;
+      },
     goRouter: function() {
       this.$router.push({ path: "line-up" });
     },
@@ -510,22 +523,31 @@ test:'',
       var golfid1 = document.getElementById("golfid1").value;
       var golfid2 = document.getElementById("golfid2").value;
       if (golfid1 === '' || golfid2 === '') return;
-      this.contbutton1 = 'Hämtar data från SGF';     
+      this.contbutton1 = 'Hämtar data från SGF';    
+      this.dismissCountDown2 = false; //hide you exist alert
       this.showloadgolfid = true;
       this.axios      
-        .get(
-          "https://colburn-chat-buxom-tamale.eu-gb.mybluemix.net/get_golfid?golfid=" + golfid1 + '-' + golfid2,
+        .post(
+          //"https://colburn-chat-buxom-tamale.eu-gb.mybluemix.net/get_golfid?golfid=" + golfid1 + '-' + golfid2,
+          "https://matchplay.meteorapp.com/methods/getPlayerByGolfid",
           //"http://localhost:3000/get_golfid?golfid=" + golfid1 + '-' + golfid2,
           {
-            params: {
-              //ID: 12345
-            }
-          }
+                  "golfid": golfid1 + '-' + golfid2                      
+                }
         )
         .then(response => {         
-          //console.log(response.data);         
+          // console.log(response.data);         
 
-          if (response.data != 'error') {  
+         
+         if (!response.data.hasOwnProperty('notingit')) {  
+
+          //check if user exists in matchplay admin
+          if (response.data.exists) {
+            this.showAlert2();
+            this.showloadgolfid = false;
+            return;
+          }
+          //end check
             
           this.showform1 = false;
           this.showform2 = true;
@@ -557,7 +579,7 @@ test:'',
           return;
           } else {
             //console.log('empty');
-            this.showAlert();
+            this.showAlert();
             this.showloadgolfid = false;
             return;
           }
