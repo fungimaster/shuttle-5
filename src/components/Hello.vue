@@ -212,16 +212,8 @@
                       label-for="input-1-mobile"
                       size='lg'
                       >
-                      <vue-tel-input v-model="mobile" v-bind="bindProps"
+                      <vue-tel-input v-model="form.mobile" v-bind="bindProps"
                       ></vue-tel-input>
-                      <b-form-input hidden
-                      id="input-1-11"
-                      v-model="form.mobile2"                      
-                      type="text"
-                      required
-                      placeholder="Skriv ditt mobilnummer"
-                      >
-                      </b-form-input>
                       
                       </b-form-group>
                       <b-form-group
@@ -444,6 +436,7 @@ components: {
       showloadgolfid: false,
       dismissSecs: 5,
       dismissCountDown: 0,
+      dismissCountDown2: 0,
 test:'',
       showDismissibleAlert: false,
       golfid1: '',

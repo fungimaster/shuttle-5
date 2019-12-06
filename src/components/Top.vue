@@ -48,13 +48,13 @@
 
     },
     beforeMount: function() {
-      let userinfo = localStorage.getItem('userinfo');
+  /*     let userinfo = localStorage.getItem('userinfo');
         if (userinfo) {
           userinfo = JSON.parse(userinfo);          
           this.$username = userinfo.firstname;        
           console.log('firstname=' + this.$username)
-        } 
-    }
+        }*/ 
+    } 
   }
 
 </script>
