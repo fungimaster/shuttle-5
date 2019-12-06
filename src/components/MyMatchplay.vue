@@ -456,10 +456,10 @@
       </b-row>
         <b-row class="">        
             <b-col class="col-6 pl-0">
-                Piké 1 | <b-img class="mr-2" id="shirtimage1b" src=""></b-img>{{team.giveaway.setSize1}}<br>    
+                Spelare 1 | <b-img class="mr-2" id="shirtimage1b" src=""></b-img>{{team.giveaway.setSize1}}<br>    
             </b-col>
             <b-col class="col-6 pl-0">
-                Piké 2 | <b-img class="mr-2" id="shirtimage2b" src=""></b-img>{{team.giveaway.setSize2}}<br>    
+                Spelare 2 | <b-img class="mr-2" id="shirtimage2b" src=""></b-img>{{team.giveaway.setSize2}}<br>    
             </b-col>
           </b-row>
     </b-container>
@@ -771,8 +771,8 @@ KLART
           ],
           },
           _id:'',
-          price_private: 900,
-          price_company: 2900,
+          price_private: 1,
+          price_company: 1,
           checkgolfidvariant2: 'primary',
           checkgolfidvariant3: 'primary',
           showplayer1: false,
@@ -1208,22 +1208,54 @@ KLART
       
 
     },
+    getPaymentStatus: function(team) {
+      console.log("getPaymentStatus")
+      this.axios.post('https://matchplay.meteorapp.com/methods/getPaymentStatus', {
+        "id": team,
+      })
+      .then(response => {
+        console.log(response);
+        if(response.data.status ==='PENDING') {
+          setTimeout(function(){
+            this.getPaymentStatus(team);
+            }, 1000);
+        }
 
-      swish: function() {
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    },
+    swish: function() {
+      this.showspinner_swish = true;
+      let mobile = this.team.swish.mobile;
+      mobile = mobile.replace(/\s/g, "");
+      mobile = mobile.slice(1)
+      let amount;
+      if (this.team.type === "Private") {
+        amount = this.team.price_private;
+      }
 
-          this.showspinner_swish = true;
-          let mobile = this.team.swish.mobile;
-          mobile = mobile.replace(/\s/g, "");
-          mobile = mobile.slice(1)
+      if (this.team.type === "Company") {
+        amount = this.team.price_company;
+      }
+          
+      this.axios.post('https://matchplay.meteorapp.com/methods/swish', {
+        "competition": "sFAc3dvrn2P9pXHAz",              
+        "team": this.team._id,
+        "amount": amount,
+        "payer": mobile
+      })
+      .then(response => {
+        console.log("SWISH THEN: ",response)
+        this.getPaymentStatus(this.team._id);
+      })
+      .catch(error => {
+        console.log(error);
+          this.showloginspinner = false;
 
-          if (this.team.type === "Private") {
-             console.log(mobile,this.team.price_private)
-          }
-
-          if (this.team.type === "Company") {
-             console.log(mobile,this.team.price_company)
-          }
-      },
+      });
+    },
       
        uploadCloudinary: function() {
 
