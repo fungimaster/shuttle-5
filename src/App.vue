@@ -191,7 +191,7 @@
   a.text-white {
     color: #fff !important;
   }
-  .btn {
+  .btn, .pointer {
     cursor: pointer;
   }
   .btn-lg {
@@ -207,6 +207,13 @@ input::-webkit-inner-spin-button {
 
 input[type=number] {
     -moz-appearance:textfield; /* Firefox */
+}
+
+i.material-icons {
+  vertical-align: middle !important;
+}
+h2 i.material-icons {
+  font-size: 1.2em !important;
 }
 
   /*================ MENU ===============*/

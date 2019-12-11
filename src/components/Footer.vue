@@ -107,6 +107,7 @@
   }
   .sponsors img {
     max-width: 100%;
+    max-height: 110px;
   }
   .sponsors h2 {
     color: $orange;
