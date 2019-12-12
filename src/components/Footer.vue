@@ -36,6 +36,14 @@
     </b-container>
 
     <footer class="text-center text-white">
+      <cookie-law theme="matchplay"
+      buttonText='OKEJ'  
+      buttonClass="Cookie--matchplay"            
+      >
+       <div slot="message">
+    Denna site använder cookies för att förbättra din användarupplevelse. <router-link to="cookies">Läs mer om cookies här.</router-link>
+  </div>
+      </cookie-law>
       <b-container fluid class="theme-description">
         <b-row>
           <b-col xl="2" class="left">
@@ -54,7 +62,8 @@
                   <p>Ängelholm</p>                  
                   <p>Telefon: 010 - 522 00 06</p>
                   <p class="links mb-5">
-                    <router-link hidden to="/info" class="">Om Matchplay</router-link>                 
+                    <router-link to="/info" class="">Information</router-link> |  
+                    <router-link to="/cookies" class="">Cookies/Data</router-link>                 
                   </p>
                 </b-col>
                 <b-col xl="2"></b-col>
@@ -71,8 +80,10 @@
 </template>
 
 <script>
-  export default {
+ import CookieLaw from 'vue-cookie-law'
+  export default {    
     name: 'footer',
+    components: { CookieLaw },
     data () {
       return {
         email2: '',
@@ -177,5 +188,17 @@
     color: #fff !important;
     font-size: 1rem
   }
+
+ //cookiebanner
+ .Cookie--matchplay {
+    background: #424851;
+    color: #fff;
+    padding: 1.25em;
+    font-size:0.9em;
+    cursor:pointer;
+ }
+ 
+
+
 
 </style>
