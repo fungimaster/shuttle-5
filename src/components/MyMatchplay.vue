@@ -285,7 +285,7 @@
                             <b-col md="6">
                                 <b-form-group>
                                     <label for="name">Lagkamrat:</label>
-                                    <b-form-input :state="validation_teammembername" v-model="team.teammembername" inputmode="numeric" pattern="[- +()0-9]+"  id="teammembername" placeholder="Golf id (xxxxxx-xxx)" required>
+                                    <b-form-input :state="validation_teammembername" v-model="team.teammembername" inputmode="numeric" pattern="[- +()0-9]+" id="teammembername" placeholder="Golf id (xxxxxx-xxx)" required>
                                     </b-form-input>
                                     <b-button @click="checkGolfID(team.teammembername,'2')" v-if="!team.is_readonly" variant="info" size="sm" class="float-right mt-1">
                                         <b-spinner v-if="showspinner_2" small type="grow" class="mr-2"></b-spinner>Sök spelare
@@ -579,6 +579,11 @@
                                     <b-button show @click="swish()" variant="info" size="sm" class="float-right mt-1">
                                         <b-spinner v-if="showspinner_swish" small type="grow" class="mr-2"></b-spinner>Betala
                                     </b-button>
+
+                                    <b-alert v-if="showspinner_swish" show class="mt-5 small text-center" variant="primary">
+                                        Nu kan du öppna din Swish-app och godkänna betalningen.
+                                    </b-alert>
+
                                 </b-form-group>
 
                                 <!-- Invoice -->
