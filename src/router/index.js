@@ -7,7 +7,7 @@ import Sessions from '@/components/Sessions'
 import Search from '@/components/Search'
 import MyMatchplay from '@/components/MyMatchplay'
 import Faq from '@/components/Faq'
-import About from '@/components/About'
+import Cookies from '@/components/Cookies'
 import Committee from '@/components/Committee'
 import Conduct from '@/components/Conduct'
 import Partnership from '@/components/Partnership'
@@ -81,9 +81,9 @@ export default new Router({
       component: Faq
     },
     {
-      path: '/about',
-      name: 'About',
-      component: About
+      path: '/cookies',
+      name: 'Cookies',
+      component: Cookies
     },
     {
       path: '/committee',
