@@ -503,15 +503,6 @@
           </b-row>
     </b-container-->
 
-                    <b-container class="mt-3 mb-4 p-0">
-                        <b-row align-h="center">
-                            <b-col md="auto">
-                                <b-alert v-if="team.giveaway.shirtwarning" variant="warning" show class="mt-4 form-text text-muted text-center">Var snäll och välj två tröjor till ditt lag innan du betalar.</b-alert>
-
-                            </b-col>
-                        </b-row>
-                    </b-container>
-
                     <b-container class="mt-3 mb-4 small">
                         <b-row>
                             <b-col md="12">
@@ -546,6 +537,14 @@
                                 <b-button class="mt-2 mt-sm-0 float-right" @click.prevent="next()" variant="success">
                                     <b-spinner v-if="showloginspinner" small type="grow" class="mr-2"></b-spinner>Betalning<i class="ml-2 material-icons mr-2">arrow_forward_ios</i>
                                 </b-button>
+                            </b-col>
+                        </b-row>
+                    </b-container>
+                                       <b-container class="mt-3 mb-4 p-0">
+                        <b-row align-h="center">
+                            <b-col md="auto">
+                                <b-alert v-if="team.giveaway.shirtwarning" variant="warning" show class="mt-4 form-text text-muted text-center">Var snäll och välj två tröjor med storlek till ditt lag innan du betalar.</b-alert>
+
                             </b-col>
                         </b-row>
                     </b-container>
