@@ -9,7 +9,7 @@ import MyMatchplay from '@/components/MyMatchplay'
 import Faq from '@/components/Faq'
 import Cookies from '@/components/Cookies'
 import Committee from '@/components/Committee'
-import Conduct from '@/components/Conduct'
+import Ping from '@/components/Ping'
 import Partnership from '@/components/Partnership'
 import Privacy from '@/components/Privacy'
 import ConvinceBoss from '@/components/ConvinceBoss'
@@ -91,9 +91,9 @@ export default new Router({
       component: Committee
     },
     {
-      path: '/code-of-conduct',
-      name: 'Conduct',
-      component: Conduct
+      path: '/ping',
+      name: 'Ping',
+      component: Ping
     },
     {
       path: '/partnership',

@@ -12,17 +12,16 @@
         <b-row>
           <b-col class="col-12 col-md-9">
             <h2>VÄLKOMMEN TILL MATCHPLAY, GOLFTÄVLINGEN FÖR BÅDE PRIVATPERSONER OCH FÖRETAG</h2>
-            <p
-              class
-            >Matchplay är en matchspelstävling för par med officiellt handikapp. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.</p>
+            <p>Matchplay är en matchspelstävling för par med officiellt handikapp. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.</p>
+            <p>Ta chansen att ta dig till Sverigefinalen och sedan vidare utomlands! Alla deltagare får pikeér från PING.</p>
             
              <b-alert hiddenclass="mt-4 small" variant="warning">
                 Anmälan för 2020 års tävling öppnar i mitten av december 2019, håll koll via <a href="https://www.facebook.com/pg/matchplay" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplay" target="_blank">Instagram</a>
              </b-alert>
                        
             <div class="buttons text-left">
-              <a href="#register" class="btn blue-bg btn-lg text-white mb-3">Anmäl ditt lag</a>
-              <a href="/mymatchplay" class="btn blue-bg btn-lg text-white mb-3">Hantera ditt lag här</a>
+              <a href="#register" class="btn blue-bg btn-lg text-white mt-3 mr-2">Anmälan</a>
+              <a href="/mymatchplay" class="btn blue-bg btn-lg text-white mt-3">Laghantering</a>
             </div>
           </b-col>
           <b-col class="col-md-3 d-none d-md-block pl-5 justify-content-center align-self-center">
@@ -40,7 +39,7 @@
             <h2 class="teaser-header orange">Anmäl ditt lag</h2>
             <h2 class="hidden teaser-header orange">Det är klart du vill vara med i golftävlingen, registrera dig här!</h2>
             <b-row class="mb-3 mt-3">
-              <b-col md="12" class="teaser-content">
+              <b-col md="12" class="teaser-content" ref="success" id="success">
                   <h3 v-if="showqualified" class="mt-3 mb-4">
                     Grattis, du kan vara med i tävlingen <i class="material-icons">tag_faces</i>
                   </h3>
@@ -62,16 +61,16 @@
                     
                      <b-col xs="12" sm="9">
                        <h4>Alla lagdeltagare får en piké från PING</h4>
-                       <p>Vi är oerhört stolta över det nya samarbetet med PING som först och främst ser till att ALLA DELTAGARE i tävlingen blir försedda med vars en piké när man anmält sitt lag! <strong>Värde 998:-</strong></p>
+                       <p>Tack vare vår sponsor PING förses alla deltagare med en piké när man har anmält sitt lag! <strong>Värde 998:-</strong></p>
                      </b-col>
                       <b-col xs="12" sm="3" class="pl-4 pr-4 pt-0">
                        <b-img hidden alt="ping" src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1575464479/matchplay/ping/logo.svg"></b-img>
-                       <b-img alt="ping" src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1575881646/matchplay/ping/ping_shirts.png"></b-img>
+                       <router-link to="/ping" class=""><b-img alt="ping" src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1575881646/matchplay/ping/ping_shirts.png"></b-img></router-link>
                        </b-col>
                   </b-row>
                        <b-row class="mt-4 mb-2">
                     <b-col xs="12" sm="12" class="mt-2">
-                      <h4>Allt börjar med ditt golf-id</h4>
+                      <h4>Skriv in ditt golf id</h4>
                       <p>Börja med att ange ditt golf id så hämtar vi en del av informationen automatiskt från Svenska Golfförbundet.</p>
                     </b-col>
                   </b-row>
@@ -81,6 +80,7 @@
                     inputmode="numeric"
                     pattern="[- +()0-9]+"
                     type="text"
+                    size="lg"
                     style="width:200px;"
                     class="form-control mr-1"
                     id="golfid"
@@ -99,7 +99,7 @@
                     placeholder="xxx"
                     value
                   />                  
-                  <b-button type="submit" variant="primary" class="btn blue-bg ml-0 mt-1 ml-sm-2 mt-sm-0"><b-spinner v-if="showloadgolfid" small type="grow" class="mr-2"></b-spinner>{{ contbutton1 }}
+                  <b-button type="submit" size="md" variant="primary" class="btn blue-bg btn-special ml-0 mt-1 ml-sm-2 mt-sm-0"><b-spinner v-if="showloadgolfid" small type="grow" class="mr-2"></b-spinner>{{ contbutton1 }}
                     
                   </b-button>
                   
@@ -284,7 +284,7 @@
                       <b-card img-src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_300/v1573661281/matchplay/henke-granen.png"
                       img-top
                       tag="article"
-                      style="max-width:20rem;"
+                      
                       class="mt-2"
                       >
                       <b-card-text>
@@ -296,10 +296,9 @@
                   <b-alert show class="mt-4 small" variant="primary">
                     När registreringen är genomförd väljer du att skapa ett eller flera lag och kan välja om det är privat eller företag samt betalningsalternativ.
                   </b-alert>
-
-                  <b-alert show v-if="showerror" variant="danger">
-                    Det finns redan en användare med denna e-post ({{emailexist}}), om du redan är registrerad kan du logga in uppe till höger, där kan du också få ett nytt lösenord om du har glömt ditt befintliga.
-                  </b-alert>
+                                   
+                  <b-alert show v-if="showerror" class="mt-4 small"  variant="danger">Det finns redan en användare med denna e-post ({{emailexist}}), om du redan är registrerad kan du logga in uppe till höger, där kan du också få ett nytt lösenord om du har glömt ditt befintliga.</b-alert>
+                  
    
                     <b-button type="submit" variant="primary" class="btn blue-bg ml-1"><b-spinner v-if="showspinnerregisteruser" small type="grow" class="mr-2"></b-spinner>Registrera dig</b-button>
                     <b-button type="reset" variant="danger">Avbryt</b-button>
@@ -500,7 +499,7 @@ components: {
       },
       showhelper: false,
       //contbutton1: 'Fortsätt till nästa steg',
-      contbutton1 : 'Fortsätt till nästa steg',
+      contbutton1 : 'Fortsätt',
       showpasswordsdontmatch: false,
       showspinnerregisteruser: false,
       showerror: false, //if user exists when register
@@ -533,14 +532,45 @@ components: {
       showqualifiedNOCLUB: false
     };
   },
+   
   computed: {
       validation() {
-      if (this.golfid.length === 6) {
 
+      let validated = false;
+
+      var re = /^[- ]*[0-9][- 0-9]*$/;
+       if (re.test(this.golfid)) {
+
+        if (this.golfid.length === 6) {
+          this.golfid = this.golfid + '-'
+          validated = true;
+        }
+
+        if (this.golfid.length === 10) {
+          validated = true;
+        } else {
+          validated = false;
+        }
+        }
+
+      return validated;
+
+/*
+       var re = /^[- +()]*[0-9][- +()0-9]*$/;
+       console.log(re.test(this.golfid))
+       return re.test(this.golfid)
+
+        if (this.golfid.length === 6) {
           this.golfid = this.golfid + '-'
         }
 
-        return this.golfid.length === 10;
+         return this.golfid.length === 10;
+
+       */
+
+       
+
+
       },      
       validateEmail() {
          
@@ -567,7 +597,7 @@ components: {
       }
     },
   mixins: [tagsMixin],
-  methods: {
+  methods: {    
 
      countDownChanged(dismissCountDown) {
         this.dismissCountDown = dismissCountDown
@@ -606,6 +636,7 @@ components: {
 
           //check if user exists in matchplay admin
           if (response.data.exists) {
+             this.contbutton1 = 'Prova igen';    
             this.showAlert2();
             this.showloadgolfid = false;
             return;
@@ -625,6 +656,10 @@ components: {
              this.showqualifiedNOCLUB = true;
              return;
           }
+
+          var element = this.$refs["success"];
+          var top = element.offsetTop;         
+          window.scrollTo(0,400);
           
 //console.log(this.form.hcp)
           if (this.form.hcp < 32) {
@@ -871,6 +906,11 @@ img {
   @media (max-width: 567px) {
     font-size: 1rem;
   }
+}
+
+.btn-special {
+height:calc(1.5em + 1rem + 8px);
+margin-top:0;
 }
 
 .hero {

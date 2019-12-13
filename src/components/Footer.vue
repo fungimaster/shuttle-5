@@ -62,6 +62,7 @@
                   <p>Ängelholm</p>                  
                   <p>Telefon: 010 - 522 00 06</p>
                   <p class="links mb-5">
+                    <router-link to="/ping" class="">PING</router-link> |  
                     <router-link to="/info" class="">Information</router-link> |  
                     <router-link to="/cookies" class="">Cookies/Data</router-link>                 
                   </p>
