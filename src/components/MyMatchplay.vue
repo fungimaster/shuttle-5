@@ -285,7 +285,7 @@
                             <b-col md="6">
                                 <b-form-group>
                                     <label for="name">Lagkamrat:</label>
-                                    <b-form-input v-bind:readonly="team.is_readonly" id="teammembername" v-model="team.teammembername" placeholder="Golf id (xxxxxx-xxx)" :state="validation_teammembername" required>
+                                    <b-form-input :state="validation_teammembername" v-model="team.teammembername" inputmode="numeric" pattern="[- +()0-9]+"  id="teammembername" placeholder="Golf id (xxxxxx-xxx)" required>
                                     </b-form-input>
                                     <b-button @click="checkGolfID(team.teammembername,'2')" v-if="!team.is_readonly" variant="info" size="sm" class="float-right mt-1">
                                         <b-spinner v-if="showspinner_2" small type="grow" class="mr-2"></b-spinner>Sök spelare
@@ -540,7 +540,7 @@
                             </b-col>
                         </b-row>
                     </b-container>
-                                       <b-container class="mt-3 mb-4 p-0">
+                    <b-container class="mt-3 mb-4 p-0">
                         <b-row align-h="center">
                             <b-col md="auto">
                                 <b-alert v-if="team.giveaway.shirtwarning" variant="warning" show class="mt-4 form-text text-muted text-center">Var snäll och välj två tröjor med storlek till ditt lag innan du betalar.</b-alert>
@@ -585,7 +585,7 @@
                                 <b-form-group v-if="team.payment === 'B'">
                                     <label for="name">Fakturauppgifter</label>
                                     <b-form-input class="mb-2" id="invoicename" name="invoicename" v-model="invoicename" required placeholder="Skriv in ditt namn" :state="validate_invoicename"></b-form-input>
-                                    <b-form-input class="mb-2" id="invoiceorgno" name="invoiceorgno" v-model="team.invoice.invoiceorgno" required placeholder="Skriv in organisationsnummer" :state="validate_invoiceorgno"></b-form-input>
+                                    <b-form-input inputmode="numeric" class="mb-2" id="invoiceorgno" name="invoiceorgno" v-model="team.invoice.invoiceorgno" required placeholder="Skriv in organisationsnummer" :state="validate_invoiceorgno"></b-form-input>
                                     <b-form-input class="mb-2" id="invoiceaddress" name="invoiceaddress" v-model="team.invoice.invoiceaddress" required placeholder="Skriv in din gatuadress" :state="validate_invoiceaddress"></b-form-input>
                                     <b-form-input class="mb-2" id="invoicezip" name="invoicezip" v-model="team.invoice.invoicezip" required placeholder="Skriv in ditt postnr" :state="validate_invoicezip"></b-form-input>
                                     <b-form-input class="mb-2" id="invoicecity" name="invoicecity" v-model="team.invoice.invoicecity" required placeholder="Skriv in din postort" :state="validate_invoicecity"></b-form-input>
@@ -996,7 +996,13 @@ export default {
             return this.team.type !== null;
         },
         validation_teammembername() {
+            if (this.team.teammembername.length === 6) {
+
+                this.team.teammembername = this.team.teammembername + '-'
+            }
+
             return this.team.teammembername.length === 10;
+            //return this.team.teammembername.length === 10;
         },
         validation_teammemberemail() {
             var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
