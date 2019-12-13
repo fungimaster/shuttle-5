@@ -157,10 +157,10 @@
                                                     </b-tooltip>
                                                 </span>
                                             </div>
-                                            <div v-if="team.giveaway.setSize1 && team.step > 2" class="pt-0 pb-3">
+                                            <div v-if="team.giveaway.setSize1 && team.step > 0" class="pt-0 pb-3">
                                                 <span id="tooltip-pike">
-                                                    <b-img class="mr-2" id="shirtimage1" :src="getShirtImg(team.giveaway.shirt1)"></b-img> {{team.giveaway.setSize1}}<br>
-                                                    <b-img class="mr-2" id="shirtimage1" :src="getShirtImg(team.giveaway.shirt2)"></b-img> {{team.giveaway.setSize2}}
+                                                    <b-img v-if="team.giveaway.shirt1" class="mr-2" id="shirtimage1" :src="getShirtImg(team.giveaway.shirt1)"></b-img> {{team.giveaway.setSize1}}<br>
+                                                    <b-img v-if="team.giveaway.shirt2" class="mr-2" id="shirtimage1" :src="getShirtImg(team.giveaway.shirt2)"></b-img> {{team.giveaway.setSize2}}
                                                     <b-tooltip target="tooltip-pike" triggers="hover" placement="top">
                                                         Pikétröjor
                                                     </b-tooltip>
@@ -342,7 +342,7 @@
                         <b-row align-h="center">
                             <b-col md="6">
                                 <b-form-group class="mb-5" v-if="team.type != null && !team.is_readonly">
-                                    <label for="type">Välj hemmaklubb för matcher<i v-b-popover.hover.top="'Välj en klubb som ligger nära där du bor eller tänkt spela dina matcher.'" title="Hjälp" class="help material-icons mr-2">help_outline</i></label>
+                                    <label for="query">Välj hemmaklubb för matcher<i v-b-popover.hover.top="'Välj en klubb som ligger nära där du bor eller tänkt spela dina matcher.'" title="Hjälp" class="help material-icons mr-2">help_outline</i></label>
                                     <suggestions v-model="query" id="query" :options="options" :onInputChange="onCountryInputChange" :state="validation_query" required :onItemSelected="onSearchItemSelected" style="width:100%;">
                                         <div slot="item" slot-scope="props" class="single-item">
                                             <span class="name">{{props.item.title}}</span>
@@ -358,7 +358,7 @@
                         <!-- <b-spinner v-if="showloginspinner" small type="grow" class="mr-2"></b-spinner> -->
                         <b-row align-h="center">
                             <b-col md="6">
-                                <b-button @click.prevent="cancel_team()" variant="danger"><i class="material-icons">arrow_back_ios</i>Avbryt</b-button>
+                                <b-button @click.prevent="cancel_team()" variant="light"><i class="material-icons">arrow_back_ios</i>Tillbaka</b-button>
                                 <b-button class="mt-0 mt-sm-0 float-right" @click.prevent="next()" variant="success">
                                     <b-spinner v-if="showloginspinner" small type="grow" class="mr-2"></b-spinner>Välj tröjor<i class="ml-2 material-icons">arrow_forward_ios</i>
                                 </b-button>
@@ -387,7 +387,7 @@
                             <b-col class="col-6">
                                 <b-card @click="shirtState(1)" class="pointer" :variant="team.giveaway.player1" :border-variant="team.giveaway.player1" body-bg-variant="light" :header="team.giveaway.player1header" :header-bg-variant="team.giveaway.player1" :header-text-variant="team.giveaway.player2" align="center">
                                     <b-card-text>
-                                        Pikémodell: <b-img class="mr-2" id="shirtimage1" src=""></b-img><br>
+                                        Pikémodell: <b-img v-if="team.giveaway.shirt1" class="mr-2" id="shirtimage1" :src="getShirtImg(team.giveaway.shirt1)"></b-img><br>
                                         Storlek: {{team.giveaway.setSize1}}<br>
                                     </b-card-text>
                                 </b-card>
@@ -396,7 +396,7 @@
                             <b-col class="col-6">
                                 <b-card @click="shirtState(2)" class="pointer" :variant="team.giveaway.player12" :border-variant="team.giveaway.player2" body-bg-variant="light" :header="team.giveaway.player2header" :header-bg-variant="team.giveaway.player2" :header-text-variant="team.giveaway.player1" align="center">
                                     <b-card-text>
-                                        Pikémodell: <b-img class="mr-2" id="shirtimage2" src=""></b-img><br>
+                                        Pikémodell: <b-img v-if="team.giveaway.shirt2" class="mr-2" id="shirtimage1" :src="getShirtImg(team.giveaway.shirt2)"></b-img><br>
                                         Storlek: {{team.giveaway.setSize2}}<br>
                                     </b-card-text>
                                 </b-card>
@@ -542,7 +542,7 @@
                     <b-container>
                         <b-row align-h="center">
                             <b-col md="6">
-                                <b-button @click.prevent="prev()" variant="light"><i class="material-icons ml-2">arrow_back_ios</i>Tillbaka till steg 2</b-button>
+                                <b-button @click.prevent="prev()" variant="light"><i class="material-icons ml-2">arrow_back_ios</i>Tillbaka</b-button>
                                 <b-button class="mt-2 mt-sm-0 float-right" @click.prevent="next()" variant="success">
                                     <b-spinner v-if="showloginspinner" small type="grow" class="mr-2"></b-spinner>Betalning<i class="ml-2 material-icons mr-2">arrow_forward_ios</i>
                                 </b-button>
@@ -937,7 +937,7 @@ export default {
                 teamleadername: '',
                 teammembername: '',
                 teammembergolfid: '',
-                teammemberemail: 'jstenbeck@gmail.com',
+                teammemberemail: '',
                 teamreservename: '',
                 company: '',
                 name: '',
@@ -960,7 +960,7 @@ export default {
                 email: '',
                 pwd: ''
             },
-            doctitle: 'Logga in'
+            doctitle: 'Mina sidor'
         }
     },
     computed: {
@@ -1675,6 +1675,7 @@ export default {
         cancel_team() {
             this.showcreateteam = false;
             this.showteamslist = true;
+            this.team.step = 0;
             window.scrollTo(0, 0);
         },
         save_state1(evt) {
