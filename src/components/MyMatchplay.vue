@@ -57,7 +57,8 @@
                         <h2 class="teaser-header orange">Hej {{userdetails.firstname}}</h2>
                     </b-col>
                     <b-col md="6" class="text-right">
-                        <b-button variant="primary" class="blue-bg btn-sm mt-3" v-on:click="create_team('new')"><i class="material-icons">sports_golf</i> Skapa ett lag</b-button>
+                        <b-button variant="primary" class="blue-bg mt-3" v-on:click="create_team('new')"><i class="material-icons">sports_golf</i> Skapa ett lag</b-button>
+                        <b-button @click="logoutPrompt" variant="warning" class="mt-3">Logga ut</b-button>
                     </b-col>
                     <b-col md="12" class="mb-4">
                         <hr>
@@ -69,7 +70,7 @@
             <b-container v-if="showteamslist && team.step === 0" class="">
                 <b-row align-h="center">
                     <b-col sm="6" lg="6" class="team pl-2 pr-2 pb-2" v-for="(team,idx) in teams" :key="idx">
-                        <b-card :title=team.teamname v-on:click="edit_team(team)" img-src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_fill,g_center,h_200,w_508/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg" img-alt="Image" img-top tag="article" class="mb-2 team">
+                        <b-card :title=team.teamname img-src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_fill,g_center,h_200,w_508/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg" img-alt="Image" img-top tag="article" class="mb-2 team">
                             <b-card-text class="mt-3">
                                 <div class="pt-0 pb-3">
                                     <span :id="'tooltip-teamleader-' + idx">
@@ -121,7 +122,7 @@
                         <b-row align-h="center">
                             <b-col md="6">
 
-                                <b-card class="mb-2" no-body>
+                                <b-card class="mt-4 mb-2" no-body>
                                     <b-card-header>
                                         Ditt lag<span v-if="team.name != ''">: {{team.name}}</span>
                                         <img class="overview-logo" v-bind:src="team.logo" v-if="team.type === 'Company'" />
@@ -658,19 +659,8 @@
                     </b-container>
                 </div>
             </b-form>
+            
 
-            <!--
-             <br/><br/>TEAM ID: {{team._id}} - showcreateteam: {{showcreateteam}}
-    -->
-
-            </b-col>
-
-            </b-row>
-
-            <hr class="hidden">
-            <b-button hidden @click="logoutPrompt" variant="warning">Logga ut</b-button>
-
-            </b-container>
         </div>
     </div>
 </div>
@@ -1064,6 +1054,26 @@ export default {
     },
     mixins: [tagsMixin],
     methods: {
+        formatZip(value, event) {
+        
+            if (isNaN(event.data)) {
+  
+              
+              //var reg = new RegExp(event.data, "g");
+                let valuex = value.replace(/a/gi, '');
+                console.log(valuex, event)
+
+                return valuex;
+            }
+            else if (value.length === 3) {
+
+                return value + ' '
+            }
+            else {
+              return value;
+            }
+
+        },
         checkTeamNameUnique(name) {
             let url = 'https://matchplay.meteorapp.com/methods/checkTeamNameUnique'
             this.axios.post(url, {
@@ -1965,7 +1975,7 @@ export default {
                     buttonSize: 'md',
                     okVariant: 'danger',
                     okTitle: 'Japp, jag är säker',
-                    cancelTitle: 'NEJ!',
+                    cancelTitle: 'Nej tack',
                     footerClass: 'p-2',
                     hideHeaderClose: false,
                     centered: true
