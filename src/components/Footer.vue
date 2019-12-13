@@ -13,21 +13,30 @@
           </b-row>
 
           <b-row no-gutters>
-            <b-col md="4" class="gold p-5">
+            <b-col md="3" class="gold p-5 text-center">
               <a href="https://futureitpartner.se/" target="_blank">
                 <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1573315610/matchplay/future_logo.png" alt="">
               </a>
             </b-col>           
-            <b-col md="4" class="gold p-2 pt-5">
+            <b-col md="3" class="gold p-2 pt-5 text-center">
               <a href="https://colburn.se" target="_blank">
                 <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1573315623/matchplay/Logo_Colburn.png" alt="">
               </a>
             </b-col>
-             <b-col md="4" class="gold p-5">
+             <b-col md="3" class="gold p-5 mt-2 text-center">
+              <a href="https://eu.ping.com/sv-se"  target="_blank">
+                <b-img alt="ping" src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1575464479/matchplay/ping/logo.svg"></b-img>
+              </a>
+            </b-col>
+             <b-col md="3" class="gold p-5 text-center">
               <a href="https://www.padelcrew.se/"  target="_blank">
                 <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1573316028/matchplay/padel-crew-logo31.png" alt="" />
               </a>
             </b-col>
+             
+
+ 
+
           </b-row>
           
         </b-col>
@@ -62,6 +71,7 @@
                   <p>Ängelholm</p>                  
                   <p>Telefon: 010 - 522 00 06</p>
                   <p class="links mb-5">
+                    <router-link to="/ping" class="">PING</router-link> |  
                     <router-link to="/info" class="">Information</router-link> |  
                     <router-link to="/cookies" class="">Cookies/Data</router-link>                 
                   </p>
