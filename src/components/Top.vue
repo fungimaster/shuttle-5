@@ -11,11 +11,11 @@
   <b-collapse id="nav-collapse" is-nav class="text-center">
     <div class="d-lg-none mt-5 mb-2">
       <h1 class="hidden theme">Psyched</h1>
-      <p class="text-uppercase">Matchplay 2020</p>
+      <p class="hidden text-uppercase">Matchplay 2020</p>
     </div>
     <b-navbar-nav class="ml-auto">      
       <!-- <b-nav-item :to="{path: '/line-up', query: {tags:$route.query.tags, day:$route.query.day}}">Line-up</b-nav-item> -->      
-      <b-nav-item hidden to="/info">Information om tävlingen</b-nav-item>
+      <b-nav-item to="/info">Information om tävlingen</b-nav-item>
       <!--a class="nav-item nav-link text-dark show-search-button nav-link" href="#search" data-toggle="collapse" aria-expanded="false" aria-controls="search"><i class="material-icons mobile-search">search</i></a-->
       <b-nav-item show title="login" to="/mymatchplay"><i class="material-icons mr-1" style="vertical-align:bottom;">supervised_user_circle</i>{{this.$username}}</b-nav-item>
     </b-navbar-nav>
@@ -43,17 +43,18 @@
     updated: function() {
     },
     mounted:function(){
-        
+      
                
 
     },
     beforeMount: function() {
-  /*     let userinfo = localStorage.getItem('userinfo');
-        if (userinfo) {
+      this.$username = "Logga in"
+       let userinfo = localStorage.getItem('userinfo');       
+        if (userinfo) {          
           userinfo = JSON.parse(userinfo);          
           this.$username = userinfo.firstname;        
-          console.log('firstname=' + this.$username)
-        }*/ 
+          //console.log('firstname=' + this.$username)
+        }
     } 
   }
 

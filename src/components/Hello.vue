@@ -37,8 +37,8 @@
         <b-row>
          
           <b-col>
-            <h2 class="hidden teaser-header orange">Anmäl ditt lag här!</h2>
-            <h2 class="teaser-header orange">Det är klart du vill vara med i golftävlingen, registrera dig här!</h2>
+            <h2 class="teaser-header orange">Anmäl ditt lag</h2>
+            <h2 class="hidden teaser-header orange">Det är klart du vill vara med i golftävlingen, registrera dig här!</h2>
             <b-row class="mb-3 mt-3">
               <b-col md="12" class="teaser-content">
                   <h3 v-if="showqualified" class="mt-3 mb-4">
@@ -58,25 +58,37 @@
                   </h3>
 
                 <div class="form-group" v-if="showform1">
-                  <b-row class="mb-2">
-                    <b-col xs="12" sm="12">
+                  <b-row class="mt-4 mb-4">
+                    
+                     <b-col xs="12" sm="9">
+                       <h4>Alla lagdeltagare får en piké från PING</h4>
+                       <p>Vi är oerhört stolta över det nya samarbetet med PING som först och främst ser till att ALLA DELTAGARE i tävlingen blir försedda med vars en piké när man anmält sitt lag! <strong>Värde 998:-</strong></p>
+                     </b-col>
+                      <b-col xs="12" sm="3" class="pl-4 pr-4 pt-0">
+                       <b-img hidden alt="ping" src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1575464479/matchplay/ping/logo.svg"></b-img>
+                       <b-img alt="ping" src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1575881646/matchplay/ping/ping_shirts.png"></b-img>
+                       </b-col>
+                  </b-row>
+                       <b-row class="mt-4 mb-2">
+                    <b-col xs="12" sm="12" class="mt-2">
+                      <h4>Allt börjar med ditt golf-id</h4>
                       <p>Börja med att ange ditt golf id så hämtar vi en del av informationen automatiskt från Svenska Golfförbundet.</p>
                     </b-col>
                   </b-row>
 
                <b-form inline @submit.stop.prevent @submit="getGolfId" @reset="onReset" v-if="showform1">
-                  <b-input :state="validation" v-model="golfid1"
+                  <b-input :state="validation" v-model="golfid"
                     inputmode="numeric"
-                    pattern="[0-9]*"
+                    pattern="[- +()0-9]+"
                     type="text"
-                    style="width:140px;"
+                    style="width:200px;"
                     class="form-control mr-1"
-                    id="golfid1"
-                    placeholder="xxxxxx"
+                    id="golfid"
+                    placeholder="xxxxxx-xxx"
                     value
                   />                              
-                  -
-                  <b-input :state="validation2" v-model="golfid2"
+                  
+                  <b-input hidden v-model="golfid2"
                     ref="golfid2"
                     inputmode="numeric"
                     pattern="[0-9]*"
@@ -301,17 +313,77 @@
               </b-col>
             </b-row>
 
-            <b-row class="hidden mb-5 mt-5">
-              <b-col md="6" class="teaser-content">
-                <h3 class="orange">Connect</h3>
-                <p>Social media keeps you connected to your peers. However, there’s no substitution for meeting IRL.</p>
-                <p>With 1200 participants, which conversation will you jump in?</p>
+            <b-row class="mb-5 mt-5">
+              <b-col md="12" class="teaser-content">
+                
+                <h3 class="orange mb-3">SÅ HÄR FUNGERAR DET</h3>
+
+<p>Matchplay spelas 2020 i hela Sverige och är en tävling för 2-mannalag (herr, dam eller mixed) och man måste ha officiellt HCP för att deltaga. Tävlingsformen är 4-boll, Match/Bästboll.</p>
+<p>Ta er till Sverigefinalen och upplev en magisk helg med Matchplay!
+Fyra lag gör upp om resan utomlands, på en golfklubb som ligger geografiskt närmast de kvarvarande fyra lagen. Hotell, frukost, all golf samt en bankett på kvällen ingår.
+Vinnarna i Sverigefinalen åker med Matchplay till Spanska solkusten för att göra upp om titeln. Flyg, hotell och allt spel ingår för de bägge lagen och vilken bana det blir är klart under januari 2020.
+</p>
+  <p>
+  Priset för deltagande per lag i tävlingen är 900:- för privatpersoner och 2400:- (exkl. moms) för företag. Varje lag är garanterade minst 2 matcher.
+</p>
+                <b-container class="mt-5 mb-4">
+      <b-row>
+          <b-col class="col-12 col-md-4 p-2">            
+            <div class="step">
+            <i class="material-icons">assignment_turned_in</i>
+            <h5>Registrering</h5>
+            <p>Börja med att skriva in ditt golfid på matchplay.se där du direkt får besked om du är kvalificerad för att sedan fylla i resten av uppgifterna för att skapa ett konto. Du blir sedan direkt inloggad för att påbörja ditt lagbygge.</p>
+            </div>
+          </b-col>
+
+          <b-col class="col-12 col-md-4 p-2"> 
+            <div class="step">
+            <i class="material-icons">supervised_user_circle</i>
+            <h5>Laganmälan</h5>
+            <p>Nu ska du som lagkapten skapa ditt lag och väljer typ av lag (privat/företag), lagmedlem, pikeér från PING. Laget blir inte aktivt förrens du har betalat (swish, voucher eller faktura).</p>
+            </div>
+          </b-col>
+
+         <b-col class="col-12 col-md-4 p-2">
+           <div class="step">
+            <i class="material-icons">ballot</i>
+            <h5>Lottning</h5>
+            <p>I slutet av april kommer lottningen att ske och den görs så att alla lag ska få så kort resa som möjligt. Du kommer få information via email samt på matchplay.se när lottningen är klar och du kan se vilket lag ni ska möta.</p>
+            </div>
+          </b-col>
+
+          <b-col class="col-12 col-md-4 p-2">
+            <div class="step">
+              <i class="material-icons">sports_golf</i>
+            <h5>Spela matcher</h5>
+            <p>På matchplay.se kommer du kunna se vilket lag ni ska möta samt kontaktuppgifter. När tid och plats är avgjord spelas matchen inom den tidsram som sätts. Använd vårt digitala scorekort där all information räknas ut automatiskt som HCP mm.</p>
+            </div>
+          </b-col>
+
+          <b-col class="col-12 col-md-4 p-2">
+            <div class="step">
+              <i class="material-icons">golf_course</i>
+            <h5>Sverigefinal</h5>
+            <p>Fyra lag gör upp om resan utomlands, på en golfklubb som ligger geografiskt närmast de kvarvarande fyra lagen. Hotell, frukost, all golf samt en bankett på kvällen ingår.</p>
+            </div>
+          </b-col>
+
+          <b-col class="col-12 col-md-4 p-2">
+            <div class="step">
+              <i class="material-icons">flight_takeoff</i>
+            <h5>Finalen</h5>
+            <p>Vinnarna i Sverigefinalen åker med Matchplay till Spanska solkusten för att göra upp om titeln. Flyg, hotell och allt spel ingår för de bägge lagen och vilken bana det blir är klart under januari 2020.</p>
+            </div>
+          </b-col>
+
+         <b-col class="col-12 mt-4">
+                     <a href="/info" class="btn blue-bg btn-md text-white mb-3">Läs mer här</a>          
+         </b-col>
+
+      </b-row>
+ </b-container>
               </b-col>
-              <b-col md="6" class="teaser-content">
-                <img
-                  src="https://res.cloudinary.com/dn3hzwewp/image/upload/f_auto,w_510/v1572940143/matchplay/matchplay_bg.jpg"
-                />
-              </b-col>
+              
             </b-row>
           </b-col>
           <b-col xl="1"></b-col>
@@ -437,9 +509,9 @@ components: {
       dismissSecs: 5,
       dismissCountDown: 0,
       dismissCountDown2: 0,
-test:'',
+      test:'',
       showDismissibleAlert: false,
-      golfid1: '',
+      golfid: '',
       golfid2: '',
       doctitle: this.$store.state.conferencename,
       form: {       
@@ -463,15 +535,13 @@ test:'',
   },
   computed: {
       validation() {
-        if (this.golfid1.length === 6) {
-          this.$refs.golfid2.$el.focus()
+      if (this.golfid.length === 6) {
+
+          this.golfid = this.golfid + '-'
         }
-        return this.golfid1.length === 6;
-        //return this.golfid1.length === 6 && this.golfid2.length === 3;
-      },
-       validation2() {        
-        return this.golfid2.length === 3;
-      },
+
+        return this.golfid.length === 10;
+      },      
       validateEmail() {
          
          if (this.form.email.length < 4) {
@@ -513,9 +583,9 @@ test:'',
     },
     getGolfId: function(golfid) {      
       //evt.preventDefault();
-      var golfid1 = document.getElementById("golfid1").value;
-      var golfid2 = document.getElementById("golfid2").value;
-      if (golfid1 === '' || golfid2 === '') return;
+      //var golfid1 = document.getElementById("golfid1").value;
+      //var golfid2 = document.getElementById("golfid2").value;
+      if (this.golfid === '') return;
       this.contbutton1 = 'Hämtar data från SGF';    
       this.dismissCountDown2 = false; //hide you exist alert
       this.showloadgolfid = true;
@@ -525,7 +595,7 @@ test:'',
           "https://matchplay.meteorapp.com/methods/getPlayerByGolfid",
           //"http://localhost:3000/get_golfid?golfid=" + golfid1 + '-' + golfid2,
           {
-                  "golfid": golfid1 + '-' + golfid2                      
+                  "golfid": this.golfid                      
                 }
         )
         .then(response => {         
@@ -544,7 +614,7 @@ test:'',
             
           this.showform1 = false;
           this.showform2 = true;
-          this.form.golfid = golfid1+'-'+golfid2;
+          this.form.golfid = this.golfid;
           this.form.firstname = response.data.firstname;
           this.form.lastname = response.data.lastname;
           this.form.club = response.data.club;
@@ -1002,4 +1072,50 @@ img {
   background-position: left center;
   background-size: cover;
 }
+
+.step {
+  border-radius:0.3em;
+  border:1px solid #e1e1e1;
+  padding:1em;
+  min-height:360px;
+  text-align: center; 
+}
+
+.step i {
+  font-size: 3em;
+    text-align: center;
+    margin: 0 0 20px 0;
+    color: #fd9b37;
+}
+
+.step p {
+  text-align: left;
+   font-size:0.8em;
+   margin: 20px 0 0 0;
+}
+
+.step:hover {
+  background:#f6f6f6;
+}
+
+
+
+@media (max-width: 576px){
+
+h3 {
+  font-size: 1.4rem !important;
+}
+
+h4 {
+    font-size: 1.3rem !important;
+}
+
+h5 {
+    font-size: 1.1rem !important;
+}
+}
+
+
+
+
 </style>
