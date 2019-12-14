@@ -71,9 +71,9 @@
                 <b-row align-h="center">
                     <b-col sm="6" lg="6" class="team pl-2 pr-2 pb-2" v-for="(team,idx) in teams" :key="idx">
                         <b-card img-src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_fill,g_center,h_200,w_508/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg" img-alt="Image" img-top tag="article" class="mb-2 team">
-                             <b-card-title>
-                                        <span>{{team.teamname}}</span>
-                                    </b-card-title>
+                            <b-card-title>
+                                <span>{{team.teamname}}</span>
+                            </b-card-title>
                             <b-card-text class="mt-3">
                                 <div class="pt-0 pb-3">
                                     <span :id="'tooltip-teamleader-' + idx">
@@ -186,8 +186,6 @@
                         </b-row>
                     </b-container>
 
-                
-
                     <b-container hidden fluid class="mb-3 pl-0 pr-0">
                         <b-row class="">
                             <b-col class="" style="color:green;" v-if="team.paid">
@@ -246,7 +244,6 @@
                             <b-col md="6">
                                 <p v-if="!team.player_2_name">Anmäl en lagkamrat genom att skriva in dennes golf-ID nedan. </p>
                             </b-col>
-     
 
                         </b-row>
                         <b-row v-if="team.type != null" align-h="center">
@@ -260,23 +257,23 @@
                                     </b-button>
                                 </b-form-group>
                                 <b-alert v-if="team.showplayer2" :variant="team.checkgolfidvariant2" show class="mt-4 small form-text">
-                                  <span v-if="team.ownid != ''">{{team.ownid}}</span>
-                                  <span v-if="team.ownid === ''">
-                                    Spelare: {{team.player_2_name}}<br>
-                                    HCP: {{team.player_2_hcp}}
-                                    <b-form-input class="mt-2" v-if="!team.player_2_exists" id="teammemberemail" v-model="team.teammemberemail" placeholder="E-mail till deltagaren" :state="validation_teammemberemail" required>
-                                    </b-form-input>
+                                    <span v-if="team.ownid != ''">{{team.ownid}}</span>
+                                    <span v-if="team.ownid === ''">
+                                        Spelare: {{team.player_2_name}}<br>
+                                        HCP: {{team.player_2_hcp}}
+                                        <b-form-input class="mt-2" v-if="!team.player_2_exists" id="teammemberemail" v-model="team.teammemberemail" placeholder="E-mail till deltagaren" :state="validation_teammemberemail" required>
+                                        </b-form-input>
 
-                                    <p class="mt-2" v-if="!team.player_2_exists">
-                                        När du sparar laget kommer vi skicka en inbjudan till din lagkamrat.
-                                    </p>
+                                        <p class="mt-2" v-if="!team.player_2_exists">
+                                            När du sparar laget kommer vi skicka en inbjudan till din lagkamrat.
+                                        </p>
 
-                                    <p class="mt-2" v-if="team.player_2_exists">
-                                        {{team.player_2_name}} har ett Matchplay-konto och kommer att få en förfrågan via email om att vara med i ditt lag.
-                                    </p>
+                                        <p class="mt-2" v-if="team.player_2_exists">
+                                            {{team.player_2_name}} har ett Matchplay-konto och kommer att få en förfrågan via email om att vara med i ditt lag.
+                                        </p>
 
-                                    <b-form-input hidden v-model="team.teammembergolfid" placeholder="Golfid">
-                                    </b-form-input>
+                                        <b-form-input hidden v-model="team.teammembergolfid" placeholder="Golfid">
+                                        </b-form-input>
                                     </span>
                                 </b-alert>
                             </b-col>
@@ -549,7 +546,6 @@
                                     </b-form-invalid-feedback>
                                 </b-form-group>
 
-                                
                             </b-col>
                         </b-row>
                     </b-container>
@@ -568,6 +564,15 @@
                                 <h2 class="text-center"><i class="material-icons">eject</i> Du valde att avbryta betalningen</h2>
                                 <p>Kontakta oss om det är något som är oklart så hjälper vi till att förklara.</p>
                                 <p>Hälsningar<br>MatchPlay</p>
+                                <div class="text-center mt-5 mb-5">
+                                    <b-button @click="team.step = 3">
+                                        <i class="material-icons">
+                                            settings_backup_restore
+                                        </i> Gå tillbaka till<br>Swish-betalningen
+                                    </b-button>
+                                </div>
+                                <hr>
+
                             </b-col>
                             <b-col v-if="this.paymentstatus === 'ERROR'" md="6">
                                 <h2 class="text-center"><i class="material-icons">error</i> Något gick fel</h2>
