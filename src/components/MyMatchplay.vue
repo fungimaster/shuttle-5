@@ -505,11 +505,10 @@
                                 <b-form-group fluid class="mb-3" v-if="team.payment === 'A'">
                                     <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_150/v1575278258/matchplay/swish.png" alt="swish"></b-img>
                                     <span v-if="team.type==='Private'">{{team.price_private}} SEK</span>
-                                    <span v-if="team.type==='Company'">{{team.price_company}} SEK (exkl. moms)</span>
 
                                     <vue-tel-input v-model="team.swish.mobile" v-bind="bindProps"></vue-tel-input>
 
-                                    <b-button show @click="swish()" variant="info" size="sm" class="float-right mt-1">
+                                    <b-button :disabled="showspinner_swish" show @click="swish()" variant="info" size="sm" class="float-right mt-1">
                                         <b-spinner v-if="showspinner_swish" small type="grow" class="mr-2"></b-spinner>Betala
                                     </b-button>
 
@@ -522,6 +521,8 @@
                                 <!-- Invoice -->
                                 <b-form-group v-if="team.payment === 'B'">
                                     <label for="name">Fakturauppgifter</label>
+                                    <span v-if="team.type==='Company'">{{team.price_company}} SEK (exkl. moms)</span>
+
                                     <b-form-input class="mb-2" id="invoicename" name="invoicename" v-model="invoicename" required placeholder="Skriv in ditt namn" :state="validate_invoicename"></b-form-input>
                                     <b-form-input inputmode="numeric" class="mb-2" id="invoiceorgno" name="invoiceorgno" v-model="team.invoice.invoiceorgno" required placeholder="Skriv in organisationsnummer" :state="validate_invoiceorgno"></b-form-input>
                                     <b-form-input class="mb-2" id="invoiceaddress" name="invoiceaddress" v-model="team.invoice.invoiceaddress" required placeholder="Skriv in din gatuadress" :state="validate_invoiceaddress"></b-form-input>
