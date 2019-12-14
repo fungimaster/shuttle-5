@@ -95,7 +95,7 @@
 
                                 <div class="pt-0 pb-0">
                                     <span :id="'tooltip-nextgame-' + idx">
-                                        <i class="material-icons mr-2">date_range</i>{Next game}
+                                        <i class="material-icons mr-2">date_range</i>Väntar på lottning
                                         <b-tooltip :target="'tooltip-nextgame-' + idx" triggers="hover" placement="top">
                                             Nästa match
                                         </b-tooltip>
