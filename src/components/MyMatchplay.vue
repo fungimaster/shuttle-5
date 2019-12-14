@@ -260,6 +260,8 @@
                                     </b-button>
                                 </b-form-group>
                                 <b-alert v-if="team.showplayer2" :variant="team.checkgolfidvariant2" show class="mt-4 small form-text">
+                                  <span v-if="team.ownid != ''">{{team.ownid}}</span>
+                                  <span v-if="team.ownid === ''">
                                     Spelare: {{team.player_2_name}}<br>
                                     HCP: {{team.player_2_hcp}}
                                     <b-form-input class="mt-2" v-if="!team.player_2_exists" id="teammemberemail" v-model="team.teammemberemail" placeholder="E-mail till deltagaren" :state="validation_teammemberemail" required>
@@ -275,6 +277,7 @@
 
                                     <b-form-input hidden v-model="team.teammembergolfid" placeholder="Golfid">
                                     </b-form-input>
+                                    </span>
                                 </b-alert>
                             </b-col>
 
@@ -854,6 +857,7 @@ export default {
                 showplayer1: false,
                 showplayer2: false,
                 showplayer3: false,
+                ownid: '',
                 player_1_name: '',
                 player_1_hcp: '',
                 player_1_exists: false,
@@ -1738,7 +1742,7 @@ export default {
 
         },
         checkGolfID: function (golfid, target) {
-
+            this.team.ownid = '';
             let userinfo = localStorage.getItem('userinfo');
             userinfo = JSON.parse(userinfo);
 
@@ -1752,7 +1756,8 @@ export default {
                 //Check if own golf id search, not accepted
                 if (userinfo.golfid === golfid) {
                     this.team.checkgolfidvariant2 = "warning";
-                    this.team.player_2_name = 'Du kan inte söka på ditt eget golf id.';
+                    this.team.ownid = 'Du kan inte söka på ditt eget golf id.';
+                    this.team.player_2_name = '';
                     this.team.player_2_hcp = '';
                     this.team.player_2_exists = true;
                     this.team.showplayer2 = true;
