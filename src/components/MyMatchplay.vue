@@ -70,7 +70,10 @@
             <b-container v-if="showteamslist && team.step === 0" class="">
                 <b-row align-h="center">
                     <b-col sm="6" lg="6" class="team pl-2 pr-2 pb-2" v-for="(team,idx) in teams" :key="idx">
-                        <b-card :title=team.teamname img-src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_fill,g_center,h_200,w_508/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg" img-alt="Image" img-top tag="article" class="mb-2 team">
+                        <b-card img-src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_fill,g_center,h_200,w_508/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg" img-alt="Image" img-top tag="article" class="mb-2 team">
+                             <b-card-title>
+                                        <span>{{team.teamname}}</span>
+                                    </b-card-title>
                             <b-card-text class="mt-3">
                                 <div class="pt-0 pb-3">
                                     <span :id="'tooltip-teamleader-' + idx">
@@ -215,7 +218,7 @@
                             <b-col md="6">
                                 <b-form-group class="mb-5">
                                     <label for="name">Företagsnamn</label>
-                                    <b-form-input @input="checkTeamNameUnique" id="companyname" v-model="team.company" required placeholder="Skriv in företagsnamnet" :state="validation_companyname" required>
+                                    <b-form-input id="companyname" v-model="team.company" required placeholder="Skriv in företagsnamnet" :state="validation_companyname" required>
                                     </b-form-input>
                                 </b-form-group>
                                 <b-form-group class="mb-5">
@@ -1206,6 +1209,7 @@ export default {
                         "teammemberemail": this.team.teammemberemail,
                         "teamreservegolfid": this.team.teamreservegolfid,
                         "company": this.team.company,
+                        "teamnamecompany": this.team.name,
                         "uistep": this.team.step
                     })
                     .then(response => {
