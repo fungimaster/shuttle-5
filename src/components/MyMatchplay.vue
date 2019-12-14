@@ -484,11 +484,6 @@
                         </b-row>
                     </b-container>
 
-                    <small hidden>
-                        DEBUG 1: shirt 1 count = {{selectedShirt1}} | shirt = {{team.giveaway.shirt1}}<br>
-                        DEBUG 2: shirt 2 count = {{selectedShirt2}} | shirt = {{team.giveaway.shirt2}}<br>
-                    </small>
-
                 </div>
 
                 <!-- STEP 3 -->
@@ -530,7 +525,7 @@
                                     <b-form-input class="mb-2" id="invoicezip" name="invoicezip" v-model="team.invoice.invoicezip" required placeholder="Skriv in ditt postnr" :state="validate_invoicezip"></b-form-input>
                                     <b-form-input class="mb-2" id="invoicecity" name="invoicecity" v-model="team.invoice.invoicecity" required placeholder="Skriv in din postort" :state="validate_invoicecity"></b-form-input>
                                     <b-button show @click="payInvoice()" variant="info" size="sm" class="float-right mt-1">
-                                        <b-spinner v-if="showspinner_voucher" small type="grow" class="mr-2"></b-spinner>Skicka in anmälan
+                                        <b-spinner v-if="showspinner_invoice" small type="grow" class="mr-2"></b-spinner>Skicka in anmälan
                                     </b-button>
                                 </b-form-group>
 
@@ -539,7 +534,7 @@
                                     <label for="name">Voucher</label>
                                     <b-form-input @focus="team.validatevoucher = true" aria-describedby="no-voucher" id="voucher" v-model="team.voucher" required placeholder="Skriv in din voucherkod här" :state="validate_voucher">
                                     </b-form-input>
-                                    <b-button show @click="payVoucher()" variant="info" size="sm" class="float-right mt-1">
+                                    <b-button :disabled="!validate_voucher" show @click="payVoucher()" variant="info" size="sm" class="float-right mt-1">
                                         <b-spinner v-if="showspinner_voucher" small type="grow" class="mr-2"></b-spinner>Betala
                                     </b-button>
                                     <b-form-invalid-feedback v-if="team.voucher != ''" id="no-voucher">
