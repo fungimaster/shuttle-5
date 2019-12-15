@@ -15,8 +15,13 @@
             <p>Matchplay är en matchspelstävling för par med officiellt handikapp. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.</p>
             <p>Ta chansen att ta dig till Sverigefinalen och sedan vidare utomlands! Alla deltagare får pikeér från PING.</p>
             
-             <b-alert hiddenclass="mt-4 small" variant="warning">
-                Anmälan för 2020 års tävling öppnar i mitten av december 2019, håll koll via <a href="https://www.facebook.com/pg/matchplay" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplay" target="_blank">Instagram</a>
+             <b-alert hidden class="mt-4 small" variant="warning">
+                Anmälan för 2020 års tävling öppnar i mitten av december 2019, håll utkik här på sidan för mer info!
+                <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
+             </b-alert>
+             <b-alert show class="mt-4 small" variant="danger">
+                Utvecklarna har kollat på Presidents cup hela natten så releasen blir lite senare under kvällen idag eller eventuellt imorgon förmiddag.
+                Håll koll via <a href="https://www.facebook.com/matchplaysweden/" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplay_sweden/" target="_blank">Instagram</a>.
              </b-alert>
                        
             <div class="buttons text-left">
