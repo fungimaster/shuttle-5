@@ -317,10 +317,8 @@
                 
                 <h3 class="orange mb-3">SÅ HÄR FUNGERAR DET</h3>
 
-<p>Matchplay spelas 2020 i hela Sverige och är en tävling för 2-mannalag (herr, dam eller mixed). Officiellt HCP krävs för att delta. Tävlingsformen är 4-boll, Match/Bästboll.</p>
-<p>Ta er till Sverigefinalen och upplev en magisk helg med Matchplay!
-Sverigefinalen görs upp på en golfklubb som ligger geografiskt bra till för de kvarvarande fyra lagen. Hotell, frukost, all golf samt en bankett på kvällen ingår.
-De 2 bästa lagen i Sverigefinalen åker med Matchplay till Spanska solkusten för att göra upp om titeln. Flyg, hotell och allt spel ingår för de bägge lagen.
+<p>Matchplay spelas 2020 i hela Sverige och är en tävling för 2-mannalag (herr, dam eller mixed). Officiellt HCP krävs för att delta. Tävlingsformen är 4-boll, Match/Bästboll. Beroende på antal anmälda lag kommer det bli 6-7 omgångar fram till Sverigefinalen. Varje omgång spelas inom 3 veckor där det vinnande laget går vidare i tävlingen.</p>
+<p>Ta er till Sverigefinalen och upplev en magisk helg med Matchplay! Sverigefinalen görs upp på en golfklubb som ligger geografiskt bra till för de kvarvarande fyra lagen. Hotell, frukost, all golf samt en bankett på kvällen ingår. De 2 bästa lagen i Sverigefinalen åker med Matchplay till Spanska solkusten för att göra upp om titeln. Flyg, hotell och allt spel ingår för de bägge lagen.
 </p>
   <p>
   Priset för deltagande i tävlingen är 900:-/lag för privatpersoner och 2400:-/lag (exkl. moms) för företag. Varje lag är garanterat minst 2 matcher.
@@ -339,7 +337,7 @@ De 2 bästa lagen i Sverigefinalen åker med Matchplay till Spanska solkusten f�
             <div class="step">
             <i class="material-icons">supervised_user_circle</i>
             <h5>Laganmälan</h5>
-            <p>Nu ska du som lagkapten skapa ditt lag och väljer typ av lag (privat/företag), lagmedlem och pikeér från PING. Laget blir inte aktivt förrens du har betalt (swish, voucher eller faktura).</p>
+            <p>Nu ska du som lagkapten skapa ditt lag och väljer typ av lag (privat/företag), lagmedlem och pikeér från PING. Laget blir inte aktivt förrens du har betalat med swish (privatpersoner), voucher eller faktura (företag).</p>
             </div>
           </b-col>
 
@@ -347,7 +345,7 @@ De 2 bästa lagen i Sverigefinalen åker med Matchplay till Spanska solkusten f�
            <div class="step">
             <i class="material-icons">ballot</i>
             <h5>Lottning</h5>
-            <p>I slutet av april kommer lottningen att ske och den görs så att alla lag ska få så kort resa som möjligt. Du kommer få information via mail samt på matchplay.se när lottningen är klar och du kan då se vilket lag ni kommer möta.</p>
+            <p>I slutet av april görs lottningen för den första omgången och där det tas hänsyn till att alla lag ska få så kort resa som möjligt. Du kommer få information via mail samt på matchplay.se när lottningen är klar och du kan då se vilket lag ni kommer möta.</p>
             </div>
           </b-col>
 
@@ -355,7 +353,7 @@ De 2 bästa lagen i Sverigefinalen åker med Matchplay till Spanska solkusten f�
             <div class="step">
               <i class="material-icons">sports_golf</i>
             <h5>Spela matcher</h5>
-            <p>På matchplay.se kommer du kunna se vilket lag ni ska möta samt kontaktuppgifter. När tid och plats är avgjord spelas matchen inom den tidsram som sätts. Använd vårt digitala scorekort där all information räknas ut automatiskt som HCP mm.</p>
+            <p>Varje match måste spelas inom den period som anges för den lottande omgången. På matchplay.se kommer du kunna se vilket lag ni ska möta samt kontaktuppgifter. När tid och plats är avgjord spelas matchen inom den tidsram som sätts. Använd vårt digitala scorekort där all information räknas ut automatiskt som HCP mm.</p>
             </div>
           </b-col>
 
