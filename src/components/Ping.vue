@@ -12,7 +12,7 @@
           <p class="mt-3">Tack vare vår sponsor PING förses alla deltagare med en piké när man anmält sitt lag! <strong>Värde 499: per styck.-</strong>
           </p>
           <p>
-          Du väljer pikeér till ditt lag efter registreringen.
+          Du väljer pikeér till ditt lag efter  <a href="/#register">registreringen</a>.
           </p>
         </b-col>
 
