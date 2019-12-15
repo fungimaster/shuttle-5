@@ -57,7 +57,8 @@
                         <h2 class="teaser-header orange">Hej {{userdetails.firstname}}</h2>
                     </b-col>
                     <b-col md="6" class="text-right">
-                        <b-button variant="primary" class="blue-bg btn-sm mt-3" v-on:click="create_team('new')"><i class="material-icons">sports_golf</i> Skapa ett lag</b-button>
+                        <b-button variant="primary" class="blue-bg mt-3" v-on:click="create_team('new')"><i class="material-icons">sports_golf</i> Skapa ett lag</b-button>
+                        <b-button @click="logoutPrompt" variant="warning" class="mt-3">Logga ut</b-button>
                     </b-col>
                     <b-col md="12" class="mb-4">
                         <hr>
@@ -69,7 +70,10 @@
             <b-container v-if="showteamslist && team.step === 0" class="">
                 <b-row align-h="center">
                     <b-col sm="6" lg="6" class="team pl-2 pr-2 pb-2" v-for="(team,idx) in teams" :key="idx">
-                        <b-card :title=team.teamname v-on:click="edit_team(team)" img-src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_fill,g_center,h_200,w_508/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg" img-alt="Image" img-top tag="article" class="mb-2 team">
+                        <b-card img-src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_fill,g_center,h_200,w_508/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg" img-alt="Image" img-top tag="article" class="mb-2 team">
+                            <b-card-title>
+                                <span>{{team.teamname}}</span>
+                            </b-card-title>
                             <b-card-text class="mt-3">
                                 <div class="pt-0 pb-3">
                                     <span :id="'tooltip-teamleader-' + idx">
@@ -91,7 +95,7 @@
 
                                 <div class="pt-0 pb-0">
                                     <span :id="'tooltip-nextgame-' + idx">
-                                        <i class="material-icons mr-2">date_range</i>{Next game}
+                                        <i class="material-icons mr-2">date_range</i>Väntar på lottning
                                         <b-tooltip :target="'tooltip-nextgame-' + idx" triggers="hover" placement="top">
                                             Nästa match
                                         </b-tooltip>
@@ -121,7 +125,7 @@
                         <b-row align-h="center">
                             <b-col md="6">
 
-                                <b-card class="mb-2" no-body>
+                                <b-card class="mt-4 mb-2" no-body>
                                     <b-card-header>
                                         Ditt lag<span v-if="team.name != ''">: {{team.name}}</span>
                                         <img class="overview-logo" v-bind:src="team.logo" v-if="team.type === 'Company'" />
@@ -157,10 +161,10 @@
                                                     </b-tooltip>
                                                 </span>
                                             </div>
-                                            <div v-if="team.giveaway.setSize1 && team.step > 0" class="pt-0 pb-3">
+                                            <div class="pt-0 pb-3">
                                                 <span id="tooltip-pike">
-                                                    <b-img v-if="team.giveaway.shirt1" class="mr-2" id="shirtimage1" :src="getShirtImg(team.giveaway.shirt1)"></b-img> {{team.giveaway.setSize1}}<br>
-                                                    <b-img v-if="team.giveaway.shirt2" class="mr-2" id="shirtimage1" :src="getShirtImg(team.giveaway.shirt2)"></b-img> {{team.giveaway.setSize2}}
+                                                    <b-img v-if="team.shirtPicker.player1.shirt" class="mr-2" id="shirtimage1" :src="getShirtImg(team.shirtPicker.player1.shirt)"></b-img> {{team.shirtPicker.player1.size}}<br>
+                                                    <b-img v-if="team.shirtPicker.player2.shirt" class="mr-2" id="shirtimage1" :src="getShirtImg(team.shirtPicker.player2.shirt)"></b-img> {{team.shirtPicker.player2.size}}
                                                     <b-tooltip target="tooltip-pike" triggers="hover" placement="top">
                                                         Pikétröjor
                                                     </b-tooltip>
@@ -181,28 +185,6 @@
                             </b-col>
                         </b-row>
                     </b-container>
-
-                    <!--b-container class="shadow-none p-3 mb-5 bg-light rounded">
-                        <b-row>
-                            <b-col md="12">
-                                <h5>Lagkapten: {{userdetails.firstname}} {{userdetails.lastname}}</h5>
-                                <p v-if="team.type">Lagtyp: {{team.type}}</p>
-                            </b-col>
-                        </b-row>
-                        <b-row>
-                            <b-col md="6">
-                                <p v-if="team.player_2_name">Lagmedlem: {{team.player_2_name}}</p>
-                            </b-col>
-                            <b-col md="6">
-                                <p v-if="team.player_3_name">Lagreserv: {{team.player_3_name}}</p>
-                            </b-col>
-                        </b-row>
-                        <b-row>
-                            <b-col md="12">
-                                <p v-if="team.course">Hemmaklubb: {{team.course}}</p>
-                            </b-col>
-                        </b-row>
-                    </b-container-->
 
                     <b-container hidden fluid class="mb-3 pl-0 pr-0">
                         <b-row class="">
@@ -234,7 +216,7 @@
                             <b-col md="6">
                                 <b-form-group class="mb-5">
                                     <label for="name">Företagsnamn</label>
-                                    <b-form-input @input="checkTeamNameUnique" id="companyname" v-model="team.company" required placeholder="Skriv in företagsnamnet" :state="validation_companyname" required>
+                                    <b-form-input id="companyname" v-model="team.company" required placeholder="Skriv in företagsnamnet" :state="validation_companyname" required>
                                     </b-form-input>
                                 </b-form-group>
                                 <b-form-group class="mb-5">
@@ -262,51 +244,37 @@
                             <b-col md="6">
                                 <p v-if="!team.player_2_name">Anmäl en lagkamrat genom att skriva in dennes golf-ID nedan. </p>
                             </b-col>
-                            <!--b-col md="4">
-              <b-form-group>
-                <label for="name">Lagkapten</label>
-                  <b-form-input v-bind:readonly="true"
-                    id="teamleadername"
-                    v-model="team.teamleadername"               
-                    placeholder="Golf id (xxxxxx-xxx)"                   
-                  >
-                  </b-form-input>
-                  <b-button hidden @click="checkGolfID(team.teamleadername,'1')" v-if="!team.is_readonly" variant="info" size="sm" class="float-right mt-1"><b-spinner v-if="showspinner_1" small type="grow" class="mr-2"></b-spinner>Sök spelare</b-button>           
-              </b-form-group>
-
-              <b-alert v-if="team.showplayer1" variant="primary" show class="mt-4 small form-text">
-                {{team.player_1_name}}
-                {{team.player_1_hcp}}
-              </b-alert>
-            </b-col-->
 
                         </b-row>
                         <b-row v-if="team.type != null" align-h="center">
                             <b-col md="6">
                                 <b-form-group>
                                     <label for="name">Lagkamrat:</label>
-                                    <b-form-input :state="validation_teammembername" v-model="team.teammembername" inputmode="numeric" pattern="[- +()0-9]+"  id="teammembername" placeholder="Golf id (xxxxxx-xxx)" required>
+                                    <b-form-input :state="validation_teammembername" v-model="team.teammembername" inputmode="numeric" pattern="[- +()0-9]+" id="teammembername" placeholder="Golf id (xxxxxx-xxx)" required>
                                     </b-form-input>
                                     <b-button @click="checkGolfID(team.teammembername,'2')" v-if="!team.is_readonly" variant="info" size="sm" class="float-right mt-1">
                                         <b-spinner v-if="showspinner_2" small type="grow" class="mr-2"></b-spinner>Sök spelare
                                     </b-button>
                                 </b-form-group>
                                 <b-alert v-if="team.showplayer2" :variant="team.checkgolfidvariant2" show class="mt-4 small form-text">
-                                    Spelare: {{team.player_2_name}}<br>
-                                    HCP: {{team.player_2_hcp}}
-                                    <b-form-input class="mt-2" v-if="!team.player_2_exists" id="teammemberemail" v-model="team.teammemberemail" placeholder="E-mail till deltagaren" :state="validation_teammemberemail" required>
-                                    </b-form-input>
+                                    <span v-if="team.ownid != ''">{{team.ownid}}</span>
+                                    <span v-if="team.ownid === ''">
+                                        Spelare: {{team.player_2_name}}<br>
+                                        HCP: {{team.player_2_hcp}}
+                                        <b-form-input class="mt-2" v-if="!team.player_2_exists" id="teammemberemail" v-model="team.teammemberemail" placeholder="E-mail till deltagaren" :state="validation_teammemberemail" required>
+                                        </b-form-input>
 
-                                    <p class="mt-2" v-if="!team.player_2_exists">
-                                        När du sparar laget kommer vi skicka en inbjudan till din lagkamrat.
-                                    </p>
+                                        <p class="mt-2" v-if="!team.player_2_exists">
+                                            När du sparar laget kommer vi skicka en inbjudan till din lagkamrat.
+                                        </p>
 
-                                    <p class="mt-2" v-if="team.player_2_exists">
-                                        {{team.player_2_name}} har ett Matchplay-konto och kommer att få en förfrågan via email om att vara med i ditt lag.
-                                    </p>
+                                        <p class="mt-2" v-if="team.player_2_exists">
+                                            {{team.player_2_name}} har ett Matchplay-konto och kommer att få en förfrågan via email om att vara med i ditt lag.
+                                        </p>
 
-                                    <b-form-input hidden v-model="team.teammembergolfid" placeholder="Golfid">
-                                    </b-form-input>
+                                        <b-form-input hidden v-model="team.teammembergolfid" placeholder="Golfid">
+                                        </b-form-input>
+                                    </span>
                                 </b-alert>
                             </b-col>
 
@@ -355,7 +323,6 @@
                         </b-row>
 
                         <!-- NEXT STATE -->
-                        <!-- <b-spinner v-if="showloginspinner" small type="grow" class="mr-2"></b-spinner> -->
                         <b-row align-h="center">
                             <b-col md="6">
                                 <b-button @click.prevent="cancel_team()" variant="light"><i class="material-icons">arrow_back_ios</i>Tillbaka</b-button>
@@ -387,8 +354,8 @@
                             <b-col class="col-6">
                                 <b-card @click="shirtState(1)" class="pointer" :variant="team.giveaway.player1" :border-variant="team.giveaway.player1" body-bg-variant="light" :header="team.giveaway.player1header" :header-bg-variant="team.giveaway.player1" :header-text-variant="team.giveaway.player2" align="center">
                                     <b-card-text>
-                                        Pikémodell: <b-img v-if="team.giveaway.shirt1" class="mr-2" id="shirtimage1" :src="getShirtImg(team.giveaway.shirt1)"></b-img><br>
-                                        Storlek: {{team.giveaway.setSize1}}<br>
+                                        Pikémodell: <b-img v-if="team.shirtPicker.player1.shirt" class="mr-2" id="shirtimage1" :src="getShirtImg(team.shirtPicker.player1.shirt)"></b-img><br>
+                                        Storlek: {{team.shirtPicker.player1.size}}<br>
                                     </b-card-text>
                                 </b-card>
 
@@ -396,8 +363,8 @@
                             <b-col class="col-6">
                                 <b-card @click="shirtState(2)" class="pointer" :variant="team.giveaway.player12" :border-variant="team.giveaway.player2" body-bg-variant="light" :header="team.giveaway.player2header" :header-bg-variant="team.giveaway.player2" :header-text-variant="team.giveaway.player1" align="center">
                                     <b-card-text>
-                                        Pikémodell: <b-img v-if="team.giveaway.shirt2" class="mr-2" id="shirtimage1" :src="getShirtImg(team.giveaway.shirt2)"></b-img><br>
-                                        Storlek: {{team.giveaway.setSize2}}<br>
+                                        Pikémodell: <b-img v-if="team.shirtPicker.player2.shirt" class="mr-2" id="shirtimage1" :src="getShirtImg(team.shirtPicker.player2.shirt)"></b-img><br>
+                                        Storlek: {{team.shirtPicker.player2.size}}<br>
                                     </b-card-text>
                                 </b-card>
 
@@ -408,100 +375,71 @@
                         </b-row>
                         <b-row class="mt-4 justify-content-md-center">
                             <b-col md="3" class="text-center">
-                                <b-button class="" @click="setGender('male')" :variant="team.giveaway.malebutton">HERR</b-button>
-                                <b-button class="" @click="setGender('female')" :variant="team.giveaway.femalebutton">DAM</b-button>
+                                <b-button id="male-button" class="" @click="setGender('male')" :variant="team.shirtPicker.gender">HERR</b-button>
+                                <b-button id="female-button" class="" @click="team.shirtPicker.gender = 'female'" :variant="team.shirtPicker.gender">DAM</b-button>
                             </b-col>
                         </b-row>
                         <b-row class="mt-4 justify-content-md-center">
-                            <b-col md="auto" v-if="team.giveaway.male && team.giveaway.shirtstate === 1" class="text-center">
-                                <b-form-select inline v-if="team.giveaway.male" v-model="team.giveaway.selected" :options="team.giveaway.maleoptions" @change.native="myChange">
-                                </b-form-select>
-                            </b-col>
-                            <b-col md="auto" v-if="team.giveaway.male && team.giveaway.shirtstate === 2">
-                                <b-form-select inline v-if="team.giveaway.male" v-model="team.giveaway.selected" :options="team.giveaway.maleoptions" @change.native="myChange">
-                                </b-form-select>
-                            </b-col>
-
-                            <b-col md="auto" v-if="team.giveaway.female && team.giveaway.shirtstate === 1">
-                                <b-form-select inline v-if="team.giveaway.female" v-model="team.giveaway.selected" :options="team.giveaway.femaleoptions" @change.native="myChange">
-                                </b-form-select>
-                            </b-col>
-                            <b-col md="auto" v-if="team.giveaway.female && team.giveaway.shirtstate === 2">
-                                <b-form-select inline v-if="team.giveaway.female" v-model="team.giveaway.selected" :options="team.giveaway.femaleoptions" @change.native="myChange">
+                            <b-col md="auto" class="text-center">
+                                <b-form-select inline v-model="team.giveaway.selected" :options="sizeOptions()" @change.native="myChange">
                                 </b-form-select>
                             </b-col>
                         </b-row>
                     </b-container>
 
                     <!-- HERR -->
-                    <b-container class="mt-3 mb-3" v-if="team.giveaway.male">
+                    <b-container class="mt-3 mb-3" v-if="team.shirtPicker.gender === 'male'">
                         <b-row>
-                            <b-col class="col-6 col-md-4 p-3 text-center shirt" v-bind:class="{ selected: isSelected1 }" @click="selectShirt('1')">
+                            <b-col :class="{ 'selected': team.shirtPicker.selected === '1'}" class="col-6 col-md-4 p-3 text-center shirt" @click="selectShirt('1')">
                                 <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120,c_scale/v1575307928/matchplay/ping/1.png"></b-img>
                             </b-col>
-                            <b-col class="col-6 col-md-4 p-3 text-center shirt" v-bind:class="{ selected: isSelected2 }" @click="selectShirt('2')">
+                            <b-col :class="{ 'selected': team.shirtPicker.selected === '2'}" class="col-6 col-md-4 p-3 text-center shirt" @click="selectShirt('2')">
                                 <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120,c_scale/v1575307928/matchplay/ping/2.png"></b-img>
                             </b-col>
-                            <b-col class="col-6 col-md-4 p-3 text-center shirt" v-bind:class="{ selected: isSelected3 }" @click="selectShirt('3')">
+                            <b-col :class="{ 'selected': team.shirtPicker.selected === '3'}" class="col-6 col-md-4 p-3 text-center shirt" @click="selectShirt('3')">
                                 <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120,c_scale/v1575307928/matchplay/ping/3.png"></b-img>
                             </b-col>
-                            <b-col class="col-6 col-md-4 p-3 text-center shirt" v-bind:class="{ selected: isSelected4 }" @click="selectShirt('4')">
+                            <b-col :class="{ 'selected': team.shirtPicker.selected === '4'}" class="col-6 col-md-4 p-3 text-center shirt" @click="selectShirt('4')">
                                 <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120,c_scale/v1575307927/matchplay/ping/4.png"></b-img>
                             </b-col>
-                            <b-col class="col-6 col-md-4 p-3 text-center shirt" v-bind:class="{ selected: isSelected5 }" @click="selectShirt('5')">
+                            <b-col :class="{ 'selected': team.shirtPicker.selected === '5'}" class="col-6 col-md-4 p-3 text-center shirt" @click="selectShirt('5')">
                                 <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120,c_scale/v1575307926/matchplay/ping/5.png"></b-img>
                             </b-col>
-                            <b-col class="col-6 col-md-4 p-3 text-center shirt" v-bind:class="{ selected: isSelected6 }" @click="selectShirt('6')">
+                            <b-col :class="{ 'selected': team.shirtPicker.selected === '6'}" class="col-6 col-md-4 p-3 text-center shirt" @click="selectShirt('6')">
                                 <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120,c_scale/v1575307926/matchplay/ping/6.png"></b-img>
                             </b-col>
-                            <b-col class="col-6 col-md-4 p-3 text-center shirt" v-bind:class="{ selected: isSelected7 }" @click="selectShirt('7')">
+                            <b-col :class="{ 'selected': team.shirtPicker.selected === '7'}" class="col-6 col-md-4 p-3 text-center shirt" @click="selectShirt('7')">
                                 <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120,c_scale/v1575307926/matchplay/ping/7.png"></b-img>
                             </b-col>
                         </b-row>
                     </b-container>
 
                     <!-- DAM -->
-                    <b-container class="mt-3 mb-3" v-if="team.giveaway.female">
+                    <b-container class="mt-3 mb-3" v-if="team.shirtPicker.gender === 'female'">
                         <b-row>
-                            <b-col class="col-6 col-md-4 p-3 text-center shirt" v-bind:class="{ selected: isSelected8 }" @click="selectShirt('8')">
+                            <b-col :class="{ 'selected': team.shirtPicker.selected === '8'}" class="col-6 col-md-4 p-3 text-center shirt" @click="selectShirt('8')">
                                 <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120,c_scale/v1575307927/matchplay/ping/8.png"></b-img>
                             </b-col>
-                            <b-col class="col-6 col-md-4 p-3 text-center shirt" v-bind:class="{ selected: isSelected9 }" @click="selectShirt('9')">
+                            <b-col :class="{ 'selected': team.shirtPicker.selected === '9'}" class="col-6 col-md-4 p-3 text-center shirt" @click="selectShirt('9')">
                                 <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120,c_scale/v1575307927/matchplay/ping/9.png"></b-img>
                             </b-col>
-                            <b-col class="col-6 col-md-4 p-3 text-center shirt" v-bind:class="{ selected: isSelected10 }" @click="selectShirt('10')">
+                            <b-col :class="{ 'selected': team.shirtPicker.selected === '10'}" class="col-6 col-md-4 p-3 text-center shirt" @click="selectShirt('10')">
                                 <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120,c_scale/v1575307927/matchplay/ping/10.png"></b-img>
                             </b-col>
-                            <b-col class="col-6 col-md-4 p-3 text-center shirt" v-bind:class="{ selected: isSelected11 }" @click="selectShirt('11')">
+                            <b-col :class="{ 'selected': team.shirtPicker.selected === '11'}" class="col-6 col-md-4 p-3 text-center shirt" @click="selectShirt('11')">
                                 <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120,c_scale/v1575307927/matchplay/ping/11.png"></b-img>
                             </b-col>
-                            <b-col class="col-6 col-md-4 p-3 text-center shirt" v-bind:class="{ selected: isSelected12 }" @click="selectShirt('12')">
+                            <b-col :class="{ 'selected': team.shirtPicker.selected === '12'}" class="col-6 col-md-4 p-3 text-center shirt" @click="selectShirt('12')">
                                 <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120,c_scale/v1575307927/matchplay/ping/12.png"></b-img>
                             </b-col>
-                            <b-col class="col-6 col-md-4 p-3 text-center shirt" v-bind:class="{ selected: isSelected13 }" @click="selectShirt('13')">
+                            <b-col :class="{ 'selected': team.shirtPicker.selected === '13'}" class="col-6 col-md-4 p-3 text-center shirt" @click="selectShirt('13')">
                                 <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120,c_scale/v1575307927/matchplay/ping/13.png"></b-img>
                             </b-col>
-                            <b-col class="col-6 col-md-4 p-3 text-center shirt" v-bind:class="{ selected: isSelected14 }" @click="selectShirt('14')">
+                            <b-col :class="{ 'selected': team.shirtPicker.selected === '14'}" class="col-6 col-md-4 p-3 text-center shirt" @click="selectShirt('14')">
                                 <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120,c_scale/v1575307926/matchplay/ping/14.png"></b-img>
                             </b-col>
                         </b-row>
                     </b-container>
-
-                    <!--b-container class="mt-3 mb-4 small">       
-      <b-row>
-         <b-col class="col-12 pl-0">
-            <h4>Valda pikeér</h4>
-          </b-col>
-      </b-row>
-        <b-row class="">        
-            <b-col class="col-6 pl-0">
-                Spelare 1 | <b-img class="mr-2" id="shirtimage1b" src=""></b-img>{{team.giveaway.setSize1}}<br>    
-            </b-col>
-            <b-col class="col-6 pl-0">
-                Spelare 2 | <b-img class="mr-2" id="shirtimage2b" src=""></b-img>{{team.giveaway.setSize2}}<br>    
-            </b-col>
-          </b-row>
-    </b-container-->
 
                     <b-container class="mt-3 mb-4 small">
                         <b-row>
@@ -549,11 +487,6 @@
                         </b-row>
                     </b-container>
 
-                    <small hidden>
-                        DEBUG 1: shirt 1 count = {{selectedShirt1}} | shirt = {{team.giveaway.shirt1}}<br>
-                        DEBUG 2: shirt 2 count = {{selectedShirt2}} | shirt = {{team.giveaway.shirt2}}<br>
-                    </small>
-
                 </div>
 
                 <!-- STEP 3 -->
@@ -572,25 +505,31 @@
                                 <b-form-group fluid class="mb-3" v-if="team.payment === 'A'">
                                     <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_150/v1575278258/matchplay/swish.png" alt="swish"></b-img>
                                     <span v-if="team.type==='Private'">{{team.price_private}} SEK</span>
-                                    <span v-if="team.type==='Company'">{{team.price_company}} SEK (exkl. moms)</span>
 
                                     <vue-tel-input v-model="team.swish.mobile" v-bind="bindProps"></vue-tel-input>
 
-                                    <b-button show @click="swish()" variant="info" size="sm" class="float-right mt-1">
+                                    <b-button :disabled="showspinner_swish" show @click="swish()" variant="info" size="sm" class="float-right mt-1">
                                         <b-spinner v-if="showspinner_swish" small type="grow" class="mr-2"></b-spinner>Betala
                                     </b-button>
+
+                                    <b-alert v-if="showspinner_swish" show class="mt-5 small text-center" variant="primary">
+                                        Nu kan du öppna din Swish-app och godkänna betalningen.
+                                    </b-alert>
+
                                 </b-form-group>
 
                                 <!-- Invoice -->
                                 <b-form-group v-if="team.payment === 'B'">
                                     <label for="name">Fakturauppgifter</label>
+                                    <span v-if="team.type==='Company'">{{team.price_company}} SEK (exkl. moms)</span>
+
                                     <b-form-input class="mb-2" id="invoicename" name="invoicename" v-model="invoicename" required placeholder="Skriv in ditt namn" :state="validate_invoicename"></b-form-input>
                                     <b-form-input inputmode="numeric" class="mb-2" id="invoiceorgno" name="invoiceorgno" v-model="team.invoice.invoiceorgno" required placeholder="Skriv in organisationsnummer" :state="validate_invoiceorgno"></b-form-input>
                                     <b-form-input class="mb-2" id="invoiceaddress" name="invoiceaddress" v-model="team.invoice.invoiceaddress" required placeholder="Skriv in din gatuadress" :state="validate_invoiceaddress"></b-form-input>
                                     <b-form-input class="mb-2" id="invoicezip" name="invoicezip" v-model="team.invoice.invoicezip" required placeholder="Skriv in ditt postnr" :state="validate_invoicezip"></b-form-input>
                                     <b-form-input class="mb-2" id="invoicecity" name="invoicecity" v-model="team.invoice.invoicecity" required placeholder="Skriv in din postort" :state="validate_invoicecity"></b-form-input>
                                     <b-button show @click="payInvoice()" variant="info" size="sm" class="float-right mt-1">
-                                        <b-spinner v-if="showspinner_voucher" small type="grow" class="mr-2"></b-spinner>Skicka in anmälan
+                                        <b-spinner v-if="showspinner_invoice" small type="grow" class="mr-2"></b-spinner>Skicka in anmälan
                                     </b-button>
                                 </b-form-group>
 
@@ -599,7 +538,7 @@
                                     <label for="name">Voucher</label>
                                     <b-form-input @focus="team.validatevoucher = true" aria-describedby="no-voucher" id="voucher" v-model="team.voucher" required placeholder="Skriv in din voucherkod här" :state="validate_voucher">
                                     </b-form-input>
-                                    <b-button show @click="payVoucher()" variant="info" size="sm" class="float-right mt-1">
+                                    <b-button :disabled="!validate_voucher" show @click="payVoucher()" variant="info" size="sm" class="float-right mt-1">
                                         <b-spinner v-if="showspinner_voucher" small type="grow" class="mr-2"></b-spinner>Betala
                                     </b-button>
                                     <b-form-invalid-feedback v-if="team.voucher != ''" id="no-voucher">
@@ -607,8 +546,6 @@
                                     </b-form-invalid-feedback>
                                 </b-form-group>
 
-                                <!--button @click.prevent="prev()">Previous</button>
-                                <button @click.prevent="next()">Next</button-->
                             </b-col>
                         </b-row>
                     </b-container>
@@ -627,6 +564,15 @@
                                 <h2 class="text-center"><i class="material-icons">eject</i> Du valde att avbryta betalningen</h2>
                                 <p>Kontakta oss om det är något som är oklart så hjälper vi till att förklara.</p>
                                 <p>Hälsningar<br>MatchPlay</p>
+                                <div class="text-center mt-5 mb-5">
+                                    <b-button @click="team.step = 3">
+                                        <i class="material-icons">
+                                            settings_backup_restore
+                                        </i> Gå tillbaka till<br>Swish-betalningen
+                                    </b-button>
+                                </div>
+                                <hr>
+
                             </b-col>
                             <b-col v-if="this.paymentstatus === 'ERROR'" md="6">
                                 <h2 class="text-center"><i class="material-icons">error</i> Något gick fel</h2>
@@ -654,18 +600,6 @@
                 </div>
             </b-form>
 
-            <!--
-             <br/><br/>TEAM ID: {{team._id}} - showcreateteam: {{showcreateteam}}
-    -->
-
-            </b-col>
-
-            </b-row>
-
-            <hr class="hidden">
-            <b-button hidden @click="logoutPrompt" variant="warning">Logga ut</b-button>
-
-            </b-container>
         </div>
     </div>
 </div>
@@ -814,6 +748,20 @@ export default {
                     invoicecity: '',
                     marketingpackage: ''
                 },
+                shirtPicker: {
+                    selected: '',
+                    gender: 'male',
+                    player1: {
+                        gender: 'male',
+                        shirt: '',
+                        size: ''
+                    },
+                    player2: {
+                        gender: 'male',
+                        shirt: '',
+                        size: ''
+                    }
+                },
                 giveaway: {
                     selected: null,
                     shirtwarning: false,
@@ -914,6 +862,7 @@ export default {
                 showplayer1: false,
                 showplayer2: false,
                 showplayer3: false,
+                ownid: '',
                 player_1_name: '',
                 player_1_hcp: '',
                 player_1_exists: false,
@@ -1059,6 +1008,31 @@ export default {
     },
     mixins: [tagsMixin],
     methods: {
+
+        sizeOptions() {
+            if (this.team.shirtPicker.gender === 'male') {
+                return this.team.giveaway.maleoptions
+            } else {
+                return this.team.giveaway.femaleoptions
+
+            }
+        },
+        formatZip(value, event) {
+
+            if (isNaN(event.data)) {
+
+                //var reg = new RegExp(event.data, "g");
+                let valuex = value.replace(/a/gi, '');
+
+                return valuex;
+            } else if (value.length === 3) {
+
+                return value + ' '
+            } else {
+                return value;
+            }
+
+        },
         checkTeamNameUnique(name) {
             let url = 'https://matchplay.meteorapp.com/methods/checkTeamNameUnique'
             this.axios.post(url, {
@@ -1082,26 +1056,27 @@ export default {
                 });
         },
         myChange(evt) {
-            let val = evt.target.value
+            const size = evt.target.value
+            if (this.team.giveaway.shirtstate === 1) {
 
-            // do something with val
+                if (this.team.shirtPicker.player1.gender != this.team.shirtPicker.gender) {
+                    this.team.shirtPicker.player1.gender = this.team.shirtPicker.gender;
+                    this.team.shirtPicker.player1.shirt = false;
 
-            var selShirt = this.team.giveaway["shirt" + this.team.giveaway.shirtstate];
-            if (this.team.giveaway.female && selShirt < 8) {
-                //console.log('female size choosen on male shirt');
-                //clear image
-                document.getElementById("shirtimage" + this.team.giveaway.shirtstate).src = ''
-                //document.getElementById("shirtimage" + this.team.giveaway.shirtstate + 'b').src = ''
-                //clear selected shirt
-                this["selectedShirt" + this.team.giveaway.shirtstate] = 0;
-                //clear count
-                this.team.giveaway["shirt" + this.team.giveaway.shirtstate] = 0;
+                }
+                this.team.shirtPicker.player1.size = size;
+
+            } else if (this.team.giveaway.shirtstate === 2) {
+                if (this.team.shirtPicker.player2.gender != this.team.shirtPicker.gender) {
+                    this.team.shirtPicker.player2.gender = this.team.shirtPicker.gender;
+                    this.team.shirtPicker.player2.shirt = false;
+
+                }
+                this.team.shirtPicker.player2.size = size;
+
             }
-
-            this.team.giveaway['setSize' + this.team.giveaway.shirtstate] = val
         },
         shirtState(action) {
-
             this.team.giveaway.shirtstate = action; //set which player(x) should be updated
 
             this.clearShirts();
@@ -1122,17 +1097,26 @@ export default {
                 this.team.giveaway.player1header = 'Klicka här för att välja till dig själv';
                 this.team.giveaway.player2header = 'Välj piké till din lagkamrat';
                 this.team.giveaway.selected = null;
+            }
+        },
+        setGender(gender) {
+            this.team.shirtPicker.gender = gender;
+            if (gender === 'male') {
+                this.team.giveaway.sizeoptions = this.team.giveaway.sizeoptions;
+
+            } else {
+                this.team.giveaway.sizeoptions = this.team.giveaway.femaleoptions;
 
             }
-
+            clearShirts();
         },
-
         clearShirts() {
 
             var i;
             for (i = 0; i < 15; i++) {
                 this["isSelected" + i] = false;
             }
+            this.team.giveaway.selected = null;
 
         },
         getShirtImg(shirt) {
@@ -1140,84 +1124,23 @@ export default {
         },
 
         selectShirt(shirt) {
+            this.clearShirts();
+            this.team.shirtPicker.selected = shirt;
+            if (this.team.giveaway.shirtstate === 1) {
 
-            var selstate = this.team.giveaway.shirtstate;
-            this.team.giveaway["shirt" + this.team.giveaway.shirtstate] = shirt;
-            document.getElementById("shirtimage" + this.team.giveaway.shirtstate).src = 'https://res.cloudinary.com/dn3hzwewp/image/upload/h_30,c_scale,q_50/v1575307928/matchplay/ping/' + shirt + '.png';
-            //document.getElementById("shirtimage" + this.team.giveaway.shirtstate + 'b').src = 'https://res.cloudinary.com/dn3hzwewp/image/upload/h_30,c_scale,q_50/v1575307928/matchplay/ping/' + shirt + '.png';
-
-            if (this["isSelected" + shirt]) {
-                this["isSelected" + shirt] = false;
-                this['selectedShirt' + selstate] = 0;
-                this.team.giveaway['shirt' + selstate] = 0
-            } else {
-                this.clearShirts();
-                this["isSelected" + shirt] = true;
-                this['selectedShirt' + selstate] = 1;
-                if (this.team.giveaway.male) {
-                    this.team.giveaway['setSize' + this.team.giveaway.shirtstate] = this.team.giveaway['maleshirtsize' + this.team.giveaway.shirtstate];
-                } else {
-                    this.team.giveaway['setSize' + this.team.giveaway.shirtstate] = this.team.giveaway['femaleshirtsize' + this.team.giveaway.shirtstate];
+                if (this.team.shirtPicker.player1.gender != this.team.shirtPicker.gender) {
+                    this.team.shirtPicker.player1.gender = this.team.shirtPicker.gender;
+                    this.team.shirtPicker.player1.size = '';
                 }
+                this.team.shirtPicker.player1.shirt = shirt;
+            } else if (this.team.giveaway.shirtstate === 2) {
+                if (this.team.shirtPicker.player2.gender != this.team.shirtPicker.gender) {
+                    this.team.shirtPicker.player2.gender = this.team.shirtPicker.gender;
+                    this.team.shirtPicker.player2.size = '';
+                }
+                this.team.shirtPicker.player2.shirt = shirt;
             }
-
         },
-
-        setGender(gender) {
-
-            var selShirt = this.team.giveaway["shirt" + this.team.giveaway.shirtstate];
-
-            if (gender === 'male') {
-
-                /*
-                           if (selShirt > 7) { //WOMAN selected = CLEAR
-                            console.log('clear shirt and size');
-                            document.getElementById("shirtimage" + this.team.giveaway.shirtstate).src = ''          
-                            }
-                  */
-                /*
-                if (selShirt > 7) { //woman selected = CLEAR
-                     this["isSelected"+selShirt] = false;
-                     this.selectedShirt1 = 0;
-                     document.getElementById("shirtimage" + this.team.giveaway.shirtstate).src = ''            
-                }
-                */
-
-                //this.team.giveaway["shirtsize"+this.team.giveaway.shirtstate] = "M"            
-                this.team.giveaway.male = true;
-                this.team.giveaway.female = false;
-                this.team.giveaway.malebutton = 'success'
-                this.team.giveaway.femalebutton = 'light';
-                this.team.giveaway.selected = null;
-
-            }
-
-            if (gender === 'female') {
-
-                /*
-                if (selShirt < 8) { //MAN selected = CLEAR
-                console.log('clear shirt and size');
-                document.getElementById("shirtimage" + this.team.giveaway.shirtstate).src = ''          
-                }
-                */
-                /*
-                            if (selShirt < 8) { //MAN selected = CLEAR
-                                 this["isSelected"+selShirt] = false;
-                                 this.selectedShirt1 = 0;
-                                 document.getElementById("shirtimage" + this.team.giveaway.shirtstate).src = ''            
-                            } 
-                  */
-
-                //this.team.giveaway["shirtsize"+this.team.giveaway.shirtstate] = "38"        
-                this.team.giveaway.male = false;
-                this.team.giveaway.female = true;
-                this.team.giveaway.malebutton = 'light'
-                this.team.giveaway.femalebutton = 'success'
-                this.team.giveaway.selected = null;
-            }
-
-        },
-
         prev() {
 
             this.team.step--;
@@ -1296,6 +1219,7 @@ export default {
                         "teammemberemail": this.team.teammemberemail,
                         "teamreservegolfid": this.team.teamreservegolfid,
                         "company": this.team.company,
+                        "teamnamecompany": this.team.name,
                         "uistep": this.team.step
                     })
                     .then(response => {
@@ -1326,7 +1250,7 @@ export default {
                 //DEBUG 1: shirt 1 count = {{selectedShirt1}} | shirt = {{team.giveaway.shirt1}}<br>
                 //DEBUG 2: shirt 2 count = {{selectedShirt2}} | shirt = {{team.giveaway.shirt2}}<br>
 
-                if (this.team.giveaway.shirt1 === '' || this.team.giveaway.shirt2 === '' || !this.team.giveaway.setSize1 || !this.team.giveaway.setSize2) {
+                if (this.team.shirtPicker.player1.shirt === '' || this.team.shirtPicker.player2.shirt === '' || !this.team.shirtPicker.player1.size || !this.team.shirtPicker.player2.size) {
                     this.team.giveaway.shirtwarning = true;
                     return;
                 }
@@ -1368,10 +1292,10 @@ export default {
                         "competition": "sFAc3dvrn2P9pXHAz",
                         "_id": this.team._id,
                         "sponsormerch": true,
-                        "item01": this.team.giveaway.shirt1,
-                        "item02": this.team.giveaway.shirt2,
-                        "property01": this.team.giveaway.setSize1,
-                        "property02": this.team.giveaway.setSize2,
+                        "item01": this.team.shirtPicker.player1.shirt,
+                        "item02": this.team.shirtPicker.player2.shirt,
+                        "property01": this.team.shirtPicker.player1.size,
+                        "property02": this.team.shirtPicker.player2.size,
                         "sponsname": this.team.giveaway.sponsname,
                         "sponsaddress": this.team.giveaway.sponsaddress,
                         "sponszipcode": this.team.giveaway.sponszipcode,
@@ -1448,7 +1372,6 @@ export default {
 
                         } else {
                             this.team.validatevoucher = false;
-                            console.log(this.team.validatevoucher)
                         }
 
                     }
@@ -1488,7 +1411,6 @@ export default {
 
                         } else {
                             this.team.validatevoucher = false;
-                            console.log(this.team.validatevoucher)
                         }
 
                     }
@@ -1825,7 +1747,7 @@ export default {
 
         },
         checkGolfID: function (golfid, target) {
-
+            this.team.ownid = '';
             let userinfo = localStorage.getItem('userinfo');
             userinfo = JSON.parse(userinfo);
 
@@ -1839,7 +1761,8 @@ export default {
                 //Check if own golf id search, not accepted
                 if (userinfo.golfid === golfid) {
                     this.team.checkgolfidvariant2 = "warning";
-                    this.team.player_2_name = 'Du kan inte söka på ditt eget golf id.';
+                    this.team.ownid = 'Du kan inte söka på ditt eget golf id.';
+                    this.team.player_2_name = '';
                     this.team.player_2_hcp = '';
                     this.team.player_2_exists = true;
                     this.team.showplayer2 = true;
@@ -1960,7 +1883,7 @@ export default {
                     buttonSize: 'md',
                     okVariant: 'danger',
                     okTitle: 'Japp, jag är säker',
-                    cancelTitle: 'NEJ!',
+                    cancelTitle: 'Nej tack',
                     footerClass: 'p-2',
                     hideHeaderClose: false,
                     centered: true
@@ -2111,7 +2034,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
-<style scoped>
+<style lang="scss" scoped>
+@import "../styles/variables.scss";
+
 .btn i {
     vertical-align: sub;
 }
@@ -2166,11 +2091,27 @@ i.big {
 }
 
 .shirt {
-    cursor: poiner;
+    cursor: pointer;
 }
 
 .selected {
     background: #FFFFCC;
+
+}
+
+#male-button,
+#female-button {
+    background-color: $light;
+}
+
+#male-button.btn-male {
+    background-color: $success;
+    color: #fff;
+}
+
+#female-button.btn-female {
+    background-color: $success;
+    color: #fff;
 
 }
 
