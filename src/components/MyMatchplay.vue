@@ -269,7 +269,7 @@
                                         </p>
 
                                         <p class="mt-2" v-if="team.player_2_exists">
-                                            {{team.player_2_name}} har ett Matchplay-konto och kommer att få en förfrågan via email om att vara med i ditt lag.
+                                            {{team.player_2_name}} har ett Matchplay-konto och kommer att få en laginbjudan via email.
                                         </p>
 
                                         <b-form-input hidden v-model="team.teammembergolfid" placeholder="Golfid">
