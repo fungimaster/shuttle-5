@@ -246,7 +246,7 @@
                       </b-form-group>
                         <b-form-group
                       id="input-group-2"
-                      label="Ange ett lösenord för att hantera din användare"
+                      label="Ditt nya lösenord"
                       label-for="input-1"
                       >
                       <b-form-input
@@ -671,7 +671,7 @@ components: {
           this.showloadgolfid = false;
           
           //this.contbutton1 = 'Fortsätt till nästa steg';
-          this.contbutton1 = 'Kvalificerad?';
+          this.contbutton1 = 'Fortsätt';
           return;
           } else {
             //console.log('empty');
@@ -908,7 +908,7 @@ img {
 
 .btn-special {
 height:calc(1.5em + 1rem + 8px);
-margin-top:0;
+margin-top:0 !important;
 }
 
 .hero {
