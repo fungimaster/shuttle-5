@@ -174,7 +174,7 @@
   }
   p, a, li, span, .btn {
     @media (max-width: 767px) {
-      font-size: 1rem !important;
+      font-size: 1.1rem !important;
     }
   }
   .hidden {
@@ -190,7 +190,7 @@
   a.text-white {
     color: #fff !important;
   }
-  .btn {
+  .btn, .pointer {
     cursor: pointer;
   }
   .btn-lg {
@@ -206,6 +206,13 @@ input::-webkit-inner-spin-button {
 
 input[type=number] {
     -moz-appearance:textfield; /* Firefox */
+}
+
+i.material-icons {
+  vertical-align: middle !important;
+}
+h2 i.material-icons {
+  font-size: 1.2em !important;
 }
 
   /*================ MENU ===============*/
@@ -545,4 +552,24 @@ input[type=number] {
     margin-top: 20px;
   }
   /*=================== LINE-UP END==================*/
+
+
+button.Cookie--matchplay {
+    background: #69b3fe;  
+    color: #fff !important;   
+    cursor: pointer;   
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    cursor: pointer;
+    margin-top:1em;
+    border:0;
+        padding: 10px 30px;
+        text-decoration: none !important;
+        line-height: 1.5;
+    border-radius: .3rem;
+}
+
 </style>

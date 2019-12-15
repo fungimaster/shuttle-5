@@ -13,21 +13,30 @@
           </b-row>
 
           <b-row no-gutters>
-            <b-col md="4" class="gold p-5">
+            <b-col md="3" class="gold p-5 text-center">
               <a href="https://futureitpartner.se/" target="_blank">
                 <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1573315610/matchplay/future_logo.png" alt="">
               </a>
             </b-col>           
-            <b-col md="4" class="gold p-2 pt-5">
+            <b-col md="3" class="gold p-2 pt-5 text-center">
               <a href="https://colburn.se" target="_blank">
                 <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1573315623/matchplay/Logo_Colburn.png" alt="">
               </a>
             </b-col>
-             <b-col md="4" class="gold p-5">
+             <b-col md="3" class="gold p-5 mt-2 text-center">
+              <a href="https://eu.ping.com/sv-se"  target="_blank">
+                <b-img alt="ping" src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1575464479/matchplay/ping/logo.svg"></b-img>
+              </a>
+            </b-col>
+             <b-col md="3" class="gold p-5 text-center">
               <a href="https://www.padelcrew.se/"  target="_blank">
                 <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1573316028/matchplay/padel-crew-logo31.png" alt="" />
               </a>
             </b-col>
+             
+
+ 
+
           </b-row>
           
         </b-col>
@@ -36,6 +45,14 @@
     </b-container>
 
     <footer class="text-center text-white">
+      <cookie-law theme="matchplay"
+      buttonText='OKEJ'  
+      buttonClass="Cookie--matchplay"            
+      >
+       <div slot="message">
+    Denna site använder cookies för att förbättra din användarupplevelse. <router-link to="cookies">Läs mer om cookies här.</router-link>
+  </div>
+      </cookie-law>
       <b-container fluid class="theme-description">
         <b-row>
           <b-col xl="2" class="left">
@@ -47,14 +64,16 @@
                 <b-col>
                   <h3>Matchplay Sweden</h3>                 
                   <div class="hidden newsletter mt-3 mb-5">
-                   
+                    
                   </div>
                   <br>
                   <p class="hidden">Matchplay AB</p>
                   <p>Ängelholm</p>                  
                   <p>Telefon: 010 - 522 00 06</p>
                   <p class="links mb-5">
-                    <router-link hidden to="/info" class="">Om Matchplay</router-link>                 
+                    <router-link to="/ping" class="">PING</router-link> |  
+                    <router-link to="/info" class="">Information</router-link> |  
+                    <router-link to="/cookies" class="">Cookies/Data</router-link>                 
                   </p>
                 </b-col>
                 <b-col xl="2"></b-col>
@@ -71,8 +90,10 @@
 </template>
 
 <script>
-  export default {
+ import CookieLaw from 'vue-cookie-law'
+  export default {    
     name: 'footer',
+    components: { CookieLaw },
     data () {
       return {
         email2: '',
@@ -107,6 +128,7 @@
   }
   .sponsors img {
     max-width: 100%;
+    max-height: 110px;
   }
   .sponsors h2 {
     color: $orange;
@@ -119,7 +141,7 @@
   footer {
     margin-top: 12rem;
     padding: 10rem 0 0 0;
-    background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1807/v1572942209/matchplay/c640cf_402261724c71433c9662662c3114e5b8_mv2_d_4500_3000_s_4_2.png);
+    background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,q_69,w_1207/v1572942209/matchplay/c640cf_402261724c71433c9662662c3114e5b8_mv2_d_4500_3000_s_4_2.png);
     background-repeat: no-repeat;
     background-position: top center;
     background-size: cover;
@@ -176,5 +198,17 @@
     color: #fff !important;
     font-size: 1rem
   }
+
+ //cookiebanner
+ .Cookie--matchplay {
+    background: #424851;
+    color: #fff;
+    padding: 1.25em;
+    font-size:0.9em;
+    cursor:pointer;
+ }
+ 
+
+
 
 </style>

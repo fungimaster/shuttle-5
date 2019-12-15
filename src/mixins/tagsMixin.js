@@ -10,7 +10,8 @@ export const tagsMixin = {
       schedule: [],
       schedulecount: 0,
       showRoom: '',
-      day: ''
+      day: '',
+      firstname:'Logga in'
     }
   },
   methods: {
@@ -391,6 +392,9 @@ export const tagsMixin = {
     this.schedulecount = this.schedule.length;
     this.$store.dispatch('counterUpdate', {count:this.schedule.length});
     //console.log("MIXIN MOUNTED")
+   
+
+    
 
   },
   beforeMount: function () {

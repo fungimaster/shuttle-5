@@ -12,18 +12,16 @@
         <b-row>
           <b-col class="col-12 col-md-9">
             <h2>VÄLKOMMEN TILL MATCHPLAY, GOLFTÄVLINGEN FÖR BÅDE PRIVATPERSONER OCH FÖRETAG</h2>
-            <p
-              class
-            >Matchplay är en matchspelstävling för par med officiellt handikapp. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.</p>
+            <p>Matchplay är en matchspelstävling för par med officiellt handikapp. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.</p>
+            <p>Ta chansen att ta dig till Sverigefinalen och sedan vidare utomlands! Alla deltagare får pikeér från PING.</p>
             
-             <b-alert show class="mt-4 small" variant="warning">
-                Anmälan för 2020 års tävling öppnar i mitten av december 2019, håll utkik här på sidan för mer info!
-                <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
+             <b-alert hiddenclass="mt-4 small" variant="warning">
+                Anmälan för 2020 års tävling öppnar i mitten av december 2019, håll koll via <a href="https://www.facebook.com/pg/matchplay" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplay" target="_blank">Instagram</a>
              </b-alert>
                        
-            <div class=" hidden buttons text-left">
-              <a href="#register" class="btn blue-bg btn-lg text-white mb-3">Anmäl ditt lag</a>
-              <a href="/login" class="btn blue-bg btn-lg text-white mb-3">Hantera ditt lag här</a>
+            <div class="buttons text-left">
+              <a href="#register" class="btn blue-bg btn-lg text-white mt-3 mr-2">Anmälan</a>
+              <a href="/mymatchplay" class="btn blue-bg btn-lg text-white mt-3">Laghantering</a>
             </div>
           </b-col>
           <b-col class="col-md-3 d-none d-md-block pl-5 justify-content-center align-self-center">
@@ -38,16 +36,16 @@
         <b-row>
          
           <b-col>
-            <h2 class="hidden teaser-header orange">Anmäl ditt lag här!</h2>
-            <h2 class="teaser-header orange">Tills registreringen öppnar kan du kolla om du är kvalificerad att delta i tälvlingen</h2>
+            <h2 class="teaser-header orange">Anmäl ditt lag</h2>
+            <h2 class="hidden teaser-header orange">Det är klart du vill vara med i golftävlingen, registrera dig här!</h2>
             <b-row class="mb-3 mt-3">
-              <b-col md="12" class="teaser-content">
+              <b-col md="12" class="teaser-content" ref="success" id="success">
                   <h3 v-if="showqualified" class="mt-3 mb-4">
                     Grattis, du kan vara med i tävlingen <i class="material-icons">tag_faces</i>
                   </h3>
 
                    <h3 v-if="showqualified32" class="mt-3 mb-4">
-                    Grattis, du kan vara med i tävlingen men ditt handicap kommer räknas som 32 <i class="material-icons">tag_faces</i>
+                    Grattis, du kan vara med i tävlingen men ditt handicap kommer räknas som 28 i matchspelet. <i class="material-icons">tag_faces</i>
                   </h3>
 
                   <h3 v-if="showqualifiedNOT" class="mt-3 mb-4">
@@ -59,25 +57,38 @@
                   </h3>
 
                 <div class="form-group" v-if="showform1">
-                  <b-row class="mb-2">
-                    <b-col xs="12" sm="12">
-                      <p>Börja med att ange ditt golf id så hämtar vi en del av informationen automatiskt från Svenska Golfförbundet.</p>
+                  <b-row class="mt-4 mb-4">
+                    
+                     <b-col xs="12" sm="9">
+                       <h4>Alla lagdeltagare får en piké från PING</h4>
+                       <p>Tack vare vår sponsor PING förses alla deltagare med en piké när man har anmält sitt lag! <strong>Värde 499:- styck.</strong></p>
+                     </b-col>
+                      <b-col xs="12" sm="3" class="pl-4 pr-4 pt-0">
+                       <b-img hidden alt="ping" src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1575464479/matchplay/ping/logo.svg"></b-img>
+                       <router-link to="/ping" class=""><b-img alt="ping" src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1575881646/matchplay/ping/ping_shirts.png"></b-img></router-link>
+                       </b-col>
+                  </b-row>
+                       <b-row class="mt-4 mb-2">
+                    <b-col xs="12" sm="12" class="mt-2">
+                      <h4>Skriv in ditt Golf-ID</h4>
+                      <p>Börja med att ange ditt Golf-ID så hämtar vi en del av informationen automatiskt från Svenska Golfförbundet.</p>
                     </b-col>
                   </b-row>
 
                <b-form inline @submit.stop.prevent @submit="getGolfId" @reset="onReset" v-if="showform1">
-                  <b-input :state="validation" v-model="golfid1"
+                  <b-input :state="validation" v-model="golfid"
                     inputmode="numeric"
-                    pattern="[0-9]*"
+                    pattern="[- +()0-9]+"
                     type="text"
-                    style="width:140px;"
+                    size="lg"
+                    style="width:200px;"
                     class="form-control mr-1"
-                    id="golfid1"
-                    placeholder="xxxxxx"
-                    value
+                    id="golfid"
+                    placeholder="xxxxxx-xxx"
+                    value                    
                   />                              
-                  -
-                  <b-input :state="validation2" v-model="golfid2"
+                  
+                  <b-input hidden v-model="golfid2"
                     ref="golfid2"
                     inputmode="numeric"
                     pattern="[0-9]*"
@@ -88,18 +99,28 @@
                     placeholder="xxx"
                     value
                   />                  
-                  <b-button type="submit" variant="primary" class="btn blue-bg ml-0 mt-1 ml-sm-2 mt-sm-0"><b-spinner v-if="showloadgolfid" small type="grow" class="mr-2"></b-spinner>{{ contbutton1 }}
+                  <b-button type="submit" size="md" variant="primary" class="btn blue-bg btn-special ml-0 mt-1 ml-sm-2 mt-sm-0"><b-spinner v-if="showloadgolfid" small type="grow" class="mr-2"></b-spinner>{{ contbutton1 }}
                     
                   </b-button>
                   
                    <b-form-invalid-feedback :state="validation" v-if="showhelper">
-        Ange ditt Golf ID med de 6 första siffrorna i ditt personnummer och sedan 3 siffror efter bindestrecket.
+        Ange ditt Golf-ID med de 6 första siffrorna i ditt personnummer och sedan 3 siffror efter bindestrecket.
       </b-form-invalid-feedback>      
        <b-form-valid-feedback :state="validation" v-if="showhelper">
         Ser bra ut!
       </b-form-valid-feedback>
                   <button type="submit" v-on:click="getGolfId()" class="hidden btn blue-bg mt-1">{{ contbutton1 }}</button>
                 </b-form> 
+               
+               <b-alert class="mt-4 small form-text text-muted"
+      :show="dismissCountDown2"
+      variant="warning"
+     
+    >
+      <p>Du finns redan med i Matchplay som en registrerad spelare.</p>
+       <a href="/mymatchplay" class="btn blue-bg text-white mb-3">Logga in</a>
+    </b-alert>   
+               
                 <b-alert class="mt-4 small form-text text-muted"
       :show="dismissCountDown"
       dismissible
@@ -107,7 +128,7 @@
       @dismissed="dismissCountDown=0"
       @dismiss-count-down="countDownChanged"
     >
-      <p>Vi kunde tyvärr inte hitta ditt Golf ID hos Svenska Golfförbundet, var vänlig försök igen.</p>
+      <p>Vi kunde tyvärr inte hitta ditt Golf-ID hos Svenska Golfförbundet, var vänlig försök igen.</p>
       <b-progress
         variant="warning"
         :max="dismissSecs"
@@ -115,7 +136,7 @@
         height="4px"
       ></b-progress>
     </b-alert>                
-                   <b-alert show class="mt-4 small form-text text-muted">Saknar du ditt golfid ber vi dig kontakta din hemmaklubb för hjälp.</b-alert>                  
+                   <b-alert show class="mt-4 small form-text text-muted">Saknar du ditt Golf-ID ber vi dig kontakta din hemmaklubb för hjälp.</b-alert>                  
                    
                 </div>
 
@@ -123,7 +144,7 @@
                   <b-form @submit="onSubmit" @reset="onReset" v-if="showform2">
                     <b-form-group
                       id="input-group-1"
-                      label="Ditt Golf ID"
+                      label="Ditt Golf-ID"
                       label-for="input-1"
                       label-cols="4"
                       label-cols-lg="2"
@@ -189,71 +210,99 @@
                       label-size="sm"
                     >
                       <b-form-input id="hcp" v-model="form.hcp" type="text" required readonly></b-form-input>
-                    </b-form-group>
+                    </b-form-group> 
 
-                    <b-form-group hidden
-                      id="input-group-3"
-                      label="Välj hemmaklubb för matcher"
-                      label-for="input-3"
-                      label-cols="4"
-                      label-cols-lg="2"
-                      label-size="sm"
-                    >
-                      <b-form-select id="input-3" v-model="form.food" :options="foods" required></b-form-select>
-                    </b-form-group>
-
- <b-form-group hidden
+                  <b-row v-if="docontinue">
+                    <b-col lg="12">
+                       <b-alert show class="mt-4 mb-4 small" variant="primary">
+                    Vi behöver veta lite mer om dig innan du kan gå vidare med registrerigen, vänligen fyll i informationen nedan.
+                  </b-alert>
+                    </b-col>
+                    <b-col lg="8">
+                       <b-form-group
+                      id="input-group-mobile"
+                      label="Mobilnr"
+                      label-for="input-1-mobile"
+                      size='lg'
+                      >
+                      <vue-tel-input v-model="form.mobile" v-bind="bindProps"
+                      ></vue-tel-input>
+                      
+                      </b-form-group>
+                      <b-form-group
                       id="input-group-1"
-                      label="Ange ett lösenord för att hantera din användare"
+                      label="E-post"
                       label-for="input-1"
-                      label-cols="6"
-                      label-cols-lg="4"
-                      label-size="sm"
-                    >
-                      <b-form-input id="pwd" v-model="form.hcp" type="password" required></b-form-input>
-                                      <b-form-text id="password-help-block">
-      Your password must be 8-20 characters long, contain letters and numbers, and must not
-      contain spaces, special characters, or emoji.
-    </b-form-text>
-                    </b-form-group>
+                      >
+                      <b-form-input
+                      id="input-1"
+                      v-model="form.email"
+                      :state="validateEmail"
+                      type="email"
+                      required
+                      placeholder="Skriv din e-postadress"
+                      >
+                      </b-form-input>
+                      
+                      </b-form-group>
+                        <b-form-group
+                      id="input-group-2"
+                      label="Ditt nya lösenord"
+                      label-for="input-1"
+                      >
+                      <b-form-input
+                     :state="validatePassword1"
+                      v-model="form.password"
+                      type="password"
+                      required
+                      placeholder="Skapa ett lösenord"
+                      >
+                      </b-form-input>
+                      <b-form-invalid-feedback :state="validatePassword1">
+                        Krav på minst 8 tecken
+                      </b-form-invalid-feedback>
+                      </b-form-group>
+                           <b-form-group
+                      id="input-group-3"
+                      label="Skriv ditt lösenord en gång till"
+                      label-for="input-1"
+                      >
+                      <b-form-input
+                     :state="validatePassword2"
+                      v-model="form.password2"
+                      type="password"
+                      required
+                      placeholder="Återupprepa lösenordet"
+                      >
+                      </b-form-input>
+                      <b-form-invalid-feedback :state="validatePassword2">
+                        Lösenorden stämmer inte...
+                      </b-form-invalid-feedback>
+                      </b-form-group>
+                      
+                    </b-col>
+                    <b-col lg="4" class="">
+                      <b-card img-src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_300/v1573661281/matchplay/henke-granen.png"
+                      img-top
+                      tag="article"
+                      
+                      class="mt-2"
+                      >
+                      <b-card-text>
+                        Kul att du vill vara med i golftävlingen, hoppas vi ses!<br><i>Henke & Granen</i></b-card-text>
+                      </b-card>
+                    </b-col>
+                  </b-row>
 
-<template>
-  <mailchimp-subscribe
-    url="https://matchplayinvitational.us17.list-manage.com/subscribe/post-json"
-    user-id="3495a2cf6609e5762bd6f3d3d"
-    list-id="2c3dba8bb7"
-    @error="onError"
-    @success="onSuccess"
-  >
-
- <template v-slot="{ subscribe, setEmail, error, success, loading }">
-      <form @submit.prevent="subscribe">
-        <p class="mt-4">Vill du få ett meddelande när registreringen öppnar? Skriv din e-post nedan:</p>
-        <input type="email" @input="setEmail($event.target.value)" />
-        <b-button type="submit" variant="primary" class="btn blue-bg ml-1">Skicka</b-button>       
-        <div v-if="error">
-          <b-alert show class="mt-4 small" variant="warning">
-          {{ error }}                
-          </b-alert>
-          
-          </div>
-        <div v-if="success">
-          <b-alert show class="mt-4 small" variant="warning">
-             Tack, vi meddelar dig så fort registreringen öppnar!
-          </b-alert>
-          </div>
-        <div v-if="loading">Laddar...</div>
-      </form>
-    </template>
-  </mailchimp-subscribe>
-</template>
-<hr>
-
-                    <b-button hidden type="submit" variant="primary" class="btn blue-bg ml-1">Fortsätt till betalning</b-button>
-                    <b-button type="reset" variant="danger">Sök igen</b-button>
-
+                  <b-alert v-if="docontinue" show class="mt-4 small" variant="primary">
+                    När registreringen är genomförd väljer du att skapa ett eller flera lag och kan välja om det är privat eller företag.
+                  </b-alert>
+                                   
+                  <b-alert show v-if="showerror" class="mt-4 small"  variant="danger">Det finns redan en användare med denna e-post ({{emailexist}}), om du redan är registrerad kan du logga in uppe till höger, där kan du också få ett nytt lösenord om du har glömt ditt befintliga.</b-alert>
+                  
    
-
+                    <b-button v-if="docontinue" :disabled="showspinnerregisteruser" type="submit" variant="primary" class="btn blue-bg ml-1"><b-spinner v-if="showspinnerregisteruser" small type="grow" class="mr-2"></b-spinner>Registrera dig</b-button>
+                    <b-button type="reset" variant="danger">Avbryt</b-button>
                   </b-form>
                   
                   <b-card class="mt-3 hidden" header="Form Data Result">
@@ -265,17 +314,75 @@
               </b-col>
             </b-row>
 
-            <b-row class="hidden mb-5 mt-5">
-              <b-col md="6" class="teaser-content">
-                <h3 class="orange">Connect</h3>
-                <p>Social media keeps you connected to your peers. However, there’s no substitution for meeting IRL.</p>
-                <p>With 1200 participants, which conversation will you jump in?</p>
+            <b-row class="mb-5 mt-5">
+              <b-col md="12" class="teaser-content">
+                
+                <h3 class="orange mb-3">SÅ HÄR FUNGERAR DET</h3>
+
+<p>Matchplay spelas 2020 i hela Sverige och är en tävling för 2-mannalag (herr, dam eller mixed). Officiellt HCP krävs för att delta. Tävlingsformen är 4-boll, Match/Bästboll. Beroende på antal anmälda lag kommer det bli 6-7 omgångar fram till Sverigefinalen. Varje omgång spelas inom 3 veckor där det vinnande laget går vidare i tävlingen.</p>
+<p>Ta er till Sverigefinalen och upplev en magisk helg med Matchplay! Sverigefinalen görs upp på en golfklubb som ligger geografiskt bra till för de kvarvarande fyra lagen. Hotell, frukost, all golf samt en bankett på kvällen ingår. De 2 bästa lagen i Sverigefinalen åker med Matchplay till Spanska solkusten för att göra upp om titeln. Flyg, hotell och allt spel ingår för de bägge lagen.
+</p>
+  <p>
+  Priset för deltagande i tävlingen är 900:-/lag för privatpersoner och 2400:-/lag (exkl. moms) för företag. Varje lag är garanterat minst 2 matcher.
+</p>
+                <b-container class="mt-5 mb-4">
+      <b-row>
+          <b-col class="col-12 col-md-4 p-2">            
+            <div class="step">
+            <i class="material-icons">assignment_turned_in</i>
+            <h5>Registrering</h5>
+            <p>Börja med att skriva in ditt Golf-ID på matchplay.se där du direkt får besked om du är kvalificerad. Ha din lagkamrats Golf-ID tillhands och önskad modell/storlek på piké. Du blir sedan direkt inloggad för att påbörja ditt lagbygge.</p>
+            </div>
+          </b-col>
+
+          <b-col class="col-12 col-md-4 p-2"> 
+            <div class="step">
+            <i class="material-icons">supervised_user_circle</i>
+            <h5>Laganmälan</h5>
+            <p>Nu ska du som lagkapten skapa ditt lag och väljer typ av lag (privat/företag), lagmedlem och pikeér från PING. Laget blir inte aktivt förrens du har betalat med swish (privatpersoner), voucher eller faktura (företag).</p>
+            </div>
+          </b-col>
+
+         <b-col class="col-12 col-md-4 p-2">
+           <div class="step">
+            <i class="material-icons">ballot</i>
+            <h5>Lottning</h5>
+            <p>I slutet av april görs lottningen för den första omgången och där det tas hänsyn till att alla lag ska få så kort resa som möjligt. Du kommer få information via mail samt på matchplay.se när lottningen är klar och du kan då se vilket lag ni kommer möta.</p>
+            </div>
+          </b-col>
+
+          <b-col class="col-12 col-md-4 p-2">
+            <div class="step">
+              <i class="material-icons">sports_golf</i>
+            <h5>Spela matcher</h5>
+            <p>Varje match måste spelas inom den period som anges för den lottande omgången. På matchplay.se kommer du kunna se vilket lag ni ska möta samt kontaktuppgifter. När tid och plats är avgjord spelas matchen inom den tidsram som sätts. Använd vårt digitala scorekort där all information räknas ut automatiskt som HCP mm.</p>
+            </div>
+          </b-col>
+
+          <b-col class="col-12 col-md-4 p-2">
+            <div class="step">
+              <i class="material-icons">golf_course</i>
+            <h5>Sverigefinal</h5>
+            <p>Fyra lag tävlar i Sverigefinalen och denna kommer äga rum på en golfklubb som ligger geografiskt bra till för de tävlande 4 lagen. Hotell, frukost, all golf samt en bankett på kvällen ingår.</p>
+            </div>
+          </b-col>
+
+          <b-col class="col-12 col-md-4 p-2">
+            <div class="step">
+              <i class="material-icons">flight_takeoff</i>
+            <h5>Finalen</h5>
+            <p>De 2 vinnande lagen i Sverigefinalen åker med Matchplay till Spanska solkusten för att göra upp om titeln. Flyg, hotell och allt spel ingår för de bägge lagen och på vilken bana finalen spelas blir klart under januari 2020.</p>
+            </div>
+          </b-col>
+
+         <b-col class="col-12 mt-4">
+                     <a href="/info" class="btn blue-bg btn-md text-white mb-3">Läs mer här</a>          
+         </b-col>
+
+      </b-row>
+ </b-container>
               </b-col>
-              <b-col md="6" class="teaser-content">
-                <img
-                  src="https://res.cloudinary.com/dn3hzwewp/image/upload/f_auto,w_510/v1572940143/matchplay/matchplay_bg.jpg"
-                />
-              </b-col>
+              
             </b-row>
           </b-col>
           <b-col xl="1"></b-col>
@@ -351,160 +458,381 @@
 
 
 <script>
-import MailchimpSubscribe from 'vue-mailchimp-subscribe'
-import { tagsMixin } from "../mixins/tagsMixin";
+import { tagsMixin } from "../mixins/tagsMixin";
+/*import VuePhoneNumberInput from 'vue-phone-number-input';
+import 'vue-phone-number-input/dist/vue-phone-number-input.css';*/
+import { VueTelInput } from 'vue-tel-input'
 
-export default {
-  name: "hello",
-  components: {
-    MailchimpSubscribe,
-  },
-  data() {
-    return {
-      showhelper: false,
-      //contbutton1: 'Fortsätt till nästa steg',
-      contbutton1 : 'Kvalificerad?',
-      showloadgolfid: false,
-      dismissSecs: 5,
-      dismissCountDown: 0,
-      showDismissibleAlert: false,
-      golfid1: '',
-      golfid2: '',
-      doctitle: this.$store.state.conferencename,
-      form: {
-        golfid: "",
-        firstname: "",
-        lastname: "",
-        hcp: "",
-        club: "",
-        food: null,
-        checked: []
-      },
-      foods: [
-        { text: "Select One", value: null },
-        "Carrots",
-        "Beans",
-        "Tomatoes",
-        "Corn"
-      ],
-      showform1: true,
-      showform2: false,
-      showqualified: false,
-      showqualified32: false,
-      showqualifiedNOT: false,
-      showqualifiedNOCLUB: false
-    };
-  },
-  computed: {
-      validation() {
-        if (this.golfid1.length === 6) {
-          this.$refs.golfid2.$el.focus()
+export default {
+  name: "hello",
+components: {   
+      //'phone':VuePhoneNumberInput,
+     // 'phone':VueTelInput,
+      VueTelInput
+    },
+  data() {
+    return {
+   bindProps: {
+        mode: "international",
+        defaultCountry: "SE",
+        disabledFetchingCountry: false,
+        disabled: false,
+        disabledFormatting: false,
+        placeholder: "Skriv ditt mobilnummer",
+        required: true,
+        enabledCountryCode: false,
+        enabledFlags: true,
+        preferredCountries: [],
+        onlyCountries: ["SE","NO","DK"],
+        ignoredCountries: [],
+        autocomplete: "off",
+        name: "telephone",
+        maxLen: 25,
+        wrapperClasses: "",
+        inputClasses: "form-control",
+        dropdownOptions: {
+          disabledDialCode: false
+        },
+        inputOptions: {
+          showDialCode: false
         }
-        return this.golfid1.length === 6;
-        //return this.golfid1.length === 6 && this.golfid2.length === 3;
       },
-       validation2() {        
-        return this.golfid2.length === 3;
-      }
-    },
-  mixins: [tagsMixin],
-  methods: {
-     countDownChanged(dismissCountDown) {
-        this.dismissCountDown = dismissCountDown
-      },
-      showAlert() {
-        this.dismissCountDown = this.dismissSecs
-      },
-    goRouter: function() {
-      this.$router.push({ path: "line-up" });
-    },
-    getGolfId: function(golfid) {      
-      //evt.preventDefault();
-      var golfid1 = document.getElementById("golfid1").value;
-      var golfid2 = document.getElementById("golfid2").value;
-      if (golfid1 === '' || golfid2 === '') return;
-      this.contbutton1 = 'Hämtar data från SGF';     
-      this.showloadgolfid = true;
-      this.axios      
-        .get(
-          "https://colburn-chat-buxom-tamale.eu-gb.mybluemix.net/get_golfid?golfid=" + golfid1 + '-' + golfid2,
-          //"http://localhost:3000/get_golfid?golfid=" + golfid1 + '-' + golfid2,
-          {
-            params: {
-              //ID: 12345
-            }
-          }
-        )
-        .then(response => {         
-          //console.log(response.data);         
+      showhelper: false,
+      //contbutton1: 'Fortsätt till nästa steg',
+      docontinue: true,
+      contbutton1 : 'Fortsätt',
+      showpasswordsdontmatch: false,
+      showspinnerregisteruser: false,
+      showerror: false, //if user exists when register
+      emailexist: '',
+      showloadgolfid: false,
+      dismissSecs: 5,
+      dismissCountDown: 0,
+      dismissCountDown2: 0,
+      test:'',
+      showDismissibleAlert: false,
+      golfid: '',
+      golfid2: '',
+      doctitle: this.$store.state.conferencename,
+      form: {       
+        golfid: "",
+        mobile: "",
+        firstname: "",
+        lastname: "",
+        hcp: "",
+        club: "",
+        email:"",
+        password:"",
+        password2:""
+      },      
+      showform1: true,
+      showform2:false, //should be default false
+      showqualified: false,
+      showqualified32: false,
+      showqualifiedNOT: false,
+      showqualifiedNOCLUB: false
+    };
+  },
+   
+  computed: {
+      validation() {
 
-          if (response.data != 'error') {  
-            
-          this.showform1 = false;
-          this.showform2 = true;
-          this.form.golfid = golfid1+'-'+golfid2;
-          this.form.firstname = response.data.firstname;
-          this.form.lastname = response.data.lastname;
-          this.form.club = response.data.club;
-          //this.form.hcp = response.data.hcp;
-          this.form.hcp = response.data.hcp.replace(/,/g, '.')
+      let validated = false;
 
-          if (response.data.club == 'empty') {
-             this.showqualifiedNOCLUB = true;
-             return;
-          }
-          
-//console.log(this.form.hcp)
-          if (this.form.hcp < 32) {
-              this.showqualified = true;
-          } else if (this.form.hcp > 32 && this.form.hcp < 36.1 ) {
-              this.showqualified32 = true;
-          } else if (this.form.hcp > 36.0) {
-               this.showqualifiedNOT = true;
+      var re = /^[- ]*[0-9][- 0-9]*$/;
+       if (re.test(this.golfid)) {
+
+        if (this.golfid.length === 6) {
+          this.golfid = this.golfid + '-'
+          validated = true;
+        }
+
+        if (this.golfid.length === 10) {
+          validated = true;
+        } else {                    
+          validated = false;          
+        }
+        }
+
+      return validated;
+
+/*
+       var re = /^[- +()]*[0-9][- +()0-9]*$/;
+       console.log(re.test(this.golfid))
+       return re.test(this.golfid)
+
+        if (this.golfid.length === 6) {
+          this.golfid = this.golfid + '-'
+        }
+
+         return this.golfid.length === 10;
+
+       */
+
+       
+
+
+      },      
+      validateEmail() {
+         
+         if (this.form.email.length < 4) {
+           return;
+         }
+
+         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+         return re.test(String(this.form.email).toLowerCase());
+         
+      },
+      validatePassword1() {
+         if (this.form.password.length === 0) {         
+          return;
+        }
+         return this.form.password.length > 7;
+      },
+      validatePassword2() {
+        if (this.form.password.length === 0) {
+          this.showpasswordsdontmatch = false;
+          return;
+        }
+         return this.form.password === this.form.password2;
+      }
+    },
+  mixins: [tagsMixin],
+  methods: {    
+
+     countDownChanged(dismissCountDown) {
+        this.dismissCountDown = dismissCountDown
+      },
+      showAlert() {
+        this.dismissCountDown = this.dismissSecs
+      },
+      showAlert2() {
+        this.dismissCountDown2 = true;
+      },
+    goRouter: function() {
+      this.$router.push({ path: "line-up" });
+    },
+    getGolfId: function(golfid) {      
+      //evt.preventDefault();
+      //var golfid1 = document.getElementById("golfid1").value;
+      //var golfid2 = document.getElementById("golfid2").value;
+      if (this.golfid === '') return;
+      this.contbutton1 = 'Hämtar data från SGF';    
+      this.dismissCountDown2 = false; //hide you exist alert
+      this.showloadgolfid = true;
+      this.axios      
+        .post(
+          //"https://colburn-chat-buxom-tamale.eu-gb.mybluemix.net/get_golfid?golfid=" + golfid1 + '-' + golfid2,
+          "https://matchplay.meteorapp.com/methods/getPlayerByGolfid",
+          //"http://localhost:3000/get_golfid?golfid=" + golfid1 + '-' + golfid2,
+          {
+                  "golfid": this.golfid                      
+                }
+        )
+        .then(response => {         
+          //console.log(response.data);         
+
+          if (response.data.hasOwnProperty('error')) {
+              this.contbutton1 = 'Fortsätt';
+              this.showAlert();
+              this.showloadgolfid = false;
+              return;
           }
 
-          this.showloadgolfid = false;
-          
-          //this.contbutton1 = 'Fortsätt till nästa steg';
-          this.contbutton1 = 'Kvalificerad?';
-          return;
-          } else {
-            //console.log('empty');
-            this.showAlert();
-            this.showloadgolfid = false;
+         
+         if (!response.data.hasOwnProperty('notingit')) {  
+
+          //check if user exists in matchplay admin
+          if (response.data.exists) {
+            this.contbutton1 = 'Prova igen';    
+            this.showAlert2();
+            this.showloadgolfid = false;
             return;
           }
-        })
-        .catch(error => {          
-          console.log(error);
-        });
-    },
-    onSubmit(evt) {
-      evt.preventDefault();
-      alert(JSON.stringify(this.form));
-    },
-    onReset(evt) {
-      this.showform1 = true;
-      this.showform2 = false;
-      this.showqualified = false;
-      this.showqualified32 = false;
-      this.showqualifiedNOT = false;
-      this.showqualifiedNOCLUB = false;  
-      evt.preventDefault();
-      // Reset our form values
-      this.form.email = "";
-      this.form.name = "";
-      this.form.food = null;
-      this.form.checked = [];      
-      // Trick to reset/clear native browser form validation state
-      this.show = false;
-      this.$nextTick(() => {
-        this.show = true;
-      });
-    }
-  }
+          //end check
+            
+          this.showform1 = false;
+          this.showform2 = true;
+          this.form.golfid = this.golfid;
+          this.form.firstname = response.data.firstname;
+          this.form.lastname = response.data.lastname;
+          this.form.club = response.data.club;
+          //this.form.hcp = response.data.hcp;
+          this.form.hcp = response.data.hcp.replace(/,/g, '.')
+
+          if (response.data.club == 'empty') {
+             this.showqualifiedNOCLUB = true;
+             return;
+          }
+
+          var element = this.$refs["success"];
+          var top = element.offsetTop;         
+          window.scrollTo(0,400);
+          
+//console.log(this.form.hcp)
+          if (this.form.hcp < 28.1) {
+              this.showqualified = true;
+              this.docontinue = true;
+          } else if (this.form.hcp > 28 && this.form.hcp < 36.1 ) {
+              this.showqualified32 = true;
+              this.docontinue = true;
+          } else if (this.form.hcp > 36.0) {
+               this.showqualifiedNOT = true;
+                this.docontinue = false;
+          }
+
+          this.showloadgolfid = false;
+          
+          //this.contbutton1 = 'Fortsätt till nästa steg';
+          this.contbutton1 = 'Fortsätt';
+          return;
+          } else {
+            //console.log('empty');
+            this.showAlert();
+            this.showloadgolfid = false;
+            return;
+          }
+        })
+        .catch(error => {          
+          console.log(error);
+        });
+    },
+    onSubmit(evt) {
+      evt.preventDefault();
+
+    if (this.form.password != this.form.password2) {
+       this.showpasswordsdontmatch = true;
+       return;
+    }
+
+      this.showerror = false;
+      this.showspinnerregisteruser = true;
+          this.axios.post('https://matchplay.meteorapp.com/methods/userAdd', {           
+              //ID: 12345              
+              "emails": [
+                  {
+                      "address": this.form.email
+                  }
+              ],
+              "password": this.form.password,
+              "firstname": this.form.firstname,
+              "lastname": this.form.lastname,                              
+              "golfid": this.form.golfid,
+              "mobile": this.form.mobile
+            }
+          )
+          .then(response => {            
+            //$(".speaker-single").slideDown(200);
+           
+            if (response.data.hasOwnProperty('error')) {
+              this.showerror = true;
+              this.emailexist = this.form.email;  
+              this.showspinnerregisteruser = false;
+              return;
+            }
+           
+           
+
+           //try to login the user
+          this.login();
+
+            return;
+          })
+          .catch(error => {
+            console.log(error);
+          });
+        
+
+
+
+      //alert(JSON.stringify(this.form));
+    },
+     login() {      
+        
+      this.showloginspinner = true;     
+
+      //DDP LOGIN
+      const simpleDDP = require("simpleddp");
+      const simpleDDPLogin = require("simpleddp-plugin-login").simpleDDPLogin;
+
+      let opts = {
+          endpoint: "wss://matchplay.meteorapp.com/websocket",
+          SocketConstructor: WebSocket,
+          reconnectInterval: 5000
+      };
+      const server = new simpleDDP(opts,[simpleDDPLogin]);
+
+      let password = this.form.password;
+      let email = this.form.email;
+      let parentVue = this;
+
+    // doAsyncOperation1() returns a promise.
+trylogin()
+.then(() => { 
+   console.log('logged in with creds',server.token);      
+   //parentVue.showerror = false;
+   localStorage.setItem('auth_token',server.token);
+   //parentVue.showlogin = false;
+   //parentVue.showloginspinner = false;
+   //parentVue.doctitle = 'Inloggad';
+   //Set params for user
+   let userinfo = server.collections.users[0].profile;
+   localStorage.setItem('userinfo',JSON.stringify(userinfo));
+   this.showspinnerregisteruser = false;
+   this.$router.push({ path: "mymatchplay" });
+   //this.setuserinfoform();
+})
+.then((output) => {
+  
+})
+.catch((err) => {  
+   console.log('NOT logged in with creds, show error on form')
+   //parentVue.showerror = true;
+   //parentVue.showloginspinner = false;
+});
+
+    async function trylogin() { // (1)
+      let response = await server.login(
+        {
+        password,
+        user: {          
+            email
+        }
+      }
+      );   
+    }
+
+
+    },
+    onReset(evt) {
+      this.showform1 = true;
+      this.showform2 = false;
+      this.showqualified = false;
+      this.showqualified32 = false;
+      this.showqualifiedNOT = false;
+      this.showqualifiedNOCLUB = false;  
+      evt.preventDefault();
+      // Reset our form values
+      this.form.email = "";
+      this.form.password = "";
+      this.form.password2 = "";      
+      // Trick to reset/clear native browser form validation state
+      this.show = false;
+      this.$nextTick(() => {
+        this.show = true;
+      });
+
+      //scroll to correct place on page      p
+      var element = this.$refs["register"];
+      var top = element.offsetTop;
+      window.scrollTo(0, top);
+      
+
+    }
+  }
 };
 </script>
+
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
@@ -591,6 +919,11 @@ img {
   }
 }
 
+.btn-special {
+height:calc(1.5em + 1rem + 8px);
+margin-top:0 !important;
+}
+
 .hero {
   background: url(
       https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg
@@ -604,7 +937,7 @@ img {
   background-position: right 0px top 0px;
   @media (min-width: 320px) {
     padding: 6rem 0 5rem 0;
-    /*background-position: bottom 10% right 0;*/    
+    /*background-position: bottom 10% right 0;*/
   }
   @media (min-width: 480px) {
     padding: 8rem 0 8rem 0;
@@ -622,6 +955,7 @@ img {
     /*background-position: bottom 55% right 0;*/
   }
 }
+
 
 .come {
   /*background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_2390/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg);*/
@@ -789,4 +1123,50 @@ img {
   background-position: left center;
   background-size: cover;
 }
+
+.step {
+  border-radius:0.3em;
+  border:1px solid #e1e1e1;
+  padding:1em;
+  min-height:360px;
+  text-align: center; 
+}
+
+.step i {
+  font-size: 3em;
+    text-align: center;
+    margin: 0 0 20px 0;
+    color: #fd9b37;
+}
+
+.step p {
+  text-align: left;
+   font-size:0.8em;
+   margin: 20px 0 0 0;
+}
+
+.step:hover {
+  background:#f6f6f6;
+}
+
+
+
+@media (max-width: 576px){
+
+h3 {
+  font-size: 1.4rem !important;
+}
+
+h4 {
+    font-size: 1.3rem !important;
+}
+
+h5 {
+    font-size: 1.1rem !important;
+}
+}
+
+
+
+
 </style>

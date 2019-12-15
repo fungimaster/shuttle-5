@@ -5,11 +5,11 @@ import Tickets from '@/components/Tickets'
 import Lineup from '@/components/Lineup'
 import Sessions from '@/components/Sessions'
 import Search from '@/components/Search'
-import Login from '@/components/Login'
+import MyMatchplay from '@/components/MyMatchplay'
 import Faq from '@/components/Faq'
-import About from '@/components/About'
+import Cookies from '@/components/Cookies'
 import Committee from '@/components/Committee'
-import Conduct from '@/components/Conduct'
+import Ping from '@/components/Ping'
 import Partnership from '@/components/Partnership'
 import Privacy from '@/components/Privacy'
 import ConvinceBoss from '@/components/ConvinceBoss'
@@ -59,9 +59,9 @@ export default new Router({
       component: Search
     },
     {
-      path: '/login',
-      name: 'Login',
-      component: Login
+      path: '/mymatchplay',
+      name: 'MyMatchplay',
+      component: MyMatchplay
     },   
     /*
     {
@@ -81,9 +81,9 @@ export default new Router({
       component: Faq
     },
     {
-      path: '/about',
-      name: 'About',
-      component: About
+      path: '/cookies',
+      name: 'Cookies',
+      component: Cookies
     },
     {
       path: '/committee',
@@ -91,9 +91,9 @@ export default new Router({
       component: Committee
     },
     {
-      path: '/code-of-conduct',
-      name: 'Conduct',
-      component: Conduct
+      path: '/ping',
+      name: 'Ping',
+      component: Ping
     },
     {
       path: '/partnership',

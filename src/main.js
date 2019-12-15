@@ -5,6 +5,9 @@ import Vuex from 'vuex';
 import BootstrapVue from "bootstrap-vue";
 import vueHeadful from 'vue-headful';
 
+//global variable
+Vue.prototype.$username = 'Logga in'
+
 import App from './App';
 //import store from "./store";
 import axios from "axios";
