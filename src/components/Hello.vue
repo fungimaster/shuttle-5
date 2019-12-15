@@ -45,7 +45,7 @@
                   </h3>
 
                    <h3 v-if="showqualified32" class="mt-3 mb-4">
-                    Grattis, du kan vara med i tävlingen men ditt handicap kommer räknas som 32 <i class="material-icons">tag_faces</i>
+                    Grattis, du kan vara med i tävlingen men ditt handicap kommer räknas som 28 i matchspelet. <i class="material-icons">tag_faces</i>
                   </h3>
 
                   <h3 v-if="showqualifiedNOT" class="mt-3 mb-4">
@@ -61,7 +61,7 @@
                     
                      <b-col xs="12" sm="9">
                        <h4>Alla lagdeltagare får en piké från PING</h4>
-                       <p>Tack vare vår sponsor PING förses alla deltagare med en piké när man har anmält sitt lag! <strong>Värde 998:-</strong></p>
+                       <p>Tack vare vår sponsor PING förses alla deltagare med en piké när man har anmält sitt lag! <strong>Värde 499:- styck.</strong></p>
                      </b-col>
                       <b-col xs="12" sm="3" class="pl-4 pr-4 pt-0">
                        <b-img hidden alt="ping" src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1575464479/matchplay/ping/logo.svg"></b-img>
@@ -70,8 +70,8 @@
                   </b-row>
                        <b-row class="mt-4 mb-2">
                     <b-col xs="12" sm="12" class="mt-2">
-                      <h4>Skriv in ditt golf id</h4>
-                      <p>Börja med att ange ditt golf id så hämtar vi en del av informationen automatiskt från Svenska Golfförbundet.</p>
+                      <h4>Skriv in ditt Golf-ID</h4>
+                      <p>Börja med att ange ditt Golf-ID så hämtar vi en del av informationen automatiskt från Svenska Golfförbundet.</p>
                     </b-col>
                   </b-row>
 
@@ -104,7 +104,7 @@
                   </b-button>
                   
                    <b-form-invalid-feedback :state="validation" v-if="showhelper">
-        Ange ditt Golf ID med de 6 första siffrorna i ditt personnummer och sedan 3 siffror efter bindestrecket.
+        Ange ditt Golf-ID med de 6 första siffrorna i ditt personnummer och sedan 3 siffror efter bindestrecket.
       </b-form-invalid-feedback>      
        <b-form-valid-feedback :state="validation" v-if="showhelper">
         Ser bra ut!
@@ -128,7 +128,7 @@
       @dismissed="dismissCountDown=0"
       @dismiss-count-down="countDownChanged"
     >
-      <p>Vi kunde tyvärr inte hitta ditt Golf ID hos Svenska Golfförbundet, var vänlig försök igen.</p>
+      <p>Vi kunde tyvärr inte hitta ditt Golf-ID hos Svenska Golfförbundet, var vänlig försök igen.</p>
       <b-progress
         variant="warning"
         :max="dismissSecs"
@@ -136,7 +136,7 @@
         height="4px"
       ></b-progress>
     </b-alert>                
-                   <b-alert show class="mt-4 small form-text text-muted">Saknar du ditt golfid ber vi dig kontakta din hemmaklubb för hjälp.</b-alert>                  
+                   <b-alert show class="mt-4 small form-text text-muted">Saknar du ditt Golf-ID ber vi dig kontakta din hemmaklubb för hjälp.</b-alert>                  
                    
                 </div>
 
@@ -144,7 +144,7 @@
                   <b-form @submit="onSubmit" @reset="onReset" v-if="showform2">
                     <b-form-group
                       id="input-group-1"
-                      label="Ditt Golf ID"
+                      label="Ditt Golf-ID"
                       label-for="input-1"
                       label-cols="4"
                       label-cols-lg="2"
@@ -294,7 +294,7 @@
                   </b-row>
 
                   <b-alert show class="mt-4 small" variant="primary">
-                    När registreringen är genomförd väljer du att skapa ett eller flera lag och kan välja om det är privat eller företag samt betalningsalternativ.
+                    När registreringen är genomförd väljer du att skapa ett eller flera lag och kan välja om det är privat eller företag.
                   </b-alert>
                                    
                   <b-alert show v-if="showerror" class="mt-4 small"  variant="danger">Det finns redan en användare med denna e-post ({{emailexist}}), om du redan är registrerad kan du logga in uppe till höger, där kan du också få ett nytt lösenord om du har glömt ditt befintliga.</b-alert>
@@ -317,13 +317,13 @@
                 
                 <h3 class="orange mb-3">SÅ HÄR FUNGERAR DET</h3>
 
-<p>Matchplay spelas 2020 i hela Sverige och är en tävling för 2-mannalag (herr, dam eller mixed) och man måste ha officiellt HCP för att deltaga. Tävlingsformen är 4-boll, Match/Bästboll.</p>
+<p>Matchplay spelas 2020 i hela Sverige och är en tävling för 2-mannalag (herr, dam eller mixed). Officiellt HCP krävs för att delta. Tävlingsformen är 4-boll, Match/Bästboll.</p>
 <p>Ta er till Sverigefinalen och upplev en magisk helg med Matchplay!
-Fyra lag gör upp om resan utomlands, på en golfklubb som ligger geografiskt närmast de kvarvarande fyra lagen. Hotell, frukost, all golf samt en bankett på kvällen ingår.
-Vinnarna i Sverigefinalen åker med Matchplay till Spanska solkusten för att göra upp om titeln. Flyg, hotell och allt spel ingår för de bägge lagen och vilken bana det blir är klart under januari 2020.
+Sverigefinalen görs upp på en golfklubb som ligger geografiskt bra till för de kvarvarande fyra lagen. Hotell, frukost, all golf samt en bankett på kvällen ingår.
+De 2 bästa lagen i Sverigefinalen åker med Matchplay till Spanska solkusten för att göra upp om titeln. Flyg, hotell och allt spel ingår för de bägge lagen.
 </p>
   <p>
-  Priset för deltagande per lag i tävlingen är 900:- för privatpersoner och 2400:- (exkl. moms) för företag. Varje lag är garanterade minst 2 matcher.
+  Priset för deltagande i tävlingen är 900:-/lag för privatpersoner och 2400:-/lag (exkl. moms) för företag. Varje lag är garanterat minst 2 matcher.
 </p>
                 <b-container class="mt-5 mb-4">
       <b-row>
@@ -331,7 +331,7 @@ Vinnarna i Sverigefinalen åker med Matchplay till Spanska solkusten för att g�
             <div class="step">
             <i class="material-icons">assignment_turned_in</i>
             <h5>Registrering</h5>
-            <p>Börja med att skriva in ditt golfid på matchplay.se där du direkt får besked om du är kvalificerad för att sedan fylla i resten av uppgifterna för att skapa ett konto. Du blir sedan direkt inloggad för att påbörja ditt lagbygge.</p>
+            <p>Börja med att skriva in ditt Golf-ID på matchplay.se där du direkt får besked om du är kvalificerad. Ha din lagkamrats Golf-ID tillhands och önskad modell/storlek på piké. Du blir sedan direkt inloggad för att påbörja ditt lagbygge.</p>
             </div>
           </b-col>
 
@@ -339,7 +339,7 @@ Vinnarna i Sverigefinalen åker med Matchplay till Spanska solkusten för att g�
             <div class="step">
             <i class="material-icons">supervised_user_circle</i>
             <h5>Laganmälan</h5>
-            <p>Nu ska du som lagkapten skapa ditt lag och väljer typ av lag (privat/företag), lagmedlem, pikeér från PING. Laget blir inte aktivt förrens du har betalat (swish, voucher eller faktura).</p>
+            <p>Nu ska du som lagkapten skapa ditt lag och väljer typ av lag (privat/företag), lagmedlem och pikeér från PING. Laget blir inte aktivt förrens du har betalt (swish, voucher eller faktura).</p>
             </div>
           </b-col>
 
@@ -347,7 +347,7 @@ Vinnarna i Sverigefinalen åker med Matchplay till Spanska solkusten för att g�
            <div class="step">
             <i class="material-icons">ballot</i>
             <h5>Lottning</h5>
-            <p>I slutet av april kommer lottningen att ske och den görs så att alla lag ska få så kort resa som möjligt. Du kommer få information via email samt på matchplay.se när lottningen är klar och du kan se vilket lag ni ska möta.</p>
+            <p>I slutet av april kommer lottningen att ske och den görs så att alla lag ska få så kort resa som möjligt. Du kommer få information via mail samt på matchplay.se när lottningen är klar och du kan då se vilket lag ni kommer möta.</p>
             </div>
           </b-col>
 
@@ -363,7 +363,7 @@ Vinnarna i Sverigefinalen åker med Matchplay till Spanska solkusten för att g�
             <div class="step">
               <i class="material-icons">golf_course</i>
             <h5>Sverigefinal</h5>
-            <p>Fyra lag gör upp om resan utomlands, på en golfklubb som ligger geografiskt närmast de kvarvarande fyra lagen. Hotell, frukost, all golf samt en bankett på kvällen ingår.</p>
+            <p>Fyra lag tävlar i Sverigefinalen och denna kommer äga rum på en golfklubb som ligger geografiskt bra till för de tävlande 4 lagen. Hotell, frukost, all golf samt en bankett på kvällen ingår.</p>
             </div>
           </b-col>
 
@@ -371,7 +371,7 @@ Vinnarna i Sverigefinalen åker med Matchplay till Spanska solkusten för att g�
             <div class="step">
               <i class="material-icons">flight_takeoff</i>
             <h5>Finalen</h5>
-            <p>Vinnarna i Sverigefinalen åker med Matchplay till Spanska solkusten för att göra upp om titeln. Flyg, hotell och allt spel ingår för de bägge lagen och vilken bana det blir är klart under januari 2020.</p>
+            <p>De 2 vinnande lagen i Sverigefinalen åker med Matchplay till Spanska solkusten för att göra upp om titeln. Flyg, hotell och allt spel ingår för de bägge lagen och på vilken bana finalen spelas blir klart under januari 2020.</p>
             </div>
           </b-col>
 
@@ -662,9 +662,9 @@ components: {
           window.scrollTo(0,400);
           
 //console.log(this.form.hcp)
-          if (this.form.hcp < 32) {
+          if (this.form.hcp < 28.1) {
               this.showqualified = true;
-          } else if (this.form.hcp > 32 && this.form.hcp < 36.1 ) {
+          } else if (this.form.hcp > 28 && this.form.hcp < 36.1 ) {
               this.showqualified32 = true;
           } else if (this.form.hcp > 36.0) {
                this.showqualifiedNOT = true;

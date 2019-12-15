@@ -64,23 +64,23 @@
 
           <div class="section first" id="1">            
             <h3>1. REGIONER MATCHPLAY 2020</h3>
-            <p>Matchplay spelas 2020 i hela Sverige. Vi reserverar oss för att för få lag i de norra delarna kan innebära att dessa lag kan få lite längre resor från start. Värt att poängtera är att lottningen sker alltid med geografiskt utgångsläge som prioritering, så räkna inte med några längre resor inledningsvis.</p>
+            <p>Matchplay spelas i hela Sverige. Längre resväg kan förekomma vid få registrerade lag i vissa regioner av Sverige. Värt att poängtera är att lottningen alltid sker med geografiskt utgångsläge som prioritering för minimera reslängd.</p>
           </div>
 
           <div class="section" id="2">
             <h3 class="pt-5">2. ANMÄLAN</h3>
-            <p>Ni anmäler er via anmälningsformuläret på hemsidan. <a href="/#register">Klicka här</a> för att komma direkt till anmälan.</p>
+            <p>Ni anmäler er enkelt via hemsidan. <a href="/#register">Klicka här</a> för att komma dit direkt.</p>
           </div>
 
           <div class="section" id="3">
             <h3 class="pt-5">3. BETALNING</h3>            
-            <p>Efter att ni fyllt i anmälningsformuläret på hemsidan så skickas ni till val av tröja från PING. Ni väljer vilken modell Ert lag ska ha och kommer då till betalningen. Privatlag betalar företrädesvis via Swish till Matchplay, medans företagslag väljer faktura och får denna skickad till sig via mail till uppgiven adress. Privatlag kostar 900 kronor och ett företagslag 2400 kronor.
-            </p>        
+            <p>Privatlag betalar via Swish medans företagslag betalar via faktura som skickas till angiven mailadress. Priset per lag är 900:- för privatpersoner och 2400:- (exkl. moms) för företag.
+            </p>         
           </div>
 
           <div class="section" id="4">
             <h3 class="pt-5">4. DELTAGARE/LAG</h3>
-            <p>Matchplay spelas av 2-mannalag (herrlag, damlag eller mixade lag) Alla deltagare måste ha ett officiellt HCP för att deltaga. För företagslag gäller att ingen av spelarna behöver ha anställning på företaget man representerar.
+            <p>Matchplay spelas i 2-mannalag (herrlag, damlag eller mixade lag) Alla deltagare måste ha officiellt HCP. Man behöver inte vara anställd av ett företag man representerar i ett företagslag.
 </p>
           </div>
 
@@ -92,21 +92,20 @@
 
 <div class="section" id="6">
             <h3 class="pt-5">6. HANDICAPGRÄNS</h3>
-            <p>Högst 28,0/spelare. Deltagare kan anmäla sig om man har högre HCP än 32, men kan aldrig tillhandahålla högre än 28 i laget. Om spelare A har 16 i hcp och spelare B har 19 i hcp blir detta 35 sammanlagt, vilket reduceras till max 28 vid spel. Man spelar från den tee SGF tävlingsbestämmelser säger på slopad bana.
+            <p>Officellt handicap (36.0) krävs för deltagande. Högsta HCP i matchspel är 28.0 och har du högre kommer du att spela på 28. Om spelare A har 16 i hcp och spelare B har 19 i hcp blir detta 35 sammanlagt, vilket reduceras till max 28 vid spel. Man spelar från den tee SGF tävlingsbestämmelser säger på slopad bana.
 </p>
 </div>
 
 <div class="section" id="7">
             <h3 class="pt-5">7. TÄVLINGSKLASSER 2020</h3>
             <p>
-              Matchplay spelas 2020 i en klass (OBS! Om det blir ett stort antal företagslag anmälda, kan dessa skapa en egen klass fram mot regionfinalerna! Företag möter då företag i så stor utsträckning som möjligt och privatlag möter då privatlag i så stor utsträckning som möjligt) Alla lag meddelas direkt efter lottningen den 23 april om klasser skapats.
+              Matchplay spelas i en klass (OBS! Om det blir ett stort antal företagslag anmälda, kan dessa skapa en egen klass fram mot regionfinalerna! Företag möter då företag i så stor utsträckning som möjligt och privatlag möter då privatlag i så stor utsträckning som möjligt) Alla lag meddelas direkt efter lottningen den 23 april om klasser skapats.
             </p>
 </div>
 
 <div class="section" id="8">
             <h3 class="pt-5">8. SPELFORM</h3>
-            <p>4-boll, Match/Bästboll</p>
-<p>4-boll, Match/Bästboll. Alla matcher spelas som 4-boll, Match/Bästboll. Den i lagen som har bästa score på respektive hål, mäts mot varandra. Bästa score vinner hålet till laget. Är bästa score samma hos bägge lagen delas hålet. 
+<p>Alla matcher spelas som 4-boll, Match/Bästboll. De 2 spelarna i lagen som har bästa score på respektive hål, mäts mot varandra. Bästa score vinner hålet till laget. Är bästa score samma hos bägge lagen delas hålet. 
 Efter att slopen räknats in reduceras respektive spelares HCP med 10%. Avrundning till närmaste heltal (uppåt vid 0.5, 1.5, 2.5 osv). De tre spelarna med högst reducerat spelhandicap får i matchen slag motsvarande skillnaden till den spelaren som har lägst spelhandicap. Spelaren med lägst reducerat spelhandicap spelar med 0 i spelhandicap. <strong>OBS! Vårt digitala scorekort räknar ut detta till er innan match!</strong>
  </p><p>
 De erhållna slagen för matchen gäller från index 1 och uppåt. Vi hänvisar samtidigt till SGF:s Spel- och Tävlingshandbok.
@@ -115,27 +114,27 @@ Vid lika efter 18 hål spelas särspelshål med början på hål 1 (sudden death
 
 <div class="section" id="9">
             <h3 class="pt-5">9. ANDRA CHANSEN</h3>
-            <p>Alla lag i Matchplay garanteras minst två omgångar genom att förlorarna i första omgången hamnar i ”Andra chansen”. Från "Andra chansen" kommer lag som tar sig vidare, fortfarande ha chansen att ta sig till först Sverigefinalen och sedan till huvudfinalen ute i Världen. Dock är det färre lag och en längre väg att gå. Vid omgång 5-7 kommer kvarvarande lag i Andra Chansen att samlas för en gemensam tävlingsdag där 1-4 lag tar sig vidare in i Huvudtävlingen igen. Antalet avgörs av hur många deltagare tävlingen har vid anmälningsstoppet den 23 april och den aktuella spelplatsen avgörs av majoriteten av kvarvarande lags geografiska placering. Tävlingsformen här kommer att vara poängbaserad
-            </p><p>OBS! Om match vinns eller förloras genom Walk Over eller lottning, så räknas även detta som spelad match.
+            <p>Alla lag i Matchplay garanteras minst två omgångar genom att förlorarna i första omgången hamnar i ”Andra chansen”. Från "Andra chansen" kommer lag som tar sig vidare, fortfarande ha chansen att ta sig till först Sverigefinalen och sedan till huvudfinalen ute i världen. Dock är det färre lag och en längre väg att gå. Vid omgång 5-7 kommer kvarvarande lag i Andra Chansen att samlas för en gemensam tävlingsdag där 1-4 lag tar sig vidare in i Huvudtävlingen igen. Antalet avgörs av hur många deltagare tävlingen har vid anmälningsstoppet den 23 april och den aktuella spelplatsen avgörs av majoriteten av kvarvarande lags geografiska placering. Tävlingsformen här kommer att vara poängbaserad.
+            </p><p>OBS! Om en match vinns eller förloras genom walk over eller lottning, så räknas även detta som spelad match.
 </p>
 
             <div class="section" id="10">
             <h3 class="pt-5">10. LOTTNING SPELSCHEMA</h3>
-            <p>Lottning kommer att ske den 23 april 2020. Matchplay har prioriteringar i lottningen som gäller geografisk tillhörighet. Detta ger kortare resor under hela tävlingen fram mot Sverigefinalen.
+            <p>Lottning kommer att ske den 23 april 2020. Matchplay har prioriteringar i lottningen som gäller geografisk tillhörighet. Detta ger kortast möjliga resor under hela tävlingen fram mot Sverigefinalen.
 </p><p class="hidden">För spelschema 2020 - klicka här.</p>
             </div>
 
             <div class="section" id="11">
             <h3 class="pt-5">11. SPELDAGAR</h3>
-            <p>Från omgång 1 ända fram till finalen finns tidsramar för respektive omgång. Det är av största vikt att Ni som deltagare utgår ifrån att kunna avsätta minst en runda golf inom dessa veckor omgången gäller. Ni kommer via vårt system få mejl skickade till er med all nödvändig info kring kontakten med era motståndare. Oavsett om ni är hemma- eller bortalag så ansvarar bägge lagen för att kontakt skapas och tid bokas. Kan inte lagen komma överens om lämplig tidpunkt eller bana skall lagkaptenen i det lag som har fördel av hemmabana kontakta tävlingsledningen. Ha även med er att ni kan använda er av en reserv för att lösa er match. Reserv anmäler ni på hemsidan på er egen adminsida. Har man bestämt tid för spel (datum och klockslag) och något lag sedan oberoende av orsak vill byta tid (inom deadline för omgången) är det upp till motståndarlaget att gå med på detta. Blir man ej överens om ny tid och matchen ej spelas, vinner det lag som är berett på spel på den ursprungliga tiden - på WO.</p>
+            <p>Från omgång ett ända fram till finalen finns tidsramar för respektive omgång. Det är av största vikt att Ni som deltagare utgår från att kunna avsätta minst en runda golf inom de veckor som omgången gäller. Ni kommer via vårt system få mail skickade till er med all nödvändig info kring kontakten med era motståndare. Oavsett om ni är hemma- eller bortalag så ansvarar bägge lagen för att kontakt skapas och tid bokas. Kan inte lagen komma överens om lämplig tidpunkt eller bana skall lagkaptenen i det lag som har fördel av hemmabana kontakta tävlingsledningen. Ha även med er att ni kan använda er av en reserv för att lösa er match. Reserv anmäler ni på hemsidan på er profil på matchplay.se. Har man bestämt tid för spel (datum och klockslag) och något lag sedan, oberoende av orsak, vill byta tid (inom deadline för omgången) är det upp till motståndarlaget att gå med på detta. Blir man ej överens om ny tid och matchen ej spelas, vinner det lag som är berett på spel på den ursprungliga tiden - på WO.</p>
             </div>
 
             <div class="section" id="12">
             <h3 class="pt-5">12. SPELPLATSER</h3>
-            <p>Vårt lottningssystem är utformat för att ge en så rättvis fördelning som möjligt sett till spelplats. De lag som hamnar överst i spelarträdet har fördel av hemmabana. Detta innebär att man kan välja sin hemmabana men kan också komma överens med motståndarna om annan bana. Lagkaptenerna i respektive lag ansvarar för att föra score för alla spelare. Eventuell greenfee under kvalomgångarna innan semifinal och final betalas av respektive lag. Tider för spelomgångarna kan ni se genom att klicka här. 
+            <p>Vårt lottningssystem är utformat för att ge en så rättvis fördelning som möjligt sett till spelplats. De lag som hamnar överst i spelarträdet har fördel av hemmabana. Detta innebär att man kan välja sin hemmabana men kan också komma överens med motståndarna om annan bana. Lagkaptenerna i respektive lag ansvarar för att föra score för alla spelare. Eventuell greenfee under kvalomgångarna innan semifinal och final betalas av respektive lag.
             </p><p>
 Matchen avgörs över 18 hål med ev. särspel. OBS! Endast klubbar med 18 hål kan och ska användas under spelet. Om ett (eller flera) hål på banan är avstängt hoppar man över detta hål och matchen avgörs då över de hål som är spelbara.
-Sverigefinalen spelas den sista omgången i Sverige (runt september 2020) på plats som meddelas när vi vet vart de kvarvarande lagen finns geografiskt. Majoriteten av kvarvarande lag avgör plats. Spelformen är samma under Sverigefinalen som i grundomgången. Alla deltagare i Sverigefinalen har redan kvalificerat sig för spel nästkommande år utan kostnad. Vinnarna går vidare till finalspelet som sker utomlands (oktober 2020), på plats som meddelas januari/februari 2020. Förutom det stora vandringspriset, tävlar man om ett prisbord sammansatt av sponsorer.</p>
+Sverigefinalen spelas runt september 2020 på plats som meddelas när vi vet var de kvarvarande lagen finns geografiskt. Majoriteten av kvarvarande lag avgör plats. Spelformen är samma under Sverigefinalen som i grundomgången. Alla deltagare i Sverigefinalen har redan kvalificerat sig för spel nästkommande år utan kostnad. Vinnarna går vidare till finalspelet som sker utomlands (oktober 2020), på plats som meddelas januari 2020. Förutom det stora vandringspriset, tävlar man om ett prisbord sammansatt av sponsorer.</p>
             </div>
 
 <div class="section" id="13">
@@ -146,13 +145,13 @@ Sverigefinalen spelas den sista omgången i Sverige (runt september 2020) på pl
 
 <div class="section" id="14">
             <h3 class="pt-5">14. MATCHRAPPORTERING</h3>
-            <p>Vid avslutad match rapporteras match i det digitala scorekortet på tex er telefon. Resultatet laddas då upp direkt till hemsidan och vårt lottningssystem, som tar fram nya motståndare till er och ni får utskick om detta så fort motståndet är klart. 
+            <p>Vid avslutad match rapporteras resultatet i det digitala scorekortet, tex på er telefon. Resultatet laddas då upp direkt till hemsidan och vårt lottningssystem, som tar fram nya motståndare till er och ni får utskick om detta så fort motståndet är klart. 
 </p>
 </div>
 
 <div class="section" id="15">
             <h3 class="pt-5">15. TÄVLINGSDOMARE</h3>
-            <p>Tävlingsansvarig Mikael Gräntz finns på plats tillsammans med andra knutna till Matchplay Business under både Sverige- och utlandsfinal. Under grundspelet ansvarar alla deltagare för regler gällande Matchspel. Vi finns alltid tillgängliga på telefon under tävlingstiden, så har ni frågor eller funderingar så kontakta oss direkt.
+            <p>Tävlingsansvarig Mikael Gräntz finns på plats tillsammans med andra knutna till Matchplay Business under både Sverige- och utlandsfinal. Under grundspelet ansvarar alla deltagare för regler gällande matchspel. Vi finns alltid tillgängliga på telefon under tävlingstiden, så har ni frågor eller funderingar så kontakta oss direkt.
 </p>
 </div>
 
@@ -197,7 +196,7 @@ Sverigefinalen spelas den sista omgången i Sverige (runt september 2020) på pl
           <div class="section">
             <h3>Vi önskar alla deltagande lag lycka till och varmt välkomna till tävlingen!</h3>
             <p>
-              Hittar du av någon anledning inte all information du söker kontakta oss på: <a href="mailto:info@matchplay.se">info@matchplay.se</a>
+              Hittar du inte den information du söker kontakta oss på: <a href="mailto:info@matchplay.se">info@matchplay.se</a>
             </p>
             <div class="mt-5 video-container">
               <iframe src="https://www.youtube.com/embed/SLk3r_sbdg0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>

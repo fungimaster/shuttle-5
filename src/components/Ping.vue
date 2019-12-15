@@ -9,7 +9,7 @@
         <b-col xl="1"></b-col>
         <b-col class="col-12 mt-5 mb-3">
           <h1>Pikeér från PING</h1>
-          <p class="mt-3">Tack vare vår sponsor PING förses alla deltagare med en piké när man anmält sitt lag! <strong>Värde 998:-</strong>
+          <p class="mt-3">Tack vare vår sponsor PING förses alla deltagare med en piké när man anmält sitt lag! <strong>Värde 499: per styck.-</strong>
           </p>
           <p>
           Du väljer pikeér till ditt lag efter registreringen.
