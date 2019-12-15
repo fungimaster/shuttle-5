@@ -85,7 +85,7 @@
                     class="form-control mr-1"
                     id="golfid"
                     placeholder="xxxxxx-xxx"
-                    value
+                    value                    
                   />                              
                   
                   <b-input hidden v-model="golfid2"
@@ -212,11 +212,12 @@
                       <b-form-input id="hcp" v-model="form.hcp" type="text" required readonly></b-form-input>
                     </b-form-group> 
 
-                  <b-alert show class="mt-4 mb-4 small" variant="primary">
+                  <b-row v-if="docontinue">
+                    <b-col lg="12">
+                       <b-alert show class="mt-4 mb-4 small" variant="primary">
                     Vi behöver veta lite mer om dig innan du kan gå vidare med registrerigen, vänligen fyll i informationen nedan.
                   </b-alert>
-
-                  <b-row>
+                    </b-col>
                     <b-col lg="8">
                        <b-form-group
                       id="input-group-mobile"
@@ -293,14 +294,14 @@
                     </b-col>
                   </b-row>
 
-                  <b-alert show class="mt-4 small" variant="primary">
+                  <b-alert v-if="docontinue" show class="mt-4 small" variant="primary">
                     När registreringen är genomförd väljer du att skapa ett eller flera lag och kan välja om det är privat eller företag.
                   </b-alert>
                                    
                   <b-alert show v-if="showerror" class="mt-4 small"  variant="danger">Det finns redan en användare med denna e-post ({{emailexist}}), om du redan är registrerad kan du logga in uppe till höger, där kan du också få ett nytt lösenord om du har glömt ditt befintliga.</b-alert>
                   
    
-                    <b-button type="submit" variant="primary" class="btn blue-bg ml-1"><b-spinner v-if="showspinnerregisteruser" small type="grow" class="mr-2"></b-spinner>Registrera dig</b-button>
+                    <b-button v-if="docontinue" :disabled="showspinnerregisteruser" type="submit" variant="primary" class="btn blue-bg ml-1"><b-spinner v-if="showspinnerregisteruser" small type="grow" class="mr-2"></b-spinner>Registrera dig</b-button>
                     <b-button type="reset" variant="danger">Avbryt</b-button>
                   </b-form>
                   <b-card class="mt-3 hidden" header="Form Data Result">
@@ -497,6 +498,7 @@ components: {
       },
       showhelper: false,
       //contbutton1: 'Fortsätt till nästa steg',
+      docontinue: true,
       contbutton1 : 'Fortsätt',
       showpasswordsdontmatch: false,
       showspinnerregisteruser: false,
@@ -546,8 +548,8 @@ components: {
 
         if (this.golfid.length === 10) {
           validated = true;
-        } else {
-          validated = false;
+        } else {                    
+          validated = false;          
         }
         }
 
@@ -627,14 +629,21 @@ components: {
                 }
         )
         .then(response => {         
-          // console.log(response.data);         
+          //console.log(response.data);         
+
+          if (response.data.hasOwnProperty('error')) {
+              this.contbutton1 = 'Fortsätt';
+              this.showAlert();
+              this.showloadgolfid = false;
+              return;
+          }
 
          
          if (!response.data.hasOwnProperty('notingit')) {  
 
           //check if user exists in matchplay admin
           if (response.data.exists) {
-             this.contbutton1 = 'Prova igen';    
+            this.contbutton1 = 'Prova igen';    
             this.showAlert2();
             this.showloadgolfid = false;
             return;
@@ -662,10 +671,13 @@ components: {
 //console.log(this.form.hcp)
           if (this.form.hcp < 28.1) {
               this.showqualified = true;
+              this.docontinue = true;
           } else if (this.form.hcp > 28 && this.form.hcp < 36.1 ) {
               this.showqualified32 = true;
+              this.docontinue = true;
           } else if (this.form.hcp > 36.0) {
                this.showqualifiedNOT = true;
+                this.docontinue = false;
           }
 
           this.showloadgolfid = false;
