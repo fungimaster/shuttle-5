@@ -351,7 +351,7 @@
 
                     <b-container class="mt-3 mb-3">
                         <b-row class="mt-4">
-                            <b-col class="col-6">
+                            <b-col md="6" class="mb-3">
                                 <b-card @click="shirtState(1)" class="pointer" :variant="team.giveaway.player1" :border-variant="team.giveaway.player1" body-bg-variant="light" :header="team.giveaway.player1header" :header-bg-variant="team.giveaway.player1" :header-text-variant="team.giveaway.player2" align="center">
                                     <b-card-text>
                                         Pikémodell: <b-img v-if="team.shirtPicker.player1.shirt" class="mr-2" id="shirtimage1" :src="getShirtImg(team.shirtPicker.player1.shirt)"></b-img><br>
@@ -360,7 +360,7 @@
                                 </b-card>
 
                             </b-col>
-                            <b-col class="col-6">
+                            <b-col md="6" class="">
                                 <b-card @click="shirtState(2)" class="pointer" :variant="team.giveaway.player12" :border-variant="team.giveaway.player2" body-bg-variant="light" :header="team.giveaway.player2header" :header-bg-variant="team.giveaway.player2" :header-text-variant="team.giveaway.player1" align="center">
                                     <b-card-text>
                                         Pikémodell: <b-img v-if="team.shirtPicker.player2.shirt" class="mr-2" id="shirtimage1" :src="getShirtImg(team.shirtPicker.player2.shirt)"></b-img><br>
@@ -472,7 +472,7 @@
                         <b-row align-h="center">
                             <b-col md="6">
                                 <b-button @click.prevent="prev()" variant="light"><i class="material-icons ml-2">arrow_back_ios</i>Tillbaka</b-button>
-                                <b-button class="mt-2 mt-sm-0 float-right" @click.prevent="next()" variant="success">
+                                <b-button class="mt-sm-0 float-right" @click.prevent="next()" variant="success">
                                     <b-spinner v-if="showloginspinner" small type="grow" class="mr-2"></b-spinner>Betalning<i class="ml-2 material-icons mr-2">arrow_forward_ios</i>
                                 </b-button>
                             </b-col>
@@ -508,7 +508,7 @@
 
                                     <vue-tel-input v-model="team.swish.mobile" v-bind="bindProps"></vue-tel-input>
 
-                                    <b-button :disabled="showspinner_swish" show @click="swish()" variant="info" size="sm" class="float-right mt-1">
+                                    <b-button :disabled="showspinner_swish || team.swish.mobile === ''" show @click="swish()" variant="info" size="sm" class="float-right mt-1">
                                         <b-spinner v-if="showspinner_swish" small type="grow" class="mr-2"></b-spinner>Betala
                                     </b-button>
 
