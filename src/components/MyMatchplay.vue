@@ -525,9 +525,8 @@
 
                                     <b-form-input class="mb-2" id="invoicename" name="invoicename" v-model="invoicename" required placeholder="Skriv in ditt namn" :state="validate_invoicename"></b-form-input>
                                     <b-form-input inputmode="numeric" class="mb-2" id="invoiceorgno" name="invoiceorgno" v-model="team.invoice.invoiceorgno" required placeholder="Skriv in organisationsnummer" :state="validate_invoiceorgno"></b-form-input>
-                                    <b-form-input class="mb-2" id="invoiceaddress" name="invoiceaddress" v-model="team.invoice.invoiceaddress" required placeholder="Skriv in din gatuadress" :state="validate_invoiceaddress"></b-form-input>
-                                    <b-form-input class="mb-2" id="invoicezip" name="invoicezip" v-model="team.invoice.invoicezip" required placeholder="Skriv in ditt postnr" :state="validate_invoicezip"></b-form-input>
-                                    <b-form-input class="mb-2" id="invoicecity" name="invoicecity" v-model="team.invoice.invoicecity" required placeholder="Skriv in din postort" :state="validate_invoicecity"></b-form-input>
+                                    <b-form-input class="mb-2" id="invoiceemail" name="invoiceemail" v-model="team.invoice.invoiceemail" required placeholder="Skriv in din email" :state="validate_invoiceemail"></b-form-input>
+
                                     <b-button show @click="payInvoice()" variant="info" size="sm" class="float-right mt-1">
                                         <b-spinner v-if="showspinner_invoice" small type="grow" class="mr-2"></b-spinner>Skicka in anmälan
                                     </b-button>
@@ -743,9 +742,7 @@ export default {
                 invoice: {
                     invoicename: '',
                     invoiceorgno: '',
-                    invoiceaddress: '',
-                    invoicezip: '',
-                    invoicecity: '',
+                    invoiceemail: '',
                     marketingpackage: ''
                 },
                 shirtPicker: {
@@ -989,14 +986,9 @@ export default {
         validate_invoiceorgno() {
             return this.team.invoice.invoiceorgno !== '';
         },
-        validate_invoiceaddress() {
-            return this.team.invoice.invoiceaddress !== '';
-        },
-        validate_invoicezip() {
-            return this.team.invoice.invoicezip !== '';
-        },
-        validate_invoicecity() {
-            return this.team.invoice.invoicecity !== '';
+        validate_invoiceemail() {
+            const reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return reg.test(String(this.team.invoice.invoiceemail).toLowerCase());
         },
         validate_marketingpackage() {
             return this.team.invoice.marketingpackage !== '';
@@ -1392,9 +1384,7 @@ export default {
                     "invoice": true,
                     "invoicename": this.team.invoice.invoicename,
                     "invoiceorgno": this.team.invoice.invoiceorgno,
-                    "invoiceaddress": this.team.invoice.invoiceaddress,
-                    "invoicezip": this.team.invoice.invoicezip,
-                    "invoicecity": this.team.invoice.invoicecity,
+                    "invoiceemail": this.team.invoice.invoiceemail,
                     "marketingpackage": this.team.invoice.marketingpackage
                 })
                 .then(response => {
