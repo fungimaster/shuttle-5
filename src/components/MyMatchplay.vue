@@ -598,7 +598,6 @@
                     </b-container>
                 </div>
             </b-form>
-
         </div>
     </div>
 </div>
@@ -1339,6 +1338,12 @@ export default {
 
                 })
                 .catch(error => {
+                    if (!error.status) {
+                      setTimeout(() => {
+                            this.getSwishStatus(team);
+                        }, 1000);
+                        // network error
+                    }
                     console.log(error);
                 });
         },
