@@ -41,6 +41,9 @@
 
             <b-container v-if="team.step === 0">
                 <b-row v-if="teams.length === 0 || !teams.length">
+                  <b-col md="12" class="text-right">
+                        <b-button @click="logoutPrompt" variant="warning" class="mt-3">Logga ut</b-button>
+                    </b-col>
                     <b-col md="12" class="mt-3">
                         <h2 class="teaser-header orange mt-3">Hej {{userdetails.firstname}}</h2>
                     </b-col>
@@ -681,6 +684,7 @@ export default {
                 inputClass: 'form-control course'
             },
             //GENERAL
+            teams: 0,
             loading: true,
             paymentstatus: '',
             cloudinary: 'https://res.cloudinary.com/dn3hzwewp/image/upload/',
