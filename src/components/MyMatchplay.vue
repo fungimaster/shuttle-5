@@ -28,7 +28,7 @@
                             <b-alert v-if="showerror" variant="warning" show class="mt-4 small form-text text-muted">Din e-post eller lösenord stämmer inte, försök igen eller återställ ditt lösenord.</b-alert>
                         </b-form>
                         <div class="mt-4">
-                            <small><a href="#">Glömt ditt lösenord?</a></small> | <small><a href="/#register">Registrera dig</a></small>
+                            <!--small><a href="#">Glömt ditt lösenord?</a></small--><small><a href="/#register">Registrera dig</a></small>
                         </div>
                     </b-col>
                 </b-row>
