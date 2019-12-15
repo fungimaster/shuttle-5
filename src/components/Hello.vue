@@ -19,7 +19,7 @@
                 Anmälan för 2020 års tävling öppnar i mitten av december 2019, håll utkik här på sidan för mer info!
                 <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
              </b-alert>
-             <b-alert show class="mt-4 small" variant="danger">
+             <b-alert hidden class="mt-4 small" variant="danger">
                 Utvecklarna har kollat på Presidents cup hela natten så releasen blir lite senare under kvällen idag eller eventuellt imorgon förmiddag.
                 Håll koll via <a href="https://www.facebook.com/matchplaysweden/" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplay_sweden/" target="_blank">Instagram</a>.
              </b-alert>
@@ -66,7 +66,7 @@
                     
                      <b-col xs="12" sm="9">
                        <h4>Alla lagdeltagare får en piké från PING</h4>
-                       <p>Tack vare vår sponsor PING förses alla deltagare med en piké när man har anmält sitt lag! <strong>Värde 499:- styck.</strong></p>
+                       <p>Tack vare vår sponsor PING förses alla deltagare med en piké när man har anmält sitt lag! <strong>Värde 599:- styck.</strong></p>
                      </b-col>
                       <b-col xs="12" sm="3" class="pl-4 pr-4 pt-0">
                        <b-img hidden alt="ping" src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1575464479/matchplay/ping/logo.svg"></b-img>
