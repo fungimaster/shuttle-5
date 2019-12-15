@@ -326,7 +326,7 @@
                         <b-row align-h="center">
                             <b-col md="6">
                                 <b-button @click.prevent="cancel_team()" variant="light"><i class="material-icons">arrow_back_ios</i>Tillbaka</b-button>
-                                <b-button class="mt-0 mt-sm-0 float-right" @click.prevent="next()" variant="success">
+                                <b-button  :disabled="team.teammembergolfid === ''" class="mt-0 mt-sm-0 float-right" @click.prevent="next()" variant="success">
                                     <b-spinner v-if="showloginspinner" small type="grow" class="mr-2"></b-spinner>Välj tröjor<i class="ml-2 material-icons">arrow_forward_ios</i>
                                 </b-button>
                                 <b-button hidden v-if="!team.is_readonly" @click="save_state1()" variant="primary" class="btn blue-bg">Nästa steg (tröjor)</b-button>
