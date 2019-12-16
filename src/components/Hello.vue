@@ -7,7 +7,7 @@
       </div>
     </div>
 
-    <div class="hero">
+    <div class="hero">      
       <b-container class="d-flex">
         <b-row>
           <b-col class="col-12 col-md-9">
@@ -29,8 +29,12 @@
               <a href="/mymatchplay" class="btn blue-bg btn-lg text-white mt-3">Laghantering</a>
             </div>
           </b-col>
-          <b-col class="col-md-3 d-none d-md-block pl-5 justify-content-center align-self-center">
-            <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/e_colorize,co_rgb:fff/v1573118127/matchplay/matchplay-new-logo-2020.png" alt="">
+          <b-col class="col-md-3 d-none d-md-block pl-2 justify-content-center align-self-center">           
+           <a href="#charity">
+            <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/e_colorize,co_rgb:fff/v1576503821/matchplay/badge4.png" title="10% av lagavgiften går till Matchplay Charity"></b-img>            
+           </a>
+
+            <b-img hidden src="https://res.cloudinary.com/dn3hzwewp/image/upload/e_colorize,co_rgb:fff/v1573118127/matchplay/matchplay-new-logo-2020.png" alt=""></b-img>
           </b-col>
         </b-row>
       </b-container>
@@ -39,7 +43,12 @@
     <div class="teaser-container" id="register" ref="register">
       <b-container>
         <b-row>
-         
+          <b-col class="col-12 d-block d-md-none justify-content-center align-self-center p-5">           
+            <a href="#charity">
+            <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1576503821/matchplay/badge4.png" alt=""></b-img>            
+            </a>
+          </b-col>
+       
           <b-col>
             <h2 class="teaser-header orange">Anmäl ditt lag</h2>
             <h2 class="hidden teaser-header orange">Det är klart du vill vara med i golftävlingen, registrera dig här!</h2>
@@ -300,7 +309,7 @@
                   </b-row>
 
                   <b-alert v-if="docontinue" show class="mt-4 small" variant="primary">
-                    När registreringen är genomförd väljer du att skapa ett eller flera lag och kan välja om det är privat eller företag.
+                    När registreringen är genomförd väljer du att skapa ett eller flera lag och kan välja om det är privat eller företag. Om du redan är med i ett lag kommer det visas efter inloggning.
                   </b-alert>
                                    
                   <b-alert show v-if="showerror" class="mt-4 small"  variant="danger">Det finns redan en användare med denna e-post ({{emailexist}}), om du redan är registrerad kan du logga in uppe till höger, där kan du också få ett nytt lösenord om du har glömt ditt befintliga.</b-alert>
@@ -395,7 +404,7 @@
       </b-container>
     </div>
 
-<div class="teaser-container hidden" id="teaser1">
+<div class="teaser-container" id="charity" ref="charity">
  
  
 
@@ -403,7 +412,7 @@
 <b-row>
    
    <b-col class="mb-3">
-<h2 class="teaser-header orange">TÄVLINGSINFORMATION</h2>
+<h2 class="teaser-header orange">Matchplay Charity</h2>
    </b-col>
 </b-row>
 
@@ -411,12 +420,13 @@
    
   
 
-    <b-col md="5">
-       <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1573661281/matchplay/henke-granen.png">
+    <b-col md="5" class="p-5">
+       <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1576504784/matchplay/charity.png">
     </b-col>
     <b-col md="7">
-       <p class="mt-4 mt-md-0">
-         2020 är året då Matchplay utvecklas digitalt och går ifrån den tradionella regionsindelningen och istället görs lottningen med hänsyn till avstånd så att alla i varje omgång får möta ett lag som är närmast geografiskt. 2020 är också tävlingen ihopslagen med Matchplay Business så privatpersoner och företag spelar tillsammans. Priset för ett lag med privatpersoner är 900:- och för företag kostar det 2900:-. Det finns även möjlighet att lägga till olika sponsorpaket för synbarhet och marknadsföring under tävlingen.
+       <p class="mt-4 mt-md-0 pt-md-4">
+         Stiftelsen Matchplay Charity grundades med mål att göra skillnad. Vi vill bidra till att hjälpa människor till bättre livskvalitet, hälsa och välmående. Detta genom att främja fysisk aktivitet och att förebygga psykisk ohälsa. Stiftelsens grundare Andreas Granqvist och Henrik Larsson har länge haft visionen, nu har de satt målen och det är ämnen som de själva har ett brinnande engagemang för. Med er laganmälan bidrar ni med 10% av anmälningsavgiften varje år.
+      </p><p><a href="https://matchplaycharity.se/"  target="_blank" class="btn blue-bg btn-md text-white mb-3">Läs mer på vår hemsida</a>          
        </p>
     </b-col>
 </b-row>
@@ -603,6 +613,7 @@ components: {
       }
     },
   mixins: [tagsMixin],
+ 
   methods: {    
 
      countDownChanged(dismissCountDown) {
@@ -1133,7 +1144,7 @@ margin-top:0 !important;
   border-radius:0.3em;
   border:1px solid #e1e1e1;
   padding:1em;
-  min-height:360px;
+  min-height:380px;
   text-align: center; 
 }
 
