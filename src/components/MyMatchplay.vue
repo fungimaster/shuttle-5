@@ -41,7 +41,7 @@
 
             <b-container v-if="team.step === 0">
                 <b-row v-if="teams.length === 0 || !teams.length">
-                  <b-col md="12" class="text-right">
+                    <b-col md="12" class="text-right">
                         <b-button @click="logoutPrompt" variant="warning" class="mt-3">Logga ut</b-button>
                     </b-col>
                     <b-col md="12" class="mt-3">
@@ -111,6 +111,8 @@
                                 </p>
                                 <p class="mb-0" style="color:red;" v-if="!team.paid">
                                     <i class="material-icons mr-2">money_off</i>{{text.not_paidteam}}
+                                    <b-button v-if="!team.invoice" @click="goToPay(team)" variant="success" class="btn-sm float-right">Betala</b-button>
+
                                 </p>
                             </template>
                             <b-button hidden variant="primary" class="blue-bg">Redigera lag</b-button>
@@ -329,7 +331,7 @@
                         <b-row align-h="center">
                             <b-col md="6">
                                 <b-button @click.prevent="cancel_team()" variant="light"><i class="material-icons">arrow_back_ios</i>Tillbaka</b-button>
-                                <b-button  :disabled="team.teammembergolfid === ''" class="mt-0 mt-sm-0 float-right" @click.prevent="next()" variant="success">
+                                <b-button :disabled="team.teammembergolfid === ''" class="mt-0 mt-sm-0 float-right" @click.prevent="next()" variant="success">
                                     <b-spinner v-if="showloginspinner" small type="grow" class="mr-2"></b-spinner>Välj tröjor<i class="ml-2 material-icons">arrow_forward_ios</i>
                                 </b-button>
                                 <b-button hidden v-if="!team.is_readonly" @click="save_state1()" variant="primary" class="btn blue-bg">Nästa steg (tröjor)</b-button>
@@ -1003,7 +1005,22 @@ export default {
     },
     mixins: [tagsMixin],
     methods: {
+        goToPay(team) {
+          console.log(team);
+          this.team._id = team._id;
+          this.showcreateteam = true;
+          this.team.is_readonly = false;
+          this.team.step = 3;
+          this.team.type = team.type;
+          this.team.name = team.teamname;
+          this.team.player_2_name = team.teammembername;
+          this.team.course = team.coursename;
+          this.team.shirtPicker.player1.shirt = team.sponsmerch.item01;
+          this.team.shirtPicker.player2.shirt = team.sponsmerch.item02;
+          this.team.shirtPicker.player1.size = team.sponsmerch.property01;
+          this.team.shirtPicker.player2.size = team.sponsmerch.property02;
 
+        },
         sizeOptions() {
             if (this.team.shirtPicker.gender === 'male') {
                 return this.team.giveaway.maleoptions
@@ -1343,7 +1360,7 @@ export default {
                 })
                 .catch(error => {
                     if (!error.status) {
-                      setTimeout(() => {
+                        setTimeout(() => {
                             this.getSwishStatus(team);
                         }, 1000);
                         // network error
@@ -1945,9 +1962,10 @@ export default {
                     if (userinfo.teams) {
                         this.showteamslist = true;
                         this.showcreateteamhelper = false;
-                        this.teams = userinfo.teams.filter((team) => {
-                            return team.paid || team.invoice
-                        });
+                        //this.teams = userinfo.teams.filter((team) => {
+                        //    return team.paid || team.invoice
+                        //});
+                        this.teams = userinfo.teams;
                     } else {
                         this.teams = {};
                         this.showcreateteamhelper = true;
