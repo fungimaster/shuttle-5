@@ -174,7 +174,6 @@
   }
   p, a, li, span, .btn {
     @media (max-width: 767px) {
-      font-size: 1.1rem !important;
     }
   }
   .hidden {

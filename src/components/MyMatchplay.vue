@@ -41,8 +41,8 @@
 
             <b-container v-if="team.step === 0">
                 <b-row v-if="teams.length === 0 || !teams.length">
-                  <b-col md="12" class="text-right">
-                        <b-button @click="logoutPrompt" variant="warning" class="mt-3">Logga ut</b-button>
+                    <b-col md="12" class="text-right">
+                        <b-button @click="logoutPrompt" variant="warning" class="mt-3 btn-sm">Logga ut</b-button>
                     </b-col>
                     <b-col md="12" class="mt-3">
                         <h2 class="teaser-header orange mt-3">Hej {{userdetails.firstname}}</h2>
@@ -60,8 +60,8 @@
                         <h2 class="teaser-header orange">Hej {{userdetails.firstname}}</h2>
                     </b-col>
                     <b-col md="6" class="text-right">
-                        <b-button variant="primary" class="blue-bg mt-3" v-on:click="create_team('new')"><i class="material-icons">sports_golf</i> Skapa ett lag</b-button>
-                        <b-button @click="logoutPrompt" variant="warning" class="mt-3">Logga ut</b-button>
+                        <b-button variant="primary" class="blue-bg mt-3 btn-sm" v-on:click="create_team('new')"><i class="material-icons smaller">sports_golf</i> Skapa ett lag</b-button>
+                        <b-button @click="logoutPrompt" variant="warning" class="mt-3 btn-sm">Logga ut</b-button>
                     </b-col>
                     <b-col md="12" class="mb-4">
                         <hr>
@@ -104,6 +104,9 @@
                                         </b-tooltip>
                                     </span>
                                 </div>
+                                <div v-if="!team.sponsmerch">
+                                    <b-button size="sm" v-if="!team.invoice" @click="goToShirts(team)" variant="success" class="float-right mt-3">Välj tröjor</b-button>
+                                </div>
                             </b-card-text>
                             <template v-slot:footer>
                                 <p class="mb-0" style="color:green;" v-if="team.paid">
@@ -111,6 +114,8 @@
                                 </p>
                                 <p class="mb-0" style="color:red;" v-if="!team.paid">
                                     <i class="material-icons mr-2">money_off</i>{{text.not_paidteam}}
+                                    <b-button v-if="!team.invoice" @click="goToPay(team)" variant="success" class="btn-sm float-right">Betala</b-button>
+
                                 </p>
                             </template>
                             <b-button hidden variant="primary" class="blue-bg">Redigera lag</b-button>
@@ -329,7 +334,7 @@
                         <b-row align-h="center">
                             <b-col md="6">
                                 <b-button @click.prevent="cancel_team()" variant="light"><i class="material-icons">arrow_back_ios</i>Tillbaka</b-button>
-                                <b-button  :disabled="team.teammembergolfid === ''" class="mt-0 mt-sm-0 float-right" @click.prevent="next()" variant="success">
+                                <b-button :disabled="team.teammembergolfid === ''" class="mt-0 mt-sm-0 float-right" @click.prevent="next()" variant="success">
                                     <b-spinner v-if="showloginspinner" small type="grow" class="mr-2"></b-spinner>Välj tröjor<i class="ml-2 material-icons">arrow_forward_ios</i>
                                 </b-button>
                                 <b-button hidden v-if="!team.is_readonly" @click="save_state1()" variant="primary" class="btn blue-bg">Nästa steg (tröjor)</b-button>
@@ -348,6 +353,15 @@
                                 <p>
                                     Dags att välja pikeér från PING till dig och din lagkamrat. Välj 2 st pikeér totalt från herr/dam och ange storlek.
                                 </p>
+                            </b-col>
+                        </b-row>
+                    </b-container>
+                    <b-container v-if="!team.completemode">
+                        <b-row align-h="center">
+                            <b-col md="6" class="text-center mb-5">
+                                <b-button @click.prevent="goToPayFromShirt()" variant="success">
+                                    Jag vill välja tröjor senare<i class="ml-2 material-icons mr-2">arrow_forward_ios</i>
+                                </b-button>
                             </b-col>
                         </b-row>
                     </b-container>
@@ -471,20 +485,39 @@
                         </b-row>
                     </b-container>
 
-                    <b-container>
+                    <b-container v-if="!team.completemode">
                         <b-row align-h="center">
                             <b-col md="6">
                                 <b-button @click.prevent="prev()" variant="light"><i class="material-icons ml-2">arrow_back_ios</i>Tillbaka</b-button>
                                 <b-button class="mt-sm-0 float-right" @click.prevent="next()" variant="success">
-                                    <b-spinner v-if="showloginspinner" small type="grow" class="mr-2"></b-spinner>Betalning<i class="ml-2 material-icons mr-2">arrow_forward_ios</i>
+                                    <b-spinner v-if="showloginspinner" small type="grow" class="mr-2"></b-spinner>Spara<i class="ml-2 material-icons">arrow_forward_ios</i>
                                 </b-button>
                             </b-col>
                         </b-row>
                     </b-container>
-                    <b-container class="mt-3 mb-4 p-0">
+                    <b-container v-if="!team.completemode" class="mt-3 mb-4 p-0">
                         <b-row align-h="center">
                             <b-col md="auto">
                                 <b-alert v-if="team.giveaway.shirtwarning" variant="warning" show class="mt-4 form-text text-muted text-center">Var snäll och välj två tröjor med storlek till ditt lag innan du betalar.</b-alert>
+
+                            </b-col>
+                        </b-row>
+                    </b-container>
+
+                    <b-container v-if="team.completemode">
+                        <b-row align-h="center">
+                            <b-col md="6">
+                                <b-button @click.prevent="cancel_team()" variant="light"><i class="material-icons">clear</i> Avbryt</b-button>
+                                <b-button class="mt-sm-0 float-right" @click.prevent="shirtComplete()" variant="success">
+                                    <b-spinner v-if="showloginspinner" small type="grow" class="mr-2"></b-spinner> <i class="ml-2 material-icons mr-2">done</i>Klar
+                                </b-button>
+                            </b-col>
+                        </b-row>
+                    </b-container>
+                    <b-container v-if="team.completemode" class="mt-3 mb-4 p-0">
+                        <b-row align-h="center">
+                            <b-col md="auto">
+                                <b-alert v-if="team.giveaway.shirtwarning" variant="warning" show class="mt-4 form-text text-muted text-center">Var snäll och välj två tröjor med storlek till ditt lag.</b-alert>
 
                             </b-col>
                         </b-row>
@@ -547,6 +580,23 @@
                                         Din voucherkod är inte giltig.
                                     </b-form-invalid-feedback>
                                 </b-form-group>
+
+                                <b-container v-if="team.completemode">
+                                    <b-row align-h="center">
+                                        <b-col md="12" class="text-center">
+                                            <b-button @click.prevent="cancel_team()" variant="light"><i class="material-icons">clear</i> Avbryt</b-button>
+                                        </b-col>
+                                    </b-row>
+                                </b-container>
+                                <b-container v-if="!team.completemode">
+                                    <b-row align-h="center">
+                                        <b-col md="12" class="text-center">
+                                            <b-button @click.prevent="cancel_team()" variant="success">
+                                                Jag vill betala senare<i class="ml-2 material-icons mr-2">arrow_forward_ios</i>
+                                            </b-button>
+                                        </b-col>
+                                    </b-row>
+                                </b-container>
 
                             </b-col>
                         </b-row>
@@ -684,6 +734,7 @@ export default {
                 inputClass: 'form-control course'
             },
             //GENERAL
+            userinfo: {},
             teams: 0,
             loading: true,
             paymentstatus: '',
@@ -738,6 +789,7 @@ export default {
             ],
             team: {
                 step: 0,
+                completemode: false,
                 voucher: '',
                 swish: {
                     mobile: ''
@@ -1003,7 +1055,54 @@ export default {
     },
     mixins: [tagsMixin],
     methods: {
+        setTeamProperties(team) {
+            this.team.completemode = true;
+            this.team._id = team._id;
+            this.showcreateteam = true;
+            this.team.is_readonly = false;
+            this.team.type = team.type;
+            this.team.name = team.teamname;
+            this.team.player_2_name = team.teammembername;
+            this.team.course = team.coursename;
+            if (this.team.sponsmerch) {
+                this.team.shirtPicker.player1.shirt = team.sponsmerch.item01;
+                this.team.shirtPicker.player2.shirt = team.sponsmerch.item02;
+                this.team.shirtPicker.player1.size = team.sponsmerch.property01;
+                this.team.shirtPicker.player2.size = team.sponsmerch.property02;
+            }
 
+        },
+        resetTeamProperties(team) {
+            this.team.completemode = false;
+            this.team._id = "";
+            this.showcreateteam = false;
+            this.team.is_readonly = true;
+            this.team.type = "";
+            this.team.name = "";
+            this.team.player_2_name = "";
+            this.team.course = "";
+            if (this.team.sponsmerch) {
+                this.team.shirtPicker.player1.shirt = "";
+                this.team.shirtPicker.player2.shirt = "";
+                this.team.shirtPicker.player1.size = "";
+                this.team.shirtPicker.player2.size = "";
+            }
+
+        },
+        goToShirts(team) {
+            window.scrollTo(0, 0);
+            this.setTeamProperties(team);
+            this.team.step = 2;
+        },
+        goToPay(team) {
+            window.scrollTo(0, 0);
+            this.setTeamProperties(team);
+            this.team.step = 3;
+        },
+        goToPayFromShirt() {
+            window.scrollTo(0, 0);
+            this.team.step = 3;
+        },
         sizeOptions() {
             if (this.team.shirtPicker.gender === 'male') {
                 return this.team.giveaway.maleoptions
@@ -1242,8 +1341,6 @@ export default {
             //VALIDATE STEP 2
             if (this.team.step === 2) {
                 this.team.giveaway.shirtwarning = false;
-                //DEBUG 1: shirt 1 count = {{selectedShirt1}} | shirt = {{team.giveaway.shirt1}}<br>
-                //DEBUG 2: shirt 2 count = {{selectedShirt2}} | shirt = {{team.giveaway.shirt2}}<br>
 
                 if (this.team.shirtPicker.player1.shirt === '' || this.team.shirtPicker.player2.shirt === '' || !this.team.shirtPicker.player1.size || !this.team.shirtPicker.player2.size) {
                     this.team.giveaway.shirtwarning = true;
@@ -1318,6 +1415,99 @@ export default {
             }
 
         },
+        shirtComplete() {
+            let element;
+            this.team.giveaway.shirtwarning = false;
+
+            if (this.team.shirtPicker.player1.shirt === '' || this.team.shirtPicker.player2.shirt === '' || !this.team.shirtPicker.player1.size || !this.team.shirtPicker.player2.size) {
+                this.team.giveaway.shirtwarning = true;
+                return;
+            }
+
+            element = document.querySelector("#sponsname");
+            if (element.classList.contains("is-invalid")) {
+                return;
+            }
+
+            element = document.querySelector("#sponsaddress");
+            if (element.classList.contains("is-invalid")) {
+                return;
+            }
+
+            element = document.querySelector("#sponszipcode");
+            if (element.classList.contains("is-invalid")) {
+                return;
+            }
+
+            element = document.querySelector("#sponscity");
+            if (element.classList.contains("is-invalid")) {
+                return;
+            }
+
+            //SAVE TEAM BEHIND THE SCENES
+
+            this.showloginspinner = true;
+
+            this.axios.post('https://matchplay.meteorapp.com/methods/updateTeam', {
+                    "competition": "sFAc3dvrn2P9pXHAz",
+                    "_id": this.team._id,
+                    "sponsormerch": true,
+                    "item01": this.team.shirtPicker.player1.shirt,
+                    "item02": this.team.shirtPicker.player2.shirt,
+                    "property01": this.team.shirtPicker.player1.size,
+                    "property02": this.team.shirtPicker.player2.size,
+                    "sponsname": this.team.giveaway.sponsname,
+                    "sponsaddress": this.team.giveaway.sponsaddress,
+                    "sponszipcode": this.team.giveaway.sponszipcode,
+                    "sponscity": this.team.giveaway.sponscity,
+                    "uistep": this.team.step
+                })
+                .then(response => {
+
+                    if (response.data.status === 'error') {
+                        console.log("error");
+                        return;
+                    }
+
+                    if (response.data.status === 'ok') {
+                        this.showloginspinner = false;
+                        this.team.completemode = false;
+                        this.getPlayerData();
+                        this.team.step = 0;
+                        window.scrollTo(0, 0);
+                    }
+
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        },
+        getPlayerData(id) {
+            const server = new simpleDDP(opts, [simpleDDPLogin]);
+            id = this.userinfo._id;
+            console.log(this.userinfo);
+            this.axios.post('https://matchplay.meteorapp.com/methods/getPlayerData', {
+                    "id": id
+                })
+                .then(response => {
+                    if (response.data.hasOwnProperty('error')) {
+                        console.log("error")
+                        return;
+                    }
+
+                    let userinfo = response.data;
+                    this.userinfo = userinfo;
+                    this.teams = this.userinfo.teams;
+                    console.log(this.userinfo);
+                    localStorage.setItem('userinfo', JSON.stringify(userinfo));
+
+                    return;
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+
+        },
         getSwishStatus: function (team) {
             this.axios.post('https://matchplay.meteorapp.com/methods/getSwishStatus', {
                     "id": team,
@@ -1343,7 +1533,7 @@ export default {
                 })
                 .catch(error => {
                     if (!error.status) {
-                      setTimeout(() => {
+                        setTimeout(() => {
                             this.getSwishStatus(team);
                         }, 1000);
                         // network error
@@ -1599,9 +1789,12 @@ export default {
             this.showcreateteam = true;
         },
         cancel_team() {
-            this.showcreateteam = false;
+            this.resetTeamProperties();
+            this.getPlayerData();
+            //this.showcreateteam = false;
             this.showteamslist = true;
             this.team.step = 0;
+            this.team.completemode = false;
             window.scrollTo(0, 0);
         },
         save_state1(evt) {
@@ -1936,6 +2129,7 @@ export default {
                 try {
                     //SET KEYS in form        
                     userinfo = JSON.parse(userinfo);
+                    this.userinfo = userinfo;
                     this.userdetails.firstname = userinfo.firstname;
                     this.userdetails.lastname = userinfo.lastname;
 
@@ -1945,9 +2139,11 @@ export default {
                     if (userinfo.teams) {
                         this.showteamslist = true;
                         this.showcreateteamhelper = false;
-                        this.teams = userinfo.teams.filter((team) => {
-                            return team.paid || team.invoice
-                        });
+                        //this.teams = userinfo.teams.filter((team) => {
+                        //    return team.paid || team.invoice
+                        //});
+                        //this.teams = userinfo.teams;
+                        this.teams = this.userinfo.teams;
                     } else {
                         this.teams = {};
                         this.showcreateteamhelper = true;
@@ -1997,6 +2193,7 @@ export default {
                             }
 
                             let userinfo = response.data;
+                            this.userinfo = userinfo;
                             localStorage.setItem('userinfo', JSON.stringify(userinfo));
                             parentVue.setuserinfoform();
 
@@ -2118,7 +2315,9 @@ img.overview-logo {
     float: right;
     max-height: 30px;
 }
-
+.material-icons.smaller {
+  font-size: 20px;
+}
 .pulse-button {
 
     position: relative;
