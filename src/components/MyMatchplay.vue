@@ -77,7 +77,7 @@
                             <b-card-title>
                                 <span>{{team.teamname}}</span>
                                 <div v-if="!team.teammemberemail && !team.teammembergolfid">
-                                    <b-button size="sm" v-if="!team.invoice" @click="goToShirts(team)" variant="success" class="float-right mt-3">Bjud in lagkamrat</b-button>
+                                    <b-button size="sm" v-if="!team.invoice" @click="goToStep(team, 2)" variant="success" class="float-right mt-3">Bjud in lagkamrat</b-button>
                                 </div>
                             </b-card-title>
                             <b-card-text class="mt-3">
@@ -108,7 +108,7 @@
                                     </span>
                                 </div>
                                 <div v-if="!team.sponsmerch">
-                                    <b-button size="sm" v-if="!team.invoice" @click="goToShirts(team)" variant="success" class="float-right mt-3">Välj tröjor</b-button>
+                                    <b-button size="sm" v-if="!team.invoice" @click="goToStep(team, 3)" variant="success" class="float-right mt-3">Välj tröjor</b-button>
                                 </div>
                             </b-card-text>
                             <template v-slot:footer>
@@ -117,7 +117,7 @@
                                 </p>
                                 <p class="mb-0" style="color:red;" v-if="!team.paid">
                                     <i class="material-icons mr-2">money_off</i>{{text.not_paidteam}}
-                                    <b-button v-if="!team.invoice" @click="goToPay(team)" variant="success" class="btn-sm float-right">Betala</b-button>
+                                    <b-button v-if="!team.invoice" @click="goToStep(team, 4)" variant="success" class="btn-sm float-right">Betala</b-button>
 
                                 </p>
                             </template>
@@ -1122,15 +1122,10 @@ export default {
             }
 
         },
-        goToShirts(team) {
+        goToStep(team, step) {
             window.scrollTo(0, 0);
             this.setTeamProperties(team);
-            this.team.step = 2;
-        },
-        goToPay(team) {
-            window.scrollTo(0, 0);
-            this.setTeamProperties(team);
-            this.team.step = 3;
+            this.team.step = step;
         },
         skipStep() {
             window.scrollTo(0, 0);
