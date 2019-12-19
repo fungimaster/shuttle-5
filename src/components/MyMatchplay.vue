@@ -1183,7 +1183,7 @@ export default {
 
                 if (this.team.shirtPicker.player1.gender != this.team.shirtPicker.gender) {
                     this.team.shirtPicker.player1.gender = this.team.shirtPicker.gender;
-                    this.team.shirtPicker.player1.shirt = false;
+                    this.team.shirtPicker.player1.shirt = '';
 
                 }
                 this.team.shirtPicker.player1.size = size;
@@ -1191,7 +1191,7 @@ export default {
             } else if (this.team.giveaway.shirtstate === 2) {
                 if (this.team.shirtPicker.player2.gender != this.team.shirtPicker.gender) {
                     this.team.shirtPicker.player2.gender = this.team.shirtPicker.gender;
-                    this.team.shirtPicker.player2.shirt = false;
+                    this.team.shirtPicker.player2.shirt = '';
 
                 }
                 this.team.shirtPicker.player2.size = size;
