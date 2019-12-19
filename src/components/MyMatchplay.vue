@@ -1588,7 +1588,7 @@ export default {
                         } else {
                             this.paymentstatus = response.data.paymentstatus;
                             this.showspinner_swish = false;
-                            this.team.step = 4;
+                            this.team.step = 5;
 
                         }
                     } else {
@@ -1626,7 +1626,7 @@ export default {
                         if (response.data.paymentstatus === "PAID") {
                             this.paymentstatus = response.data.paymentstatus;
                             this.team.validatevoucher = true;
-                            this.team.step = 4;
+                            this.team.step = 5;
 
                         } else {
                             this.team.validatevoucher = false;
@@ -1663,7 +1663,7 @@ export default {
                         if (response.data.paymentstatus === "INVOICE") {
                             this.paymentstatus = response.data.paymentstatus;
                             this.team.validatevoucher = true;
-                            this.team.step = 4;
+                            this.team.step = 5;
 
                         } else {
                             this.team.validatevoucher = false;
