@@ -76,6 +76,9 @@
                         <b-card img-src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_fill,g_center,h_200,w_508/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg" img-alt="Image" img-top tag="article" class="mb-2 team">
                             <b-card-title>
                                 <span>{{team.teamname}}</span>
+                                <div v-if="!team.teammemberemail && !team.teammembergolfid">
+                                    <b-button size="sm" v-if="!team.invoice" @click="goToShirts(team)" variant="success" class="float-right mt-3">Bjud in lagkamrat</b-button>
+                                </div>
                             </b-card-title>
                             <b-card-text class="mt-3">
                                 <div class="pt-0 pb-3">
@@ -248,12 +251,51 @@
                         </b-row>
                         <!-- Team name END-->
 
-                        <b-row v-if="team.type != null" class="mt-4" align-h="center">
+                        <!-- Course -->
+                        <b-row align-h="center">
                             <b-col md="6">
-                                <p v-if="!team.player_2_name">Anmäl en lagkamrat genom att skriva in dennes golf-ID nedan. </p>
+                                <b-form-group class="mb-5" v-if="team.type != null && !team.is_readonly">
+                                    <label for="query">Välj hemmaklubb för matcher<i v-b-popover.hover.top="'Välj en klubb som ligger nära där du bor eller tänkt spela dina matcher.'" title="Hjälp" class="help material-icons mr-2">help_outline</i></label>
+                                    <suggestions v-model="query" id="query" :options="options" :onInputChange="onCountryInputChange" required :onItemSelected="onSearchItemSelected" style="width:100%;">
+                                        <div slot="item" slot-scope="props" class="single-item">
+                                            <span class="name">{{props.item.title}}</span>
+                                        </div>
+                                    </suggestions>
+                                    <b-form-input hidden id="clubid" v-model="team.clubid" readonly placeholder="Id på klubben">
+                                    </b-form-input>
+                                </b-form-group>
                             </b-col>
-
                         </b-row>
+
+                        <!-- NEXT STATE -->
+                        <b-row align-h="center">
+                            <b-col md="6">
+                                <b-button @click.prevent="cancel_team()" variant="light"><i class="material-icons">arrow_back_ios</i>Tillbaka</b-button>
+                                <b-button :disabled="team.clubid === ''" class="mt-0 mt-sm-0 float-right" @click.prevent="next()" variant="success">
+                                    <b-spinner v-if="showloginspinner" small type="grow" class="mr-2"></b-spinner>Välj lagkamrat<i class="ml-2 material-icons">arrow_forward_ios</i>
+                                </b-button>
+                            </b-col>
+                        </b-row>
+                    </b-container>
+                </div>
+
+                <!-- ######################### CHOSE TEAMMATE #####################-->
+                <div v-if="team.step === 2">
+                    <b-container>
+                        <b-row class="mt-4" align-h="center">
+                            <b-col md="6">
+                                <p v-if="!team.player_2_name">Bjud in en lagkamrat genom att skriva in dennes golf-ID nedan. </p>
+                            </b-col>
+                        </b-row>
+
+                        <b-row v-if="!team.completemode" align-h="center">
+                            <b-col md="6" class="text-center mb-5">
+                                <b-button @click.prevent="skipStep()" variant="success">
+                                    Jag vill bjuda in en lagkamrat senare<i class="ml-2 material-icons mr-2">arrow_forward_ios</i>
+                                </b-button>
+                            </b-col>
+                        </b-row>
+
                         <b-row v-if="team.type != null" align-h="center">
                             <b-col md="6">
                                 <b-form-group>
@@ -313,40 +355,31 @@
                                 </b-alert>
                             </b-col-->
                         </b-row>
-
-                        <!-- Course -->
+                    </b-container>
+                    <b-container v-if="!team.completemode">
                         <b-row align-h="center">
                             <b-col md="6">
-                                <b-form-group class="mb-5" v-if="team.type != null && !team.is_readonly">
-                                    <label for="query">Välj hemmaklubb för matcher<i v-b-popover.hover.top="'Välj en klubb som ligger nära där du bor eller tänkt spela dina matcher.'" title="Hjälp" class="help material-icons mr-2">help_outline</i></label>
-                                    <suggestions v-model="query" id="query" :options="options" :onInputChange="onCountryInputChange" :state="validation_query" required :onItemSelected="onSearchItemSelected" style="width:100%;">
-                                        <div slot="item" slot-scope="props" class="single-item">
-                                            <span class="name">{{props.item.title}}</span>
-                                        </div>
-                                    </suggestions>
-                                    <b-form-input hidden id="clubid" v-model="team.clubid" readonly placeholder="Id på klubben">
-                                    </b-form-input>
-                                </b-form-group>
-                            </b-col>
-                        </b-row>
-
-                        <!-- NEXT STATE -->
-                        <b-row align-h="center">
-                            <b-col md="6">
-                                <b-button @click.prevent="cancel_team()" variant="light"><i class="material-icons">arrow_back_ios</i>Tillbaka</b-button>
+                                <b-button @click.prevent="prev()" variant="light"><i class="material-icons">arrow_back_ios</i>Tillbaka</b-button>
                                 <b-button :disabled="team.teammembergolfid === ''" class="mt-0 mt-sm-0 float-right" @click.prevent="next()" variant="success">
                                     <b-spinner v-if="showloginspinner" small type="grow" class="mr-2"></b-spinner>Välj tröjor<i class="ml-2 material-icons">arrow_forward_ios</i>
                                 </b-button>
-                                <b-button hidden v-if="!team.is_readonly" @click="save_state1()" variant="primary" class="btn blue-bg">Nästa steg (tröjor)</b-button>
-                                <b-button hidden variant="danger" v-if="showcreateteam" class="" v-on:click="cancel_team()">Avbryt</b-button>
-                                <b-alert v-if="showerror" variant="warning" show class="mt-4 small form-text text-muted">Din e-post eller lösenord stämmer inte, försök igen eller återställ ditt lösenord.</b-alert>
+                            </b-col>
+                        </b-row>
+                    </b-container>
+                    <b-container v-if="team.completemode">
+                        <b-row align-h="center">
+                            <b-col md="6">
+                                <b-button @click.prevent="cancel_team()" variant="light"><i class="material-icons">clear</i> Avbryt</b-button>
+                                <b-button :disabled="team.teammembergolfid === ''" class="mt-sm-0 float-right" @click.prevent="next()" variant="success">
+                                    <b-spinner v-if="showloginspinner" small type="grow" class="mr-2"></b-spinner> <i class="ml-2 material-icons mr-2">done</i>Klar
+                                </b-button>
                             </b-col>
                         </b-row>
                     </b-container>
                 </div>
 
                 <!-- STEP 2 TRÖJOR -->
-                <div v-if="team.step === 2">
+                <div v-if="team.step === 3">
                     <b-container class="mt-3 mb-3">
                         <b-row class="mt-4">
                             <b-col class="col-12">
@@ -359,7 +392,7 @@
                     <b-container v-if="!team.completemode">
                         <b-row align-h="center">
                             <b-col md="6" class="text-center mb-5">
-                                <b-button @click.prevent="goToPayFromShirt()" variant="success">
+                                <b-button @click.prevent="skipStep()" variant="success">
                                     Jag vill välja tröjor senare<i class="ml-2 material-icons mr-2">arrow_forward_ios</i>
                                 </b-button>
                             </b-col>
@@ -526,7 +559,7 @@
                 </div>
 
                 <!-- STEP 3 -->
-                <div v-if="team.step === 3">
+                <div v-if="team.step === 4">
                     <b-container>
                         <b-row align-h="center">
                             <b-col md="6">
@@ -604,7 +637,7 @@
                 </div>
 
                 <!-- STEP 4 -->
-                <div v-if="team.step === 4">
+                <div v-if="team.step === 5">
                     <b-container>
                         <b-row align-h="center">
                             <b-col v-if="this.paymentstatus === 'PAID'" md="6">
@@ -1099,9 +1132,9 @@ export default {
             this.setTeamProperties(team);
             this.team.step = 3;
         },
-        goToPayFromShirt() {
+        skipStep() {
             window.scrollTo(0, 0);
-            this.team.step = 3;
+            this.team.step++;
         },
         sizeOptions() {
             if (this.team.shirtPicker.gender === 'male') {
@@ -1263,18 +1296,6 @@ export default {
                     }
                 }
 
-                element = document.querySelector("#teammembername");
-                if (element.classList.contains("is-invalid")) {
-                    return;
-                }
-
-                element = document.querySelector("#teammemberemail");
-                if (element) {
-                    if (element.classList.contains("is-invalid")) {
-                        return;
-                    }
-                }
-
                 //COURSE
                 var x = document.getElementsByClassName("course");
                 var i;
@@ -1339,7 +1360,58 @@ export default {
             }
 
             //VALIDATE STEP 2
+
             if (this.team.step === 2) {
+                console.log("HEJ")
+                element = document.querySelector("#teammembername");
+                if (element.classList.contains("is-invalid")) {
+                    return;
+                }
+
+                element = document.querySelector("#teammemberemail");
+                if (element) {
+                    if (element.classList.contains("is-invalid")) {
+                        return;
+                    }
+                }
+                let url = 'https://matchplay.meteorapp.com/methods/updateTeam'
+                this.axios.post(url, {
+                        "competition": "sFAc3dvrn2P9pXHAz",
+                        "_id": this.team._id,
+                        "teammembergolfid": this.team.teammembergolfid,
+                        "teammemberemail": this.team.teammemberemail,
+                        "uistep": this.team.step
+                    })
+                    .then(response => {
+
+                        if (response.data.status === 'error') {
+                            console.log("error");
+                            return;
+                        }
+
+                        if (response.data.status === 'ok') {
+                            this.showloginspinner = false;
+                            if (this.team.completemode) {
+                                this.showloginspinner = false;
+                                this.team.completemode = false;
+                                this.getPlayerData();
+                                this.team.step = 0;
+                            }
+                            else {
+                              this.team.step++;
+                            }
+                            window.scrollTo(0, 0);
+                        }
+
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+
+            }
+
+            //VALIDATE STEP 3
+            if (this.team.step === 3) {
                 this.team.giveaway.shirtwarning = false;
 
                 if (this.team.shirtPicker.player1.shirt === '' || this.team.shirtPicker.player2.shirt === '' || !this.team.shirtPicker.player1.size || !this.team.shirtPicker.player2.size) {
@@ -2315,9 +2387,11 @@ img.overview-logo {
     float: right;
     max-height: 30px;
 }
+
 .material-icons.smaller {
-  font-size: 20px;
+    font-size: 20px;
 }
+
 .pulse-button {
 
     position: relative;
