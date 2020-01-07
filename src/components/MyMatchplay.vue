@@ -49,7 +49,7 @@
                     </b-col>
                     <b-col md="12">
                         <h4>Skapa ditt blivande mästarlag</h4>
-                        <p>Nu är det dags att skapa ditt lag för Matchplay 2020. Klicka på knappen nedan och följ instruktionerna.</p>
+                        <p>Nu är det dags att skapa ditt lag för matchplay 2020. Klicka på knappen nedan och följ instruktionerna.</p>
                     </b-col>
                     <b-col md="12" class="pt-1 text-center">
                         <b-button variant="primary" class="blue-bg mt-5 mb-3 pulse-button btn-lg" v-on:click="create_team('new')"><i class="material-icons">sports_golf</i> Skapa ditt lag</b-button>
@@ -73,6 +73,10 @@
             <b-container v-if="showteamslist && team.step === 0" class="">
                 <b-row align-h="center">
                     <b-col sm="6" lg="6" class="team pl-2 pr-2 pb-2" v-for="(team,idx) in teams" :key="idx">
+                        <b-button :id="'delete-team-' + idx" v-if="team.teamleader && !team.paid" @click="removeTeam(team)" variant="" class="btn-sm delete-team"><i class="material-icons">delete</i></b-button>
+                        <b-tooltip :target="'delete-team-' + idx" triggers="hover" placement="top">
+                            Radera det här laget
+                        </b-tooltip>
                         <b-card img-src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_fill,g_center,h_200,w_508/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg" img-alt="Image" img-top tag="article" class="mb-2 team">
                             <b-card-title>
                                 <span>{{team.teamname}}</span>
@@ -118,7 +122,6 @@
                                 <p class="mb-0" style="color:red;" v-if="!team.paid">
                                     <i class="material-icons mr-2">money_off</i>{{text.not_paidteam}}
                                     <b-button v-if="!team.invoice" @click="goToStep(team, 4)" variant="success" class="btn-sm float-right">Betala</b-button>
-
                                 </p>
                             </template>
                             <b-button hidden variant="primary" class="blue-bg">Redigera lag</b-button>
@@ -319,7 +322,7 @@
                                         </p>
 
                                         <p class="mt-2" v-if="team.player_2_exists">
-                                            {{team.player_2_name}} har ett Matchplay-konto och kommer att få en laginbjudan via email.
+                                            {{team.player_2_name}} har ett matchplay-konto och kommer att få en laginbjudan via email.
                                         </p>
 
                                         <b-form-input hidden v-model="team.teammembergolfid" placeholder="Golfid">
@@ -348,7 +351,7 @@
                                         När du sparar laget kommer vi skicka en inbjudan till din lagkamrat
                                     </p>
                                     <p class="mt-2" v-if="team.player_3_exists">
-                                        {{team.player_3_name}} har ett Matchplay-konto och kommer att få en förfrågan via email om att vara med i ditt lag.
+                                        {{team.player_3_name}} har ett matchplay-konto och kommer att få en förfrågan via email om att vara med i ditt lag.
                                     </p>
                                     <b-form-input hidden v-model="team.teamreservegolfid" placeholder="Golfid">
                                     </b-form-input>
@@ -643,12 +646,12 @@
                             <b-col v-if="this.paymentstatus === 'PAID'" md="6">
                                 <h2 class="text-center"><i class="material-icons">favorite_border</i> Tack! <i class="material-icons">favorite_border</i></h2>
                                 <p>Ditt lag är betalt och klart. Vi återkommer med information om matcher och leverans av pikéer.</p>
-                                <p>Hälsningar<br>MatchPlay</p>
+                                <p>Hälsningar<br>matchplay</p>
                             </b-col>
                             <b-col v-if="this.paymentstatus === 'DECLINED'" md="6">
                                 <h2 class="text-center"><i class="material-icons">eject</i> Du valde att avbryta betalningen</h2>
                                 <p>Kontakta oss om det är något som är oklart så hjälper vi till att förklara.</p>
-                                <p>Hälsningar<br>MatchPlay</p>
+                                <p>Hälsningar<br>matchplay</p>
                                 <div class="text-center mt-5 mb-5">
                                     <b-button @click="team.step = 3">
                                         <i class="material-icons">
@@ -662,18 +665,18 @@
                             <b-col v-if="this.paymentstatus === 'ERROR'" md="6">
                                 <h2 class="text-center"><i class="material-icons">error</i> Något gick fel</h2>
                                 <p>Försök genomföra betalningen vid ett senare tillfälle eller kontakta oss.</p>
-                                <p>Hälsningar<br>MatchPlay</p>
+                                <p>Hälsningar<br>matchplay</p>
                             </b-col>
                             <b-col v-if="this.paymentstatus === 'INVOICE'" md="6">
                                 <h2 class="text-center"><i class="material-icons">favorite_border</i> Tack! <i class="material-icons">favorite_border</i></h2>
                                 <p>Ditt lag är anmält och du kommer att få en faktura inom kort. Vi återkommer med information om matcher och leverans av pikéer när fakturan är betald.</p>
-                                <p>Hälsningar<br>MatchPlay</p>
+                                <p>Hälsningar<br>matchplay</p>
                             </b-col>
 
                         </b-row>
                         <b-row align-h="center">
                             <b-col v-if="this.paymentstatus != ''" md="6" class="text-center">
-                                <b-button href="/MyMatchplay" size="lg" variant="success text-white mt-4">
+                                <b-button href="/Mymatchplay" size="lg" variant="success text-white mt-4">
                                     <i class="material-icons">
                                         done_outline
                                     </i> Klar
@@ -1088,6 +1091,34 @@ export default {
     },
     mixins: [tagsMixin],
     methods: {
+        removeTeam(team) {
+            console.log(team);
+            const r = confirm('Är du säker på att du vill radera ditt lag?');
+            if (r == true) {
+                let url = 'https://matchplay.meteorapp.com/methods/removeTeam'
+                this.axios.post(url, {
+                        "id": team._id,
+                    })
+                    .then(response => {
+                        if (response.data.status === 'error') {
+                            return;
+                        } else if (response.data.status === 'ok') {
+                            this.showloginspinner = false;
+                            this.getPlayerData();
+                        } else {
+                            this.getPlayerData();
+
+                        }
+
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            } else {
+                return false;
+            }
+
+        },
         setTeamProperties(team) {
             this.team.completemode = true;
             this.team._id = team._id;
@@ -1391,9 +1422,8 @@ export default {
                                 this.team.completemode = false;
                                 this.getPlayerData();
                                 this.team.step = 0;
-                            }
-                            else {
-                              this.team.step++;
+                            } else {
+                                this.team.step++;
                             }
                             window.scrollTo(0, 0);
                         }
@@ -1552,7 +1582,6 @@ export default {
         getPlayerData(id) {
             const server = new simpleDDP(opts, [simpleDDPLogin]);
             id = this.userinfo._id;
-            console.log(this.userinfo);
             this.axios.post('https://matchplay.meteorapp.com/methods/getPlayerData', {
                     "id": id
                 })
@@ -1957,7 +1986,7 @@ export default {
                     localStorage.setItem('auth_token', server.token);
                     parentVue.showlogin = false;
                     parentVue.showloginspinner = false;
-                    parentVue.doctitle = 'My Matchplay';
+                    parentVue.doctitle = 'My matchplay';
                     //Set params for user
                     this.axios.post('https://matchplay.meteorapp.com/methods/getPlayerData', {
                             "id": server.userId
@@ -2136,7 +2165,7 @@ export default {
         },
         logoutPrompt: function () {
             this.boxTwo = ''
-            this.$bvModal.msgBoxConfirm('Vill du verkligen logga ut från Matchplay?', {
+            this.$bvModal.msgBoxConfirm('Vill du verkligen logga ut från matchplay?', {
                     title: 'Logga ut?',
                     size: 'md',
                     buttonSize: 'md',
@@ -2246,7 +2275,7 @@ export default {
             trylogin()
                 .then(() => {
                     //console.log('logged in with token in local storage',server.token);      
-                    parentVue.doctitle = 'My Matchplay';
+                    parentVue.doctitle = 'My matchplay';
 
                     this.axios.post('https://matchplay.meteorapp.com/methods/getPlayerData', {
                             "id": server.userId
@@ -2385,6 +2414,19 @@ img.overview-logo {
 
 .material-icons.smaller {
     font-size: 20px;
+}
+
+.delete-team {
+    position: absolute;
+    z-index: 9999;
+    right: 12px;
+    top: 4px;
+    border-radius: 50%;
+    padding: 5px;
+    height: 40px;
+    width: 40px;
+    background-color: #ccc;
+    border-color: #bbb;
 }
 
 .pulse-button {
