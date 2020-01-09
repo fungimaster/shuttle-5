@@ -7,7 +7,7 @@
     <div v-if="!loading">
 
         <!---------------------------- LOGIN --------------------------------------->
-        <div v-if="showlogin">
+        <div v-if="showlogin && !showsendreset && !this.$route.query.resetpw">
             <b-container>
                 <b-row class="mb-5 mt-5">
                     <b-col md="12" class="mt-3">
@@ -28,8 +28,63 @@
                             <b-alert v-if="showerror" variant="warning" show class="mt-4 small form-text text-muted">Din e-post eller lösenord stämmer inte, försök igen eller återställ ditt lösenord.</b-alert>
                         </b-form>
                         <div class="mt-4">
-                            <!--small><a href="#">Glömt ditt lösenord?</a></small--><small><a href="/#register">Registrera dig</a></small>
+                            <small><a href="#" v-on:click="showsendreset = true">Glömt ditt lösenord?</a></small> | <small><a href="/#register">Registrera dig</a></small>
                         </div>
+                    </b-col>
+                </b-row>
+            </b-container>
+        </div>
+        <!---------------------------- SENDRESET PASSWORD --------------------------------------->
+        <div v-if="showlogin && showsendreset && !this.$route.query.resetpw">
+            <b-container>
+                <b-row class="mb-5 mt-5">
+                    <b-col md="12" class="mt-3">
+                        <h2 class="teaser-header orange">Skicka email för nytt lösenord</h2>
+                        <br>
+                        <b-form @submit.stop.prevent>
+                            <b-form-group id="input-group-1" label="E-post" label-for="input-1">
+                                <b-form-input id="input-1" v-model="sendformreset.email" :state="validateResetEmail" type="email" required placeholder="Skriv den e-postadress du registrerat dig med">
+                                </b-form-input>
+                            </b-form-group>
+
+                            <b-button v-on:click="sendResetPw()" variant="primary" class="btn blue-bg">
+                                <b-spinner v-if="showloginspinner" small type="grow" class="mr-2"></b-spinner>Skicka email om nytt lösenord
+                            </b-button>
+                            <b-alert v-if="showsendreseterror" variant="warning" show class="mt-4 small form-text text-muted">Din e-post stämmer inte, försök igen.</b-alert>
+                            <b-alert v-if="showsendresetsuccess" variant="success" show class="mt-4 small form-text text-muted">Ett email har skickats med instruktioner om hur du byter lösenord.</b-alert>
+                        </b-form>
+                    </b-col>
+                </b-row>
+            </b-container>
+        </div>
+
+        <!---------------------------- RESET PASSWORD --------------------------------------->
+        <div v-if="showlogin && this.$route.query.resetpw && !showsendreset">
+            <b-container>
+                <b-row class="mb-5 mt-5">
+                    <b-col md="12" class="mt-3">
+                        <h2 class="teaser-header orange">Ange ett nytt lösenord</h2>
+                        <br>
+                        <b-form @submit.stop.prevent @submit="resetpw">
+                            <b-form-group label="Ditt nya lösenord" label-for="input-1">
+                                <b-form-input :state="validatePassword1" v-model="formreset.password" type="password" required placeholder="Skapa ett lösenord">
+                                </b-form-input>
+                                <b-form-invalid-feedback :state="validatePassword1">
+                                    Krav på minst 8 tecken
+                                </b-form-invalid-feedback>
+                            </b-form-group>
+                            <b-form-group label="Skriv ditt lösenord en gång till" label-for="input-1">
+                                <b-form-input :state="validatePassword2" v-model="formreset.password2" type="password" required placeholder="Återupprepa lösenordet">
+                                </b-form-input>
+                                <b-form-invalid-feedback :state="validatePassword2">
+                                    Lösenorden stämmer inte...
+                                </b-form-invalid-feedback>
+                            </b-form-group>
+                            <b-button v-on:click="resetPw()" variant="primary" class="btn blue-bg">
+                                <b-spinner v-if="showloginspinner" small type="grow" class="mr-2"></b-spinner>Spara lösenordet
+                            </b-button>
+                            <b-alert v-if="showerror" variant="warning" show class="mt-4 small form-text text-muted">Din e-post eller lösenord stämmer inte, försök igen eller återställ ditt lösenord.</b-alert>
+                        </b-form>
                     </b-col>
                 </b-row>
             </b-container>
@@ -796,6 +851,9 @@ export default {
             showlogin: false,
             showloginspinner: false,
             showerror: false,
+            showsendreset: false,
+            showsendreseterror: false,
+            showsendresetsuccess: false,
             //END       
             //TEAM       
             text: {
@@ -996,10 +1054,40 @@ export default {
                 email: '',
                 pwd: ''
             },
+            formreset: {
+                password: '',
+                password2: ''
+            },
+            sendformreset: {
+                email: ''
+            },
             doctitle: 'Mina sidor'
         }
     },
     computed: {
+        validateResetEmail() {
+
+            if (this.sendformreset.email.length < 4) {
+                return;
+            }
+
+            var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(String(this.sendformreset.email).toLowerCase());
+
+        },
+        validatePassword1() {
+            if (this.formreset.password.length === 0) {
+                return;
+            }
+            return this.formreset.password.length > 7;
+        },
+        validatePassword2() {
+            if (this.formreset.password.length === 0) {
+                this.showpasswordsdontmatch = false;
+                return;
+            }
+            return this.formreset.password === this.formreset.password2;
+        },
         giveawayname: {
             get() {
                 //perform your logic
@@ -1091,8 +1179,66 @@ export default {
     },
     mixins: [tagsMixin],
     methods: {
+        sendResetPw() {
+            console.log(this.sendformreset.email);
+            this.showsendreseterror = false;
+            let url = 'https://matchplay.meteorapp.com/methods/resetPw'
+            //let url = 'http://localhost:3000/methods/resetPw'
+            this.axios.post(url, {
+                    "email": this.sendformreset.email
+                })
+                .then(response => {
+                    if (response.data.status === 'error') {
+                        return;
+                    } else if (response.data.status === 'ok') {
+                        this.showloginspinner = false;
+                        this.showlogin = true;
+                        this.showsendresetsuccess = true;
+
+                        this.$router.push({
+                            path: "/mymatchplay"
+                        });
+                    } else {
+                        this.showsendreseterror = true;
+
+                    }
+
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        },
+        resetPw() {
+            const r = confirm('Är du säker på att du vill byta lösenord?');
+            if (r == true) {
+                let url = 'https://matchplay.meteorapp.com/methods/resetPw'
+                //let url = 'http://localhost:3000/methods/resetPw'
+                this.axios.post(url, {
+                        "token": this.$route.query.resetpw,
+                        "pw": this.formreset.password
+                    })
+                    .then(response => {
+                        if (response.data.status === 'error') {
+                            return;
+                        } else if (response.data.status === 'ok') {
+                            this.showloginspinner = false;
+                            this.showlogin = true;
+                            this.$router.push({
+                                path: "/mymatchplay"
+                            });
+                        } else {
+
+                        }
+
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            } else {
+                return false;
+            }
+        },
         removeTeam(team) {
-            console.log(team);
             const r = confirm('Är du säker på att du vill radera ditt lag?');
             if (r == true) {
                 let url = 'https://matchplay.meteorapp.com/methods/removeTeam'
@@ -1388,7 +1534,6 @@ export default {
             //VALIDATE STEP 2
 
             if (this.team.step === 2) {
-                console.log("HEJ")
                 element = document.querySelector("#teammembername");
                 if (element.classList.contains("is-invalid")) {
                     return;
@@ -2265,6 +2410,7 @@ export default {
     updated: function () {},
 
     mounted: function () {
+        console.log("ROUTE", this.$route.query.resetpw)
 
         const server = new simpleDDP(opts, [simpleDDPLogin]);
         let parentVue = this;
