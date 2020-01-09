@@ -83,7 +83,7 @@
                             <b-button v-on:click="resetPw()" variant="primary" class="btn blue-bg">
                                 <b-spinner v-if="showloginspinner" small type="grow" class="mr-2"></b-spinner>Spara lösenordet
                             </b-button>
-                            <b-alert v-if="showsreseterror" variant="warning" show class="mt-4 small form-text text-muted">Tiden för att byta lösenord har gått ut. Begär ett nytt email för att byta lösenord. </b-alert>
+                            <b-alert v-if="showsreseterror" variant="warning" show class="mt-4 small form-text text-muted">Tiden för att byta lösenord har gått ut. Begär ett nytt email för att byta lösenord. <a href="#" v-on:click="showsendreset = true">Glömt ditt lösenord?</a></b-alert>
                         </b-form>
                     </b-col>
                 </b-row>
