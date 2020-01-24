@@ -2148,6 +2148,9 @@ export default {
                             localStorage.setItem('userinfo', JSON.stringify(userinfo));
                             parentVue.setuserinfoform();
 
+                            this.$store.dispatch('updateUserInfo')
+
+
                             return;
                         })
                         .catch(error => {
@@ -2363,6 +2366,8 @@ export default {
             server.on('logout', () => {
                 console.log('User logged out');
             });
+
+            this.$store.dispatch('updateUserInfo')
 
         },
         setuserinfoform: function () {
