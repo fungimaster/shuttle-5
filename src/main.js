@@ -36,7 +36,9 @@ const store = new Vuex.Store({
         maproom: '',
         speaker: {},
         conferencename: 'Matchplay 2020',
-        docimage: 'https://res.cloudinary.com/dn3hzwewp/image/upload/v1573118127/matchplay/matchplay-new-logo-2020.png'
+        docimage: 'https://res.cloudinary.com/dn3hzwewp/image/upload/v1573118127/matchplay/matchplay-new-logo-2020.png',
+        userInfo: "Logga in"
+
     },
     getters: {
       //total: state => state.count
@@ -50,7 +52,16 @@ const store = new Vuex.Store({
         },
         maproomUpdate (state, payload) {
           state.maproom = payload.room
-        }
+        },
+        updateUserInfo: state => {
+          let userinfo = localStorage.getItem('userinfo');       
+          if (userinfo) {          
+           userinfo = JSON.parse(userinfo);          
+           state.userInfo = userinfo.firstname;   
+          } else {
+            state.userInfo = "Logga in"
+          }
+  },
     },
     actions: {
       counterUpdate (context, payload) {
@@ -61,7 +72,11 @@ const store = new Vuex.Store({
       },
       maproomUpdate (context, payload) {
           context.commit('maproomUpdate', payload)
+      },
+      updateUserInfo: (context) => {
+        context.commit('updateUserInfo')
       }
+    
     }
 })
 
