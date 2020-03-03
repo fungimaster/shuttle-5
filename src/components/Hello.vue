@@ -16,7 +16,7 @@
             <p>Ta chansen att ta dig till Sverigefinalen och sedan vidare utomlands! Alla deltagare får pikeér från PING.</p>
             
              <b-alert show class="mt-4 small" variant="warning">
-                Våren är här golfvänner och sista dagen för anmälan är 27 april!
+                Våren är här golfvänner och sista dagen för anmälan är 23:e april!
                 <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
              </b-alert>
              <b-alert hidden class="mt-4 small" variant="danger">
