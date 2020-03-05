@@ -43,16 +43,7 @@ const store = new Vuex.Store({
     getters: {
       //total: state => state.count
     },
-    mutations: {
-        counterUpdate (state, payload) {
-          state.count = payload.count
-        },
-        speakerUpdate (state, payload) {
-          state.speaker = payload.speaker
-        },
-        maproomUpdate (state, payload) {
-          state.maproom = payload.room
-        },
+    mutations: {  
         updateUserInfo: state => {
           let userinfo = localStorage.getItem('userinfo');       
           if (userinfo) {          
@@ -64,15 +55,6 @@ const store = new Vuex.Store({
   },
     },
     actions: {
-      counterUpdate (context, payload) {
-          context.commit('counterUpdate', payload)
-      },
-      speakerUpdate (context, payload) {
-          context.commit('speakerUpdate', payload)
-      },
-      maproomUpdate (context, payload) {
-          context.commit('maproomUpdate', payload)
-      },
       updateUserInfo: (context) => {
         context.commit('updateUserInfo')
       }

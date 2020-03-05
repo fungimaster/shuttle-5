@@ -221,6 +221,11 @@ Sverigefinalen spelas runt september 2020 på plats som meddelas när vi vet var
       doctitle: 'Info - ' + this.$store.state.conferencename
       }
     },
+      mounted: function () {
+        //console.log("ROUTE", this.$route.query.resetpw)
+
+        this.$store.dispatch('updateUserInfo');
+  },
     //mixins: [tagsMixin]
   }
 </script>

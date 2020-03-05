@@ -25,8 +25,8 @@
              </b-alert>
                        
             <div class="buttons text-left">
-              <a href="#register" class="btn blue-bg btn-lg text-white mt-3 mr-2">Anmälan</a>
-              <a href="/mymatchplay" class="btn blue-bg btn-lg text-white mt-3">Laghantering</a>
+              <a href="#register" class="btn blue-bg btn-md text-white mt-3 mr-2">Anmälan</a>
+              <a href="/mymatchplay" class="btn blue-bg btn-md text-white mt-3">Laghantering</a>
             </div>
           </b-col>
           <b-col class="col-md-3 d-none d-md-block pl-2 justify-content-center align-self-center">           
@@ -613,6 +613,11 @@ components: {
       }
     },
   mixins: [tagsMixin],
+  mounted: function () {
+        //console.log("ROUTE", this.$route.query.resetpw)
+
+        this.$store.dispatch('updateUserInfo');
+  },
  
   methods: {    
 

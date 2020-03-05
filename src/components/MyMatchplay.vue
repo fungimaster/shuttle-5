@@ -97,7 +97,7 @@
             <b-container v-if="team.step === 0">
                 <b-row v-if="teams.length === 0 || !teams.length">
                     <b-col md="12" class="text-right">
-                        <b-button @click="logoutPrompt" variant="warning" class="mt-3 btn-sm">Logga ut</b-button>
+                        <b-button hidden @click="logoutPrompt" variant="warning" class="mt-3 btn-sm">Logga ut</b-button>
                     </b-col>
                     <b-col md="12" class="mt-3">
                         <h2 class="teaser-header orange mt-3">Hej {{userdetails.firstname}}</h2>
@@ -111,14 +111,13 @@
                     </b-col>
                 </b-row>
                 <b-row v-if="teams.length > 0" class="mb-2">
-                    <b-col md="6" class="mt-3">
+                    <b-col md="6" class="mt-5">
                         <h2 class="teaser-header orange">Hej {{userdetails.firstname}}</h2>
                     </b-col>
                     <b-col md="6" class="text-right">
-                        <b-button variant="primary" class="blue-bg mt-3 btn-sm" v-on:click="create_team('new')"><i class="material-icons smaller">sports_golf</i> Skapa ett lag</b-button>
-                        <b-button @click="logoutPrompt" variant="warning" class="mt-3 btn-sm">Logga ut</b-button>
+                        <b-button v-if="!showteamslist" variant="primary" class="blue-bg mt- btn-sm" v-on:click="create_team('new')"><i class="material-icons smaller">sports_golf</i> Skapa ett lag</b-button>
                     </b-col>
-                    <b-col md="12" class="mb-4">
+                    <b-col hidden md="12" class="mb-4">
                         <hr>
                     </b-col>
                 </b-row>
@@ -132,11 +131,11 @@
                         <b-tooltip :target="'delete-team-' + idx" triggers="hover" placement="top">
                             Radera det här laget
                         </b-tooltip>
-                        <b-card img-src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_fill,g_center,h_200,w_508/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg" img-alt="Image" img-top tag="article" class="mb-2 team">
+                        <b-card class="mb-2 team">
                             <b-card-title>
-                                <span>{{team.teamname}}</span>
+                                <span class="pr-2">{{team.teamname}}</span>
                                 <div v-if="!team.teammemberemail && !team.teammembergolfid">
-                                    <b-button size="sm" v-if="!team.invoice" @click="goToStep(team, 2)" variant="success" class="float-right mt-3">Bjud in lagkamrat</b-button>
+                                    <b-button size="sm" v-if="!team.invoice" @click="goToStep(team, 2)" variant="success" class="mt-3">Bjud in lagkamrat</b-button>
                                 </div>
                             </b-card-title>
                             <b-card-text class="mt-3">
@@ -167,7 +166,7 @@
                                     </span>
                                 </div>
                                 <div v-if="!team.sponsmerch">
-                                    <b-button size="sm" v-if="!team.invoice" @click="goToStep(team, 3)" variant="success" class="float-right mt-3">Välj tröjor</b-button>
+                                    <b-button size="sm" v-if="!team.invoice" @click="goToStep(team, 3)" variant="success" class="mt-3">Välj tröjor</b-button>
                                 </div>
                             </b-card-text>
                             <template v-slot:footer>
@@ -738,12 +737,18 @@
                                 </b-button>
                             </b-col>
                         </b-row>
-
                     </b-container>
                 </div>
             </b-form>
         </div>
     </div>
+    <b-container>
+     <b-row align-h="center">
+                            <b-col md="6" class="text-left">
+                    <b-button @click="logoutPrompt" variant="warning" class="mt-5 btn-sm">Logga ut</b-button>
+                            </b-col>
+                        </b-row>
+    </b-container>
 </div>
 </template>
 
@@ -2417,7 +2422,9 @@ export default {
     updated: function () {},
 
     mounted: function () {
-        console.log("ROUTE", this.$route.query.resetpw)
+        //console.log("ROUTE", this.$route.query.resetpw)
+
+        this.$store.dispatch('updateUserInfo');
 
         const server = new simpleDDP(opts, [simpleDDPLogin]);
         let parentVue = this;
@@ -2571,14 +2578,15 @@ img.overview-logo {
 
 .delete-team {
     position: absolute;
+    color:#666;
     z-index: 9999;
-    right: 12px;
-    top: 4px;
+    right: 15px;
+    top: 8px;
     border-radius: 50%;
     padding: 5px;
     height: 40px;
     width: 40px;
-    background-color: #ccc;
+    background-color: #fff;
     border-color: #bbb;
 }
 
