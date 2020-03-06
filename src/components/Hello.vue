@@ -50,7 +50,7 @@
           </b-col>
        
           <b-col>
-            <h2 class="teaser-header orange">Anmäl ditt lag</h2>
+            <h2 class="teaser-header orange">Anmäl dig som spelare</h2>
             <h2 class="hidden teaser-header orange">Det är klart du vill vara med i golftävlingen, registrera dig här!</h2>
             <b-row class="mb-3 mt-3">
               <b-col md="12" class="teaser-content" ref="success" id="success">
@@ -309,7 +309,7 @@
                   </b-row>
 
                   <b-alert v-if="docontinue" show class="mt-4 small" variant="primary">
-                    När registreringen är genomförd väljer du att skapa ett eller flera lag och kan välja om det är privat eller företag. Om du redan är med i ett lag kommer det visas efter inloggning.
+                    När registreringen är genomförd väljer du att skapa ett lag eller så blir du ihopkopplad med ett befintligt lag.
                   </b-alert>
                                    
                   <b-alert show v-if="showerror" class="mt-4 small"  variant="danger">Det finns redan en användare med denna e-post ({{emailexist}}), om du redan är registrerad kan du logga in uppe till höger, där kan du också få ett nytt lösenord om du har glömt ditt befintliga.</b-alert>
