@@ -754,8 +754,8 @@ components: {
            
            
 
-           //try to login the user
-          this.login();
+           //try to login the user                           
+          this.login();
 
             return;
           })

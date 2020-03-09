@@ -2424,7 +2424,7 @@ export default {
     mounted: function () {
         //console.log("ROUTE", this.$route.query.resetpw)
 
-        this.$store.dispatch('updateUserInfo');
+
 
         const server = new simpleDDP(opts, [simpleDDPLogin]);
         let parentVue = this;
@@ -2452,6 +2452,8 @@ export default {
                             this.userinfo = userinfo;
                             localStorage.setItem('userinfo', JSON.stringify(userinfo));
                             parentVue.setuserinfoform();
+
+                            this.$store.dispatch('updateUserInfo');
 
                             return;
                         })
