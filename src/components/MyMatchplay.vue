@@ -2,7 +2,15 @@
 <div class="my-matchplay">
     <vue-headful :title="doctitle" />
     <div v-if="loading" class="d-flex justify-content-center mb-3">
-        <b-spinner big type="grow" class="m-5" style="width: 5rem; height: 5rem;"></b-spinner>
+        <b-container>
+        <b-row align-h="center">
+         <b-col md="6" class="text-center">
+                 <b-spinner big type="grow" class="m-3" style="width: 5rem; height: 5rem;"></b-spinner>
+                 <p class="text-center mb-3"><i class="far fa-robot fa-4x"></i></p>
+                 <p>Hämtar lag och matcher...</p>
+                  </b-col>
+        </b-row>
+        </b-container>
     </div>
     <div v-if="!loading">
 
@@ -50,6 +58,9 @@
                             <b-button v-on:click="sendResetPw()" variant="primary" class="btn blue-bg">
                                 <b-spinner v-if="showloginspinner" small type="grow" class="mr-2"></b-spinner>Skicka email om nytt lösenord
                             </b-button>
+                            <b-button v-on:click="exitResetPw()" variant="danger" class="btn mt-2 mt-md-0">
+                              Avbryt
+                            </b-button>
                             <b-alert v-if="showsendreseterror" variant="warning" show class="mt-4 small form-text text-muted">Din e-post stämmer inte, försök igen.</b-alert>
                             <b-alert v-if="showsendresetsuccess" variant="success" show class="mt-4 small form-text text-muted">Ett email har skickats med instruktioner om hur du byter lösenord.</b-alert>
                         </b-form>
@@ -95,27 +106,27 @@
             <!---------------------------- STEP 0 --------------------------------------->
 
             <b-container v-if="team.step === 0">
-                <b-row v-if="teams.length === 0 || !teams.length">
+                <b-row align-h="center" v-if="teams.length === 0 || !teams.length">
                     <b-col md="12" class="text-right">
                         <b-button hidden @click="logoutPrompt" variant="warning" class="mt-3 btn-sm">Logga ut</b-button>
                     </b-col>
                     <b-col md="12" class="mt-3">
                         <h2 class="teaser-header orange mt-3">Hej {{userdetails.firstname}}</h2>
                     </b-col>
-                    <b-col md="12">
-                        <h4>Skapa ditt blivande mästarlag</h4>
-                        <p>Nu är det dags att skapa ditt lag för matchplay 2020. Klicka på knappen nedan och följ instruktionerna.</p>
+                    <b-col hidden md="12" class="mt-3">
+                        <h2>Skapa ditt blivande mästarlag</h2>
+                        <p class="mt-3">Nu är det dags att skapa ditt lag för matchplay 2020. Klicka på knappen nedan och följ instruktionerna.</p>
                     </b-col>
-                    <b-col md="12" class="pt-1 text-center">
+                    <b-col hidden md="12" class="pt-1 text-center mt-3 mb-5">
                         <b-button variant="primary" class="blue-bg mt-5 mb-3 pulse-button btn-lg" v-on:click="create_team('new')"><i class="material-icons">sports_golf</i> Skapa ditt lag</b-button>
                     </b-col>
                 </b-row>
-                <b-row v-if="teams.length > 0" class="mb-2">
+                <b-row align-h="center" v-if="teams.length > 0" class="mb-2">
                     <b-col md="6" class="mt-5">
                         <h2 class="teaser-header orange">Hej {{userdetails.firstname}}</h2>
                     </b-col>
                     <b-col md="6" class="text-right">
-                        <b-button v-if="!showteamslist" variant="primary" class="blue-bg mt- btn-sm" v-on:click="create_team('new')"><i class="material-icons smaller">sports_golf</i> Skapa ett lag</b-button>
+                        <b-button v-if="!showteamslist" variant="primary" class="blue-bg btn-sm" v-on:click="create_team('new')"><i class="material-icons smaller">sports_golf</i> Skapa ett lag</b-button>
                     </b-col>
                     <b-col hidden md="12" class="mb-4">
                         <hr>
@@ -123,7 +134,28 @@
                 </b-row>
             </b-container>
 
-            <!-- list of teams -->
+            <!-- list of teams --> 
+             <b-container>                           
+                <b-row align-h="center">                    
+                    <b-col class="mt-3">          
+<b-tabs content-class="mt-3" v-model="tabIndex" no-key-nav>
+    <b-tab title-link-class="ml-2" @click="saveTabIndex(0)">
+         <template v-slot:title>
+      Lag ({{teamscount}})
+      </template>    
+
+<b-container class="mt-3 mt-md-5" v-if="team.step === 0">        
+            <b-row align-h="center" v-if="teams.length === 0 || !teams.length">
+                    <b-col md="12" class="mt-2">
+                        <h2 hidden>Skapa ditt blivande mästarlag</h2>
+                        <p class="mt-3">Nu är det dags att skapa ditt lag för matchplay 2020. Klicka på knappen nedan och följ instruktionerna.</p>
+                    </b-col>
+                    <b-col md="12" class="pt-1 text-center mt-2 mb-3">
+                        <b-button variant="primary" class="blue-bg mt-3 mb-3 pulse-button btn-lg" v-on:click="create_team('new')"><i class="material-icons">sports_golf</i> Skapa ditt lag</b-button>
+                    </b-col>
+            </b-row>
+</b-container>
+
             <b-container v-if="showteamslist && team.step === 0" class="">
                 <b-row align-h="center">
                     <b-col sm="6" lg="6" class="team pl-2 pr-2 pb-2" v-for="(team,idx) in teams" :key="idx">
@@ -183,7 +215,7 @@
                     </b-col>
                 </b-row>
             </b-container>
-
+            
             <!--   -->
             <b-form class="mt-4" v-if="showcreateteam" @submit.stop.prevent @submit="save_state1">
 
@@ -193,7 +225,7 @@
                         <b-row align-h="center">
                             <b-col md="6">
 
-                                <b-card class="mt-4 mb-2" no-body>
+                                <b-card class="mt-1 mb-1" no-body>
                                     <b-card-header>
                                         Ditt lag<span v-if="team.name != ''">: {{team.name}}</span>
                                         <img class="overview-logo" v-bind:src="team.logo" v-if="team.type === 'Company'" />
@@ -229,7 +261,7 @@
                                                     </b-tooltip>
                                                 </span>
                                             </div>
-                                            <div class="pt-0 pb-3">
+                                            <div v-if="team.shirtPicker.player1.shirt || team.shirtPicker.player2.shirt" class="pt-0 pb-3">
                                                 <span id="tooltip-pike">
                                                     <b-img v-if="team.shirtPicker.player1.shirt" class="mr-2" id="shirtimage1" :src="getShirtImg(team.shirtPicker.player1.shirt)"></b-img> {{team.shirtPicker.player1.size}}<br>
                                                     <b-img v-if="team.shirtPicker.player2.shirt" class="mr-2" id="shirtimage1" :src="getShirtImg(team.shirtPicker.player2.shirt)"></b-img> {{team.shirtPicker.player2.size}}
@@ -272,7 +304,6 @@
                             <b-col md="6">
                                 <b-form-group class="mb-5">
                                     <p v-if="!team.type">Vill du anmäla ett Privatlag eller Företagslag?</p>
-
                                     <label for="type">Välj lagtyp:</label>
                                     <b-form-select v-bind:disabled="team.is_readonly" id="type" v-model="team.type" :options="teamoptions" :state="validation_type" required>
                                     </b-form-select>
@@ -737,14 +768,36 @@
                                 </b-button>
                             </b-col>
                         </b-row>
-                    </b-container>
+                    </b-container>                    
                 </div>
             </b-form>
+             </b-tab>
+             <b-tab title-link-class="ml-2" @click="saveTabIndex(1)">
+      <template v-slot:title>
+       <i class="far fa-golf-club mr-2"></i>Matcher ({{gamescount}})
+      </template>
+
+  <b-container>                           
+            <b-row v-if="games.length === 0 || !games.length" align-h="center">
+                <b-col>
+                    <p class="text-center mt-2 mb-3"><i class="far fa-robot fa-4x"></i></p>
+                    <p class="text-center">
+                    Så fort lottningen är klar kommer dina matcher listas här! Endast betalda lag kommer lottas.
+                    </p>
+                </b-col>
+            </b-row>
+  </b-container>
+
+            </b-tab>    
+  </b-tabs>
+                    </b-col>
+                </b-row>
+            </b-container>
         </div>
     </div>
-    <b-container>
+    <b-container v-if="!showlogin">
      <b-row align-h="center">
-                            <b-col md="6" class="text-left">
+                            <b-col class="text-right mt-5">
                     <b-button @click="logoutPrompt" variant="warning" class="mt-5 btn-sm">Logga ut</b-button>
                             </b-col>
                         </b-row>
@@ -793,8 +846,11 @@ export default {
     data() {
         let clubs = [];
         let countries = ['Afghanistan', 'Åland Islands', 'Albania', 'Algeria', 'American Samoa', 'AndorrA', 'Angola', 'Anguilla', 'Antarctica', 'Antigua and Barbuda', 'Argentina', 'Armenia', 'Aruba', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bermuda', 'Bhutan', 'Bolivia', 'Bosnia and Herzegovina', 'Botswana', 'Bouvet Island', 'Brazil', 'British Indian Ocean Territory', 'Brunei Darussalam', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Cape Verde', 'Cayman Islands', 'Central African Republic', 'Chad', 'Chile', 'China', 'Christmas Island', 'Cocos (Keeling) Islands', 'Colombia', 'Comoros', 'Congo', 'Congo, The Democratic Republic of the', 'Cook Islands', 'Costa Rica', 'Cote D\'Ivoire', 'Croatia', 'Cuba', 'Cyprus', 'Czech Republic', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic', 'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Eritrea', 'Estonia', 'Ethiopia', 'Falkland Islands (Malvinas)', 'Faroe Islands', 'Fiji', 'Finland', 'France', 'French Guiana', 'French Polynesia', 'French Southern Territories', 'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana', 'Gibraltar', 'Greece', 'Greenland', 'Grenada', 'Guadeloupe', 'Guam', 'Guatemala', 'Guernsey', 'Guinea', 'Guinea-Bissau', 'Guyana', 'Haiti', 'Heard Island and Mcdonald Islands', 'Holy See (Vatican City State)', 'Honduras', 'Hong Kong', 'Hungary', 'Iceland', 'India'];
-        return {
-            //mobile swish
+        return {           
+            tabIndex: 0,
+            games:0,
+            teamscount:0,
+            gamescount:0,
             bindProps: {
                 mode: "international",
                 defaultCountry: "SE",
@@ -1185,8 +1241,16 @@ export default {
     },
     mixins: [tagsMixin],
     methods: {
+          saveTabIndex: function (index){
+            localStorage.setItem('active_tab', index);
+        },
+        exitResetPw() {
+             this.showsendreseterror = false;
+             this.showlogin = true;
+             this.showsendreset = false;
+        },
         sendResetPw() {
-            console.log(this.sendformreset.email);
+            //console.log(this.sendformreset.email);
             this.showsendreseterror = false;
             let url = 'https://matchplay.meteorapp.com/methods/resetPw'
             //let url = 'http://localhost:3000/methods/resetPw'
@@ -1258,6 +1322,7 @@ export default {
                         } else if (response.data.status === 'ok') {
                             this.showloginspinner = false;
                             this.getPlayerData();
+                            this.teamscount = 0;
                         } else {
                             this.getPlayerData();
 
@@ -1746,8 +1811,11 @@ export default {
                     let userinfo = response.data;
                     this.userinfo = userinfo;
                     this.teams = this.userinfo.teams;
-                    console.log(this.userinfo);
+                    this.teamscount = this.teams.length;
+                    //console.log(this.userinfo);
                     localStorage.setItem('userinfo', JSON.stringify(userinfo));
+
+                    
 
                     return;
                 })
@@ -1999,7 +2067,7 @@ export default {
 
         },
         create_team(action, eventObj) {
-
+            this.tabIndex = 0;
             this.showcreateteamhelper = false;
             window.scrollTo(0, 0);
 
@@ -2392,11 +2460,13 @@ export default {
                     if (userinfo.teams) {
                         this.showteamslist = true;
                         this.showcreateteamhelper = false;
+                       
                         //this.teams = userinfo.teams.filter((team) => {
                         //    return team.paid || team.invoice
                         //});
                         //this.teams = userinfo.teams;
                         this.teams = this.userinfo.teams;
+                         this.teamscount = this.teams.length;
                     } else {
                         this.teams = {};
                         this.showcreateteamhelper = true;
@@ -2454,6 +2524,8 @@ export default {
                             parentVue.setuserinfoform();
 
                             this.$store.dispatch('updateUserInfo');
+                            //set active tab                          
+                            this.tabIndex = Number(localStorage.getItem('active_tab'));
 
                             return;
                         })
@@ -2581,7 +2653,7 @@ img.overview-logo {
 .delete-team {
     position: absolute;
     color:#666;
-    z-index: 9999;
+    z-index: 1;
     right: 15px;
     top: 8px;
     border-radius: 50%;
