@@ -2605,10 +2605,10 @@ export default {
 @import "../styles/variables.scss";
 
 .header {
-    background-image: url( https://res.cloudinary.com/dn3hzwewp/image/upload/h_300,o_20/v1583999753/matchplay/Background-8.jpg);
+    background-image: url( https://res.cloudinary.com/dn3hzwewp/image/upload/w_400,o_25/v1583999753/matchplay/Background-8.jpg);
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: top right;
+    background-position: center right;
    
 }
 
@@ -2632,7 +2632,7 @@ export default {
 
 .team {
     cursor: pointer;
-    font-size: 0.9em;
+    font-size: 1em;
 }
 
 .team i {
