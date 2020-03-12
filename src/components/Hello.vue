@@ -40,16 +40,10 @@
       </b-container>
     </div>
 <!-- TEMP HIDDEN -->   
-    <div class="teaser-container" id="register" ref="register">
+    <div class="teaser-container">
       <b-container>
-        <b-row>
-          <b-col class="col-12 d-block d-md-none justify-content-center align-self-center p-5">           
-            <a href="#charity">
-            <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1576503821/matchplay/badge4.png" alt=""></b-img>            
-            </a>
-          </b-col>
-       
-          <b-col>
+        <b-row>        
+          <b-col id="register" ref="register">
             <h2 class="teaser-header orange">Anmäl dig som spelare</h2>
             <h2 class="hidden teaser-header orange">Det är klart du vill vara med i golftävlingen, registrera dig här!</h2>
             <b-row class="mb-3 mt-3">
@@ -152,6 +146,12 @@
     </b-alert>                
                    <b-alert show class="mt-4 small form-text text-muted">Saknar du ditt Golf-ID ber vi dig kontakta din hemmaklubb för hjälp.</b-alert>                  
                    
+                    <div class="col-12 d-block d-md-none justify-content-center align-self-center p-5">           
+            <a href="#charity">
+            <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1576503821/matchplay/badge4.png" alt=""></b-img>            
+            </a>
+          </div>
+
                 </div>
 
                 <div>
@@ -228,7 +228,10 @@
 
                   <b-row v-if="docontinue">
                     <b-col lg="12">
-                       <b-alert show class="mt-4 mb-4 small" variant="primary">
+                       <b-alert v-if="docontinue" show class="mt-4 small" variant="primary">
+                    När registreringen är genomförd väljer du att skapa ett lag eller så blir du ihopkopplad med ett befintligt lag där du har blivit vald som lagmedlem.
+                  </b-alert>
+                       <b-alert hidden show class="mt-4 mb-4 small" variant="primary">
                     Vi behöver veta lite mer om dig innan du kan gå vidare med registrerigen, vänligen fyll i informationen nedan.
                   </b-alert>
                     </b-col>
@@ -295,28 +298,38 @@
                       </b-form-group>
                       
                     </b-col>
-                    <b-col lg="4" class="">
+                    <b-col lg="4" class="d-none d-md-block">
                       <b-card img-src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_300/v1573661281/matchplay/henke-granen.png"
                       img-top
                       tag="article"
                       
-                      class="mt-2"
+                      class="mt-2 mb-2"
                       >
                       <b-card-text>
                         Kul att du vill vara med i golftävlingen, hoppas vi ses!<br><i>Henke & Granen</i></b-card-text>
                       </b-card>
                     </b-col>
                   </b-row>
-
-                  <b-alert v-if="docontinue" show class="mt-4 small" variant="primary">
-                    När registreringen är genomförd väljer du att skapa ett lag eller så blir du ihopkopplad med ett befintligt lag.
-                  </b-alert>
-                                   
+                  <b-row>
+                    <b-col>
                   <b-alert show v-if="showerror" class="mt-4 small"  variant="danger">Det finns redan en användare med denna e-post ({{emailexist}}), om du redan är registrerad kan du logga in uppe till höger, där kan du också få ett nytt lösenord om du har glömt ditt befintliga.</b-alert>
-                  
-   
                     <b-button v-if="docontinue" :disabled="showspinnerregisteruser" type="submit" variant="primary" class="btn blue-bg ml-1"><b-spinner v-if="showspinnerregisteruser" small type="grow" class="mr-2"></b-spinner>Registrera dig</b-button>
                     <b-button type="reset" variant="danger">Avbryt</b-button>
+                    </b-col>
+                  </b-row>
+                  <b-row>
+                    <b-col class="d-block d-md-none">
+                      <b-card img-src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_300/v1573661281/matchplay/henke-granen.png"
+                      img-top
+                      tag="article"
+                      
+                      class="mt-3 mb-2"
+                      >
+                      <b-card-text>
+                        Kul att du vill vara med i golftävlingen, hoppas vi ses!<br><i>Henke & Granen</i></b-card-text>
+                      </b-card>
+                    </b-col>
+                  </b-row>
                   </b-form>
                   
                   <b-card class="mt-3 hidden" header="Form Data Result">
@@ -398,7 +411,7 @@
               </b-col>
               
             </b-row>
-          </b-col>
+          </b-col>          
           <b-col xl="1"></b-col>
         </b-row>
       </b-container>

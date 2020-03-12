@@ -84,7 +84,7 @@
 }
 
   body {
-    font-size: 1.2rem !important;
+    font-size: 1.1rem !important;
     font-family: 'Eurostile LT Std', Arial, sans-serif !important;
   }
 

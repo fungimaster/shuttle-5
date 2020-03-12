@@ -36,7 +36,7 @@
                             <b-alert v-if="showerror" variant="warning" show class="mt-4 small form-text text-muted">Din e-post eller lösenord stämmer inte, försök igen eller återställ ditt lösenord.</b-alert>
                         </b-form>
                         <div class="mt-4">
-                            <small><a href="#" v-on:click="showsendreset = true">Glömt ditt lösenord?</a></small> | <small><a href="/#register">Registrera dig</a></small>
+                            <small><a href="#" v-on:click="showsendreset = true">Glömt ditt lösenord?</a></small> | <small><a href="/#register">Anmäl dig</a></small>
                         </div>
                     </b-col>
                 </b-row>
@@ -163,14 +163,15 @@
                         <b-tooltip :target="'delete-team-' + idx" triggers="hover" placement="top">
                             Radera det här laget
                         </b-tooltip>
-                        <b-card class="mb-2 team">
+                        <b-card class="mb-2 team header">
                             <b-card-title>
-                                <span class="pr-2">{{team.teamname}}</span>
+                                <span v-if="team.type === 'Company'" class="pr-2">{{team.teamname}}</span>
+                                <span v-else class="pr-2">Ditt lag</span>
                                 <div v-if="!team.teammemberemail && !team.teammembergolfid">
                                     <b-button size="sm" v-if="!team.invoice" @click="goToStep(team, 2)" variant="success" class="mt-3">Bjud in lagkamrat</b-button>
                                 </div>
                             </b-card-title>
-                            <b-card-text class="mt-3">
+                            <b-card-text class="mt-0">
                                 <div class="pt-0 pb-3">
                                     <span :id="'tooltip-teamleader-' + idx">
                                         <i class="material-icons mr-2">person_pin</i>{{team.teamleadername}}
@@ -179,7 +180,22 @@
                                         </b-tooltip>
                                     </span>
                                 </div>
-
+                                <div v-if="team.teammembername" class="pt-0 pb-3">
+                                    <span :id="'tooltip-teammember-' + idx">
+                                        <i class="material-icons mr-2">person_pin</i>{{team.teammembername}}
+                                        <b-tooltip :target="'tooltip-teammember-' + idx" triggers="hover" placement="top">
+                                            Lagmedlem
+                                        </b-tooltip>
+                                    </span>
+                                </div>
+                                <div v-if="!team.teammembername" class="pt-0 pb-3">
+                                    <span :id="'tooltip-teammember2-' + idx">
+                                        <i class="material-icons mr-2">person_pin</i>Väntar på lagkamrat
+                                        <b-tooltip :target="'tooltip-teammember2-' + idx" triggers="hover" placement="top">
+                                            Vi väntar på att din lagkamrat ska registera sig på matchplay.se
+                                        </b-tooltip>
+                                    </span>
+                                </div>
                                 <div class="pt-0 pb-3">
                                     <span :id="'tooltip-course-' + idx">
                                         <i class="material-icons mr-2">golf_course</i>{{team.coursename}}
@@ -197,6 +213,25 @@
                                         </b-tooltip>
                                     </span>
                                 </div>
+                                <div v-if="team.sponsmerch" class="mt-4">
+                                    <b-container>
+                                        <b-row>
+                                            <b-col class="col-6 text-center p-0 m-0">{{getFirstname(team.teamleadername)}} ({{team.sponsmerch.property01}})<br>
+                                                 <img :src="`https://res.cloudinary.com/dn3hzwewp/image/upload/w_40,c_scale/v1575307928/matchplay/ping/${team.sponsmerch.item01}.png`">
+                                   
+                                            </b-col>
+
+                                             <b-col class="col-6 text-center p-0 m-0">{{getFirstname(team.teammembername)}} ({{team.sponsmerch.property02}})<br>
+                                                 <img :src="`https://res.cloudinary.com/dn3hzwewp/image/upload/w_40,c_scale/v1575307928/matchplay/ping/${team.sponsmerch.item02}.png`">
+                                    
+                                            </b-col>
+                                        </b-row>
+                                    </b-container>
+                                   
+                                  
+                                </div>
+
+                                
                                 <div v-if="!team.sponsmerch">
                                     <b-button size="sm" v-if="!team.invoice" @click="goToStep(team, 3)" variant="success" class="mt-3">Välj tröjor</b-button>
                                 </div>
@@ -782,7 +817,7 @@
                 <b-col>
                     <p class="text-center mt-2 mb-3"><i class="far fa-robot fa-4x"></i></p>
                     <p class="text-center">
-                    Så fort lottningen är klar kommer dina matcher listas här! Endast betalda lag kommer lottas.
+                    Så fort lottningen är klar kommer din nästa match listas här! Endast betalda lag kommer lottas.
                     </p>
                 </b-col>
             </b-row>
@@ -1241,6 +1276,11 @@ export default {
     },
     mixins: [tagsMixin],
     methods: {
+        getFirstname: function(name) {
+            if (!name) return;       
+           var res = name.split(" ");
+           return res[0];
+        },
           saveTabIndex: function (index){
             localStorage.setItem('active_tab', index);
         },
@@ -1814,9 +1854,7 @@ export default {
                     this.teamscount = this.teams.length;
                     //console.log(this.userinfo);
                     localStorage.setItem('userinfo', JSON.stringify(userinfo));
-
                     
-
                     return;
                 })
                 .catch(error => {
@@ -2526,7 +2564,10 @@ export default {
                             this.$store.dispatch('updateUserInfo');
                             //set active tab                          
                             this.tabIndex = Number(localStorage.getItem('active_tab'));
-
+                            
+                            
+                    
+                            
                             return;
                         })
                         .catch(error => {
@@ -2563,6 +2604,14 @@ export default {
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
 
+.header {
+    background-image: url( https://res.cloudinary.com/dn3hzwewp/image/upload/h_300,o_20/v1583999753/matchplay/Background-8.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top right;
+   
+}
+
 .btn i {
     vertical-align: sub;
 }
@@ -2577,7 +2626,7 @@ export default {
 }
 
 .team h4 {
-    font-size: 1.2em;
+    font-size: 1.4em !important;
     min-height: 50px;
 }
 
@@ -2660,7 +2709,7 @@ img.overview-logo {
     padding: 5px;
     height: 40px;
     width: 40px;
-    background-color: #fff;
+    background-color: rgba(255,255,255,0.65);
     border-color: #bbb;
 }
 
