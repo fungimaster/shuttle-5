@@ -67,14 +67,37 @@
                 <div class="form-group" v-if="showform1">
                   <b-row class="mt-4 mb-4">
                     
-                     <b-col xs="12" sm="9">
-                       <h4>Alla lagdeltagare får en piké från PING</h4>
-                       <p>Tack vare vår sponsor PING förses alla deltagare med en piké när man har anmält sitt lag! <strong>Värde 599:- styck.</strong></p>
+                    
+                     <b-col xs="12" sm="7">
+                       <h4>Alla deltagare får en piké från PING</h4>
+                       <b-row>
+                         <b-col class="col-7">
+                           <p>Tack vare vår sponsor PING förses alla deltagare med en piké när man har anmält sitt lag! <strong>Värde 599:- styck.</strong></p>
+                         </b-col>
+                         <b-col class="col-5">
+                           <router-link to="/ping" class=""><b-img alt="ping" src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,h_150/v1575881646/matchplay/ping/ping_shirts.png"></b-img></router-link>
+                         </b-col>
+                       </b-row>
+                       
                      </b-col>
-                      <b-col xs="12" sm="3" class="pl-4 pr-4 pt-0">
-                       <b-img hidden alt="ping" src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1575464479/matchplay/ping/logo.svg"></b-img>
-                       <router-link to="/ping" class=""><b-img alt="ping" src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1575881646/matchplay/ping/ping_shirts.png"></b-img></router-link>
-                       </b-col>
+                     <b-col sm="1" class="d-none d-sm-block left-line">
+                       
+                     </b-col>
+                      <b-col xs="12" sm="4" class="mt-4 mt-md-0">
+                       <h4>Topplista klubbar *</h4>
+                        <b-row v-for="(club,idx) in clubs" :key="idx">
+                          <b-col class="col-10">
+                              <span class="line">{{idx+1}}. {{truncate(club.club)}}</span>
+                          </b-col>
+                          <b-col hidden class="col-2 text-right">                           
+                          <span class="line">({{club.count}})</span>
+                          </b-col>
+                        </b-row>
+                        <b-col class="text-left mt-2">
+                          <small>*Flest anmälda lag per klubb</small>
+                        </b-col>
+                         
+                     </b-col>
                   </b-row>
                        <b-row class="mt-4 mb-2">
                     <b-col xs="12" sm="12" class="mt-2">
@@ -146,6 +169,8 @@
     </b-alert>                
                    <b-alert show class="mt-4 small form-text text-muted">Saknar du ditt Golf-ID ber vi dig kontakta din hemmaklubb för hjälp.</b-alert>                  
                    
+                    
+
                     <div class="col-12 d-block d-md-none justify-content-center align-self-center p-5">           
             <a href="#charity">
             <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1576503821/matchplay/badge4.png" alt=""></b-img>            
@@ -525,6 +550,7 @@ components: {
           showDialCode: false
         }
       },
+      clubs: 0,
       showhelper: false,
       //contbutton1: 'Fortsätt till nästa steg',
       docontinue: true,
@@ -630,10 +656,36 @@ components: {
         //console.log("ROUTE", this.$route.query.resetpw)
 
         this.$store.dispatch('updateUserInfo');
+        this.getTopListClubs();
   },
  
   methods: {    
+     truncate: function(club) {
+        let len = 50;
+        if (club.length > len)
+          return club.substring(0,len) + '...';
+        else
+          return club;
+      },
+   getTopListClubs() {
 
+                //loading
+                this.value = 5;
+                
+                this.axios.post('https://matchplay.meteorapp.com/methods/' + 'getTopClubs', {    //getclubstoplist                   
+                        "competition":"sFAc3dvrn2P9pXHAz",
+	                      "no":5
+                    })
+                    .then(response => {
+                        //console.log(response.data)                        
+                        this.clubs = response.data;                        
+                      
+
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+      },
      countDownChanged(dismissCountDown) {
         this.dismissCountDown = dismissCountDown
       },
@@ -871,6 +923,10 @@ trylogin()
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
+
+.left-line {
+  border-left:1px solid #e6e6e6;
+}
 
 img {
   max-width: 100%;
