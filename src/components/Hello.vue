@@ -10,7 +10,7 @@
     <div class="hero">      
       <b-container class="d-flex">
         <b-row>
-          <b-col class="col-12 col-md-9">
+          <b-col class="col-12 col-md-9">            
             <h2>VÄLKOMMEN TILL MATCHPLAY, GOLFTÄVLINGEN FÖR BÅDE PRIVATPERSONER OCH FÖRETAG</h2>
             <p>Matchplay är en matchspelstävling för par med officiellt handikapp. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.</p>
             <p>Ta chansen att ta dig till Sverigefinalen och sedan vidare utomlands! Alla deltagare får pikeér från PING.</p>
@@ -42,6 +42,18 @@
 <!-- TEMP HIDDEN -->   
     <div class="teaser-container">
       <b-container>
+        <b-row>
+          <b-col class="mb-3">
+            <b-alert show class="small" variant="danger">
+              <p>
+                <h4>Bäste golfare</h4>
+Med tanke på det läge vi befinner oss i gällande Coronaviruset och den oro som finns, så vill vi på Matchplay meddela alla våra redan betalda deltagare, samt alla som vill vara med, att OM någon instans skulle förklara vår sport golf som ett hot mot virusets framfart och därmed stoppa spel i hela landet i samband med vår start den 1 maj, så kommer alla få sin deltagaravgift tillbaka.
+Ingen ska känna att man på något sätt chansar med sina pengar för att vi ska kunna genomföra vår härliga tävling. Vi hoppas och tror såklart att golfen istället för att vara en risk för smittspridning, ska vara en sport vi kan utöva med glädje och spänning med likasinnade som vanligt.
+Vi ses på det kortklippta! <i class="material-icons">favorite</i>
+              </p>
+            </b-alert>
+          </b-col>
+        </b-row>
         <b-row>        
           <b-col id="register" ref="register">
             <h2 class="teaser-header orange">Anmäl dig som spelare</h2>
@@ -1176,7 +1188,7 @@ margin-top:0 !important;
   text-transform: uppercase;
 }
 .teaser-container {
-  padding: 6rem 0 0 0;
+  padding: 3rem 0 0 0;
   @media (max-width: 767px) {
     padding: 3rem 0;
   }
