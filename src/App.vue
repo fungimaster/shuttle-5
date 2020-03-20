@@ -88,6 +88,10 @@
     font-family: 'Eurostile LT Std', Arial, sans-serif !important;
   }
 
+  strong {
+     font-family: 'Eurostile LT Std Bold';
+  }
+
   .pink {
     color: $pink !important;
   }

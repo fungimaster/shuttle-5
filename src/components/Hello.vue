@@ -47,8 +47,8 @@
             <b-alert show class="small" variant="danger">
               <p>
                 <h4>Bäste golfare</h4>
-Med tanke på det läge vi befinner oss i gällande Coronaviruset och den oro som finns, så vill vi på Matchplay meddela alla våra redan betalda deltagare, samt alla som vill vara med, att OM någon instans skulle förklara vår sport golf som ett hot mot virusets framfart och därmed stoppa spel i hela landet i samband med vår start den 1 maj, så kommer alla få sin deltagaravgift tillbaka.
-Ingen ska känna att man på något sätt chansar med sina pengar för att vi ska kunna genomföra vår härliga tävling. Vi hoppas och tror såklart att golfen istället för att vara en risk för smittspridning, ska vara en sport vi kan utöva med glädje och spänning med likasinnade som vanligt.
+Med tanke på det läge vi befinner oss i gällande Coronaviruset och den oro som finns, så vill vi på Matchplay meddela alla våra redan betalda deltagare, samt alla som vill vara med, att <strong>OM någon instans</strong> skulle förklara vår sport golf som ett hot mot virusets framfart och därmed stoppa spel i hela landet i samband med vår start den 1 maj, så kommer <strong>alla få sin deltagaravgift tillbaka</strong>.
+Ingen ska känna att man på något sätt chansar med sina pengar för att vi ska kunna genomföra vår härliga tävling. Vi hoppas och tror såklart att golfen istället för att vara en risk för smittspridning, ska vara en sport vi kan <strong>utöva med glädje och spänning</strong> med likasinnade som vanligt.
 Vi ses på det kortklippta! <i class="material-icons">favorite</i>
               </p>
             </b-alert>
