@@ -233,7 +233,7 @@
 
                                 
                                 <div v-if="!team.sponsmerch">
-                                    <b-button size="sm" v-if="!team.invoice" @click="goToStep(team, 3)" variant="success" class="mt-3">Välj tröjor</b-button>
+                                    <b-button size="sm" @click="goToStep(team, 3)" variant="success" class="mt-3">Välj tröjor</b-button>
                                 </div>
                             </b-card-text>
                             <template v-slot:footer>
