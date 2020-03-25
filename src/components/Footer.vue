@@ -65,7 +65,7 @@
                   <br>
                   <p class="hidden">Matchplay AB</p>
                   <p>Ängelholm</p>                  
-                  <p>Telefon: 010 - 522 00 06</p>
+                  <p>Telefon: 010 - 522 00 07</p>
                   <p class="links mb-5">
                     <router-link to="/ping" class="">PING</router-link> |  
                     <router-link to="/info" class="">Om tävlingen</router-link> |  
