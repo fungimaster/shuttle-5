@@ -17,6 +17,7 @@
             
              <b-alert show class="mt-4 small" variant="warning">
                 Våren är här golfvänner och sista dagen för anmälan är 23:e april!
+                <strong>OBS!</strong> Alla anmälda lag får tröjor från PING men vill man vara säker på att ha dom till matchstart i början av maj så måste man anmäla laget innan 1 april.
                 <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
              </b-alert>
              <b-alert hidden class="mt-4 small" variant="danger">
