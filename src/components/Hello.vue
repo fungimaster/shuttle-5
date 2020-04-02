@@ -17,7 +17,7 @@
             
              <b-alert show class="mt-4 small" variant="warning">
                 Våren är här golfvänner och sista dagen för anmälan är 23:e april!
-                <strong>OBS!</strong> Alla anmälda lag får tröjor från PING men vill man vara säker på att ha dom till matchstart i början av maj så måste man anmäla laget innan 1 april.
+                <span hidden><strong>OBS!</strong> Alla anmälda lag får tröjor från PING men vill man vara säker på att ha dom till matchstart i början av maj så måste man anmäla laget innan 1 april.</span>               
                 <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
              </b-alert>
              <b-alert hidden class="mt-4 small" variant="danger">
@@ -116,6 +116,9 @@ Vi ses på det kortklippta! <i class="material-icons">favorite</i>
                     <b-col xs="12" sm="12" class="mt-2">
                       <h4>Skriv in ditt Golf-ID</h4>
                       <p>Börja med att ange ditt Golf-ID så hämtar vi en del av informationen automatiskt från Svenska Golfförbundet.</p>
+                    <b-alert show variant="danger">
+                      Vi har just nu problem med kopplingen till GIT men jobbar på en lösning, prova igen lite senare!
+                    </b-alert>
                     </b-col>
                   </b-row>
 
@@ -129,7 +132,8 @@ Vi ses på det kortklippta! <i class="material-icons">favorite</i>
                     class="form-control mr-1"
                     id="golfid"
                     placeholder="xxxxxx-xxx"
-                    value                    
+                    value
+                    readonly=""          
                   />                              
                   
                   <b-input hidden v-model="golfid2"
