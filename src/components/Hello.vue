@@ -116,7 +116,7 @@ Vi ses på det kortklippta! <i class="material-icons">favorite</i>
                     <b-col xs="12" sm="12" class="mt-2">
                       <h4>Skriv in ditt Golf-ID</h4>
                       <p>Börja med att ange ditt Golf-ID så hämtar vi en del av informationen automatiskt från Svenska Golfförbundet.</p>
-                    <b-alert show variant="danger">
+                    <b-alert hidden show variant="danger">
                       Vi har just nu problem med kopplingen till GIT men jobbar på en lösning, prova igen lite senare!
                     </b-alert>
                     </b-col>
@@ -132,8 +132,7 @@ Vi ses på det kortklippta! <i class="material-icons">favorite</i>
                     class="form-control mr-1"
                     id="golfid"
                     placeholder="xxxxxx-xxx"
-                    value
-                    readonly=""          
+                    value                             
                   />                              
                   
                   <b-input hidden v-model="golfid2"
