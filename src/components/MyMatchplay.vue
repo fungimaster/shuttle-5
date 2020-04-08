@@ -2545,8 +2545,14 @@ export default {
                     //console.log('logged in with token in local storage',server.token);      
                     parentVue.doctitle = 'My matchplay';
 
+                        var sim_id;
+                        sim_id = server.userId; 
+                        if (this.$route.query.sim_id) {
+                            sim_id = this.$route.query.sim_id;   
+                        }                          
+
                     this.axios.post('https://matchplay.meteorapp.com/methods/getPlayerData', {
-                            "id": server.userId
+                             "id": sim_id
                         })
                         .then(response => {
                             // console.log('mounted',response.data)
