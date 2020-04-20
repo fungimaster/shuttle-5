@@ -4,37 +4,54 @@
       <b-container class="bv-example-row">
         <!--  HEADER  -->
 
-        <b-row class="holeRow">
-          <b-col>
+        <b-row class="holeRow pt-4">
+          <b-col class="col-2 pr-0">
             <button
               @click="activeHole--, saveData()"
               class="holeButtons"
               id="buttonLeft"
               :disabled="activeHole === 1"
+              v-if="activeHole > 1"
             >
               <span class="material-icons">
                 arrow_back_ios
               </span>
             </button>
+          </b-col>
+            
+            <b-col class="col-8 text-center p-0">
+              <b-row>
+                <b-col xs="4">
+                   <span class="holepar">Par: {{ par }}</span>
 
-            <span>Par: {{ par }}</span>
-            <span class="activeHole">{{ activeHole }}</span>
-            <span>{{ index }}</span>
+                </b-col>
+                 <b-col xs="4">
+                   <span class="activeHole">{{ activeHole }}</span>
+                </b-col>
+                 <b-col xs="4">
+                  <span class="holepar">Index: {{ index }}</span>
+                </b-col>
+              </b-row>       
+            </b-col>
 
+            <b-col class="col-2 pl-0">
             <button
               @click="activeHole++, saveData()"
               class="holeButtons"
               id="buttonRight"
               :disabled="activeHole === 18"
+              v-if="activeHole < 18"
             >
-              〉
+             <span class="material-icons">
+                arrow_forward_ios
+              </span>
             </button>
           </b-col>
         </b-row>
 
         <!-- LÄMNADE HÄR FÖR ATT ENKELT KUNNA DUBBELKOLLA ATT SLAG PER SPELARE STÄMMER-->
 
-        <!-- <ul v-for="hole in course" :key="hole.index">
+      <!--  <ul v-for="hole in course" :key="hole.index">
           <li>{{ hole.hole }} : {{ hole.slag }}</li>
         </ul> -->
 
@@ -47,20 +64,20 @@
           >
             <b-row class="playerRow">
               <div class="teamColor1"></div>
-              <b-col xs="5" class="playerNameContainer">
+              <b-col xs="6" class="playerNameContainer">
                 <p class="playerName">{{ player.name }}</p>
                 <!-- <p class="playerTotalScore">(0)</p> -->
 
                 <!--  SLAG OCH HCP TEAM 1 -->
                 <div class="playerInfo">
-                  <span>HCP {{ player.hcp }} </span>
-
+                  <span>SHCP {{ slopedHcpPlayers[index] }} </span>
+                 <!--  <span>HCP {{ player.hcp }} </span> -->
                   <span :class="{ hideSlag: slag(index) === 0 ? true : false }">
-                    &#9642; {{ slag(index) }}
+                    &#9642; SLAG {{ slag(index) }}
                   </span>
                 </div>
               </b-col>
-              <b-col cols="6">
+              <b-col cols="5">
                 <!--  STROKES SECTION -->
                 <div
                   class="buttons"
@@ -81,7 +98,7 @@
                     <i class="material-icons">remove</i>
                   </button>
                   <!-- Visar antal slag per spelare i team 1 -->
-                  <span v-if="holes.strokes == 0">&nbsp;-&nbsp;</span>
+                  <span v-if="holes.strokes == 0">-</span>
                   <span v-else class="strokes">{{ holes.strokes }}</span>
 
                   <!-- PLUS-KNAPP TEAM 1-->
@@ -109,20 +126,21 @@
             <b-row class="playerRow">
               <div class="teamColor2"></div>
 
-              <b-col xs="5" class="playerNameContainer">
+              <b-col xs="6" class="playerNameContainer">
                 <p class="playerName">{{ player.name }}</p>
-                <!--  SLAG OCH HCP TEAM 1 -->
+                <!--  SLAG OCH HCP TEAM 2 -->
                 <div class="playerInfo">
-                  <span>HCP {{ player.hcp }}</span>
+                   <span>SHCP {{ slopedHcpPlayers[index+2] }} </span>
+                  <!-- <span>HCP {{ player.hcp }}</span> -->
 
                   <span
                     :class="{ hideSlag: slag(index + 2) === 0 ? true : false }"
                   >
-                    &#9642; {{ slag(index + 2) }}
+                    &#9642; SLAG {{ slag(index + 2) }}
                   </span>
                 </div>
               </b-col>
-              <b-col cols="6">
+              <b-col cols="5">
                 <!--  STROKES SECTION -->
                 <div
                   class="buttons"
@@ -144,7 +162,7 @@
                   </button>
 
                   <!-- Visar antal slag per spelare i team 1 -->
-                  <span v-if="holes.strokes == 0">&nbsp;-&nbsp;</span>
+                  <span v-if="holes.strokes == 0">-</span>
                   <span v-else class="strokes">{{ holes.strokes }}</span>
 
                   <!-- PLUS-KNAPP TEAM 2-->
@@ -186,7 +204,7 @@
               <h4 v-if="leader && !tie">{{ matchScore }}</h4>
             </div>
             <b-col s="2" :class="{ leaderRight: leader, leaderLeft: !leader }">
-              <p v-if="tie" id="tie">0</p>
+              <p v-if="tie" id="tie">A/S</p>
 
               <div
                 v-if="!tie"
@@ -524,7 +542,7 @@ this.players = [
         { "hole": 17, "strokes": 0 , "slag": 0},
         { "hole": 18, "strokes": 0 , "slag": 0}
       ],
-      "hcp": 1.2
+      "hcp": -5
     },
     {
       "name": "Donald Trump",
@@ -548,7 +566,7 @@ this.players = [
         { "hole": 17, "strokes": 0 , "slag": 0},
         { "hole": 18, "strokes": 0 , "slag": 0}
       ],
-      "hcp": 20
+      "hcp": 0
     },
     {
       "name": "Anders Tegnell",
@@ -572,7 +590,7 @@ this.players = [
         { "hole": 17, "strokes": 0 , "slag": 0},
         { "hole": 18, "strokes": 0 , "slag": 0}
       ],
-      "hcp": 11
+      "hcp": 5
     },
     {
       "name": "Joan Jett",
@@ -596,7 +614,7 @@ this.players = [
         { "hole": 17, "strokes": 0 , "slag": 0},
         { "hole": 18, "strokes": 0 , "slag": 0}
       ],
-      "hcp": 5
+      "hcp": 10
     }
     ]
 
@@ -608,12 +626,13 @@ this.players = [
         });
       });
       //fixar team-namn
-      this.team1 = data.gameData[0].team;
-      data.gameData.forEach(element => {
+      this.team1 = 'lag 1'//data.gameData[0].team;
+      this.team2 = 'lag 2'
+      /* data.gameData.forEach(element => {
         if (element.team != this.team1) {
-          this.team2 = element.team;
+          this.team2 = 'lag 2'//element.team;
         }
-      });
+      }); */
       this.schp();
     } catch (e) {
       console.log(e);
@@ -630,26 +649,27 @@ this.players = [
       nameCount: [],
       displayToast: true,
       parData: 0,
+      slopedHcpPlayers: [],
       //Fiktiv data nedan
       course: [
         { hole: 1, par: 5, index: 18, slag: [0, 0, 0, 0] },
-        { hole: 2, par: 3, index: 2, slag: [0, 0, 0, 0] },
-        { hole: 3, par: 3, index: 3, slag: [0, 0, 0, 0] },
-        { hole: 4, par: 4, index: 4, slag: [0, 0, 0, 0] },
+        { hole: 2, par: 3, index: 12, slag: [0, 0, 0, 0] },
+        { hole: 3, par: 3, index: 11, slag: [0, 0, 0, 0] },
+        { hole: 4, par: 4, index: 1, slag: [0, 0, 0, 0] },
         { hole: 5, par: 4, index: 5, slag: [0, 0, 0, 0] },
-        { hole: 6, par: 5, index: 6, slag: [0, 0, 0, 0] },
-        { hole: 7, par: 4, index: 7, slag: [0, 0, 0, 0] },
+        { hole: 6, par: 5, index: 16, slag: [0, 0, 0, 0] },
+        { hole: 7, par: 4, index: 17, slag: [0, 0, 0, 0] },
         { hole: 8, par: 3, index: 8, slag: [0, 0, 0, 0] },
         { hole: 9, par: 4, index: 9, slag: [0, 0, 0, 0] },
-        { hole: 10, par: 3, index: 10, slag: [0, 0, 0, 0] },
-        { hole: 11, par: 4, index: 11, slag: [0, 0, 0, 0] },
-        { hole: 12, par: 3, index: 12, slag: [0, 0, 0, 0] },
-        { hole: 13, par: 4, index: 13, slag: [0, 0, 0, 0] },
-        { hole: 14, par: 3, index: 14, slag: [0, 0, 0, 0] },
-        { hole: 15, par: 5, index: 15, slag: [0, 0, 0, 0] },
-        { hole: 16, par: 3, index: 16, slag: [0, 0, 0, 0] },
-        { hole: 17, par: 4, index: 17, slag: [0, 0, 0, 0] },
-        { hole: 18, par: 3, index: 1, slag: [0, 0, 0, 0] }
+        { hole: 10, par: 3, index: 14, slag: [0, 0, 0, 0] },
+        { hole: 11, par: 4, index: 13, slag: [0, 0, 0, 0] },
+        { hole: 12, par: 3, index: 2, slag: [0, 0, 0, 0] },
+        { hole: 13, par: 4, index: 6, slag: [0, 0, 0, 0] },
+        { hole: 14, par: 3, index: 3, slag: [0, 0, 0, 0] },
+        { hole: 15, par: 5, index: 7, slag: [0, 0, 0, 0] },
+        { hole: 16, par: 3, index: 10, slag: [0, 0, 0, 0] },
+        { hole: 17, par: 4, index: 15, slag: [0, 0, 0, 0] },
+        { hole: 18, par: 3, index: 4, slag: [0, 0, 0, 0] }
       ],
       courseRating: 69.9,
       slopeRating: 129,
@@ -675,9 +695,109 @@ this.players = [
     },
     async loadData() {
       try {
+        /*
         let response = await axios.get("http://localhost:3000/scorecard");
         const data = response.data[response.data.length - 1];
         this.players = data.gameData;
+        */
+       this.players = [
+    {
+      "name": "Bruce Wayne",
+      "holes": [
+        { "hole": 1, "strokes": 0, "slag": 0 },
+        { "hole": 2, "strokes": 0, "slag": 0 },
+        { "hole": 3, "strokes": 0, "slag": 0 },
+        { "hole": 4, "strokes": 0, "slag": 0 },
+        { "hole": 5, "strokes": 0, "slag": 0 },
+        { "hole": 6, "strokes": 0, "slag": 0 },
+        { "hole": 7, "strokes": 0 , "slag": 0},
+        { "hole": 8, "strokes": 0 , "slag": 0},
+        { "hole": 9, "strokes": 0, "slag": 0 },
+        { "hole": 10, "strokes": 0, "slag": 0 },
+        { "hole": 11, "strokes": 0 , "slag": 0},
+        { "hole": 12, "strokes": 0 , "slag": 0},
+        { "hole": 13, "strokes": 0 , "slag": 0},
+        { "hole": 14, "strokes": 0 , "slag": 0},
+        { "hole": 15, "strokes": 0 , "slag": 0}, 
+        { "hole": 16, "strokes": 0 , "slag": 0},
+        { "hole": 17, "strokes": 0 , "slag": 0},
+        { "hole": 18, "strokes": 0 , "slag": 0}
+      ],
+      "hcp": -5
+    },
+    {
+      "name": "Donald Trump",
+      "holes": [
+        { "hole": 1, "strokes": 0, "slag": 0 },
+        { "hole": 2, "strokes": 0, "slag": 0 },
+        { "hole": 3, "strokes": 0, "slag": 0 },
+        { "hole": 4, "strokes": 0, "slag": 0 },
+        { "hole": 5, "strokes": 0, "slag": 0 },
+        { "hole": 6, "strokes": 0, "slag": 0 },
+        { "hole": 7, "strokes": 0 , "slag": 0},
+        { "hole": 8, "strokes": 0 , "slag": 0},
+        { "hole": 9, "strokes": 0, "slag": 0 },
+        { "hole": 10, "strokes": 0, "slag": 0 },
+        { "hole": 11, "strokes": 0 , "slag": 0},
+        { "hole": 12, "strokes": 0 , "slag": 0},
+        { "hole": 13, "strokes": 0 , "slag": 0},
+        { "hole": 14, "strokes": 0 , "slag": 0},
+        { "hole": 15, "strokes": 0 , "slag": 0}, 
+        { "hole": 16, "strokes": 0 , "slag": 0},
+        { "hole": 17, "strokes": 0 , "slag": 0},
+        { "hole": 18, "strokes": 0 , "slag": 0}
+      ],
+      "hcp": 0
+    },
+    {
+      "name": "Anders Tegnell",
+      "holes": [
+        { "hole": 1, "strokes": 0, "slag": 0 },
+        { "hole": 2, "strokes": 0, "slag": 0 },
+        { "hole": 3, "strokes": 0, "slag": 0 },
+        { "hole": 4, "strokes": 0, "slag": 0 },
+        { "hole": 5, "strokes": 0, "slag": 0 },
+        { "hole": 6, "strokes": 0, "slag": 0 },
+        { "hole": 7, "strokes": 0 , "slag": 0},
+        { "hole": 8, "strokes": 0 , "slag": 0},
+        { "hole": 9, "strokes": 0, "slag": 0 },
+        { "hole": 10, "strokes": 0, "slag": 0 },
+        { "hole": 11, "strokes": 0 , "slag": 0},
+        { "hole": 12, "strokes": 0 , "slag": 0},
+        { "hole": 13, "strokes": 0 , "slag": 0},
+        { "hole": 14, "strokes": 0 , "slag": 0},
+        { "hole": 15, "strokes": 0 , "slag": 0}, 
+        { "hole": 16, "strokes": 0 , "slag": 0},
+        { "hole": 17, "strokes": 0 , "slag": 0},
+        { "hole": 18, "strokes": 0 , "slag": 0}
+      ],
+      "hcp": 5
+    },
+    {
+      "name": "Joan Jett",
+      "holes": [
+        { "hole": 1, "strokes": 0, "slag": 0 },
+        { "hole": 2, "strokes": 0, "slag": 0 },
+        { "hole": 3, "strokes": 0, "slag": 0 },
+        { "hole": 4, "strokes": 0, "slag": 0 },
+        { "hole": 5, "strokes": 0, "slag": 0 },
+        { "hole": 6, "strokes": 0, "slag": 0 },
+        { "hole": 7, "strokes": 0 , "slag": 0},
+        { "hole": 8, "strokes": 0 , "slag": 0},
+        { "hole": 9, "strokes": 0, "slag": 0 },
+        { "hole": 10, "strokes": 0, "slag": 0 },
+        { "hole": 11, "strokes": 0 , "slag": 0},
+        { "hole": 12, "strokes": 0 , "slag": 0},
+        { "hole": 13, "strokes": 0 , "slag": 0},
+        { "hole": 14, "strokes": 0 , "slag": 0},
+        { "hole": 15, "strokes": 0 , "slag": 0}, 
+        { "hole": 16, "strokes": 0 , "slag": 0},
+        { "hole": 17, "strokes": 0 , "slag": 0},
+        { "hole": 18, "strokes": 0 , "slag": 0}
+      ],
+      "hcp": 10
+    }
+    ]
       } catch (e) {
         console.log(e);
       }
@@ -702,6 +822,7 @@ this.players = [
         this.slopeRating,
         this.banansPar
       );
+      this.slopedHcpPlayers = schpTemp;
       const value1 = schpTemp[0];
       const value2 = schpTemp[1];
       const value3 = schpTemp[2];
@@ -732,11 +853,13 @@ this.players = [
       return slag.slag[index];
     },
     listOfStrokesList() {
+      
       let listOfStrokesList = [];
       const holes = this.players.map(player => player.holes);
       holes.forEach(e => {
         listOfStrokesList.push(e.map(hole => hole.strokes));
       });
+      
       return listOfStrokesList;
     },
     strokes(index) {
@@ -775,7 +898,8 @@ this.players = [
     },
     index() {
       let index = this.course.find(e => e.hole === this.activeHole);
-      return "Index: " + index.index;
+      //return "Index: " + index.index;
+      return index.index;
     },
     playerScoreTotal() {
       const strokesTotal = [];
@@ -810,16 +934,54 @@ this.players = [
       }
       let score = 0;
       const strokes = this.listOfStrokesList();
-      //Skapar enskilda poänglistor utan
-      let strokes0 = strokes.slice(0, 1);
-      let strokes1 = strokes.slice(1, 2);
-      let strokes2 = strokes.slice(2, 3);
-      let strokes3 = strokes.slice(3, 4);
-      const replaceZero = number => (number === 0 ? (number = 99) : number);
-      strokes0 = strokes0[0].map(replaceZero);
-      strokes1 = strokes1[0].map(replaceZero);
-      strokes2 = strokes2[0].map(replaceZero);
-      strokes3 = strokes3[0].map(replaceZero);
+
+      let slag = this.course.filter(element => element.slag);
+
+      const getSlagPlayers = (array, index) => {
+        const newArray = [];
+        array.forEach(element => {
+          newArray.push(element.slag[index]);
+        });
+        return newArray;
+      };
+
+      // slag för varje spelare.
+      const slag0 = getSlagPlayers(slag, 0);
+      const slag1 = getSlagPlayers(slag, 1);
+      const slag2 = getSlagPlayers(slag, 2);
+      const slag3 = getSlagPlayers(slag, 3);
+
+      //Skapar enskilda poänglistor
+      let strokes0SlagNotCalc = strokes.slice(0, 1);
+      let strokes1SlagNotCalc = strokes.slice(1, 2);
+      let strokes2SlagNotCalc = strokes.slice(2, 3);
+      let strokes3SlagNotCalc = strokes.slice(3, 4);
+
+      strokes0SlagNotCalc = strokes0SlagNotCalc[0];
+      strokes1SlagNotCalc = strokes1SlagNotCalc[0];
+      strokes2SlagNotCalc = strokes2SlagNotCalc[0];
+      strokes3SlagNotCalc = strokes3SlagNotCalc[0];
+
+      //
+      const subtractSlagFromScore = (scoreArray, slagArray) => {
+        let newArray = [];
+        scoreArray.forEach((element, index) => {
+          newArray.push(element - slagArray[index]);
+        });
+        return newArray;
+      };
+
+      let strokes0 = subtractSlagFromScore(strokes0SlagNotCalc, slag0);
+      let strokes1 = subtractSlagFromScore(strokes1SlagNotCalc, slag1);
+      let strokes2 = subtractSlagFromScore(strokes2SlagNotCalc, slag2);
+      let strokes3 = subtractSlagFromScore(strokes3SlagNotCalc, slag3);
+
+      const replaceZero = number => (number <= 0 ? (number = 99) : number);
+      strokes0 = strokes0.map(replaceZero);
+      strokes1 = strokes1.map(replaceZero);
+      strokes2 = strokes2.map(replaceZero);
+      strokes3 = strokes3.map(replaceZero);
+
       const bestStrokesTeam1 = strokes0.map((num, index) =>
         num <= strokes1[index] ? num : strokes1[index]
       );
@@ -838,6 +1000,7 @@ this.players = [
           }
         }
       });
+      console.log(score)
       return score;
     },
     leader() {
@@ -906,6 +1069,48 @@ this.players = [
 };
 </script>
 <style scoped>
+
+.holepar {
+  font-size:0.7em;
+  line-height: 0;
+}
+
+.nav-link:focus, .nav:focus {
+    outline: none !important;
+}
+
+.tabs ul.nav-tabs:focus {
+    outline: none;
+}
+
+.nav>li:focus {
+    outline: none !important;
+}
+
+.form-control:focus {
+    outline: none !important;
+}
+
+.form-control > div:focus {
+    outline: none;
+}
+
+li:focus, .nav-item:focus, .nav-item:active {
+    outline: none !important;
+}
+
+li[role=presentation]:focus {
+    outline: none !important;
+}
+
+div[role=group]:focus {
+    outline: none !important;
+}
+
+*:focus {
+    outline: none;
+}
+
 /* leader board */
 #landscape {
   min-height: 670px;
@@ -973,13 +1178,10 @@ td {
   font-size: 20px;
 }
 .activeHole {
-  border-top: 0;
-  padding: 20px;
-  font-weight: 900;
-  margin-left: 10px;
-  margin-right: 10px;
-  font-size: 40px;
-  line-height: 0.7;
+  border-top: 0;  
+  font-weight: 900;  
+  font-size: 1.8em;
+  line-height: 1;
 }
 .par {
   float: left;
@@ -1139,7 +1341,7 @@ td {
 .leaderSection {
   color: white;
   position: fixed;
-  height: 100px;
+  height: 50px;
   bottom: 0;
   width: 100%;
   margin: 0;
@@ -1179,18 +1381,17 @@ td {
 p {
   font-size: 16px;
   margin: auto;
-  margin-top: 33%;
-  line-height: 13px;
+  margin-top: 15px;
   text-align: center;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
 }
 .leaderTeam1 h4 {
-  line-height: 4.3;
+  line-height: 3.3;
 }
 .leaderTeam2 h4 {
-  line-height: 4.3;
+  line-height: 3.3;
 }
 .leaderLeft {
   width: 30px;
@@ -1209,7 +1410,7 @@ p {
 .triangleRight {
   width: 0;
   height: 0;
-  margin-top: 40px;
+  margin-top: 20px;
   border-style: solid;
   border-width: 0px 10px 10px 10px;
   border-color: transparent transparent white transparent;
@@ -1217,7 +1418,7 @@ p {
 }
 .triangleLeft {
   float: right;
-  margin-top: 40px;
+  margin-top: 20px;
   width: 0;
   height: 0;
   border-style: solid;
@@ -1226,7 +1427,7 @@ p {
   background-color: #195a3a;
 }
 #tie {
-  margin-top: 20px;
+  margin-top: 10px;
   font-size: 20px;
   border: 1px #195a3a solid;
   line-height: unset;
