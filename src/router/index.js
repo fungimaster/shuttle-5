@@ -17,6 +17,8 @@ import SpeakerInfo from '@/components/SpeakerInfo'
 import PartnerInfo from '@/components/PartnerInfo'
 import Archive from '@/components/Archive'
 import NotFound from '@/components/NotFound'
+import CreateGame from '@/components/Creategame'
+import Scorecard from '@/components/Scorecard'
 
 Vue.use(Router)
 
@@ -62,6 +64,16 @@ export default new Router({
       path: '/mymatchplay',
       name: 'MyMatchplay',
       component: MyMatchplay
+    },
+    {
+      path: '/creategame',
+      name: 'CreateGame',
+      component: CreateGame
+    },   
+    {
+      path: '/scorecard',
+      name: 'Scorecard',
+      component: Scorecard
     },   
     /*
     {
