@@ -689,6 +689,8 @@ this.players = [
       parData: 0,
       slopedHcpPlayers: [],
       holeWinner: [],
+      winnerDeclared: false,
+
 
       //Fiktiv data nedan
       course: [
