@@ -57,7 +57,9 @@
 
         <!--  SCORECARD RUTOR  -->
         <!--  TEAM 1 -->
-        <div class="team1ScoreCard">
+
+      <!-- :class-logiken på nästa rad binder vinnare/förlorar-klass till scorecard om alla plusknappar är tryckta och beroende vem som vann -->
+        <div class="team1ScoreCard" :class="[singleHoleWinner < 0  && displayToast === false ? 'holeWinner' : '', singleHoleWinner > 0  && displayToast === false ? 'holeLoser' : '']" >
           <div
             v-for="(player, index) in players.slice(0, 2)"
             :key="player.index"
@@ -115,10 +117,14 @@
                 </div>
               </b-col>
             </b-row>
+
           </div>
         </div>
+                              {{singleHoleWinner}}
+
         <!-- TEAM 2 -->
-        <div class="team2ScoreCard">
+        <div class="team2ScoreCard" :class="[singleHoleWinner > 0  && displayToast === false ? 'holeWinner' : '', singleHoleWinner < 0  && displayToast === false ? 'holeLoser' : '' ]"
+         >
           <div
             v-for="(player, index) in players.slice(2, 4)"
             :key="player.index"
@@ -650,6 +656,8 @@ this.players = [
       displayToast: true,
       parData: 0,
       slopedHcpPlayers: [],
+            holeWinner: [],
+
       //Fiktiv data nedan
       course: [
         { hole: 1, par: 5, index: 18, slag: [0, 0, 0, 0] },
@@ -881,6 +889,9 @@ this.players = [
     }
   },
   computed: {
+     singleHoleWinner() {
+      return this.holeWinner[this.activeHole - 1];
+    },
     par() {
       let par = this.course.find(e => e.hole === this.activeHole);
       return par.par;
@@ -991,6 +1002,9 @@ this.players = [
       const matchScore = bestStrokesTeam1.map(
         (num, index) => num - bestStrokesTeam2[index]
       );
+
+      this.holeWinner = matchScore;
+
       matchScore.forEach(subtractedScore => {
         if (subtractedScore != 0) {
           if (subtractedScore > 0) {
@@ -1190,6 +1204,14 @@ td {
   margin-top: 15%;
 }
 /*  SCORE CARD  */
+.holeWinner {
+  background-color: #cbffcb;
+}
+.holeLoser {
+  background-color: #ffdadf;
+}
+
+
 .hideSlag {
   visibility: hidden;
 }
