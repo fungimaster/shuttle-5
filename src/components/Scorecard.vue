@@ -120,8 +120,6 @@
 
           </div>
         </div>
-                              {{singleHoleWinner}}
-                              {{holeWinner}}
 
         <!-- TEAM 2 -->
         <div class="team2ScoreCard" :class="[singleHoleWinner > 0  && displayToast === false ? 'holeWinner' : '', singleHoleWinner < 0  && displayToast === false ? 'holeLoser' : '' ]"
@@ -200,6 +198,18 @@
         <button class="btn btn-primary" @click="overview = !overview">
           Översikt
         </button>
+
+
+
+      <br>
+      <br>
+       <h4> {{ dormy }}</h4> 
+       <h3>  winner declared? {{ winnerDeclared }} </h3>
+        <h4 :style="winnerDeclared === true ? 'background-color: red' : 'background-color: white' " > VINNARE:
+        {{ winner }} Resultat: {{ totalWins.totalWins1 }} vs
+        {{ totalWins.totalWins2 }}  </h4>
+
+
 
         <!-- FOOTER - LEADER SECTION -->
         <footer class="fixed-bottom">
@@ -908,9 +918,60 @@ this.players = [
         variant: variant,
         solid: true
       });
+    },
+       totalHoleWins() {
+      let totalWins1 = 0;
+      let totalWins2 = 0;
+      this.holeWinner.forEach(winner => {
+        if (winner === 0) {
+          return;
+        }
+        winner < 0 ? totalWins1++ : totalWins2++;
+      });
+      return { totalWins1, totalWins2 };
     }
   },
   computed: {
+    totalWins() {
+      const { totalWins1, totalWins2 } = this.totalHoleWins();
+
+      return { totalWins1, totalWins2 };
+    },
+    winner() {
+      const { totalWins1, totalWins2 } = this.totalHoleWins();
+
+      const holesPlayed = totalWins1 + totalWins2;
+      const holesLeft = 18 - holesPlayed;
+
+      if (totalWins1 - totalWins2 > holesLeft) {
+        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+        return "TEAM 1 är vinnare", (this.winnerDeclared = true);
+      }
+      if (totalWins2 - totalWins1 > holesLeft) {
+        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+        return "TEAM 1 vinnare ", (this.winnerDeclared = true);
+      }
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      this.winnerDeclared = false;
+      return null;
+    },
+
+    dormy() {
+      const { totalWins1, totalWins2 } = this.totalHoleWins();
+
+      const holesPlayed = totalWins1 + totalWins2;
+      const holesLeft = 18 - holesPlayed;
+
+      if (totalWins1 - totalWins2 === holesLeft) {
+        return "TEAM 2 är dormy";
+      }
+      if (totalWins2 - totalWins1 === holesLeft) {
+        return "TEAM 1 dormy";
+      }
+
+      return null;
+    },
+
      singleHoleWinner() {
       return this.holeWinner[this.activeHole - 1];
     },
