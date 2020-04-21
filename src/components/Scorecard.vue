@@ -604,7 +604,7 @@ this.players = [
         { "hole": 17, "strokes": 0 , "slag": 0},
         { "hole": 18, "strokes": 0 , "slag": 0}
       ],
-      "hcp": 0
+      "hcp": -2
     },
     {
       "name": "Anders Tegnell",
