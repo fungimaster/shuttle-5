@@ -121,6 +121,7 @@
           </div>
         </div>
                               {{singleHoleWinner}}
+                              {{holeWinner}}
 
         <!-- TEAM 2 -->
         <div class="team2ScoreCard" :class="[singleHoleWinner > 0  && displayToast === false ? 'holeWinner' : '', singleHoleWinner < 0  && displayToast === false ? 'holeLoser' : '' ]"
@@ -254,8 +255,11 @@
           </b-col>
         </b-row>
 
+
         <!--  TABELL HÅL 1-9 -->
         <table class="table9">
+
+     
           <tr>
             <th>Hole:</th>
             <td v-for="hole in course.slice(0, 9)" :key="hole.index">
@@ -273,10 +277,12 @@
             </td>
           </tr>
 
+         
+
           <!--  SPELARE 1 -->
           <tr v-for="player in players.slice(0, 1)" :key="player.index">
-            <th v-initials>{{ player.name }}</th>
 
+            <th v-initials class="initialsTeam1">{{ player.name }}</th>
             <td
               v-for="holes in player.holes.slice(0, 9)"
               :key="holes.index"
@@ -298,7 +304,7 @@
 
           <!-- SPELARE 2 -->
           <tr v-for="player in players.slice(1, 2)" :key="player.index">
-            <th v-initials>{{ player.name }}</th>
+            <th v-initials class="initialsTeam1">{{ player.name }}</th>
             <td
               v-for="holes in player.holes.slice(0, 9)"
               :key="holes.index"
@@ -318,9 +324,17 @@
             </td>
           </tr>
 
+          <tr>
+            <th>
+              <td> 
+                <p id="emptyRow"></p> 
+              </td>
+            </th>
+          </tr>
+
           <!-- SPELARE 3 -->
           <tr v-for="player in players.slice(2, 3)" :key="player.index">
-            <th v-initials>{{ player.name }}</th>
+            <th v-initials class="initialsTeam2">{{ player.name }}</th>
             <td
               v-for="holes in player.holes.slice(0, 9)"
               :key="holes.index"
@@ -342,7 +356,7 @@
 
           <!-- SPELARE 4 -->
           <tr v-for="player in players.slice(3, 4)" :key="player.index">
-            <th v-initials>{{ player.name }}</th>
+            <th v-initials class="initialsTeam2">{{ player.name }}</th>
             <td
               v-for="holes in player.holes.slice(0, 9)"
               :key="holes.index"
@@ -386,9 +400,10 @@
             </td>
           </tr>
 
+
           <!-- SPELARE 1 -->
           <tr v-for="player in players.slice(0, 1)" :key="player.index">
-            <th v-initials>{{ player.name }}</th>
+            <th v-initials class="initialsTeam1">{{ player.name }}</th>
             <td
               v-for="holes in player.holes.slice(9, 18)"
               :key="holes.index"
@@ -417,7 +432,7 @@
 
           <!-- SPELARE 2 -->
           <tr v-for="player in players.slice(1, 2)" :key="player.index">
-            <th v-initials>{{ player.name }}</th>
+            <th v-initials class="initialsTeam1">{{ player.name }}</th>
             <td
               v-for="holes in player.holes.slice(9, 18)"
               :key="holes.index"
@@ -444,9 +459,16 @@
             </td>
           </tr>
 
+          <tr>
+            <th>
+              <td> 
+                <p id="emptyRow"></p> 
+              </td>
+            </th>
+          </tr>
           <!-- SPELARE 3 -->
           <tr v-for="player in players.slice(2, 3)" :key="player.index">
-            <th v-initials>{{ player.name }}</th>
+            <th v-initials class="initialsTeam2">{{ player.name }}</th>
             <td
               v-for="holes in player.holes.slice(9, 18)"
               :key="holes.index"
@@ -475,7 +497,7 @@
 
           <!-- SPELARE 4 -->
           <tr v-for="player in players.slice(3, 4)" :key="player.index">
-            <th v-initials>{{ player.name }}</th>
+            <th v-initials class="initialsTeam2">{{ player.name }}</th>
             <td
               v-for="holes in player.holes.slice(9, 18)"
               :key="holes.index"
@@ -656,7 +678,7 @@ this.players = [
       displayToast: true,
       parData: 0,
       slopedHcpPlayers: [],
-            holeWinner: [],
+      holeWinner: [],
 
       //Fiktiv data nedan
       course: [
@@ -1038,46 +1060,7 @@ this.players = [
       el.style.fontWeight = "900";
     },
     scoreColor(el, bind) {
-      if (bind.value.slag === 0) {
-        return;
-      }
-      //birdie
-      if (bind.value.slag === bind.value.par - 1) {
-        el.style.backgroundColor = "#e63a3a";
-        el.style.color = "white";
-      }
-      //eagle
-      if (bind.value.slag === bind.value.par - 2) {
-        el.style.backgroundColor = "#b70000";
-        el.style.color = "white";
-      }
-      //albatross & kondor
-      if (
-        bind.value.slag === bind.value.par - 3 ||
-        bind.value.slag === bind.value.par - 4
-      ) {
-        el.style.backgroundColor = "#8a0b0b";
-        el.style.color = "white";
-      }
-      //hole in one
-      if (bind.value.slag === 1) {
-        el.style.backgroundColor = "goldenrod";
-      }
-      //bogey
-      if (bind.value.slag === bind.value.par + 1) {
-        el.style.backgroundColor = "#69b3fe";
-        el.style.color = "white";
-      }
-      //double-bogey
-      if (bind.value.slag === bind.value.par + 2) {
-        el.style.backgroundColor = "#0a81f7";
-        el.style.color = "white";
-      }
-      //tripple-bogey and above
-      if (bind.value.slag === bind.value.par + 3) {
-        el.style.backgroundColor = "#063e76";
-        el.style.color = "white";
-      }
+     
     }
   }
 };
@@ -1141,9 +1124,15 @@ table {
   margin: 25px auto;
   border-collapse: collapse;
 }
-tr:nth-child(even) {
-  background: #f0f0f2;
+
+
+.initialsTeam1  {
+color: #fd9b37
 }
+.initialsTeam2 {
+color: #69b3fe;
+}
+
 tr:nth-child(1) {
   background: #195a3a;
   color: white;
