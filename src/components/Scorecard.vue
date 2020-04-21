@@ -57,7 +57,9 @@
 
         <!--  SCORECARD RUTOR  -->
         <!--  TEAM 1 -->
-        <div class="team1ScoreCard">
+
+      <!-- :class-logiken på nästa rad binder vinnare/förlorar-klass till scorecard om alla plusknappar är tryckta och beroende vem som vann -->
+        <div class="team1ScoreCard" :class="[singleHoleWinner < 0  && displayToast === false ? 'holeWinner' : '', singleHoleWinner > 0  && displayToast === false ? 'holeLoser' : '']" >
           <div
             v-for="(player, index) in players.slice(0, 2)"
             :key="player.index"
@@ -115,10 +117,13 @@
                 </div>
               </b-col>
             </b-row>
+
           </div>
         </div>
+
         <!-- TEAM 2 -->
-        <div class="team2ScoreCard">
+        <div class="team2ScoreCard" :class="[singleHoleWinner > 0  && displayToast === false ? 'holeWinner' : '', singleHoleWinner < 0  && displayToast === false ? 'holeLoser' : '' ]"
+         >
           <div
             v-for="(player, index) in players.slice(2, 4)"
             :key="player.index"
@@ -194,6 +199,18 @@
           Översikt
         </button>
 
+
+
+      <br>
+      <br>
+       <h4> {{ dormy }}</h4> 
+       <h3>  winner declared? {{ winnerDeclared }} </h3>
+        <h4 :style="winnerDeclared === true ? 'background-color: red' : 'background-color: white' " > VINNARE:
+        {{ winner }} Resultat: {{ totalWins.totalWins1 }} vs
+        {{ totalWins.totalWins2 }}  </h4>
+
+
+
         <!-- FOOTER - LEADER SECTION -->
         <footer class="fixed-bottom">
           <b-row class="leaderSection">
@@ -248,8 +265,11 @@
           </b-col>
         </b-row>
 
+
         <!--  TABELL HÅL 1-9 -->
         <table class="table9">
+
+     
           <tr>
             <th>Hole:</th>
             <td v-for="hole in course.slice(0, 9)" :key="hole.index">
@@ -267,10 +287,12 @@
             </td>
           </tr>
 
+         
+
           <!--  SPELARE 1 -->
           <tr v-for="player in players.slice(0, 1)" :key="player.index">
-            <th v-initials>{{ player.name }}</th>
 
+            <th v-initials class="initialsTeam1">{{ player.name }}</th>
             <td
               v-for="holes in player.holes.slice(0, 9)"
               :key="holes.index"
@@ -292,7 +314,7 @@
 
           <!-- SPELARE 2 -->
           <tr v-for="player in players.slice(1, 2)" :key="player.index">
-            <th v-initials>{{ player.name }}</th>
+            <th v-initials class="initialsTeam1">{{ player.name }}</th>
             <td
               v-for="holes in player.holes.slice(0, 9)"
               :key="holes.index"
@@ -312,9 +334,17 @@
             </td>
           </tr>
 
+          <tr>
+            <th>
+              <td> 
+                <p id="emptyRow"></p> 
+              </td>
+            </th>
+          </tr>
+
           <!-- SPELARE 3 -->
           <tr v-for="player in players.slice(2, 3)" :key="player.index">
-            <th v-initials>{{ player.name }}</th>
+            <th v-initials class="initialsTeam2">{{ player.name }}</th>
             <td
               v-for="holes in player.holes.slice(0, 9)"
               :key="holes.index"
@@ -336,7 +366,7 @@
 
           <!-- SPELARE 4 -->
           <tr v-for="player in players.slice(3, 4)" :key="player.index">
-            <th v-initials>{{ player.name }}</th>
+            <th v-initials class="initialsTeam2">{{ player.name }}</th>
             <td
               v-for="holes in player.holes.slice(0, 9)"
               :key="holes.index"
@@ -380,9 +410,10 @@
             </td>
           </tr>
 
+
           <!-- SPELARE 1 -->
           <tr v-for="player in players.slice(0, 1)" :key="player.index">
-            <th v-initials>{{ player.name }}</th>
+            <th v-initials class="initialsTeam1">{{ player.name }}</th>
             <td
               v-for="holes in player.holes.slice(9, 18)"
               :key="holes.index"
@@ -411,7 +442,7 @@
 
           <!-- SPELARE 2 -->
           <tr v-for="player in players.slice(1, 2)" :key="player.index">
-            <th v-initials>{{ player.name }}</th>
+            <th v-initials class="initialsTeam1">{{ player.name }}</th>
             <td
               v-for="holes in player.holes.slice(9, 18)"
               :key="holes.index"
@@ -438,9 +469,16 @@
             </td>
           </tr>
 
+          <tr>
+            <th>
+              <td> 
+                <p id="emptyRow"></p> 
+              </td>
+            </th>
+          </tr>
           <!-- SPELARE 3 -->
           <tr v-for="player in players.slice(2, 3)" :key="player.index">
-            <th v-initials>{{ player.name }}</th>
+            <th v-initials class="initialsTeam2">{{ player.name }}</th>
             <td
               v-for="holes in player.holes.slice(9, 18)"
               :key="holes.index"
@@ -469,7 +507,7 @@
 
           <!-- SPELARE 4 -->
           <tr v-for="player in players.slice(3, 4)" :key="player.index">
-            <th v-initials>{{ player.name }}</th>
+            <th v-initials class="initialsTeam2">{{ player.name }}</th>
             <td
               v-for="holes in player.holes.slice(9, 18)"
               :key="holes.index"
@@ -566,7 +604,7 @@ this.players = [
         { "hole": 17, "strokes": 0 , "slag": 0},
         { "hole": 18, "strokes": 0 , "slag": 0}
       ],
-      "hcp": 0
+      "hcp": -2
     },
     {
       "name": "Anders Tegnell",
@@ -650,6 +688,10 @@ this.players = [
       displayToast: true,
       parData: 0,
       slopedHcpPlayers: [],
+      holeWinner: [],
+      winnerDeclared: false,
+
+
       //Fiktiv data nedan
       course: [
         { hole: 1, par: 5, index: 18, slag: [0, 0, 0, 0] },
@@ -878,9 +920,63 @@ this.players = [
         variant: variant,
         solid: true
       });
+    },
+       totalHoleWins() {
+      let totalWins1 = 0;
+      let totalWins2 = 0;
+      this.holeWinner.forEach(winner => {
+        if (winner === 0) {
+          return;
+        }
+        winner < 0 ? totalWins1++ : totalWins2++;
+      });
+      return { totalWins1, totalWins2 };
     }
   },
   computed: {
+    totalWins() {
+      const { totalWins1, totalWins2 } = this.totalHoleWins();
+
+      return { totalWins1, totalWins2 };
+    },
+    winner() {
+      const { totalWins1, totalWins2 } = this.totalHoleWins();
+
+      const holesPlayed = totalWins1 + totalWins2;
+      const holesLeft = 18 - holesPlayed;
+
+      if (totalWins1 - totalWins2 > holesLeft) {
+        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+        return "TEAM 1 är vinnare", (this.winnerDeclared = true);
+      }
+      if (totalWins2 - totalWins1 > holesLeft) {
+        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+        return "TEAM 1 vinnare ", (this.winnerDeclared = true);
+      }
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      this.winnerDeclared = false;
+      return null;
+    },
+
+    dormy() {
+      const { totalWins1, totalWins2 } = this.totalHoleWins();
+
+      const holesPlayed = totalWins1 + totalWins2;
+      const holesLeft = 18 - holesPlayed;
+
+      if (totalWins1 - totalWins2 === holesLeft) {
+        return "TEAM 2 är dormy";
+      }
+      if (totalWins2 - totalWins1 === holesLeft) {
+        return "TEAM 1 dormy";
+      }
+
+      return null;
+    },
+
+     singleHoleWinner() {
+      return this.holeWinner[this.activeHole - 1];
+    },
     par() {
       let par = this.course.find(e => e.hole === this.activeHole);
       return par.par;
@@ -991,6 +1087,9 @@ this.players = [
       const matchScore = bestStrokesTeam1.map(
         (num, index) => num - bestStrokesTeam2[index]
       );
+
+      this.holeWinner = matchScore;
+
       matchScore.forEach(subtractedScore => {
         if (subtractedScore != 0) {
           if (subtractedScore > 0) {
@@ -1024,46 +1123,7 @@ this.players = [
       el.style.fontWeight = "900";
     },
     scoreColor(el, bind) {
-      if (bind.value.slag === 0) {
-        return;
-      }
-      //birdie
-      if (bind.value.slag === bind.value.par - 1) {
-        el.style.backgroundColor = "#e63a3a";
-        el.style.color = "white";
-      }
-      //eagle
-      if (bind.value.slag === bind.value.par - 2) {
-        el.style.backgroundColor = "#b70000";
-        el.style.color = "white";
-      }
-      //albatross & kondor
-      if (
-        bind.value.slag === bind.value.par - 3 ||
-        bind.value.slag === bind.value.par - 4
-      ) {
-        el.style.backgroundColor = "#8a0b0b";
-        el.style.color = "white";
-      }
-      //hole in one
-      if (bind.value.slag === 1) {
-        el.style.backgroundColor = "goldenrod";
-      }
-      //bogey
-      if (bind.value.slag === bind.value.par + 1) {
-        el.style.backgroundColor = "#69b3fe";
-        el.style.color = "white";
-      }
-      //double-bogey
-      if (bind.value.slag === bind.value.par + 2) {
-        el.style.backgroundColor = "#0a81f7";
-        el.style.color = "white";
-      }
-      //tripple-bogey and above
-      if (bind.value.slag === bind.value.par + 3) {
-        el.style.backgroundColor = "#063e76";
-        el.style.color = "white";
-      }
+     
     }
   }
 };
@@ -1127,9 +1187,15 @@ table {
   margin: 25px auto;
   border-collapse: collapse;
 }
-tr:nth-child(even) {
-  background: #f0f0f2;
+
+
+.initialsTeam1  {
+color: #fd9b37
 }
+.initialsTeam2 {
+color: #69b3fe;
+}
+
 tr:nth-child(1) {
   background: #195a3a;
   color: white;
@@ -1190,6 +1256,14 @@ td {
   margin-top: 15%;
 }
 /*  SCORE CARD  */
+.holeWinner {
+  background-color: #cbffcb;
+}
+.holeLoser {
+  background-color: #ffdadf;
+}
+
+
 .hideSlag {
   visibility: hidden;
 }

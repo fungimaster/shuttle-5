@@ -38,11 +38,15 @@ const schp = (slopeRating, courseRating, banansPar) => {
     }
   });
   const index = hcpSlopeReduced.findIndex(hcp => hcp === smallestHCP);
-  hcpSlopeReduced[index] = 0;
+  hcpSlopeReduced[index] = null;
 
   const newHcpPrel = hcpSlopeReduced.map(hcpPrel =>
-    hcpPrel === 0 ? hcpPrel : Math.round(hcpPrel - smallestHCP)
+    hcpPrel === null ? hcpPrel : Math.round(hcpPrel - smallestHCP)
   );
+
+   const isNull = (number) => number === null
+   const indexOfNull = newHcpPrel.findIndex(isNull)
+   newHcpPrel[indexOfNull] = 0
 
   return newHcpPrel;
 };
@@ -56,4 +60,4 @@ const hcpSlope = (hcp, courseRating, slopeRating, banansPar) => {
   return hcpSlope;
 };
 
-module.exports = { schp, hcpSlope };
+export { schp, hcpSlope };
