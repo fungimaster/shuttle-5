@@ -562,7 +562,7 @@ export default {
 
 this.players = [
     {
-      "name": "Bruce Wayne",
+      "name": "Br W",
       "holes": [
         { "hole": 1, "strokes": 0, "slag": 0 },
         { "hole": 2, "strokes": 0, "slag": 0 },
@@ -583,7 +583,7 @@ this.players = [
         { "hole": 17, "strokes": 0 , "slag": 0},
         { "hole": 18, "strokes": 0 , "slag": 0}
       ],
-      "hcp": 10.8,
+      "hcp": 13.5,
       "tee": "Vit"
 
     },
@@ -609,7 +609,7 @@ this.players = [
         { "hole": 17, "strokes": 0 , "slag": 0},
         { "hole": 18, "strokes": 0 , "slag": 0}
       ],
-      "hcp": 12.1,
+      "hcp": 6.7,
       "tee": "Svart"
     },
     {
@@ -634,7 +634,7 @@ this.players = [
         { "hole": 17, "strokes": 0 , "slag": 0},
         { "hole": 18, "strokes": 0 , "slag": 0}
       ],
-      "hcp": 3,
+      "hcp": -5,
       "tee": "Gul"
     },
     {
@@ -758,7 +758,7 @@ this.players = [
         */
        this.players = [
     {
-      "name": "Bruce Wayne",
+      "name": "Br W",
       "holes": [
         { "hole": 1, "strokes": 0, "slag": 0 },
         { "hole": 2, "strokes": 0, "slag": 0 },
@@ -779,7 +779,9 @@ this.players = [
         { "hole": 17, "strokes": 0 , "slag": 0},
         { "hole": 18, "strokes": 0 , "slag": 0}
       ],
-      "hcp": 10.8
+      "hcp": 13.5,
+      "tee": "Vit"
+
     },
     {
       "name": "Donald Trump",
@@ -803,7 +805,9 @@ this.players = [
         { "hole": 17, "strokes": 0 , "slag": 0},
         { "hole": 18, "strokes": 0 , "slag": 0}
       ],
-      "hcp": 12.1
+      "hcp": 6.7,      
+      "tee": "Svart"
+
     },
     {
       "name": "Anders Tegnell",
@@ -827,7 +831,9 @@ this.players = [
         { "hole": 17, "strokes": 0 , "slag": 0},
         { "hole": 18, "strokes": 0 , "slag": 0}
       ],
-      "hcp": 3
+      "hcp": -5,
+      "tee": "Gul"
+
     },
     {
       "name": "Joan Jett",
@@ -851,7 +857,10 @@ this.players = [
         { "hole": 17, "strokes": 0 , "slag": 0},
         { "hole": 18, "strokes": 0 , "slag": 0}
       ],
-      "hcp": 32
+      "hcp": 32,       
+      "tee": "Blå"
+
+
     }
     ]
       } catch (e) {
@@ -1135,6 +1144,10 @@ this.players = [
   },
   directives: {
     initials(el) {
+       //Om namnet eller initialerna är tre tecken långt tillsammans, så görs inga initialer. 
+       if (el.innerText.length === 3) {
+        return;
+      }
       let array = el.innerText.split(" ");
       const intialsArray = array.map(e => e.slice(0, 1));
       el.innerHTML = intialsArray[0] + "." + intialsArray[1];

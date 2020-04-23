@@ -60,7 +60,12 @@
           </b-row>
           <b-row>
             <b-col cols="4" class="explanation">
-              <p>Dra av {{slopeHandicapList[getIndexOfLowest] * 0.9}}, nolla lägsta hcp ( {{slopeHandicapList[getIndexOfLowest] * 0.9}}) och avrunda till närmsta heltal</p>
+              <p
+                v-if="slopeHandicapList[getIndexOfLowest] * 0.9 < 0"
+              >Lägg till {{slopeHandicapList[getIndexOfLowest] * 0.9 * -1}}, nolla lägsta hcp ({{slopeHandicapList[getIndexOfLowest] * 0.9 * -1}}) och avrunda till närmsta heltal</p>
+              <p
+                v-else
+              >Dra av {{slopeHandicapList[getIndexOfLowest] * 0.9}}, nolla lägsta hcp ({{slopeHandicapList[getIndexOfLowest] * 0.9}}) och avrunda till närmsta heltal</p>
             </b-col>
             <b-col cols="2" v-for="singleSlope in slope" class="playerData">
               <p>{{ singleSlope }}</p>
@@ -181,6 +186,10 @@ export default {
   },
   directives: {
     initials(el) {
+      //Om namnet eller initialerna är tre tecken långt tillsammans, så görs inga initialer.
+      if (el.innerText.length === 3) {
+        return;
+      }
       let array = el.innerText.split(" ");
       const intialsArray = array.map(e => e.slice(0, 1));
       el.innerHTML = intialsArray[0] + "." + intialsArray[1];
