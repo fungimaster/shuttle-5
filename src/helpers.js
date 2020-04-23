@@ -2,22 +2,22 @@ const schp = (slopeRating, courseRating, banansPar) => {
   let testData = [
     {
       name: "player 1",
-      HCP: -5,
+      HCP: 10.8,
       HCPSlope: 0
     },
     {
       name: "player 2",
-      HCP: 0,
+      HCP: 12.1,
       HCPSlope: 0
     },
     {
       name: "player 3",
-      HCP: 5,
+      HCP: 3,
       HCPSlope: 0
     },
     {
       name: "player 4",
-      HCP: 10,
+      HCP: 32,
       HCPSlope: 0
     }
   ];
@@ -44,11 +44,11 @@ const schp = (slopeRating, courseRating, banansPar) => {
     hcpPrel === null ? hcpPrel : Math.round(hcpPrel - smallestHCP)
   );
 
-   const isNull = (number) => number === null
-   const indexOfNull = newHcpPrel.findIndex(isNull)
-   newHcpPrel[indexOfNull] = 0
+  const isNull = number => number === null;
+  const indexOfNull = newHcpPrel.findIndex(isNull);
+  newHcpPrel[indexOfNull] = 0;
 
-  return newHcpPrel;
+  return { slopeHandicapList, newHcpPrel };
 };
 
 const hcpSlope = (hcp, courseRating, slopeRating, banansPar) => {

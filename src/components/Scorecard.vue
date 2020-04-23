@@ -200,7 +200,6 @@
         </button>
 
 
-
       <br>
       <br>
        <h4> {{ dormy }}</h4> 
@@ -334,10 +333,10 @@
             </td>
           </tr>
 
-          <tr>
+          <tr id="emptyRow">
             <th>
               <td> 
-                <p id="emptyRow"></p> 
+         
               </td>
             </th>
           </tr>
@@ -469,10 +468,10 @@
             </td>
           </tr>
 
-          <tr>
+          <tr id="emptyRow">
             <th>
               <td> 
-                <p id="emptyRow"></p> 
+             
               </td>
             </th>
           </tr>
@@ -539,6 +538,9 @@
         <button class="btn btn-primary" @click="overview = !overview">
           Match Vy
         </button>
+        <app-hcp-modal :courseRating="courseRating" :slopeRating="slopeRating" :banansPar="banansPar" :players="players" :slope="slopedHcpPlayers" :slopeHandicapList="slopeHandicapList"></app-hcp-modal>
+
+
       </b-container>
     </div>
   </div>
@@ -546,6 +548,7 @@
 <script>
 import axios from "axios";
 import { schp, hcpSlope } from "../helpers.js";
+import HcpModalVue from './HcpModal.vue';
 
 export default {
   async beforeMount() {
@@ -580,7 +583,9 @@ this.players = [
         { "hole": 17, "strokes": 0 , "slag": 0},
         { "hole": 18, "strokes": 0 , "slag": 0}
       ],
-      "hcp": -5
+      "hcp": 10.8,
+      "tee": "Vit"
+
     },
     {
       "name": "Donald Trump",
@@ -604,7 +609,8 @@ this.players = [
         { "hole": 17, "strokes": 0 , "slag": 0},
         { "hole": 18, "strokes": 0 , "slag": 0}
       ],
-      "hcp": -2
+      "hcp": 12.1,
+      "tee": "Svart"
     },
     {
       "name": "Anders Tegnell",
@@ -628,7 +634,8 @@ this.players = [
         { "hole": 17, "strokes": 0 , "slag": 0},
         { "hole": 18, "strokes": 0 , "slag": 0}
       ],
-      "hcp": 5
+      "hcp": 3,
+      "tee": "Gul"
     },
     {
       "name": "Joan Jett",
@@ -652,7 +659,8 @@ this.players = [
         { "hole": 17, "strokes": 0 , "slag": 0},
         { "hole": 18, "strokes": 0 , "slag": 0}
       ],
-      "hcp": 10
+      "hcp": 32,
+      "tee": "Blå"
     }
     ]
 
@@ -690,6 +698,9 @@ this.players = [
       slopedHcpPlayers: [],
       holeWinner: [],
       winnerDeclared: false,
+      modalVisible: false,
+      slopeHandicapList: [],
+
 
 
       //Fiktiv data nedan
@@ -719,6 +730,9 @@ this.players = [
     };
   },
   methods: {
+    closeModal() {
+      this.modalVisible = false;
+    },
     getPar() {
       this.parData = this.course.find(e => e.hole === this.activeHole);
     },
@@ -765,7 +779,7 @@ this.players = [
         { "hole": 17, "strokes": 0 , "slag": 0},
         { "hole": 18, "strokes": 0 , "slag": 0}
       ],
-      "hcp": -5
+      "hcp": 10.8
     },
     {
       "name": "Donald Trump",
@@ -789,7 +803,7 @@ this.players = [
         { "hole": 17, "strokes": 0 , "slag": 0},
         { "hole": 18, "strokes": 0 , "slag": 0}
       ],
-      "hcp": 0
+      "hcp": 12.1
     },
     {
       "name": "Anders Tegnell",
@@ -813,7 +827,7 @@ this.players = [
         { "hole": 17, "strokes": 0 , "slag": 0},
         { "hole": 18, "strokes": 0 , "slag": 0}
       ],
-      "hcp": 5
+      "hcp": 3
     },
     {
       "name": "Joan Jett",
@@ -837,7 +851,7 @@ this.players = [
         { "hole": 17, "strokes": 0 , "slag": 0},
         { "hole": 18, "strokes": 0 , "slag": 0}
       ],
-      "hcp": 10
+      "hcp": 32
     }
     ]
       } catch (e) {
@@ -859,16 +873,22 @@ this.players = [
       }
     },
     async schp() {
-      const schpTemp = schp(
+
+      const {slopeHandicapList, newHcpPrel} = schp(
         this.courseRating,
         this.slopeRating,
         this.banansPar
       );
-      this.slopedHcpPlayers = schpTemp;
-      const value1 = schpTemp[0];
-      const value2 = schpTemp[1];
-      const value3 = schpTemp[2];
-      const value4 = schpTemp[3];
+
+      //detta värde bröts ut för att kunna skickas vidare till 
+      this.slopeHandicapList = slopeHandicapList
+      console.log(slopeHandicapList)
+
+      this.slopedHcpPlayers = newHcpPrel;
+      const value1 = newHcpPrel[0];
+      const value2 = newHcpPrel[1];
+      const value3 = newHcpPrel[2];
+      const value4 = newHcpPrel[3];
       this.assignSlagPerIndex(value1, 0);
       this.assignSlagPerIndex(value2, 1);
       this.assignSlagPerIndex(value3, 2);
@@ -1125,7 +1145,10 @@ this.players = [
     scoreColor(el, bind) {
      
     }
-  }
+  },
+  components: {
+    appHcpModal: HcpModalVue
+}
 };
 </script>
 <style scoped>
@@ -1180,14 +1203,6 @@ div[role=group]:focus {
   margin-left: 10px;
   margin-right: 10px;
 }
-table {
-  table-layout: auto;
-  text-align: left;
-  width: 100%;
-  margin: 25px auto;
-  border-collapse: collapse;
-}
-
 
 .initialsTeam1  {
 color: #fd9b37
@@ -1196,18 +1211,6 @@ color: #fd9b37
 color: #69b3fe;
 }
 
-tr:nth-child(1) {
-  background: #195a3a;
-  color: white;
-}
-tr:nth-child(2) {
-  background: #195a3a;
-  color: white;
-}
-td {
-  padding: 3px;
-  text-align: center;
-}
 .leaderBoardStrokes {
   margin: 4px;
   background-color: white;
@@ -1234,6 +1237,32 @@ td {
 .btn-danger {
   font-size: 12px;
 }
+
+/* leader board      ---> table */
+
+table {
+  table-layout: auto;
+  text-align: left;
+  width: 100%;
+  margin: 25px auto;
+  border-collapse: inherit;
+  font-size: 12px;
+}
+
+tr:nth-child(1) {
+  background: #195a3a;
+  color: white;
+}
+tr:nth-child(2) {
+  background: #195a3a;
+  color: white;
+}
+td {
+  padding: 3px;
+  text-align: center;
+}
+
+
 /* HEADER ROW */
 .holeRow {
   margin-bottom: 20px;
