@@ -3,18 +3,10 @@
     <b-modal id="modal-1" title ok-only>
       <ul class="nav">
         <li class="nav-item">
-          <a
-            class="nav-link active"
-            @click="(showData = true), (showExplanation = false)"
-            >Slope</a
-          >
+          <a class="nav-link active" @click="(showData = true), (showExplanation = false)">Slope</a>
         </li>
         <li class="nav-item">
-          <a
-            class="nav-link"
-            @click="(showData = false), (showExplanation = true)"
-            >Förklaring</a
-          >
+          <a class="nav-link" @click="(showData = false), (showExplanation = true)">Förklaring</a>
         </li>
       </ul>
 
@@ -22,7 +14,7 @@
         <div v-if="showData">
           <b-row class="explanation">
             <b-col cols="4"></b-col>
-            <b-col v-for="player in players" cols="2" class="playerData">
+            <b-col v-for="player in players" :key="player.index" cols="2" class="playerData">
               <h5 v-initials>{{ player.name }}</h5>
             </b-col>
           </b-row>
@@ -30,7 +22,7 @@
             <b-col cols="4" class="explanation">
               <p>Exakt Hcp</p>
             </b-col>
-            <b-col v-for="player in players" cols="2" class="playerData">
+            <b-col v-for="player in players" :key="player.index" cols="2" class="playerData">
               <p v-negativeToPostive>{{ player.hcp }}</p>
             </b-col>
           </b-row>
@@ -38,7 +30,7 @@
             <b-col cols="4" class="explanation">
               <p>Max 28 Hcp</p>
             </b-col>
-            <b-col v-for="player in players" cols="2" class="playerData">
+            <b-col v-for="player in players" :key="player.index" cols="2" class="playerData">
               <p v-negativeToPostive>{{ player.hcp > 28 ? 28 : player.hcp }}</p>
             </b-col>
           </b-row>
@@ -46,7 +38,7 @@
             <b-col cols="4" class="explanation">
               <p>Tee</p>
             </b-col>
-            <b-col v-for="player in players" cols="2" class="playerData">
+            <b-col v-for="player in players" :key="player.index" cols="2" class="playerData">
               <p>{{ player.tee }}</p>
             </b-col>
           </b-row>
@@ -56,6 +48,7 @@
             </b-col>
             <b-col
               v-for="hcpslope in slopeHandicapList"
+              :key="hcpslope.index"
               cols="2"
               class="playerData"
             >
@@ -68,12 +61,11 @@
             </b-col>
             <b-col
               v-for="hcpslope in slopeHandicapList"
+              :key="hcpslope.index"
               cols="2"
               class="playerData"
             >
-              <p v-negativeToPostive>
-                {{ hcpslope > 28 ? 28 * 0.9 : hcpslope * 0.9 }}
-              </p>
+              <p v-negativeToPostive>{{ hcpslope > 28 ? 28 * 0.9 : hcpslope * 0.9 }}</p>
             </b-col>
           </b-row>
           <b-row>
@@ -81,7 +73,7 @@
               <p v-if="slopeHandicapList[getIndexOfLowest] * 0.9 < 0">
                 Lägg till {{ slopeHandicapList[getIndexOfLowest] * 0.9 * -1 }},
                 nolla lägsta hcp ({{
-                  slopeHandicapList[getIndexOfLowest] * 0.9 * -1
+                slopeHandicapList[getIndexOfLowest] * 0.9 * -1
                 }}) och avrunda till närmsta heltal
               </p>
               <p v-else>
@@ -90,7 +82,12 @@
                 avrunda till närmsta heltal
               </p>
             </b-col>
-            <b-col v-for="singleSlope in slope" cols="2" class="playerData">
+            <b-col
+              v-for="singleSlope in slope"
+              :key="singleSlope.index"
+              cols="2"
+              class="playerData"
+            >
               <p>{{ singleSlope }}</p>
             </b-col>
           </b-row>
@@ -98,7 +95,12 @@
             <b-col cols="4" class="explanation">
               <p>Nytt spel Hcp</p>
             </b-col>
-            <b-col v-for="singleSlope in slope" cols="2" class="playerData">
+            <b-col
+              v-for="singleSlope in slope"
+              :key="singleSlope.index"
+              cols="2"
+              class="playerData"
+            >
               <p>{{ singleSlope }}</p>
             </b-col>
           </b-row>
@@ -168,9 +170,7 @@
         </div>
       </b-container>
     </b-modal>
-    <button v-b-modal.modal-1 class="btn btn-primary">
-      Hur räknas slope ut?
-    </button>
+    <button v-b-modal.modal-1 class="btn btn-primary">Hur räknas slope ut?</button>
   </div>
 </template>
 
