@@ -1,48 +1,47 @@
 <template>
   <div>
-    <div id="landscape" v-if="!overview">
+    <div v-if="!overview" id="landscape">
       <b-container class="bv-example-row">
         <!--  HEADER  -->
 
         <b-row class="holeRow pt-4">
           <b-col class="col-2 pr-0">
             <button
-              @click="activeHole--, saveData()"
-              class="holeButtons"
-              id="buttonLeft"
-              :disabled="activeHole === 1"
               v-if="activeHole > 1"
+              id="buttonLeft"
+              class="holeButtons"
+              :disabled="activeHole === 1"
+              @click="activeHole--, saveData()"
             >
               <span class="material-icons">
                 arrow_back_ios
               </span>
             </button>
           </b-col>
-            
-            <b-col class="col-8 text-center p-0">
-              <b-row>
-                <b-col xs="4">
-                   <span class="holepar">Par: {{ par }}</span>
 
-                </b-col>
-                 <b-col xs="4">
-                   <span class="activeHole">{{ activeHole }}</span>
-                </b-col>
-                 <b-col xs="4">
-                  <span class="holepar">Index: {{ index }}</span>
-                </b-col>
-              </b-row>       
-            </b-col>
+          <b-col class="col-8 text-center p-0">
+            <b-row>
+              <b-col xs="4">
+                <span class="holepar">Par: {{ par }}</span>
+              </b-col>
+              <b-col xs="4">
+                <span class="activeHole">{{ activeHole }}</span>
+              </b-col>
+              <b-col xs="4">
+                <span class="holepar">Index: {{ index }}</span>
+              </b-col>
+            </b-row>
+          </b-col>
 
-            <b-col class="col-2 pl-0">
+          <b-col class="col-2 pl-0">
             <button
-              @click="activeHole++, saveData()"
-              class="holeButtons"
-              id="buttonRight"
-              :disabled="activeHole === 18"
               v-if="activeHole < 18"
+              id="buttonRight"
+              class="holeButtons"
+              :disabled="activeHole === 18"
+              @click="activeHole++, saveData()"
             >
-             <span class="material-icons">
+              <span class="material-icons">
                 arrow_forward_ios
               </span>
             </button>
@@ -51,15 +50,21 @@
 
         <!-- LÄMNADE HÄR FÖR ATT ENKELT KUNNA DUBBELKOLLA ATT SLAG PER SPELARE STÄMMER-->
 
-      <!--  <ul v-for="hole in course" :key="hole.index">
+        <!--  <ul v-for="hole in course" :key="hole.index">
           <li>{{ hole.hole }} : {{ hole.slag }}</li>
         </ul> -->
 
         <!--  SCORECARD RUTOR  -->
         <!--  TEAM 1 -->
 
-      <!-- :class-logiken på nästa rad binder vinnare/förlorar-klass till scorecard om alla plusknappar är tryckta och beroende vem som vann -->
-        <div class="team1ScoreCard" :class="[singleHoleWinner < 0  && displayToast === false ? 'holeWinner' : '', singleHoleWinner > 0  && displayToast === false ? 'holeLoser' : '']" >
+        <!-- :class-logiken på nästa rad binder vinnare/förlorar-klass till scorecard om alla plusknappar är tryckta och beroende vem som vann -->
+        <div
+          class="team1ScoreCard"
+          :class="[
+            singleHoleWinner < 0 && displayToast === false ? 'holeWinner' : '',
+            singleHoleWinner > 0 && displayToast === false ? 'holeLoser' : '',
+          ]"
+        >
           <div
             v-for="(player, index) in players.slice(0, 2)"
             :key="player.index"
@@ -73,57 +78,32 @@
                 <!--  SLAG OCH HCP TEAM 1 -->
                 <div class="playerInfo">
                   <span>SHCP {{ slopedHcpPlayers[index] }} </span>
-                 <!--  <span>HCP {{ player.hcp }} </span> -->
+                  <!--  <span>HCP {{ player.hcp }} </span> -->
                   <span :class="{ hideSlag: slag(index) === 0 ? true : false }">
                     &#9642; SLAG {{ slag(index) }}
                   </span>
                 </div>
               </b-col>
-              <b-col cols="5">
-                <!--  STROKES SECTION -->
-                <div
-                  class="buttons"
-                  v-for="holes in player.holes"
-                  :key="holes.index"
-                  :class="
-                    holes.hole != activeHole
-                      ? { classDisplayNone: active }
-                      : null
-                  "
-                >
-                  <!-- MINUS-KNAPP TEAM 1-->
-                  <button
-                    :disabled="holes.strokes === 0"
-                    @click="holes.hole === activeHole ? holes.strokes-- : null"
-                    class="btn btn-warning"
-                  >
-                    <i class="material-icons">remove</i>
-                  </button>
-                  <!-- Visar antal slag per spelare i team 1 -->
-                  <span v-if="holes.strokes == 0">-</span>
-                  <span v-else class="strokes">{{ holes.strokes }}</span>
-
-                  <!-- PLUS-KNAPP TEAM 1-->
-                  <button
-                    @click="
-                      holes.hole === activeHole ? holes.strokes++ : null,
-                        currentStrokes(player)
-                    "
-                    @click.once="holes.strokes = par"
-                    class="btn btn-warning"
-                  >
-                    <i class="material-icons">add</i>
-                  </button>
-                </div>
-              </b-col>
             </b-row>
-
           </div>
+          <app-scoring
+            :players="players"
+            :activehole="activeHole"
+            :active="active"
+            :par="par"
+            @sendScore="currentStrokes"
+          ></app-scoring>
+          <div></div>
         </div>
 
         <!-- TEAM 2 -->
-        <div class="team2ScoreCard" :class="[singleHoleWinner > 0  && displayToast === false ? 'holeWinner' : '', singleHoleWinner < 0  && displayToast === false ? 'holeLoser' : '' ]"
-         >
+        <div
+          class="team2ScoreCard"
+          :class="[
+            singleHoleWinner > 0 && displayToast === false ? 'holeWinner' : '',
+            singleHoleWinner < 0 && displayToast === false ? 'holeLoser' : '',
+          ]"
+        >
           <div
             v-for="(player, index) in players.slice(2, 4)"
             :key="player.index"
@@ -135,7 +115,7 @@
                 <p class="playerName">{{ player.name }}</p>
                 <!--  SLAG OCH HCP TEAM 2 -->
                 <div class="playerInfo">
-                   <span>SHCP {{ slopedHcpPlayers[index+2] }} </span>
+                  <span>SHCP {{ slopedHcpPlayers[index + 2] }} </span>
                   <!-- <span>HCP {{ player.hcp }}</span> -->
 
                   <span
@@ -148,9 +128,9 @@
               <b-col cols="5">
                 <!--  STROKES SECTION -->
                 <div
-                  class="buttons"
                   v-for="holes in player.holes"
                   :key="holes.index"
+                  class="buttons"
                   :class="
                     holes.hole != activeHole
                       ? { classDisplayNone: active }
@@ -160,8 +140,8 @@
                   <!-- MINUS-KNAPP TEAM 2 -->
                   <button
                     :disabled="holes.strokes === 0"
-                    @click="holes.hole === activeHole ? holes.strokes-- : null"
                     class="btn btn-warning"
+                    @click="holes.hole === activeHole ? holes.strokes-- : null"
                   >
                     <i class="material-icons">remove</i>
                   </button>
@@ -172,12 +152,12 @@
 
                   <!-- PLUS-KNAPP TEAM 2-->
                   <button
+                    class="btn btn-warning"
                     @click="
                       holes.hole === activeHole ? holes.strokes++ : null,
                         currentStrokes(player)
                     "
                     @click.once="holes.strokes = par"
-                    class="btn btn-warning"
                   >
                     <i class="material-icons">add</i>
                   </button>
@@ -199,17 +179,20 @@
           Översikt
         </button>
 
-
-
-      <br>
-      <br>
-       <h4> {{ dormy }}</h4> 
-       <h3>  winner declared? {{ winnerDeclared }} </h3>
-        <h4 :style="winnerDeclared === true ? 'background-color: red' : 'background-color: white' " > VINNARE:
-        {{ winner }} Resultat: {{ totalWins.totalWins1 }} vs
-        {{ totalWins.totalWins2 }}  </h4>
-
-
+        <br />
+        <br />
+        <h4>{{ dormy }}</h4>
+        <h3>winner declared? {{ winnerDeclared }}</h3>
+        <h4
+          :style="
+            winnerDeclared === true
+              ? 'background-color: red'
+              : 'background-color: white'
+          "
+        >
+          VINNARE: {{ winner }} Resultat: {{ totalWins.totalWins1 }} vs
+          {{ totalWins.totalWins2 }}
+        </h4>
 
         <!-- FOOTER - LEADER SECTION -->
         <footer class="fixed-bottom">
@@ -240,7 +223,7 @@
     </div>
 
     <!--  LEADER BOARD -->
-    <div id="overview" v-if="overview">
+    <div v-if="overview" id="overview">
       <b-container>
         <b-row class="leaderBoardPlayers">
           <b-col s="4" class="scoreTeam1">
@@ -265,11 +248,8 @@
           </b-col>
         </b-row>
 
-
         <!--  TABELL HÅL 1-9 -->
         <table class="table9">
-
-     
           <tr>
             <th>Hole:</th>
             <td v-for="hole in course.slice(0, 9)" :key="hole.index">
@@ -287,18 +267,15 @@
             </td>
           </tr>
 
-         
-
           <!--  SPELARE 1 -->
           <tr v-for="player in players.slice(0, 1)" :key="player.index">
-
             <th v-initials class="initialsTeam1">{{ player.name }}</th>
             <td
               v-for="holes in player.holes.slice(0, 9)"
               :key="holes.index"
               v-scoreColor:arguments="{
                 slag: holes.strokes,
-                par: holes.par
+                par: holes.par,
               }"
             >
               {{ holes.strokes === 0 ? null : holes.strokes }}
@@ -320,7 +297,7 @@
               :key="holes.index"
               v-scoreColor:arguments="{
                 slag: holes.strokes,
-                par: holes.par
+                par: holes.par,
               }"
             >
               {{ holes.strokes === 0 ? null : holes.strokes }}
@@ -335,11 +312,9 @@
           </tr>
 
           <tr>
-            <th>
-              <td> 
-                <p id="emptyRow"></p> 
-              </td>
-            </th>
+            <td>
+              <p id="emptyRow"></p>
+            </td>
           </tr>
 
           <!-- SPELARE 3 -->
@@ -350,7 +325,7 @@
               :key="holes.index"
               v-scoreColor:arguments="{
                 slag: holes.strokes,
-                par: holes.par
+                par: holes.par,
               }"
             >
               {{ holes.strokes === 0 ? null : holes.strokes }}
@@ -372,7 +347,7 @@
               :key="holes.index"
               v-scoreColor:arguments="{
                 slag: holes.strokes,
-                par: holes.par
+                par: holes.par,
               }"
             >
               {{ holes.strokes === 0 ? null : holes.strokes }}
@@ -410,7 +385,6 @@
             </td>
           </tr>
 
-
           <!-- SPELARE 1 -->
           <tr v-for="player in players.slice(0, 1)" :key="player.index">
             <th v-initials class="initialsTeam1">{{ player.name }}</th>
@@ -419,7 +393,7 @@
               :key="holes.index"
               v-scoreColor:arguments="{
                 slag: holes.strokes,
-                par: holes.par
+                par: holes.par,
               }"
             >
               {{ holes.strokes === 0 ? null : holes.strokes }}
@@ -448,7 +422,7 @@
               :key="holes.index"
               v-scoreColor:arguments="{
                 slag: holes.strokes,
-                par: holes.par
+                par: holes.par,
               }"
             >
               {{ holes.strokes === 0 ? null : holes.strokes }}
@@ -470,11 +444,9 @@
           </tr>
 
           <tr>
-            <th>
-              <td> 
-                <p id="emptyRow"></p> 
-              </td>
-            </th>
+            <td>
+              <p id="emptyRow"></p>
+            </td>
           </tr>
           <!-- SPELARE 3 -->
           <tr v-for="player in players.slice(2, 3)" :key="player.index">
@@ -484,7 +456,7 @@
               :key="holes.index"
               v-scoreColor:arguments="{
                 slag: holes.strokes,
-                par: holes.par
+                par: holes.par,
               }"
             >
               {{ holes.strokes === 0 ? null : holes.strokes }}
@@ -513,7 +485,7 @@
               :key="holes.index"
               v-scoreColor:arguments="{
                 slag: holes.strokes,
-                par: holes.par
+                par: holes.par,
               }"
             >
               {{ holes.strokes === 0 ? null : holes.strokes }}
@@ -546,136 +518,23 @@
 <script>
 import axios from "axios";
 import { schp, hcpSlope } from "../helpers.js";
+import ScoringVue from "./Scoring.vue";
 
 export default {
-  async beforeMount() {
-    try {
-      //hämtar data och lägger det i this.player
-      /*
-      const response = await axios.get("http://localhost:3000/scorecard");
-      const data = response.data[response.data.length - 1];
-      this.players = data.gameData;
-      */
-
-this.players = [
-    {
-      "name": "Bruce Wayne",
-      "holes": [
-        { "hole": 1, "strokes": 0, "slag": 0 },
-        { "hole": 2, "strokes": 0, "slag": 0 },
-        { "hole": 3, "strokes": 0, "slag": 0 },
-        { "hole": 4, "strokes": 0, "slag": 0 },
-        { "hole": 5, "strokes": 0, "slag": 0 },
-        { "hole": 6, "strokes": 0, "slag": 0 },
-        { "hole": 7, "strokes": 0 , "slag": 0},
-        { "hole": 8, "strokes": 0 , "slag": 0},
-        { "hole": 9, "strokes": 0, "slag": 0 },
-        { "hole": 10, "strokes": 0, "slag": 0 },
-        { "hole": 11, "strokes": 0 , "slag": 0},
-        { "hole": 12, "strokes": 0 , "slag": 0},
-        { "hole": 13, "strokes": 0 , "slag": 0},
-        { "hole": 14, "strokes": 0 , "slag": 0},
-        { "hole": 15, "strokes": 0 , "slag": 0}, 
-        { "hole": 16, "strokes": 0 , "slag": 0},
-        { "hole": 17, "strokes": 0 , "slag": 0},
-        { "hole": 18, "strokes": 0 , "slag": 0}
-      ],
-      "hcp": -5
-    },
-    {
-      "name": "Donald Trump",
-      "holes": [
-        { "hole": 1, "strokes": 0, "slag": 0 },
-        { "hole": 2, "strokes": 0, "slag": 0 },
-        { "hole": 3, "strokes": 0, "slag": 0 },
-        { "hole": 4, "strokes": 0, "slag": 0 },
-        { "hole": 5, "strokes": 0, "slag": 0 },
-        { "hole": 6, "strokes": 0, "slag": 0 },
-        { "hole": 7, "strokes": 0 , "slag": 0},
-        { "hole": 8, "strokes": 0 , "slag": 0},
-        { "hole": 9, "strokes": 0, "slag": 0 },
-        { "hole": 10, "strokes": 0, "slag": 0 },
-        { "hole": 11, "strokes": 0 , "slag": 0},
-        { "hole": 12, "strokes": 0 , "slag": 0},
-        { "hole": 13, "strokes": 0 , "slag": 0},
-        { "hole": 14, "strokes": 0 , "slag": 0},
-        { "hole": 15, "strokes": 0 , "slag": 0}, 
-        { "hole": 16, "strokes": 0 , "slag": 0},
-        { "hole": 17, "strokes": 0 , "slag": 0},
-        { "hole": 18, "strokes": 0 , "slag": 0}
-      ],
-      "hcp": -2
-    },
-    {
-      "name": "Anders Tegnell",
-      "holes": [
-        { "hole": 1, "strokes": 0, "slag": 0 },
-        { "hole": 2, "strokes": 0, "slag": 0 },
-        { "hole": 3, "strokes": 0, "slag": 0 },
-        { "hole": 4, "strokes": 0, "slag": 0 },
-        { "hole": 5, "strokes": 0, "slag": 0 },
-        { "hole": 6, "strokes": 0, "slag": 0 },
-        { "hole": 7, "strokes": 0 , "slag": 0},
-        { "hole": 8, "strokes": 0 , "slag": 0},
-        { "hole": 9, "strokes": 0, "slag": 0 },
-        { "hole": 10, "strokes": 0, "slag": 0 },
-        { "hole": 11, "strokes": 0 , "slag": 0},
-        { "hole": 12, "strokes": 0 , "slag": 0},
-        { "hole": 13, "strokes": 0 , "slag": 0},
-        { "hole": 14, "strokes": 0 , "slag": 0},
-        { "hole": 15, "strokes": 0 , "slag": 0}, 
-        { "hole": 16, "strokes": 0 , "slag": 0},
-        { "hole": 17, "strokes": 0 , "slag": 0},
-        { "hole": 18, "strokes": 0 , "slag": 0}
-      ],
-      "hcp": 5
-    },
-    {
-      "name": "Joan Jett",
-      "holes": [
-        { "hole": 1, "strokes": 0, "slag": 0 },
-        { "hole": 2, "strokes": 0, "slag": 0 },
-        { "hole": 3, "strokes": 0, "slag": 0 },
-        { "hole": 4, "strokes": 0, "slag": 0 },
-        { "hole": 5, "strokes": 0, "slag": 0 },
-        { "hole": 6, "strokes": 0, "slag": 0 },
-        { "hole": 7, "strokes": 0 , "slag": 0},
-        { "hole": 8, "strokes": 0 , "slag": 0},
-        { "hole": 9, "strokes": 0, "slag": 0 },
-        { "hole": 10, "strokes": 0, "slag": 0 },
-        { "hole": 11, "strokes": 0 , "slag": 0},
-        { "hole": 12, "strokes": 0 , "slag": 0},
-        { "hole": 13, "strokes": 0 , "slag": 0},
-        { "hole": 14, "strokes": 0 , "slag": 0},
-        { "hole": 15, "strokes": 0 , "slag": 0}, 
-        { "hole": 16, "strokes": 0 , "slag": 0},
-        { "hole": 17, "strokes": 0 , "slag": 0},
-        { "hole": 18, "strokes": 0 , "slag": 0}
-      ],
-      "hcp": 10
-    }
-    ]
-
-
-      //lägger till par på this.player.holes för att komma åt par under översikten
-      this.players.forEach(player => {
-        player.holes.forEach((hole, index) => {
-          hole.par = this.course[index].par;
-        });
-      });
-      //fixar team-namn
-      this.team1 = 'lag 1'//data.gameData[0].team;
-      this.team2 = 'lag 2'
-      /* data.gameData.forEach(element => {
-        if (element.team != this.team1) {
-          this.team2 = 'lag 2'//element.team;
-        }
-      }); */
-      this.schp();
-    } catch (e) {
-      console.log(e);
-    }
+  components: {
+    appScoring: ScoringVue,
   },
+  directives: {
+    initials(el) {
+      let array = el.innerText.split(" ");
+      const intialsArray = array.map((e) => e.slice(0, 1));
+      el.innerHTML = intialsArray[0] + "." + intialsArray[1];
+    },
+    bold(el) {
+      el.style.fontWeight = "900";
+    },
+  },
+
   data() {
     return {
       active: true,
@@ -690,7 +549,7 @@ this.players = [
       slopedHcpPlayers: [],
       holeWinner: [],
       winnerDeclared: false,
-
+      scoringView: false,
 
       //Fiktiv data nedan
       course: [
@@ -711,227 +570,12 @@ this.players = [
         { hole: 15, par: 5, index: 7, slag: [0, 0, 0, 0] },
         { hole: 16, par: 3, index: 10, slag: [0, 0, 0, 0] },
         { hole: 17, par: 4, index: 15, slag: [0, 0, 0, 0] },
-        { hole: 18, par: 3, index: 4, slag: [0, 0, 0, 0] }
+        { hole: 18, par: 3, index: 4, slag: [0, 0, 0, 0] },
       ],
       courseRating: 69.9,
       slopeRating: 129,
-      banansPar: 70
+      banansPar: 70,
     };
-  },
-  methods: {
-    getPar() {
-      this.parData = this.course.find(e => e.hole === this.activeHole);
-    },
-    currentStrokes(player) {
-      const name = player.name;
-      if (this.nameCount.includes(name)) {
-        return;
-      }
-      if (this.nameCount[name] == null) {
-        this.nameCount.push(name);
-      }
-      if (this.nameCount.length === 4) {
-        this.displayToast = false;
-        this.nameCount = [];
-      }
-    },
-    async loadData() {
-      try {
-        /*
-        let response = await axios.get("http://localhost:3000/scorecard");
-        const data = response.data[response.data.length - 1];
-        this.players = data.gameData;
-        */
-       this.players = [
-    {
-      "name": "Bruce Wayne",
-      "holes": [
-        { "hole": 1, "strokes": 0, "slag": 0 },
-        { "hole": 2, "strokes": 0, "slag": 0 },
-        { "hole": 3, "strokes": 0, "slag": 0 },
-        { "hole": 4, "strokes": 0, "slag": 0 },
-        { "hole": 5, "strokes": 0, "slag": 0 },
-        { "hole": 6, "strokes": 0, "slag": 0 },
-        { "hole": 7, "strokes": 0 , "slag": 0},
-        { "hole": 8, "strokes": 0 , "slag": 0},
-        { "hole": 9, "strokes": 0, "slag": 0 },
-        { "hole": 10, "strokes": 0, "slag": 0 },
-        { "hole": 11, "strokes": 0 , "slag": 0},
-        { "hole": 12, "strokes": 0 , "slag": 0},
-        { "hole": 13, "strokes": 0 , "slag": 0},
-        { "hole": 14, "strokes": 0 , "slag": 0},
-        { "hole": 15, "strokes": 0 , "slag": 0}, 
-        { "hole": 16, "strokes": 0 , "slag": 0},
-        { "hole": 17, "strokes": 0 , "slag": 0},
-        { "hole": 18, "strokes": 0 , "slag": 0}
-      ],
-      "hcp": -5
-    },
-    {
-      "name": "Donald Trump",
-      "holes": [
-        { "hole": 1, "strokes": 0, "slag": 0 },
-        { "hole": 2, "strokes": 0, "slag": 0 },
-        { "hole": 3, "strokes": 0, "slag": 0 },
-        { "hole": 4, "strokes": 0, "slag": 0 },
-        { "hole": 5, "strokes": 0, "slag": 0 },
-        { "hole": 6, "strokes": 0, "slag": 0 },
-        { "hole": 7, "strokes": 0 , "slag": 0},
-        { "hole": 8, "strokes": 0 , "slag": 0},
-        { "hole": 9, "strokes": 0, "slag": 0 },
-        { "hole": 10, "strokes": 0, "slag": 0 },
-        { "hole": 11, "strokes": 0 , "slag": 0},
-        { "hole": 12, "strokes": 0 , "slag": 0},
-        { "hole": 13, "strokes": 0 , "slag": 0},
-        { "hole": 14, "strokes": 0 , "slag": 0},
-        { "hole": 15, "strokes": 0 , "slag": 0}, 
-        { "hole": 16, "strokes": 0 , "slag": 0},
-        { "hole": 17, "strokes": 0 , "slag": 0},
-        { "hole": 18, "strokes": 0 , "slag": 0}
-      ],
-      "hcp": 0
-    },
-    {
-      "name": "Anders Tegnell",
-      "holes": [
-        { "hole": 1, "strokes": 0, "slag": 0 },
-        { "hole": 2, "strokes": 0, "slag": 0 },
-        { "hole": 3, "strokes": 0, "slag": 0 },
-        { "hole": 4, "strokes": 0, "slag": 0 },
-        { "hole": 5, "strokes": 0, "slag": 0 },
-        { "hole": 6, "strokes": 0, "slag": 0 },
-        { "hole": 7, "strokes": 0 , "slag": 0},
-        { "hole": 8, "strokes": 0 , "slag": 0},
-        { "hole": 9, "strokes": 0, "slag": 0 },
-        { "hole": 10, "strokes": 0, "slag": 0 },
-        { "hole": 11, "strokes": 0 , "slag": 0},
-        { "hole": 12, "strokes": 0 , "slag": 0},
-        { "hole": 13, "strokes": 0 , "slag": 0},
-        { "hole": 14, "strokes": 0 , "slag": 0},
-        { "hole": 15, "strokes": 0 , "slag": 0}, 
-        { "hole": 16, "strokes": 0 , "slag": 0},
-        { "hole": 17, "strokes": 0 , "slag": 0},
-        { "hole": 18, "strokes": 0 , "slag": 0}
-      ],
-      "hcp": 5
-    },
-    {
-      "name": "Joan Jett",
-      "holes": [
-        { "hole": 1, "strokes": 0, "slag": 0 },
-        { "hole": 2, "strokes": 0, "slag": 0 },
-        { "hole": 3, "strokes": 0, "slag": 0 },
-        { "hole": 4, "strokes": 0, "slag": 0 },
-        { "hole": 5, "strokes": 0, "slag": 0 },
-        { "hole": 6, "strokes": 0, "slag": 0 },
-        { "hole": 7, "strokes": 0 , "slag": 0},
-        { "hole": 8, "strokes": 0 , "slag": 0},
-        { "hole": 9, "strokes": 0, "slag": 0 },
-        { "hole": 10, "strokes": 0, "slag": 0 },
-        { "hole": 11, "strokes": 0 , "slag": 0},
-        { "hole": 12, "strokes": 0 , "slag": 0},
-        { "hole": 13, "strokes": 0 , "slag": 0},
-        { "hole": 14, "strokes": 0 , "slag": 0},
-        { "hole": 15, "strokes": 0 , "slag": 0}, 
-        { "hole": 16, "strokes": 0 , "slag": 0},
-        { "hole": 17, "strokes": 0 , "slag": 0},
-        { "hole": 18, "strokes": 0 , "slag": 0}
-      ],
-      "hcp": 10
-    }
-    ]
-      } catch (e) {
-        console.log(e);
-      }
-    },
-    async saveData() {
-      const data = {
-        gameData: this.players
-      };
-      try {
-        let response = await axios.post(
-          "http://localhost:3000/scorecard",
-          data
-        );
-        console.log("saved data", response);
-      } catch (e) {
-        error => console.log(error);
-      }
-    },
-    async schp() {
-      const schpTemp = schp(
-        this.courseRating,
-        this.slopeRating,
-        this.banansPar
-      );
-      this.slopedHcpPlayers = schpTemp;
-      const value1 = schpTemp[0];
-      const value2 = schpTemp[1];
-      const value3 = schpTemp[2];
-      const value4 = schpTemp[3];
-      this.assignSlagPerIndex(value1, 0);
-      this.assignSlagPerIndex(value2, 1);
-      this.assignSlagPerIndex(value3, 2);
-      this.assignSlagPerIndex(value4, 3);
-      const sortedByHole = this.course.sort((a, b) => a.hole - b.hole);
-      this.course = sortedByHole;
-    },
-    hcpSlope() {
-      hcpSlope();
-    },
-    assignSlagPerIndex(value, playerIndex) {
-      const sortedByIndex = this.course.sort((a, b) => a.index - b.index);
-      for (let i = 0; i < value; i++) {
-        if (i === 18) {
-          value = value - i;
-          i = 0;
-        }
-        sortedByIndex[i].slag[playerIndex]++;
-      }
-      return sortedByIndex;
-    },
-    slag(index) {
-      let slag = this.course.find(e => e.hole === this.activeHole);
-      return slag.slag[index];
-    },
-    listOfStrokesList() {
-      
-      let listOfStrokesList = [];
-      const holes = this.players.map(player => player.holes);
-      holes.forEach(e => {
-        listOfStrokesList.push(e.map(hole => hole.strokes));
-      });
-      
-      return listOfStrokesList;
-    },
-    strokes(index) {
-      const listOfStrokesList = this.listOfStrokesList();
-      return listOfStrokesList[index];
-    },
-    makeToast(variant = null) {
-      if (this.displayToast === false) {
-        this.displayToast = true;
-        return;
-      }
-      this.activeHole--;
-      this.$bvToast.toast("Fyll i resultat på alla spelare", {
-        title: "Varning",
-        autoHideDelay: 3000,
-        variant: variant,
-        solid: true
-      });
-    },
-       totalHoleWins() {
-      let totalWins1 = 0;
-      let totalWins2 = 0;
-      this.holeWinner.forEach(winner => {
-        if (winner === 0) {
-          return;
-        }
-        winner < 0 ? totalWins1++ : totalWins2++;
-      });
-      return { totalWins1, totalWins2 };
-    }
   },
   computed: {
     totalWins() {
@@ -974,33 +618,33 @@ this.players = [
       return null;
     },
 
-     singleHoleWinner() {
+    singleHoleWinner() {
       return this.holeWinner[this.activeHole - 1];
     },
     par() {
-      let par = this.course.find(e => e.hole === this.activeHole);
+      let par = this.course.find((e) => e.hole === this.activeHole);
       return par.par;
     },
     parFirstNine() {
-      const par = this.course.map(hole => hole.par);
+      const par = this.course.map((hole) => hole.par);
       par.splice(9, 18);
       const parTotal = par.reduce((a, b) => a + b, 0);
       return parTotal;
     },
     parTotal() {
-      const par = this.course.map(hole => hole.par);
+      const par = this.course.map((hole) => hole.par);
       const parTotal = par.reduce((a, b) => a + b, 0);
       return parTotal;
     },
     index() {
-      let index = this.course.find(e => e.hole === this.activeHole);
+      let index = this.course.find((e) => e.hole === this.activeHole);
       //return "Index: " + index.index;
       return index.index;
     },
     playerScoreTotal() {
       const strokesTotal = [];
       const strokes = this.listOfStrokesList();
-      strokes.forEach(e => {
+      strokes.forEach((e) => {
         strokesTotal.push(e.reduce((a, b) => a + b));
       });
       return strokesTotal;
@@ -1008,8 +652,8 @@ this.players = [
     playerScoreFrontNine() {
       const strokesTotal = [];
       const strokes = this.listOfStrokesList();
-      strokes.forEach(e => e.splice(9, 18));
-      strokes.forEach(e => {
+      strokes.forEach((e) => e.splice(9, 18));
+      strokes.forEach((e) => {
         strokesTotal.push(e.reduce((a, b) => a + b));
       });
       return strokesTotal;
@@ -1017,8 +661,8 @@ this.players = [
     playerScoreBackNine() {
       const strokesTotal = [];
       const strokes = this.listOfStrokesList();
-      strokes.forEach(e => e.splice(0, 9));
-      strokes.forEach(e => {
+      strokes.forEach((e) => e.splice(0, 9));
+      strokes.forEach((e) => {
         strokesTotal.push(e.reduce((a, b) => a + b));
       });
       return strokesTotal;
@@ -1031,11 +675,11 @@ this.players = [
       let score = 0;
       const strokes = this.listOfStrokesList();
 
-      let slag = this.course.filter(element => element.slag);
+      let slag = this.course.filter((element) => element.slag);
 
       const getSlagPlayers = (array, index) => {
         const newArray = [];
-        array.forEach(element => {
+        array.forEach((element) => {
           newArray.push(element.slag[index]);
         });
         return newArray;
@@ -1072,7 +716,7 @@ this.players = [
       let strokes2 = subtractSlagFromScore(strokes2SlagNotCalc, slag2);
       let strokes3 = subtractSlagFromScore(strokes3SlagNotCalc, slag3);
 
-      const replaceZero = number => (number <= 0 ? (number = 99) : number);
+      const replaceZero = (number) => (number <= 0 ? (number = 99) : number);
       strokes0 = strokes0.map(replaceZero);
       strokes1 = strokes1.map(replaceZero);
       strokes2 = strokes2.map(replaceZero);
@@ -1088,9 +732,10 @@ this.players = [
         (num, index) => num - bestStrokesTeam2[index]
       );
 
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
       this.holeWinner = matchScore;
 
-      matchScore.forEach(subtractedScore => {
+      matchScore.forEach((subtractedScore) => {
         if (subtractedScore != 0) {
           if (subtractedScore > 0) {
             score--;
@@ -1099,7 +744,7 @@ this.players = [
           }
         }
       });
-      console.log(score)
+      console.log(score);
       return score;
     },
     leader() {
@@ -1111,64 +756,395 @@ this.players = [
       let tie = undefined;
       this.matchScore === 0 ? (tie = true) : (tie = false);
       return tie;
+    },
+  },
+  async beforeMount() {
+    try {
+      //hämtar data och lägger det i this.player
+      /*
+      const response = await axios.get("http://localhost:3000/scorecard");
+      const data = response.data[response.data.length - 1];
+      this.players = data.gameData;
+      */
+
+      this.players = [
+        {
+          name: "Bruce Wayne",
+          holes: [
+            { hole: 1, strokes: 0, slag: 0 },
+            { hole: 2, strokes: 0, slag: 0 },
+            { hole: 3, strokes: 0, slag: 0 },
+            { hole: 4, strokes: 0, slag: 0 },
+            { hole: 5, strokes: 0, slag: 0 },
+            { hole: 6, strokes: 0, slag: 0 },
+            { hole: 7, strokes: 0, slag: 0 },
+            { hole: 8, strokes: 0, slag: 0 },
+            { hole: 9, strokes: 0, slag: 0 },
+            { hole: 10, strokes: 0, slag: 0 },
+            { hole: 11, strokes: 0, slag: 0 },
+            { hole: 12, strokes: 0, slag: 0 },
+            { hole: 13, strokes: 0, slag: 0 },
+            { hole: 14, strokes: 0, slag: 0 },
+            { hole: 15, strokes: 0, slag: 0 },
+            { hole: 16, strokes: 0, slag: 0 },
+            { hole: 17, strokes: 0, slag: 0 },
+            { hole: 18, strokes: 0, slag: 0 },
+          ],
+          hcp: -5,
+        },
+        {
+          name: "Donald Trump",
+          holes: [
+            { hole: 1, strokes: 0, slag: 0 },
+            { hole: 2, strokes: 0, slag: 0 },
+            { hole: 3, strokes: 0, slag: 0 },
+            { hole: 4, strokes: 0, slag: 0 },
+            { hole: 5, strokes: 0, slag: 0 },
+            { hole: 6, strokes: 0, slag: 0 },
+            { hole: 7, strokes: 0, slag: 0 },
+            { hole: 8, strokes: 0, slag: 0 },
+            { hole: 9, strokes: 0, slag: 0 },
+            { hole: 10, strokes: 0, slag: 0 },
+            { hole: 11, strokes: 0, slag: 0 },
+            { hole: 12, strokes: 0, slag: 0 },
+            { hole: 13, strokes: 0, slag: 0 },
+            { hole: 14, strokes: 0, slag: 0 },
+            { hole: 15, strokes: 0, slag: 0 },
+            { hole: 16, strokes: 0, slag: 0 },
+            { hole: 17, strokes: 0, slag: 0 },
+            { hole: 18, strokes: 0, slag: 0 },
+          ],
+          hcp: -2,
+        },
+        {
+          name: "Anders Tegnell",
+          holes: [
+            { hole: 1, strokes: 0, slag: 0 },
+            { hole: 2, strokes: 0, slag: 0 },
+            { hole: 3, strokes: 0, slag: 0 },
+            { hole: 4, strokes: 0, slag: 0 },
+            { hole: 5, strokes: 0, slag: 0 },
+            { hole: 6, strokes: 0, slag: 0 },
+            { hole: 7, strokes: 0, slag: 0 },
+            { hole: 8, strokes: 0, slag: 0 },
+            { hole: 9, strokes: 0, slag: 0 },
+            { hole: 10, strokes: 0, slag: 0 },
+            { hole: 11, strokes: 0, slag: 0 },
+            { hole: 12, strokes: 0, slag: 0 },
+            { hole: 13, strokes: 0, slag: 0 },
+            { hole: 14, strokes: 0, slag: 0 },
+            { hole: 15, strokes: 0, slag: 0 },
+            { hole: 16, strokes: 0, slag: 0 },
+            { hole: 17, strokes: 0, slag: 0 },
+            { hole: 18, strokes: 0, slag: 0 },
+          ],
+          hcp: 5,
+        },
+        {
+          name: "Joan Jett",
+          holes: [
+            { hole: 1, strokes: 0, slag: 0 },
+            { hole: 2, strokes: 0, slag: 0 },
+            { hole: 3, strokes: 0, slag: 0 },
+            { hole: 4, strokes: 0, slag: 0 },
+            { hole: 5, strokes: 0, slag: 0 },
+            { hole: 6, strokes: 0, slag: 0 },
+            { hole: 7, strokes: 0, slag: 0 },
+            { hole: 8, strokes: 0, slag: 0 },
+            { hole: 9, strokes: 0, slag: 0 },
+            { hole: 10, strokes: 0, slag: 0 },
+            { hole: 11, strokes: 0, slag: 0 },
+            { hole: 12, strokes: 0, slag: 0 },
+            { hole: 13, strokes: 0, slag: 0 },
+            { hole: 14, strokes: 0, slag: 0 },
+            { hole: 15, strokes: 0, slag: 0 },
+            { hole: 16, strokes: 0, slag: 0 },
+            { hole: 17, strokes: 0, slag: 0 },
+            { hole: 18, strokes: 0, slag: 0 },
+          ],
+          hcp: 10,
+        },
+      ];
+
+      //lägger till par på this.player.holes för att komma åt par under översikten
+      this.players.forEach((player) => {
+        player.holes.forEach((hole, index) => {
+          hole.par = this.course[index].par;
+        });
+      });
+      //fixar team-namn
+      this.team1 = "lag 1"; //data.gameData[0].team;
+      this.team2 = "lag 2";
+      /* data.gameData.forEach(element => {
+        if (element.team != this.team1) {
+          this.team2 = 'lag 2'//element.team;
+        }
+      }); */
+      this.schp();
+    } catch (e) {
+      console.log(e);
     }
   },
-  directives: {
-    initials(el) {
-      let array = el.innerText.split(" ");
-      const intialsArray = array.map(e => e.slice(0, 1));
-      el.innerHTML = intialsArray[0] + "." + intialsArray[1];
+  methods: {
+    getPar() {
+      this.parData = this.course.find((e) => e.hole === this.activeHole);
     },
-    bold(el) {
-      el.style.fontWeight = "900";
+    currentStrokes(player) {
+      const name = player.name;
+      if (this.nameCount.includes(name)) {
+        return;
+      }
+      if (this.nameCount[name] == null) {
+        this.nameCount.push(name);
+      }
+      if (this.nameCount.length === 4) {
+        this.displayToast = false;
+        this.nameCount = [];
+      }
     },
-    scoreColor(el, bind) {
-     
-    }
-  }
+    async loadData() {
+      try {
+        /*
+        let response = await axios.get("http://localhost:3000/scorecard");
+        const data = response.data[response.data.length - 1];
+        this.players = data.gameData;
+        */
+        this.players = [
+          {
+            name: "Bruce Wayne",
+            holes: [
+              { hole: 1, strokes: 0, slag: 0 },
+              { hole: 2, strokes: 0, slag: 0 },
+              { hole: 3, strokes: 0, slag: 0 },
+              { hole: 4, strokes: 0, slag: 0 },
+              { hole: 5, strokes: 0, slag: 0 },
+              { hole: 6, strokes: 0, slag: 0 },
+              { hole: 7, strokes: 0, slag: 0 },
+              { hole: 8, strokes: 0, slag: 0 },
+              { hole: 9, strokes: 0, slag: 0 },
+              { hole: 10, strokes: 0, slag: 0 },
+              { hole: 11, strokes: 0, slag: 0 },
+              { hole: 12, strokes: 0, slag: 0 },
+              { hole: 13, strokes: 0, slag: 0 },
+              { hole: 14, strokes: 0, slag: 0 },
+              { hole: 15, strokes: 0, slag: 0 },
+              { hole: 16, strokes: 0, slag: 0 },
+              { hole: 17, strokes: 0, slag: 0 },
+              { hole: 18, strokes: 0, slag: 0 },
+            ],
+            hcp: -5,
+          },
+          {
+            name: "Donald Trump",
+            holes: [
+              { hole: 1, strokes: 0, slag: 0 },
+              { hole: 2, strokes: 0, slag: 0 },
+              { hole: 3, strokes: 0, slag: 0 },
+              { hole: 4, strokes: 0, slag: 0 },
+              { hole: 5, strokes: 0, slag: 0 },
+              { hole: 6, strokes: 0, slag: 0 },
+              { hole: 7, strokes: 0, slag: 0 },
+              { hole: 8, strokes: 0, slag: 0 },
+              { hole: 9, strokes: 0, slag: 0 },
+              { hole: 10, strokes: 0, slag: 0 },
+              { hole: 11, strokes: 0, slag: 0 },
+              { hole: 12, strokes: 0, slag: 0 },
+              { hole: 13, strokes: 0, slag: 0 },
+              { hole: 14, strokes: 0, slag: 0 },
+              { hole: 15, strokes: 0, slag: 0 },
+              { hole: 16, strokes: 0, slag: 0 },
+              { hole: 17, strokes: 0, slag: 0 },
+              { hole: 18, strokes: 0, slag: 0 },
+            ],
+            hcp: 0,
+          },
+          {
+            name: "Anders Tegnell",
+            holes: [
+              { hole: 1, strokes: 0, slag: 0 },
+              { hole: 2, strokes: 0, slag: 0 },
+              { hole: 3, strokes: 0, slag: 0 },
+              { hole: 4, strokes: 0, slag: 0 },
+              { hole: 5, strokes: 0, slag: 0 },
+              { hole: 6, strokes: 0, slag: 0 },
+              { hole: 7, strokes: 0, slag: 0 },
+              { hole: 8, strokes: 0, slag: 0 },
+              { hole: 9, strokes: 0, slag: 0 },
+              { hole: 10, strokes: 0, slag: 0 },
+              { hole: 11, strokes: 0, slag: 0 },
+              { hole: 12, strokes: 0, slag: 0 },
+              { hole: 13, strokes: 0, slag: 0 },
+              { hole: 14, strokes: 0, slag: 0 },
+              { hole: 15, strokes: 0, slag: 0 },
+              { hole: 16, strokes: 0, slag: 0 },
+              { hole: 17, strokes: 0, slag: 0 },
+              { hole: 18, strokes: 0, slag: 0 },
+            ],
+            hcp: 5,
+          },
+          {
+            name: "Joan Jett",
+            holes: [
+              { hole: 1, strokes: 0, slag: 0 },
+              { hole: 2, strokes: 0, slag: 0 },
+              { hole: 3, strokes: 0, slag: 0 },
+              { hole: 4, strokes: 0, slag: 0 },
+              { hole: 5, strokes: 0, slag: 0 },
+              { hole: 6, strokes: 0, slag: 0 },
+              { hole: 7, strokes: 0, slag: 0 },
+              { hole: 8, strokes: 0, slag: 0 },
+              { hole: 9, strokes: 0, slag: 0 },
+              { hole: 10, strokes: 0, slag: 0 },
+              { hole: 11, strokes: 0, slag: 0 },
+              { hole: 12, strokes: 0, slag: 0 },
+              { hole: 13, strokes: 0, slag: 0 },
+              { hole: 14, strokes: 0, slag: 0 },
+              { hole: 15, strokes: 0, slag: 0 },
+              { hole: 16, strokes: 0, slag: 0 },
+              { hole: 17, strokes: 0, slag: 0 },
+              { hole: 18, strokes: 0, slag: 0 },
+            ],
+            hcp: 10,
+          },
+        ];
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    async saveData() {
+      const data = {
+        gameData: this.players,
+      };
+      try {
+        let response = await axios.post(
+          "http://localhost:3000/scorecard",
+          data
+        );
+        console.log("saved data", response);
+      } catch (e) {
+        (error) => console.log(error);
+      }
+    },
+    async schp() {
+      const schpTemp = schp(
+        this.courseRating,
+        this.slopeRating,
+        this.banansPar
+      );
+      this.slopedHcpPlayers = schpTemp;
+      const value1 = schpTemp[0];
+      const value2 = schpTemp[1];
+      const value3 = schpTemp[2];
+      const value4 = schpTemp[3];
+      this.assignSlagPerIndex(value1, 0);
+      this.assignSlagPerIndex(value2, 1);
+      this.assignSlagPerIndex(value3, 2);
+      this.assignSlagPerIndex(value4, 3);
+      const sortedByHole = this.course.sort((a, b) => a.hole - b.hole);
+      this.course = sortedByHole;
+    },
+    hcpSlope() {
+      hcpSlope();
+    },
+    assignSlagPerIndex(value, playerIndex) {
+      const sortedByIndex = this.course.sort((a, b) => a.index - b.index);
+      for (let i = 0; i < value; i++) {
+        if (i === 18) {
+          value = value - i;
+          i = 0;
+        }
+        sortedByIndex[i].slag[playerIndex]++;
+      }
+      return sortedByIndex;
+    },
+    slag(index) {
+      let slag = this.course.find((e) => e.hole === this.activeHole);
+      return slag.slag[index];
+    },
+    listOfStrokesList() {
+      let listOfStrokesList = [];
+      const holes = this.players.map((player) => player.holes);
+      holes.forEach((e) => {
+        listOfStrokesList.push(e.map((hole) => hole.strokes));
+      });
+
+      return listOfStrokesList;
+    },
+    strokes(index) {
+      const listOfStrokesList = this.listOfStrokesList();
+      return listOfStrokesList[index];
+    },
+    makeToast(variant = null) {
+      if (this.displayToast === false) {
+        this.displayToast = true;
+        return;
+      }
+      this.activeHole--;
+      this.$bvToast.toast("Fyll i resultat på alla spelare", {
+        title: "Varning",
+        autoHideDelay: 3000,
+        variant: variant,
+        solid: true,
+      });
+    },
+    totalHoleWins() {
+      let totalWins1 = 0;
+      let totalWins2 = 0;
+      this.holeWinner.forEach((winner) => {
+        if (winner === 0) {
+          return;
+        }
+        winner < 0 ? totalWins1++ : totalWins2++;
+      });
+      return { totalWins1, totalWins2 };
+    },
+  },
 };
 </script>
-<style scoped>
 
+<style scoped>
 .holepar {
-  font-size:0.7em;
+  font-size: 0.7em;
   line-height: 0;
 }
 
-.nav-link:focus, .nav:focus {
-    outline: none !important;
+.nav-link:focus,
+.nav:focus {
+  outline: none !important;
 }
 
 .tabs ul.nav-tabs:focus {
-    outline: none;
+  outline: none;
 }
 
-.nav>li:focus {
-    outline: none !important;
+.nav > li:focus {
+  outline: none !important;
 }
 
 .form-control:focus {
-    outline: none !important;
+  outline: none !important;
 }
 
 .form-control > div:focus {
-    outline: none;
+  outline: none;
 }
 
-li:focus, .nav-item:focus, .nav-item:active {
-    outline: none !important;
+li:focus,
+.nav-item:focus,
+.nav-item:active {
+  outline: none !important;
 }
 
-li[role=presentation]:focus {
-    outline: none !important;
+li[role="presentation"]:focus {
+  outline: none !important;
 }
 
-div[role=group]:focus {
-    outline: none !important;
+div[role="group"]:focus {
+  outline: none !important;
 }
 
 *:focus {
-    outline: none;
+  outline: none;
 }
 
 /* leader board */
@@ -1188,12 +1164,11 @@ table {
   border-collapse: collapse;
 }
 
-
-.initialsTeam1  {
-color: #fd9b37
+.initialsTeam1 {
+  color: #fd9b37;
 }
 .initialsTeam2 {
-color: #69b3fe;
+  color: #69b3fe;
 }
 
 tr:nth-child(1) {
@@ -1244,8 +1219,8 @@ td {
   font-size: 20px;
 }
 .activeHole {
-  border-top: 0;  
-  font-weight: 900;  
+  border-top: 0;
+  font-weight: 900;
   font-size: 1.8em;
   line-height: 1;
 }
@@ -1262,7 +1237,6 @@ td {
 .holeLoser {
   background-color: #ffdadf;
 }
-
 
 .hideSlag {
   visibility: hidden;
@@ -1370,12 +1344,13 @@ td {
   color: white;
   font-weight: 900;
   background-color: #195a3a;
-  border: 0; 
+  border: 0;
 }
 
-.btn-success .material-icons, .btn-warning .material-icons {
-    font-size: 1.4em;    
-    margin-left: -4px;
+.btn-success .material-icons,
+.btn-warning .material-icons {
+  font-size: 1.4em;
+  margin-left: -4px;
 }
 
 .btn.btn-primary.active,

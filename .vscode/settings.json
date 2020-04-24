@@ -1,4 +1,10 @@
 {
-  "eslint.autoFixOnSave": false,
-  "editor.formatOnSave": false
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "vetur.validation.template": false,
+  "vetur.format.styleInitialIndent": true,
+  "vetur.format.options.useTabs": true,
+  "vetur.format.scriptInitialIndent": true
 }
