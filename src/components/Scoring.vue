@@ -147,21 +147,28 @@ export default {
   props: ["players", "activehole", "active", "par"],
   computed: {
     currentStrokes() {
+      let strokesList = [];
       let strokes = [];
-      this.players.forEach((holes) => {
-        holes.holes.forEach((hole) => {
-          strokes.push(hole);
+      this.players.forEach(holes => {
+        holes.holes.forEach(hole => {
+          strokesList.push(hole);
         });
       });
-      console.log(strokes);
+
+      strokesList.forEach(hole => {
+        if (hole.hole === this.activehole) {
+          strokes.push(hole.strokes);
+        }
+      });
+
       return strokes;
-    },
+    }
   },
   methods: {
     sendScore(...args) {
       this.$emit("sendScore", args);
-    },
-  },
+    }
+  }
 };
 </script>
 
