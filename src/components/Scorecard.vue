@@ -234,7 +234,7 @@
           <b-row class="leaderSection" align-v="center" align-h="center">
             <!-- HOME TEAM -->
             <b-col class="col-4 scoreTeam text-left pl-4" :class="{ scoreTeam1: leader && !tie }">
-              <span>1{{getFirstName(players[0].name)}} & {{getFirstName(players[1].name)}}</span>
+              <span>{{getFirstName(players[0].name)}} & {{getFirstName(players[1].name)}}</span>
                <span v-if="!tie">{{dormy1}}</span>
             </b-col>
 
