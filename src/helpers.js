@@ -44,11 +44,11 @@ const schp = (slopeRating, courseRating, banansPar) => {
     hcpPrel === null ? hcpPrel : Math.round(hcpPrel - smallestHCP)
   );
 
-   const isNull = (number) => number === null
-   const indexOfNull = newHcpPrel.findIndex(isNull)
-   newHcpPrel[indexOfNull] = 0
+  const isNull = number => number === null;
+  const indexOfNull = newHcpPrel.findIndex(isNull);
+  newHcpPrel[indexOfNull] = 0;
 
-  return newHcpPrel;
+  return { slopeHandicapList, newHcpPrel };
 };
 
 const hcpSlope = (hcp, courseRating, slopeRating, banansPar) => {

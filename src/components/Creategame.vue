@@ -135,6 +135,8 @@
             </div>
           </transition>
         </b-col>
+        <b-col class="col-12 mt-5 pt-5">          
+        </b-col>
 
         <footer class="fixed-bottom" md="12">
           <b-row class="teOff" no-gutters>
