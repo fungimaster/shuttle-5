@@ -183,7 +183,7 @@ export default {
         return;
       }
       let array = el.innerText.split(" ");
-      const intialsArray = array.map((e) => e.slice(0, 1));
+      const intialsArray = array.map(e => e.slice(0, 1));
       el.innerHTML = intialsArray[0] + "." + intialsArray[1];
     },
     negativeToPostive(el) {
@@ -192,7 +192,7 @@ export default {
         return;
       }
       el.innerHTML = "+" + number * -1;
-    },
+    }
   },
   props: [
     "courseRating",
@@ -200,7 +200,7 @@ export default {
     "banansPar",
     "players",
     "slope",
-    "slopeHandicapList",
+    "slopeHandicapList"
   ],
   data() {
     return {
@@ -208,7 +208,7 @@ export default {
       exactHcpPlayerB: 1.8,
       tee: 57,
       showExplanation: false,
-      showData: true,
+      showData: true
     };
   },
   method: {},
@@ -227,15 +227,15 @@ export default {
     },
     getIndexOfLowest() {
       let smallestHCP = 999;
-      this.slope.forEach((hcp) => {
+      this.slope.forEach(hcp => {
         if (hcp < smallestHCP) {
           smallestHCP = hcp;
         }
       });
-      const index = this.slope.findIndex((hcp) => hcp === smallestHCP);
+      const index = this.slope.findIndex(hcp => hcp === smallestHCP);
       return index;
-    },
-  },
+    }
+  }
 };
 </script>
 
