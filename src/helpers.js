@@ -2,22 +2,22 @@ const schp = (slopeRating, courseRating, banansPar) => {
   let testData = [
     {
       name: "player 1",
-      HCP: 13.5,
-      HCPSlope: 0
-    },
-    {
-      name: "player 2",
-      HCP: 6.7,
-      HCPSlope: 0
-    },
-    {
-      name: "player 3",
       HCP: -5,
       HCPSlope: 0
     },
     {
+      name: "player 2",
+      HCP: 0,
+      HCPSlope: 0
+    },
+    {
+      name: "player 3",
+      HCP: 5,
+      HCPSlope: 0
+    },
+    {
       name: "player 4",
-      HCP: 32,
+      HCP: 10,
       HCPSlope: 0
     }
   ];

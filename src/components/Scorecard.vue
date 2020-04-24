@@ -25,7 +25,7 @@
                    <span class="holepar">Par: {{ par }}</span>
 
                 </b-col>
-                 <b-col xs="4">
+                 <b-col xs="4" class="p-0">
                    <span class="activeHole">{{ activeHole }}</span>
                 </b-col>
                  <b-col xs="4">
@@ -183,22 +183,33 @@
                   </button>
                 </div>
               </b-col>
-            </b-row>
+            </b-row>           
           </div>
         </div>
 
-        <!-- NÄSTA HÅL & ÖVERSIKT BUTTONS -->
-        <button
+            <b-row class="mt-3">
+              <b-col class="col-6">
+                 <!-- NÄSTA HÅL & ÖVERSIKT BUTTONS -->
+               <b-button class="btn-md pl-3 pr-3" variant="primary" @click="overview = !overview">
+         <span class="material-icons">
+                reorder
+              </span> Översikt 
+        </b-button>
+              </b-col>
+              <b-col class="col-6 text-right">
+         <b-button
+          v-if="activeHole < 18"
           id="nextHole"
-          class="btn btn-primary"
+          class="btn-md pl-3 pr-3" variant="primary"
           @click="activeHole++, saveData(), makeToast('success')"
-        >
-          Nästa hål
-        </button>
-        <button class="btn btn-primary" @click="overview = !overview">
-          Översikt
-        </button>
+        >Nästa hål  <span class="material-icons">
+                arrow_forward_ios
+              </span>
+        </b-button>
+              </b-col>
+            </b-row>
 
+      
 
       <br>
       <br>
@@ -209,30 +220,41 @@
         {{ totalWins.totalWins2 }}  </h4>
 
 
-
+       
         <!-- FOOTER - LEADER SECTION -->
-        <footer class="fixed-bottom">
-          <b-row class="leaderSection">
-            <b-col s="4" class="scoreTeam1">
-              <p>{{ team1 }}</p>
+          <b-col hidden class="col-4 leaderTeam1 text-right">
+             <h4 v-if="leader && !tie">{{ matchScore }}</h4>
             </b-col>
-            <div class="leaderTeam1">
-              <h4 v-if="leader && !tie">{{ matchScore }}</h4>
-            </div>
-            <b-col s="2" :class="{ leaderRight: leader, leaderLeft: !leader }">
-              <p v-if="tie" id="tie">A/S</p>
 
-              <div
-                v-if="!tie"
-                :class="{ triangleRight: leader, triangleLeft: !leader }"
-              ></div>
-            </b-col>
-            <div class="leaderTeam2">
+             <b-col hidden class="col-4 leaderTeam2">
               <h4 v-if="!leader && !tie">{{ matchScore * -1 }}</h4>
-            </div>
-            <b-col s="4" class="scoreTeam2">
-              <p>{{ team2 }}</p>
             </b-col>
+
+        <footer class="fixed-bottom">
+          <b-row class="leaderSection" align-v="center" align-h="center">
+            <!-- HOME TEAM -->
+            <b-col class="col-4 scoreTeam text-left pl-4" :class="{ scoreTeam1: leader && !tie }">
+              <span>{{getFirstName(players[0].name)}} & {{getFirstName(players[1].name)}}</span>
+               <span v-if="!tie">{{dormy1}}</span>
+            </b-col>
+
+           <!-- score -->
+            <b-col class="col-4 text-center score" :class="{ leaderRight: leader && !tie, leaderLeft: !leader && !tie, tie: tie, winnerdeclared: winnerDeclared}">
+               <span v-if="tie" id="tie">A/S</span>
+               <span v-if="!leader && !tie && !winnerDeclared">{{ matchScore * -1 }}UP</span> <!-- away leads -->
+                <span v-if="!leader && winnerDeclared">{{ matchScore * -1 }}&X</span> <!-- home wins -->
+
+               <span v-if="leader && !tie && !winnerDeclared">{{ matchScore }}UP</span> <!-- home leads -->
+               <span v-if="leader && winnerDeclared">{{ matchScore }}&X</span> <!-- home wins -->
+              
+            </b-col>
+
+           <!-- away team -->
+            <b-col class="col-4 scoreTeam text-right pr-4" :class="{ scoreTeam2: !leader && !tie }">
+              <span>{{getFirstName(players[2].name)}} & {{getFirstName(players[3].name)}}</span>
+              <span v-if="!tie">{{dormy2}}</span>
+            </b-col>
+
           </b-row>
         </footer>
       </b-container>
@@ -333,10 +355,10 @@
             </td>
           </tr>
 
-          <tr id="emptyRow">
+          <tr>
             <th>
               <td> 
-         
+                <p id="emptyRow"></p> 
               </td>
             </th>
           </tr>
@@ -468,10 +490,10 @@
             </td>
           </tr>
 
-          <tr id="emptyRow">
+          <tr>
             <th>
               <td> 
-             
+                <p id="emptyRow"></p> 
               </td>
             </th>
           </tr>
@@ -562,7 +584,7 @@ export default {
 
 this.players = [
     {
-      "name": "Br W",
+      "name": "Bruce Wayne",
       "holes": [
         { "hole": 1, "strokes": 0, "slag": 0 },
         { "hole": 2, "strokes": 0, "slag": 0 },
@@ -583,9 +605,8 @@ this.players = [
         { "hole": 17, "strokes": 0 , "slag": 0},
         { "hole": 18, "strokes": 0 , "slag": 0}
       ],
-      "hcp": 13.5,
-      "tee": "Vit"
-
+      "hcp": -5,
+      "tee":'svart'
     },
     {
       "name": "Donald Trump",
@@ -609,8 +630,8 @@ this.players = [
         { "hole": 17, "strokes": 0 , "slag": 0},
         { "hole": 18, "strokes": 0 , "slag": 0}
       ],
-      "hcp": 6.7,
-      "tee": "Svart"
+      "hcp": 0,
+      "tee": "vit"
     },
     {
       "name": "Anders Tegnell",
@@ -634,8 +655,8 @@ this.players = [
         { "hole": 17, "strokes": 0 , "slag": 0},
         { "hole": 18, "strokes": 0 , "slag": 0}
       ],
-      "hcp": -5,
-      "tee": "Gul"
+      "hcp": 5,
+       "tee": "Gul"
     },
     {
       "name": "Joan Jett",
@@ -659,7 +680,7 @@ this.players = [
         { "hole": 17, "strokes": 0 , "slag": 0},
         { "hole": 18, "strokes": 0 , "slag": 0}
       ],
-      "hcp": 32,
+      "hcp": 10,
       "tee": "Blå"
     }
     ]
@@ -698,9 +719,8 @@ this.players = [
       slopedHcpPlayers: [],
       holeWinner: [],
       winnerDeclared: false,
-      modalVisible: false,
-      slopeHandicapList: [],
-
+      dormy1: '',
+      dormy2: '',
 
 
       //Fiktiv data nedan
@@ -730,8 +750,8 @@ this.players = [
     };
   },
   methods: {
-    closeModal() {
-      this.modalVisible = false;
+      getFirstName(name) {
+        return name.split(" ")[0].substring(0,1) + name.split(" ")[1].substring(0,1)
     },
     getPar() {
       this.parData = this.course.find(e => e.hole === this.activeHole);
@@ -779,9 +799,7 @@ this.players = [
         { "hole": 17, "strokes": 0 , "slag": 0},
         { "hole": 18, "strokes": 0 , "slag": 0}
       ],
-      "hcp": 13.5,
-      "tee": "Vit"
-
+      "hcp": -5
     },
     {
       "name": "Donald Trump",
@@ -805,9 +823,7 @@ this.players = [
         { "hole": 17, "strokes": 0 , "slag": 0},
         { "hole": 18, "strokes": 0 , "slag": 0}
       ],
-      "hcp": 6.7,      
-      "tee": "Svart"
-
+      "hcp": 0
     },
     {
       "name": "Anders Tegnell",
@@ -831,9 +847,7 @@ this.players = [
         { "hole": 17, "strokes": 0 , "slag": 0},
         { "hole": 18, "strokes": 0 , "slag": 0}
       ],
-      "hcp": -5,
-      "tee": "Gul"
-
+      "hcp": 5
     },
     {
       "name": "Joan Jett",
@@ -857,10 +871,7 @@ this.players = [
         { "hole": 17, "strokes": 0 , "slag": 0},
         { "hole": 18, "strokes": 0 , "slag": 0}
       ],
-      "hcp": 32,       
-      "tee": "Blå"
-
-
+      "hcp": 10
     }
     ]
       } catch (e) {
@@ -994,9 +1005,13 @@ this.players = [
       const holesLeft = 18 - holesPlayed;
 
       if (totalWins1 - totalWins2 === holesLeft) {
-        return "TEAM 2 är dormy";
+        this.dormy2 = "DORMY"
+         this.dormy1 = ""
+        return "TEAM 2 dormy";
       }
       if (totalWins2 - totalWins1 === holesLeft) {
+        this.dormy1 = "DORMY"
+         this.dormy2 = ""
         return "TEAM 1 dormy";
       }
 
@@ -1128,7 +1143,7 @@ this.players = [
           }
         }
       });
-      console.log(score)
+      //console.log(score)
       return score;
     },
     leader() {
@@ -1165,6 +1180,12 @@ this.players = [
 };
 </script>
 <style scoped>
+
+.btn-primary .material-icons {
+  font-size:1em;
+  vertical-align: bottom;
+    margin-bottom: 6px;
+  }
 
 .holepar {
   font-size:0.7em;
@@ -1279,7 +1300,7 @@ td {
 /* HEADER ROW */
 .holeRow {
   margin-bottom: 20px;
-  height: 80px;
+  height: 70px;
   padding-top: 20px;
   background-color: #195a3a;
   color: white;
@@ -1298,12 +1319,30 @@ td {
   margin-top: 15%;
 }
 /*  SCORE CARD  */
-.holeWinner {
-  background-color: #cbffcb;
+
+.score {
+  line-height:2.3em;
+  letter-spacing: 2px;
+}
+
+ .holeWinner {
+  background: repeating-linear-gradient(
+  45deg,
+  #ecf5ec,
+  #ecf5ec 10px,
+  #fff 10px,
+  #fff 20px
+);
 }
 .holeLoser {
-  background-color: #ffdadf;
-}
+  background: repeating-linear-gradient(
+  45deg,
+  #fceded,
+  #fceded 10px,
+  #fff 10px,
+  #fff 20px
+);
+} 
 
 
 .hideSlag {
@@ -1312,52 +1351,57 @@ td {
 .classDisplayNone {
   display: none;
 }
-.team1ScoreCard {
-  margin: 5px;
+.team1ScoreCard, .team2ScoreCard {
+
   -webkit-box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.19);
   -moz-box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.19);
   box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.19);
   border-radius: 10px;
-  padding: 10px;
+  padding: 5px 10px;
 }
 .team2ScoreCard {
-  margin: 5px;
   margin-top: 13px;
-  -webkit-box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.19);
-  -moz-box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.19);
-  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.19);
-  border-radius: 10px;
-  padding: 10px;
 }
+
 .strokes {
   padding: 0px;
   font-size: 20px;
 }
+
+
+.teamColor1, .teamColor2 {
+display: inline-block;
+  margin-left: 25px;
+  height: 20px;
+  width: 20px;
+  margin-top: 22px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+}
+
 .teamColor1 {
-  display: inline-block;
-  margin-left: 25px;
-  background-color: #ffffff;
-  height: 15px;
-  width: 15px;
-  margin-top: 25px;
-  margin-bottom: 20px;
-  border-radius: 10px;
   border: 3px solid #fd9b37;
+  /*background:#fd9b37;*/
 }
+
 .teamColor2 {
-  display: inline-block;
-  margin-left: 25px;
-  background-color: #fff;
-  height: 15px;
-  width: 15px;
-  margin-top: 25px;
-  margin-bottom: 20px;
-  border-radius: 10px;
   border: 3px solid #69b3fe;
+  /*background:#69b3fe;*/
 }
+
+.holeWinner .teamColor1 {
+  background-color: #fd9b37;
+}
+
+.holeWinner .teamColor2 {
+  background-color: #69b3fe;
+}
+
+
+
 .playerRow {
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 .playerName {
   font-weight: 900;
@@ -1374,7 +1418,7 @@ td {
   overflow: hidden;
 }
 .playerInfo {
-  color: #ababab;
+  color: #585454;
   font-size: 12px;
   margin-bottom: 5px;
   margin-top: 10px;
@@ -1425,6 +1469,7 @@ td {
   background-color: #195a3a !important;
   transform: scale(0.95) !important;
   border: 0 !important;
+  border-color:#195a3a !important;
 }
 .btn-warning,
 .btn-warning:hover,
@@ -1446,63 +1491,77 @@ td {
   background-color: #195a3a !important;
   border-radius: 50px !important;
   box-shadow: 0 !important;
+  border-color:#195a3a !important;
 }
 #nextHole {
-  font-size: 20px;
+  /*
+  font-size: 20px;  
   margin-bottom: 10px;
   margin-top: 12px;
-  width: 340px;
+   width: 340px; */
 }
 /* LEADER SECTION  */
 .leaderSection {
-  color: white;
+  border-top: 1px solid #333;
   position: fixed;
-  height: 50px;
   bottom: 0;
+  height:80px;
   width: 100%;
   margin: 0;
+   background-color: #fff;
+  
 }
+.scoreTeam {
+  font-size:0.7em;
+}
+
+.scoreTeam span {
+  display:block;  
+}
+
 .scoreTeam1 {
-  min-width: 90px;
-  background-color: #195a3a;
-  padding: 0;
-  padding-left: 10px;
-  border: 0;
-  border: 1px #195a3a solid;
-  overflow: hidden;
+ background: #fd9b37;
+ position: relative;
+ color:#FFF;
+ font-weight:900;
+ line-height: 44px;
 }
+
 .scoreTeam2 {
-  min-width: 90px;
-  background-color: #195a3a;
-  padding: 0;
-  border: 0;
-  border: 1px #195a3a solid;
-  overflow: hidden;
+ background: #69b3fe;
+ position: relative;
+ color:#FFF;
+ font-weight:900;
+ line-height: 44px;
 }
+
+
 .leaderTeam1 {
-  background-color: #195a3a;
+ /*  background-color: #fd9b37;
+  border: 1px #fd9b37 solid; */
+  background-color:#FFF;
   width: 20px;
   padding: 0;
   border: 0;
-  border: 1px #195a3a solid;
 }
 .leaderTeam2 {
-  background-color: #195a3a;
+  /* background-color: #69b3fe;
+  border: 1px #69b3fe solid; */
+  background-color:#FFF;
   width: 20px;
   padding: 0;
   border: 0;
-  border: 1px #195a3a solid;
 }
 .scoreTeam1.scoreTeam2,
 p {
-  font-size: 16px;
-  margin: auto;
-  margin-top: 15px;
-  text-align: center;
-  text-overflow: ellipsis;
+  font-size: 0.7em;
+  /* text-overflow: ellipsis;
   white-space: nowrap;
-  overflow: hidden;
+  overflow: hidden; */
 }
+
+
+
 .leaderTeam1 h4 {
   line-height: 3.3;
 }
@@ -1510,42 +1569,60 @@ p {
   line-height: 3.3;
 }
 .leaderLeft {
-  width: 30px;
-  padding: 0;
-  background-color: #195a3a;
-  border: 0;
-  border: 1px #195a3a solid;
+  text-align:right;
+  background:#69b3fe;
+  color:#FFF;
+  font-size:1.1em;
 }
 .leaderRight {
-  width: 30px;
-  padding: 0;
-  background-color: #195a3a;
-  border: 0;
-  border: 1px #195a3a solid;
+ text-align:left;
+ background: #fd9b37;
+ position: relative;
+ color:#FFF;
+ font-weight:900;
+  color:#FFF;
+  font-size:1.1em;
 }
-.triangleRight {
-  width: 0;
-  height: 0;
-  margin-top: 20px;
-  border-style: solid;
-  border-width: 0px 10px 10px 10px;
-  border-color: transparent transparent white transparent;
-  background-color: #195a3a;
+
+.leaderRight::after {
+    content: '';
+    position: absolute;
+    left: 100%;
+    width: 0;
+    height: 0;
+    border-top: 22px solid transparent;
+    border-bottom: 22px solid transparent; 
+    border-left:22px solid #fd9b37; 
+    clear: both;
 }
-.triangleLeft {
-  float: right;
-  margin-top: 20px;
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 0px 10px 10px 10px;
-  border-color: transparent transparent white transparent;
-  background-color: #195a3a;
+
+.leaderLeft::before {
+    content: '';
+    position: absolute;
+    right: 100%;
+    width: 0;
+    height: 0;
+   border-top: 22px solid transparent;
+  border-bottom: 22px solid transparent; 
+  border-right:22px solid #69b3fe; 
+    clear: both;
 }
+
+.winnerdeclared::before, .winnerdeclared::after {
+  content:none;
+}
+
+
+
 #tie {
-  margin-top: 10px;
-  font-size: 20px;
-  border: 1px #195a3a solid;
-  line-height: unset;
+  font-size: 1em;
 }
+.tie {
+  background: #FFF;
+}
+
+.tie::before, .tie::after {
+  content:'' !important;
+}
+
 </style>
