@@ -206,6 +206,9 @@
       <br>
        <h4> {{ dormy }}</h4> 
        <h3>  winner declared? {{ winnerDeclared }} </h3>
+       <h3> Lag1 vunna: {{  totalWins.totalWins1 }} </h3>
+       <h3> Lag2  vunna: {{  totalWins.totalWins2 }} </h3>
+       <h3> tot spelade: {{  totalWins.totalWins1 + totalWins.totalWins2 + totalWins.draws}}</h3>
         <h4 :style="winnerDeclared === true ? 'background-color: red' : 'background-color: white' " > VINNARE:
         {{ winner }} Resultat: {{ totalWins.totalWins1 }} vs
         {{ totalWins.totalWins2 }}  </h4>
@@ -620,33 +623,32 @@ export default {
   },
   computed: {
     totalWins() {
-      const { totalWins1, totalWins2 } = this.totalHoleWins();
+      const { totalWins1, totalWins2, draws } = this.totalHoleWins();
 
-      return { totalWins1, totalWins2 };
+      return { totalWins1, totalWins2, draws };
     },
     winner() {
-      const { totalWins1, totalWins2 } = this.totalHoleWins();
+      const { totalWins1, totalWins2, draws } = this.totalHoleWins();
 
-      const holesPlayed = totalWins1 + totalWins2;
+      const holesPlayed = totalWins1 + totalWins2 - draws;
+      console.log("winner -> holesPlayed", holesPlayed)
       const holesLeft = 18 - holesPlayed;
+      console.log("winner -> holesLeft", holesLeft)
 
       if (totalWins1 - totalWins2 > holesLeft) {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
         return "TEAM 1 är vinnare", (this.winnerDeclared = true);
       }
       if (totalWins2 - totalWins1 > holesLeft) {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
         return "TEAM 1 vinnare ", (this.winnerDeclared = true);
       }
-      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
       this.winnerDeclared = false;
       return null;
     },
 
     dormy() {
-      const { totalWins1, totalWins2 } = this.totalHoleWins();
+      const { totalWins1, totalWins2, draws } = this.totalHoleWins();
 
-      const holesPlayed = totalWins1 + totalWins2;
+      const holesPlayed = totalWins1 + totalWins2 + draws;
       const holesLeft = 18 - holesPlayed;
 
       if (totalWins1 - totalWins2 === holesLeft) {
@@ -1152,16 +1154,20 @@ this.players = [
         solid: true
       });
     },
-       totalHoleWins() {
+    totalHoleWins() {
       let totalWins1 = 0;
       let totalWins2 = 0;
-      this.holeWinner.forEach(winner => {
-        if (winner === 0) {
-          return;
-        }
-        winner < 0 ? totalWins1++ : totalWins2++;
-      });
-      return { totalWins1, totalWins2 };
+      let draws = -1
+      
+       for (const winner of this.holeWinner) {
+         if (winner === 0) {
+          draws++
+          break
+         }
+         winner < 0 ? totalWins1++ : totalWins2++;
+       }
+
+      return { totalWins1, totalWins2, draws };
     }
   }
 };
