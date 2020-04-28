@@ -8,7 +8,7 @@
           <b-col class="col-2 pr-0">
             <button
               @click="activeHole--, saveData()"
-              class="holeButtons"
+              class="holeButtons disable-dbl-tap-zoom"
               id="buttonLeft"
               :disabled="activeHole === 1"
               v-if="activeHole > 1"
@@ -21,14 +21,14 @@
             
             <b-col class="col-8 text-center p-0">
               <b-row>
-                <b-col xs="4">
+                <b-col xs="4" class="pl-2 pr-0">
                    <span class="holepar">Par: {{ par }}</span>
 
                 </b-col>
                  <b-col xs="4" class="p-0">
                    <span class="activeHole">{{ activeHole }}</span>
                 </b-col>
-                 <b-col xs="4">
+                 <b-col xs="4" class="pl-0 pr-2">
                   <span class="holepar">Index: {{ index }}</span>
                 </b-col>
               </b-row>       
@@ -37,7 +37,7 @@
             <b-col class="col-2 pl-0">
             <button
               @click="activeHole++, saveData()"
-              class="holeButtons"
+              class="holeButtons disable-dbl-tap-zoom"
               id="buttonRight"
               :disabled="activeHole === 18"
               v-if="activeHole < 18"
@@ -122,7 +122,7 @@
         </div>
 
         <!-- TEAM 2 -->
-        <div class="team2ScoreCard" :class="[singleHoleWinner > 0  && displayToast === false ? 'holeWinner' : '', singleHoleWinner < 0  && displayToast === false ? 'holeLoser' : '' ]"
+        <div class="team2ScoreCard mb-5" :class="[singleHoleWinner > 0  && displayToast === false ? 'holeWinner' : '', singleHoleWinner < 0  && displayToast === false ? 'holeLoser' : '' ]"
          >
           <div
             v-for="(player, index) in players.slice(2, 4)"
@@ -209,13 +209,9 @@
               </b-col>
             </b-row>
 
-      
-
-      <br>
-      <br>
-       <h4> {{ dormy }}</h4> 
-       <h3>  winner declared? {{ winnerDeclared }} </h3>
-        <h4 :style="winnerDeclared === true ? 'background-color: red' : 'background-color: white' " > VINNARE:
+       <h4 hidden> {{ dormy }}</h4> 
+       <h3 hidden>  winner declared? {{ winnerDeclared }} </h3>
+        <h4 hidden :style="winnerDeclared === true ? 'background-color: red' : 'background-color: white' " > VINNARE:
         {{ winner }} Resultat: {{ totalWins.totalWins1 }} vs
         {{ totalWins.totalWins2 }}  </h4>
 
@@ -256,7 +252,7 @@
             <b-col class="col-4 scoreTeam text-right pr-3" :class="{ scoreTeam2: !leader && !tie }">
               <i v-if="!tie && winnerDeclared && !leader" class="material-icons pb-1 pr-1">emoji_events</i>
               <span style="float:right;">{{getFirstName(players[2].name)}} & {{getFirstName(players[3].name)}}</span>
-              <span v-if="!tie && !winnerDeclared">{{dormy2}}</span>
+              <span style="clear:right;" v-if="!tie && !winnerDeclared">{{dormy2}}</span>
             </b-col>
 
           </b-row>
@@ -293,7 +289,7 @@
             <b-col class="col-4 scoreTeam text-right pr-3" :class="{ scoreTeam2: !leader && !tie }">
               <i v-if="!tie && winnerDeclared && !leader" class="material-icons pb-1 pr-1">emoji_events</i>
               <span style="float:right;">{{getFirstName(players[2].name)}} & {{getFirstName(players[3].name)}}</span>
-              <span v-if="!tie && !winnerDeclared">{{dormy2}}</span>
+              <span style="clear:right;" v-if="!tie && !winnerDeclared">{{dormy2}}</span>
             </b-col>
 
           </b-row>
@@ -593,6 +589,9 @@
 
         <!-- BUTTON FÖR MATCH VY -->
         <button class="btn btn-primary" @click="overview = !overview">
+            <span class="material-icons">
+                golf_course
+              </span>
           Match Vy
         </button>
         <app-hcp-modal :courseRating="courseRating" :slopeRating="slopeRating" :banansPar="banansPar" :players="players" :slope="slopedHcpPlayers" :slopeHandicapList="slopeHandicapList"></app-hcp-modal>
@@ -1219,6 +1218,7 @@ this.players = [
 <style scoped>
 
 
+
 .disable-dbl-tap-zoom {
   touch-action: manipulation;
 }
@@ -1271,10 +1271,7 @@ div[role=group]:focus {
 }
 
 /* leader board */
-#landscape {
-  min-height: 670px;
-  min-width: 353px;
-}
+
 #overview {
   margin-left: 10px;
   margin-right: 10px;
@@ -1553,7 +1550,7 @@ display: inline-block;
 }
 /* LEADER SECTION  */
 .leaderSection {
-  border-top: 1px solid #333;
+  /* border-top: 1px solid #333; */
   position: fixed;
   bottom: 0;
   height:80px;
@@ -1674,6 +1671,29 @@ p {
 
 .tie::before, .tie::after {
   content:'' !important;
+}
+
+@media only screen and (max-width: 330px) { /* iphone 5/se */
+
+#landscape {
+   min-height: 670px;
+}
+
+  .buttons .btn {
+    width:30px;
+    height:30px;
+  }
+
+  .buttons .btn-warning .material-icons {
+    font-size:1.3em;
+    margin-left:-7px;
+    margin-bottom:3px;
+  }  
+
+  .playerInfo {
+    font-size:0.6em;
+  }
+
 }
 
 </style>
