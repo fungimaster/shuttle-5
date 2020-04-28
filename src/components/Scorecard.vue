@@ -8,7 +8,7 @@
           <b-col class="col-2 pr-0">
             <button
               @click="activeHole--, saveData()"
-              class="holeButtons"
+              class="holeButtons disable-dbl-tap-zoom"
               id="buttonLeft"
               :disabled="activeHole === 1"
               v-if="activeHole > 1"
@@ -21,14 +21,14 @@
             
             <b-col class="col-8 text-center p-0">
               <b-row>
-                <b-col xs="4">
+                <b-col xs="4" class="pl-2 pr-0">
                    <span class="holepar">Par: {{ par }}</span>
 
                 </b-col>
                  <b-col xs="4" class="p-0">
                    <span class="activeHole">{{ activeHole }}</span>
                 </b-col>
-                 <b-col xs="4">
+                 <b-col xs="4" class="pl-0 pr-2">
                   <span class="holepar">Index: {{ index }}</span>
                 </b-col>
               </b-row>       
@@ -37,7 +37,7 @@
             <b-col class="col-2 pl-0">
             <button
               @click="activeHole++, saveData()"
-              class="holeButtons"
+              class="holeButtons disable-dbl-tap-zoom"
               id="buttonRight"
               :disabled="activeHole === 18"
               v-if="activeHole < 18"
@@ -82,7 +82,7 @@
               <b-col cols="5">
                 <!--  STROKES SECTION -->
                 <div
-                  class="buttons"
+                  class="buttons disable-dbl-tap-zoom"
                   v-for="holes in player.holes"
                   :key="holes.index"
                   :class="
@@ -122,7 +122,7 @@
         </div>
 
         <!-- TEAM 2 -->
-        <div class="team2ScoreCard" :class="[singleHoleWinner > 0  && displayToast === false ? 'holeWinner' : '', singleHoleWinner < 0  && displayToast === false ? 'holeLoser' : '' ]"
+        <div class="team2ScoreCard mb-5" :class="[singleHoleWinner > 0  && displayToast === false ? 'holeWinner' : '', singleHoleWinner < 0  && displayToast === false ? 'holeLoser' : '' ]"
          >
           <div
             v-for="(player, index) in players.slice(2, 4)"
@@ -148,7 +148,7 @@
               <b-col cols="5">
                 <!--  STROKES SECTION -->
                 <div
-                  class="buttons"
+                  class="buttons disable-dbl-tap-zoom"
                   v-for="holes in player.holes"
                   :key="holes.index"
                   :class="
@@ -209,13 +209,9 @@
               </b-col>
             </b-row>
 
-      
-
-      <br>
-      <br>
-       <h4> {{ dormy }}</h4> 
-       <h3>  winner declared? {{ winnerDeclared }} </h3>
-        <h4 :style="winnerDeclared === true ? 'background-color: red' : 'background-color: white' " > VINNARE:
+       <h4 hidden> {{ dormy }}</h4> 
+       <h3 hidden>  winner declared? {{ winnerDeclared }} </h3>
+        <h4 hidden :style="winnerDeclared === true ? 'background-color: red' : 'background-color: white' " > VINNARE:
         {{ winner }} Resultat: {{ totalWins.totalWins1 }} vs
         {{ totalWins.totalWins2 }}  </h4>
 
@@ -233,9 +229,12 @@
         <footer class="fixed-bottom">
           <b-row class="leaderSection" align-v="center" align-h="center">
             <!-- HOME TEAM -->
-            <b-col class="col-4 scoreTeam text-left pl-4" :class="{ scoreTeam1: leader && !tie }">
-              <span>1{{getFirstName(players[0].name)}} & {{getFirstName(players[1].name)}}</span>
-               <span v-if="!tie">{{dormy1}}</span>
+            <b-col class="col-4 scoreTeam text-left pl-3" :class="{ scoreTeam1: leader && !tie }">
+              <span style="float:left;">{{getFirstName(players[0].name)}} & {{getFirstName(players[1].name)}}
+              </span>
+              <i v-if="!tie && winnerDeclared && leader" class="material-icons pb-1 pl-1">emoji_events</i>
+               <span v-if="!tie && !winnerDeclared">{{dormy1}}</span>
+                
             </b-col>
 
            <!-- score -->
@@ -250,9 +249,10 @@
             </b-col>
 
            <!-- away team -->
-            <b-col class="col-4 scoreTeam text-right pr-4" :class="{ scoreTeam2: !leader && !tie }">
-              <span>{{getFirstName(players[2].name)}} & {{getFirstName(players[3].name)}}</span>
-              <span v-if="!tie">{{dormy2}}</span>
+            <b-col class="col-4 scoreTeam text-right pr-3" :class="{ scoreTeam2: !leader && !tie }">
+              <i v-if="!tie && winnerDeclared && !leader" class="material-icons pb-1 pr-1">emoji_events</i>
+              <span style="float:right;">{{getFirstName(players[2].name)}} & {{getFirstName(players[3].name)}}</span>
+              <span style="clear:right;" v-if="!tie && !winnerDeclared">{{dormy2}}</span>
             </b-col>
 
           </b-row>
@@ -262,8 +262,39 @@
 
     <!--  LEADER BOARD -->
     <div id="overview" v-if="overview">
-      <b-container>
-        <b-row class="leaderBoardPlayers">
+      <b-container class="p-0">
+
+ <b-row class="pt-3" align-v="center" align-h="center">
+            <!-- HOME TEAM -->
+            <b-col class="col-4 scoreTeam text-left pl-3" :class="{ scoreTeam1: leader && !tie }">
+              <span style="float:left;">{{getFirstName(players[0].name)}} & {{getFirstName(players[1].name)}}
+              </span>
+              <i v-if="!tie && winnerDeclared && leader" class="material-icons pb-1 pl-1">emoji_events</i>
+               <span v-if="!tie && !winnerDeclared">{{dormy1}}</span>
+                
+            </b-col>
+
+           <!-- score -->
+            <b-col class="col-4 text-center score" :class="{ leaderRight: leader && !tie, leaderLeft: !leader && !tie, tie: tie, winnerdeclared: winnerDeclared}">
+               <span v-if="tie" id="tie">A/S</span>
+               <span v-if="!leader && !tie && !winnerDeclared">{{ matchScore * -1 }}UP</span> <!-- away leads -->
+                <span v-if="!leader && winnerDeclared">{{ matchScore * -1 }}&X</span> <!-- home wins -->
+
+               <span v-if="leader && !tie && !winnerDeclared">{{ matchScore }}UP</span> <!-- home leads -->
+               <span v-if="leader && winnerDeclared">{{ matchScore }}&X</span> <!-- home wins -->
+              
+            </b-col>
+
+           <!-- away team -->
+            <b-col class="col-4 scoreTeam text-right pr-3" :class="{ scoreTeam2: !leader && !tie }">
+              <i v-if="!tie && winnerDeclared && !leader" class="material-icons pb-1 pr-1">emoji_events</i>
+              <span style="float:right;">{{getFirstName(players[2].name)}} & {{getFirstName(players[3].name)}}</span>
+              <span style="clear:right;" v-if="!tie && !winnerDeclared">{{dormy2}}</span>
+            </b-col>
+
+          </b-row>
+
+        <b-row hidden class="leaderBoardPlayers">
           <b-col s="4" class="scoreTeam1">
             <p>{{ team1 }}</p>
           </b-col>
@@ -355,10 +386,10 @@
             </td>
           </tr>
 
-          <tr>
-            <th>
-              <td> 
-                <p id="emptyRow"></p> 
+          <tr class="emptyRow">
+            <th class="emptyRow">
+              <td class="emptyRow"> 
+                <p></p> 
               </td>
             </th>
           </tr>
@@ -490,10 +521,10 @@
             </td>
           </tr>
 
-          <tr>
-            <th>
-              <td> 
-                <p id="emptyRow"></p> 
+          <tr class="emptyRow">
+            <th class="emptyRow">
+              <td class="emptyRow"> 
+                <p></p> 
               </td>
             </th>
           </tr>
@@ -558,6 +589,9 @@
 
         <!-- BUTTON FÖR MATCH VY -->
         <button class="btn btn-primary" @click="overview = !overview">
+            <span class="material-icons">
+                golf_course
+              </span>
           Match Vy
         </button>
         <app-hcp-modal :courseRating="courseRating" :slopeRating="slopeRating" :banansPar="banansPar" :players="players" :slope="slopedHcpPlayers" :slopeHandicapList="slopeHandicapList"></app-hcp-modal>
@@ -1003,10 +1037,12 @@ this.players = [
 
       const holesPlayed = totalWins1 + totalWins2;
       const holesLeft = 18 - holesPlayed;
+      this.dormy1 = "";
+      this.dormy2 = "";
 
       if (totalWins1 - totalWins2 === holesLeft) {
         this.dormy2 = "DORMY"
-         this.dormy1 = ""
+        this.dormy1 = ""
         return "TEAM 2 dormy";
       }
       if (totalWins2 - totalWins1 === holesLeft) {
@@ -1181,6 +1217,12 @@ this.players = [
 </script>
 <style scoped>
 
+
+
+.disable-dbl-tap-zoom {
+  touch-action: manipulation;
+}
+
 .btn-primary .material-icons {
   font-size:1em;
   vertical-align: bottom;
@@ -1229,10 +1271,7 @@ div[role=group]:focus {
 }
 
 /* leader board */
-#landscape {
-  min-height: 670px;
-  min-width: 353px;
-}
+
 #overview {
   margin-left: 10px;
   margin-right: 10px;
@@ -1279,9 +1318,18 @@ table {
   text-align: left;
   width: 100%;
   margin: 25px auto;
-  border-collapse: inherit;
+  /* border-collapse: inherit; */
   font-size: 12px;
 }
+
+th,td {
+  border:1px solid #999;
+}
+
+.emptyRow {
+  border:none;
+}
+
 
 tr:nth-child(1) {
   background: #195a3a;
@@ -1502,7 +1550,7 @@ display: inline-block;
 }
 /* LEADER SECTION  */
 .leaderSection {
-  border-top: 1px solid #333;
+  /* border-top: 1px solid #333; */
   position: fixed;
   bottom: 0;
   height:80px;
@@ -1623,6 +1671,29 @@ p {
 
 .tie::before, .tie::after {
   content:'' !important;
+}
+
+@media only screen and (max-width: 330px) { /* iphone 5/se */
+
+#landscape {
+   min-height: 670px;
+}
+
+  .buttons .btn {
+    width:30px;
+    height:30px;
+  }
+
+  .buttons .btn-warning .material-icons {
+    font-size:1.3em;
+    margin-left:-7px;
+    margin-bottom:3px;
+  }  
+
+  .playerInfo {
+    font-size:0.6em;
+  }
+
 }
 
 </style>
