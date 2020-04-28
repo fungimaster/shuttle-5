@@ -387,11 +387,11 @@
           </tr>
 
           <tr class="emptyRow">
-            <th class="emptyRow">
+            
               <td class="emptyRow"> 
                 <p></p> 
               </td>
-            </th>
+           
           </tr>
 
           <!-- SPELARE 3 -->
@@ -521,12 +521,10 @@
             </td>
           </tr>
 
-          <tr class="emptyRow">
-            <th class="emptyRow">
+          <tr class="emptyRow">           
               <td class="emptyRow"> 
                 <p></p> 
-              </td>
-            </th>
+              </td>             
           </tr>
           <!-- SPELARE 3 -->
           <tr v-for="player in players.slice(2, 3)" :key="player.index">
@@ -1217,7 +1215,9 @@ this.players = [
 </script>
 <style scoped>
 
-
+.container { /* fix for no padding on scorecard phone */
+  padding-top:0px;
+}
 
 .disable-dbl-tap-zoom {
   touch-action: manipulation;
