@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="landscape" v-if="!overview">
+    <div v-if="!overview" id="landscape">
       <b-container class="bv-example-row">
         <!--  HEADER  -->
 
@@ -10,8 +10,9 @@
               @click="activeHole--, saveData()"
               class="holeButtons disable-dbl-tap-zoom"
               id="buttonLeft"
+              class="holeButtons"
               :disabled="activeHole === 1"
-              v-if="activeHole > 1"
+              @click="activeHole--, saveData()"
             >
               <span class="material-icons">arrow_back_ios</span>
             </button>
@@ -36,8 +37,9 @@
               @click="activeHole++, saveData()"
               class="holeButtons disable-dbl-tap-zoom"
               id="buttonRight"
+              class="holeButtons"
               :disabled="activeHole === 18"
-              v-if="activeHole < 18"
+              @click="activeHole++, saveData()"
             >
               <span class="material-icons">arrow_forward_ios</span>
             </button>
@@ -80,6 +82,7 @@
                   class="buttons disable-dbl-tap-zoom"
                   v-for="holes in player.holes"
                   :key="holes.index"
+                  class="buttons"
                   :class="
                     holes.hole != activeHole
                       ? { classDisplayNone: active }
@@ -89,8 +92,8 @@
                   <!-- MINUS-KNAPP TEAM 1-->
                   <button
                     :disabled="holes.strokes === 0"
-                    @click="holes.hole === activeHole ? holes.strokes-- : null"
                     class="btn btn-warning"
+                    @click="holes.hole === activeHole ? holes.strokes-- : null"
                   >
                     <i class="material-icons">remove</i>
                   </button>
@@ -100,12 +103,12 @@
 
                   <!-- PLUS-KNAPP TEAM 1-->
                   <button
+                    class="btn btn-warning"
                     @click="
                       holes.hole === activeHole ? holes.strokes++ : null,
                         currentStrokes(player)
                     "
                     @click.once="holes.strokes = par"
-                    class="btn btn-warning"
                   >
                     <i class="material-icons">add</i>
                   </button>
@@ -142,6 +145,7 @@
                   class="buttons disable-dbl-tap-zoom"
                   v-for="holes in player.holes"
                   :key="holes.index"
+                  class="buttons"
                   :class="
                     holes.hole != activeHole
                       ? { classDisplayNone: active }
@@ -151,8 +155,8 @@
                   <!-- MINUS-KNAPP TEAM 2 -->
                   <button
                     :disabled="holes.strokes === 0"
-                    @click="holes.hole === activeHole ? holes.strokes-- : null"
                     class="btn btn-warning"
+                    @click="holes.hole === activeHole ? holes.strokes-- : null"
                   >
                     <i class="material-icons">remove</i>
                   </button>
@@ -163,12 +167,12 @@
 
                   <!-- PLUS-KNAPP TEAM 2-->
                   <button
+                    class="btn btn-warning"
                     @click="
                       holes.hole === activeHole ? holes.strokes++ : null,
                         currentStrokes(player)
                     "
                     @click.once="holes.strokes = par"
-                    class="btn btn-warning"
                   >
                     <i class="material-icons">add</i>
                   </button>
@@ -527,14 +531,9 @@
           <span class="material-icons">golf_course</span>
           Match Vy
         </button>
-        <app-hcp-modal
-          :courseRating="courseRating"
-          :slopeRating="slopeRating"
-          :banansPar="banansPar"
-          :players="players"
-          :slope="slopedHcpPlayers"
-          :slopeHandicapList="slopeHandicapList"
-        ></app-hcp-modal>
+        <app-hcp-modal :course-rating="courseRating" :slope-rating="slopeRating" :banans-par="banansPar" :players="players" :slope="slopedHcpPlayers" :slope-handicap-list="slopeHandicapList"></app-hcp-modal>
+
+
       </b-container>
     </div>
   </div>
@@ -545,6 +544,250 @@ import { schp, hcpSlope } from "../helpers.js";
 import HcpModalVue from "./HcpModal.vue";
 
 export default {
+  directives: {
+    initials(el) {
+       //Om namnet eller initialerna är tre tecken långt tillsammans, så görs inga initialer. 
+       if (el.innerText.length === 3) {
+        return;
+      }
+      let array = el.innerText.split(" ");
+      const intialsArray = array.map(e => e.slice(0, 1));
+      el.innerHTML = intialsArray[0] + "." + intialsArray[1];
+    },
+    bold(el) {
+      el.style.fontWeight = "900";
+    },
+    scoreColor(el, bind) {
+     
+    }
+  },
+  components: {
+    appHcpModal: HcpModalVue
+},
+  data() {
+    return {
+      active: true,
+      players: [],
+      activeHole: 1,
+      team1: [],
+      team2: [],
+      overview: false,
+      nameCount: [],
+      displayToast: true,
+      parData: 0,
+      slopedHcpPlayers: [],
+      holeWinner: [],
+      winnerDeclared: false,
+      modalVisible: false,
+      slopeHandicapList: [],
+
+
+
+      //Fiktiv data nedan
+      course: [
+        { hole: 1, par: 5, index: 18, slag: [0, 0, 0, 0] },
+        { hole: 2, par: 3, index: 12, slag: [0, 0, 0, 0] },
+        { hole: 3, par: 3, index: 11, slag: [0, 0, 0, 0] },
+        { hole: 4, par: 4, index: 1, slag: [0, 0, 0, 0] },
+        { hole: 5, par: 4, index: 5, slag: [0, 0, 0, 0] },
+        { hole: 6, par: 5, index: 16, slag: [0, 0, 0, 0] },
+        { hole: 7, par: 4, index: 17, slag: [0, 0, 0, 0] },
+        { hole: 8, par: 3, index: 8, slag: [0, 0, 0, 0] },
+        { hole: 9, par: 4, index: 9, slag: [0, 0, 0, 0] },
+        { hole: 10, par: 3, index: 14, slag: [0, 0, 0, 0] },
+        { hole: 11, par: 4, index: 13, slag: [0, 0, 0, 0] },
+        { hole: 12, par: 3, index: 2, slag: [0, 0, 0, 0] },
+        { hole: 13, par: 4, index: 6, slag: [0, 0, 0, 0] },
+        { hole: 14, par: 3, index: 3, slag: [0, 0, 0, 0] },
+        { hole: 15, par: 5, index: 7, slag: [0, 0, 0, 0] },
+        { hole: 16, par: 3, index: 10, slag: [0, 0, 0, 0] },
+        { hole: 17, par: 4, index: 15, slag: [0, 0, 0, 0] },
+        { hole: 18, par: 3, index: 4, slag: [0, 0, 0, 0] }
+      ],
+      courseRating: 69.9,
+      slopeRating: 129,
+      banansPar: 70
+    };
+  },
+  computed: {
+    totalWins() {
+      const { totalWins1, totalWins2, draws } = this.totalHoleWins();
+
+      return { totalWins1, totalWins2, draws };
+    },
+    winner() {
+      const { totalWins1, totalWins2, draws } = this.totalHoleWins();
+
+      const holesPlayed = totalWins1 + totalWins2 - draws;
+      console.log("winner -> holesPlayed", holesPlayed)
+      const holesLeft = 18 - holesPlayed;
+      console.log("winner -> holesLeft", holesLeft)
+
+      if (totalWins1 - totalWins2 > holesLeft) {
+        return "TEAM 1 är vinnare", (this.winnerDeclared = true);
+      }
+      if (totalWins2 - totalWins1 > holesLeft) {
+        return "TEAM 1 vinnare ", (this.winnerDeclared = true);
+      }
+      this.winnerDeclared = false;
+      return null;
+    },
+
+    dormy() {
+      const { totalWins1, totalWins2, draws } = this.totalHoleWins();
+
+      const holesPlayed = totalWins1 + totalWins2 + draws;
+      const holesLeft = 18 - holesPlayed;
+
+      if (totalWins1 - totalWins2 === holesLeft) {
+        return "TEAM 2 är dormy";
+      }
+      if (totalWins2 - totalWins1 === holesLeft) {
+        return "TEAM 1 dormy";
+      }
+
+      return null;
+    },
+
+     singleHoleWinner() {
+      return this.holeWinner[this.activeHole - 1];
+    },
+    par() {
+      let par = this.course.find(e => e.hole === this.activeHole);
+      return par.par;
+    },
+    parFirstNine() {
+      const par = this.course.map(hole => hole.par);
+      par.splice(9, 18);
+      const parTotal = par.reduce((a, b) => a + b, 0);
+      return parTotal;
+    },
+    parTotal() {
+      const par = this.course.map(hole => hole.par);
+      const parTotal = par.reduce((a, b) => a + b, 0);
+      return parTotal;
+    },
+    index() {
+      let index = this.course.find(e => e.hole === this.activeHole);
+      //return "Index: " + index.index;
+      return index.index;
+    },
+    playerScoreTotal() {
+      const strokesTotal = [];
+      const strokes = this.listOfStrokesList();
+      strokes.forEach(e => {
+        strokesTotal.push(e.reduce((a, b) => a + b));
+      });
+      return strokesTotal;
+    },
+    playerScoreFrontNine() {
+      const strokesTotal = [];
+      const strokes = this.listOfStrokesList();
+      strokes.forEach(e => e.splice(9, 18));
+      strokes.forEach(e => {
+        strokesTotal.push(e.reduce((a, b) => a + b));
+      });
+      return strokesTotal;
+    },
+    playerScoreBackNine() {
+      const strokesTotal = [];
+      const strokes = this.listOfStrokesList();
+      strokes.forEach(e => e.splice(0, 9));
+      strokes.forEach(e => {
+        strokesTotal.push(e.reduce((a, b) => a + b));
+      });
+      return strokesTotal;
+    },
+    matchScore() {
+      //  för att få bort ett error-meddelande när sidan laddas.
+      if (this.players.length === 0) {
+        return;
+      }
+      let score = 0;
+      const strokes = this.listOfStrokesList();
+
+      let slag = this.course.filter(element => element.slag);
+
+      const getSlagPlayers = (array, index) => {
+        const newArray = [];
+        array.forEach(element => {
+          newArray.push(element.slag[index]);
+        });
+        return newArray;
+      };
+
+      // slag för varje spelare.
+      const slag0 = getSlagPlayers(slag, 0);
+      const slag1 = getSlagPlayers(slag, 1);
+      const slag2 = getSlagPlayers(slag, 2);
+      const slag3 = getSlagPlayers(slag, 3);
+
+      //Skapar enskilda poänglistor
+      let strokes0SlagNotCalc = strokes.slice(0, 1);
+      let strokes1SlagNotCalc = strokes.slice(1, 2);
+      let strokes2SlagNotCalc = strokes.slice(2, 3);
+      let strokes3SlagNotCalc = strokes.slice(3, 4);
+
+      strokes0SlagNotCalc = strokes0SlagNotCalc[0];
+      strokes1SlagNotCalc = strokes1SlagNotCalc[0];
+      strokes2SlagNotCalc = strokes2SlagNotCalc[0];
+      strokes3SlagNotCalc = strokes3SlagNotCalc[0];
+
+      //
+      const subtractSlagFromScore = (scoreArray, slagArray) => {
+        let newArray = [];
+        scoreArray.forEach((element, index) => {
+          newArray.push(element - slagArray[index]);
+        });
+        return newArray;
+      };
+
+      let strokes0 = subtractSlagFromScore(strokes0SlagNotCalc, slag0);
+      let strokes1 = subtractSlagFromScore(strokes1SlagNotCalc, slag1);
+      let strokes2 = subtractSlagFromScore(strokes2SlagNotCalc, slag2);
+      let strokes3 = subtractSlagFromScore(strokes3SlagNotCalc, slag3);
+
+      const replaceZero = number => (number <= 0 ? (number = 99) : number);
+      strokes0 = strokes0.map(replaceZero);
+      strokes1 = strokes1.map(replaceZero);
+      strokes2 = strokes2.map(replaceZero);
+      strokes3 = strokes3.map(replaceZero);
+
+      const bestStrokesTeam1 = strokes0.map((num, index) =>
+        num <= strokes1[index] ? num : strokes1[index]
+      );
+      const bestStrokesTeam2 = strokes2.map((num, index) =>
+        num <= strokes3[index] ? num : strokes3[index]
+      );
+      const matchScore = bestStrokesTeam1.map(
+        (num, index) => num - bestStrokesTeam2[index]
+      );
+
+      this.holeWinner = matchScore;
+
+      matchScore.forEach(subtractedScore => {
+        if (subtractedScore != 0) {
+          if (subtractedScore > 0) {
+            score--;
+          } else {
+            score++;
+          }
+        }
+      });
+      console.log(score)
+      return score;
+    },
+    leader() {
+      let leader = true;
+      this.matchScore > 0 ? (leader = true) : (leader = false);
+      return leader;
+    },
+    tie() {
+      let tie = undefined;
+      this.matchScore === 0 ? (tie = true) : (tie = false);
+      return tie;
+    }
+  },
   async beforeMount() {
     try {
       //hämtar data och lägger det i this.player
@@ -934,218 +1177,18 @@ export default {
     totalHoleWins() {
       let totalWins1 = 0;
       let totalWins2 = 0;
-      this.holeWinner.forEach(winner => {
-        if (winner === 0) {
-          return;
-        }
-        winner < 0 ? totalWins1++ : totalWins2++;
-      });
-      return { totalWins1, totalWins2 };
+      let draws = -1
+      
+       for (const winner of this.holeWinner) {
+         if (winner === 0) {
+          draws++
+          break
+         }
+         winner < 0 ? totalWins1++ : totalWins2++;
+       }
+
+      return { totalWins1, totalWins2, draws };
     }
-  },
-  computed: {
-    totalWins() {
-      const { totalWins1, totalWins2 } = this.totalHoleWins();
-
-      return { totalWins1, totalWins2 };
-    },
-    winner() {
-      const { totalWins1, totalWins2 } = this.totalHoleWins();
-
-      const holesPlayed = totalWins1 + totalWins2;
-      const holesLeft = 18 - holesPlayed;
-
-      if (totalWins1 - totalWins2 > holesLeft) {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        return "TEAM 1 är vinnare", (this.winnerDeclared = true);
-      }
-      if (totalWins2 - totalWins1 > holesLeft) {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        return "TEAM 1 vinnare ", (this.winnerDeclared = true);
-      }
-      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-      this.winnerDeclared = false;
-      return null;
-    },
-
-    dormy() {
-      const { totalWins1, totalWins2 } = this.totalHoleWins();
-
-      const holesPlayed = totalWins1 + totalWins2;
-      const holesLeft = 18 - holesPlayed;
-      this.dormy1 = "";
-      this.dormy2 = "";
-
-      if (totalWins1 - totalWins2 === holesLeft) {
-        this.dormy2 = "DORMY";
-        this.dormy1 = "";
-        return "TEAM 2 dormy";
-      }
-      if (totalWins2 - totalWins1 === holesLeft) {
-        this.dormy1 = "DORMY";
-        this.dormy2 = "";
-        return "TEAM 1 dormy";
-      }
-
-      return null;
-    },
-
-    singleHoleWinner() {
-      return this.holeWinner[this.activeHole - 1];
-    },
-    par() {
-      let par = this.course.find(e => e.hole === this.activeHole);
-      return par.par;
-    },
-    parFirstNine() {
-      const par = this.course.map(hole => hole.par);
-      par.splice(9, 18);
-      const parTotal = par.reduce((a, b) => a + b, 0);
-      return parTotal;
-    },
-    parTotal() {
-      const par = this.course.map(hole => hole.par);
-      const parTotal = par.reduce((a, b) => a + b, 0);
-      return parTotal;
-    },
-    index() {
-      let index = this.course.find(e => e.hole === this.activeHole);
-      //return "Index: " + index.index;
-      return index.index;
-    },
-    playerScoreTotal() {
-      const strokesTotal = [];
-      const strokes = this.listOfStrokesList();
-      strokes.forEach(e => {
-        strokesTotal.push(e.reduce((a, b) => a + b));
-      });
-      return strokesTotal;
-    },
-    playerScoreFrontNine() {
-      const strokesTotal = [];
-      const strokes = this.listOfStrokesList();
-      strokes.forEach(e => e.splice(9, 18));
-      strokes.forEach(e => {
-        strokesTotal.push(e.reduce((a, b) => a + b));
-      });
-      return strokesTotal;
-    },
-    playerScoreBackNine() {
-      const strokesTotal = [];
-      const strokes = this.listOfStrokesList();
-      strokes.forEach(e => e.splice(0, 9));
-      strokes.forEach(e => {
-        strokesTotal.push(e.reduce((a, b) => a + b));
-      });
-      return strokesTotal;
-    },
-    matchScore() {
-      //  för att få bort ett error-meddelande när sidan laddas.
-      if (this.players.length === 0) {
-        return;
-      }
-      let score = 0;
-      const strokes = this.listOfStrokesList();
-
-      let slag = this.course.filter(element => element.slag);
-
-      const getSlagPlayers = (array, index) => {
-        const newArray = [];
-        array.forEach(element => {
-          newArray.push(element.slag[index]);
-        });
-        return newArray;
-      };
-
-      // slag för varje spelare.
-      const slag0 = getSlagPlayers(slag, 0);
-      const slag1 = getSlagPlayers(slag, 1);
-      const slag2 = getSlagPlayers(slag, 2);
-      const slag3 = getSlagPlayers(slag, 3);
-
-      //Skapar enskilda poänglistor
-      let strokes0SlagNotCalc = strokes.slice(0, 1);
-      let strokes1SlagNotCalc = strokes.slice(1, 2);
-      let strokes2SlagNotCalc = strokes.slice(2, 3);
-      let strokes3SlagNotCalc = strokes.slice(3, 4);
-
-      strokes0SlagNotCalc = strokes0SlagNotCalc[0];
-      strokes1SlagNotCalc = strokes1SlagNotCalc[0];
-      strokes2SlagNotCalc = strokes2SlagNotCalc[0];
-      strokes3SlagNotCalc = strokes3SlagNotCalc[0];
-
-      //
-      const subtractSlagFromScore = (scoreArray, slagArray) => {
-        let newArray = [];
-        scoreArray.forEach((element, index) => {
-          newArray.push(element - slagArray[index]);
-        });
-        return newArray;
-      };
-
-      let strokes0 = subtractSlagFromScore(strokes0SlagNotCalc, slag0);
-      let strokes1 = subtractSlagFromScore(strokes1SlagNotCalc, slag1);
-      let strokes2 = subtractSlagFromScore(strokes2SlagNotCalc, slag2);
-      let strokes3 = subtractSlagFromScore(strokes3SlagNotCalc, slag3);
-
-      const replaceZero = number => (number <= 0 ? (number = 99) : number);
-      strokes0 = strokes0.map(replaceZero);
-      strokes1 = strokes1.map(replaceZero);
-      strokes2 = strokes2.map(replaceZero);
-      strokes3 = strokes3.map(replaceZero);
-
-      const bestStrokesTeam1 = strokes0.map((num, index) =>
-        num <= strokes1[index] ? num : strokes1[index]
-      );
-      const bestStrokesTeam2 = strokes2.map((num, index) =>
-        num <= strokes3[index] ? num : strokes3[index]
-      );
-      const matchScore = bestStrokesTeam1.map(
-        (num, index) => num - bestStrokesTeam2[index]
-      );
-
-      this.holeWinner = matchScore;
-
-      matchScore.forEach(subtractedScore => {
-        if (subtractedScore != 0) {
-          if (subtractedScore > 0) {
-            score--;
-          } else {
-            score++;
-          }
-        }
-      });
-      //console.log(score)
-      return score;
-    },
-    leader() {
-      let leader = true;
-      this.matchScore > 0 ? (leader = true) : (leader = false);
-      return leader;
-    },
-    tie() {
-      let tie = undefined;
-      this.matchScore === 0 ? (tie = true) : (tie = false);
-      return tie;
-    }
-  },
-  directives: {
-    initials(el) {
-      //Om namnet eller initialerna är tre tecken långt tillsammans, så görs inga initialer.
-      if (el.innerText.length === 3) {
-        return;
-      }
-      let array = el.innerText.split(" ");
-      const intialsArray = array.map(e => e.slice(0, 1));
-      el.innerHTML = intialsArray[0] + "." + intialsArray[1];
-    },
-    bold(el) {
-      el.style.fontWeight = "900";
-    },
-    scoreColor(el, bind) {}
-  },
-  components: {
-    appHcpModal: HcpModalVue
   }
 };
 </script>
