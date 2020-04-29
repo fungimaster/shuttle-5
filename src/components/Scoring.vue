@@ -1,7 +1,5 @@
 <template>
   <div>
-    {{ counter }}
-    {{ nameCount }}
     <b-modal no-fade ref="1" id="modal-1" ok-only>
       <button class="btn btn-success" @click="prevModal">prev</button>
       <button class="btn btn-success" @click="nextModal">next</button>

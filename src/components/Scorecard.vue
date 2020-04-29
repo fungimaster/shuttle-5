@@ -50,8 +50,6 @@
           <li>{{ hole.hole }} : {{ hole.slag }}</li>
 				</ul>-->
 
-        {{ lowestScoreOnHole[activeHole - 1] }}
-
         <!-- TEAM 1 CONTAINER -->
         <div
           class="team1ScoreCard"
@@ -309,7 +307,9 @@
             <td v-for="hole in course.slice(0, 9)" :key="hole.index">
               {{ hole.par }}
             </td>
-            <td v-bold>{{ parFirstNine }}</td>
+            <td v-bold>
+              {{ parFirstNine }}
+            </td>
           </tr>
 
           <!--  SPELARE 1 -->
@@ -330,6 +330,7 @@
                 activeHole,
                 course: course,
                 player: player,
+                draw: singleHoleWinner,
                 slag: slag(0)
               }"
             >
@@ -368,7 +369,7 @@
               :key="score.index"
               v-bold
             >
-              {{ score }}
+              {{ score !== score ? "-" : score }}
             </td>
           </tr>
 
@@ -402,7 +403,7 @@
               :key="score.index"
               v-bold
             >
-              {{ score }}
+              {{ score !== score ? "-" : score }}
             </td>
           </tr>
 
@@ -430,7 +431,7 @@
               :key="score.index"
               v-bold
             >
-              {{ score }}
+              {{ score !== score ? "-" : score }}
             </td>
           </tr>
         </table>
@@ -466,7 +467,10 @@
               v-displayLowestScore:arguments="{
                 score: holes.strokes,
                 lowestScoreOnHole,
-                activeHole
+                activeHole,
+                course: course,
+                player: player,
+                slag: slag(0)
               }"
             >
               {{ holes.strokes === 0 ? null : holes.strokes }}
@@ -476,14 +480,14 @@
               :key="score.index"
               v-bold
             >
-              {{ score }}
+              {{ score !== score ? "-" : score }}
             </td>
             <td
               v-for="score in playerScoreTotal.slice(0, 1)"
               :key="score.index"
               v-bold
             >
-              {{ score }}
+              {{ score !== score ? "-" : score }}
             </td>
           </tr>
 
@@ -499,7 +503,10 @@
               v-displayLowestScore:arguments="{
                 score: holes.strokes,
                 lowestScoreOnHole,
-                activeHole
+                activeHole,
+                course: course,
+                player: player,
+                slag: slag(0)
               }"
             >
               {{ holes.strokes === 0 ? null : holes.strokes }}
@@ -509,14 +516,14 @@
               :key="score.index"
               v-bold
             >
-              {{ score }}
+              {{ score !== score ? "-" : score }}
             </td>
             <td
               v-for="score in playerScoreTotal.slice(1, 2)"
               :key="score.index"
               v-bold
             >
-              {{ score }}
+              {{ score !== score ? "-" : score }}
             </td>
           </tr>
 
@@ -537,7 +544,10 @@
               v-displayLowestScore:arguments="{
                 score: holes.strokes,
                 lowestScoreOnHole,
-                activeHole
+                activeHole,
+                course: course,
+                player: player,
+                slag: slag(0)
               }"
             >
               {{ holes.strokes === 0 ? null : holes.strokes }}
@@ -547,14 +557,14 @@
               :key="score.index"
               v-bold
             >
-              {{ score }}
+              {{ score !== score ? "-" : score }}
             </td>
             <td
               v-for="score in playerScoreTotal.slice(2, 3)"
               :key="score.index"
               v-bold
             >
-              {{ score }}
+              {{ score !== score ? "-" : score }}
             </td>
           </tr>
 
@@ -570,7 +580,10 @@
               v-displayLowestScore:arguments="{
                 score: holes.strokes,
                 lowestScoreOnHole,
-                activeHole
+                activeHole,
+                course: course,
+                player: player,
+                slag: slag(0)
               }"
             >
               {{ holes.strokes === 0 ? null : holes.strokes }}
@@ -580,14 +593,14 @@
               :key="score.index"
               v-bold
             >
-              {{ score }}
+              {{ score !== score ? "-" : score }}
             </td>
             <td
               v-for="score in playerScoreTotal.slice(3, 4)"
               :key="score.index"
               v-bold
             >
-              {{ score }}
+              {{ score !== score ? "-" : score }}
             </td>
           </tr>
         </table>
@@ -611,15 +624,14 @@ export default {
   },
   directives: {
     displayLowestScore(el, bind) {
+      // if (bind.value.draw !== 1 && bind.value.draw !== -1) {
+      //   return;
+      // }
+
       const activeHole = bind.value.activeHole;
-      const holeInfo = bind.value.course;
       const slag = bind.value.slag;
       const score = bind.value.score;
       const lowestScore = bind.value.lowestScoreOnHole[activeHole - 1];
-      console.log("displayLowestScore -> lowestScore", lowestScore);
-      console.log("active", activeHole - 1);
-      console.log("score", score);
-      console.log("slag", slag);
 
       if (score - slag === lowestScore) {
         el.style.backgroundColor = "red";
