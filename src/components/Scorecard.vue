@@ -5,67 +5,62 @@
         <!--  HEADER  -->
 
         <b-row class="holeRow pt-4">
-          <b-col class="col-2 pr-0">
+          <b-col class="col-2 pr-0 text-left">
             <button
-              v-if="activeHole > 1"
+              @click="activeHole--, saveData()"
+              class="holeButtons disable-dbl-tap-zoom"
               id="buttonLeft"
               class="holeButtons"
               :disabled="activeHole === 1"
               @click="activeHole--, saveData()"
             >
-              <span class="material-icons">
-                arrow_back_ios
-              </span>
-            </button>  
+              <span class="material-icons">arrow_back_ios</span>
+            </button>
           </b-col>
-            
-            <b-col class="col-8 text-center p-0">
-              <b-row>
-                <b-col xs="4">
-                   <span class="holepar">Par: {{ par }}</span>
 
-                </b-col>
-                 <b-col xs="4">
-                   <span class="activeHole">{{ activeHole }}</span>
-                </b-col>
-                 <b-col xs="4">
-                  <span class="holepar">Index: {{ index }}</span>
-                </b-col>
-              </b-row>       
-            </b-col>
+          <b-col class="col-8 text-center p-0">
+            <b-row>
+              <b-col xs="4" class="pl-2 pr-0 text-right">
+                <span class="holepar">Par: {{ par }}</span>
+              </b-col>
+              <b-col xs="4" class="p-0 pr-1 pl-1">
+                <span class="activeHole">{{ activeHole }}</span>
+              </b-col>
+              <b-col xs="4" class="pl-0 pr-2 text-left">
+                <span class="holepar">Index: {{ index }}</span>
+              </b-col>
+            </b-row>
+          </b-col>
 
-            <b-col class="col-2 pl-0">
+          <b-col class="col-2 pl-0 text-right">
             <button
-              v-if="activeHole < 18"
+              @click="activeHole++, saveData()"
+              class="holeButtons disable-dbl-tap-zoom"
               id="buttonRight"
               class="holeButtons"
               :disabled="activeHole === 18"
               @click="activeHole++, saveData()"
             >
-             <span class="material-icons">
-                arrow_forward_ios
-              </span>
+              <span class="material-icons">arrow_forward_ios</span>
             </button>
           </b-col>
         </b-row>
 
         <!-- LÄMNADE HÄR FÖR ATT ENKELT KUNNA DUBBELKOLLA ATT SLAG PER SPELARE STÄMMER-->
 
-      <!--  <ul v-for="hole in course" :key="hole.index">
+        <!--  <ul v-for="hole in course" :key="hole.index">
           <li>{{ hole.hole }} : {{ hole.slag }}</li>
-        </ul> -->
+        </ul>-->
 
         <!--  SCORECARD RUTOR  -->
         <!--  TEAM 1 -->
 
-        
-
-      <!-- :class-logiken på nästa rad binder vinnare/förlorar-klass till scorecard om alla plusknappar är tryckta och beroende vem som vann -->
-        <div class="team1ScoreCard" :class="[singleHoleWinner < 0  && displayToast === false ? 'holeWinner' : '', singleHoleWinner > 0  && displayToast === false ? 'holeLoser' : '']" >
-          <div
-            v-for="(player, index) in players.slice(0, 2)"
-            :key="player.index"
-          >
+        <!-- :class-logiken på nästa rad binder vinnare/förlorar-klass till scorecard om alla plusknappar är tryckta och beroende vem som vann -->
+        <div
+          class="team1ScoreCard"
+          :class="[singleHoleWinner < 0  && displayToast === false ? 'holeWinner' : '', singleHoleWinner > 0  && displayToast === false ? 'holeLoser' : '']"
+        >
+          <div v-for="(player, index) in players.slice(0, 2)" :key="player.index">
             <b-row class="playerRow">
               <div class="teamColor1"></div>
               <b-col xs="6" class="playerNameContainer">
@@ -74,16 +69,17 @@
 
                 <!--  SLAG OCH HCP TEAM 1 -->
                 <div class="playerInfo">
-                  <span>SHCP {{ slopedHcpPlayers[index] }} </span>
-                 <!--  <span>HCP {{ player.hcp }} </span> -->
-                  <span :class="{ hideSlag: slag(index) === 0 ? true : false }">
-                    &#9642; SLAG {{ slag(index) }}
-                  </span>
+                  <span>SHCP {{ slopedHcpPlayers[index] }}</span>
+                  <!--  <span>HCP {{ player.hcp }} </span> -->
+                  <span
+                    :class="{ hideSlag: slag(index) === 0 ? true : false }"
+                  >&#9642; SLAG {{ slag(index) }}</span>
                 </div>
               </b-col>
               <b-col cols="5">
                 <!--  STROKES SECTION -->
                 <div
+                  class="buttons disable-dbl-tap-zoom"
                   v-for="holes in player.holes"
                   :key="holes.index"
                   class="buttons"
@@ -119,17 +115,15 @@
                 </div>
               </b-col>
             </b-row>
-
           </div>
         </div>
 
         <!-- TEAM 2 -->
-        <div class="team2ScoreCard" :class="[singleHoleWinner > 0  && displayToast === false ? 'holeWinner' : '', singleHoleWinner < 0  && displayToast === false ? 'holeLoser' : '' ]"
-         >
-          <div
-            v-for="(player, index) in players.slice(2, 4)"
-            :key="player.index"
-          >
+        <div
+          class="team2ScoreCard mb-4"
+          :class="[singleHoleWinner > 0  && displayToast === false ? 'holeWinner' : '', singleHoleWinner < 0  && displayToast === false ? 'holeLoser' : '' ]"
+        >
+          <div v-for="(player, index) in players.slice(2, 4)" :key="player.index">
             <b-row class="playerRow">
               <div class="teamColor2"></div>
 
@@ -137,19 +131,18 @@
                 <p class="playerName">{{ player.name }}</p>
                 <!--  SLAG OCH HCP TEAM 2 -->
                 <div class="playerInfo">
-                   <span>SHCP {{ slopedHcpPlayers[index+2] }} </span>
+                  <span>SHCP {{ slopedHcpPlayers[index+2] }}</span>
                   <!-- <span>HCP {{ player.hcp }}</span> -->
 
                   <span
                     :class="{ hideSlag: slag(index + 2) === 0 ? true : false }"
-                  >
-                    &#9642; SLAG {{ slag(index + 2) }}
-                  </span>
+                  >&#9642; SLAG {{ slag(index + 2) }}</span>
                 </div>
               </b-col>
               <b-col cols="5">
                 <!--  STROKES SECTION -->
                 <div
+                  class="buttons disable-dbl-tap-zoom"
                   v-for="holes in player.holes"
                   :key="holes.index"
                   class="buttons"
@@ -189,54 +182,92 @@
           </div>
         </div>
 
-        <!-- NÄSTA HÅL & ÖVERSIKT BUTTONS -->
-        <button
-          id="nextHole"
-          class="btn btn-primary"
-          @click="activeHole++, saveData(), makeToast('success')"
+        <b-row class="mt-3">
+          <b-col class="col-6">
+            <!-- NÄSTA HÅL & ÖVERSIKT BUTTONS -->
+            <b-button
+              class="btn-md pl-3 pr-3 bottombuttons"
+              variant="primary"
+              @click="overview = !overview"
+            >
+              <span class="material-icons">reorder</span> Översikt
+            </b-button>
+          </b-col>
+          <b-col class="col-6 text-right">
+            <b-button
+              v-if="activeHole < 18"
+              id="nextHole"
+              class="btn-md pl-3 pr-3 bottombuttons"
+              variant="primary"
+              @click="activeHole++, saveData(), makeToast('success')"
+            >
+              Nästa hål
+              <span class="material-icons">arrow_forward_ios</span>
+            </b-button>
+          </b-col>
+        </b-row>
+
+        <h4 hidden>{{ dormy }}</h4>
+        <h3 hidden>winner declared? {{ winnerDeclared }}</h3>
+        <h4
+          hidden
+          :style="winnerDeclared === true ? 'background-color: red' : 'background-color: white' "
         >
-          Nästa hål
-        </button>
-        <button class="btn btn-primary" @click="overview = !overview">
-          Översikt
-        </button>
-
-
-      <br>
-      <br>
-       <h4> {{ dormy }}</h4> 
-       <h3>  winner declared? {{ winnerDeclared }} </h3>
-       <h3> Lag1 vunna: {{  totalWins.totalWins1 }} </h3>
-       <h3> Lag2  vunna: {{  totalWins.totalWins2 }} </h3>
-       <h3> tot spelade: {{  totalWins.totalWins1 + totalWins.totalWins2 + totalWins.draws}}</h3>
-        <h4 :style="winnerDeclared === true ? 'background-color: red' : 'background-color: white' " > VINNARE:
-        {{ winner }} Resultat: {{ totalWins.totalWins1 }} vs
-        {{ totalWins.totalWins2 }}  </h4>
-
-
+          VINNARE:
+          {{ winner }} Resultat: {{ totalWins.totalWins1 }} vs
+          {{ totalWins.totalWins2 }}
+        </h4>
 
         <!-- FOOTER - LEADER SECTION -->
-        <footer class="fixed-bottom">
-          <b-row class="leaderSection">
-            <b-col s="4" class="scoreTeam1">
-              <p>{{ team1 }}</p>
-            </b-col>
-            <div class="leaderTeam1">
-              <h4 v-if="leader && !tie">{{ matchScore }}</h4>
-            </div>
-            <b-col s="2" :class="{ leaderRight: leader, leaderLeft: !leader }">
-              <p v-if="tie" id="tie">A/S</p>
+        <b-col hidden class="col-4 leaderTeam1 text-right">
+          <h4 v-if="leader && !tie">{{ matchScore }}</h4>
+        </b-col>
 
-              <div
-                v-if="!tie"
-                :class="{ triangleRight: leader, triangleLeft: !leader }"
-              ></div>
+        <b-col hidden class="col-4 leaderTeam2">
+          <h4 v-if="!leader && !tie">{{ matchScore * -1 }}</h4>
+        </b-col>
+
+        <footer class="fixed-bottom">
+          <b-row class="leaderSection" align-v="center" align-h="center">
+            <!-- HOME TEAM -->
+            <b-col class="col-4 scoreTeam text-left pl-3" :class="{ scoreTeam1: leader && !tie }">
+              <span
+                style="float:left;"
+              >{{getFirstName(players[0].name)}} & {{getFirstName(players[1].name)}}</span>
+              <i
+                v-if="!tie && winnerDeclared && leader"
+                class="material-icons pb-1 pl-1"
+              >emoji_events</i>
+              <span v-if="!tie && !winnerDeclared">{{dormy1}}</span>
             </b-col>
-            <div class="leaderTeam2">
-              <h4 v-if="!leader && !tie">{{ matchScore * -1 }}</h4>
-            </div>
-            <b-col s="4" class="scoreTeam2">
-              <p>{{ team2 }}</p>
+
+            <!-- score -->
+            <b-col
+              class="col-4 text-center score"
+              :class="{ leaderRight: leader && !tie, leaderLeft: !leader && !tie, tie: tie, winnerdeclared: winnerDeclared}"
+            >
+              <span v-if="tie" id="tie">A/S</span>
+              <span v-if="!leader && !tie && !winnerDeclared">{{ matchScore * -1 }}UP</span>
+              <!-- away leads -->
+              <span v-if="!leader && winnerDeclared">{{ matchScore * -1 }}&X</span>
+              <!-- home wins -->
+
+              <span v-if="leader && !tie && !winnerDeclared">{{ matchScore }}UP</span>
+              <!-- home leads -->
+              <span v-if="leader && winnerDeclared">{{ matchScore }}&X</span>
+              <!-- home wins -->
+            </b-col>
+
+            <!-- away team -->
+            <b-col class="col-4 scoreTeam text-right pr-3" :class="{ scoreTeam2: !leader && !tie }">
+              <i
+                v-if="!tie && winnerDeclared && !leader"
+                class="material-icons pb-1 pr-1"
+              >emoji_events</i>
+              <span
+                style="float:right;"
+              >{{getFirstName(players[2].name)}} & {{getFirstName(players[3].name)}}</span>
+              <span style="clear:right;" v-if="!tie && !winnerDeclared">{{dormy2}}</span>
             </b-col>
           </b-row>
         </footer>
@@ -244,9 +275,49 @@
     </div>
 
     <!--  LEADER BOARD -->
-    <div v-if="overview" id="overview">
-      <b-container>
-        <b-row class="leaderBoardPlayers">
+    <div id="overview" v-if="overview">
+      <b-container class="p-0">
+        <b-row class="pt-3" align-v="center" align-h="center">
+          <!-- HOME TEAM -->
+          <b-col class="col-4 scoreTeam text-left pl-3" :class="{ scoreTeam1: leader && !tie }">
+            <span
+              style="float:left;"
+            >{{getFirstName(players[0].name)}} & {{getFirstName(players[1].name)}}</span>
+            <i v-if="!tie && winnerDeclared && leader" class="material-icons pb-1 pl-1">emoji_events</i>
+            <span v-if="!tie && !winnerDeclared">{{dormy1}}</span>
+          </b-col>
+
+          <!-- score -->
+          <b-col
+            class="col-4 text-center score"
+            :class="{ leaderRight: leader && !tie, leaderLeft: !leader && !tie, tie: tie, winnerdeclared: winnerDeclared}"
+          >
+            <span v-if="tie" id="tie">A/S</span>
+            <span v-if="!leader && !tie && !winnerDeclared">{{ matchScore * -1 }}UP</span>
+            <!-- away leads -->
+            <span v-if="!leader && winnerDeclared">{{ matchScore * -1 }}&X</span>
+            <!-- home wins -->
+
+            <span v-if="leader && !tie && !winnerDeclared">{{ matchScore }}UP</span>
+            <!-- home leads -->
+            <span v-if="leader && winnerDeclared">{{ matchScore }}&X</span>
+            <!-- home wins -->
+          </b-col>
+
+          <!-- away team -->
+          <b-col class="col-4 scoreTeam text-right pr-3" :class="{ scoreTeam2: !leader && !tie }">
+            <i
+              v-if="!tie && winnerDeclared && !leader"
+              class="material-icons pb-1 pr-1"
+            >emoji_events</i>
+            <span
+              style="float:right;"
+            >{{getFirstName(players[2].name)}} & {{getFirstName(players[3].name)}}</span>
+            <span style="clear:right;" v-if="!tie && !winnerDeclared">{{dormy2}}</span>
+          </b-col>
+        </b-row>
+
+        <b-row hidden class="leaderBoardPlayers">
           <b-col s="4" class="scoreTeam1">
             <p>{{ team1 }}</p>
           </b-col>
@@ -256,10 +327,7 @@
           <b-col s="2" :class="{ leaderRight: leader, leaderLeft: !leader }">
             <p v-if="tie" id="tie">0</p>
 
-            <div
-              v-if="!tie"
-              :class="{ triangleRight: leader, triangleLeft: !leader }"
-            ></div>
+            <div v-if="!tie" :class="{ triangleRight: leader, triangleLeft: !leader }"></div>
           </b-col>
           <div class="leaderTeam2">
             <h4 v-if="!leader && !tie">{{ matchScore * -1 }}</h4>
@@ -269,33 +337,21 @@
           </b-col>
         </b-row>
 
-
         <!--  TABELL HÅL 1-9 -->
         <table class="table9">
-
-     
           <tr>
             <th>Hole:</th>
-            <td v-for="hole in course.slice(0, 9)" :key="hole.index">
-              {{ hole.hole }}
-            </td>
+            <td v-for="hole in course.slice(0, 9)" :key="hole.index">{{ hole.hole }}</td>
             <td v-bold>OUT</td>
           </tr>
           <tr>
             <th>Par:</th>
-            <td v-for="hole in course.slice(0, 9)" :key="hole.index">
-              {{ hole.par }}
-            </td>
-            <td v-bold>
-              {{ parFirstNine }}
-            </td>
+            <td v-for="hole in course.slice(0, 9)" :key="hole.index">{{ hole.par }}</td>
+            <td v-bold>{{ parFirstNine }}</td>
           </tr>
-
-         
 
           <!--  SPELARE 1 -->
           <tr v-for="player in players.slice(0, 1)" :key="player.index">
-
             <th v-initials class="initialsTeam1">{{ player.name }}</th>
             <td
               v-for="holes in player.holes.slice(0, 9)"
@@ -304,16 +360,12 @@
                 slag: holes.strokes,
                 par: holes.par
               }"
-            >
-              {{ holes.strokes === 0 ? null : holes.strokes }}
-            </td>
+            >{{ holes.strokes === 0 ? null : holes.strokes }}</td>
             <td
               v-for="score in playerScoreFrontNine.slice(0, 1)"
               :key="score.index"
               v-bold
-            >
-              {{ score }}
-            </td>
+            >{{ score }}</td>
           </tr>
 
           <!-- SPELARE 2 -->
@@ -326,24 +378,18 @@
                 slag: holes.strokes,
                 par: holes.par
               }"
-            >
-              {{ holes.strokes === 0 ? null : holes.strokes }}
-            </td>
+            >{{ holes.strokes === 0 ? null : holes.strokes }}</td>
             <td
               v-for="score in playerScoreFrontNine.slice(1, 2)"
               :key="score.index"
               v-bold
-            >
-              {{ score }}
-            </td>
+            >{{ score }}</td>
           </tr>
 
-          <tr id="emptyRow">
-            <th>
-              <td> 
-         
-              </td>
-            </th>
+          <tr class="emptyRow">
+            <td class="emptyRow">
+              <p></p>
+            </td>
           </tr>
 
           <!-- SPELARE 3 -->
@@ -356,16 +402,12 @@
                 slag: holes.strokes,
                 par: holes.par
               }"
-            >
-              {{ holes.strokes === 0 ? null : holes.strokes }}
-            </td>
+            >{{ holes.strokes === 0 ? null : holes.strokes }}</td>
             <td
               v-for="score in playerScoreFrontNine.slice(2, 3)"
               :key="score.index"
               v-bold
-            >
-              {{ score }}
-            </td>
+            >{{ score }}</td>
           </tr>
 
           <!-- SPELARE 4 -->
@@ -378,16 +420,12 @@
                 slag: holes.strokes,
                 par: holes.par
               }"
-            >
-              {{ holes.strokes === 0 ? null : holes.strokes }}
-            </td>
+            >{{ holes.strokes === 0 ? null : holes.strokes }}</td>
             <td
               v-for="score in playerScoreFrontNine.slice(3, 4)"
               :key="score.index"
               v-bold
-            >
-              {{ score }}
-            </td>
+            >{{ score }}</td>
           </tr>
         </table>
 
@@ -395,25 +433,16 @@
         <table class="table18">
           <tr>
             <th>Hole:</th>
-            <td v-for="hole in course.slice(9, 18)" :key="hole.index">
-              {{ hole.hole }}
-            </td>
+            <td v-for="hole in course.slice(9, 18)" :key="hole.index">{{ hole.hole }}</td>
             <td v-bold>IN</td>
             <td v-bold>TOT</td>
           </tr>
           <tr>
             <th>Par:</th>
-            <td v-for="hole in course.slice(9, 18)" :key="hole.index">
-              {{ hole.par }}
-            </td>
-            <td v-bold>
-              {{ parTotal - parFirstNine }}
-            </td>
-            <td v-bold>
-              {{ parTotal }}
-            </td>
+            <td v-for="hole in course.slice(9, 18)" :key="hole.index">{{ hole.par }}</td>
+            <td v-bold>{{ parTotal - parFirstNine }}</td>
+            <td v-bold>{{ parTotal }}</td>
           </tr>
-
 
           <!-- SPELARE 1 -->
           <tr v-for="player in players.slice(0, 1)" :key="player.index">
@@ -425,23 +454,13 @@
                 slag: holes.strokes,
                 par: holes.par
               }"
-            >
-              {{ holes.strokes === 0 ? null : holes.strokes }}
-            </td>
+            >{{ holes.strokes === 0 ? null : holes.strokes }}</td>
             <td
               v-for="score in playerScoreBackNine.slice(0, 1)"
               :key="score.index"
               v-bold
-            >
-              {{ score }}
-            </td>
-            <td
-              v-for="score in playerScoreTotal.slice(0, 1)"
-              :key="score.index"
-              v-bold
-            >
-              {{ score }}
-            </td>
+            >{{ score }}</td>
+            <td v-for="score in playerScoreTotal.slice(0, 1)" :key="score.index" v-bold>{{ score }}</td>
           </tr>
 
           <!-- SPELARE 2 -->
@@ -454,31 +473,19 @@
                 slag: holes.strokes,
                 par: holes.par
               }"
-            >
-              {{ holes.strokes === 0 ? null : holes.strokes }}
-            </td>
+            >{{ holes.strokes === 0 ? null : holes.strokes }}</td>
             <td
               v-for="score in playerScoreBackNine.slice(1, 2)"
               :key="score.index"
               v-bold
-            >
-              {{ score }}
-            </td>
-            <td
-              v-for="score in playerScoreTotal.slice(1, 2)"
-              :key="score.index"
-              v-bold
-            >
-              {{ score }}
-            </td>
+            >{{ score }}</td>
+            <td v-for="score in playerScoreTotal.slice(1, 2)" :key="score.index" v-bold>{{ score }}</td>
           </tr>
 
-          <tr id="emptyRow">
-            <th>
-              <td> 
-             
-              </td>
-            </th>
+          <tr class="emptyRow">
+            <td class="emptyRow">
+              <p></p>
+            </td>
           </tr>
           <!-- SPELARE 3 -->
           <tr v-for="player in players.slice(2, 3)" :key="player.index">
@@ -490,23 +497,13 @@
                 slag: holes.strokes,
                 par: holes.par
               }"
-            >
-              {{ holes.strokes === 0 ? null : holes.strokes }}
-            </td>
+            >{{ holes.strokes === 0 ? null : holes.strokes }}</td>
             <td
               v-for="score in playerScoreBackNine.slice(2, 3)"
               :key="score.index"
               v-bold
-            >
-              {{ score }}
-            </td>
-            <td
-              v-for="score in playerScoreTotal.slice(2, 3)"
-              :key="score.index"
-              v-bold
-            >
-              {{ score }}
-            </td>
+            >{{ score }}</td>
+            <td v-for="score in playerScoreTotal.slice(2, 3)" :key="score.index" v-bold>{{ score }}</td>
           </tr>
 
           <!-- SPELARE 4 -->
@@ -519,28 +516,19 @@
                 slag: holes.strokes,
                 par: holes.par
               }"
-            >
-              {{ holes.strokes === 0 ? null : holes.strokes }}
-            </td>
+            >{{ holes.strokes === 0 ? null : holes.strokes }}</td>
             <td
               v-for="score in playerScoreBackNine.slice(3, 4)"
               :key="score.index"
               v-bold
-            >
-              {{ score }}
-            </td>
-            <td
-              v-for="score in playerScoreTotal.slice(3, 4)"
-              :key="score.index"
-              v-bold
-            >
-              {{ score }}
-            </td>
+            >{{ score }}</td>
+            <td v-for="score in playerScoreTotal.slice(3, 4)" :key="score.index" v-bold>{{ score }}</td>
           </tr>
         </table>
 
         <!-- BUTTON FÖR MATCH VY -->
         <button class="btn btn-primary" @click="overview = !overview">
+          <span class="material-icons">golf_course</span>
           Match Vy
         </button>
         <app-hcp-modal :course-rating="courseRating" :slope-rating="slopeRating" :banans-par="banansPar" :players="players" :slope="slopedHcpPlayers" :slope-handicap-list="slopeHandicapList"></app-hcp-modal>
@@ -553,7 +541,7 @@
 <script>
 import axios from "axios";
 import { schp, hcpSlope } from "../helpers.js";
-import HcpModalVue from './HcpModal.vue';
+import HcpModalVue from "./HcpModal.vue";
 
 export default {
   directives: {
@@ -809,110 +797,108 @@ export default {
       this.players = data.gameData;
       */
 
-this.players = [
-    {
-      "name": "Br W",
-      "holes": [
-        { "hole": 1, "strokes": 0, "slag": 0 },
-        { "hole": 2, "strokes": 0, "slag": 0 },
-        { "hole": 3, "strokes": 0, "slag": 0 },
-        { "hole": 4, "strokes": 0, "slag": 0 },
-        { "hole": 5, "strokes": 0, "slag": 0 },
-        { "hole": 6, "strokes": 0, "slag": 0 },
-        { "hole": 7, "strokes": 0 , "slag": 0},
-        { "hole": 8, "strokes": 0 , "slag": 0},
-        { "hole": 9, "strokes": 0, "slag": 0 },
-        { "hole": 10, "strokes": 0, "slag": 0 },
-        { "hole": 11, "strokes": 0 , "slag": 0},
-        { "hole": 12, "strokes": 0 , "slag": 0},
-        { "hole": 13, "strokes": 0 , "slag": 0},
-        { "hole": 14, "strokes": 0 , "slag": 0},
-        { "hole": 15, "strokes": 0 , "slag": 0}, 
-        { "hole": 16, "strokes": 0 , "slag": 0},
-        { "hole": 17, "strokes": 0 , "slag": 0},
-        { "hole": 18, "strokes": 0 , "slag": 0}
-      ],
-      "hcp": 13.5,
-      "tee": "Vit"
-
-    },
-    {
-      "name": "Donald Trump",
-      "holes": [
-        { "hole": 1, "strokes": 0, "slag": 0 },
-        { "hole": 2, "strokes": 0, "slag": 0 },
-        { "hole": 3, "strokes": 0, "slag": 0 },
-        { "hole": 4, "strokes": 0, "slag": 0 },
-        { "hole": 5, "strokes": 0, "slag": 0 },
-        { "hole": 6, "strokes": 0, "slag": 0 },
-        { "hole": 7, "strokes": 0 , "slag": 0},
-        { "hole": 8, "strokes": 0 , "slag": 0},
-        { "hole": 9, "strokes": 0, "slag": 0 },
-        { "hole": 10, "strokes": 0, "slag": 0 },
-        { "hole": 11, "strokes": 0 , "slag": 0},
-        { "hole": 12, "strokes": 0 , "slag": 0},
-        { "hole": 13, "strokes": 0 , "slag": 0},
-        { "hole": 14, "strokes": 0 , "slag": 0},
-        { "hole": 15, "strokes": 0 , "slag": 0}, 
-        { "hole": 16, "strokes": 0 , "slag": 0},
-        { "hole": 17, "strokes": 0 , "slag": 0},
-        { "hole": 18, "strokes": 0 , "slag": 0}
-      ],
-      "hcp": 6.7,
-      "tee": "Svart"
-    },
-    {
-      "name": "Anders Tegnell",
-      "holes": [
-        { "hole": 1, "strokes": 0, "slag": 0 },
-        { "hole": 2, "strokes": 0, "slag": 0 },
-        { "hole": 3, "strokes": 0, "slag": 0 },
-        { "hole": 4, "strokes": 0, "slag": 0 },
-        { "hole": 5, "strokes": 0, "slag": 0 },
-        { "hole": 6, "strokes": 0, "slag": 0 },
-        { "hole": 7, "strokes": 0 , "slag": 0},
-        { "hole": 8, "strokes": 0 , "slag": 0},
-        { "hole": 9, "strokes": 0, "slag": 0 },
-        { "hole": 10, "strokes": 0, "slag": 0 },
-        { "hole": 11, "strokes": 0 , "slag": 0},
-        { "hole": 12, "strokes": 0 , "slag": 0},
-        { "hole": 13, "strokes": 0 , "slag": 0},
-        { "hole": 14, "strokes": 0 , "slag": 0},
-        { "hole": 15, "strokes": 0 , "slag": 0}, 
-        { "hole": 16, "strokes": 0 , "slag": 0},
-        { "hole": 17, "strokes": 0 , "slag": 0},
-        { "hole": 18, "strokes": 0 , "slag": 0}
-      ],
-      "hcp": -5,
-      "tee": "Gul"
-    },
-    {
-      "name": "Joan Jett",
-      "holes": [
-        { "hole": 1, "strokes": 0, "slag": 0 },
-        { "hole": 2, "strokes": 0, "slag": 0 },
-        { "hole": 3, "strokes": 0, "slag": 0 },
-        { "hole": 4, "strokes": 0, "slag": 0 },
-        { "hole": 5, "strokes": 0, "slag": 0 },
-        { "hole": 6, "strokes": 0, "slag": 0 },
-        { "hole": 7, "strokes": 0 , "slag": 0},
-        { "hole": 8, "strokes": 0 , "slag": 0},
-        { "hole": 9, "strokes": 0, "slag": 0 },
-        { "hole": 10, "strokes": 0, "slag": 0 },
-        { "hole": 11, "strokes": 0 , "slag": 0},
-        { "hole": 12, "strokes": 0 , "slag": 0},
-        { "hole": 13, "strokes": 0 , "slag": 0},
-        { "hole": 14, "strokes": 0 , "slag": 0},
-        { "hole": 15, "strokes": 0 , "slag": 0}, 
-        { "hole": 16, "strokes": 0 , "slag": 0},
-        { "hole": 17, "strokes": 0 , "slag": 0},
-        { "hole": 18, "strokes": 0 , "slag": 0}
-      ],
-      "hcp": 32,
-      "tee": "Blå"
-    }
-    ]
-
+      this.players = [
+        {
+          name: "Bruce Wayne",
+          holes: [
+            { hole: 1, strokes: 0, slag: 0 },
+            { hole: 2, strokes: 0, slag: 0 },
+            { hole: 3, strokes: 0, slag: 0 },
+            { hole: 4, strokes: 0, slag: 0 },
+            { hole: 5, strokes: 0, slag: 0 },
+            { hole: 6, strokes: 0, slag: 0 },
+            { hole: 7, strokes: 0, slag: 0 },
+            { hole: 8, strokes: 0, slag: 0 },
+            { hole: 9, strokes: 0, slag: 0 },
+            { hole: 10, strokes: 0, slag: 0 },
+            { hole: 11, strokes: 0, slag: 0 },
+            { hole: 12, strokes: 0, slag: 0 },
+            { hole: 13, strokes: 0, slag: 0 },
+            { hole: 14, strokes: 0, slag: 0 },
+            { hole: 15, strokes: 0, slag: 0 },
+            { hole: 16, strokes: 0, slag: 0 },
+            { hole: 17, strokes: 0, slag: 0 },
+            { hole: 18, strokes: 0, slag: 0 }
+          ],
+          hcp: -5,
+          tee: "svart"
+        },
+        {
+          name: "Donald Trump",
+          holes: [
+            { hole: 1, strokes: 0, slag: 0 },
+            { hole: 2, strokes: 0, slag: 0 },
+            { hole: 3, strokes: 0, slag: 0 },
+            { hole: 4, strokes: 0, slag: 0 },
+            { hole: 5, strokes: 0, slag: 0 },
+            { hole: 6, strokes: 0, slag: 0 },
+            { hole: 7, strokes: 0, slag: 0 },
+            { hole: 8, strokes: 0, slag: 0 },
+            { hole: 9, strokes: 0, slag: 0 },
+            { hole: 10, strokes: 0, slag: 0 },
+            { hole: 11, strokes: 0, slag: 0 },
+            { hole: 12, strokes: 0, slag: 0 },
+            { hole: 13, strokes: 0, slag: 0 },
+            { hole: 14, strokes: 0, slag: 0 },
+            { hole: 15, strokes: 0, slag: 0 },
+            { hole: 16, strokes: 0, slag: 0 },
+            { hole: 17, strokes: 0, slag: 0 },
+            { hole: 18, strokes: 0, slag: 0 }
+          ],
+          hcp: 0,
+          tee: "vit"
+        },
+        {
+          name: "Anders Tegnell",
+          holes: [
+            { hole: 1, strokes: 0, slag: 0 },
+            { hole: 2, strokes: 0, slag: 0 },
+            { hole: 3, strokes: 0, slag: 0 },
+            { hole: 4, strokes: 0, slag: 0 },
+            { hole: 5, strokes: 0, slag: 0 },
+            { hole: 6, strokes: 0, slag: 0 },
+            { hole: 7, strokes: 0, slag: 0 },
+            { hole: 8, strokes: 0, slag: 0 },
+            { hole: 9, strokes: 0, slag: 0 },
+            { hole: 10, strokes: 0, slag: 0 },
+            { hole: 11, strokes: 0, slag: 0 },
+            { hole: 12, strokes: 0, slag: 0 },
+            { hole: 13, strokes: 0, slag: 0 },
+            { hole: 14, strokes: 0, slag: 0 },
+            { hole: 15, strokes: 0, slag: 0 },
+            { hole: 16, strokes: 0, slag: 0 },
+            { hole: 17, strokes: 0, slag: 0 },
+            { hole: 18, strokes: 0, slag: 0 }
+          ],
+          hcp: 5,
+          tee: "Gul"
+        },
+        {
+          name: "Joan Jett",
+          holes: [
+            { hole: 1, strokes: 0, slag: 0 },
+            { hole: 2, strokes: 0, slag: 0 },
+            { hole: 3, strokes: 0, slag: 0 },
+            { hole: 4, strokes: 0, slag: 0 },
+            { hole: 5, strokes: 0, slag: 0 },
+            { hole: 6, strokes: 0, slag: 0 },
+            { hole: 7, strokes: 0, slag: 0 },
+            { hole: 8, strokes: 0, slag: 0 },
+            { hole: 9, strokes: 0, slag: 0 },
+            { hole: 10, strokes: 0, slag: 0 },
+            { hole: 11, strokes: 0, slag: 0 },
+            { hole: 12, strokes: 0, slag: 0 },
+            { hole: 13, strokes: 0, slag: 0 },
+            { hole: 14, strokes: 0, slag: 0 },
+            { hole: 15, strokes: 0, slag: 0 },
+            { hole: 16, strokes: 0, slag: 0 },
+            { hole: 17, strokes: 0, slag: 0 },
+            { hole: 18, strokes: 0, slag: 0 }
+          ],
+          hcp: 10,
+          tee: "Blå"
+        }
+      ];
 
       //lägger till par på this.player.holes för att komma åt par under översikten
       this.players.forEach(player => {
@@ -921,8 +907,8 @@ this.players = [
         });
       });
       //fixar team-namn
-      this.team1 = 'lag 1'//data.gameData[0].team;
-      this.team2 = 'lag 2'
+      this.team1 = "lag 1"; //data.gameData[0].team;
+      this.team2 = "lag 2";
       /* data.gameData.forEach(element => {
         if (element.team != this.team1) {
           this.team2 = 'lag 2'//element.team;
@@ -933,9 +919,54 @@ this.players = [
       console.log(e);
     }
   },
+  data() {
+    return {
+      active: true,
+      players: [],
+      activeHole: 1,
+      team1: [],
+      team2: [],
+      overview: false,
+      nameCount: [],
+      displayToast: true,
+      parData: 0,
+      slopedHcpPlayers: [],
+      holeWinner: [],
+      winnerDeclared: false,
+      dormy1: "",
+      dormy2: "",
+
+      //Fiktiv data nedan
+      course: [
+        { hole: 1, par: 5, index: 18, slag: [0, 0, 0, 0] },
+        { hole: 2, par: 3, index: 12, slag: [0, 0, 0, 0] },
+        { hole: 3, par: 3, index: 11, slag: [0, 0, 0, 0] },
+        { hole: 4, par: 4, index: 1, slag: [0, 0, 0, 0] },
+        { hole: 5, par: 4, index: 5, slag: [0, 0, 0, 0] },
+        { hole: 6, par: 5, index: 16, slag: [0, 0, 0, 0] },
+        { hole: 7, par: 4, index: 17, slag: [0, 0, 0, 0] },
+        { hole: 8, par: 3, index: 8, slag: [0, 0, 0, 0] },
+        { hole: 9, par: 4, index: 9, slag: [0, 0, 0, 0] },
+        { hole: 10, par: 3, index: 14, slag: [0, 0, 0, 0] },
+        { hole: 11, par: 4, index: 13, slag: [0, 0, 0, 0] },
+        { hole: 12, par: 3, index: 2, slag: [0, 0, 0, 0] },
+        { hole: 13, par: 4, index: 6, slag: [0, 0, 0, 0] },
+        { hole: 14, par: 3, index: 3, slag: [0, 0, 0, 0] },
+        { hole: 15, par: 5, index: 7, slag: [0, 0, 0, 0] },
+        { hole: 16, par: 3, index: 10, slag: [0, 0, 0, 0] },
+        { hole: 17, par: 4, index: 15, slag: [0, 0, 0, 0] },
+        { hole: 18, par: 3, index: 4, slag: [0, 0, 0, 0] }
+      ],
+      courseRating: 69.9,
+      slopeRating: 129,
+      banansPar: 70
+    };
+  },
   methods: {
-    closeModal() {
-      this.modalVisible = false;
+    getFirstName(name) {
+      return (
+        name.split(" ")[0].substring(0, 1) + name.split(" ")[1].substring(0, 1)
+      );
     },
     getPar() {
       this.parData = this.course.find(e => e.hole === this.activeHole);
@@ -960,113 +991,104 @@ this.players = [
         const data = response.data[response.data.length - 1];
         this.players = data.gameData;
         */
-       this.players = [
-    {
-      "name": "Br W",
-      "holes": [
-        { "hole": 1, "strokes": 0, "slag": 0 },
-        { "hole": 2, "strokes": 0, "slag": 0 },
-        { "hole": 3, "strokes": 0, "slag": 0 },
-        { "hole": 4, "strokes": 0, "slag": 0 },
-        { "hole": 5, "strokes": 0, "slag": 0 },
-        { "hole": 6, "strokes": 0, "slag": 0 },
-        { "hole": 7, "strokes": 0 , "slag": 0},
-        { "hole": 8, "strokes": 0 , "slag": 0},
-        { "hole": 9, "strokes": 0, "slag": 0 },
-        { "hole": 10, "strokes": 0, "slag": 0 },
-        { "hole": 11, "strokes": 0 , "slag": 0},
-        { "hole": 12, "strokes": 0 , "slag": 0},
-        { "hole": 13, "strokes": 0 , "slag": 0},
-        { "hole": 14, "strokes": 0 , "slag": 0},
-        { "hole": 15, "strokes": 0 , "slag": 0}, 
-        { "hole": 16, "strokes": 0 , "slag": 0},
-        { "hole": 17, "strokes": 0 , "slag": 0},
-        { "hole": 18, "strokes": 0 , "slag": 0}
-      ],
-      "hcp": 13.5,
-      "tee": "Vit"
-
-    },
-    {
-      "name": "Donald Trump",
-      "holes": [
-        { "hole": 1, "strokes": 0, "slag": 0 },
-        { "hole": 2, "strokes": 0, "slag": 0 },
-        { "hole": 3, "strokes": 0, "slag": 0 },
-        { "hole": 4, "strokes": 0, "slag": 0 },
-        { "hole": 5, "strokes": 0, "slag": 0 },
-        { "hole": 6, "strokes": 0, "slag": 0 },
-        { "hole": 7, "strokes": 0 , "slag": 0},
-        { "hole": 8, "strokes": 0 , "slag": 0},
-        { "hole": 9, "strokes": 0, "slag": 0 },
-        { "hole": 10, "strokes": 0, "slag": 0 },
-        { "hole": 11, "strokes": 0 , "slag": 0},
-        { "hole": 12, "strokes": 0 , "slag": 0},
-        { "hole": 13, "strokes": 0 , "slag": 0},
-        { "hole": 14, "strokes": 0 , "slag": 0},
-        { "hole": 15, "strokes": 0 , "slag": 0}, 
-        { "hole": 16, "strokes": 0 , "slag": 0},
-        { "hole": 17, "strokes": 0 , "slag": 0},
-        { "hole": 18, "strokes": 0 , "slag": 0}
-      ],
-      "hcp": 6.7,      
-      "tee": "Svart"
-
-    },
-    {
-      "name": "Anders Tegnell",
-      "holes": [
-        { "hole": 1, "strokes": 0, "slag": 0 },
-        { "hole": 2, "strokes": 0, "slag": 0 },
-        { "hole": 3, "strokes": 0, "slag": 0 },
-        { "hole": 4, "strokes": 0, "slag": 0 },
-        { "hole": 5, "strokes": 0, "slag": 0 },
-        { "hole": 6, "strokes": 0, "slag": 0 },
-        { "hole": 7, "strokes": 0 , "slag": 0},
-        { "hole": 8, "strokes": 0 , "slag": 0},
-        { "hole": 9, "strokes": 0, "slag": 0 },
-        { "hole": 10, "strokes": 0, "slag": 0 },
-        { "hole": 11, "strokes": 0 , "slag": 0},
-        { "hole": 12, "strokes": 0 , "slag": 0},
-        { "hole": 13, "strokes": 0 , "slag": 0},
-        { "hole": 14, "strokes": 0 , "slag": 0},
-        { "hole": 15, "strokes": 0 , "slag": 0}, 
-        { "hole": 16, "strokes": 0 , "slag": 0},
-        { "hole": 17, "strokes": 0 , "slag": 0},
-        { "hole": 18, "strokes": 0 , "slag": 0}
-      ],
-      "hcp": -5,
-      "tee": "Gul"
-
-    },
-    {
-      "name": "Joan Jett",
-      "holes": [
-        { "hole": 1, "strokes": 0, "slag": 0 },
-        { "hole": 2, "strokes": 0, "slag": 0 },
-        { "hole": 3, "strokes": 0, "slag": 0 },
-        { "hole": 4, "strokes": 0, "slag": 0 },
-        { "hole": 5, "strokes": 0, "slag": 0 },
-        { "hole": 6, "strokes": 0, "slag": 0 },
-        { "hole": 7, "strokes": 0 , "slag": 0},
-        { "hole": 8, "strokes": 0 , "slag": 0},
-        { "hole": 9, "strokes": 0, "slag": 0 },
-        { "hole": 10, "strokes": 0, "slag": 0 },
-        { "hole": 11, "strokes": 0 , "slag": 0},
-        { "hole": 12, "strokes": 0 , "slag": 0},
-        { "hole": 13, "strokes": 0 , "slag": 0},
-        { "hole": 14, "strokes": 0 , "slag": 0},
-        { "hole": 15, "strokes": 0 , "slag": 0}, 
-        { "hole": 16, "strokes": 0 , "slag": 0},
-        { "hole": 17, "strokes": 0 , "slag": 0},
-        { "hole": 18, "strokes": 0 , "slag": 0}
-      ],
-      "hcp": 32,       
-      "tee": "Blå"
-
-
-    }
-    ]
+        this.players = [
+          {
+            name: "Br W",
+            holes: [
+              { hole: 1, strokes: 0, slag: 0 },
+              { hole: 2, strokes: 0, slag: 0 },
+              { hole: 3, strokes: 0, slag: 0 },
+              { hole: 4, strokes: 0, slag: 0 },
+              { hole: 5, strokes: 0, slag: 0 },
+              { hole: 6, strokes: 0, slag: 0 },
+              { hole: 7, strokes: 0, slag: 0 },
+              { hole: 8, strokes: 0, slag: 0 },
+              { hole: 9, strokes: 0, slag: 0 },
+              { hole: 10, strokes: 0, slag: 0 },
+              { hole: 11, strokes: 0, slag: 0 },
+              { hole: 12, strokes: 0, slag: 0 },
+              { hole: 13, strokes: 0, slag: 0 },
+              { hole: 14, strokes: 0, slag: 0 },
+              { hole: 15, strokes: 0, slag: 0 },
+              { hole: 16, strokes: 0, slag: 0 },
+              { hole: 17, strokes: 0, slag: 0 },
+              { hole: 18, strokes: 0, slag: 0 }
+            ],
+            hcp: -5
+          },
+          {
+            name: "Donald Trump",
+            holes: [
+              { hole: 1, strokes: 0, slag: 0 },
+              { hole: 2, strokes: 0, slag: 0 },
+              { hole: 3, strokes: 0, slag: 0 },
+              { hole: 4, strokes: 0, slag: 0 },
+              { hole: 5, strokes: 0, slag: 0 },
+              { hole: 6, strokes: 0, slag: 0 },
+              { hole: 7, strokes: 0, slag: 0 },
+              { hole: 8, strokes: 0, slag: 0 },
+              { hole: 9, strokes: 0, slag: 0 },
+              { hole: 10, strokes: 0, slag: 0 },
+              { hole: 11, strokes: 0, slag: 0 },
+              { hole: 12, strokes: 0, slag: 0 },
+              { hole: 13, strokes: 0, slag: 0 },
+              { hole: 14, strokes: 0, slag: 0 },
+              { hole: 15, strokes: 0, slag: 0 },
+              { hole: 16, strokes: 0, slag: 0 },
+              { hole: 17, strokes: 0, slag: 0 },
+              { hole: 18, strokes: 0, slag: 0 }
+            ],
+            hcp: 0
+          },
+          {
+            name: "Anders Tegnell",
+            holes: [
+              { hole: 1, strokes: 0, slag: 0 },
+              { hole: 2, strokes: 0, slag: 0 },
+              { hole: 3, strokes: 0, slag: 0 },
+              { hole: 4, strokes: 0, slag: 0 },
+              { hole: 5, strokes: 0, slag: 0 },
+              { hole: 6, strokes: 0, slag: 0 },
+              { hole: 7, strokes: 0, slag: 0 },
+              { hole: 8, strokes: 0, slag: 0 },
+              { hole: 9, strokes: 0, slag: 0 },
+              { hole: 10, strokes: 0, slag: 0 },
+              { hole: 11, strokes: 0, slag: 0 },
+              { hole: 12, strokes: 0, slag: 0 },
+              { hole: 13, strokes: 0, slag: 0 },
+              { hole: 14, strokes: 0, slag: 0 },
+              { hole: 15, strokes: 0, slag: 0 },
+              { hole: 16, strokes: 0, slag: 0 },
+              { hole: 17, strokes: 0, slag: 0 },
+              { hole: 18, strokes: 0, slag: 0 }
+            ],
+            hcp: 5
+          },
+          {
+            name: "Joan Jett",
+            holes: [
+              { hole: 1, strokes: 0, slag: 0 },
+              { hole: 2, strokes: 0, slag: 0 },
+              { hole: 3, strokes: 0, slag: 0 },
+              { hole: 4, strokes: 0, slag: 0 },
+              { hole: 5, strokes: 0, slag: 0 },
+              { hole: 6, strokes: 0, slag: 0 },
+              { hole: 7, strokes: 0, slag: 0 },
+              { hole: 8, strokes: 0, slag: 0 },
+              { hole: 9, strokes: 0, slag: 0 },
+              { hole: 10, strokes: 0, slag: 0 },
+              { hole: 11, strokes: 0, slag: 0 },
+              { hole: 12, strokes: 0, slag: 0 },
+              { hole: 13, strokes: 0, slag: 0 },
+              { hole: 14, strokes: 0, slag: 0 },
+              { hole: 15, strokes: 0, slag: 0 },
+              { hole: 16, strokes: 0, slag: 0 },
+              { hole: 17, strokes: 0, slag: 0 },
+              { hole: 18, strokes: 0, slag: 0 }
+            ],
+            hcp: 10
+          }
+        ];
       } catch (e) {
         console.log(e);
       }
@@ -1086,16 +1108,15 @@ this.players = [
       }
     },
     async schp() {
-
-      const {slopeHandicapList, newHcpPrel} = schp(
+      const { slopeHandicapList, newHcpPrel } = schp(
         this.courseRating,
         this.slopeRating,
         this.banansPar
       );
 
-      //detta värde bröts ut för att kunna skickas vidare till 
-      this.slopeHandicapList = slopeHandicapList
-      console.log(slopeHandicapList)
+      //detta värde bröts ut för att kunna skickas vidare till
+      this.slopeHandicapList = slopeHandicapList;
+      console.log(slopeHandicapList);
 
       this.slopedHcpPlayers = newHcpPrel;
       const value1 = newHcpPrel[0];
@@ -1128,13 +1149,12 @@ this.players = [
       return slag.slag[index];
     },
     listOfStrokesList() {
-      
       let listOfStrokesList = [];
       const holes = this.players.map(player => player.holes);
       holes.forEach(e => {
         listOfStrokesList.push(e.map(hole => hole.strokes));
       });
-      
+
       return listOfStrokesList;
     },
     strokes(index) {
@@ -1173,63 +1193,77 @@ this.players = [
 };
 </script>
 <style scoped>
+.container {
+  /* fix for no padding on scorecard phone */
+  padding-top: 0px;
+}
+
+.disable-dbl-tap-zoom {
+  touch-action: manipulation;
+}
+
+.btn-primary .material-icons {
+  font-size: 1em;
+  vertical-align: bottom;
+  margin-bottom: 6px;
+}
 
 .holepar {
-  font-size:0.7em;
+  font-size: 0.7em;
   line-height: 0;
 }
 
-.nav-link:focus, .nav:focus {
-    outline: none !important;
+.nav-link:focus,
+.nav:focus {
+  outline: none !important;
 }
 
 .tabs ul.nav-tabs:focus {
-    outline: none;
+  outline: none;
 }
 
-.nav>li:focus {
-    outline: none !important;
+.nav > li:focus {
+  outline: none !important;
 }
 
 .form-control:focus {
-    outline: none !important;
+  outline: none !important;
 }
 
 .form-control > div:focus {
-    outline: none;
+  outline: none;
 }
 
-li:focus, .nav-item:focus, .nav-item:active {
-    outline: none !important;
+li:focus,
+.nav-item:focus,
+.nav-item:active {
+  outline: none !important;
 }
 
-li[role=presentation]:focus {
-    outline: none !important;
+li[role="presentation"]:focus {
+  outline: none !important;
 }
 
-div[role=group]:focus {
-    outline: none !important;
+div[role="group"]:focus {
+  outline: none !important;
 }
 
 *:focus {
-    outline: none;
+  outline: none;
 }
 
 /* leader board */
-#landscape {
-  min-height: 670px;
-  min-width: 353px;
-}
+
 #overview {
   margin-left: 10px;
   margin-right: 10px;
 }
 
-.initialsTeam1  {
-color: #fd9b37
+.initialsTeam1 {
+  color: #fd9b37;
 }
 .initialsTeam2 {
-color: #69b3fe;
+  color: #69b3fe;
 }
 
 .leaderBoardStrokes {
@@ -1266,8 +1300,17 @@ table {
   text-align: left;
   width: 100%;
   margin: 25px auto;
-  border-collapse: inherit;
+  /* border-collapse: inherit; */
   font-size: 12px;
+}
+
+th,
+td {
+  border: 1px solid #999;
+}
+
+.emptyRow {
+  border: none;
 }
 
 tr:nth-child(1) {
@@ -1283,19 +1326,18 @@ td {
   text-align: center;
 }
 
-
 /* HEADER ROW */
 .holeRow {
   margin-bottom: 20px;
-  height: 80px;
+  height: 70px;
   padding-top: 20px;
   background-color: #195a3a;
   color: white;
   font-size: 20px;
 }
 .activeHole {
-  border-top: 0;  
-  font-weight: 900;  
+  border-top: 0;
+  font-weight: 900;
   font-size: 1.8em;
   line-height: 1;
 }
@@ -1306,13 +1348,30 @@ td {
   margin-top: 15%;
 }
 /*  SCORE CARD  */
-.holeWinner {
-  background-color: #cbffcb;
-}
-.holeLoser {
-  background-color: #ffdadf;
+
+.score {
+  line-height: 2.3em;
+  letter-spacing: 2px;
 }
 
+.holeWinner {
+  background: repeating-linear-gradient(
+    45deg,
+    #ecf5ec,
+    #ecf5ec 10px,
+    #fff 10px,
+    #fff 20px
+  );
+}
+.holeLoser {
+  background: repeating-linear-gradient(
+    45deg,
+    #fceded,
+    #fceded 10px,
+    #fff 10px,
+    #fff 20px
+  );
+}
 
 .hideSlag {
   visibility: hidden;
@@ -1320,52 +1379,55 @@ td {
 .classDisplayNone {
   display: none;
 }
-.team1ScoreCard {
-  margin: 5px;
+.team1ScoreCard,
+.team2ScoreCard {
   -webkit-box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.19);
   -moz-box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.19);
   box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.19);
   border-radius: 10px;
-  padding: 10px;
+  padding: 5px 10px;
 }
 .team2ScoreCard {
-  margin: 5px;
   margin-top: 13px;
-  -webkit-box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.19);
-  -moz-box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.19);
-  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.19);
-  border-radius: 10px;
-  padding: 10px;
 }
+
 .strokes {
   padding: 0px;
   font-size: 20px;
 }
-.teamColor1 {
-  display: inline-block;
-  margin-left: 25px;
-  background-color: #ffffff;
-  height: 15px;
-  width: 15px;
-  margin-top: 25px;
-  margin-bottom: 20px;
-  border-radius: 10px;
-  border: 3px solid #fd9b37;
-}
+
+.teamColor1,
 .teamColor2 {
   display: inline-block;
   margin-left: 25px;
-  background-color: #fff;
-  height: 15px;
-  width: 15px;
-  margin-top: 25px;
+  height: 20px;
+  width: 20px;
+  margin-top: 22px;
   margin-bottom: 20px;
   border-radius: 10px;
-  border: 3px solid #69b3fe;
 }
+
+.teamColor1 {
+  border: 3px solid #fd9b37;
+  /*background:#fd9b37;*/
+}
+
+.teamColor2 {
+  border: 3px solid #69b3fe;
+  /*background:#69b3fe;*/
+}
+
+.holeWinner .teamColor1 {
+  background-color: #fd9b37;
+}
+
+.holeWinner .teamColor2 {
+  background-color: #69b3fe;
+}
+
 .playerRow {
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 .playerName {
   font-weight: 900;
@@ -1382,7 +1444,7 @@ td {
   overflow: hidden;
 }
 .playerInfo {
-  color: #ababab;
+  color: #585454;
   font-size: 12px;
   margin-bottom: 5px;
   margin-top: 10px;
@@ -1420,12 +1482,13 @@ td {
   color: white;
   font-weight: 900;
   background-color: #195a3a;
-  border: 0; 
+  border: 0;
 }
 
-.btn-success .material-icons, .btn-warning .material-icons {
-    font-size: 1.4em;    
-    margin-left: -4px;
+.btn-success .material-icons,
+.btn-warning .material-icons {
+  font-size: 1.4em;
+  margin-left: -4px;
 }
 
 .btn.btn-primary.active,
@@ -1433,6 +1496,7 @@ td {
   background-color: #195a3a !important;
   transform: scale(0.95) !important;
   border: 0 !important;
+  border-color: #195a3a !important;
 }
 .btn-warning,
 .btn-warning:hover,
@@ -1454,63 +1518,73 @@ td {
   background-color: #195a3a !important;
   border-radius: 50px !important;
   box-shadow: 0 !important;
+  border-color: #195a3a !important;
 }
 #nextHole {
-  font-size: 20px;
+  /*
+  font-size: 20px;  
   margin-bottom: 10px;
   margin-top: 12px;
-  width: 340px;
+   width: 340px; */
 }
 /* LEADER SECTION  */
 .leaderSection {
-  color: white;
+  /* border-top: 1px solid #333; */
   position: fixed;
-  height: 50px;
   bottom: 0;
+  height: 80px;
   width: 100%;
   margin: 0;
+  background-color: #fff;
 }
+.scoreTeam {
+  font-size: 0.7em;
+}
+
+.scoreTeam span {
+  display: block;
+}
+
 .scoreTeam1 {
-  min-width: 90px;
-  background-color: #195a3a;
-  padding: 0;
-  padding-left: 10px;
-  border: 0;
-  border: 1px #195a3a solid;
-  overflow: hidden;
+  background: #fd9b37;
+  position: relative;
+  color: #fff;
+  font-weight: 900;
+  line-height: 44px;
 }
+
 .scoreTeam2 {
-  min-width: 90px;
-  background-color: #195a3a;
-  padding: 0;
-  border: 0;
-  border: 1px #195a3a solid;
-  overflow: hidden;
+  background: #69b3fe;
+  position: relative;
+  color: #fff;
+  font-weight: 900;
+  line-height: 44px;
 }
+
 .leaderTeam1 {
-  background-color: #195a3a;
+  /*  background-color: #fd9b37;
+  border: 1px #fd9b37 solid; */
+  background-color: #fff;
   width: 20px;
   padding: 0;
   border: 0;
-  border: 1px #195a3a solid;
 }
 .leaderTeam2 {
-  background-color: #195a3a;
+  /* background-color: #69b3fe;
+  border: 1px #69b3fe solid; */
+  background-color: #fff;
   width: 20px;
   padding: 0;
   border: 0;
-  border: 1px #195a3a solid;
 }
 .scoreTeam1.scoreTeam2,
 p {
-  font-size: 16px;
-  margin: auto;
-  margin-top: 15px;
-  text-align: center;
-  text-overflow: ellipsis;
+  font-size: 0.7em;
+  /* text-overflow: ellipsis;
   white-space: nowrap;
-  overflow: hidden;
+  overflow: hidden; */
 }
+
 .leaderTeam1 h4 {
   line-height: 3.3;
 }
@@ -1518,42 +1592,91 @@ p {
   line-height: 3.3;
 }
 .leaderLeft {
-  width: 30px;
-  padding: 0;
-  background-color: #195a3a;
-  border: 0;
-  border: 1px #195a3a solid;
+  text-align: right;
+  background: #69b3fe;
+  color: #fff;
+  font-size: 1.1em;
 }
 .leaderRight {
-  width: 30px;
-  padding: 0;
-  background-color: #195a3a;
-  border: 0;
-  border: 1px #195a3a solid;
+  text-align: left;
+  background: #fd9b37;
+  position: relative;
+  color: #fff;
+  font-weight: 900;
+  color: #fff;
+  font-size: 1.1em;
 }
-.triangleRight {
+
+.leaderRight::after {
+  content: "";
+  position: absolute;
+  left: 100%;
   width: 0;
   height: 0;
-  margin-top: 20px;
-  border-style: solid;
-  border-width: 0px 10px 10px 10px;
-  border-color: transparent transparent white transparent;
-  background-color: #195a3a;
+  border-top: 22px solid transparent;
+  border-bottom: 22px solid transparent;
+  border-left: 22px solid #fd9b37;
+  clear: both;
 }
-.triangleLeft {
-  float: right;
-  margin-top: 20px;
+
+.leaderLeft::before {
+  content: "";
+  position: absolute;
+  right: 100%;
   width: 0;
   height: 0;
-  border-style: solid;
-  border-width: 0px 10px 10px 10px;
-  border-color: transparent transparent white transparent;
-  background-color: #195a3a;
+  border-top: 22px solid transparent;
+  border-bottom: 22px solid transparent;
+  border-right: 22px solid #69b3fe;
+  clear: both;
 }
+
+.winnerdeclared::before,
+.winnerdeclared::after {
+  content: none;
+}
+
 #tie {
-  margin-top: 10px;
-  font-size: 20px;
-  border: 1px #195a3a solid;
-  line-height: unset;
+  font-size: 1em;
+}
+.tie {
+  background: #fff;
+}
+
+.tie::before,
+.tie::after {
+  content: "" !important;
+}
+
+#landscape {
+  height: calc(100vh + 100%);
+  min-height: calc(100vh);
+}
+
+@media only screen and (max-width: 330px) {
+  /* iphone 5/se */
+
+  #landscape {
+    min-height: calc(100vh);
+  }
+
+  .buttons .btn {
+    width: 30px;
+    height: 30px;
+  }
+
+  .buttons .btn-warning .material-icons {
+    font-size: 1.3em;
+    margin-left: -7px;
+    margin-bottom: 3px;
+  }
+
+  .playerInfo {
+    font-size: 0.6em;
+  }
+
+  .bottombuttons {
+    font-size: 0.7em;
+  }
 }
 </style>
