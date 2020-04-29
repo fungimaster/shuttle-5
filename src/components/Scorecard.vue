@@ -5,13 +5,12 @@
         <!--  HEADER  -->
 
         <b-row class="holeRow pt-4">
-          <b-col class="col-2 pr-0">
+          <b-col class="col-2 pr-0 text-left">
             <button
-              v-if="activeHole > 1"
-              id="buttonLeft"
-              class="holeButtons"
-              :disabled="activeHole === 1"
               @click="activeHole--, saveData()"
+              class="holeButtons disable-dbl-tap-zoom"
+              id="buttonLeft"
+              :disabled="activeHole === 1"
             >
               <span class="material-icons">arrow_back_ios</span>
             </button>
@@ -19,25 +18,24 @@
 
           <b-col class="col-8 text-center p-0">
             <b-row>
-              <b-col xs="4">
+              <b-col xs="4" class="pl-2 pr-0 text-right">
                 <span class="holepar">Par: {{ par }}</span>
               </b-col>
-              <b-col xs="4">
+              <b-col xs="4" class="p-0 pr-1 pl-1">
                 <span class="activeHole">{{ activeHole }}</span>
               </b-col>
-              <b-col xs="4">
+              <b-col xs="4" class="pl-0 pr-2 text-left">
                 <span class="holepar">Index: {{ index }}</span>
               </b-col>
             </b-row>
           </b-col>
 
-          <b-col class="col-2 pl-0">
+          <b-col class="col-2 pl-0 text-right">
             <button
-              v-if="activeHole < 18"
-              id="buttonRight"
-              class="holeButtons"
-              :disabled="activeHole === 18"
               @click="activeHole++, saveData()"
+              class="holeButtons disable-dbl-tap-zoom"
+              id="buttonRight"
+              :disabled="activeHole === 18"
             >
               <span class="material-icons">arrow_forward_ios</span>
             </button>
@@ -82,7 +80,7 @@
               <b-col>
                 <div v-if="index === 0">
                   <button
-                    class="btn btn-warning"
+                  class="buttons disable-dbl-tap-zoom"
                     @click="$bvModal.show('modal-1'), (counter = 1)"
                     v-if="
                       currentStrokesList.slice(0, 1)[0] !==
@@ -92,7 +90,7 @@
                     -
                   </button>
                   <button
-                    class="btn btn-warning"
+                  class="buttons disable-dbl-tap-zoom"
                     v-else
                     @click="$bvModal.show('modal-1'), (counter = 1)"
                   >
@@ -103,7 +101,7 @@
                 <div v-if="index === 1">
                   <button
                     @click="$bvModal.show('modal-2'), (counter = 2)"
-                    class="btn btn-warning"
+                  class="buttons disable-dbl-tap-zoom"
                     v-if="
                       currentStrokesList.slice(1, 2)[0] !==
                         currentStrokesList.slice(1, 2)[0]
@@ -157,7 +155,7 @@
                 <div v-if="index === 0">
                   <button
                     @click="$bvModal.show('modal-3'), (counter = 3)"
-                    class="btn btn-warning"
+                  class="buttons disable-dbl-tap-zoom"
                     v-if="
                       currentStrokesList.slice(2, 3)[0] !==
                         currentStrokesList.slice(2, 3)[0]
@@ -167,7 +165,7 @@
                   </button>
                   <button
                     @click="$bvModal.show('modal-3'), (counter = 3)"
-                    class="btn btn-warning"
+                  class="buttons disable-dbl-tap-zoom"
                     v-else
                   >
                     {{ currentStrokesList.slice(2, 3)[0] }}
@@ -176,7 +174,7 @@
                 <!-- SPELAR 4 -->
                 <div v-if="index === 1">
                   <button
-                    class="btn btn-warning"
+                  class="buttons disable-dbl-tap-zoom"
                     @click="$bvModal.show('modal-4'), (counter = 4)"
                     v-if="
                       currentStrokesList.slice(3, 4)[0] !==
@@ -213,54 +211,90 @@
 
         <!-- NÄSTA HÅL & ÖVERSIKT BUTTONS -->
 
-        <button
-          id="nextHole"
-          class="btn btn-primary"
-          @click="activeHole++, saveData(), makeToast('success')"
-        >
-          Nästa hål
-        </button>
-        <button class="btn btn-primary" @click="overview = !overview">
-          Översikt
-        </button>
+        
+            <b-button
+              class="btn-md pl-3 pr-3 bottombuttons"
+              variant="primary"
+              @click="overview = !overview"
+            >
+              <span class="material-icons">reorder</span> Översikt
+            </b-button>
+          </b-col>
+          <b-col class="col-6 text-right">
+            <b-button
+              v-if="activeHole < 18"
+              id="nextHole"
+              class="btn-md pl-3 pr-3 bottombuttons"
+              variant="primary"
+              @click="activeHole++, saveData(), makeToast('success')"
+            >
+              Nästa hål
+              <span class="material-icons">arrow_forward_ios</span>
+            </b-button>
+          </b-col>
+        </b-row>
 
-        <br />
-        <br />
-        <h4>{{ dormy }}</h4>
-        <h3>winner declared? {{ winnerDeclared }}</h3>
+        <h4 hidden>{{ dormy }}</h4>
+        <h3 hidden>winner declared? {{ winnerDeclared }}</h3>
         <h4
-          :style="
-            winnerDeclared === true
-              ? 'background-color: red'
-              : 'background-color: white'
-          "
+          hidden
+          :style="winnerDeclared === true ? 'background-color: red' : 'background-color: white' "
         >
-          VINNARE: {{ winner }} Resultat: {{ totalWins.totalWins1 }} vs
+          VINNARE:
+          {{ winner }} Resultat: {{ totalWins.totalWins1 }} vs
           {{ totalWins.totalWins2 }}
         </h4>
 
         <!-- FOOTER - LEADER SECTION -->
-        <footer class="fixed-bottom">
-          <b-row class="leaderSection">
-            <b-col s="4" class="scoreTeam1">
-              <p>{{ team1 }}</p>
-            </b-col>
-            <div class="leaderTeam1">
-              <h4 v-if="leader && !tie">{{ matchScore }}</h4>
-            </div>
-            <b-col s="2" :class="{ leaderRight: leader, leaderLeft: !leader }">
-              <p v-if="tie" id="tie">A/S</p>
+        <b-col hidden class="col-4 leaderTeam1 text-right">
+          <h4 v-if="leader && !tie">{{ matchScore }}</h4>
+        </b-col>
 
-              <div
-                v-if="!tie"
-                :class="{ triangleRight: leader, triangleLeft: !leader }"
-              ></div>
+        <b-col hidden class="col-4 leaderTeam2">
+          <h4 v-if="!leader && !tie">{{ matchScore * -1 }}</h4>
+        </b-col>
+
+        <footer class="fixed-bottom">
+          <b-row class="leaderSection" align-v="center" align-h="center">
+            <!-- HOME TEAM -->
+            <b-col class="col-4 scoreTeam text-left pl-3" :class="{ scoreTeam1: leader && !tie }">
+              <span
+                style="float:left;"
+              >{{getFirstName(players[0].name)}} & {{getFirstName(players[1].name)}}</span>
+              <i
+                v-if="!tie && winnerDeclared && leader"
+                class="material-icons pb-1 pl-1"
+              >emoji_events</i>
+              <span v-if="!tie && !winnerDeclared">{{dormy1}}</span>
             </b-col>
-            <div class="leaderTeam2">
-              <h4 v-if="!leader && !tie">{{ matchScore * -1 }}</h4>
-            </div>
-            <b-col s="4" class="scoreTeam2">
-              <p>{{ team2 }}</p>
+
+            <!-- score -->
+            <b-col
+              class="col-4 text-center score"
+              :class="{ leaderRight: leader && !tie, leaderLeft: !leader && !tie, tie: tie, winnerdeclared: winnerDeclared}"
+            >
+              <span v-if="tie" id="tie">A/S</span>
+              <span v-if="!leader && !tie && !winnerDeclared">{{ matchScore * -1 }}UP</span>
+              <!-- away leads -->
+              <span v-if="!leader && winnerDeclared">{{ matchScore * -1 }}&X</span>
+              <!-- home wins -->
+
+              <span v-if="leader && !tie && !winnerDeclared">{{ matchScore }}UP</span>
+              <!-- home leads -->
+              <span v-if="leader && winnerDeclared">{{ matchScore }}&X</span>
+              <!-- home wins -->
+            </b-col>
+
+            <!-- away team -->
+            <b-col class="col-4 scoreTeam text-right pr-3" :class="{ scoreTeam2: !leader && !tie }">
+              <i
+                v-if="!tie && winnerDeclared && !leader"
+                class="material-icons pb-1 pr-1"
+              >emoji_events</i>
+              <span
+                style="float:right;"
+              >{{getFirstName(players[2].name)}} & {{getFirstName(players[3].name)}}</span>
+              <span style="clear:right;" v-if="!tie && !winnerDeclared">{{dormy2}}</span>
             </b-col>
           </b-row>
         </footer>
@@ -268,9 +302,49 @@
     </div>
 
     <!--  LEADER BOARD -->
-    <div v-if="overview" id="overview">
-      <b-container>
-        <b-row class="leaderBoardPlayers">
+    <div id="overview" v-if="overview">
+      <b-container class="p-0">
+        <b-row class="pt-3" align-v="center" align-h="center">
+          <!-- HOME TEAM -->
+          <b-col class="col-4 scoreTeam text-left pl-3" :class="{ scoreTeam1: leader && !tie }">
+            <span
+              style="float:left;"
+            >{{getFirstName(players[0].name)}} & {{getFirstName(players[1].name)}}</span>
+            <i v-if="!tie && winnerDeclared && leader" class="material-icons pb-1 pl-1">emoji_events</i>
+            <span v-if="!tie && !winnerDeclared">{{dormy1}}</span>
+          </b-col>
+
+          <!-- score -->
+          <b-col
+            class="col-4 text-center score"
+            :class="{ leaderRight: leader && !tie, leaderLeft: !leader && !tie, tie: tie, winnerdeclared: winnerDeclared}"
+          >
+            <span v-if="tie" id="tie">A/S</span>
+            <span v-if="!leader && !tie && !winnerDeclared">{{ matchScore * -1 }}UP</span>
+            <!-- away leads -->
+            <span v-if="!leader && winnerDeclared">{{ matchScore * -1 }}&X</span>
+            <!-- home wins -->
+
+            <span v-if="leader && !tie && !winnerDeclared">{{ matchScore }}UP</span>
+            <!-- home leads -->
+            <span v-if="leader && winnerDeclared">{{ matchScore }}&X</span>
+            <!-- home wins -->
+          </b-col>
+
+          <!-- away team -->
+          <b-col class="col-4 scoreTeam text-right pr-3" :class="{ scoreTeam2: !leader && !tie }">
+            <i
+              v-if="!tie && winnerDeclared && !leader"
+              class="material-icons pb-1 pr-1"
+            >emoji_events</i>
+            <span
+              style="float:right;"
+            >{{getFirstName(players[2].name)}} & {{getFirstName(players[3].name)}}</span>
+            <span style="clear:right;" v-if="!tie && !winnerDeclared">{{dormy2}}</span>
+          </b-col>
+        </b-row>
+
+        <b-row hidden class="leaderBoardPlayers">
           <b-col s="4" class="scoreTeam1">
             <p>{{ team1 }}</p>
           </b-col>
@@ -280,10 +354,7 @@
           <b-col s="2" :class="{ leaderRight: leader, leaderLeft: !leader }">
             <p v-if="tie" id="tie">0</p>
 
-            <div
-              v-if="!tie"
-              :class="{ triangleRight: leader, triangleLeft: !leader }"
-            ></div>
+            <div v-if="!tie" :class="{ triangleRight: leader, triangleLeft: !leader }"></div>
           </b-col>
           <div class="leaderTeam2">
             <h4 v-if="!leader && !tie">{{ matchScore * -1 }}</h4>
@@ -297,26 +368,17 @@
         <table class="table9">
           <tr>
             <th>Hole:</th>
-            <td v-for="hole in course.slice(0, 9)" :key="hole.index">
-              {{ hole.hole }}
-            </td>
+            <td v-for="hole in course.slice(0, 9)" :key="hole.index">{{ hole.hole }}</td>
             <td v-bold>OUT</td>
           </tr>
           <tr>
             <th>Par:</th>
-            <td v-for="hole in course.slice(0, 9)" :key="hole.index">
-              {{ hole.par }}
-            </td>
-            <td v-bold>
-              {{ parFirstNine }}
-            </td>
+            <td v-for="hole in course.slice(0, 9)" :key="hole.index">{{ hole.par }}</td>
+            <td v-bold>{{ parFirstNine }}</td>
           </tr>
 
           <!--  SPELARE 1 -->
-          <tr
-            v-for="(player, index) in players.slice(0, 1)"
-            :key="player.index"
-          >
+          <tr v-for="player in players.slice(0, 1)" :key="player.index">
             <th v-initials class="initialsTeam1">{{ player.name }}</th>
             <td
               v-for="holes in player.holes.slice(0, 9)"
@@ -333,9 +395,7 @@
                 draw: singleHoleWinner,
                 slag: slag(0)
               }"
-            >
-              {{ holes.strokes }}
-            </td>
+            >{{ holes.strokes === 0 ? null : holes.strokes }}</td>
             <td
               v-for="score in playerScoreFrontNine.slice(0, 1)"
               :key="score.index"
@@ -361,9 +421,7 @@
                 course: course,
                 slag: slag(1)
               }"
-            >
-              {{ holes.strokes === 0 ? null : holes.strokes }}
-            </td>
+            >{{ holes.strokes === 0 ? null : holes.strokes }}</td>
             <td
               v-for="score in playerScoreFrontNine.slice(1, 2)"
               :key="score.index"
@@ -373,9 +431,11 @@
             </td>
           </tr>
 
-          <tr>
-            <td>
-              <p id="emptyRow"></p>
+      
+
+          <tr class="emptyRow">
+            <td >
+              <p></p>
             </td>
           </tr>
 
@@ -395,9 +455,7 @@
                 course: course,
                 slag: slag(2)
               }"
-            >
-              {{ holes.strokes === 0 ? null : holes.strokes }}
-            </td>
+            >{{ holes.strokes === 0 ? null : holes.strokes }}</td>
             <td
               v-for="score in playerScoreFrontNine.slice(2, 3)"
               :key="score.index"
@@ -423,9 +481,7 @@
                 course: course,
                 slag: slag(3)
               }"
-            >
-              {{ holes.strokes === 0 ? null : holes.strokes }}
-            </td>
+            >{{ holes.strokes === 0 ? null : holes.strokes }}</td>
             <td
               v-for="score in playerScoreFrontNine.slice(3, 4)"
               :key="score.index"
@@ -440,17 +496,13 @@
         <table class="table18">
           <tr>
             <th>Hole:</th>
-            <td v-for="hole in course.slice(9, 18)" :key="hole.index">
-              {{ hole.hole }}
-            </td>
+            <td v-for="hole in course.slice(9, 18)" :key="hole.index">{{ hole.hole }}</td>
             <td v-bold>IN</td>
             <td v-bold>TOT</td>
           </tr>
           <tr>
             <th>Par:</th>
-            <td v-for="hole in course.slice(9, 18)" :key="hole.index">
-              {{ hole.par }}
-            </td>
+            <td v-for="hole in course.slice(9, 18)" :key="hole.index">{{ hole.par }}</td>
             <td v-bold>{{ parTotal - parFirstNine }}</td>
             <td v-bold>{{ parTotal }}</td>
           </tr>
@@ -472,9 +524,7 @@
                 player: player,
                 slag: slag(0)
               }"
-            >
-              {{ holes.strokes === 0 ? null : holes.strokes }}
-            </td>
+            >{{ holes.strokes === 0 ? null : holes.strokes }}</td>
             <td
               v-for="score in playerScoreBackNine.slice(0, 1)"
               :key="score.index"
@@ -508,9 +558,7 @@
                 player: player,
                 slag: slag(0)
               }"
-            >
-              {{ holes.strokes === 0 ? null : holes.strokes }}
-            </td>
+            >{{ holes.strokes === 0 ? null : holes.strokes }}</td>
             <td
               v-for="score in playerScoreBackNine.slice(1, 2)"
               :key="score.index"
@@ -527,9 +575,9 @@
             </td>
           </tr>
 
-          <tr>
+         <tr class="emptyRow">
             <td>
-              <p id="emptyRow"></p>
+              <p ></p>
             </td>
           </tr>
           <!-- SPELARE 3 -->
@@ -549,9 +597,7 @@
                 player: player,
                 slag: slag(0)
               }"
-            >
-              {{ holes.strokes === 0 ? null : holes.strokes }}
-            </td>
+            >{{ holes.strokes === 0 ? null : holes.strokes }}</td>
             <td
               v-for="score in playerScoreBackNine.slice(2, 3)"
               :key="score.index"
@@ -585,9 +631,7 @@
                 player: player,
                 slag: slag(0)
               }"
-            >
-              {{ holes.strokes === 0 ? null : holes.strokes }}
-            </td>
+            >{{ holes.strokes === 0 ? null : holes.strokes }}</td>
             <td
               v-for="score in playerScoreBackNine.slice(3, 4)"
               :key="score.index"
@@ -607,8 +651,12 @@
 
         <!-- BUTTON FÖR MATCH VY -->
         <button class="btn btn-primary" @click="overview = !overview">
+          <span class="material-icons">golf_course</span>
           Match Vy
         </button>
+        <app-hcp-modal :course-rating="courseRating" :slope-rating="slopeRating" :banans-par="banansPar" :players="players" :slope="slopedHcpPlayers" :slope-handicap-list="slopeHandicapList"></app-hcp-modal>
+
+
       </b-container>
     </div>
   </div>
@@ -617,10 +665,13 @@
 import axios from "axios";
 import { schp, hcpSlope } from "../helpers.js";
 import ScoringVue from "./Scoring.vue";
+import HcpModalVue from "./HcpModal.vue";
+
 
 export default {
   components: {
-    appScoring: ScoringVue
+    appScoring: ScoringVue,
+    appHcpModal: HcpModalVue
   },
   directives: {
     displayLowestScore(el, bind) {
@@ -662,7 +713,6 @@ export default {
       } else return;
     }
   },
-
   data() {
     return {
       active: true,
@@ -700,6 +750,12 @@ export default {
       indexProp: "",
       counter: 1,
       lowestScoreOnHole: [],
+      modalVisible: false,
+      slopeHandicapList: [],
+      dormy1: "",
+      dormy2: "",
+
+
       //Fiktiv data nedan
       course: [
         { hole: 1, par: 5, index: 18, slag: [0, 0, 0, 0] },
@@ -744,33 +800,30 @@ export default {
       return strokes;
     },
     totalWins() {
-      const { totalWins1, totalWins2 } = this.totalHoleWins();
+      const { totalWins1, totalWins2, draws } = this.totalHoleWins();
 
-      return { totalWins1, totalWins2 };
+      return { totalWins1, totalWins2, draws };
     },
     winner() {
-      const { totalWins1, totalWins2 } = this.totalHoleWins();
+      const { totalWins1, totalWins2, draws } = this.totalHoleWins();
 
-      const holesPlayed = totalWins1 + totalWins2;
+      const holesPlayed = totalWins1 + totalWins2 - draws;
       const holesLeft = 18 - holesPlayed;
 
       if (totalWins1 - totalWins2 > holesLeft) {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
         return "TEAM 1 är vinnare", (this.winnerDeclared = true);
       }
       if (totalWins2 - totalWins1 > holesLeft) {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
         return "TEAM 1 vinnare ", (this.winnerDeclared = true);
       }
-      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
       this.winnerDeclared = false;
       return null;
     },
 
     dormy() {
-      const { totalWins1, totalWins2 } = this.totalHoleWins();
+      const { totalWins1, totalWins2, draws } = this.totalHoleWins();
 
-      const holesPlayed = totalWins1 + totalWins2;
+      const holesPlayed = totalWins1 + totalWins2 + draws;
       const holesLeft = 18 - holesPlayed;
 
       if (totalWins1 - totalWins2 === holesLeft) {
@@ -783,7 +836,7 @@ export default {
       return null;
     },
 
-    singleHoleWinner() {
+     singleHoleWinner() {
       return this.holeWinner[this.activeHole - 1];
     },
     par() {
@@ -932,10 +985,10 @@ export default {
     try {
       //hämtar data och lägger det i this.player
       /*
-																																																								      const response = await axios.get("http://localhost:3000/scorecard");
-																																																								      const data = response.data[response.data.length - 1];
-																																																								      this.players = data.gameData;
-																																																								      */
+      const response = await axios.get("http://localhost:3000/scorecard");
+      const data = response.data[response.data.length - 1];
+      this.players = data.gameData;
+      */
 
       this.players = [
         {
@@ -960,7 +1013,8 @@ export default {
             { hole: 17, strokes: 0, slag: 0 },
             { hole: 18, strokes: 0, slag: 0 }
           ],
-          hcp: -5
+          hcp: -5,
+          tee: "svart"
         },
         {
           name: "Donald Trump",
@@ -984,7 +1038,8 @@ export default {
             { hole: 17, strokes: 0, slag: 0 },
             { hole: 18, strokes: 0, slag: 0 }
           ],
-          hcp: -2
+          hcp: 0,
+          tee: "vit"
         },
         {
           name: "Anders Tegnell",
@@ -1008,7 +1063,8 @@ export default {
             { hole: 17, strokes: 0, slag: 0 },
             { hole: 18, strokes: 0, slag: 0 }
           ],
-          hcp: 5
+          hcp: 5,
+          tee: "Gul"
         },
         {
           name: "Joan Jett",
@@ -1032,7 +1088,8 @@ export default {
             { hole: 17, strokes: 0, slag: 0 },
             { hole: 18, strokes: 0, slag: 0 }
           ],
-          hcp: 10
+          hcp: 10,
+          tee: "Blå"
         }
       ];
 
@@ -1046,16 +1103,22 @@ export default {
       this.team1 = "lag 1"; //data.gameData[0].team;
       this.team2 = "lag 2";
       /* data.gameData.forEach(element => {
-																																																								        if (element.team != this.team1) {
-																																																								          this.team2 = 'lag 2'//element.team;
-																																																								        }
-																																																								      }); */
+        if (element.team != this.team1) {
+          this.team2 = 'lag 2'//element.team;
+        }
+      }); */
       this.schp();
     } catch (e) {
       console.log(e);
     }
   },
   methods: {
+    getFirstName(name) {
+      return (
+        name.split(" ")[0].substring(0, 1) + name.split(" ")[1].substring(0, 1)
+      );
+    },
+ 
     updateCounter(count) {
       console.log(count);
       this.counter = count;
@@ -1080,13 +1143,13 @@ export default {
     async loadData() {
       try {
         /*
-																																																								        let response = await axios.get("http://localhost:3000/scorecard");
-																																																								        const data = response.data[response.data.length - 1];
-																																																								        this.players = data.gameData;
-																																																								        */
+        let response = await axios.get("http://localhost:3000/scorecard");
+        const data = response.data[response.data.length - 1];
+        this.players = data.gameData;
+        */
         this.players = [
           {
-            name: "Bruce Wayne",
+            name: "Br W",
             holes: [
               { hole: 1, strokes: 0, slag: 0 },
               { hole: 2, strokes: 0, slag: 0 },
@@ -1200,17 +1263,22 @@ export default {
         error => console.log(error);
       }
     },
+ 
     async schp() {
-      const schpTemp = schp(
+      const { slopeHandicapList, newHcpPrel } = schp(
         this.courseRating,
         this.slopeRating,
         this.banansPar
       );
-      this.slopedHcpPlayers = schpTemp;
-      const value1 = schpTemp[0];
-      const value2 = schpTemp[1];
-      const value3 = schpTemp[2];
-      const value4 = schpTemp[3];
+
+      //detta värde bröts ut för att kunna skickas vidare till
+      this.slopeHandicapList = slopeHandicapList;
+
+      this.slopedHcpPlayers = newHcpPrel;
+      const value1 = newHcpPrel[0];
+      const value2 = newHcpPrel[1];
+      const value3 = newHcpPrel[2];
+      const value4 = newHcpPrel[3];
       this.assignSlagPerIndex(value1, 0);
       this.assignSlagPerIndex(value2, 1);
       this.assignSlagPerIndex(value3, 2);
@@ -1265,19 +1333,37 @@ export default {
     totalHoleWins() {
       let totalWins1 = 0;
       let totalWins2 = 0;
-      this.holeWinner.forEach(winner => {
-        if (winner === 0) {
-          return;
-        }
-        winner < 0 ? totalWins1++ : totalWins2++;
-      });
-      return { totalWins1, totalWins2 };
+      let draws = -1
+      
+       for (const winner of this.holeWinner) {
+         if (winner === 0) {
+          draws++
+          break
+         }
+         winner < 0 ? totalWins1++ : totalWins2++;
+       }
+
+      return { totalWins1, totalWins2, draws };
     }
   }
 };
 </script>
-
 <style scoped>
+.container {
+  /* fix for no padding on scorecard phone */
+  padding-top: 0px;
+}
+
+.disable-dbl-tap-zoom {
+  touch-action: manipulation;
+}
+
+.btn-primary .material-icons {
+  font-size: 1em;
+  vertical-align: bottom;
+  margin-bottom: 6px;
+}
+
 .holepar {
   font-size: 0.7em;
   line-height: 0;
@@ -1323,21 +1409,10 @@ div[role="group"]:focus {
 }
 
 /* leader board */
-#landscape {
-  min-height: 670px;
-  min-width: 353px;
-}
+
 #overview {
   margin-left: 10px;
   margin-right: 10px;
-}
-table {
-  table-layout: auto;
-  text-align: left;
-  width: 100%;
-  margin: 25px auto;
-  border-collapse: inherit;
-  font-size: 12px;
 }
 
 .initialsTeam1 {
@@ -1347,18 +1422,6 @@ table {
   color: #69b3fe;
 }
 
-tr:nth-child(1) {
-  background: #195a3a;
-  color: white;
-}
-tr:nth-child(2) {
-  background: #195a3a;
-  color: white;
-}
-td {
-  padding: 3px;
-  text-align: center;
-}
 .leaderBoardStrokes {
   margin: 4px;
   background-color: white;
@@ -1385,10 +1448,44 @@ td {
 .btn-danger {
   font-size: 12px;
 }
+
+/* leader board      ---> table */
+
+table {
+  table-layout: auto;
+  text-align: left;
+  width: 100%;
+  margin: 25px auto;
+  /* border-collapse: inherit; */
+  font-size: 12px;
+}
+
+th,
+td {
+  border: 1px solid #999;
+}
+
+.emptyRow {
+  border: none;
+}
+
+tr:nth-child(1) {
+  background: #195a3a;
+  color: white;
+}
+tr:nth-child(2) {
+  background: #195a3a;
+  color: white;
+}
+td {
+  padding: 3px;
+  text-align: center;
+}
+
 /* HEADER ROW */
 .holeRow {
   margin-bottom: 20px;
-  height: 80px;
+  height: 70px;
   padding-top: 20px;
   background-color: #195a3a;
   color: white;
@@ -1407,11 +1504,29 @@ td {
   margin-top: 15%;
 }
 /*  SCORE CARD  */
+
+.score {
+  line-height: 2.3em;
+  letter-spacing: 2px;
+}
+
 .holeWinner {
-  background-color: #cbffcb;
+  background: repeating-linear-gradient(
+    45deg,
+    #ecf5ec,
+    #ecf5ec 10px,
+    #fff 10px,
+    #fff 20px
+  );
 }
 .holeLoser {
-  background-color: #ffdadf;
+  background: repeating-linear-gradient(
+    45deg,
+    #fceded,
+    #fceded 10px,
+    #fff 10px,
+    #fff 20px
+  );
 }
 
 .hideSlag {
@@ -1420,52 +1535,55 @@ td {
 .classDisplayNone {
   display: none;
 }
-.team1ScoreCard {
-  margin: 5px;
+.team1ScoreCard,
+.team2ScoreCard {
   -webkit-box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.19);
   -moz-box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.19);
   box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.19);
   border-radius: 10px;
-  padding: 10px;
+  padding: 5px 10px;
 }
 .team2ScoreCard {
-  margin: 5px;
   margin-top: 13px;
-  -webkit-box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.19);
-  -moz-box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.19);
-  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.19);
-  border-radius: 10px;
-  padding: 10px;
 }
+
 .strokes {
   padding: 0px;
   font-size: 20px;
 }
-.teamColor1 {
-  display: inline-block;
-  margin-left: 25px;
-  background-color: #ffffff;
-  height: 15px;
-  width: 15px;
-  margin-top: 25px;
-  margin-bottom: 20px;
-  border-radius: 10px;
-  border: 3px solid #fd9b37;
-}
+
+.teamColor1,
 .teamColor2 {
   display: inline-block;
   margin-left: 25px;
-  background-color: #fff;
-  height: 15px;
-  width: 15px;
-  margin-top: 25px;
+  height: 20px;
+  width: 20px;
+  margin-top: 22px;
   margin-bottom: 20px;
   border-radius: 10px;
-  border: 3px solid #69b3fe;
 }
+
+.teamColor1 {
+  border: 3px solid #fd9b37;
+  /*background:#fd9b37;*/
+}
+
+.teamColor2 {
+  border: 3px solid #69b3fe;
+  /*background:#69b3fe;*/
+}
+
+.holeWinner .teamColor1 {
+  background-color: #fd9b37;
+}
+
+.holeWinner .teamColor2 {
+  background-color: #69b3fe;
+}
+
 .playerRow {
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 .playerName {
   font-weight: 900;
@@ -1482,7 +1600,7 @@ td {
   overflow: hidden;
 }
 .playerInfo {
-  color: #ababab;
+  color: #585454;
   font-size: 12px;
   margin-bottom: 5px;
   margin-top: 10px;
@@ -1535,6 +1653,7 @@ td {
   background-color: #195a3a !important;
   transform: scale(0.95) !important;
   border: 0 !important;
+  border-color: #195a3a !important;
 }
 .btn-warning,
 .btn-warning:hover,
@@ -1556,63 +1675,73 @@ td {
   background-color: #195a3a !important;
   border-radius: 50px !important;
   box-shadow: 0 !important;
+  border-color: #195a3a !important;
 }
 #nextHole {
-  font-size: 20px;
+  /*
+  font-size: 20px;  
   margin-bottom: 10px;
   margin-top: 12px;
-  width: 340px;
+   width: 340px; */
 }
 /* LEADER SECTION  */
 .leaderSection {
-  color: white;
+  /* border-top: 1px solid #333; */
   position: fixed;
-  height: 50px;
   bottom: 0;
+  height: 80px;
   width: 100%;
   margin: 0;
+  background-color: #fff;
 }
+.scoreTeam {
+  font-size: 0.7em;
+}
+
+.scoreTeam span {
+  display: block;
+}
+
 .scoreTeam1 {
-  min-width: 90px;
-  background-color: #195a3a;
-  padding: 0;
-  padding-left: 10px;
-  border: 0;
-  border: 1px #195a3a solid;
-  overflow: hidden;
+  background: #fd9b37;
+  position: relative;
+  color: #fff;
+  font-weight: 900;
+  line-height: 44px;
 }
+
 .scoreTeam2 {
-  min-width: 90px;
-  background-color: #195a3a;
-  padding: 0;
-  border: 0;
-  border: 1px #195a3a solid;
-  overflow: hidden;
+  background: #69b3fe;
+  position: relative;
+  color: #fff;
+  font-weight: 900;
+  line-height: 44px;
 }
+
 .leaderTeam1 {
-  background-color: #195a3a;
+  /*  background-color: #fd9b37;
+  border: 1px #fd9b37 solid; */
+  background-color: #fff;
   width: 20px;
   padding: 0;
   border: 0;
-  border: 1px #195a3a solid;
 }
 .leaderTeam2 {
-  background-color: #195a3a;
+  /* background-color: #69b3fe;
+  border: 1px #69b3fe solid; */
+  background-color: #fff;
   width: 20px;
   padding: 0;
   border: 0;
-  border: 1px #195a3a solid;
 }
 .scoreTeam1.scoreTeam2,
 p {
-  font-size: 16px;
-  margin: auto;
-  margin-top: 15px;
-  text-align: center;
-  text-overflow: ellipsis;
+  font-size: 0.7em;
+  /* text-overflow: ellipsis;
   white-space: nowrap;
-  overflow: hidden;
+  overflow: hidden; */
 }
+
 .leaderTeam1 h4 {
   line-height: 3.3;
 }
@@ -1620,42 +1749,91 @@ p {
   line-height: 3.3;
 }
 .leaderLeft {
-  width: 30px;
-  padding: 0;
-  background-color: #195a3a;
-  border: 0;
-  border: 1px #195a3a solid;
+  text-align: right;
+  background: #69b3fe;
+  color: #fff;
+  font-size: 1.1em;
 }
 .leaderRight {
-  width: 30px;
-  padding: 0;
-  background-color: #195a3a;
-  border: 0;
-  border: 1px #195a3a solid;
+  text-align: left;
+  background: #fd9b37;
+  position: relative;
+  color: #fff;
+  font-weight: 900;
+  color: #fff;
+  font-size: 1.1em;
 }
-.triangleRight {
+
+.leaderRight::after {
+  content: "";
+  position: absolute;
+  left: 100%;
   width: 0;
   height: 0;
-  margin-top: 20px;
-  border-style: solid;
-  border-width: 0px 10px 10px 10px;
-  border-color: transparent transparent white transparent;
-  background-color: #195a3a;
+  border-top: 22px solid transparent;
+  border-bottom: 22px solid transparent;
+  border-left: 22px solid #fd9b37;
+  clear: both;
 }
-.triangleLeft {
-  float: right;
-  margin-top: 20px;
+
+.leaderLeft::before {
+  content: "";
+  position: absolute;
+  right: 100%;
   width: 0;
   height: 0;
-  border-style: solid;
-  border-width: 0px 10px 10px 10px;
-  border-color: transparent transparent white transparent;
-  background-color: #195a3a;
+  border-top: 22px solid transparent;
+  border-bottom: 22px solid transparent;
+  border-right: 22px solid #69b3fe;
+  clear: both;
 }
+
+.winnerdeclared::before,
+.winnerdeclared::after {
+  content: none;
+}
+
 #tie {
-  margin-top: 10px;
-  font-size: 20px;
-  border: 1px #195a3a solid;
-  line-height: unset;
+  font-size: 1em;
+}
+.tie {
+  background: #fff;
+}
+
+.tie::before,
+.tie::after {
+  content: "" !important;
+}
+
+#landscape {
+  height: calc(100vh + 100%);
+  min-height: calc(100vh);
+}
+
+@media only screen and (max-width: 330px) {
+  /* iphone 5/se */
+
+  #landscape {
+    min-height: calc(100vh);
+  }
+
+  .buttons .btn {
+    width: 30px;
+    height: 30px;
+  }
+
+  .buttons .btn-warning .material-icons {
+    font-size: 1.3em;
+    margin-left: -7px;
+    margin-bottom: 3px;
+  }
+
+  .playerInfo {
+    font-size: 0.6em;
+  }
+
+  .bottombuttons {
+    font-size: 0.7em;
+  }
 }
 </style>
