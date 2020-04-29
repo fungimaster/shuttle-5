@@ -46,66 +46,76 @@
 
         <!--  <ul v-for="hole in course" :key="hole.index">
           <li>{{ hole.hole }} : {{ hole.slag }}</li>
-        </ul>-->
+				</ul>-->
 
-        <!--  SCORECARD RUTOR  -->
-        <!--  TEAM 1 -->
-
-        <!-- :class-logiken på nästa rad binder vinnare/förlorar-klass till scorecard om alla plusknappar är tryckta och beroende vem som vann -->
+        <!-- TEAM 1 CONTAINER -->
         <div
           class="team1ScoreCard"
-          :class="[singleHoleWinner < 0  && displayToast === false ? 'holeWinner' : '', singleHoleWinner > 0  && displayToast === false ? 'holeLoser' : '']"
+          :class="[
+            singleHoleWinner < 0 && displayToast === false ? 'holeWinner' : '',
+            singleHoleWinner > 0 && displayToast === false ? 'holeLoser' : ''
+          ]"
         >
-          <div v-for="(player, index) in players.slice(0, 2)" :key="player.index">
+          <div
+            v-for="(player, index) in players.slice(0, 2)"
+            :key="player.index"
+          >
+            <!--  SLAG OCH HCP TEAM 1 -->
+
             <b-row class="playerRow">
               <div class="teamColor1"></div>
               <b-col xs="6" class="playerNameContainer">
                 <p class="playerName">{{ player.name }}</p>
-                <!-- <p class="playerTotalScore">(0)</p> -->
 
-                <!--  SLAG OCH HCP TEAM 1 -->
                 <div class="playerInfo">
                   <span>SHCP {{ slopedHcpPlayers[index] }}</span>
-                  <!--  <span>HCP {{ player.hcp }} </span> -->
-                  <span
-                    :class="{ hideSlag: slag(index) === 0 ? true : false }"
-                  >&#9642; SLAG {{ slag(index) }}</span>
+                  <span :class="{ hideSlag: slag(index) === 0 ? true : false }"
+                    >&#9642; SLAG {{ slag(index) }}</span
+                  >
                 </div>
               </b-col>
-              <b-col cols="5">
-                <!--  STROKES SECTION -->
-                <div
-                  class="buttons disable-dbl-tap-zoom"
-                  v-for="holes in player.holes"
-                  :key="holes.index"
-                  :class="
-                    holes.hole != activeHole
-                      ? { classDisplayNone: active }
-                      : null
-                  "
-                >
-                  <!-- MINUS-KNAPP TEAM 1-->
-                  <button
-                    :disabled="holes.strokes === 0"
-                    class="btn btn-warning"
-                    @click="holes.hole === activeHole ? holes.strokes-- : null"
-                  >
-                    <i class="material-icons">remove</i>
-                  </button>
-                  <!-- Visar antal slag per spelare i team 1 -->
-                  <span v-if="holes.strokes == 0">-</span>
-                  <span v-else class="strokes">{{ holes.strokes }}</span>
 
-                  <!-- PLUS-KNAPP TEAM 1-->
+              <!-- SCOREBUTTON -->
+              <!-- SPELARE 1 -->
+              <b-col>
+                <div v-if="index === 0">
                   <button
-                    class="btn btn-warning"
-                    @click="
-                      holes.hole === activeHole ? holes.strokes++ : null,
-                        currentStrokes(player)
+                  class="buttons disable-dbl-tap-zoom"
+                    @click="$bvModal.show('modal-1'), (counter = 1)"
+                    v-if="
+                      currentStrokesList.slice(0, 1)[0] !==
+                        currentStrokesList.slice(0, 1)[0]
                     "
-                    @click.once="holes.strokes = par"
                   >
-                    <i class="material-icons">add</i>
+                    -
+                  </button>
+                  <button
+                  class="buttons disable-dbl-tap-zoom"
+                    v-else
+                    @click="$bvModal.show('modal-1'), (counter = 1)"
+                  >
+                    {{ currentStrokesList.slice(0, 1)[0] }}
+                  </button>
+                </div>
+                <!-- SPELARE 2 -->
+                <div v-if="index === 1">
+                  <button
+                    @click="$bvModal.show('modal-2'), (counter = 2)"
+                  class="buttons disable-dbl-tap-zoom"
+                    v-if="
+                      currentStrokesList.slice(1, 2)[0] !==
+                        currentStrokesList.slice(1, 2)[0]
+                    "
+                  >
+                    -
+                  </button>
+
+                  <button
+                    @click="$bvModal.show('modal-2'), (counter = 2)"
+                    class="btn btn-warning"
+                    v-else
+                  >
+                    {{ currentStrokesList.slice(1, 2)[0] }}
                   </button>
                 </div>
               </b-col>
@@ -113,62 +123,72 @@
           </div>
         </div>
 
-        <!-- TEAM 2 -->
+        <!-- TEAM 2 CONTAINER -->
         <div
-          class="team2ScoreCard mb-4"
-          :class="[singleHoleWinner > 0  && displayToast === false ? 'holeWinner' : '', singleHoleWinner < 0  && displayToast === false ? 'holeLoser' : '' ]"
+          class="team2ScoreCard"
+          :class="[
+            singleHoleWinner > 0 && displayToast === false ? 'holeWinner' : '',
+            singleHoleWinner < 0 && displayToast === false ? 'holeLoser' : ''
+          ]"
         >
-          <div v-for="(player, index) in players.slice(2, 4)" :key="player.index">
+          <div
+            v-for="(player, index) in players.slice(2, 4)"
+            :key="player.index"
+          >
+            <!--  SLAG OCH HCP TEAM 2 -->
             <b-row class="playerRow">
               <div class="teamColor2"></div>
-
               <b-col xs="6" class="playerNameContainer">
                 <p class="playerName">{{ player.name }}</p>
-                <!--  SLAG OCH HCP TEAM 2 -->
-                <div class="playerInfo">
-                  <span>SHCP {{ slopedHcpPlayers[index+2] }}</span>
-                  <!-- <span>HCP {{ player.hcp }}</span> -->
 
+                <div class="playerInfo">
+                  <span>SHCP {{ slopedHcpPlayers[index + 2] }}</span>
                   <span
                     :class="{ hideSlag: slag(index + 2) === 0 ? true : false }"
-                  >&#9642; SLAG {{ slag(index + 2) }}</span>
+                    >&#9642; SLAG {{ slag(index + 2) }}</span
+                  >
                 </div>
               </b-col>
-              <b-col cols="5">
-                <!--  STROKES SECTION -->
-                <div
+              <!-- SCOREBUTTON -->
+              <!-- SPELAR 3 -->
+              <b-col>
+                <div v-if="index === 0">
+                  <button
+                    @click="$bvModal.show('modal-3'), (counter = 3)"
                   class="buttons disable-dbl-tap-zoom"
-                  v-for="holes in player.holes"
-                  :key="holes.index"
-                  :class="
-                    holes.hole != activeHole
-                      ? { classDisplayNone: active }
-                      : null
-                  "
-                >
-                  <!-- MINUS-KNAPP TEAM 2 -->
-                  <button
-                    :disabled="holes.strokes === 0"
-                    class="btn btn-warning"
-                    @click="holes.hole === activeHole ? holes.strokes-- : null"
-                  >
-                    <i class="material-icons">remove</i>
-                  </button>
-
-                  <!-- Visar antal slag per spelare i team 1 -->
-                  <span v-if="holes.strokes == 0">-</span>
-                  <span v-else class="strokes">{{ holes.strokes }}</span>
-
-                  <!-- PLUS-KNAPP TEAM 2-->
-                  <button
-                    class="btn btn-warning"
-                    @click="
-                      holes.hole === activeHole ? holes.strokes++ : null,
-                        currentStrokes(player)
+                    v-if="
+                      currentStrokesList.slice(2, 3)[0] !==
+                        currentStrokesList.slice(2, 3)[0]
                     "
-                    @click.once="holes.strokes = par"
                   >
-                    <i class="material-icons">add</i>
+                    -
+                  </button>
+                  <button
+                    @click="$bvModal.show('modal-3'), (counter = 3)"
+                  class="buttons disable-dbl-tap-zoom"
+                    v-else
+                  >
+                    {{ currentStrokesList.slice(2, 3)[0] }}
+                  </button>
+                </div>
+                <!-- SPELAR 4 -->
+                <div v-if="index === 1">
+                  <button
+                  class="buttons disable-dbl-tap-zoom"
+                    @click="$bvModal.show('modal-4'), (counter = 4)"
+                    v-if="
+                      currentStrokesList.slice(3, 4)[0] !==
+                        currentStrokesList.slice(3, 4)[0]
+                    "
+                  >
+                    -
+                  </button>
+                  <button
+                    @click="$bvModal.show('modal-4'), (counter = 4)"
+                    class="btn btn-warning"
+                    v-else
+                  >
+                    {{ currentStrokesList.slice(3, 4)[0] }}
                   </button>
                 </div>
               </b-col>
@@ -176,9 +196,22 @@
           </div>
         </div>
 
-        <b-row class="mt-3">
-          <b-col class="col-6">
-            <!-- NÄSTA HÅL & ÖVERSIKT BUTTONS -->
+        <!-- SCORING MODAL -->
+        <app-scoring
+          :players="players"
+          :activehole="activeHole"
+          :active="active"
+          :par="par"
+          :indexProp="indexProp"
+          :counter="counter"
+          :nameCount="nameCount"
+          @sendScore="currentStrokes"
+          @updateCounter="updateCounter"
+        ></app-scoring>
+
+        <!-- NÄSTA HÅL & ÖVERSIKT BUTTONS -->
+
+        
             <b-button
               class="btn-md pl-3 pr-3 bottombuttons"
               variant="primary"
@@ -350,16 +383,26 @@
             <td
               v-for="holes in player.holes.slice(0, 9)"
               :key="holes.index"
-              v-scoreColor:arguments="{
-                slag: holes.strokes,
-                par: holes.par
+              v-changeNanAndZero:arguments="{
+                score: holes.strokes
+              }"
+              v-displayLowestScore:arguments="{
+                score: holes.strokes,
+                lowestScoreOnHole,
+                activeHole,
+                course: course,
+                player: player,
+                draw: singleHoleWinner,
+                slag: slag(0)
               }"
             >{{ holes.strokes === 0 ? null : holes.strokes }}</td>
             <td
               v-for="score in playerScoreFrontNine.slice(0, 1)"
               :key="score.index"
               v-bold
-            >{{ score }}</td>
+            >
+              {{ score !== score ? "-" : score }}
+            </td>
           </tr>
 
           <!-- SPELARE 2 -->
@@ -368,20 +411,30 @@
             <td
               v-for="holes in player.holes.slice(0, 9)"
               :key="holes.index"
-              v-scoreColor:arguments="{
-                slag: holes.strokes,
-                par: holes.par
+              v-changeNanAndZero:arguments="{
+                score: holes.strokes
+              }"
+              v-displayLowestScore:arguments="{
+                score: holes.strokes,
+                lowestScoreOnHole,
+                activeHole,
+                course: course,
+                slag: slag(1)
               }"
             >{{ holes.strokes === 0 ? null : holes.strokes }}</td>
             <td
               v-for="score in playerScoreFrontNine.slice(1, 2)"
               :key="score.index"
               v-bold
-            >{{ score }}</td>
+            >
+              {{ score !== score ? "-" : score }}
+            </td>
           </tr>
 
+      
+
           <tr class="emptyRow">
-            <td class="emptyRow">
+            <td >
               <p></p>
             </td>
           </tr>
@@ -392,16 +445,24 @@
             <td
               v-for="holes in player.holes.slice(0, 9)"
               :key="holes.index"
-              v-scoreColor:arguments="{
-                slag: holes.strokes,
-                par: holes.par
+              v-changeNanAndZero:arguments="{
+                score: holes.strokes
+              }"
+              v-displayLowestScore:arguments="{
+                score: holes.strokes,
+                lowestScoreOnHole,
+                activeHole,
+                course: course,
+                slag: slag(2)
               }"
             >{{ holes.strokes === 0 ? null : holes.strokes }}</td>
             <td
               v-for="score in playerScoreFrontNine.slice(2, 3)"
               :key="score.index"
               v-bold
-            >{{ score }}</td>
+            >
+              {{ score !== score ? "-" : score }}
+            </td>
           </tr>
 
           <!-- SPELARE 4 -->
@@ -410,16 +471,24 @@
             <td
               v-for="holes in player.holes.slice(0, 9)"
               :key="holes.index"
-              v-scoreColor:arguments="{
-                slag: holes.strokes,
-                par: holes.par
+              v-changeNanAndZero:arguments="{
+                score: holes.strokes
+              }"
+              v-displayLowestScore:arguments="{
+                score: holes.strokes,
+                lowestScoreOnHole,
+                activeHole,
+                course: course,
+                slag: slag(3)
               }"
             >{{ holes.strokes === 0 ? null : holes.strokes }}</td>
             <td
               v-for="score in playerScoreFrontNine.slice(3, 4)"
               :key="score.index"
               v-bold
-            >{{ score }}</td>
+            >
+              {{ score !== score ? "-" : score }}
+            </td>
           </tr>
         </table>
 
@@ -444,17 +513,32 @@
             <td
               v-for="holes in player.holes.slice(9, 18)"
               :key="holes.index"
-              v-scoreColor:arguments="{
-                slag: holes.strokes,
-                par: holes.par
+              v-changeNanAndZero:arguments="{
+                score: holes.strokes
+              }"
+              v-displayLowestScore:arguments="{
+                score: holes.strokes,
+                lowestScoreOnHole,
+                activeHole,
+                course: course,
+                player: player,
+                slag: slag(0)
               }"
             >{{ holes.strokes === 0 ? null : holes.strokes }}</td>
             <td
               v-for="score in playerScoreBackNine.slice(0, 1)"
               :key="score.index"
               v-bold
-            >{{ score }}</td>
-            <td v-for="score in playerScoreTotal.slice(0, 1)" :key="score.index" v-bold>{{ score }}</td>
+            >
+              {{ score !== score ? "-" : score }}
+            </td>
+            <td
+              v-for="score in playerScoreTotal.slice(0, 1)"
+              :key="score.index"
+              v-bold
+            >
+              {{ score !== score ? "-" : score }}
+            </td>
           </tr>
 
           <!-- SPELARE 2 -->
@@ -463,22 +547,37 @@
             <td
               v-for="holes in player.holes.slice(9, 18)"
               :key="holes.index"
-              v-scoreColor:arguments="{
-                slag: holes.strokes,
-                par: holes.par
+              v-changeNanAndZero:arguments="{
+                score: holes.strokes
+              }"
+              v-displayLowestScore:arguments="{
+                score: holes.strokes,
+                lowestScoreOnHole,
+                activeHole,
+                course: course,
+                player: player,
+                slag: slag(0)
               }"
             >{{ holes.strokes === 0 ? null : holes.strokes }}</td>
             <td
               v-for="score in playerScoreBackNine.slice(1, 2)"
               :key="score.index"
               v-bold
-            >{{ score }}</td>
-            <td v-for="score in playerScoreTotal.slice(1, 2)" :key="score.index" v-bold>{{ score }}</td>
+            >
+              {{ score !== score ? "-" : score }}
+            </td>
+            <td
+              v-for="score in playerScoreTotal.slice(1, 2)"
+              :key="score.index"
+              v-bold
+            >
+              {{ score !== score ? "-" : score }}
+            </td>
           </tr>
 
-          <tr class="emptyRow">
-            <td class="emptyRow">
-              <p></p>
+         <tr class="emptyRow">
+            <td>
+              <p ></p>
             </td>
           </tr>
           <!-- SPELARE 3 -->
@@ -487,17 +586,32 @@
             <td
               v-for="holes in player.holes.slice(9, 18)"
               :key="holes.index"
-              v-scoreColor:arguments="{
-                slag: holes.strokes,
-                par: holes.par
+              v-changeNanAndZero:arguments="{
+                score: holes.strokes
+              }"
+              v-displayLowestScore:arguments="{
+                score: holes.strokes,
+                lowestScoreOnHole,
+                activeHole,
+                course: course,
+                player: player,
+                slag: slag(0)
               }"
             >{{ holes.strokes === 0 ? null : holes.strokes }}</td>
             <td
               v-for="score in playerScoreBackNine.slice(2, 3)"
               :key="score.index"
               v-bold
-            >{{ score }}</td>
-            <td v-for="score in playerScoreTotal.slice(2, 3)" :key="score.index" v-bold>{{ score }}</td>
+            >
+              {{ score !== score ? "-" : score }}
+            </td>
+            <td
+              v-for="score in playerScoreTotal.slice(2, 3)"
+              :key="score.index"
+              v-bold
+            >
+              {{ score !== score ? "-" : score }}
+            </td>
           </tr>
 
           <!-- SPELARE 4 -->
@@ -506,17 +620,32 @@
             <td
               v-for="holes in player.holes.slice(9, 18)"
               :key="holes.index"
-              v-scoreColor:arguments="{
-                slag: holes.strokes,
-                par: holes.par
+              v-changeNanAndZero:arguments="{
+                score: holes.strokes
+              }"
+              v-displayLowestScore:arguments="{
+                score: holes.strokes,
+                lowestScoreOnHole,
+                activeHole,
+                course: course,
+                player: player,
+                slag: slag(0)
               }"
             >{{ holes.strokes === 0 ? null : holes.strokes }}</td>
             <td
               v-for="score in playerScoreBackNine.slice(3, 4)"
               :key="score.index"
               v-bold
-            >{{ score }}</td>
-            <td v-for="score in playerScoreTotal.slice(3, 4)" :key="score.index" v-bold>{{ score }}</td>
+            >
+              {{ score !== score ? "-" : score }}
+            </td>
+            <td
+              v-for="score in playerScoreTotal.slice(3, 4)"
+              :key="score.index"
+              v-bold
+            >
+              {{ score !== score ? "-" : score }}
+            </td>
           </tr>
         </table>
 
@@ -535,15 +664,39 @@
 <script>
 import axios from "axios";
 import { schp, hcpSlope } from "../helpers.js";
+import ScoringVue from "./Scoring.vue";
 import HcpModalVue from "./HcpModal.vue";
 
+
 export default {
+  components: {
+    appScoring: ScoringVue,
+    appHcpModal: HcpModalVue
+  },
   directives: {
-    initials(el) {
-       //Om namnet eller initialerna är tre tecken långt tillsammans, så görs inga initialer. 
-       if (el.innerText.length === 3) {
-        return;
+    displayLowestScore(el, bind) {
+      // if (bind.value.draw !== 1 && bind.value.draw !== -1) {
+      //   return;
+      // }
+
+      const activeHole = bind.value.activeHole;
+      const slag = bind.value.slag;
+      const score = bind.value.score;
+      const lowestScore = bind.value.lowestScoreOnHole[activeHole - 1];
+
+      if (score - slag === lowestScore) {
+        el.style.backgroundColor = "red";
       }
+    },
+    changeNanAndZero(el, bind) {
+      if (bind.value.score !== bind.value.score) {
+        el.innerHTML = "-";
+      }
+      if (bind.value.score === 0) {
+        el.innerHTML = null;
+      }
+    },
+    initials(el) {
       let array = el.innerText.split(" ");
       const intialsArray = array.map(e => e.slice(0, 1));
       el.innerHTML = intialsArray[0] + "." + intialsArray[1];
@@ -551,13 +704,15 @@ export default {
     bold(el) {
       el.style.fontWeight = "900";
     },
-    scoreColor(el, bind) {
-     
+    nullIsStroke(el) {
+      console.log(el);
+      let newString = string.trim();
+
+      if (newString !== newString) {
+        el.innerHTML = "heej";
+      } else return;
     }
   },
-  components: {
-    appHcpModal: HcpModalVue
-},
   data() {
     return {
       active: true,
@@ -566,15 +721,39 @@ export default {
       team1: [],
       team2: [],
       overview: false,
-      nameCount: [],
+      nameCount: [
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
       displayToast: true,
       parData: 0,
       slopedHcpPlayers: [],
       holeWinner: [],
       winnerDeclared: false,
+      scoringView: false,
+      indexProp: "",
+      counter: 1,
+      lowestScoreOnHole: [],
       modalVisible: false,
       slopeHandicapList: [],
-
+      dormy1: "",
+      dormy2: "",
 
 
       //Fiktiv data nedan
@@ -604,6 +783,22 @@ export default {
     };
   },
   computed: {
+    currentStrokesList() {
+      let strokesList = [];
+      let strokes = [];
+      this.players.forEach(holes => {
+        holes.holes.forEach(hole => {
+          strokesList.push(hole);
+        });
+      });
+      strokesList.forEach(hole => {
+        if (hole.hole === this.activeHole) {
+          strokes.push(hole.strokes);
+        }
+      });
+
+      return strokes;
+    },
     totalWins() {
       const { totalWins1, totalWins2, draws } = this.totalHoleWins();
 
@@ -613,9 +808,7 @@ export default {
       const { totalWins1, totalWins2, draws } = this.totalHoleWins();
 
       const holesPlayed = totalWins1 + totalWins2 - draws;
-      console.log("winner -> holesPlayed", holesPlayed)
       const holesLeft = 18 - holesPlayed;
-      console.log("winner -> holesLeft", holesLeft)
 
       if (totalWins1 - totalWins2 > holesLeft) {
         return "TEAM 1 är vinnare", (this.winnerDeclared = true);
@@ -663,7 +856,8 @@ export default {
     },
     index() {
       let index = this.course.find(e => e.hole === this.activeHole);
-      //return "Index: " + index.index;
+      //för att kunna skicka till Scoring.vue gör jag även detta:
+      this.indexProp = index.index;
       return index.index;
     },
     playerScoreTotal() {
@@ -727,7 +921,6 @@ export default {
       strokes2SlagNotCalc = strokes2SlagNotCalc[0];
       strokes3SlagNotCalc = strokes3SlagNotCalc[0];
 
-      //
       const subtractSlagFromScore = (scoreArray, slagArray) => {
         let newArray = [];
         scoreArray.forEach((element, index) => {
@@ -742,10 +935,12 @@ export default {
       let strokes3 = subtractSlagFromScore(strokes3SlagNotCalc, slag3);
 
       const replaceZero = number => (number <= 0 ? (number = 99) : number);
-      strokes0 = strokes0.map(replaceZero);
-      strokes1 = strokes1.map(replaceZero);
-      strokes2 = strokes2.map(replaceZero);
-      strokes3 = strokes3.map(replaceZero);
+      const replaceNaN = number => (number !== number ? (number = 99) : number);
+
+      strokes0 = strokes0.map(replaceZero).map(replaceNaN);
+      strokes1 = strokes1.map(replaceZero).map(replaceNaN);
+      strokes2 = strokes2.map(replaceZero).map(replaceNaN);
+      strokes3 = strokes3.map(replaceZero).map(replaceNaN);
 
       const bestStrokesTeam1 = strokes0.map((num, index) =>
         num <= strokes1[index] ? num : strokes1[index]
@@ -757,6 +952,11 @@ export default {
         (num, index) => num - bestStrokesTeam2[index]
       );
 
+      //lowestScoreOnHole används för att visa vem som tog hem håler i översikten
+      this.lowestScoreOnHole = bestStrokesTeam1.map((num, index) =>
+        num <= bestStrokesTeam2[index] ? num : bestStrokesTeam2[index]
+      );
+      //holeWinner används för att visa hålvinnare.
       this.holeWinner = matchScore;
 
       matchScore.forEach(subtractedScore => {
@@ -768,7 +968,6 @@ export default {
           }
         }
       });
-      console.log(score)
       return score;
     },
     leader() {
@@ -913,69 +1112,32 @@ export default {
       console.log(e);
     }
   },
-  data() {
-    return {
-      active: true,
-      players: [],
-      activeHole: 1,
-      team1: [],
-      team2: [],
-      overview: false,
-      nameCount: [],
-      displayToast: true,
-      parData: 0,
-      slopedHcpPlayers: [],
-      holeWinner: [],
-      winnerDeclared: false,
-      dormy1: "",
-      dormy2: "",
-
-      //Fiktiv data nedan
-      course: [
-        { hole: 1, par: 5, index: 18, slag: [0, 0, 0, 0] },
-        { hole: 2, par: 3, index: 12, slag: [0, 0, 0, 0] },
-        { hole: 3, par: 3, index: 11, slag: [0, 0, 0, 0] },
-        { hole: 4, par: 4, index: 1, slag: [0, 0, 0, 0] },
-        { hole: 5, par: 4, index: 5, slag: [0, 0, 0, 0] },
-        { hole: 6, par: 5, index: 16, slag: [0, 0, 0, 0] },
-        { hole: 7, par: 4, index: 17, slag: [0, 0, 0, 0] },
-        { hole: 8, par: 3, index: 8, slag: [0, 0, 0, 0] },
-        { hole: 9, par: 4, index: 9, slag: [0, 0, 0, 0] },
-        { hole: 10, par: 3, index: 14, slag: [0, 0, 0, 0] },
-        { hole: 11, par: 4, index: 13, slag: [0, 0, 0, 0] },
-        { hole: 12, par: 3, index: 2, slag: [0, 0, 0, 0] },
-        { hole: 13, par: 4, index: 6, slag: [0, 0, 0, 0] },
-        { hole: 14, par: 3, index: 3, slag: [0, 0, 0, 0] },
-        { hole: 15, par: 5, index: 7, slag: [0, 0, 0, 0] },
-        { hole: 16, par: 3, index: 10, slag: [0, 0, 0, 0] },
-        { hole: 17, par: 4, index: 15, slag: [0, 0, 0, 0] },
-        { hole: 18, par: 3, index: 4, slag: [0, 0, 0, 0] }
-      ],
-      courseRating: 69.9,
-      slopeRating: 129,
-      banansPar: 70
-    };
-  },
   methods: {
     getFirstName(name) {
       return (
         name.split(" ")[0].substring(0, 1) + name.split(" ")[1].substring(0, 1)
       );
     },
+ 
+    updateCounter(count) {
+      console.log(count);
+      this.counter = count;
+    },
     getPar() {
       this.parData = this.course.find(e => e.hole === this.activeHole);
     },
-    currentStrokes(player) {
-      const name = player.name;
-      if (this.nameCount.includes(name)) {
+    currentStrokes(player, activehole) {
+      const name = player.name + "uniktId";
+      const currentIndex = activehole - 1;
+      if (this.nameCount[currentIndex].includes(name)) {
         return;
       }
-      if (this.nameCount[name] == null) {
-        this.nameCount.push(name);
+      if (this.nameCount[currentIndex][name] == null) {
+        this.nameCount[currentIndex].push(name);
+        this.displayToast = true;
       }
-      if (this.nameCount.length === 4) {
+      if (this.nameCount[currentIndex].length === 4) {
         this.displayToast = false;
-        this.nameCount = [];
       }
     },
     async loadData() {
@@ -1101,6 +1263,7 @@ export default {
         error => console.log(error);
       }
     },
+ 
     async schp() {
       const { slopeHandicapList, newHcpPrel } = schp(
         this.courseRating,
@@ -1110,7 +1273,6 @@ export default {
 
       //detta värde bröts ut för att kunna skickas vidare till
       this.slopeHandicapList = slopeHandicapList;
-      console.log(slopeHandicapList);
 
       this.slopedHcpPlayers = newHcpPrel;
       const value1 = newHcpPrel[0];
@@ -1470,13 +1632,14 @@ td {
 }
 .btn-warning,
 .btn-success {
-  border-radius: 50%;
-  width: 37px;
-  height: 37px;
+  /* border-radius: 50%; */
+  width: 77px;
+  height: 54px;
   color: white;
   font-weight: 900;
   background-color: #195a3a;
   border: 0;
+  font-size: 25px;
 }
 
 .btn-success .material-icons,
