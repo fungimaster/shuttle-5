@@ -10,9 +10,7 @@
               @click="activeHole--, saveData()"
               class="holeButtons disable-dbl-tap-zoom"
               id="buttonLeft"
-              class="holeButtons"
               :disabled="activeHole === 1"
-              @click="activeHole--, saveData()"
             >
               <span class="material-icons">arrow_back_ios</span>
             </button>
@@ -37,9 +35,7 @@
               @click="activeHole++, saveData()"
               class="holeButtons disable-dbl-tap-zoom"
               id="buttonRight"
-              class="holeButtons"
               :disabled="activeHole === 18"
-              @click="activeHole++, saveData()"
             >
               <span class="material-icons">arrow_forward_ios</span>
             </button>
@@ -82,7 +78,6 @@
                   class="buttons disable-dbl-tap-zoom"
                   v-for="holes in player.holes"
                   :key="holes.index"
-                  class="buttons"
                   :class="
                     holes.hole != activeHole
                       ? { classDisplayNone: active }
@@ -145,7 +140,6 @@
                   class="buttons disable-dbl-tap-zoom"
                   v-for="holes in player.holes"
                   :key="holes.index"
-                  class="buttons"
                   :class="
                     holes.hole != activeHole
                       ? { classDisplayNone: active }
