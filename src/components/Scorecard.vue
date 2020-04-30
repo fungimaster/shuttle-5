@@ -211,7 +211,8 @@
 
         <!-- NÄSTA HÅL & ÖVERSIKT BUTTONS -->
 
-        
+         <b-row class="mt-3">
+              <b-col class="col-6">
             <b-button
               class="btn-md pl-3 pr-3 bottombuttons"
               variant="primary"
