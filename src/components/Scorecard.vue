@@ -1677,13 +1677,13 @@ td {
   box-shadow: 0 !important;
   border-color: #195a3a !important;
 }
-#nextHole {
-  /*
+/*#nextHole {
+  
   font-size: 20px;  
   margin-bottom: 10px;
   margin-top: 12px;
-   width: 340px; */
-}
+   width: 340px; 
+}*/
 /* LEADER SECTION  */
 .leaderSection {
   /* border-top: 1px solid #333; */
