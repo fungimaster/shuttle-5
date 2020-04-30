@@ -657,13 +657,19 @@
         </table>
 
         <!-- BUTTON FÖR MATCH VY -->
+         <b-row class="mt-4">
+              <b-col class="col-5">
+
         <button class="btn btn-primary" @click="overview = !overview">
-          <span class="material-icons">golf_course</span>
-          Match Vy
+          <span class="material-icons">create</span>
+          Match
         </button>
+              </b-col>
+              <b-col class="col-7 text-right">
         <app-hcp-modal :course-rating="courseRating" :slope-rating="slopeRating" :banans-par="banansPar" :players="players" :slope="slopedHcpPlayers" :slope-handicap-list="slopeHandicapList"></app-hcp-modal>
 
-
+              </b-col>
+         </b-row>
       </b-container>
     </div>
   </div>
