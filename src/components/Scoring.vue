@@ -1,13 +1,41 @@
 <template>
 	<div>
 		<b-modal no-fade ref="1" id="modal-1" ok-only>
-			<button class="btn btn-success" @click="prevModal">prev</button>
-			<button class="btn btn-success" @click="nextModal">next</button>
+			<button hidden class="btn btn-success" @click="prevModal">prev</button>
+			<button hidden class="btn btn-success" @click="nextModal">next</button>
+
+			<b-container>
+				<b-row>
+					<div v-for="{holes, name}, index in players">
+						<div
+							class="scoresOverview"
+							v-for="hole in holes"
+							:class="
+            hole.hole != activehole ? { classDisplayNone: active } : null
+          "
+						>
+							<b-col cols="xs">
+								<button
+									class="btn btn-info"
+									@click="$bvModal.show(`modal-${index+1}`, $bvModal.hide(`modal-${counter}`) , updateCounter(index+1))"
+								>
+									<span v-initials>{{name}}</span>
+									<span class="material-icons">person</span>
+								</button>
+							</b-col>
+							<b-col cols="xs">
+								<p class="overviewParagraph">{{hole.strokes}}</p>
+							</b-col>
+						</div>
+					</div>
+				</b-row>
+			</b-container>
 
 			<div v-for="(player, index) in players.slice(0, 1)" :key="player.index">
 				<h1>{{ player.name }}</h1>
 				<p>Hål: {{ activehole }} Par: {{ par }}</p>
 				<p>Index: {{ indexProp }}</p>
+
 				<div
 					v-for="holes in player.holes"
 					:key="holes.index"
@@ -31,6 +59,7 @@
                       nextModal()
                   "
 								>1</button>
+
 								<button
 									class="btn btn-warning"
 									@click="
@@ -38,7 +67,11 @@
                       sendScore(player, activehole);
                     nextModal();
                   "
-								>2</button>
+								>
+									{{ par - 1 === 2 ? "Birdie" : null }}
+									2
+								</button>
+
 								<button
 									class="btn btn-warning"
 									@click="
@@ -152,8 +185,36 @@
 		<!-- SPELARE 2 -->
 
 		<b-modal no-fade ref="2" id="modal-2" ok-only>
-			<button class="btn btn-success" @click="prevModal()">prev</button>
-			<button class="btn btn-success" @click="nextModal()">next</button>
+			<button hidden class="btn btn-success" @click="prevModal()">prev</button>
+			<button hidden class="btn btn-success" @click="nextModal()">next</button>
+
+			<b-container>
+				<b-row>
+					<div v-for="{holes, name}, index in players">
+						<div
+							class="scoresOverview"
+							v-for="hole in holes"
+							:class="
+            hole.hole != activehole ? { classDisplayNone: active } : null
+          "
+						>
+							<b-col cols="xs">
+								<button
+									class="btn btn-info"
+									@click="$bvModal.show(`modal-${index+1}`, $bvModal.hide(`modal-${counter}`) , updateCounter(index+1))"
+								>
+									<span v-initials>{{name}}</span>
+									<span class="material-icons">person</span>
+								</button>
+							</b-col>
+							<b-col cols="xs">
+								<p class="overviewParagraph">{{hole.strokes}}</p>
+							</b-col>
+						</div>
+					</div>
+				</b-row>
+			</b-container>
+
 			<div v-for="(player, index) in players.slice(1, 2)" :key="player.index">
 				<h1>{{ player.name }}</h1>
 				<p>Hål: {{ activehole }} Par: {{ par }}</p>
@@ -188,7 +249,10 @@
                       sendScore(player, activehole),
                       nextModal()
                   "
-								>2</button>
+								>
+									{{ par - 1 === 2 ? "Birdie" : null }}
+									2
+								</button>
 								<button
 									class="btn btn-warning"
 									@click="
@@ -303,8 +367,35 @@
 		<!--  SPELARE 3 -->
 
 		<b-modal no-fade ref="3" id="modal-3" ok-only>
-			<button class="btn btn-success" @click="prevModal()">prev</button>
-			<button class="btn btn-success" @click="nextModal()">next</button>
+			<button hidden class="btn btn-success" @click="prevModal()">prev</button>
+			<button hidden class="btn btn-success" @click="nextModal()">next</button>
+
+			<b-container>
+				<b-row>
+					<div v-for="{holes, name}, index in players">
+						<div
+							class="scoresOverview"
+							v-for="hole in holes"
+							:class="
+            hole.hole != activehole ? { classDisplayNone: active } : null
+          "
+						>
+							<b-col cols="xs">
+								<button
+									class="btn btn-info"
+									@click="$bvModal.show(`modal-${index+1}`, $bvModal.hide(`modal-${counter}`) , updateCounter(index+1))"
+								>
+									<span v-initials>{{name}}</span>
+									<span class="material-icons">person</span>
+								</button>
+							</b-col>
+							<b-col cols="xs">
+								<p class="overviewParagraph">{{hole.strokes}}</p>
+							</b-col>
+						</div>
+					</div>
+				</b-row>
+			</b-container>
 
 			<div v-for="(player, index) in players.slice(2, 3)" :key="player.index">
 				<h1>{{ player.name }}</h1>
@@ -340,7 +431,10 @@
                       sendScore(player, activehole),
                       nextModal()
                   "
-								>2</button>
+								>
+									{{ par - 1 === 2 ? "Birdie" : null }}
+									2
+								</button>
 								<button
 									class="btn btn-warning"
 									@click="
@@ -454,8 +548,35 @@
 		<!--  SPELARE 4 -->
 
 		<b-modal no-fade ref="4" id="modal-4" ok-only>
-			<button class="btn btn-success" @click="prevModal()">prev</button>
-			<button class="btn btn-success" @click="nextModal()">next</button>
+			<button hidden class="btn btn-success" @click="prevModal()">prev</button>
+			<button hidden class="btn btn-success" @click="nextModal()">next</button>
+
+			<b-container>
+				<b-row>
+					<div v-for="{holes, name}, index in players">
+						<div
+							class="scoresOverview"
+							v-for="hole in holes"
+							:class="
+            hole.hole != activehole ? { classDisplayNone: active } : null
+          "
+						>
+							<b-col cols="xs">
+								<button
+									class="btn btn-info"
+									@click="$bvModal.show(`modal-${index+1}`, $bvModal.hide(`modal-${counter}`) , updateCounter(index+1))"
+								>
+									<span v-initials>{{name}}</span>
+									<span class="material-icons">person</span>
+								</button>
+							</b-col>
+							<b-col cols="xs">
+								<p class="overviewParagraph">{{hole.strokes}}</p>
+							</b-col>
+						</div>
+					</div>
+				</b-row>
+			</b-container>
 
 			<div v-for="(player, index) in players.slice(3, 4)" :key="player.index">
 				<h1>{{ player.name }}</h1>
@@ -491,7 +612,10 @@
                       sendScore(player, activehole),
                       nextModal()
                   "
-								>2</button>
+								>
+									{{ par - 1 === 2 ? "Birdie" : null }}
+									2
+								</button>
 								<button
 									class="btn btn-warning"
 									@click="
@@ -619,6 +743,17 @@
 			return {};
 		},
 		computed: {},
+		directives: {
+			initials(el) {
+				if (el.innerText.length === 3) {
+					return;
+				}
+
+				let array = el.innerText.split(" ");
+				const intialsArray = array.map(e => e.slice(0, 1));
+				el.innerHTML = intialsArray[0] + "." + intialsArray[1];
+			}
+		},
 		methods: {
 			test() {
 				console.log("hej");
@@ -651,7 +786,6 @@
 					: null;
 			},
 
-			//BEHÖVS EN SEPARAT MEN LIKADAN METOD FÖR BYTA MODAL MED NEXT/FÖRRA KNAPP
 			nextModal() {
 				const currentIndex = this.activehole - 1;
 				const modalStaysOpenAfterClick =
@@ -683,12 +817,25 @@
 					  this.$refs["4"].show(),
 					  this.updateCounter(4))
 					: null;
+			},
+			changeModal(arg) {
+				console.log(arg);
 			}
 		}
 	};
 </script>
 
 <style scoped>
+	.overviewParagraph {
+		border-radius: 7px;
+		margin: 1px;
+		text-align: center;
+		background-color: #19a2b82e;
+	}
+	.btn-info {
+		height: 52px !important;
+		max-width: 74px !important;
+	}
 	.classDisplayNone {
 		display: none;
 	}
@@ -708,3 +855,4 @@
 		font-size: 14px;
 	}
 </style>
+
