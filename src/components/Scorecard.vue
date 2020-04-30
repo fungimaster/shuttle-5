@@ -1363,6 +1363,7 @@ export default {
   font-size: 1em;
   vertical-align: bottom;
   margin-bottom: 6px;
+ 
 }
 
 .holepar {
@@ -1443,6 +1444,10 @@ div[role="group"]:focus {
   margin: 4px;
   list-style-type: symbols;
 }
+.btn {
+    touch-action: manipulation;
+}
+
 .btn-danger {
   font-size: 12px;
 }
