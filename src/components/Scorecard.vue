@@ -1,7 +1,11 @@
 <template>
   <div>
-    <div v-if="!overview" id="landscape">
-      <b-container class="bv-example-row">
+
+<b-container class="">
+         <b-row class="justify-content-center" align-h="center">
+            <b-col md="6" class="p-0">
+
+      <b-container class="" v-if="!overview" id="landscape">
         <!--  HEADER  -->
 
         <b-row class="holeRow pt-4">
@@ -211,7 +215,7 @@
 
         <!-- NÄSTA HÅL & ÖVERSIKT BUTTONS -->
 
-         <b-row class="mt-3">
+         <b-row class="mt-4">
               <b-col class="col-6">
             <b-button
               class="btn-md pl-3 pr-3 bottombuttons"
@@ -300,11 +304,13 @@
           </b-row>
         </footer>
       </b-container>
-    </div>
+            </b-col>
+         </b-row>
+</b-container>
 
     <!--  LEADER BOARD -->
-    <div id="overview" v-if="overview">
-      <b-container class="p-0">
+    <div>
+      <b-container id="overview" v-if="overview">
         <b-row class="pt-3" align-v="center" align-h="center">
           <!-- HOME TEAM -->
           <b-col class="col-4 scoreTeam text-left pl-3" :class="{ scoreTeam1: leader && !tie }">
@@ -1413,8 +1419,8 @@ div[role="group"]:focus {
 /* leader board */
 
 #overview {
-  margin-left: 10px;
-  margin-right: 10px;
+ /*  margin-left: 10px;
+  margin-right: 10px; */
 }
 
 .initialsTeam1 {
