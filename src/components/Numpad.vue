@@ -25,7 +25,7 @@
 					<!--3  -->
 					<button
 						id="btn3"
-						:class="{'pressedButton':display && activeButton === 'btn3'}"
+						:class="[{'pressedButton':display && activeButton === 'btn3'}, {'par': par === 3}]"
 						class="btn btn-warning"
 						@click="holes.hole === activehole ? (holes.strokes = 3) : null, buttonActions(player, activehole, 'btn3')"
 					>
@@ -42,7 +42,7 @@
 					<!-- 4 -->
 					<button
 						id="btn4"
-						:class="{'pressedButton':display&& activeButton === 'btn4'}"
+						:class="[{'pressedButton':display&& activeButton === 'btn4'}, {'par': par === 4}]"
 						class="btn btn-warning"
 						@click="holes.hole === activehole ? (holes.strokes = 4) : null, buttonActions(player, activehole, 'btn4')"
 					>
@@ -52,11 +52,10 @@
 						{{ par + 2 === 4 ? "Double Bogey" : null }}
 						4
 					</button>
-
 					<!-- 5 -->
 					<button
 						id="btn5"
-						:class="{'pressedButton':display&& activeButton === 'btn5'}"
+						:class="[{'pressedButton':display&& activeButton === 'btn5'}, {'par': par === 5}]"
 						class="btn btn-warning"
 						@click="holes.hole === activehole ? (holes.strokes = 5) : null, buttonActions(player, activehole, 'btn5')"
 					>
@@ -70,7 +69,7 @@
 					<!-- 6 -->
 					<button
 						id="btn6"
-						:class="{'pressedButton':display&& activeButton === 'btn6'}"
+						:class="[{'pressedButton':display&& activeButton === 'btn6'}, , {'par': par === 6}]"
 						class="btn btn-warning"
 						@click="holes.hole === activehole ? (holes.strokes = 6) : null, buttonActions(player, activehole, 'btn6')"
 					>
@@ -165,6 +164,10 @@
 		height: 60px;
 		margin: 2px;
 		font-size: 14px;
+	}
+
+	.par {
+		border-bottom: 4px solid #19a2b8;
 	}
 
 	.pressedButton {

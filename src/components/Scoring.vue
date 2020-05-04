@@ -367,6 +367,7 @@
 		height: 52px !important;
 		max-width: 74px !important;
 	}
+
 	.classDisplayNone {
 		display: none;
 	}
