@@ -1,5 +1,6 @@
-<template>
+6<template>
 	<div>
+		<!-- Spelare 1 -->
 		<b-modal no-fade ref="1" id="modal-1" ok-only>
 			<button hidden class="btn btn-success" @click="prevModal">prev</button>
 			<button hidden class="btn btn-success" @click="nextModal">next</button>
@@ -17,7 +18,7 @@
 							<b-col cols="xs">
 								<button
 									class="btn btn-info"
-									@click="$bvModal.show(`modal-${index+1}`, $bvModal.hide(`modal-${counter}`) , updateCounter(index+1))"
+									@click="$bvModal.show(`modal-${index+1}`, $bvModal.hide(`modal-${counter}`) , button(index+1))"
 								>
 									<span v-initials>{{name}}</span>
 									<span class="material-icons">person</span>
@@ -48,136 +49,14 @@
 					<h2 v-if="holes.strokes !== holes.strokes">-</h2>
 					<h2 v-else class="strokes">{{ holes.strokes }}</h2>
 
-					<b-container>
-						<b-row>
-							<b-col>
-								<button
-									class="btn btn-warning"
-									@click="
-                    holes.hole === activehole ? (holes.strokes = 1) : null,
-                      sendScore(player, activehole),
-                      nextModal()
-                  "
-								>1</button>
-
-								<button
-									class="btn btn-warning"
-									@click="
-                    holes.hole === activehole ? (holes.strokes = 2) : null,
-                      sendScore(player, activehole);
-                    nextModal();
-                  "
-								>
-									{{ par - 1 === 2 ? "Birdie" : null }}
-									2
-								</button>
-
-								<button
-									class="btn btn-warning"
-									@click="
-                    holes.hole === activehole ? (holes.strokes = 3) : null,
-                      sendScore(player, activehole),
-                      nextModal()
-                  "
-								>
-									{{ par === 3 ? "Par" : null }}
-									{{ par - 1 === 3 ? "Birdie" : null }}
-									{{ par + 1 === 3 ? "Bogey" : null }}
-									3
-								</button>
-							</b-col>
-						</b-row>
-
-						<b-row>
-							<b-col>
-								<button
-									class="btn btn-warning"
-									@click="
-                    holes.hole === activehole ? (holes.strokes = 4) : null,
-                      sendScore(player, activehole),
-                      nextModal()
-                  "
-								>
-									{{ par === 4 ? "par" : null }}
-									{{ par - 1 === 4 ? "Birdie" : null }}
-									{{ par + 1 === 4 ? "Bogey" : null }}
-									{{ par + 2 === 4 ? "Double Bogey" : null }}
-									4
-								</button>
-								<button
-									class="btn btn-warning"
-									@click="
-                    holes.hole === activehole ? (holes.strokes = 5) : null,
-                      sendScore(player, activehole),
-                      nextModal()
-                  "
-								>
-									{{ par === 5 ? "par" : null }}
-									{{ par - 1 === 5 ? "Birdie" : null }}
-									{{ par + 1 === 5 ? "Bogey" : null }}
-									{{ par + 2 === 5 ? "Double Bogey" : null }}
-									5
-								</button>
-								<button
-									class="btn btn-warning"
-									@click="
-                    holes.hole === activehole ? (holes.strokes = 6) : null,
-                      sendScore(player, activehole),
-                      nextModal()
-                  "
-								>
-									{{ par === 6 ? "par" : null }}
-									{{ par - 1 === 6 ? "Birdie" : null }}
-									{{ par + 1 === 6 ? "Bogey" : null }}
-									{{ par + 2 === 6 ? "Double Bogey" : null }}
-									6
-								</button>
-							</b-col>
-						</b-row>
-
-						<b-row>
-							<b-col>
-								<button
-									class="btn btn-warning"
-									@click="
-                    holes.hole === activehole ? (holes.strokes = 7) : null,
-                      sendScore(player, activehole),
-                      nextModal()
-                  "
-								>
-									{{ par === 7 ? "par" : null }}
-									{{ par - 1 === 7 ? "Birdie" : null }}
-									{{ par + 1 === 7 ? "Bogey" : null }}
-									{{ par + 2 === 7 ? "Double Bogey" : null }}
-									7
-								</button>
-								<button
-									class="btn btn-warning"
-									@click="
-                    holes.hole === activehole ? (holes.strokes = 8) : null,
-                      sendScore(player, activehole),
-                      nextModal()
-                  "
-								>8</button>
-								<button
-									class="btn btn-warning"
-									@click="
-                    holes.hole === activehole ? (holes.strokes = 9) : null,
-                      sendScore(player, activehole),
-                      nextModal()
-                  "
-								>9</button>
-								<button
-									class="btn btn-warning"
-									@click="
-                    holes.hole === activehole ? (holes.strokes = NaN) : null,
-                      sendScore(player, activehole),
-                      nextModal()
-                  "
-								>-/0</button>
-							</b-col>
-						</b-row>
-					</b-container>
+					<app-numpad
+						@sendButtonAction="buttonActions"
+						:display="display"
+						:holes="holes"
+						:player="player"
+						:par="par"
+						:activehole="activehole"
+					></app-numpad>
 				</div>
 			</div>
 		</b-modal>
@@ -231,135 +110,14 @@
 					<h2 v-if="holes.strokes !== holes.strokes">-</h2>
 					<h2 v-else class="strokes">{{ holes.strokes }}</h2>
 
-					<b-container>
-						<b-row>
-							<b-col>
-								<button
-									class="btn btn-warning"
-									@click="
-                    holes.hole === activehole ? (holes.strokes = 1) : null,
-                      sendScore(player, activehole),
-                      nextModal()
-                  "
-								>1</button>
-								<button
-									class="btn btn-warning"
-									@click="
-                    holes.hole === activehole ? (holes.strokes = 2) : null,
-                      sendScore(player, activehole),
-                      nextModal()
-                  "
-								>
-									{{ par - 1 === 2 ? "Birdie" : null }}
-									2
-								</button>
-								<button
-									class="btn btn-warning"
-									@click="
-                    holes.hole === activehole ? (holes.strokes = 3) : null,
-                      sendScore(player, activehole),
-                      nextModal()
-                  "
-								>
-									{{ par === 3 ? "Par" : null }}
-									{{ par - 1 === 3 ? "Birdie" : null }}
-									{{ par + 1 === 3 ? "Bogey" : null }}
-									3
-								</button>
-							</b-col>
-						</b-row>
-
-						<b-row>
-							<b-col>
-								<button
-									class="btn btn-warning"
-									@click="
-                    holes.hole === activehole ? (holes.strokes = 4) : null,
-                      sendScore(player, activehole),
-                      nextModal()
-                  "
-								>
-									{{ par === 4 ? "par" : null }}
-									{{ par - 1 === 4 ? "Birdie" : null }}
-									{{ par + 1 === 4 ? "Bogey" : null }}
-									{{ par + 2 === 4 ? "Double Bogey" : null }}
-									4
-								</button>
-								<button
-									class="btn btn-warning"
-									@click="
-                    holes.hole === activehole ? (holes.strokes = 5) : null,
-                      sendScore(player, activehole),
-                      nextModal()
-                  "
-								>
-									{{ par === 5 ? "par" : null }}
-									{{ par - 1 === 5 ? "Birdie" : null }}
-									{{ par + 1 === 5 ? "Bogey" : null }}
-									{{ par + 2 === 5 ? "Double Bogey" : null }}
-									5
-								</button>
-								<button
-									class="btn btn-warning"
-									@click="
-                    holes.hole === activehole ? (holes.strokes = 6) : null,
-                      sendScore(player, activehole),
-                      nextModal()
-                  "
-								>
-									{{ par === 6 ? "par" : null }}
-									{{ par - 1 === 6 ? "Birdie" : null }}
-									{{ par + 1 === 6 ? "Bogey" : null }}
-									{{ par + 2 === 6 ? "Double Bogey" : null }}
-									6
-								</button>
-							</b-col>
-						</b-row>
-
-						<b-row>
-							<b-col>
-								<button
-									class="btn btn-warning"
-									@click="
-                    holes.hole === activehole ? (holes.strokes = 7) : null,
-                      sendScore(player, activehole),
-                      nextModal()
-                  "
-								>
-									{{ par === 7 ? "par" : null }}
-									{{ par - 1 === 7 ? "Birdie" : null }}
-									{{ par + 1 === 7 ? "Bogey" : null }}
-									{{ par + 2 === 7 ? "Double Bogey" : null }}
-									7
-								</button>
-								<button
-									class="btn btn-warning"
-									@click="
-                    holes.hole === activehole ? (holes.strokes = 8) : null,
-                      sendScore(player, activehole),
-                      nextModal()
-                  "
-								>8</button>
-								<button
-									class="btn btn-warning"
-									@click="
-                    holes.hole === activehole ? (holes.strokes = 9) : null,
-                      sendScore(player, activehole),
-                      nextModal()
-                  "
-								>9</button>
-
-								<button
-									class="btn btn-warning"
-									@click="
-                    holes.hole === activehole ? (holes.strokes = NaN) : null,
-                      sendScore(player, activehole),
-                      nextModal()
-                  "
-								>-/0</button>
-							</b-col>
-						</b-row>
-					</b-container>
+					<app-numpad
+						@sendButtonAction="buttonActions"
+						:display="display"
+						:holes="holes"
+						:player="player"
+						:par="par"
+						:activehole="activehole"
+					></app-numpad>
 				</div>
 			</div>
 		</b-modal>
@@ -413,134 +171,14 @@
 					<h2 v-if="holes.strokes !== holes.strokes">-</h2>
 					<h2 v-else class="strokes">{{ holes.strokes }}</h2>
 
-					<b-container>
-						<b-row>
-							<b-col>
-								<button
-									class="btn btn-warning"
-									@click="
-                    holes.hole === activehole ? (holes.strokes = 1) : null,
-                      sendScore(player, activehole),
-                      nextModal()
-                  "
-								>1</button>
-								<button
-									class="btn btn-warning"
-									@click="
-                    holes.hole === activehole ? (holes.strokes = 2) : null,
-                      sendScore(player, activehole),
-                      nextModal()
-                  "
-								>
-									{{ par - 1 === 2 ? "Birdie" : null }}
-									2
-								</button>
-								<button
-									class="btn btn-warning"
-									@click="
-                    holes.hole === activehole ? (holes.strokes = 3) : null,
-                      sendScore(player, activehole),
-                      nextModal()
-                  "
-								>
-									{{ par === 3 ? "Par" : null }}
-									{{ par - 1 === 3 ? "Birdie" : null }}
-									{{ par + 1 === 3 ? "Bogey" : null }}
-									3
-								</button>
-							</b-col>
-						</b-row>
-
-						<b-row>
-							<b-col>
-								<button
-									class="btn btn-warning"
-									@click="
-                    holes.hole === activehole ? (holes.strokes = 4) : null,
-                      sendScore(player, activehole),
-                      nextModal()
-                  "
-								>
-									{{ par === 4 ? "par" : null }}
-									{{ par - 1 === 4 ? "Birdie" : null }}
-									{{ par + 1 === 4 ? "Bogey" : null }}
-									{{ par + 2 === 4 ? "Double Bogey" : null }}
-									4
-								</button>
-								<button
-									class="btn btn-warning"
-									@click="
-                    holes.hole === activehole ? (holes.strokes = 5) : null,
-                      sendScore(player, activehole),
-                      nextModal()
-                  "
-								>
-									{{ par === 5 ? "par" : null }}
-									{{ par - 1 === 5 ? "Birdie" : null }}
-									{{ par + 1 === 5 ? "Bogey" : null }}
-									{{ par + 2 === 5 ? "Double Bogey" : null }}
-									5
-								</button>
-								<button
-									class="btn btn-warning"
-									@click="
-                    holes.hole === activehole ? (holes.strokes = 6) : null,
-                      sendScore(player, activehole),
-                      nextModal()
-                  "
-								>
-									{{ par === 6 ? "par" : null }}
-									{{ par - 1 === 6 ? "Birdie" : null }}
-									{{ par + 1 === 6 ? "Bogey" : null }}
-									{{ par + 2 === 6 ? "Double Bogey" : null }}
-									6
-								</button>
-							</b-col>
-						</b-row>
-
-						<b-row>
-							<b-col>
-								<button
-									class="btn btn-warning"
-									@click="
-                    holes.hole === activehole ? (holes.strokes = 7) : null,
-                      sendScore(player, activehole),
-                      nextModal()
-                  "
-								>
-									{{ par === 7 ? "par" : null }}
-									{{ par - 1 === 7 ? "Birdie" : null }}
-									{{ par + 1 === 7 ? "Bogey" : null }}
-									{{ par + 2 === 7 ? "Double Bogey" : null }}
-									7
-								</button>
-								<button
-									class="btn btn-warning"
-									@click="
-                    holes.hole === activehole ? (holes.strokes = 8) : null,
-                      sendScore(player, activehole),
-                      nextModal()
-                  "
-								>8</button>
-								<button
-									class="btn btn-warning"
-									@click="
-                    holes.hole === activehole ? (holes.strokes = 9) : null,
-                      sendScore(player, activehole),
-                      nextModal()
-                  "
-								>9</button>
-								<button
-									class="btn btn-warning"
-									@click="
-                    holes.hole === activehole ? (holes.strokes = NaN) : null,
-                      sendScore(player, activehole),
-                      nextModal()
-                  "
-								>-/0</button>
-							</b-col>
-						</b-row>
-					</b-container>
+					<app-numpad
+						@sendButtonAction="buttonActions"
+						:display="display"
+						:holes="holes"
+						:player="player"
+						:par="par"
+						:activehole="activehole"
+					></app-numpad>
 				</div>
 			</div>
 		</b-modal>
@@ -594,134 +232,14 @@
 					<h2 v-if="holes.strokes !== holes.strokes">-</h2>
 					<h2 v-else class="strokes">{{ holes.strokes }}</h2>
 
-					<b-container>
-						<b-row>
-							<b-col>
-								<button
-									class="btn btn-warning"
-									@click="
-                    holes.hole === activehole ? (holes.strokes = 1) : null,
-                      sendScore(player, activehole),
-                      nextModal()
-                  "
-								>1</button>
-								<button
-									class="btn btn-warning"
-									@click="
-                    holes.hole === activehole ? (holes.strokes = 2) : null,
-                      sendScore(player, activehole),
-                      nextModal()
-                  "
-								>
-									{{ par - 1 === 2 ? "Birdie" : null }}
-									2
-								</button>
-								<button
-									class="btn btn-warning"
-									@click="
-                    holes.hole === activehole ? (holes.strokes = 3) : null,
-                      sendScore(player, activehole),
-                      nextModal()
-                  "
-								>
-									{{ par === 3 ? "Par" : null }}
-									{{ par - 1 === 3 ? "Birdie" : null }}
-									{{ par + 1 === 3 ? "Bogey" : null }}
-									3
-								</button>
-							</b-col>
-						</b-row>
-
-						<b-row>
-							<b-col>
-								<button
-									class="btn btn-warning"
-									@click="
-                    holes.hole === activehole ? (holes.strokes = 4) : null,
-                      sendScore(player, activehole),
-                      nextModal()
-                  "
-								>
-									{{ par === 4 ? "par" : null }}
-									{{ par - 1 === 4 ? "Birdie" : null }}
-									{{ par + 1 === 4 ? "Bogey" : null }}
-									{{ par + 2 === 4 ? "Double Bogey" : null }}
-									4
-								</button>
-								<button
-									class="btn btn-warning"
-									@click="
-                    holes.hole === activehole ? (holes.strokes = 5) : null,
-                      sendScore(player, activehole),
-                      nextModal()
-                  "
-								>
-									{{ par === 5 ? "par" : null }}
-									{{ par - 1 === 5 ? "Birdie" : null }}
-									{{ par + 1 === 5 ? "Bogey" : null }}
-									{{ par + 2 === 5 ? "Double Bogey" : null }}
-									5
-								</button>
-								<button
-									class="btn btn-warning"
-									@click="
-                    holes.hole === activehole ? (holes.strokes = 6) : null,
-                      sendScore(player, activehole),
-                      nextModal()
-                  "
-								>
-									{{ par === 6 ? "par" : null }}
-									{{ par - 1 === 6 ? "Birdie" : null }}
-									{{ par + 1 === 6 ? "Bogey" : null }}
-									{{ par + 2 === 6 ? "Double Bogey" : null }}
-									6
-								</button>
-							</b-col>
-						</b-row>
-
-						<b-row>
-							<b-col>
-								<button
-									class="btn btn-warning"
-									@click="
-                    holes.hole === activehole ? (holes.strokes = 7) : null,
-                      sendScore(player, activehole),
-                      nextModal()
-                  "
-								>
-									{{ par === 7 ? "par" : null }}
-									{{ par - 1 === 7 ? "Birdie" : null }}
-									{{ par + 1 === 7 ? "Bogey" : null }}
-									{{ par + 2 === 7 ? "Double Bogey" : null }}
-									7
-								</button>
-								<button
-									class="btn btn-warning"
-									@click="
-                    holes.hole === activehole ? (holes.strokes = 8) : null,
-                      sendScore(player, activehole),
-                      nextModal()
-                  "
-								>8</button>
-								<button
-									class="btn btn-warning"
-									@click="
-                    holes.hole === activehole ? (holes.strokes = 9) : null,
-                      sendScore(player, activehole),
-                      nextModal()
-                  "
-								>9</button>
-								<button
-									class="btn btn-warning"
-									@click="
-                    holes.hole === activehole ? (holes.strokes = NaN) : null,
-                      sendScore(player, activehole),
-                      nextModal()
-                  "
-								>-/0</button>
-							</b-col>
-						</b-row>
-					</b-container>
+					<app-numpad
+						@sendButtonAction="buttonActions"
+						:display="display"
+						:holes="holes"
+						:player="player"
+						:par="par"
+						:activehole="activehole"
+					></app-numpad>
 				</div>
 			</div>
 		</b-modal>
@@ -729,7 +247,12 @@
 </template>
 
 <script>
+	import NumpadVue from "./Numpad.vue";
+
 	export default {
+		components: {
+			appNumpad: NumpadVue
+		},
 		props: [
 			"players",
 			"activehole",
@@ -740,7 +263,9 @@
 			"nameCount"
 		],
 		data() {
-			return {};
+			return {
+				display: false
+			};
 		},
 		computed: {},
 		directives: {
@@ -755,14 +280,15 @@
 			}
 		},
 		methods: {
-			test() {
-				console.log("hej");
+			buttonActions(player, activehole) {
+				setTimeout(() => {
+					this.sendScore(player, activehole), this.nextModal();
+				}, 400);
 			},
 			updateCounter(number) {
 				this.$emit("updateCounter", number);
 			},
 			sendScore(player, activehole) {
-				console.log(player, activehole);
 				this.$emit("sendScore", player, activehole);
 			},
 			prevModal() {
