@@ -2,9 +2,6 @@
 	<div>
 		<!-- Spelare 1 -->
 		<b-modal no-fade ref="1" id="modal-1" ok-only>
-			<button hidden class="btn btn-success" @click="prevModal">prev</button>
-			<button hidden class="btn btn-success" @click="nextModal">next</button>
-
 			<b-container>
 				<b-row>
 					<div v-for="{holes, name}, index in players">
@@ -17,8 +14,9 @@
 						>
 							<b-col cols="xs">
 								<button
+									:class="{'activePlayer': index === 0}"
 									class="btn btn-info"
-									@click="$bvModal.show(`modal-${index+1}`, $bvModal.hide(`modal-${counter}`) , button(index+1))"
+									@click="$bvModal.show(`modal-${index+1}`, $bvModal.hide(`modal-${counter}`) , updateCounter(index+1))"
 								>
 									<span v-initials>{{name}}</span>
 									<span class="material-icons">person</span>
@@ -79,6 +77,7 @@
 						>
 							<b-col cols="xs">
 								<button
+									:class="{'activePlayer': index === 1}"
 									class="btn btn-info"
 									@click="$bvModal.show(`modal-${index+1}`, $bvModal.hide(`modal-${counter}`) , updateCounter(index+1))"
 								>
@@ -140,6 +139,7 @@
 						>
 							<b-col cols="xs">
 								<button
+									:class="{'activePlayer': index === 2}"
 									class="btn btn-info"
 									@click="$bvModal.show(`modal-${index+1}`, $bvModal.hide(`modal-${counter}`) , updateCounter(index+1))"
 								>
@@ -201,6 +201,7 @@
 						>
 							<b-col cols="xs">
 								<button
+									:class="{'activePlayer': index === 3}"
 									class="btn btn-info"
 									@click="$bvModal.show(`modal-${index+1}`, $bvModal.hide(`modal-${counter}`) , updateCounter(index+1))"
 								>
@@ -352,6 +353,10 @@
 </script>
 
 <style scoped>
+	.activePlayer {
+		background-color: #fd9b37 !important;
+		border-color: #fd9b37;
+	}
 	.overviewParagraph {
 		border-radius: 7px;
 		margin: 1px;
