@@ -871,9 +871,19 @@
 				strokes2SlagNotCalc = strokes2SlagNotCalc[0];
 				strokes3SlagNotCalc = strokes3SlagNotCalc[0];
 
+				//Då 0 också är resultatet för ej spelade hål ersätts med 99 nedan. Men då (score - slag) kan bli noll ersätts noll-score tillfälligt med temporaryNumber.
+				const temporaryNumber = 1000;
+
 				const subtractSlagFromScore = (scoreArray, slagArray) => {
 					let newArray = [];
 					scoreArray.forEach((element, index) => {
+						if (slagArray[index] >= 1) {
+							if (element - slagArray[index] === 0) {
+								newArray.push(temporaryNumber);
+								return;
+							}
+						}
+
 						newArray.push(element - slagArray[index]);
 					});
 					return newArray;
@@ -884,13 +894,28 @@
 				let strokes2 = subtractSlagFromScore(strokes2SlagNotCalc, slag2);
 				let strokes3 = subtractSlagFromScore(strokes3SlagNotCalc, slag3);
 
-				const replaceZero = number => (number <= 0 ? (number = 99) : number);
+				const replaceZeroAndNegative = number =>
+					number <= 0 && number > -10 ? (number = 99) : number;
+				const replaceTemporaryNumber = number =>
+					number === 1000 ? (number = 0) : number;
 				const replaceNaN = number => (number !== number ? (number = 99) : number);
 
-				strokes0 = strokes0.map(replaceZero).map(replaceNaN);
-				strokes1 = strokes1.map(replaceZero).map(replaceNaN);
-				strokes2 = strokes2.map(replaceZero).map(replaceNaN);
-				strokes3 = strokes3.map(replaceZero).map(replaceNaN);
+				strokes0 = strokes0
+					.map(replaceZeroAndNegative)
+					.map(replaceNaN)
+					.map(replaceTemporaryNumber);
+				strokes1 = strokes1
+					.map(replaceZeroAndNegative)
+					.map(replaceNaN)
+					.map(replaceTemporaryNumber);
+				strokes2 = strokes2
+					.map(replaceZeroAndNegative)
+					.map(replaceNaN)
+					.map(replaceTemporaryNumber);
+				strokes3 = strokes3
+					.map(replaceZeroAndNegative)
+					.map(replaceNaN)
+					.map(replaceTemporaryNumber);
 
 				const bestStrokesTeam1 = strokes0.map((num, index) =>
 					num <= strokes1[index] ? num : strokes1[index]
@@ -935,10 +960,10 @@
 			try {
 				//hämtar data och lägger det i this.player
 				/*
-	          const response = await axios.get("http://localhost:3000/scorecard");
-	          const data = response.data[response.data.length - 1];
-	          this.players = data.gameData;
-	          */
+																																																							          const response = await axios.get("http://localhost:3000/scorecard");
+																																																							          const data = response.data[response.data.length - 1];
+																																																							          this.players = data.gameData;
+																																																							          */
 
 				this.players = [
 					{
@@ -1053,10 +1078,10 @@
 				this.team1 = "lag 1"; //data.gameData[0].team;
 				this.team2 = "lag 2";
 				/* data.gameData.forEach(element => {
-	            if (element.team != this.team1) {
-	              this.team2 = 'lag 2'//element.team;
-	            }
-	          }); */
+																																																							            if (element.team != this.team1) {
+																																																							              this.team2 = 'lag 2'//element.team;
+																																																							            }
+																																																							          }); */
 				this.schp();
 			} catch (e) {
 				console.log(e);
@@ -1093,10 +1118,10 @@
 			async loadData() {
 				try {
 					/*
-	            let response = await axios.get("http://localhost:3000/scorecard");
-	            const data = response.data[response.data.length - 1];
-	            this.players = data.gameData;
-	            */
+																																																							            let response = await axios.get("http://localhost:3000/scorecard");
+																																																							            const data = response.data[response.data.length - 1];
+																																																							            this.players = data.gameData;
+																																																							            */
 					this.players = [
 						{
 							name: "Br W",
@@ -1629,10 +1654,10 @@
 	}
 	#nextHole {
 		/*
-	      font-size: 20px;  
-	      margin-bottom: 10px;
-	      margin-top: 12px;
-	       width: 340px; */
+																																																											      font-size: 20px;  
+																																																											      margin-bottom: 10px;
+																																																											      margin-top: 12px;
+																																																											       width: 340px; */
 	}
 	/* LEADER SECTION  */
 	.leaderSection {
@@ -1670,7 +1695,7 @@
 
 	.leaderTeam1 {
 		/*  background-color: #fd9b37;
-	      border: 1px #fd9b37 solid; */
+																																																											      border: 1px #fd9b37 solid; */
 		background-color: #fff;
 		width: 20px;
 		padding: 0;
@@ -1678,7 +1703,7 @@
 	}
 	.leaderTeam2 {
 		/* background-color: #69b3fe;
-	      border: 1px #69b3fe solid; */
+																																																											      border: 1px #69b3fe solid; */
 		background-color: #fff;
 		width: 20px;
 		padding: 0;
@@ -1688,8 +1713,8 @@
 	p {
 		font-size: 0.7em;
 		/* text-overflow: ellipsis;
-	      white-space: nowrap;
-	      overflow: hidden; */
+																																																											      white-space: nowrap;
+																																																											      overflow: hidden; */
 	}
 
 	.leaderTeam1 h4 {
