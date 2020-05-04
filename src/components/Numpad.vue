@@ -2,12 +2,12 @@
 	<div>
 		<b-container>
 			<b-row>
-				<b-col>
+				<b-col cols="12">
 					<!-- 1 -->
 					<button
 						id="btn1"
 						:class="{'pressedButton':display && activeButton === 'btn1'}"
-						class="btn btn-warning"
+						class="pb-2 btn btn-warning"
 						@click="holes.hole === activehole ? (holes.strokes = 1) : null, buttonActions(player, activehole, 'btn1')"
 					>1</button>
 
@@ -15,7 +15,7 @@
 					<button
 						id="btn2"
 						:class="{'pressedButton':display&& activeButton === 'btn2'}"
-						class="btn btn-warning"
+						class="pb-2 btn btn-warning"
 						@click="holes.hole === activehole ? (holes.strokes = 2) : null, buttonActions(player, activehole, 'btn2')"
 					>
 						{{ par - 1 === 2 ? "Birdie" : null }}
@@ -26,7 +26,7 @@
 					<button
 						id="btn3"
 						:class="[{'pressedButton':display && activeButton === 'btn3'}, {'par': par === 3}]"
-						class="btn btn-warning"
+						class="pb-2 btn btn-warning"
 						@click="holes.hole === activehole ? (holes.strokes = 3) : null, buttonActions(player, activehole, 'btn3')"
 					>
 						{{ par === 3 ? "Par" : null }}
@@ -38,12 +38,12 @@
 			</b-row>
 
 			<b-row>
-				<b-col>
+				<b-col cols="12">
 					<!-- 4 -->
 					<button
 						id="btn4"
 						:class="[{'pressedButton':display&& activeButton === 'btn4'}, {'par': par === 4}]"
-						class="btn btn-warning"
+						class="pb-2 btn btn-warning"
 						@click="holes.hole === activehole ? (holes.strokes = 4) : null, buttonActions(player, activehole, 'btn4')"
 					>
 						{{ par === 4 ? "par" : null }}
@@ -56,7 +56,7 @@
 					<button
 						id="btn5"
 						:class="[{'pressedButton':display&& activeButton === 'btn5'}, {'par': par === 5}]"
-						class="btn btn-warning"
+						class="pb-2 btn btn-warning"
 						@click="holes.hole === activehole ? (holes.strokes = 5) : null, buttonActions(player, activehole, 'btn5')"
 					>
 						{{ par === 5 ? "par" : null }}
@@ -70,7 +70,7 @@
 					<button
 						id="btn6"
 						:class="[{'pressedButton':display&& activeButton === 'btn6'}, , {'par': par === 6}]"
-						class="btn btn-warning"
+						class="pb-2 btn btn-warning"
 						@click="holes.hole === activehole ? (holes.strokes = 6) : null, buttonActions(player, activehole, 'btn6')"
 					>
 						{{ par === 6 ? "par" : null }}
@@ -83,12 +83,12 @@
 			</b-row>
 
 			<b-row>
-				<b-col>
+				<b-col cols="12">
 					<!-- 7 -->
 					<button
 						id="btn7"
 						:class="{'pressedButton':display&& activeButton === 'btn7'}"
-						class="btn btn-warning"
+						class="pb-2 btn btn-warning"
 						@click="holes.hole === activehole ? (holes.strokes = 7) : null, buttonActions(player, activehole, 'btn7')"
 					>
 						{{ par === 7 ? "par" : null }}
@@ -102,7 +102,7 @@
 					<button
 						id="btn8"
 						:class="{'pressedButton':display&& activeButton === 'btn8'}"
-						class="btn btn-warning"
+						class="pb-2 btn btn-warning"
 						@click="holes.hole === activehole ? (holes.strokes = 8) : null, buttonActions(player, activehole, 'btn8')"
 					>8</button>
 
@@ -110,15 +110,18 @@
 					<button
 						id="btn9"
 						:class="{'pressedButton':display&& activeButton === 'btn9'}"
-						class="btn btn-warning"
+						class="pb-2 btn btn-warning"
 						@click="holes.hole === activehole ? (holes.strokes = 9) : null, buttonActions(player, activehole, 'btn9')"
 					>9</button>
-
+				</b-col>
+			</b-row>
+			<b-row align-self="center">
+				<b-col cols="4">
 					<!-- 0 -->
 					<button
 						id="btn0"
 						:class="{'pressedButton':display&& activeButton === 'btn0'}"
-						class="btn btn-warning"
+						class="pb-2 btn btn-warning"
 						@click="holes.hole === activehole ? (holes.strokes = NaN) : null, buttonActions(player, activehole, 'btn0')"
 					>-/0</button>
 				</b-col>
@@ -159,13 +162,18 @@
 </script>
 
 <style scoped>
+	@media screen and (max-width: 320px) {
+		button {
+			width: 70px !important;
+			font-size: 12px !important;
+		}
+	}
 	button {
 		width: 90px;
 		height: 60px;
 		margin: 2px;
 		font-size: 14px;
 	}
-
 	.par {
 		border-bottom: 4px solid #19a2b8;
 	}

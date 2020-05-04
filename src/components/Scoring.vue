@@ -353,6 +353,11 @@
 </script>
 
 <style scoped>
+	@media screen and (max-width: 320px) {
+		.btn-info {
+			width: 60px !important;
+		}
+	}
 	.activePlayer {
 		background-color: #fd9b37 !important;
 		border-color: #fd9b37;
