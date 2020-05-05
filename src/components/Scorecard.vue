@@ -1,281 +1,285 @@
 <template>
 	<div>
-		<div v-if="!overview" id="landscape">
-			<b-container class="bv-example-row">
-				<!--  HEADER  -->
+		<b-container class>
+			<b-row class="justify-content-center" align-h="center">
+				<b-col md="6" class="p-0">
+					<b-container class v-if="!overview" id="landscape">
+						<!--  HEADER  -->
 
-				<b-row class="holeRow pt-4">
-					<b-col class="col-2 pr-0 text-left">
-						<button
-							@click="activeHole--, saveData()"
-							class="holeButtons disable-dbl-tap-zoom"
-							id="buttonLeft"
-							:disabled="activeHole === 1"
-						>
-							<span class="material-icons">arrow_back_ios</span>
-						</button>
-					</b-col>
+						<b-row class="holeRow pt-4">
+							<b-col class="col-2 pr-0 text-left">
+								<button
+									@click="activeHole--, saveData()"
+									class="holeButtons disable-dbl-tap-zoom"
+									id="buttonLeft"
+									:disabled="activeHole === 1"
+								>
+									<span class="material-icons">arrow_back_ios</span>
+								</button>
+							</b-col>
 
-					<b-col class="col-8 text-center p-0">
-						<b-row>
-							<b-col xs="4" class="pl-2 pr-0 text-right">
-								<span class="holepar">Par: {{ par }}</span>
+							<b-col class="col-8 text-center p-0">
+								<b-row>
+									<b-col xs="4" class="pl-2 pr-0 text-right">
+										<span class="holepar">Par: {{ par }}</span>
+									</b-col>
+									<b-col xs="4" class="p-0 pr-1 pl-1">
+										<span class="activeHole">{{ activeHole }}</span>
+									</b-col>
+									<b-col xs="4" class="pl-0 pr-2 text-left">
+										<span class="holepar">Index: {{ index }}</span>
+									</b-col>
+								</b-row>
 							</b-col>
-							<b-col xs="4" class="p-0 pr-1 pl-1">
-								<span class="activeHole">{{ activeHole }}</span>
-							</b-col>
-							<b-col xs="4" class="pl-0 pr-2 text-left">
-								<span class="holepar">Index: {{ index }}</span>
+
+							<b-col class="col-2 pl-0 text-right">
+								<button
+									@click="activeHole++, saveData()"
+									class="holeButtons disable-dbl-tap-zoom"
+									id="buttonRight"
+									:disabled="activeHole === 18"
+								>
+									<span class="material-icons">arrow_forward_ios</span>
+								</button>
 							</b-col>
 						</b-row>
-					</b-col>
 
-					<b-col class="col-2 pl-0 text-right">
-						<button
-							@click="activeHole++, saveData()"
-							class="holeButtons disable-dbl-tap-zoom"
-							id="buttonRight"
-							:disabled="activeHole === 18"
-						>
-							<span class="material-icons">arrow_forward_ios</span>
-						</button>
-					</b-col>
-				</b-row>
+						<!-- LÄMNADE HÄR FÖR ATT ENKELT KUNNA DUBBELKOLLA ATT SLAG PER SPELARE STÄMMER-->
 
-				<!-- LÄMNADE HÄR FÖR ATT ENKELT KUNNA DUBBELKOLLA ATT SLAG PER SPELARE STÄMMER-->
-
-				<!--  <ul v-for="hole in course" :key="hole.index">
+						<!--  <ul v-for="hole in course" :key="hole.index">
           <li>{{ hole.hole }} : {{ hole.slag }}</li>
-				</ul>-->
+						</ul>-->
 
-				<!-- TEAM 1 CONTAINER -->
-				<div
-					class="team1ScoreCard"
-					:class="[
+						<!-- TEAM 1 CONTAINER -->
+						<div
+							class="team1ScoreCard"
+							:class="[
             singleHoleWinner < 0 && displayToast === false ? 'holeWinner' : '',
             singleHoleWinner > 0 && displayToast === false ? 'holeLoser' : ''
           ]"
-				>
-					<div v-for="(player, index) in players.slice(0, 2)" :key="player.index">
-						<!--  SLAG OCH HCP TEAM 1 -->
+						>
+							<div v-for="(player, index) in players.slice(0, 2)" :key="player.index">
+								<!--  SLAG OCH HCP TEAM 1 -->
 
-						<b-row class="playerRow">
-							<div class="teamColor1"></div>
-							<b-col xs="6" class="playerNameContainer">
-								<p class="playerName">{{ player.name }}</p>
+								<b-row class="playerRow">
+									<div class="teamColor1"></div>
+									<b-col xs="6" class="playerNameContainer">
+										<p class="playerName">{{ player.name }}</p>
 
-								<div class="playerInfo">
-									<span>SHCP {{ slopedHcpPlayers[index] }}</span>
-									<span
-										:class="{ hideSlag: slag(index) === 0 ? true : false }"
-									>&#9642; SLAG {{ slag(index) }}</span>
-								</div>
-							</b-col>
+										<div class="playerInfo">
+											<span>SHCP {{ slopedHcpPlayers[index] }}</span>
+											<span
+												:class="{ hideSlag: slag(index) === 0 ? true : false }"
+											>&#9642; SLAG {{ slag(index) }}</span>
+										</div>
+									</b-col>
 
-							<!-- SCOREBUTTON -->
-							<!-- SPELARE 1 -->
-							<b-col>
-								<div v-if="index === 0">
-									<button
-										class="btn btn-warning disable-dbl-tap-zoom"
-										@click="$bvModal.show('modal-1'), (counter = 1)"
-										v-if="
+									<!-- SCOREBUTTON -->
+									<!-- SPELARE 1 -->
+									<b-col>
+										<div v-if="index === 0">
+											<button
+												class="btn btn-warning disable-dbl-tap-zoom"
+												@click="$bvModal.show('modal-1'), (counter = 1)"
+												v-if="
                       currentStrokesList.slice(0, 1)[0] !==
                         currentStrokesList.slice(0, 1)[0]
                     "
-									>-</button>
-									<button
-										class="btn btn-warning disable-dbl-tap-zoom"
-										v-else
-										@click="$bvModal.show('modal-1'), (counter = 1)"
-									>{{ currentStrokesList.slice(0, 1)[0] }}</button>
-								</div>
-								<!-- SPELARE 2 -->
-								<div v-if="index === 1">
-									<button
-										@click="$bvModal.show('modal-2'), (counter = 2)"
-										class="btn btn-warning disable-dbl-tap-zoom"
-										v-if="
+											>-</button>
+											<button
+												class="btn btn-warning disable-dbl-tap-zoom"
+												v-else
+												@click="$bvModal.show('modal-1'), (counter = 1)"
+											>{{ currentStrokesList.slice(0, 1)[0] }}</button>
+										</div>
+										<!-- SPELARE 2 -->
+										<div v-if="index === 1">
+											<button
+												@click="$bvModal.show('modal-2'), (counter = 2)"
+												class="btn btn-warning disable-dbl-tap-zoom"
+												v-if="
                       currentStrokesList.slice(1, 2)[0] !==
                         currentStrokesList.slice(1, 2)[0]
                     "
-									>-</button>
+											>-</button>
 
-									<button
-										@click="$bvModal.show('modal-2'), (counter = 2)"
-										class="btn btn-warning disable-dbl-tap-zoom"
-										v-else
-									>{{ currentStrokesList.slice(1, 2)[0] }}</button>
-								</div>
-							</b-col>
-						</b-row>
-					</div>
-				</div>
+											<button
+												@click="$bvModal.show('modal-2'), (counter = 2)"
+												class="btn btn-warning disable-dbl-tap-zoom"
+												v-else
+											>{{ currentStrokesList.slice(1, 2)[0] }}</button>
+										</div>
+									</b-col>
+								</b-row>
+							</div>
+						</div>
 
-				<!-- TEAM 2 CONTAINER -->
-				<div
-					class="team2ScoreCard"
-					:class="[
+						<!-- TEAM 2 CONTAINER -->
+						<div
+							class="team2ScoreCard"
+							:class="[
             singleHoleWinner > 0 && displayToast === false ? 'holeWinner' : '',
             singleHoleWinner < 0 && displayToast === false ? 'holeLoser' : ''
           ]"
-				>
-					<div v-for="(player, index) in players.slice(2, 4)" :key="player.index">
-						<!--  SLAG OCH HCP TEAM 2 -->
-						<b-row class="playerRow">
-							<div class="teamColor2"></div>
-							<b-col xs="6" class="playerNameContainer">
-								<p class="playerName">{{ player.name }}</p>
+						>
+							<div v-for="(player, index) in players.slice(2, 4)" :key="player.index">
+								<!--  SLAG OCH HCP TEAM 2 -->
+								<b-row class="playerRow">
+									<div class="teamColor2"></div>
+									<b-col xs="6" class="playerNameContainer">
+										<p class="playerName">{{ player.name }}</p>
 
-								<div class="playerInfo">
-									<span>SHCP {{ slopedHcpPlayers[index + 2] }}</span>
-									<span
-										:class="{ hideSlag: slag(index + 2) === 0 ? true : false }"
-									>&#9642; SLAG {{ slag(index + 2) }}</span>
-								</div>
-							</b-col>
-							<!-- SCOREBUTTON -->
-							<!-- SPELAR 3 -->
-							<b-col>
-								<div v-if="index === 0">
-									<button
-										@click="$bvModal.show('modal-3'), (counter = 3)"
-										class="buttons disable-dbl-tap-zoom"
-										v-if="
+										<div class="playerInfo">
+											<span>SHCP {{ slopedHcpPlayers[index + 2] }}</span>
+											<span
+												:class="{ hideSlag: slag(index + 2) === 0 ? true : false }"
+											>&#9642; SLAG {{ slag(index + 2) }}</span>
+										</div>
+									</b-col>
+									<!-- SCOREBUTTON -->
+									<!-- SPELAR 3 -->
+									<b-col>
+										<div v-if="index === 0">
+											<button
+												@click="$bvModal.show('modal-3'), (counter = 3)"
+												class="buttons disable-dbl-tap-zoom"
+												v-if="
                       currentStrokesList.slice(2, 3)[0] !==
                         currentStrokesList.slice(2, 3)[0]
                     "
-									>-</button>
-									<button
-										@click="$bvModal.show('modal-3'), (counter = 3)"
-										class="btn btn-warning disable-dbl-tap-zoom"
-										v-else
-									>{{ currentStrokesList.slice(2, 3)[0] }}</button>
-								</div>
-								<!-- SPELAR 4 -->
-								<div v-if="index === 1">
-									<button
-										class="btn btn-warning disable-dbl-tap-zoom"
-										@click="$bvModal.show('modal-4'), (counter = 4)"
-										v-if="
+											>-</button>
+											<button
+												@click="$bvModal.show('modal-3'), (counter = 3)"
+												class="btn btn-warning disable-dbl-tap-zoom"
+												v-else
+											>{{ currentStrokesList.slice(2, 3)[0] }}</button>
+										</div>
+										<!-- SPELAR 4 -->
+										<div v-if="index === 1">
+											<button
+												class="btn btn-warning disable-dbl-tap-zoom"
+												@click="$bvModal.show('modal-4'), (counter = 4)"
+												v-if="
                       currentStrokesList.slice(3, 4)[0] !==
                         currentStrokesList.slice(3, 4)[0]
                     "
-									>-</button>
-									<button
-										@click="$bvModal.show('modal-4'), (counter = 4)"
-										class="btn btn-warning disable-dbl-tap-zoom"
-										v-else
-									>{{ currentStrokesList.slice(3, 4)[0] }}</button>
-								</div>
+											>-</button>
+											<button
+												@click="$bvModal.show('modal-4'), (counter = 4)"
+												class="btn btn-warning disable-dbl-tap-zoom"
+												v-else
+											>{{ currentStrokesList.slice(3, 4)[0] }}</button>
+										</div>
+									</b-col>
+								</b-row>
+							</div>
+						</div>
+
+						<!-- SCORING MODAL -->
+						<app-scoring
+							:players="players"
+							:activehole="activeHole"
+							:active="active"
+							:par="par"
+							:indexProp="indexProp"
+							:counter="counter"
+							:nameCount="nameCount"
+							@sendScore="currentStrokes"
+							@updateCounter="updateCounter"
+						></app-scoring>
+
+						<!-- NÄSTA HÅL & ÖVERSIKT BUTTONS -->
+
+						<b-row class="mt-4">
+							<b-col class="col-6">
+								<b-button
+									class="btn-md pl-3 pr-3 bottombuttons"
+									variant="primary"
+									@click="overview = !overview"
+								>
+									<span class="material-icons">reorder</span> Översikt
+								</b-button>
+							</b-col>
+							<b-col class="col-6 text-right">
+								<b-button
+									v-if="activeHole < 18"
+									id="nextHole"
+									class="btn-md pl-3 pr-3 bottombuttons"
+									variant="primary"
+									@click="activeHole++, saveData(), makeToast('success')"
+								>
+									Nästa hål
+									<span class="material-icons">arrow_forward_ios</span>
+								</b-button>
 							</b-col>
 						</b-row>
-					</div>
-				</div>
 
-				<!-- SCORING MODAL -->
-				<app-scoring
-					:players="players"
-					:activehole="activeHole"
-					:active="active"
-					:par="par"
-					:indexProp="indexProp"
-					:counter="counter"
-					:nameCount="nameCount"
-					@sendScore="currentStrokes"
-					@updateCounter="updateCounter"
-				></app-scoring>
-
-				<!-- NÄSTA HÅL & ÖVERSIKT BUTTONS -->
-
-				<b-row class="mt-3">
-					<b-col class="col-6">
-						<b-button
-							class="btn-md pl-3 pr-3 bottombuttons"
-							variant="primary"
-							@click="overview = !overview"
+						<h4 hidden>{{ dormy }}</h4>
+						<h3 hidden>winner declared? {{ winnerDeclared }}</h3>
+						<h4
+							hidden
+							:style="winnerDeclared === true ? 'background-color: red' : 'background-color: white' "
 						>
-							<span class="material-icons">reorder</span> Översikt
-						</b-button>
-					</b-col>
-					<b-col class="col-6 text-right">
-						<b-button
-							v-if="activeHole < 18"
-							id="nextHole"
-							class="btn-md pl-3 pr-3 bottombuttons"
-							variant="primary"
-							@click="activeHole++, saveData(), makeToast('success')"
-						>
-							Nästa hål
-							<span class="material-icons">arrow_forward_ios</span>
-						</b-button>
-					</b-col>
-				</b-row>
+							VINNARE:
+							{{ winner }} Resultat: {{ totalWins.totalWins1 }} vs
+							{{ totalWins.totalWins2 }}
+						</h4>
 
-				<h4 hidden>{{ dormy }}</h4>
-				<h3 hidden>winner declared? {{ winnerDeclared }}</h3>
-				<h4
-					hidden
-					:style="winnerDeclared === true ? 'background-color: red' : 'background-color: white' "
-				>
-					VINNARE:
-					{{ winner }} Resultat: {{ totalWins.totalWins1 }} vs
-					{{ totalWins.totalWins2 }}
-				</h4>
+						<!-- FOOTER - LEADER SECTION -->
+						<b-col hidden class="col-4 leaderTeam1 text-right">
+							<h4 v-if="leader && !tie">{{ matchScore }}</h4>
+						</b-col>
 
-				<!-- FOOTER - LEADER SECTION -->
-				<b-col hidden class="col-4 leaderTeam1 text-right">
-					<h4 v-if="leader && !tie">{{ matchScore }}</h4>
+						<b-col hidden class="col-4 leaderTeam2">
+							<h4 v-if="!leader && !tie">{{ matchScore * -1 }}</h4>
+						</b-col>
+
+						<footer class="fixed-bottom">
+							<b-row class="leaderSection" align-v="center" align-h="center">
+								<!-- HOME TEAM -->
+								<b-col class="col-4 scoreTeam text-left pl-3" :class="{ scoreTeam1: leader && !tie }">
+									<span
+										style="float:left;"
+									>{{getFirstName(players[0].name)}} & {{getFirstName(players[1].name)}}</span>
+									<i v-if="!tie && winnerDeclared && leader" class="material-icons pb-1 pl-1">emoji_events</i>
+									<span v-if="!tie && !winnerDeclared">{{dormy1}}</span>
+								</b-col>
+
+								<!-- score -->
+								<b-col
+									class="col-4 text-center score"
+									:class="{ leaderRight: leader && !tie, leaderLeft: !leader && !tie, tie: tie, winnerdeclared: winnerDeclared}"
+								>
+									<span v-if="tie" id="tie">A/S</span>
+									<span v-if="!leader && !tie && !winnerDeclared">{{ matchScore * -1 }}UP</span>
+									<!-- away leads -->
+									<span v-if="!leader && winnerDeclared">{{ matchScore * -1 }}&X</span>
+									<!-- home wins -->
+
+									<span v-if="leader && !tie && !winnerDeclared">{{ matchScore }}UP</span>
+									<!-- home leads -->
+									<span v-if="leader && winnerDeclared">{{ matchScore }}&X</span>
+									<!-- home wins -->
+								</b-col>
+
+								<!-- away team -->
+								<b-col class="col-4 scoreTeam text-right pr-3" :class="{ scoreTeam2: !leader && !tie }">
+									<i v-if="!tie && winnerDeclared && !leader" class="material-icons pb-1 pr-1">emoji_events</i>
+									<span
+										style="float:right;"
+									>{{getFirstName(players[2].name)}} & {{getFirstName(players[3].name)}}</span>
+									<span style="clear:right;" v-if="!tie && !winnerDeclared">{{dormy2}}</span>
+								</b-col>
+							</b-row>
+						</footer>
+					</b-container>
 				</b-col>
-
-				<b-col hidden class="col-4 leaderTeam2">
-					<h4 v-if="!leader && !tie">{{ matchScore * -1 }}</h4>
-				</b-col>
-
-				<footer class="fixed-bottom">
-					<b-row class="leaderSection" align-v="center" align-h="center">
-						<!-- HOME TEAM -->
-						<b-col class="col-4 scoreTeam text-left pl-3" :class="{ scoreTeam1: leader && !tie }">
-							<span
-								style="float:left;"
-							>{{getFirstName(players[0].name)}} & {{getFirstName(players[1].name)}}</span>
-							<i v-if="!tie && winnerDeclared && leader" class="material-icons pb-1 pl-1">emoji_events</i>
-							<span v-if="!tie && !winnerDeclared">{{dormy1}}</span>
-						</b-col>
-
-						<!-- score -->
-						<b-col
-							class="col-4 text-center score"
-							:class="{ leaderRight: leader && !tie, leaderLeft: !leader && !tie, tie: tie, winnerdeclared: winnerDeclared}"
-						>
-							<span v-if="tie" id="tie">A/S</span>
-							<span v-if="!leader && !tie && !winnerDeclared">{{ matchScore * -1 }}UP</span>
-							<!-- away leads -->
-							<span v-if="!leader && winnerDeclared">{{ matchScore * -1 }}&X</span>
-							<!-- home wins -->
-
-							<span v-if="leader && !tie && !winnerDeclared">{{ matchScore }}UP</span>
-							<!-- home leads -->
-							<span v-if="leader && winnerDeclared">{{ matchScore }}&X</span>
-							<!-- home wins -->
-						</b-col>
-
-						<!-- away team -->
-						<b-col class="col-4 scoreTeam text-right pr-3" :class="{ scoreTeam2: !leader && !tie }">
-							<i v-if="!tie && winnerDeclared && !leader" class="material-icons pb-1 pr-1">emoji_events</i>
-							<span
-								style="float:right;"
-							>{{getFirstName(players[2].name)}} & {{getFirstName(players[3].name)}}</span>
-							<span style="clear:right;" v-if="!tie && !winnerDeclared">{{dormy2}}</span>
-						</b-col>
-					</b-row>
-				</footer>
-			</b-container>
-		</div>
+			</b-row>
+		</b-container>
 
 		<!--  LEADER BOARD -->
-		<div id="overview" v-if="overview">
-			<b-container class="p-0">
+		<div>
+			<b-container id="overview" v-if="overview">
 				<b-row class="pt-3" align-v="center" align-h="center">
 					<!-- HOME TEAM -->
 					<b-col class="col-4 scoreTeam text-left pl-3" :class="{ scoreTeam1: leader && !tie }">
@@ -593,18 +597,24 @@
 				</table>
 
 				<!-- BUTTON FÖR MATCH VY -->
-				<button class="btn btn-primary" @click="overview = !overview">
-					<span class="material-icons">golf_course</span>
-					Match Vy
-				</button>
-				<app-hcp-modal
-					:course-rating="courseRating"
-					:slope-rating="slopeRating"
-					:banans-par="banansPar"
-					:players="players"
-					:slope="slopedHcpPlayers"
-					:slope-handicap-list="slopeHandicapList"
-				></app-hcp-modal>
+				<b-row class="mt-4">
+					<b-col class="col-5">
+						<button class="btn btn-primary" @click="overview = !overview">
+							<span class="material-icons">create</span>
+							Match
+						</button>
+					</b-col>
+					<b-col class="col-7 text-right">
+						<app-hcp-modal
+							:course-rating="courseRating"
+							:slope-rating="slopeRating"
+							:banans-par="banansPar"
+							:players="players"
+							:slope="slopedHcpPlayers"
+							:slope-handicap-list="slopeHandicapList"
+						></app-hcp-modal>
+					</b-col>
+				</b-row>
 			</b-container>
 		</div>
 	</div>
@@ -960,10 +970,10 @@
 			try {
 				//hämtar data och lägger det i this.player
 				/*
-																																																											          const response = await axios.get("http://localhost:3000/scorecard");
-																																																											          const data = response.data[response.data.length - 1];
-																																																											          this.players = data.gameData;
-																																																											          */
+																																																												          const response = await axios.get("http://localhost:3000/scorecard");
+																																																												          const data = response.data[response.data.length - 1];
+																																																												          this.players = data.gameData;
+																																																												          */
 
 				this.players = [
 					{
@@ -1078,10 +1088,10 @@
 				this.team1 = "lag 1"; //data.gameData[0].team;
 				this.team2 = "lag 2";
 				/* data.gameData.forEach(element => {
-																																																											            if (element.team != this.team1) {
-																																																											              this.team2 = 'lag 2'//element.team;
-																																																											            }
-																																																											          }); */
+																																																												            if (element.team != this.team1) {
+																																																												              this.team2 = 'lag 2'//element.team;
+																																																												            }
+																																																												          }); */
 				this.schp();
 			} catch (e) {
 				console.log(e);
@@ -1118,10 +1128,10 @@
 			async loadData() {
 				try {
 					/*
-																																																											            let response = await axios.get("http://localhost:3000/scorecard");
-																																																											            const data = response.data[response.data.length - 1];
-																																																											            this.players = data.gameData;
-																																																											            */
+																																																												            let response = await axios.get("http://localhost:3000/scorecard");
+																																																												            const data = response.data[response.data.length - 1];
+																																																												            this.players = data.gameData;
+																																																												            */
 					this.players = [
 						{
 							name: "Br W",
@@ -1386,8 +1396,8 @@
 	/* leader board */
 
 	#overview {
-		margin-left: 10px;
-		margin-right: 10px;
+		/*  margin-left: 10px;
+	  margin-right: 10px; */
 	}
 
 	.initialsTeam1 {
@@ -1417,6 +1427,10 @@
 		margin: 4px;
 		list-style-type: symbols;
 	}
+	.btn {
+		touch-action: manipulation;
+	}
+
 	.btn-danger {
 		font-size: 12px;
 	}
@@ -1654,10 +1668,10 @@
 	}
 	#nextHole {
 		/*
-																																																															      font-size: 20px;  
-																																																															      margin-bottom: 10px;
-																																																															      margin-top: 12px;
-																																																															       width: 340px; */
+	  font-size: 20px;  
+	  margin-bottom: 10px;
+	  margin-top: 12px;
+	   width: 340px; */
 	}
 	/* LEADER SECTION  */
 	.leaderSection {
@@ -1695,7 +1709,7 @@
 
 	.leaderTeam1 {
 		/*  background-color: #fd9b37;
-																																																															      border: 1px #fd9b37 solid; */
+	  border: 1px #fd9b37 solid; */
 		background-color: #fff;
 		width: 20px;
 		padding: 0;
@@ -1703,7 +1717,7 @@
 	}
 	.leaderTeam2 {
 		/* background-color: #69b3fe;
-																																																															      border: 1px #69b3fe solid; */
+	  border: 1px #69b3fe solid; */
 		background-color: #fff;
 		width: 20px;
 		padding: 0;
@@ -1713,8 +1727,8 @@
 	p {
 		font-size: 0.7em;
 		/* text-overflow: ellipsis;
-																																																															      white-space: nowrap;
-																																																															      overflow: hidden; */
+	  white-space: nowrap;
+	  overflow: hidden; */
 	}
 
 	.leaderTeam1 h4 {
