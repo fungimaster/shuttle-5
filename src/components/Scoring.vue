@@ -23,7 +23,7 @@
 								</button>
 							</b-col>
 							<b-col cols="xs">
-								<p class="overviewParagraph">{{hole.strokes}}</p>
+								<p v-changeNan:arguments="{score: hole.strokes}" class="overviewParagraph">{{hole.strokes}}</p>
 							</b-col>
 						</div>
 					</div>
@@ -86,7 +86,7 @@
 								</button>
 							</b-col>
 							<b-col cols="xs">
-								<p class="overviewParagraph">{{hole.strokes}}</p>
+								<p v-changeNan:arguments="{score: hole.strokes}" class="overviewParagraph">{{hole.strokes}}</p>
 							</b-col>
 						</div>
 					</div>
@@ -148,7 +148,7 @@
 								</button>
 							</b-col>
 							<b-col cols="xs">
-								<p class="overviewParagraph">{{hole.strokes}}</p>
+								<p v-changeNan:arguments="{score: hole.strokes}" class="overviewParagraph">{{hole.strokes}}</p>
 							</b-col>
 						</div>
 					</div>
@@ -210,7 +210,7 @@
 								</button>
 							</b-col>
 							<b-col cols="xs">
-								<p class="overviewParagraph">{{hole.strokes}}</p>
+								<p v-changeNan:arguments="{score: hole.strokes}" class="overviewParagraph">{{hole.strokes}}</p>
 							</b-col>
 						</div>
 					</div>
@@ -278,6 +278,11 @@
 				let array = el.innerText.split(" ");
 				const intialsArray = array.map(e => e.slice(0, 1));
 				el.innerHTML = intialsArray[0] + "." + intialsArray[1];
+			},
+			changeNan(el, bind) {
+				if (bind.value.score !== bind.value.score) {
+					el.innerHTML = "-";
+				}
 			}
 		},
 		methods: {
