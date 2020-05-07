@@ -3,7 +3,17 @@
 		<!-- Spelare 1 -->
 		<b-modal no-fade ref="1" id="modal-1" ok-only>
 			<b-container>
-				<b-row>
+				<b-row align-v="center" align-h="center">
+					<p class>
+						Hål:
+						<strong>{{ activehole }}</strong>
+						| Par:
+						<strong>{{ par }}</strong> |
+						Index:
+						<strong>{{ indexProp }}</strong>
+					</p>
+				</b-row>
+				<b-row align-v="center" align-h="center">
 					<div v-for="{holes, name}, index in players">
 						<div
 							class="scoresOverview"
@@ -14,12 +24,12 @@
 						>
 							<b-col cols="xs">
 								<button
-									:class="{'activePlayer': index === 0}"
+									:class="{'activePlayer': index === 0, 'btn-team1': index < 2, 'btn-team2': index > 1}"
 									class="btn btn-info"
 									@click="$bvModal.show(`modal-${index+1}`, $bvModal.hide(`modal-${counter}`) , updateCounter(index+1))"
 								>
 									<span v-initials>{{name}}</span>
-									<span class="material-icons">person</span>
+									<span hidden class="material-icons">person</span>
 								</button>
 							</b-col>
 							<b-col cols="xs">
@@ -30,10 +40,8 @@
 				</b-row>
 			</b-container>
 
-			<div v-for="(player, index) in players.slice(0, 1)" :key="player.index">
-				<h1>{{ player.name }}</h1>
-				<p>Hål: {{ activehole }} Par: {{ par }}</p>
-				<p>Index: {{ indexProp }}</p>
+			<div v-for="(player, index) in players.slice(0, 1)" :key="player.index" class="text-center mt-3">
+				<h2>{{ player.name }}</h2>
 
 				<div
 					v-for="holes in player.holes"
@@ -45,7 +53,7 @@
 				>
 					<!-- Visar antal slag per spelare i team 1 -->
 					<h2 v-if="holes.strokes !== holes.strokes">-</h2>
-					<h2 v-else class="strokes">{{ holes.strokes }}</h2>
+					<h2 hidden v-else class="strokes">{{ holes.strokes }}</h2>
 
 					<app-numpad
 						@sendButtonAction="buttonActions"
@@ -66,7 +74,17 @@
 			<button hidden class="btn btn-success" @click="nextModal()">next</button>
 
 			<b-container>
-				<b-row>
+				<b-row align-v="center" align-h="center">
+					<p class>
+						Hål:
+						<strong>{{ activehole }}</strong>
+						| Par:
+						<strong>{{ par }}</strong> |
+						Index:
+						<strong>{{ indexProp }}</strong>
+					</p>
+				</b-row>
+				<b-row align-v="center" align-h="center">
 					<div v-for="{holes, name}, index in players">
 						<div
 							class="scoresOverview"
@@ -77,12 +95,12 @@
 						>
 							<b-col cols="xs">
 								<button
-									:class="{'activePlayer': index === 1}"
+									:class="{'activePlayer': index === 1, 'btn-team1': index < 2, 'btn-team2': index > 1}"
 									class="btn btn-info"
 									@click="$bvModal.show(`modal-${index+1}`, $bvModal.hide(`modal-${counter}`) , updateCounter(index+1))"
 								>
 									<span v-initials>{{name}}</span>
-									<span class="material-icons">person</span>
+									<span hidden class="material-icons">person</span>
 								</button>
 							</b-col>
 							<b-col cols="xs">
@@ -93,10 +111,9 @@
 				</b-row>
 			</b-container>
 
-			<div v-for="(player, index) in players.slice(1, 2)" :key="player.index">
-				<h1>{{ player.name }}</h1>
-				<p>Hål: {{ activehole }} Par: {{ par }}</p>
-				<p>Index: {{ indexProp }}</p>
+			<div v-for="(player, index) in players.slice(1, 2)" :key="player.index" class="text-center mt-3">
+				<h2>{{ player.name }}</h2>
+
 				<div
 					v-for="holes in player.holes"
 					:key="holes.index"
@@ -107,7 +124,7 @@
 				>
 					<!-- Visar antal slag per spelare i team 1 -->
 					<h2 v-if="holes.strokes !== holes.strokes">-</h2>
-					<h2 v-else class="strokes">{{ holes.strokes }}</h2>
+					<h2 hidden v-else class="strokes">{{ holes.strokes }}</h2>
 
 					<app-numpad
 						@sendButtonAction="buttonActions"
@@ -128,7 +145,17 @@
 			<button hidden class="btn btn-success" @click="nextModal()">next</button>
 
 			<b-container>
-				<b-row>
+				<b-row align-v="center" align-h="center">
+					<p class>
+						Hål:
+						<strong>{{ activehole }}</strong>
+						| Par:
+						<strong>{{ par }}</strong> |
+						Index:
+						<strong>{{ indexProp }}</strong>
+					</p>
+				</b-row>
+				<b-row align-v="center" align-h="center">
 					<div v-for="{holes, name}, index in players">
 						<div
 							class="scoresOverview"
@@ -139,12 +166,12 @@
 						>
 							<b-col cols="xs">
 								<button
-									:class="{'activePlayer': index === 2}"
+									:class="{'activePlayer': index === 2, 'btn-team1': index < 2, 'btn-team2': index > 1}"
 									class="btn btn-info"
 									@click="$bvModal.show(`modal-${index+1}`, $bvModal.hide(`modal-${counter}`) , updateCounter(index+1))"
 								>
 									<span v-initials>{{name}}</span>
-									<span class="material-icons">person</span>
+									<span hidden class="material-icons">person</span>
 								</button>
 							</b-col>
 							<b-col cols="xs">
@@ -155,10 +182,9 @@
 				</b-row>
 			</b-container>
 
-			<div v-for="(player, index) in players.slice(2, 3)" :key="player.index">
-				<h1>{{ player.name }}</h1>
-				<p>Hål: {{ activehole }} Par: {{ par }}</p>
-				<p>Index: {{ indexProp }}</p>
+			<div v-for="(player, index) in players.slice(2, 3)" :key="player.index" class="text-center mt-3">
+				<h2>{{ player.name }}</h2>
+
 				<div
 					v-for="holes in player.holes"
 					:key="holes.index"
@@ -169,7 +195,7 @@
 				>
 					<!-- Visar antal slag per spelare i team 1 -->
 					<h2 v-if="holes.strokes !== holes.strokes">-</h2>
-					<h2 v-else class="strokes">{{ holes.strokes }}</h2>
+					<h2 hidden v-else class="strokes">{{ holes.strokes }}</h2>
 
 					<app-numpad
 						@sendButtonAction="buttonActions"
@@ -190,7 +216,17 @@
 			<button hidden class="btn btn-success" @click="nextModal()">next</button>
 
 			<b-container>
-				<b-row>
+				<b-row align-v="center" align-h="center">
+					<p class>
+						Hål:
+						<strong>{{ activehole }}</strong>
+						| Par:
+						<strong>{{ par }}</strong> |
+						Index:
+						<strong>{{ indexProp }}</strong>
+					</p>
+				</b-row>
+				<b-row align-v="center" align-h="center">
 					<div v-for="{holes, name}, index in players">
 						<div
 							class="scoresOverview"
@@ -201,12 +237,12 @@
 						>
 							<b-col cols="xs">
 								<button
-									:class="{'activePlayer': index === 3}"
+									:class="{'activePlayer': index === 3, 'btn-team1': index < 2, 'btn-team2': index > 1}"
 									class="btn btn-info"
 									@click="$bvModal.show(`modal-${index+1}`, $bvModal.hide(`modal-${counter}`) , updateCounter(index+1))"
 								>
 									<span v-initials>{{name}}</span>
-									<span class="material-icons">person</span>
+									<span hidden class="material-icons">person</span>
 								</button>
 							</b-col>
 							<b-col cols="xs">
@@ -217,10 +253,9 @@
 				</b-row>
 			</b-container>
 
-			<div v-for="(player, index) in players.slice(3, 4)" :key="player.index">
-				<h1>{{ player.name }}</h1>
-				<p>Hål: {{ activehole }} Par: {{ par }}</p>
-				<p>Index: {{ indexProp }}</p>
+			<div v-for="(player, index) in players.slice(3, 4)" :key="player.index" class="text-center mt-3">
+				<h2>{{ player.name }}</h2>
+
 				<div
 					v-for="holes in player.holes"
 					:key="holes.index"
@@ -231,7 +266,7 @@
 				>
 					<!-- Visar antal slag per spelare i team 1 -->
 					<h2 v-if="holes.strokes !== holes.strokes">-</h2>
-					<h2 v-else class="strokes">{{ holes.strokes }}</h2>
+					<h2 hidden v-else class="strokes">{{ holes.strokes }}</h2>
 
 					<app-numpad
 						@sendButtonAction="buttonActions"
@@ -357,15 +392,16 @@
 	};
 </script>
 
-<style scoped>
-	@media screen and (max-width: 320px) {
-		.btn-info {
-			width: 60px !important;
-		}
+<style lang="scss" scoped>
+	@import "../styles/variables.scss";
+
+	h2 {
+		font-weight: bold;
+		margin-top: 1em;
 	}
+
 	.activePlayer {
-		background-color: #fd9b37 !important;
-		border-color: #fd9b37;
+		border-color: #000 !important;
 	}
 	.overviewParagraph {
 		border-radius: 7px;
@@ -395,6 +431,34 @@
 		height: 60px;
 		margin: 2px;
 		font-size: 14px;
+	}
+
+	.btn-team1 {
+		background: $team1;
+		border-color: $team1;
+	}
+
+	.btn-team2 {
+		background: $team2;
+		border-color: $team2;
+	}
+
+	.btn-team1 .material-icons {
+		color: $team1;
+	}
+
+	.btn-team2 .material-icons {
+		color: $team2;
+	}
+
+	.activePlayer .material-icons {
+		color: #000;
+	}
+
+	@media screen and (max-width: 320px) {
+		.btn-info {
+			width: 60px !important;
+		}
 	}
 </style>
 

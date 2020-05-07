@@ -161,13 +161,15 @@
 	};
 </script>
 
-<style scoped>
-	@media screen and (max-width: 320px) {
-		button {
-			width: 70px !important;
-			font-size: 12px !important;
-		}
+<style lang="scss" scoped>
+	@import "../styles/variables.scss";
+
+	.btn-warning {
+		background: $masters-green;
+		border-color: $masters-green;
+		color: #fff;
 	}
+
 	button {
 		width: 90px;
 		height: 60px;
@@ -175,7 +177,7 @@
 		font-size: 14px;
 	}
 	.par {
-		border-bottom: 4px solid #19a2b8;
+		border-bottom: 8px solid $pink;
 	}
 
 	.pressedButton {
@@ -183,6 +185,14 @@
 		transition-property: transform;
 		transform: scale(0.8) !important;
 		border: 0 !important;
-		background-color: #d39e00 !important;
+		background-color: #fff !important;
+	}
+
+	@media screen and (max-width: 320px) {
+		button {
+			width: 70px !important;
+			font-size: 10px !important;
+			height: 50px !important;
+		}
 	}
 </style>
