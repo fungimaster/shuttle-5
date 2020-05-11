@@ -627,7 +627,6 @@
 				this.$emit("updateCounter", number);
 			},
 			sendScore(player, activehole) {
-				console.log(player, activehole);
 				this.$emit("sendScore", player, activehole);
 			},
 			prevModal() {
