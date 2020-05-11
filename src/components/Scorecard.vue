@@ -785,12 +785,16 @@
 
 				const holesPlayed = totalWins1 + totalWins2 + draws;
 				const holesLeft = 18 - holesPlayed;
+				this.dormy1 = "";
+				this.dormy2 = "";
 
 				if (totalWins1 - totalWins2 === holesLeft) {
-					return "TEAM 2 är dormy";
+					this.dormy2 = "DORMY"
+					//return "TEAM 2 är dormy";
 				}
 				if (totalWins2 - totalWins1 === holesLeft) {
-					return "TEAM 1 dormy";
+					this.dormy1 = "DORMY"
+					//return "TEAM 1 dormy";
 				}
 
 				return null;
