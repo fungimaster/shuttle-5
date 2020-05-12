@@ -76,10 +76,10 @@
 
 									<!-- SCOREBUTTON -->
 									<!-- SPELARE 1 -->
-									<b-col>
+									<b-col class="text-right pr-4">
 										<div v-if="index === 0">
 											<button
-												class="buttons disable-dbl-tap-zoom"
+												class="btn btn-warning disable-dbl-tap-zoom"
 												@click="$bvModal.show('modal-1'), (counter = 1)"
 												v-if="
                       currentStrokesList.slice(0, 1)[0] !==
@@ -87,7 +87,7 @@
                     "
 											>-</button>
 											<button
-												class="buttons disable-dbl-tap-zoom"
+												class="btn btn-warning disable-dbl-tap-zoom"
 												v-else
 												@click="$bvModal.show('modal-1'), (counter = 1)"
 											>{{ currentStrokesList.slice(0, 1)[0] }}</button>
@@ -96,7 +96,7 @@
 										<div v-if="index === 1">
 											<button
 												@click="$bvModal.show('modal-2'), (counter = 2)"
-												class="buttons disable-dbl-tap-zoom"
+												class="btn btn-warning disable-dbl-tap-zoom"
 												v-if="
                       currentStrokesList.slice(1, 2)[0] !==
                         currentStrokesList.slice(1, 2)[0]
@@ -105,7 +105,7 @@
 
 											<button
 												@click="$bvModal.show('modal-2'), (counter = 2)"
-												class="btn btn-warning"
+												class="btn btn-warning disable-dbl-tap-zoom"
 												v-else
 											>{{ currentStrokesList.slice(1, 2)[0] }}</button>
 										</div>
@@ -138,11 +138,11 @@
 									</b-col>
 									<!-- SCOREBUTTON -->
 									<!-- SPELAR 3 -->
-									<b-col>
+									<b-col b-col class="text-right pr-4">
 										<div v-if="index === 0">
 											<button
 												@click="$bvModal.show('modal-3'), (counter = 3)"
-												class="buttons disable-dbl-tap-zoom"
+												class="btn btn-warning disable-dbl-tap-zoom"
 												v-if="
                       currentStrokesList.slice(2, 3)[0] !==
                         currentStrokesList.slice(2, 3)[0]
@@ -150,14 +150,14 @@
 											>-</button>
 											<button
 												@click="$bvModal.show('modal-3'), (counter = 3)"
-												class="buttons disable-dbl-tap-zoom"
+												class="btn btn-warning disable-dbl-tap-zoom"
 												v-else
 											>{{ currentStrokesList.slice(2, 3)[0] }}</button>
 										</div>
 										<!-- SPELAR 4 -->
 										<div v-if="index === 1">
 											<button
-												class="buttons disable-dbl-tap-zoom"
+												class="btn btn-warning disable-dbl-tap-zoom"
 												@click="$bvModal.show('modal-4'), (counter = 4)"
 												v-if="
                       currentStrokesList.slice(3, 4)[0] !==
@@ -166,7 +166,7 @@
 											>-</button>
 											<button
 												@click="$bvModal.show('modal-4'), (counter = 4)"
-												class="btn btn-warning"
+												class="btn btn-warning disable-dbl-tap-zoom"
 												v-else
 											>{{ currentStrokesList.slice(3, 4)[0] }}</button>
 										</div>
@@ -187,7 +187,7 @@
 							@sendScore="currentStrokes"
 							@updateCounter="updateCounter"
 						></app-scoring>
-						{{dormy}}
+
 						<!-- NÄSTA HÅL & ÖVERSIKT BUTTONS -->
 
 						<b-row class="mt-4">
@@ -360,6 +360,15 @@
 							v-changeNanAndZero:arguments="{
                 score: holes.strokes
               }"
+							v-displayLowestScore:arguments="{
+                score: holes.strokes,
+                lowestScoreOnHole,
+                activeHole,
+                course: course,
+                player: player,
+                draw: singleHoleWinner,
+                slag: slag(0)
+              }"
 						>{{ holes.strokes === 0 ? null : holes.strokes }}</td>
 						<td
 							v-for="score in playerScoreFrontNine.slice(0, 1)"
@@ -367,6 +376,7 @@
 							v-bold
 						>{{ score !== score ? "-" : score }}</td>
 					</tr>
+
 					<!-- SPELARE 2 -->
 					<tr v-for="player in players.slice(1, 2)" :key="player.index">
 						<th v-initials class="initialsTeam1">{{ player.name }}</th>
@@ -376,6 +386,13 @@
 							:key="holes.index"
 							v-changeNanAndZero:arguments="{
                 score: holes.strokes
+              }"
+							v-displayLowestScore:arguments="{
+                score: holes.strokes,
+                lowestScoreOnHole,
+                activeHole,
+                course: course,
+                slag: slag(1)
               }"
 						>{{ holes.strokes === 0 ? null : holes.strokes }}</td>
 						<td
@@ -401,6 +418,13 @@
 							v-changeNanAndZero:arguments="{
                 score: holes.strokes
               }"
+							v-displayLowestScore:arguments="{
+                score: holes.strokes,
+                lowestScoreOnHole,
+                activeHole,
+                course: course,
+                slag: slag(2)
+              }"
 						>{{ holes.strokes === 0 ? null : holes.strokes }}</td>
 						<td
 							v-for="score in playerScoreFrontNine.slice(2, 3)"
@@ -418,6 +442,13 @@
 							:key="holes.index"
 							v-changeNanAndZero:arguments="{
                 score: holes.strokes
+              }"
+							v-displayLowestScore:arguments="{
+                score: holes.strokes,
+                lowestScoreOnHole,
+                activeHole,
+                course: course,
+                slag: slag(3)
               }"
 						>{{ holes.strokes === 0 ? null : holes.strokes }}</td>
 						<td
@@ -453,6 +484,14 @@
 							v-changeNanAndZero:arguments="{
                 score: holes.strokes
               }"
+							v-displayLowestScore:arguments="{
+                score: holes.strokes,
+                lowestScoreOnHole,
+                activeHole,
+                course: course,
+                player: player,
+                slag: slag(0)
+              }"
 						>{{ holes.strokes === 0 ? null : holes.strokes }}</td>
 						<td
 							v-for="score in playerScoreBackNine.slice(0, 1)"
@@ -475,6 +514,14 @@
 							:key="holes.index"
 							v-changeNanAndZero:arguments="{
                 score: holes.strokes
+              }"
+							v-displayLowestScore:arguments="{
+                score: holes.strokes,
+                lowestScoreOnHole,
+                activeHole,
+                course: course,
+                player: player,
+                slag: slag(0)
               }"
 						>{{ holes.strokes === 0 ? null : holes.strokes }}</td>
 						<td
@@ -504,6 +551,14 @@
 							v-changeNanAndZero:arguments="{
                 score: holes.strokes
               }"
+							v-displayLowestScore:arguments="{
+                score: holes.strokes,
+                lowestScoreOnHole,
+                activeHole,
+                course: course,
+                player: player,
+                slag: slag(0)
+              }"
 						>{{ holes.strokes === 0 ? null : holes.strokes }}</td>
 						<td
 							v-for="score in playerScoreBackNine.slice(2, 3)"
@@ -526,6 +581,14 @@
 							:key="holes.index"
 							v-changeNanAndZero:arguments="{
                 score: holes.strokes
+              }"
+							v-displayLowestScore:arguments="{
+                score: holes.strokes,
+                lowestScoreOnHole,
+                activeHole,
+                course: course,
+                player: player,
+                slag: slag(0)
               }"
 						>{{ holes.strokes === 0 ? null : holes.strokes }}</td>
 						<td
@@ -576,6 +639,20 @@
 			appHcpModal: HcpModalVue
 		},
 		directives: {
+			displayLowestScore(el, bind) {
+				// if (bind.value.draw !== 1 && bind.value.draw !== -1) {
+				//   return;
+				// }
+
+				const activeHole = bind.value.activeHole;
+				const slag = bind.value.slag;
+				const score = bind.value.score;
+				const lowestScore = bind.value.lowestScoreOnHole[activeHole - 1];
+
+				if (score - slag === lowestScore) {
+					el.style.backgroundColor = "red";
+				}
+			},
 			changeNanAndZero(el, bind) {
 				if (bind.value.score !== bind.value.score) {
 					el.innerHTML = "-";
@@ -585,6 +662,10 @@
 				}
 			},
 			initials(el) {
+				if (el.innerText.length === 3) {
+					return;
+				}
+
 				let array = el.innerText.split(" ");
 				const intialsArray = array.map(e => e.slice(0, 1));
 				el.innerHTML = intialsArray[0] + "." + intialsArray[1];
@@ -1735,7 +1816,7 @@
 
 	.leaderTeam1 {
 		/*  background-color: #fd9b37;
-																																																																																																																																																																																																																																																																																																																																																																																																																							  border: 1px #fd9b37 solid; */
+				  border: 1px #fd9b37 solid; */
 		background-color: #fff;
 		width: 20px;
 		padding: 0;
@@ -1743,7 +1824,7 @@
 	}
 	.leaderTeam2 {
 		/* background-color: #69b3fe;
-																																																																																																																																																																																																																																																																																																																																																																																																																							  border: 1px #69b3fe solid; */
+				  border: 1px #69b3fe solid; */
 		background-color: #fff;
 		width: 20px;
 		padding: 0;
@@ -1852,3 +1933,4 @@
 		}
 	}
 </style>
+
