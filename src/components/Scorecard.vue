@@ -360,15 +360,6 @@
 							v-changeNanAndZero:arguments="{
                 score: holes.strokes
               }"
-							v-displayLowestScore:arguments="{
-                score: holes.strokes,
-                lowestScoreOnHole,
-                activeHole,
-                course: course,
-                player: player,
-                draw: singleHoleWinner,
-                slag: slag(0)
-              }"
 						>{{ holes.strokes === 0 ? null : holes.strokes }}</td>
 						<td
 							v-for="score in playerScoreFrontNine.slice(0, 1)"
@@ -386,13 +377,6 @@
 							:key="holes.index"
 							v-changeNanAndZero:arguments="{
                 score: holes.strokes
-              }"
-							v-displayLowestScore:arguments="{
-                score: holes.strokes,
-                lowestScoreOnHole,
-                activeHole,
-                course: course,
-                slag: slag(1)
               }"
 						>{{ holes.strokes === 0 ? null : holes.strokes }}</td>
 						<td
@@ -418,13 +402,6 @@
 							v-changeNanAndZero:arguments="{
                 score: holes.strokes
               }"
-							v-displayLowestScore:arguments="{
-                score: holes.strokes,
-                lowestScoreOnHole,
-                activeHole,
-                course: course,
-                slag: slag(2)
-              }"
 						>{{ holes.strokes === 0 ? null : holes.strokes }}</td>
 						<td
 							v-for="score in playerScoreFrontNine.slice(2, 3)"
@@ -442,13 +419,6 @@
 							:key="holes.index"
 							v-changeNanAndZero:arguments="{
                 score: holes.strokes
-              }"
-							v-displayLowestScore:arguments="{
-                score: holes.strokes,
-                lowestScoreOnHole,
-                activeHole,
-                course: course,
-                slag: slag(3)
               }"
 						>{{ holes.strokes === 0 ? null : holes.strokes }}</td>
 						<td
@@ -479,18 +449,10 @@
 						<th v-initials class="initialsTeam1">{{ player.name }}</th>
 						<td
 							:class="[{'showWinnerOverviewTeam2' : isInWinningHoleTeam(0)[9+ index]}, holes.strokes === valueOfLowestScoreOnHole(index) ? 'showLowestScore' : null]"
-							v-for="holes in player.holes.slice(9, 18)"
+							v-for="(holes, index) in player.holes.slice(9, 18)"
 							:key="holes.index"
 							v-changeNanAndZero:arguments="{
                 score: holes.strokes
-              }"
-							v-displayLowestScore:arguments="{
-                score: holes.strokes,
-                lowestScoreOnHole,
-                activeHole,
-                course: course,
-                player: player,
-                slag: slag(0)
               }"
 						>{{ holes.strokes === 0 ? null : holes.strokes }}</td>
 						<td
@@ -514,14 +476,6 @@
 							:key="holes.index"
 							v-changeNanAndZero:arguments="{
                 score: holes.strokes
-              }"
-							v-displayLowestScore:arguments="{
-                score: holes.strokes,
-                lowestScoreOnHole,
-                activeHole,
-                course: course,
-                player: player,
-                slag: slag(0)
               }"
 						>{{ holes.strokes === 0 ? null : holes.strokes }}</td>
 						<td
@@ -551,14 +505,6 @@
 							v-changeNanAndZero:arguments="{
                 score: holes.strokes
               }"
-							v-displayLowestScore:arguments="{
-                score: holes.strokes,
-                lowestScoreOnHole,
-                activeHole,
-                course: course,
-                player: player,
-                slag: slag(0)
-              }"
 						>{{ holes.strokes === 0 ? null : holes.strokes }}</td>
 						<td
 							v-for="score in playerScoreBackNine.slice(2, 3)"
@@ -581,14 +527,6 @@
 							:key="holes.index"
 							v-changeNanAndZero:arguments="{
                 score: holes.strokes
-              }"
-							v-displayLowestScore:arguments="{
-                score: holes.strokes,
-                lowestScoreOnHole,
-                activeHole,
-                course: course,
-                player: player,
-                slag: slag(0)
               }"
 						>{{ holes.strokes === 0 ? null : holes.strokes }}</td>
 						<td
@@ -639,20 +577,6 @@
 			appHcpModal: HcpModalVue
 		},
 		directives: {
-			displayLowestScore(el, bind) {
-				// if (bind.value.draw !== 1 && bind.value.draw !== -1) {
-				//   return;
-				// }
-
-				const activeHole = bind.value.activeHole;
-				const slag = bind.value.slag;
-				const score = bind.value.score;
-				const lowestScore = bind.value.lowestScoreOnHole[activeHole - 1];
-
-				if (score - slag === lowestScore) {
-					el.style.backgroundColor = "red";
-				}
-			},
 			changeNanAndZero(el, bind) {
 				if (bind.value.score !== bind.value.score) {
 					el.innerHTML = "-";
@@ -806,11 +730,16 @@
 				const holesPlayed = totalWins1 + totalWins2 + draws;
 				const holesLeft = 18 - holesPlayed;
 
+				this.dormy2 = "";
+				this.dormy1 = "";
+
 				if (totalWins1 - totalWins2 === holesLeft) {
-					return "TEAM 2 är dormy";
+					this.dormy2 = "DORMY";
+					//return "TEAM 2 är dormy";
 				}
 				if (totalWins2 - totalWins1 === holesLeft) {
-					return "TEAM 1 dormy";
+					this.dormy1 = "DORMY";
+					//return "TEAM 1 dormy";
 				}
 
 				return null;
@@ -1003,10 +932,10 @@
 				//hämtar data och lägger det i this.player
 
 				/*
-																																																																																																																																																																																																																																																																																																																																																																																												      const response = await axios.get("http://localhost:3000/scorecard");
-																																																																																																																																																																																																																																																																																																																																																																																												      const data = response.data[response.data.length - 1];
-																																																																																																																																																																																																																																																																																																																																																																																												      this.players = data.gameData;
-																																																																																																																																																																																																																																																																																																																																																																																												      */
+																																																																																																																																																																																																																																																																																																																																																																																														      const response = await axios.get("http://localhost:3000/scorecard");
+																																																																																																																																																																																																																																																																																																																																																																																														      const data = response.data[response.data.length - 1];
+																																																																																																																																																																																																																																																																																																																																																																																														      this.players = data.gameData;
+																																																																																																																																																																																																																																																																																																																																																																																														      */
 
 				this.players = [
 					{
@@ -1121,10 +1050,10 @@
 				this.team1 = "lag 1"; //data.gameData[0].team;
 				this.team2 = "lag 2";
 				/* data.gameData.forEach(element => {
-																																																																																																																																																																																																																																																																																																																																																																																												        if (element.team != this.team1) {
-																																																																																																																																																																																																																																																																																																																																																																																												          this.team2 = 'lag 2'//element.team;
-																																																																																																																																																																																																																																																																																																																																																																																												        }
-																																																																																																																																																																																																																																																																																																																																																																																												      }); */
+																																																																																																																																																																																																																																																																																																																																																																																														        if (element.team != this.team1) {
+																																																																																																																																																																																																																																																																																																																																																																																														          this.team2 = 'lag 2'//element.team;
+																																																																																																																																																																																																																																																																																																																																																																																														        }
+																																																																																																																																																																																																																																																																																																																																																																																														      }); */
 				this.schp();
 			} catch (e) {
 				console.log(e);
@@ -1218,10 +1147,10 @@
 			async loadData() {
 				try {
 					/*
-																																																																																																																																																																																																																																																																																																																																																																																												        let response = await axios.get("http://localhost:3000/scorecard");
-																																																																																																																																																																																																																																																																																																																																																																																												        const data = response.data[response.data.length - 1];
-																																																																																																																																																																																																																																																																																																																																																																																												        this.players = data.gameData;
-																																																																																																																																																																																																																																																																																																																																																																																												        */
+																																																																																																																																																																																																																																																																																																																																																																																														        let response = await axios.get("http://localhost:3000/scorecard");
+																																																																																																																																																																																																																																																																																																																																																																																														        const data = response.data[response.data.length - 1];
+																																																																																																																																																																																																																																																																																																																																																																																														        this.players = data.gameData;
+																																																																																																																																																																																																																																																																																																																																																																																														        */
 					this.players = [
 						{
 							name: "Br W",
@@ -1488,11 +1417,11 @@
 
 	/* leader board */
 	/* 
-																																																																																																																																																																																																																																																																																																																																																																																																																							#overview {
-																																																																																																																																																																																																																																																																																																																																																																																																																								/*  margin-left: 10px;
-																																																																																																																																																																																																																																																																																																																																																																																																																							  margin-right: 10px; 
-																																																																																																																																																																																																																																																																																																																																																																																																																							}
-																																																																																																																																																																																																																																																																																																																																																																																																																						*/
+																																																																																																																																																																																																																																																																																																																																																																																																																									#overview {
+																																																																																																																																																																																																																																																																																																																																																																																																																										/*  margin-left: 10px;
+																																																																																																																																																																																																																																																																																																																																																																																																																									  margin-right: 10px; 
+																																																																																																																																																																																																																																																																																																																																																																																																																									}
+																																																																																																																																																																																																																																																																																																																																																																																																																								*/
 	.initialsTeam1 {
 		color: #fd9b37;
 	}
@@ -1574,9 +1503,9 @@
 		color: white;
 	}
 
-	.showLowestScore {
-		text-decoration: underline;
-	}
+	/* 	.showLowestScore {
+				text-decoration: underline;
+			} */
 
 	/* HEADER ROW */
 	.holeRow {
@@ -1774,12 +1703,12 @@
 		border-color: #195a3a !important;
 	}
 	/*	#nextHole {
-																																																																																																																																																																																																																																																																																																																																																																																																																						
-																																																																																																																																																																																																																																																																																																																																																																																																																							  font-size: 20px;  
-																																																																																																																																																																																																																																																																																																																																																																																																																							  margin-bottom: 10px;
-																																																																																																																																																																																																																																																																																																																																																																																																																							  margin-top: 12px;
-																																																																																																																																																																																																																																																																																																																																																																																																																							   width: 340px; 
-																																																																																																																																																																																																																																																																																																																																																																																																																						}*/
+																																																																																																																																																																																																																																																																																																																																																																																																																								
+																																																																																																																																																																																																																																																																																																																																																																																																																									  font-size: 20px;  
+																																																																																																																																																																																																																																																																																																																																																																																																																									  margin-bottom: 10px;
+																																																																																																																																																																																																																																																																																																																																																																																																																									  margin-top: 12px;
+																																																																																																																																																																																																																																																																																																																																																																																																																									   width: 340px; 
+																																																																																																																																																																																																																																																																																																																																																																																																																								}*/
 	/* LEADER SECTION  */
 	.leaderSection {
 		/* border-top: 1px solid #333; */
@@ -1816,7 +1745,7 @@
 
 	.leaderTeam1 {
 		/*  background-color: #fd9b37;
-				  border: 1px #fd9b37 solid; */
+						  border: 1px #fd9b37 solid; */
 		background-color: #fff;
 		width: 20px;
 		padding: 0;
@@ -1824,7 +1753,7 @@
 	}
 	.leaderTeam2 {
 		/* background-color: #69b3fe;
-				  border: 1px #69b3fe solid; */
+						  border: 1px #69b3fe solid; */
 		background-color: #fff;
 		width: 20px;
 		padding: 0;
@@ -1834,8 +1763,8 @@
 	p {
 		font-size: 0.7em;
 		/* text-overflow: ellipsis;
-																																																																																																																																																																																																																																																																																																																																																																																																																							  white-space: nowrap;
-																																																																																																																																																																																																																																																																																																																																																																																																																							  overflow: hidden; */
+																																																																																																																																																																																																																																																																																																																																																																																																																									  white-space: nowrap;
+																																																																																																																																																																																																																																																																																																																																																																																																																									  overflow: hidden; */
 	}
 
 	.leaderTeam1 h4 {

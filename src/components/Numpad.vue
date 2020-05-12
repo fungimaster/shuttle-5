@@ -154,7 +154,7 @@
 				this.display = true;
 				setTimeout(() => {
 					this.display = false;
-				}, 200);
+				}, 50);
 				this.$emit("sendButtonAction", player, activehole);
 			}
 		}
@@ -183,7 +183,8 @@
 	.pressedButton {
 		transition-property: all;
 		transition-property: transform;
-		transform: scale(0.8) !important;
+		transform: scale(0.8) 0.1s !important;
+
 		border: 0 !important;
 		background-color: #fff !important;
 	}
