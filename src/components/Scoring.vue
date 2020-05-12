@@ -353,10 +353,11 @@
 					: null;
 			},
 
+			//BEHÖVS EN SEPARAT MEN LIKADAN METOD FÖR BYTA MODAL MED NEXT/FÖRRA KNAPP
 			nextModal() {
 				const currentIndex = this.activehole - 1;
 				const modalStaysOpenAfterClick =
-					this.nameCount[currentIndex].length === 4;
+					this.nameCount[currentIndex].length === 5;
 
 				this.counter === 4
 					? (this.$refs["4"].hide(), this.updateCounter(1))
