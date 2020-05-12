@@ -5,6 +5,7 @@ import Vuex from 'vuex';
 import BootstrapVue from "bootstrap-vue";
 import vueHeadful from 'vue-headful';
 
+
 //global variable
 Vue.prototype.$username = 'Logga in'
 
@@ -30,36 +31,44 @@ Vue.use(Vuex);
 
 Vue.component('vue-headful', vueHeadful);
 
-const store = new Vuex.Store({
-    state: {
-        count: 0,
-        maproom: '',
-        speaker: {},
-        conferencename: 'Matchplay 2020',
-        docimage: 'https://res.cloudinary.com/dn3hzwewp/image/upload/v1573118127/matchplay/matchplay-new-logo-2020.png',
-        userInfo: "Logga in"
+export const globalState = new Vue({
+  data: {
+    admin_url: 'https://admin.matchplay.se/methods/',
+    compid: 'sFAc3dvrn2P9pXHAz',
+    closed: true
+  }
+})
 
-    },
-    getters: {
-      //total: state => state.count
-    },
-    mutations: {  
-        updateUserInfo: state => {
-          let userinfo = localStorage.getItem('userinfo');       
-          if (userinfo) {          
-           userinfo = JSON.parse(userinfo);          
-           state.userInfo = userinfo.firstname;   
-          } else {
-            state.userInfo = "Logga in"
-          }
+const store = new Vuex.Store({
+  state: {
+    count: 0,
+    maproom: '',
+    speaker: {},
+    conferencename: 'Matchplay 2020',
+    docimage: 'https://res.cloudinary.com/dn3hzwewp/image/upload/v1573118127/matchplay/matchplay-new-logo-2020.png',
+    userInfo: "Logga in"
+
   },
-    },
-    actions: {
-      updateUserInfo: (context) => {
-        context.commit('updateUserInfo')
+  getters: {
+    //total: state => state.count
+  },
+  mutations: {
+    updateUserInfo: state => {
+      let userinfo = localStorage.getItem('userinfo');
+      if (userinfo) {
+        userinfo = JSON.parse(userinfo);
+        state.userInfo = userinfo.firstname;
+      } else {
+        state.userInfo = "Logga in"
       }
-    
+    },
+  },
+  actions: {
+    updateUserInfo: (context) => {
+      context.commit('updateUserInfo')
     }
+
+  }
 })
 
 /* eslint-disable no-new */
@@ -70,21 +79,21 @@ new Vue({
   store,
   router,
   data: {
-    },
-  computed: mapState([ 'count' ]),
+  },
+  computed: mapState(['count']),
   methods: {
-    increment () {
-        this.$store.dispatch('incrementAsync');
+    increment() {
+      this.$store.dispatch('incrementAsync');
     },
-    decrement () {
-        this.$store.commit('decrement');
+    decrement() {
+      this.$store.commit('decrement');
     },
-    testAction () {
-        this.$store.dispatch('actionA').then(() => {
+    testAction() {
+      this.$store.dispatch('actionA').then(() => {
 
-        })
+      })
     }
-},
+  },
   template: '<App/>',
   components: { App }
 })
