@@ -164,6 +164,10 @@
 <style lang="scss" scoped>
 	@import "../styles/variables.scss";
 
+	.btn {
+		touch-action: manipulation;
+	}
+
 	.btn-warning {
 		background: $masters-green;
 		border-color: $masters-green;
