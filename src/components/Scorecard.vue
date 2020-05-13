@@ -50,6 +50,8 @@
           <li>{{ hole.hole }} : {{ hole.slag }}</li>
 						</ul>-->
 
+						<app-tie-break-modal v-if="setTieBreak"></app-tie-break-modal>
+
 						<!-- TEAM 1 CONTAINER -->
 						<div
 							class="team1ScoreCard"
@@ -570,11 +572,13 @@
 	import { schp, hcpSlope } from "../helpers.js";
 	import ScoringVue from "./Scoring.vue";
 	import HcpModalVue from "./HcpModal.vue";
+	import TieBreakModalVue from "./TieBreakModal.vue";
 
 	export default {
 		components: {
 			appScoring: ScoringVue,
-			appHcpModal: HcpModalVue
+			appHcpModal: HcpModalVue,
+			appTieBreakModal: TieBreakModalVue
 		},
 		directives: {
 			changeNanAndZero(el, bind) {
@@ -647,6 +651,7 @@
 				dormy1: "",
 				dormy2: "",
 				lowestSingleScoreOnHole: [],
+				tieBreak: false,
 
 				//Fiktiv data nedan
 				course: [
@@ -674,7 +679,15 @@
 				banansPar: 70
 			};
 		},
+
 		computed: {
+			setTieBreak() {
+				let tieBreak = false;
+				if (this.tie === true && this.holesLeft === 1) {
+					tieBreak = true;
+				}
+				return tieBreak;
+			},
 			singelHoleTeamWinner() {
 				if (singleHoleWinner < 0) {
 				}
@@ -932,10 +945,10 @@
 				//hämtar data och lägger det i this.player
 
 				/*
-																																																																																																																																																																																																																																																																																																																																																																																														      const response = await axios.get("http://localhost:3000/scorecard");
-																																																																																																																																																																																																																																																																																																																																																																																														      const data = response.data[response.data.length - 1];
-																																																																																																																																																																																																																																																																																																																																																																																														      this.players = data.gameData;
-																																																																																																																																																																																																																																																																																																																																																																																														      */
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																														      const response = await axios.get("http://localhost:3000/scorecard");
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																														      const data = response.data[response.data.length - 1];
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																														      this.players = data.gameData;
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																														      */
 
 				this.players = [
 					{
@@ -1050,10 +1063,10 @@
 				this.team1 = "lag 1"; //data.gameData[0].team;
 				this.team2 = "lag 2";
 				/* data.gameData.forEach(element => {
-																																																																																																																																																																																																																																																																																																																																																																																														        if (element.team != this.team1) {
-																																																																																																																																																																																																																																																																																																																																																																																														          this.team2 = 'lag 2'//element.team;
-																																																																																																																																																																																																																																																																																																																																																																																														        }
-																																																																																																																																																																																																																																																																																																																																																																																														      }); */
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																														        if (element.team != this.team1) {
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																														          this.team2 = 'lag 2'//element.team;
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																														        }
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																														      }); */
 				this.schp();
 			} catch (e) {
 				console.log(e);
@@ -1147,10 +1160,10 @@
 			async loadData() {
 				try {
 					/*
-																																																																																																																																																																																																																																																																																																																																																																																														        let response = await axios.get("http://localhost:3000/scorecard");
-																																																																																																																																																																																																																																																																																																																																																																																														        const data = response.data[response.data.length - 1];
-																																																																																																																																																																																																																																																																																																																																																																																														        this.players = data.gameData;
-																																																																																																																																																																																																																																																																																																																																																																																														        */
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																														        let response = await axios.get("http://localhost:3000/scorecard");
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																														        const data = response.data[response.data.length - 1];
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																														        this.players = data.gameData;
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																														        */
 					this.players = [
 						{
 							name: "Br W",
@@ -1417,11 +1430,11 @@
 
 	/* leader board */
 	/* 
-																																																																																																																																																																																																																																																																																																																																																																																																																									#overview {
-																																																																																																																																																																																																																																																																																																																																																																																																																										/*  margin-left: 10px;
-																																																																																																																																																																																																																																																																																																																																																																																																																									  margin-right: 10px; 
-																																																																																																																																																																																																																																																																																																																																																																																																																									}
-																																																																																																																																																																																																																																																																																																																																																																																																																								*/
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																	#overview {
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																		/*  margin-left: 10px;
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																	  margin-right: 10px; 
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																	}
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																*/
 	.initialsTeam1 {
 		color: #fd9b37;
 	}
@@ -1504,8 +1517,8 @@
 	}
 
 	/* 	.showLowestScore {
-				text-decoration: underline;
-			} */
+																																																																																																												text-decoration: underline;
+																																																																																																											} */
 
 	/* HEADER ROW */
 	.holeRow {
@@ -1703,12 +1716,12 @@
 		border-color: #195a3a !important;
 	}
 	/*	#nextHole {
-																																																																																																																																																																																																																																																																																																																																																																																																																								
-																																																																																																																																																																																																																																																																																																																																																																																																																									  font-size: 20px;  
-																																																																																																																																																																																																																																																																																																																																																																																																																									  margin-bottom: 10px;
-																																																																																																																																																																																																																																																																																																																																																																																																																									  margin-top: 12px;
-																																																																																																																																																																																																																																																																																																																																																																																																																									   width: 340px; 
-																																																																																																																																																																																																																																																																																																																																																																																																																								}*/
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																	  font-size: 20px;  
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																	  margin-bottom: 10px;
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																	  margin-top: 12px;
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																	   width: 340px; 
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																}*/
 	/* LEADER SECTION  */
 	.leaderSection {
 		/* border-top: 1px solid #333; */
@@ -1745,7 +1758,7 @@
 
 	.leaderTeam1 {
 		/*  background-color: #fd9b37;
-						  border: 1px #fd9b37 solid; */
+																																																																																																														  border: 1px #fd9b37 solid; */
 		background-color: #fff;
 		width: 20px;
 		padding: 0;
@@ -1753,7 +1766,7 @@
 	}
 	.leaderTeam2 {
 		/* background-color: #69b3fe;
-						  border: 1px #69b3fe solid; */
+																																																																																																														  border: 1px #69b3fe solid; */
 		background-color: #fff;
 		width: 20px;
 		padding: 0;
@@ -1763,8 +1776,8 @@
 	p {
 		font-size: 0.7em;
 		/* text-overflow: ellipsis;
-																																																																																																																																																																																																																																																																																																																																																																																																																									  white-space: nowrap;
-																																																																																																																																																																																																																																																																																																																																																																																																																									  overflow: hidden; */
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																	  white-space: nowrap;
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																	  overflow: hidden; */
 	}
 
 	.leaderTeam1 h4 {
