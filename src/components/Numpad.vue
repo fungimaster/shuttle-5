@@ -151,11 +151,12 @@
 		methods: {
 			buttonActions(player, activehole, buttonId) {
 				this.activeButton = buttonId;
+
 				this.display = true;
 				setTimeout(() => {
+					this.$emit("sendButtonAction", player, activehole);
 					this.display = false;
-				}, 50);
-				this.$emit("sendButtonAction", player, activehole);
+				}, 100);
 			}
 		}
 	};
@@ -186,7 +187,6 @@
 
 	.pressedButton {
 		transition-property: all;
-		transition-property: transform;
 		transform: scale(0.8) 0.1s !important;
 
 		border: 0 !important;

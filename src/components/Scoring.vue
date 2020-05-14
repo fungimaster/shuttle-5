@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<!-- Spelare 1 -->
-		<b-modal no-fade ref="1" id="modal-1" ok-only hide-backdrop>
+		<b-modal no-fade ref="1" id="modal-1" ok-only hide-backdrop hide-footer static lazy>
 			<b-container>
 				<b-row align-v="center" align-h="center">
 					<p class>
@@ -324,7 +324,7 @@
 			buttonActions(player, activehole) {
 				setTimeout(() => {
 					this.sendScore(player, activehole), this.nextModal();
-				}, 400);
+				}, 50);
 			},
 			updateCounter(number) {
 				this.$emit("updateCounter", number);
