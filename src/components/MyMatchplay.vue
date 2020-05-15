@@ -821,6 +821,196 @@
                     </p>
                 </b-col>
             </b-row>
+
+<b-row v-if="games.length > 0 || games.length" align-h="center">
+
+ <b-modal ref="my-modal" hide-footer :title="gamedetails2.teamname">
+<b-container class="p-1">
+     <b-row>
+        <b-col>       
+             <h2><strong>{{gamedetails2.teamname}}</strong></h2>
+             <span>{{gamedetails2.teamleader}}</span> & <span>{{gamedetails2.teammember}}</span><br>
+             {{gamedetails2.teamzip}} {{gamedetails2.teamcity}}<br>                                             
+             <span v-if="gamedetails2.teamclub">{{gamedetails2.teamclub}}</span>
+             <span v-if="!gamedetails2.teamclub">Padelklubb saknas</span>    
+        </b-col>
+     </b-row>
+
+
+            <b-row v-if="gamedetails.length === 0 || !gamedetails.length" align-h="center">
+                <b-col>
+                    <p class="text-center mt-2 mb-3"><i class="far fa-robot fa-3x"></i></p>
+                    <p class="text-center">
+                    Detta laget har inga spelade matcher än
+                    </p>
+                </b-col>
+            </b-row>
+
+<b-row>
+     <b-col class="mt-4">
+         <h2><strong>Tidigare matcher</strong></h2>
+     </b-col>
+</b-row>
+
+       
+    <b-row v-for="(game,idx3) in gamedetails" :key="idx3" class="game">
+          <b-col class="col-12 mt-2 mb-2 text-left">                 
+               <strong>RUNDA</strong><br>               
+               {{game.roundname}}
+          </b-col>
+     
+          <b-col class="col-12 mt-2 mb-2 text-left">                 
+               <strong>HEMMALAG</strong><br>               
+               <span class="" v-if="game.status === 'Finished'" v-bind:class="{ winner: game.winnername === game.hometeamname,loser: game.winnername !== game.hometeamname }">{{game.hometeamname}}<br></span>
+               <span v-else>{{game.hometeamname}}<br></span>
+               <span>{{game.hometeamleadername}}</span> & <span>{{game.hometeammembername}}</span>              
+          </b-col>
+      
+
+      
+          <b-col class="col-12 mt-2 mb-2 text-left">                 
+               <strong>BORTALAG</strong><br>               
+               <span class="" v-if="game.status === 'Finished'" v-bind:class="{ winner: game.winnername === game.awayteamname,loser: game.winnername !== game.awayteamname }">{{game.awayteamname}}<br></span>
+                <span v-else>{{game.awayteamname}}<br></span>     
+               <span>{{game.awayteamleadername}}</span> & <span>{{game.awayteammembername}}</span>                                            
+          </b-col>
+     
+      
+          <b-col v-if="game.clubname" class="col-12 mt-2 mb-2 text-left">                 
+               <strong>SPELPLATS</strong><br>
+               <span>{{game.clubname}}</span><br>
+               <span v-if="game.gamedate">{{game.gamedate}}</span><span><span v-if="game.gametime"> kl. {{game.gametime}}</span></span>
+          </b-col>
+        
+     
+          <b-col v-if="game.status !== 'Pending'" class="col-12 mt-2 mb-2 text-left">                 
+               <strong>RESULTAT</strong><br>               
+               <span v-if="game.status === 'Finished'">{{game.homeset1}}-{{game.awayset1}} / {{game.homeset2}}-{{game.awayset2}} <span v-if="game.homeset3 > 0 || game.awayset3 > 0"> / {{game.homeset3}}-{{game.awayset3}}</span></span>               
+               <span v-if="!game.clubname"><br><small>{{ getgamedate2(game.finishedAt)}} sedan</small></span>
+          </b-col>
+      </b-row>    
+                                   
+        </b-container>        
+      
+      <b-button class="mt-3" variant="outline-danger" block @click="hideModal">Stäng</b-button>      
+    </b-modal>
+
+
+        <b-col sm="6" lg="6" class="team pl-2 pr-2 pb-2" v-for="(game,idx2) in this.games" :key="idx2">
+
+             <b-card class="mb-2 team">
+                            <b-card-title class="mb-0">
+                                <h2>{{game.roundname}}</h2>
+                            </b-card-title>
+                            <b-card-text class="mt-2">
+                                  <div class="pt-0 pb-3 mt-0">                                               
+                                        <span hidden>
+                                            <i class="fas fa-home-alt mr-1 mb-1"></i>                                            
+                                             <span v-bind:class="{ winner: game.homescore > 1,loser: game.awayscore > 1 }" style="padding-left:3px;">{{game.hometeamname}}<i class="fas fa-info-square mb-1 ml-2" @click="showModal('home',game)"></i></span>                                                   
+                                            
+                                        </span>
+
+                                        <div class="mt-2 mb-2">
+                                            <strong>HEMMALAG</strong><br>
+                                            <span>{{game.hometeamleadername}}</span> & <span>{{game.hometeammembername}}</span><br>                                      
+                                             <span v-if="game.hometeamcoursename">{{game.hometeamcoursename}}</span>
+                                            <span v-if="!game.hometeamcoursename">Hemmaklubb saknas</span><br>                                        
+                                              
+                                        </div>
+
+                                   </div>
+                                   <div class="pt-0 pb-3 mt-0">                                               
+                                        <span hidden>                                            
+                                            <i class="fas fa-caravan-alt mr-1 mb-1"></i>
+                                             <span v-bind:class="{ winner: game.awayscore > 1,loser: game.homescore > 1 }" style="padding-left:1px;">{{game.awayteamname}}<i class="fas fa-info-square mb-1 ml-2" @click="showModal('away',game)"></i></span>                                                   
+                                           
+                                        </span>
+
+                                        <div class="mt-2 mb-2">
+                                           <strong>BORTALAG</strong><br>
+                                           <span>{{game.awayteamleadername}}</span> & <span>{{game.awayteammembername}}</span><br>                                        
+                                             <span v-if="game.awayteamcoursename">{{game.awayteamcoursename}}</span>
+                                              <span v-if="!game.awayteamcoursename">Hemmaklubb saknas</span><br>
+                                              
+                                        </div>
+
+                                   </div>
+                                   <div class="pt-0 pb-3 mt-0">    
+                                        <span :id="'tooltip-game-distance-'+idx2">
+                                            <i class="fas fa-road mr-1 mb-1"></i>
+                                            <span style="padding-left:3px;">{{game.distance}} km</span>                                                   
+                                            <b-tooltip :target="'tooltip-game-distance-'+idx2" triggers="hover" placement="top">
+                                                Avstånd mellan lagen
+                                             </b-tooltip>                                           
+                                        </span>
+                                   </div>
+                                   <div class="pt-0 pb-3 mt-0">                                              
+                                       
+                                            <i hidden class="fas mr-1 mb-1"></i>
+                                             <span v-if="game.status === 'In progress'">
+                                                 <b-spinner small type="grow" class="mr-2 mb-2"></b-spinner>
+                                                LIVE
+                                             </span>
+                                             <span v-if="game.status === 'Finished'">
+                                                <i class="fas fa-check mr-1 mb-1" style="color:#28a745;"></i>
+                                                <span style="padding-left:6px;">{{game.result}}</span>
+                                             </span>                                              
+                                             <span v-if="game.status === 'Pending'">
+                                                 <i class="fas fa-circle mr-1 mb-1" style="color:#ffc107;"></i>
+                                                 <span style="padding-left:4px;">Matchen har inte startat</span>
+                                             </span>                                                                                         
+                                   </div>
+                                    <div class="pt-0 pb-3 mt-0" v-if="game.status === 'Finished' && getgamedate(game.gamedate,'full') !== 'Invalid date' && game.gametime">                                              
+                                                 <i class="fas fa-clock mr-1 mb-1"></i>
+                                                <span style="padding-left:6px;">{{ getgamedate(game.gamedate,'full')}}</span> <span>{{game.gametime}}</span>                                                                                                                         
+                                   </div>
+
+                                    <div class="pt-0 pb-3 mt-0" v-if="game.clubname">                                              
+                                                <i class="fas fa-map-marker mr-1 mb-1" style="padding-left:3px;"></i>
+                                                <span style="padding-left:7px;">{{ game.clubname }}</span>                                                                                                                        
+                                   </div>
+
+                                   <div class="pt-0 pb-3 mt-0" v-if="!game.clubname">                                              
+                                                <i class="fas fa-map-marker mr-1 mb-1" style="padding-left:3px;"></i>
+                                                <span style="padding-left:4px;">Spelplats ej bestämd än</span>                                                                                                                        
+                                   </div>
+
+                                    <div class="pt-0 pb-3 mt-0" v-if="game.status !== 'Finished' && game.gamedate">                                               
+                                        <span >
+                                            <i class="fas fa-calendar-week mr-1 mb-1"></i>
+                                            <span style="padding-left:5px;">{{game.gamedate}} / kl {{game.gametime}}</span>                                                  
+                                        </span>                                        
+                                   </div>
+
+                                    <div class="pt-0 pb-3 mt-0" v-if="game.status !== 'Finished' && !game.gamedate">                                               
+                                        <span :id="'tooltip-game-rounddates-'+idx2">
+                                            <i class="fas fa-calendar-week mr-1 mb-1"></i>
+                                            <span style="padding-left:5px;">Spelas mellan {{getgamedate(game.roundstartdate,'half')}} - {{getgamedate(game.roundenddate,'half')}}</span>                                                   
+                                            <b-tooltip :target="'tooltip-game-rounddates-'+idx2" triggers="hover" placement="top">
+                                                Spelomgång, datum
+                                             </b-tooltip>
+                                        </span>                                        
+                                   </div>
+                                    <div class="pt-0 pb-0 mt-0">                                        
+                                        <a :href="`/game?id=${game._id}`" class="btn btn-success btn-sm text-white mt-3 mr-md-2">Visa match</a>
+                                        <a hidden :href="`/livegame?id=${game._id}`" class="btn btn-info btn-sm text-white mt-3 mr-md-2">Följ match</a>
+                                        <a v-if="game.status !== 'Finished'" @click="showHelpGame()" class="btn btn-secondary btn-sm text-white mt-3 mr-md-2"><i class="fas fa-question ml-1 mr-1 mb-1"></i></a>                                         
+                                   </div>
+                                   <div class="pt-0 pb-0 mt-0" v-if="game.status !== 'Finished'">   
+                                        <b-alert v-if="showhelpgame" show class="small text-center mt-4" variant="info">
+                                            Klicka på visa match för att se kontaktuppgifter till lagkaptenen i laget ni ska möta. Bestäm datum och tid för matchen (hemmalaget bestämmer bana) och boka tid genom t.ex Min Golf Bokning.
+                                        </b-alert>
+                                    </div>
+
+                                    
+                                   
+                            </b-card-text>
+             </b-card>
+
+            
+        </b-col>
+                </b-row>
+
   </b-container>
 
             </b-tab>    
@@ -847,6 +1037,7 @@ import {
 import Spinner from "./spinner/Spinner";
 import Suggestions from 'v-suggestions';
 import 'v-suggestions/dist/v-suggestions.css';
+import moment from 'moment';
 import {
     VueTelInput
 } from 'vue-tel-input'
@@ -886,6 +1077,7 @@ export default {
             games:0,
             teamscount:0,
             gamescount:0,
+            showhelpgame: false,
             bindProps: {
                 mode: "international",
                 defaultCountry: "SE",
@@ -951,8 +1143,22 @@ export default {
             showsendreset: false,
             showsendreseterror: false,
             showsendresetsuccess: false,
-            //END       
-            //TEAM       
+            //END    
+            //GAMEDETAILS
+            gamedetails: {},
+            gamedetails2: {
+                teamname: '',
+                teamleader: '',
+                teammember: '',
+                teamzip: '',
+                teamcity: '',
+                teamclub: ''
+            },
+   
+            //TEAM   
+             hometeam: false,
+             awayteam: false,
+    
             text: {
                 paidteam: 'Laget är betalt',
                 not_paidteam: 'Laget är inte betalt'
@@ -1276,6 +1482,52 @@ export default {
     },
     mixins: [tagsMixin],
     methods: {
+       
+
+          showHelpGame: function(){
+                if (this.showhelpgame) {
+          this.showhelpgame = false;         
+        } else this.showhelpgame = true;
+        },
+
+        getgamedate: function(gamedate,action) {
+             if (action === 'full') {
+                return moment(gamedate).format('YYYY-MM-DD')
+             } 
+             if (action === 'half') {
+                 return moment(gamedate).format('D/M')
+             }
+     },
+
+         getgamedate2: function(finishedat) {
+         let gamedate2 = new Date(finishedat);           
+         return moment(gamedate2, "YYYY-MM-DD hh:mm").fromNow();   
+     },
+         showModal(homeaway,game) {
+        //this.gamedetails2 = game;
+        //console.log(homeaway,game);
+        /*
+         <span>{{gamedetails2.hometeamname}}</span><br>
+             <span>{{gamedetails2.hometeamleadername}}</span> & <span>{{gamedetails2.hometeammembername}}</span><br>
+             {{gamedetails2.hometeamzip}} {{gamedetails2.hometeamcity}}<br>                                             
+             <span v-if="gamedetails2.hometeamclubname">{{gamedetails2.hometeamclubname}}</span>
+             <span v-if="!gamedetails2.hometeamclubname">Padelklubb saknas</span>    
+        */
+        this.gamedetails2.teamname = game[homeaway + 'teamname'];
+        this.gamedetails2.teamleader = game[homeaway + 'teamleadername'];
+        this.gamedetails2.teammember = game[homeaway + 'teammembername'];
+        this.gamedetails2.teamzip = game[homeaway + 'teamzip'];
+        this.gamedetails2.teamcity = game[homeaway + 'teamcity']; 
+        this.gamedetails2.teamclub = game[homeaway + 'teamclubname'];
+
+
+        this.getGamesTeam(game[homeaway + 'team'],game)       
+        this.$refs['my-modal'].show()
+      },
+
+          hideModal() {
+        this.$refs['my-modal'].hide()
+      },
         getFirstname: function(name) {
             if (!name) return;       
            var res = name.split(" ");
@@ -2488,14 +2740,17 @@ export default {
                 try {
                     //SET KEYS in form        
                     userinfo = JSON.parse(userinfo);
+                   
                     this.userinfo = userinfo;
                     this.userdetails.firstname = userinfo.firstname;
                     this.userdetails.lastname = userinfo.lastname;
-
                     this.$username = this.userdetails.firstname;
+                    this.games = [];
+                    let games = [];
 
                     //check if user has teams or not
                     if (userinfo.teams) {
+                        
                         this.showteamslist = true;
                         this.showcreateteamhelper = false;
                        
@@ -2504,7 +2759,26 @@ export default {
                         //});
                         //this.teams = userinfo.teams;
                         this.teams = this.userinfo.teams;
-                         this.teamscount = this.teams.length;
+                        this.teamscount = this.teams.length;
+
+                        //loop teams and get games if any
+                        var i;
+                        var b;
+                        
+                        for (i = 0; i < this.teams.length; i++) {
+                           if (this.teams[i].games) {   
+                                                 
+                            for (b = 0; b < this.teams[i].games.length; b++) {
+                                this.games.push(this.teams[i].games[b])
+                            }
+
+                            //this.games.sort(this.compareValues('status', 'desc'));                               
+                           }
+                        }
+
+                        this.gamescount = this.games.length;
+
+
                     } else {
                         this.teams = {};
                         this.showcreateteamhelper = true;
@@ -2526,6 +2800,29 @@ export default {
             //this.userdetails.firstName = myJsonString.firstName;
         }
     },
+ compareValues(key, order = 'asc') {
+  return function innerSort(a, b) {
+    if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
+      // property doesn't exist on either object
+      return 0;
+    }
+
+    const varA = (typeof a[key] === 'string')
+      ? a[key].toUpperCase() : a[key];
+    const varB = (typeof b[key] === 'string')
+      ? b[key].toUpperCase() : b[key];
+
+    let comparison = 0;
+    if (varA > varB) {
+      comparison = 1;
+    } else if (varA < varB) {
+      comparison = -1;
+    }
+    return (
+      (order === 'desc') ? (comparison * -1) : comparison
+    );
+  };
+},
 
     updated: function () {},
 

@@ -1,21 +1,343 @@
 <template>
 	<div class="info">
 		<vue-headful :title="doctitle" />
+
+  
+    <b-container>
+      <b-row class="justify-content-center" align-h="center">
+        <b-col md="6" class="text-center">
+          
+              <h1 class="mt-5 mb-2 strong"><i class="far fa-golf-club mr-2"></i>Match</h1>
+        </b-col>
+      </b-row>
+
+    <div v-if="loading" class="d-flex justify-content-center mb-3">
+        <b-container>
+        <b-row v-if="loading" align-h="center">
+         <b-col md="6" class="text-center">
+                <b-spinner big type="grow" class="m-5" style="width: 5rem; height: 5rem;"></b-spinner>
+                 <p>Hämtar matchen...</p>
+         </b-col>
+        </b-row>
+        </b-container>
+       
+    </div>
+
+    <div v-if="notfound" class="d-flex justify-content-center mt-5">
+        <b-container>
+        <b-row align-h="center">
+         <b-col md="6" class="text-center">                
+                 <p>Hittar inte matchen...</p>
+                 <a href="/mymatchplay">Mitt lag</a>
+         </b-col>
+        </b-row>
+        </b-container>
+       
+    </div>
+
+
+
+          <b-row align-h="center" v-if="!loading && !notfound">
+       <b-col md="8">           
+
+            <b-container class="mt-3 mt-md-4">
+              <b-row class="justify-content-center" align-h="center">
+               
+                <b-col class="col-12 col-md-6">
+                  
+                  <strong>HEMMALAG</strong><br>
+                  <span>{{hometeamleadername}}</span> & <span>{{hometeammembername}}</span><br>                                      
+                  <span v-if="hometeamcoursename">{{hometeamcoursename}}</span>
+                  <span v-if="!hometeamcoursename">Hemmaklubb saknas</span><br>                                        
+                                              
+                                        
+                </b-col>  
+
+                <b-col class="col-12 col-md-6 text-right mt-3">
+                   <strong>BORTALAG</strong><br>
+                   <span>{{awayteamleadername}}</span> & <span>{{awayteammembername}}</span><br>                                        
+                   <span v-if="awayteamcoursename">{{awayteamcoursename}}</span>
+                   <span v-if="!awayteamcoursename">Hemmaklubb saknas</span><br>
+                                              
+                </b-col>
+
+              </b-row>
+            </b-container>
+                  <div hidden>
+                  {{winner}}<br>
+                  {{status}}<br>
+                  </div>
+            <b-container hidden class="mt-2">
+              <b-row class="justify-content-center" align-h="center">
+                <b-col class="text-center">
+                 
+                  <b-button v-if="isteamleader" @click="startGame()" size="sm" class="mt-3"><i class="material-icons mr-1">play_arrow</i>Starta</b-button>
+                   <b-button v-if="isteamleader" @click="endGame()" size="sm" class="mt-3"><i class="material-icons mr-1">stop</i>Avsluta</b-button>
+                </b-col>
+                
+              </b-row>
+
+            </b-container>
+                 
+
+            <b-container class="mt-3 mb-3 mt-md-5">
+              <b-row class="justify-content-center" align-h="center">
+                 <b-col class="col-12 text-center p-0 m-0">                   
+                   <div class="mt-3" v-if="status==='Finished'">
+                   <h2>Matchresultat</h2>
+                     <div>{{gameresult}}</div>
+                     <div>{{ getgamedate()}} {{gametime}}</div>
+                     <div v-if="status==='Finished'">@ {{query}}</div>
+                     </div>
+                 </b-col>
+              </b-row>
+  <b-row class="justify-content-center" align-h="center">
+                 <b-col class="col-12 text-center p-0 mt-3">      
+
+<b-tabs content-class="mt-4" v-model="tabIndex" no-key-nav>
+    <b-tab title-link-class="ml-1 p-2">
+         <template v-slot:title>
+     <span class="my-nav-item">Spelplats</span>
+      </template>    
+
+                    <div v-if="!isteamleader && status!='Finished'">
+                      <div v-if="gamedate">{{ getgamedate()}} {{gametime}}</div>
+                      <div v-else>Speltid är inte bestämd än</div>
+                      <div v-if="query">@ {{query}}</div>
+                      <div v-else>@ (spelplats saknas)</div>
+                    </div>
+
+                    <div v-if="isteamleader">
+                      <b-container class="mt-3">            
+                       <b-row class="justify-content-center" align-h="center">
+                 <b-col class="col-6 text-left">
+                         <b-form-group class="">
+                                    <label for="gamedate">Datum</label>                                                                
+                                    <v-date-picker           
+                                    v-model="gamedate"
+                                    :attributes='attrs'                                                                                       
+                                    />
+  
+                                  
+                                    </b-form-group>
+                </b-col>
+                 <b-col class="col-6 text-left">
+                         <b-form-group class="">
+                                    <label for="gametime">Tid</label>                                    
+                                   <vue-timepicker v-model="gametime" hide-disabled-items :hour-range="[[5, 20]]"  :minute-interval="5" :input-class="{
+  'time-picker': true,  
+  'form-control': true
+}" font-size="inherit" input-width="100%" input-class="test"></vue-timepicker>
+  
+                                  
+                                    </b-form-group>
+                </b-col>
+                <b-col class="col-12 text-left">
+                         <b-form-group class="">
+                                    <label for="query">Var spelas matchen?</label>
+                                    <suggestions v-model="query" id="query" :options="options" :onInputChange="onCountryInputChange" :onItemSelected="onSearchItemSelected" style="width:100%;">
+                                        <div slot="item" slot-scope="props" class="single-item text-left">
+                                            <span class="name">{{props.item.title}}</span>
+                                        </div>
+                                    </suggestions>
+                                    <b-form-input hidden id="clubid" v-model="clubid" readonly placeholder="Id på klubben">
+                                    </b-form-input>
+                                </b-form-group>
+
+                          <b-button @click="saveResult()" variant="warning" class="mr-1 mb-3 btn-sm"><i class="material-icons mr-2">save</i>Spara tid & plats</b-button>
+                           <a v-if="awayteamleadermobile" :href="'sms://'+awayteamleadermobile + '?&body=Dags att spela golf i Matchplay! Vi möts på ' + query + ' ' + getgamedate() + ' kl ' + gametime + '. MVH ' + hometeamleadername"><span class="btn btn-info btn-sm text-white mr-1 mb-2"><i class="material-icons mr-2">textsms</i>Skicka sms med info</span></a> 
+<hr>
+                </b-col>               
+              </b-row>
+                      </b-container>
+
+                    </div>
+
+    </b-tab>
+     <b-tab title-link-class="ml-1 p-2">
+         <template v-slot:title>
+    <span class="my-nav-item">Scorekort</span>
+      </template>  
+
+ <b-container class="mt-3">            
+                       <b-row class="justify-content-center" align-h="center">
+                 <b-col class="col-12 text-left">
+                <b-alert v-if="isteammember && status!='Finished'" show class="mt-3 mb-0 small" variant="info">
+                     Endast hemmalaget <strong>{{hometeamname}}</strong> kan rapportera resultatet för denna match.
+                   </b-alert>
+
+ <b-alert show class="mt-1 small" variant="info">
+                Använd vårt system för att föra score i matchen! Rätt hcp-regler används och vi hämtar aktuella hcp/slope/tee från Svenska Golfförbundet.
+            </b-alert>   
+
+              <b-button @click="startGame()" variant="success" class="mr-1"><i class="material-icons mr-2">play_circle_filled</i>Starta match</b-button>
+
+                  
+                 </b-col>
+                       </b-row>
+
+ </b-container>     
+
+     </b-tab>
+      <b-tab title-link-class="ml-1 p-2">
+         <template v-slot:title>
+     <span class="my-nav-item">Kontakt</span>
+      </template>    
+     </b-tab>
+</b-tabs>
+
+
+                 
+
+                   <div v-if="showresult && isteamleader && status!='Finished'">
+
+
+
+                        <b-container class="mt-4 mt-md-5 resultform"> 
+            
+                         
+                         
+
+                          <!-- SKICKA IN --> 
+                         <b-row hidden class="justify-content-center mt-4 pt-2 " align-h="center">
+                           <b-col>
+                             <b-button v-if="!isSaving" @click="saveResult()" variant="success" class="mr-1"><i class="material-icons mr-2">save</i>Spara</b-button>
+                             <b-button v-if="isSaving" variant="success" class="mr-1"><b-spinner small type="grow" class="mr-2 mb-1"></b-spinner><i class="material-icons mr-2">cloud_circle</i>Sparar...</b-button>
+                             <b-button @click="showResult()" variant="danger" class="ml-1"><i class="material-icons mr-2">cancel</i>Avbryt</b-button>
+                           </b-col>                           
+                         </b-row>      
+
+                         <b-row v-if="!winner && isteamleader && status !='Finished'" class="" align-h="center">
+                            <b-col class="text-left">
+                              <span @click="showwo()"><i class="material-icons mr-2">{{default_wo}}</i>Klicka här vid WO (flerval)</span><br> 
+                              <b-button v-if="wo" @click="setwo('home')" variant="danger" size="sm" class="mt-2 mr-1"><i class="material-icons mr-2">cancel</i>Hemmalaget lämnar WO</b-button>
+                              <b-button v-if="wo" @click="setwo('away')" variant="danger" size="sm" class="mt-1 mr-1"><i class="material-icons mr-2">cancel</i>Bortalaget lämnar WO</b-button>
+                            </b-col>
+                          </b-row>                    
+                        </b-container>
+<hr>
+
+
+
+
+                   </div>
+                
+                </b-col>           
+               
+              </b-row>
+            </b-container>
+
+             <b-container class="mt-1 mt-md-2">
+              <b-row class="justify-content-center" align-h="center">
+               
+                 <b-col class="col-12 text-center p-0 m-0">
+                   <b-button v-if="(isteamleader || isteammember)" @click="showContacts()" variant="info" class="mt-1"><i v-if="showcontacts" class="material-icons">keyboard_arrow_down</i><i v-if="!showcontacts" class="material-icons">keyboard_arrow_right</i>Se kontaktuppgifter</b-button>
+                   
+                 
+                   <div v-if="showcontacts && (isteamleader || isteammember)">
+
+                  
+ <b-container class="mt-4 mt-md-5">
+              <b-row class="justify-content-center" align-h="center">
+
+                <b-col v-if="!isteamleader" class="col-12 text-left">                 
+                   <span class="contact">{{hometeamleadername}}, {{hometeamcity}}</span>                  
+                   <span hidden class="contact mt-0">{{hometeamcity}}</span>
+                   <a :href="'tel:'+hometeamleadermobile"><span class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"><i class="material-icons mr-1">phone</i>&nbsp;</span></a>
+                   <a :href="'sms://'+hometeamleadermobile"><span class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"><i class="material-icons mr-1">textsms</i>&nbsp;</span></a>                 
+                   <a :href="'mailto:' + hometeamleaderemail"><span class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"><i class="material-icons mr-1">alternate_email</i>&nbsp;</span></a>                                     
+                    <br>
+                   <p class="mt-3 d-none d-sm-block">{{hometeamleadermobile}} |  <a :href="'mailto:' + hometeamleaderemail">{{hometeamleaderemail}}</a></p>
+                </b-col>
+
+                <b-col v-if="!isteammember" class="col-12 text-right">                 
+                    <span class="contact">{{awayteamleadername}}, {{awayteamcity}}</span>
+                     <span hidden class="contact mt-0">{{awayteamcity}}</span>
+                   <a :href="'tel:'+awayteamleadermobile"><span class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"><i class="material-icons mr-1">phone</i>&nbsp;</span></a>
+                   <a :href="'sms://'+awayteamleadermobile"><span class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"><i class="material-icons mr-1">textsms</i>&nbsp;</span></a>                 
+                   <a :href="'mailto:' + awayteamleaderemail"><span class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"><i class="material-icons mr-1">alternate_email</i>&nbsp;</span></a>              
+                   <br>
+                  <p class="mt-3 d-none d-sm-block">{{awayteamleadermobile}} |  <a :href="'mailto:' + awayteamleaderemail">{{awayteamleaderemail}}</a></p>
+                </b-col>               
+               
+              </b-row>
+            </b-container>
+<hr>
+
+                   </div>
+                  
+                </b-col>           
+               
+              </b-row>
+            </b-container>
+
+            <b-container>
+              <b-row class="justify-content-center mt-4 mt-md-5" align-h="center">
+
+                <b-col class="col-6 text-center p-0 m-0">
+                  <span class="label">Spelperiod</span>
+                   <span class="team">{{getgamedate2(roundstartdate,'half')}} - {{getgamedate2(roundenddate,'half')}}</span>
+                </b-col>
+
+                <b-col class="col-6 text-center p-0 m-0">
+                  <span class="label">Omgång</span>
+                   <span class="team">{{roundname}}</span>
+                </b-col>  
+             
+               
+              </b-row>
+
+               <b-row class="justify-content-center mt-4 mt-md-5 mb-5" align-h="center">
+
+                 <b-col class="col-6 text-center p-0 m-0">
+                  <a :href="`/mymatchplay`" class="btn btn-light btn-sm mt-3 mr-md-2">Tillbaka</a>
+                </b-col>   
+
+                 <b-col class="col-6 text-center p-0 m-0">                  
+                   <a :href="game_url" target="_blank" class="btn btn-light btn-sm mt-3 mr-md-2">Matchlänk</a>
+                </b-col>   
+
+                
+
+                                    
+               
+              </b-row>
+            </b-container>
+
+           
+
+            
+
+        </b-col>
+      </b-row>
+    </b-container>
+
 	</div>
 </template>
 
 <script>
   import {tagsMixin} from '../mixins/tagsMixin';
- 
+  import Suggestions from 'v-suggestions';
+  import Calendar from 'v-calendar/lib/components/calendar.umd'
+  import DatePicker from 'v-calendar/lib/components/date-picker.umd'
+  import moment from 'moment';
   import {globalState} from '../main.js'
+   import VueTimepicker from 'vue2-timepicker'
+  import 'vue2-timepicker/dist/VueTimepicker.css'
      
   export default {
     name: 'game',
- 
+    components: {        
+        'suggestions': Suggestions,
+        'v-calender': Calendar,
+        'v-date-picker': DatePicker,
+        'vue-timepicker': VueTimepicker   
+    },
     data () {
        let clubs = [];
 
       return {
+         tabIndex: 0,
         isSaving: false,
         //DATEPICKER
    attrs: [
@@ -26,8 +348,56 @@
           
         },
       ],
-       //TYPEAHEAD CLUBS
-    
+        //TYPEAHEAD CLUBS
+      query: '',    
+      clubs: clubs,     
+      clubid:'',
+      clubname:'',
+      selectedClub: null,
+      options: {
+           placeholder: 'Börja skriv så letar vi bana!',
+           inputClass: 'form-control course'
+        },       
+      isteamleader: false,
+      isteammember: false,
+      wo: false,
+      default_wo: 'radio_button_unchecked',
+       userid: '',
+      loading: true,
+      notfound: false,
+      showresult: false,
+      showgameinfo: false,
+      showcontacts: false,
+       status: '',
+      winner: '',
+      nowinneralert: false,
+      roundstartdate:'',
+      roundenddate:'',
+      roundname: '',
+      lastsaved: '',
+      isErrorSave: false,
+      gamedate: '',
+      gametime: '',
+      gameresult: '',
+      hometeam: '',
+      awayteam: '',
+      hometeamcoursename: '',
+      awayteamcoursename: '',  
+      hometeamleadername: '',        
+      hometeammembername: '',         
+      hometeamleadermobile: '',
+      hometeamleaderemail: '',
+      hometeammembername: '',
+      hometeammembermobile: '',
+      hometeammemberemail:'',   
+      awayteamleadername: '',        
+      awayteamleadermobile: '',
+      awayteamleaderemail: '',
+      awayteammembername: '',
+      awayteammembermobile: '',
+      awayteammemberemail:'', 
+      game_id: '',
+      game_url: '',
       doctitle: 'Match - ' + this.$store.state.conferencename
       }
     },
@@ -80,26 +450,25 @@
                             this.notfound = false;
                             //console.log(response.data)
                             //POPULATE VARS
-                            let fullname;
+                           
                             this.hometeamname = response.data.hometeamname;
                             this.awayteamname = response.data.awayteamname;
                             this.roundstartdate = response.data.roundstartdate;                            
                             this.roundenddate = response.data.roundenddate;  
                             this.roundname = response.data.roundname;                   
-                            fullname = response.data.hometeamleadername.split(' ');
-                            this.hometeamleadername = fullname[1].substring(0,3);
-                            fullname = response.data.awayteamleadername.split(' ');
-                            this.awayteamleadername = fullname[1].substring(0,3);
-                            this.hometeamcity = response.data.hometeamcity;
-                            this.awayteamcity = response.data.awayteamcity;                            
+                            
+                            this.hometeamleadername = response.data.hometeamleadername;
+                            this.awayteamleadername = response.data.awayteamleadername;
+
+                            this.hometeamcoursename = response.data.hometeamcoursename;
+                            this.awayteamcoursename = response.data.awayteamcoursename;
+                                                     
                             if (response.data.hasOwnProperty('hometeammembername')) {
-                              fullname = response.data.hometeammembername.split(' ');
-                              this.hometeammembername = fullname[1].substring(0,3);
+                              this.hometeammembername = response.data.hometeammembername;
                             }
 
                             if (response.data.hasOwnProperty('awayteammembername')) {
-                              fullname = response.data.awayteammembername.split(' ');
-                              this.awayteammembername = fullname[1].substring(0,3);
+                              this.awayteammembername = response.data.awayteammembername
                             }
 
                             this.hometeam = response.data.hometeam;
@@ -114,11 +483,11 @@
                             }
                            
 
-                            this.hometeamleadernamefull = response.data.hometeamleadername;
+                            this.hometeamleadername = response.data.hometeamleadername;
                             //this.hometeamleaderid = response.data.hometeamleader;                          
                             this.hometeamleadermobile = response.data.hometeamleadermobile;
                             this.hometeamleaderemail = response.data.hometeamleaderemail;
-                            this.awayteamleadernamefull = response.data.awayteamleadername;
+                            this.awayteamleadername = response.data.awayteamleadername;
                             //this.awayteamleaderid = response.data.awayteamleader;
                             this.awayteamleadermobile = response.data.awayteamleadermobile;
                             this.awayteamleaderemail = response.data.awayteamleaderemail;
@@ -139,91 +508,7 @@
 
                             //GET SCORE         
                             
-                            if (response.data.hasOwnProperty('homescore')) {
-                             this.homescore = response.data.homescore;
-                            } else {
-                              //console.log('no game date')
-                            }
-
-                            if (response.data.hasOwnProperty('awayscore')) {
-                             this.awayscore = response.data.awayscore;
-                            } else {
-                              //console.log('no game date')
-                            }
-
-                            if (response.data.hasOwnProperty('home1')) {
-                             this.home1 = response.data.home1;
-                            } else {
-                              //console.log('no game date')
-                            }
-
-                             if (response.data.hasOwnProperty('home2')) {
-                             this.home2 = response.data.home2;
-                            } else {
-                              //console.log('no game date')
-                            }
-
-                             if (response.data.hasOwnProperty('home3')) {
-                             this.home3 = response.data.home3;
-                            } else {
-                              //console.log('no game date')
-                            }
-
-                             if (response.data.hasOwnProperty('away1')) {
-                             this.away1 = response.data.away1;
-                            } else {
-                              //console.log('no game date')
-                            }
-
-                             if (response.data.hasOwnProperty('away2')) {
-                             this.away2 = response.data.away2;
-                            } else {
-                              //console.log('no game date')
-                            }
-
-                             if (response.data.hasOwnProperty('away3')) {
-                             this.away3 = response.data.away3;
-                            } else {
-                              //console.log('no game date')
-                            }
-                            
-                            if (response.data.hasOwnProperty('homeset1')) {
-                             this.homeset1 = response.data.homeset1;
-                            } else {
-                              //console.log('no game date')
-                            }
-
-                            if (response.data.hasOwnProperty('homeset2')) {
-                             this.homeset2 = response.data.homeset2;
-                            } else {
-                              //console.log('no game date')
-                            }
-
-                            if (response.data.hasOwnProperty('homeset3')) {                              
-                             this.homeset3 = response.data.homeset3;
-                             this.showset3 = true;
-                            } else {
-                              //console.log('no game date')
-                            }
-
-                            if (response.data.hasOwnProperty('awayset1')) {
-                             this.awayset1 = response.data.awayset1;
-                            } else {
-                              //console.log('no game date')
-                            }
-
-                             if (response.data.hasOwnProperty('awayset2')) {
-                             this.awayset2 = response.data.awayset2;
-                            } else {
-                              //console.log('no game date')
-                            }
-
-                             if (response.data.hasOwnProperty('awayset3')) {
-                             this.awayset3 = response.data.awayset3;
-                             this.showset3 = true;
-                            } else {
-                              //console.log('no game date')
-                            }
+                           
 
                             //set gamedate:
                             if (response.data.hasOwnProperty('gamedate')) {
@@ -235,6 +520,13 @@
                             //set hour:
                             if (response.data.hasOwnProperty('gametime')) {
                              this.gametime = response.data.gametime;                            
+                            } else {
+                              //console.log('no game date')
+                            }
+
+                             //set result:
+                            if (response.data.hasOwnProperty('result')) {
+                             this.gameresult = response.data.result;                            
                             } else {
                               //console.log('no game date')
                             }
@@ -260,8 +552,8 @@
                         });
 
 
-    //GET PADEL CLUBS
-    this.getPadelClubs();
+    //GET GOLF CLUBS
+    this.getGolfClubs();
 
 
 },
@@ -278,15 +570,15 @@
                  return moment(thedate).format('D/M')
              }
      },
-      startGame: function() {
-               
+       showScorecard: function() {
+          
         this.status = "In progress";
         this.saveResult();
 
           if (!this.showresult) {            
             this.showresult = true; //activate the div to show resultform
-          }
-      },
+          } else this.showresult = false;
+      }, 
 
        endGame: function() {
 
@@ -345,11 +637,10 @@
     );
   };
 },
-      getPadelClubs: function () {
+      getGolfClubs: function () {
             this.axios
                 .post(
-                    //"https://matchplay.meteorapp.com/methods/getPadelclubs"
-                    "https://matchplay.meteorapp.com/methods/getGolfclubs"
+                    globalState.admin_url + "getGolfclubs"
                 )
                 .then(response => {
                     this.clubs = response.data;
@@ -363,18 +654,18 @@
                 });
         },
         onCountryInputChange(query) {
-            return this.clubs.filter((club) => {                
-                return club.name.toLowerCase().includes(query.toLowerCase())
+            return this.clubs.filter((club) => {      
+              return club.title.toLowerCase().includes(query.toLowerCase())
             })
         },
         onSearchItemSelected(item) {
 
-            this.selectedSearchItem = item.name;
-            this.query = item.name;           
+            this.selectedSearchItem = item.title;
+            this.query = item.title;           
             this.clubid = item._id;
-            this.clubname = item.name;
+            this.clubname = item.title;
 
-            this.saveResult()
+            //this.saveResult()
 
 /*
             var x = document.getElementsByClassName("course");
@@ -418,118 +709,7 @@
          
 
         },
-     setResult2(id,set,action) {
-
-        let oldval = this[id+'set'+set];
-        let newval = this[id+'set'+set] + action;
-        let conval = 0;
-        let con;
-
-        if (id === 'home') {
-          conval = this['awayset'+set];
-          con = 'away'
-        } else {
-          conval = this['homeset'+set];
-          con = 'home'
-        }
-
-        if (set < 3) {
-          if (newval < 7 && newval > -1) {
-            this[id+'set'+set] = newval;          
-          }
-
-          if (newval === 7 && conval > 4) {
-            this[id+'set'+set] = newval;     
-          }
-
-          if (conval === 7 && newval > 5) {
-            this[id+'set'+set] = 6;
-          }
-        } else { //set 3
-           if (newval > -1) {
-            this[id+'set'+set] = newval;
-           }
-        }
-       
-       
-
-        //SET SCORE
-    
-        let home = [0, 0, 0];
-        let away = [0, 0, 0];
-        let i;
-
-        //SET 1 & 2 SPECIALS
-        if (set < 3) {     
-          if (this[id+'set'+set] === 6 && this[id+'set'+set] - this[con+'set'+set] > 1) {
-            this[id+set] = 1
-            this[con+set] = 0
-          }
-
-          if (this[id +'set'+set] === 7 && this[id+'set'+set] > this[con+'set'+set]) {
-            this[id+set] = 1
-            this[con+set] = 0
-          }
-
-          if ((this[id +'set'+set] < 6) || (this[id+'set'+set] <= this[con+'set'+set]) ) {
-            this[id+set] = 0
-          }
-        } else { //set 3            
-            if (this[id+'set'+set] >= 10 && this[id+'set'+set] - this[con+'set'+set] > 1) {
-              this[id+set] = 1
-              this[con+set] = 0
-            }
-
-            if (this[id +'set'+set] >= 10 && this[id+'set'+set] - this[con+'set'+set] < 2) {
-              this[id+set] = 0
-              this[con+set] = 0
-            }
-
-            if ((this[id +'set'+set] < 10) || (this[id+'set'+set] <= this[con+'set'+set]) ) {
-              this[id+set] = 0
-            }
-        } 
-        //END SET 1 & 2 SPECIALS
-
-       
-
-        if (this[id +'set'+set] === this[con+'set'+set]) {
-           this[id+set] = 0
-           this[con+set] = 0
-        }
-        
-
-           
-        this.homescore = this.home1 + this.home2 + this.home3
-        this.awayscore = this.away1 + this.away2 + this.away3
-
-        if (this.homescore === 1 && this.awayscore === 1) {
-          this.showset3 = true;
-        }
-
-        if ((this.homescore === 2 && this.awayscore === 0) || (this.homescore === 0 && this.awayscore === 2)) {
-          this.showset3 = false;
-        }
-
-        if (this.homescore > 1) {          
-          this.winner = this.hometeam;          
-        }
-
-        if (this.awayscore > 1) {
-          this.winner = this.awayteam;          
-        }
-
-        if (this.homescore < 2 && this.awayscore < 2) {
-          this.winner = '';
-          this.status = "In progress"
-        }
-
-
-        //Save result
-        this.saveResult();
-       
-
-     },
+  
       goBack(team) {
            this.$router.push({
                 path: "/myteam"
@@ -569,12 +749,13 @@
       setwo: function(team) {
         let okMessage = '';
         let thewinner = '';
+   
         
         if (team==='home') {
-          okMessage = this.hometeamname + ' lämnar WO och det vinnande laget är ' + this.awayteamname + '?';
+          okMessage = this.hometeamleadername + ' lämnar WO och det vinnande laget är ' + this.awayteamleadername + '?';
           thewinner = this.awayteam;       
         } else {
-          okMessage = this.awayteamname + ' lämnar WO och det vinnande laget är ' + this.hometeamname + '?';
+          okMessage = this.awayteamleadername + ' lämnar WO och det vinnande laget är ' + this.hometeamleadername + '?';
           thewinner = this.hometeam;          
         }
 
@@ -593,36 +774,11 @@
                 .then(value => {
                     if (value) {                   
                       if (team==='home') {         
-                        this.homeset1 = 0;
-                        this.homeset2 = 0;
-                        this.homeset3 = 0;
-                        this.awayset1 = 6;
-                        this.awayset2 = 6;
-                        this.awayset3 = 0;
-                        this.home1 = 0;
-                        this.home2 = 0;
-                        this.home3 = 0;
-                        this.away1 = 1;
-                        this.away2 = 1;
-                        this.away3 = 0;
-                        this.awayscore = 2;
-                        this.homescore = 0;
+                       
+                      
 
                     } else {                     
-                      this.homeset1 = 6;
-                      this.homeset2 = 6;
-                      this.homeset3 = 0;
-                      this.awayset1 = 0;
-                      this.awayset2 = 0;
-                      this.awayset3 = 0; 
-                      this.home1 = 1;
-                      this.home2 = 1;
-                      this.home3 = 0;
-                      this.away1 = 0;
-                      this.away2 = 0;
-                      this.away3 = 0;
-                      this.homescore = 2;
-                      this.awayscore = 0;
+                    
                     }   
                        this.status = "Finished";                       
                        this.showwo = false;
@@ -637,7 +793,11 @@
 
 
       },
+      startGame() {
+       location.href = "creategame";
+      },
       saveResult() {
+       
         if (this.lastsaved !== moment().format('HH:mm')) {
           this.isSaving = true;
         }
@@ -655,20 +815,6 @@
                             "gamedate": moment(this.gamedate).format('YYYY-MM-DD'),
                             "gametime": this.gametime,
                             "club": this.clubid,
-                            "homescore": this.homescore,
-                            "awayscore": this.awayscore,
-                            "home1": this.home1,
-                            "home2": this.home2,
-                            "home3": this.home3,
-                            "away1": this.away1,
-                            "away2": this.away2,
-                            "away3": this.away3,
-                            "awayset1": this.awayset1,
-                            "homeset1": this.homeset1,
-                            "awayset2": this.awayset2,
-                            "awayset3": this.awayset3,
-                            "homeset2": this.homeset2,
-                            "homeset3": this.homeset3,
                             "winner": this.winner,
                             "status": this.status
                         })
@@ -713,6 +859,26 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 	@import "../styles/variables.scss";
+
+   .input.display-time {
+     background-color:#FFF !important;
+
+   }
+
+   .form-control:disabled, .form-control[readonly] {
+     background-color:#FFF !important;
+   }
+
+  .time-picker {
+    background-color:#FFF;
+    font-family:"Eurostile LT Std";
+    font-size:16px;
+    line-height:20px;
+ 
+   
+  }
+
+
 
 	.text-white a {
 		color: #fff !important;
@@ -803,11 +969,7 @@
 		border-top: 1px solid #ccc;
 	}
 
-	strong,
-	span.set,
-	.winner {
-		font-family: "Titillium Web Bold";
-	}
+
 
 	p {
 		margin-bottom: 0.5em;
@@ -848,4 +1010,16 @@
 		border-color: #bbb;
 		cursor: pointer;
 	}
+
+   .my-nav-item {
+      font-size:0.9em;
+    }
+
+@media only screen and (max-width: 330px) {
+		/* iphone 5/se */
+.my-nav-item {
+      font-size:0.7em;
+    }
+}
+
 </style>
