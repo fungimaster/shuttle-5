@@ -133,6 +133,7 @@
 import axios from "axios";
 import Suggestions from "v-suggestions";
 import "v-suggestions/dist/v-suggestions.css";
+import {globalState} from '../main.js'
 
 export default {
   async beforeMount() {
@@ -407,7 +408,7 @@ export default {
                     this.players.forEach(element => {
 
                        this.axios.post(
-                    "http://localhost:3000/methods/getPlayerByGolfid", {
+                    globalState.admin_url + "getPlayerByGolfid", {
                       golfid: element.gitID
                     }
                 )
