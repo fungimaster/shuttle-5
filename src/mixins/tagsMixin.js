@@ -11,33 +11,33 @@ export const tagsMixin = {
       schedulecount: 0,
       showRoom: '',
       day: '',
-      firstname:'Logga in'
+      firstname: 'Logga in'
     }
   },
   methods: {
-    revertSchedule: function() {
+    revertSchedule: function () {
       localStorage.setItem('myscheduleid', this.revertmyschedule);
       this.myscheduleid = this.revertmyschedule;
       this.revertmyschedule = '';
       localStorage.setItem('revertmyschedule', '');
-      this.$router.push({name: 'MySchedule-id', params:{id:this.myscheduleid}});
+      this.$router.push({ name: 'MySchedule-id', params: { id: this.myscheduleid } });
       this.getSchedule();
 
     },
-    getSchedule: function(revert) {
+    getSchedule: function (revert) {
       let that = this;
       let lookupid = false;
       const nochange = this.$route.query.nochange;
-      if(localStorage.getItem('revertmyschedule')) {
+      if (localStorage.getItem('revertmyschedule')) {
         this.revertmyschedule = localStorage.getItem('revertmyschedule');
       }
 
-      if(revert) {
+      if (revert) {
         lookupid = revert;
         this.myscheduleid = revert;
       }
 
-      else if(!localStorage.getItem('revertmyschedule') && nochange === 'true' && localStorage.getItem('myscheduleid') != "" && (localStorage.getItem('myscheduleid') != this.$route.params.id)){
+      else if (!localStorage.getItem('revertmyschedule') && nochange === 'true' && localStorage.getItem('myscheduleid') != "" && (localStorage.getItem('myscheduleid') != this.$route.params.id)) {
         this.revertmyschedule = localStorage.getItem('myscheduleid');
         localStorage.setItem('revertmyschedule', this.revertmyschedule);
         localStorage.setItem('myscheduleid', '');
@@ -46,19 +46,19 @@ export const tagsMixin = {
 
       }
 
-      else if(this.$route.params.id && nochange === 'true') {
+      else if (this.$route.params.id && nochange === 'true') {
         lookupid = this.$route.params.id;
         this.myscheduleid = '';
         localStorage.setItem('myscheduleid', '');
       }
-      else if(this.$route.params.id) {
+      else if (this.$route.params.id) {
         lookupid = this.$route.params.id;
 
         this.myscheduleid = this.$route.params.id;
         localStorage.setItem('myscheduleid', this.$route.params.id);
         this.fetchSessions();
       }
-      else if(localStorage.getItem('myscheduleid')) {
+      else if (localStorage.getItem('myscheduleid')) {
         lookupid = localStorage.getItem('myscheduleid');
         this.myscheduleid = localStorage.getItem('myscheduleid');
       }
@@ -67,39 +67,39 @@ export const tagsMixin = {
         return false
       }
       this.axios.get('https://admin.oredev.org/myschedule/' + lookupid)
-      .then(response => {
-        localStorage.setItem('schedule', JSON.stringify(response.data.schedules[0].sessions));
-        this.schedule = response.data.schedules[0].sessions;
-        this.schedulecount = this.schedule.length;
-        that.$store.dispatch('counterUpdate', {count:that.schedulecount});
-        that.loadsessions = false;
-        return;
-      })
-      .catch(error => {
-        console.log(error);
-      });
+        .then(response => {
+          localStorage.setItem('schedule', JSON.stringify(response.data.schedules[0].sessions));
+          this.schedule = response.data.schedules[0].sessions;
+          this.schedulecount = this.schedule.length;
+          that.$store.dispatch('counterUpdate', { count: that.schedulecount });
+          that.loadsessions = false;
+          return;
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
-    updateSchedule: function() {
+    updateSchedule: function () {
       if (!localStorage.getItem('myscheduleid')) {
-       return false;
+        return false;
       }
       this.myscheduleid = localStorage.getItem('myscheduleid');
       this.axios.post('https://admin.oredev.org/methods/updateSchedule', {
         sessions: JSON.parse(localStorage.getItem('schedule')),
         scheduleid: this.myscheduleid
       })
-      .then(function (response) {
-        if(!localStorage.getItem('myscheduleid')) {
-         localStorage.setItem('myscheduleid', response.data.id);
-        }
+        .then(function (response) {
+          if (!localStorage.getItem('myscheduleid')) {
+            localStorage.setItem('myscheduleid', response.data.id);
+          }
 
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
 
     },
-    setUrlHasch: function(trigger) {
+    setUrlHasch: function (trigger) {
       let tagschoosen;
 
       // select all on first visit
@@ -386,15 +386,15 @@ export const tagsMixin = {
     },
   },
   mounted: function () {
-    if (localStorage.getItem('schedule')) {
+    /* if (localStorage.getItem('schedule')) {
       this.schedule = JSON.parse(localStorage.getItem('schedule'));
     }
     this.schedulecount = this.schedule.length;
     this.$store.dispatch('counterUpdate', {count:this.schedule.length});
-    //console.log("MIXIN MOUNTED")
-   
+    //console.log("MIXIN MOUNTED") */
 
-    
+
+
 
   },
   beforeMount: function () {
