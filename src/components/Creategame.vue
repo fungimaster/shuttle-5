@@ -4,11 +4,10 @@
       <b-row no-gutters>
         <b-col md="12">
           <div>
-            <p hidden>{{ slinga }}</p>
-             <p hidden>{{ tees }}</p>
+         
           
             <!-- VÄLJA KLUBB -->
-             <b-button hidden
+             <b-button 
                 class="teOffButton"
                 @click="clearCourse"
                 variant="primary"
@@ -24,7 +23,7 @@
                 class="suggestions"
               >
                 <div slot="item" slot-scope="props">
-                  <strong> {{ props.item }}</strong>
+                  <strong> {{ props.item.title }}</strong>
                 </div>
               </suggestions>
             </b-form-group>
@@ -39,6 +38,7 @@
                 <b-form-radio-group
                   v-model="form.slinga"
                   :options="slingaOptions"
+                  v-on:change="teeAndSlope"
                   buttons
                   button-variant="primary"
                   required
@@ -70,11 +70,9 @@
                   </b-col>
                   <b-col cols="10">
                     <p class="playerInfo" id="playerName">
-                      {{ player.name }} (hcp: {{player.hcp}})
+                      {{ player.name }} (hcp: {{player.hcp}}, slopehcp: {{Number((player.slopehcp).toFixed(1))}})
                     </p>
-                    <p class="playerInfo">
-                      Spelar från tee {{ form.checked[index] }}
-                    </p>
+                  
                   </b-col>
                 </b-row>
 
@@ -91,44 +89,36 @@
              :options="teeOptions"
               -->
                 <b-form-radio-group   
+                  v-if="player.gender == 0"
                   v-model="form.tees[index]"
-                  :options="teeOptions"              
+                   v-on:change="getSlopes($event, player.playerId, player.hcp)"
+                  :options="teeOptionsMale"              
                   buttons
                   button-variant="primary"
                   required
                   class="radioSlinga"                  
                 >
-                <div hidden>
-               <b-form-radio v-model="form.checked[index]" value="40"
-                          ></b-form-radio
-                        >
-                </div>
+                
+            
                 </b-form-radio-group>
+                  <b-form-radio-group   
+                  v-if="player.gender == 1"
+                  v-model="form.tees[index]"
+                   v-on:change="getSlopes($event, player.playerId, player.hcp)"
+                  :options="teeOptionsFemale"              
+                  buttons
+                  button-variant="primary"
+                  required
+                  class="radioSlinga"                  
+                >
+                
+            
+                </b-form-radio-group>
+
+
               </b-form-group>               
                
-                    <b-form-group hidden>
-                      <b-form-radio-group
-                        buttons
-                        button-variant="primary"
-                        required
-                      >
-                        <b-form-radio v-model="form.checked[index]" value="40"
-                          >Tee 40</b-form-radio
-                        >
-                        <b-form-radio v-model="form.checked[index]" value="49"
-                          >Tee 49</b-form-radio
-                        >
-                        <b-form-radio v-model="form.checked[index]" value="52"
-                          >Tee 52</b-form-radio
-                        >
-                        <b-form-radio v-model="form.checked[index]" value="57"
-                          >Tee 57</b-form-radio
-                        >
-                        <b-form-radio v-model="form.checked[index]" value="60"
-                          >Tee 60</b-form-radio
-                        >
-                      </b-form-radio-group>
-                    </b-form-group>
+                  
                   </b-col>
                 </b-row>
               </b-form-group>
@@ -140,7 +130,7 @@
           <b-row class="teOff" no-gutters>
             <b-col v-if="form.slinga" md="12">
               <b-button
-                :disabled="form.checked.length < 4"
+               
                 class="teOffButton"
                 @click="onSubmit"
                 variant="primary"
@@ -166,12 +156,13 @@ export default {
 
          this.axios
                 .post(
-                    "https://matchplay.meteorapp.com/methods/getGolfclubs"
+                    "https://admin.matchplay.se/methods/getGolfclubs"
                 )
                 .then(response => {
-                    //this.courses = response.data;
+                    this.courses = response.data;
 
                     //example data
+                    /*
                     this.courses = 
                     [
                       {
@@ -181,13 +172,19 @@ export default {
                       }
                     ]
                     
-
+  */
                     this.courses.forEach(course => {
                       this.courseOptions.push({
                         text: course.title,
                         value: course.title
                       }),
-                        this.courseQuery.push(course.title);
+                        this.courseQuery.push(
+                          {
+                            title: course.title,
+                            gitID: course.gitID
+
+                          }
+                          );
                     });
 
                 })
@@ -207,10 +204,38 @@ export default {
     } catch (e) {
       console.log(e);
     }
+    try {
 
+         this.axios
+                .post(
+                    "https://admin.matchplay.se/methods/getGameData",{
+                      id: "bHWxrFgDJPA7jufhg"
+                      }
+                )
+                .then(response => {
+
+                    this.createPlayers(response.data);
+                  
+                   
+
+                })
+                .catch(error => {
+                    //this.player_1_error = "Golfaren hittades inte... prova att skriva in golfid igen.";   
+                    console.log(error);
+                });
+      
+    
+
+      
+
+    } catch (e) {
+      console.log(e);
+    }
     this.players = [
     {
       "name": "Bruce Wayne",
+      "gender":"0",
+      "playerId": "1",
       "holes": [
         { "hole": 1, "strokes": 0, "slag": 0 },
         { "hole": 2, "strokes": 0, "slag": 0 },
@@ -231,10 +256,13 @@ export default {
         { "hole": 17, "strokes": 0 , "slag": 0},
         { "hole": 18, "strokes": 0 , "slag": 0}
       ],
-      "hcp": 1.2
+      "hcp": 1.2,
+      "slopehcp":0
     },
     {
       "name": "Donald Trump",
+      "gender":"0",
+       "playerId": "2",
       "holes": [
         { "hole": 1, "strokes": 0, "slag": 0 },
         { "hole": 2, "strokes": 0, "slag": 0 },
@@ -255,10 +283,13 @@ export default {
         { "hole": 17, "strokes": 0 , "slag": 0},
         { "hole": 18, "strokes": 0 , "slag": 0}
       ],
-      "hcp": 20
+      "hcp": 20,
+         "slopehcp":0
     },
     {
       "name": "Anders Tegnell",
+       "playerId": "3",
+       "gender":"0",
       "holes": [
         { "hole": 1, "strokes": 0, "slag": 0 },
         { "hole": 2, "strokes": 0, "slag": 0 },
@@ -279,10 +310,13 @@ export default {
         { "hole": 17, "strokes": 0 , "slag": 0},
         { "hole": 18, "strokes": 0 , "slag": 0}
       ],
-      "hcp": 11
+      "hcp": 11,
+         "slopehcp":0
     },
     {
       "name": "Joan Jett",
+       "playerId": "4",
+       "gender":"1",
       "holes": [
         { "hole": 1, "strokes": 0, "slag": 0 },
         { "hole": 2, "strokes": 0, "slag": 0 },
@@ -303,7 +337,8 @@ export default {
         { "hole": 17, "strokes": 0 , "slag": 0},
         { "hole": 18, "strokes": 0 , "slag": 0}
       ],
-      "hcp": 5
+      "hcp": 5,
+         "slopehcp":0
     }
     ]
 
@@ -334,16 +369,23 @@ export default {
       courseOptions: [],
       slingaOptions: [],
       teeOptions: [],
+      teeOptionsMale: [],
+      teeOptionsFemale: [],
+      holesArray: [],
+      slopes:[],
       form: {
         course: "",
         slinga: "",
         checked: [],
-        tees: ''
+        tees: '',
+        teesmale: '',
+        teesfemale:'',
       },
       show: true,
       test: {},
       query: "",
       courseQuery: [],
+      coursePar: 0,
       selectedCourse: null,
       options: {
         placeholder: "Välj klubb för laget",
@@ -355,12 +397,139 @@ export default {
       this.getGolfClubs();
     },
   methods: {
+
+    // Club selected in searchfield
+      onSearchItemSelected(item) {
+
+  this.form.course = item.title;
+      this.getCourse(item.gitID);
+    },
+  createPlayers: function(data){
+
+                    this.players[0].name = data.hometeamleadername;
+                    this.players[0].gitID = data.hometeamleadergolfid;
+                    this.players[1].name = data.hometeammembername;
+                    this.players[1].gitID = data.hometeammembergolfid;
+                    this.players[2].name = data.awayteamleadername;
+                    this.players[2].gitID = data.awayteamleadergolfid;
+                    this.players[3].name = data.awayteammembername;
+                    this.players[3].gitID = data.awayteammembergolfid;
+
+
+                    this.players.forEach(element => {
+                  
+                       this.axios.post(
+                    "http://localhost:3000/methods/getPlayerByGolfid", {
+                      golfid: element.gitID
+                    }
+                )
+                .then(response => {
+          
+                  element.hcp = parseInt(response.data.hcp);
+                  element.gender = response.data.gender
+           
+                  
+
+                })
+                .catch(error => {
+                    //this.player_1_error = "Golfaren hittades inte... prova att skriva in golfid igen.";   
+                    console.log(error);
+                });
+                      
+                    });
+                   
+               console.log(this.players);
+},
+    // Get info from GIT
+     getCourse: function (gitID) {
+             
+            this.axios
+                .post(
+                    "https://admin.matchplay.se/methods/getCourseInfoData", {
+                      id: gitID
+                    }
+                )
+                .then(response => {
+             
+                  
+                    this.parseCourse(response.data);
+                    console.log(response.data);
+                  
+
+                })
+                .catch(error => {
+                    //this.player_1_error = "Golfaren hittades inte... prova att skriva in golfid igen.";   
+                    console.log(error);
+                });
+        },
+         
+
+         // Hämta alla loops och hål från en bana 
+        parseCourse: function(course)
+        {
+          let parsedLoop = [];
+          course.forEach(courseItem => {
+
+            if(courseItem.IsNineHoleCourse == "false")
+            {
+            courseItem.Loops.forEach(loop => {
+
+            loop.forEach( item => {
+                let loopItem = {};
+                loopItem.value = item.ID;
+                loopItem.text = item.Name;
+                loopItem.slopes = item.Slopes;
+                loopItem.Holes = item.Holes;
+                parsedLoop.push(loopItem);
+                });
+               });
+          }
+          });
+
+      
+
+        this.slingaOptions = parsedLoop;
+        
+        },
+
+
         clearCourse: function() { //not used right now, might be needed...
           this.form.course = '';
           this.form.slinga = '';
           this.slingaOptions = [];
+           this.slingaOptions = [];
+     
+      this.courses= [];
+      this.courseOptions = [];
+      this.slingaOptions = [];
+      this.teeOptions =  [];
+      this.slopes = [];
           
         },
+         
+
+          parseTee: function(course)
+        {
+          let parsedLoop = [];
+          course.forEach(courseItem => {
+            courseItem.Loops.forEach(loop => {
+
+            loop.forEach( item => {
+                let loopItem = {};
+                loopItem.value = item.ID;
+                loopItem.text = item.Name;
+                parsedLoop.push(loopItem);
+                });
+               });
+          });
+
+      
+
+        this.slingaOptions = parsedLoop;
+        console.log(this.slingaOptions);
+        },
+
+
          getGolfClubs: function () {
             this.axios
                 .post(
@@ -376,6 +545,44 @@ export default {
                 });
         },
     async onSubmit() {
+
+console.log(this.holesArray);
+    this.axios
+                .post(
+                    "https://matchplay.meteorapp.com/methods/updateGame", {
+                      _id: "bHWxrFgDJPA7jufhg",
+                      holes:this.holesArray
+                    }
+                )
+                .then(response => {
+                   console.log(response.data);
+
+                })
+                .catch(error => {
+                    //this.player_1_error = "Golfaren hittades inte... prova att skriva in golfid igen.";   
+                    console.log(error);
+                });
+
+
+  /*{ hole: 1, par: 5, index: 18, slag: [0, 0, 0, 0] },
+        { hole: 2, par: 3, index: 12, slag: [0, 0, 0, 0] },
+        { hole: 3, par: 3, index: 11, slag: [0, 0, 0, 0] },
+        { hole: 4, par: 4, index: 1, slag: [0, 0, 0, 0] },
+        { hole: 5, par: 4, index: 5, slag: [0, 0, 0, 0] },
+        { hole: 6, par: 5, index: 16, slag: [0, 0, 0, 0] },
+        { hole: 7, par: 4, index: 17, slag: [0, 0, 0, 0] },
+        { hole: 8, par: 3, index: 8, slag: [0, 0, 0, 0] },
+        { hole: 9, par: 4, index: 9, slag: [0, 0, 0, 0] },
+        { hole: 10, par: 3, index: 14, slag: [0, 0, 0, 0] },
+        { hole: 11, par: 4, index: 13, slag: [0, 0, 0, 0] },
+        { hole: 12, par: 3, index: 2, slag: [0, 0, 0, 0] },
+        { hole: 13, par: 4, index: 6, slag: [0, 0, 0, 0] },
+        { hole: 14, par: 3, index: 3, slag: [0, 0, 0, 0] },
+        { hole: 15, par: 5, index: 7, slag: [0, 0, 0, 0] },
+        { hole: 16, par: 3, index: 10, slag: [0, 0, 0, 0] },
+        { hole: 17, par: 4, index: 15, slag: [0, 0, 0, 0] },
+        { hole: 18, par: 3, index: 4, slag: [0, 0, 0, 0] }*/
+/*
       const playerTee = [
         { name: this.players[0].name, tee: this.form.checked[0] },
         { name: this.players[1].name, tee: this.form.checked[1] },
@@ -392,7 +599,8 @@ export default {
       const data = {
         createGameInfo
       };
-
+      */
+/*
       try {
         let response = await axios.post(
           "http://localhost:3000/creategame",
@@ -402,56 +610,106 @@ export default {
         console.log(data);
       } catch (e) {
         error => console.log(error);
-      }
+      } */
     },
     onCountryInputChange(query) {
 
       if (query.trim().length === 0) {
         return null;
       }
+   
       // return the matching countries as an array
       return this.courseQuery.filter(course => {
-        return course.toLowerCase().includes(query.toLowerCase());
+        return course.title.toLowerCase().includes(query.toLowerCase());
       });
     },
+
+
+    getSlopes (id,name, hcp) {
+
+
    
-    onSearchItemSelected(item) {
+
+    let tee = this.teeOptions.find(tee => tee.value === id);
+   
+
+    let slopeRating =   this.calculateSlopeRating(hcp, parseInt(tee.slopeValue),parseInt(tee.courseRating),this.coursePar); 
+    let player = this.players.find(player => player.playerId === name );
+    
+    player.slopehcp = slopeRating;
+
+
+    },
+
+    calculateSlopeRating (hcp, slopeValue, courseRating, coursePar){
+
+      return hcp * (slopeValue / 133) + (courseRating - coursePar)
+    },
+    
+    teeAndSlope(id) {
       //this.selectedSearchItem = item;
      //console.log('selected',item);
-      this.form.course = item;
-       this.slingaOptions = [] 
+      
+       let result = this.slingaOptions.find(item => item.value == id);
+           let coursepar = 0;
+          
+           result.Holes.forEach(holeItem => { 
+             let hole = {};
+             hole.name = holeItem[0].Name;
+             hole.holeId = holeItem[0].HoleID;
+             hole.hole = holeItem[0].Number;
+              hole.par = holeItem[0].Par;
+              hole.index = holeItem[0].Index;
+              hole.slag = [0,0,0,0];
+               this.holesArray.push(hole);
+             coursepar += parseInt(holeItem[0].Par);
+
+           });
+
+          
+           this.coursePar = coursepar;
+        result.slopes.forEach(slopeItem => { 
+
+          let Tee = {};
+          if(slopeItem[0].Gender == "1")
+          {
+
+            Tee.text = slopeItem[0].TeeColor + " (Man)"
+          }
+          else {
+            Tee.text = slopeItem[0].TeeColor + " (Kvinna)"
+          }
+
+
+         
+          Tee.value = slopeItem[0].TeeID+slopeItem[0].Gender;
+          Tee.courseRating = slopeItem[0].CourseRating;
+          Tee.slopeValue = slopeItem[0].SlopeValue;
+ this.teeOptions.push(Tee);
+            if(slopeItem[0].Gender == "0")
+          {
+            
+
+          this.teeOptionsMale.push(Tee);
+          }
+          else {
+            this.teeOptionsFemale.push(Tee);
+          }
+
+        });
+
+
+  
+      //this.form.course = item;
+       //this.slingaOptions = [] 
        
     }
+
+   
+  
   },
   computed: {
-    tees() {
-      //console.log('tees computed')
-      this.teeOptions = []
-        this.courses.forEach(course => {
-          if (course.title === this.form.course) {
-            
-            course.slingor.forEach(slinga => {
-              //console.log(slinga.slinga, this.form.slinga)
-              if (slinga.slinga === this.form.slinga) {
-              //console.log('show',slinga.tees, slinga.tees.length)
-                const tees = slinga.tees.split(",");
-                var i;
-                for (i = 0; i < tees.length; i++) {
-                    this.teeOptions.push({
-                       text: tees[i],
-                       value: tees[i]
-                  });
-                }
-                
-              }
-              
-            })
 
-          }
-      });
-      console.log(this.teeOptions)
-       return this.teeOptions;
-    },
 
     slinga() {
       this.courses.forEach(course => {
