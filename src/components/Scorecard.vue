@@ -52,7 +52,6 @@
 						<app-tie-break-modal v-if="setTieBreak"></app-tie-break-modal>
 
 						<button @click="sendWinner">SEND WINNER</button>
-						<button @click="getGameData">GET GAME DATA</button>
 
 						<!-- TEAM 1 CONTAINER -->
 						<div
@@ -654,6 +653,7 @@
 				dormy2: "",
 				lowestSingleScoreOnHole: [],
 				tieBreak: false,
+				gameID: "",
 
 				//Fiktiv data nedan
 				course: [
@@ -872,16 +872,34 @@
 				strokes2SlagNotCalc = strokes2SlagNotCalc[0];
 				strokes3SlagNotCalc = strokes3SlagNotCalc[0];
 
+				//tar bort slag från score. Men om score-slag är så sätter den ett tillfälligt värde som sedan tas bort.
 				const subtractSlagFromScore = (scoreArray, slagArray) => {
 					let newArray = [];
 					scoreArray.forEach((element, index) => {
-						newArray.push(element - slagArray[index]);
+						//detta tar hand om scenariot score - slag blir 0.
+						if (slagArray[index] > 0 && element - slagArray[index] === 0) {
+							newArray.push(999);
+						}
+						//detta är scenariot med negativ score (hole in one med slag 2 eller mer).
+						if (
+							element !== 0 &&
+							slagArray[index] > 0 &&
+							element - slagArray[index] < 0
+						) {
+							newArray.push(9999);
+						} else {
+							newArray.push(element - slagArray[index]);
+						}
 					});
 					return newArray;
 				};
 
 				const replaceZero = number => (number <= 0 ? (number = 99) : number);
 				const replaceNaN = number => (number !== number ? (number = 99) : number);
+				const replaceHoleInOneWith1Slag = number =>
+					number === 999 ? (number = 0.1) : number;
+				const replaceHoleInOneWith2Slag = number =>
+					number === 9999 ? (number = 0.01) : number;
 
 				//lowestSingleScoreOnHole används för att marka vem lägsta score i översikten och har inget att göra med resten av uträkningen.
 				this.lowestSingleScoreOnHole = [
@@ -897,10 +915,26 @@
 				let strokes2 = subtractSlagFromScore(strokes2SlagNotCalc, slag2);
 				let strokes3 = subtractSlagFromScore(strokes3SlagNotCalc, slag3);
 
-				strokes0 = strokes0.map(replaceZero).map(replaceNaN);
-				strokes1 = strokes1.map(replaceZero).map(replaceNaN);
-				strokes2 = strokes2.map(replaceZero).map(replaceNaN);
-				strokes3 = strokes3.map(replaceZero).map(replaceNaN);
+				strokes0 = strokes0
+					.map(replaceZero)
+					.map(replaceNaN)
+					.map(replaceHoleInOneWith1Slag)
+					.map(replaceHoleInOneWith2Slag);
+				strokes1 = strokes1
+					.map(replaceZero)
+					.map(replaceNaN)
+					.map(replaceHoleInOneWith1Slag)
+					.map(replaceHoleInOneWith2Slag);
+				strokes2 = strokes2
+					.map(replaceZero)
+					.map(replaceNaN)
+					.map(replaceHoleInOneWith1Slag)
+					.map(replaceHoleInOneWith2Slag);
+				strokes3 = strokes3
+					.map(replaceZero)
+					.map(replaceNaN)
+					.map(replaceHoleInOneWith1Slag)
+					.map(replaceHoleInOneWith2Slag);
 
 				const bestStrokesTeam1 = strokes0.map((num, index) =>
 					num <= strokes1[index] ? num : strokes1[index]
@@ -942,14 +976,22 @@
 				return tie;
 			}
 		},
+
 		async beforeMount() {
+			//OBS! bara för att kunna testa lokalt
+			if (!this.$route.query.id) {
+				this.gameID = "E5zWJ6wqnZNNCkY2i";
+			} else {
+				this.gameID = this.$route.query.id;
+			}
+
 			try {
 				//hämtar data och lägger det i this.player
 
 				/* const response = await axios.get("http://localhost:3000/scorecard");
-																																																										const data = response.data[response.data.length - 1];
-																																																										this.players = data.gameData;
-																																																										 */
+																																																																																																						const data = response.data[response.data.length - 1];
+																																																																																																						this.players = data.gameData;
+																																																																																																						 */
 
 				this.players = [
 					{
@@ -1064,25 +1106,27 @@
 				this.team1 = "lag 1"; //data.gameData[0].team;
 				this.team2 = "lag 2";
 				/* data.gameData.forEach(element => {
-																																																										if (element.team != this.team1) {
-																																																											this.team2 = 'lag 2'//element.team;
-																																																											}
-																																																										}); */
-				this.schp();
+																																																																																																						if (element.team != this.team1) {
+																																																																																																							this.team2 = 'lag 2'//element.team;																																																											}
+																															 																																																																							}); */
 			} catch (e) {
 				console.log(e);
 			}
+
+			await this.getGameData();
+			this.schp();
 		},
 		methods: {
 			async getGameData() {
 				const url = "https://admin.matchplay.se/methods/getGameData";
-				const teamId = {
-					id: "E5zWJ6wqnZNNCkY2i"
+				const gameID = {
+					id: this.gameID
 				};
 
 				try {
-					let response = await axios.post(url, teamId);
-					console.log("game data: ", response);
+					let response = await axios.post(url, gameID);
+					this.course = response.data.holes;
+					console.log(this.course);
 				} catch (e) {
 					error => console.log(error);
 				}
@@ -1199,10 +1243,10 @@
 			async loadData() {
 				try {
 					/*
-																																																									let response = await axios.get("http://localhost:3000/scorecard");
-																																																									const data = response.data[response.data.length - 1];
-																																																									this.players = data.gameData;
-																																																								 */
+																																																																																																					let response = await axios.get("http://localhost:3000/scorecard");
+																																																																																																					const data = response.data[response.data.length - 1];
+																																																																																																					this.players = data.gameData;
+																																																																																																				 */
 					this.players = [
 						{
 							name: "Br W",
@@ -1309,15 +1353,17 @@
 				const data = {
 					gameData: this.players
 				};
-				try {
-					let response = await axios.post(
-						"http://localhost:3000/scorecard",
-						data
-					);
-					console.log("saved data", response);
-				} catch (e) {
-					error => console.log(error);
-				}
+
+				console.log(data);
+				// try {
+				// 	let response = await axios.post(
+				// 		"http://localhost:3000/scorecard",
+				// 		data
+				// 	);
+				// 	console.log("saved data", response);
+				// } catch (e) {
+				// 	error => console.log(error);
+				// }
 			},
 
 			async schp() {
@@ -1469,11 +1515,11 @@
 
 	/* leader board */
 	/* 
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																								#overview {
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																									/*  margin-left: 10px;
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																								  margin-right: 10px; 
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																								}
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																							*/
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																					#overview {
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																						/*  margin-left: 10px;
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																					  margin-right: 10px; 
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																					}
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																				*/
 	.initialsTeam1 {
 		color: #fd9b37;
 	}
@@ -1556,8 +1602,8 @@
 	}
 
 	/* 	.showLowestScore {
-																																																																																																																																																																																			text-decoration: underline;
-																																																																																																																																																																																		} */
+																																																																																																																																																																																																																																text-decoration: underline;
+																																																																																																																																																																																																																															} */
 
 	/* HEADER ROW */
 	.holeRow {
@@ -1755,12 +1801,12 @@
 		border-color: #195a3a !important;
 	}
 	/*	#nextHole {
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																							
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																								  font-size: 20px;  
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																								  margin-bottom: 10px;
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																								  margin-top: 12px;
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																								   width: 340px; 
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																							}*/
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																				
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																					  font-size: 20px;  
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																					  margin-bottom: 10px;
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																					  margin-top: 12px;
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																					   width: 340px; 
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																				}*/
 	/* LEADER SECTION  */
 	.leaderSection {
 		/* border-top: 1px solid #333; */
@@ -1797,7 +1843,7 @@
 
 	.leaderTeam1 {
 		/*  background-color: #fd9b37;
-																																																																																																																																																																																					  border: 1px #fd9b37 solid; */
+																																																																																																																																																																																																																																		  border: 1px #fd9b37 solid; */
 		background-color: #fff;
 		width: 20px;
 		padding: 0;
@@ -1805,7 +1851,7 @@
 	}
 	.leaderTeam2 {
 		/* background-color: #69b3fe;
-																																																																																																																																																																																					  border: 1px #69b3fe solid; */
+																																																																																																																																																																																																																																		  border: 1px #69b3fe solid; */
 		background-color: #fff;
 		width: 20px;
 		padding: 0;
@@ -1815,8 +1861,8 @@
 	p {
 		font-size: 0.7em;
 		/* text-overflow: ellipsis;
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																								  white-space: nowrap;
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																								  overflow: hidden; */
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																					  white-space: nowrap;
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																					  overflow: hidden; */
 	}
 
 	.leaderTeam1 h4 {
