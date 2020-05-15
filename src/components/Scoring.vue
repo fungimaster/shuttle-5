@@ -321,16 +321,16 @@
 			}
 		},
 		methods: {
-			buttonActions(player, activehole) {
+			buttonActions(activehole, player) {
 				setTimeout(() => {
-					this.sendScore(player, activehole), this.nextModal();
+					this.sendScore(activehole, player), this.nextModal();
 				}, 50);
 			},
 			updateCounter(number) {
 				this.$emit("updateCounter", number);
 			},
 			sendScore(player, activehole) {
-				this.$emit("sendScore", player, activehole);
+				this.$emit("sendScore", activehole, player);
 			},
 			prevModal() {
 				this.counter === 1

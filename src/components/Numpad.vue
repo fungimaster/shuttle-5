@@ -8,7 +8,7 @@
 						id="btn1"
 						:class="{'pressedButton':display && activeButton === 'btn1'}"
 						class="pb-2 btn btn-warning"
-						@click="holes.hole === activehole ? (holes.strokes = 1) : null, buttonActions(player, activehole, 'btn1')"
+						@click="holes.hole === activehole ? (holes.strokes = 1) : null, buttonActions(activehole, player, 'btn1')"
 					>1</button>
 
 					<!-- 2 -->
@@ -16,7 +16,7 @@
 						id="btn2"
 						:class="{'pressedButton':display&& activeButton === 'btn2'}"
 						class="pb-2 btn btn-warning"
-						@click="holes.hole === activehole ? (holes.strokes = 2) : null, buttonActions(player, activehole, 'btn2')"
+						@click="holes.hole === activehole ? (holes.strokes = 2) : null, buttonActions(activehole, player, 'btn2')"
 					>
 						{{ par - 1 === 2 ? "Birdie" : null }}
 						2
@@ -27,7 +27,7 @@
 						id="btn3"
 						:class="[{'pressedButton':display && activeButton === 'btn3'}, {'par': par === 3}]"
 						class="pb-2 btn btn-warning"
-						@click="holes.hole === activehole ? (holes.strokes = 3) : null, buttonActions(player, activehole, 'btn3')"
+						@click="holes.hole === activehole ? (holes.strokes = 3) : null, buttonActions(activehole, player, 'btn3')"
 					>
 						{{ par === 3 ? "Par" : null }}
 						{{ par - 1 === 3 ? "Birdie" : null }}
@@ -44,7 +44,7 @@
 						id="btn4"
 						:class="[{'pressedButton':display&& activeButton === 'btn4'}, {'par': par === 4}]"
 						class="pb-2 btn btn-warning"
-						@click="holes.hole === activehole ? (holes.strokes = 4) : null, buttonActions(player, activehole, 'btn4')"
+						@click="holes.hole === activehole ? (holes.strokes = 4) : null, buttonActions(activehole, player, 'btn4')"
 					>
 						{{ par === 4 ? "par" : null }}
 						{{ par - 1 === 4 ? "Birdie" : null }}
@@ -57,7 +57,7 @@
 						id="btn5"
 						:class="[{'pressedButton':display&& activeButton === 'btn5'}, {'par': par === 5}]"
 						class="pb-2 btn btn-warning"
-						@click="holes.hole === activehole ? (holes.strokes = 5) : null, buttonActions(player, activehole, 'btn5')"
+						@click="holes.hole === activehole ? (holes.strokes = 5) : null, buttonActions(activehole, player, 'btn5')"
 					>
 						{{ par === 5 ? "par" : null }}
 						{{ par - 1 === 5 ? "Birdie" : null }}
@@ -71,7 +71,7 @@
 						id="btn6"
 						:class="[{'pressedButton':display&& activeButton === 'btn6'}, , {'par': par === 6}]"
 						class="pb-2 btn btn-warning"
-						@click="holes.hole === activehole ? (holes.strokes = 6) : null, buttonActions(player, activehole, 'btn6')"
+						@click="holes.hole === activehole ? (holes.strokes = 6) : null, buttonActions(activehole, player, 'btn6')"
 					>
 						{{ par === 6 ? "par" : null }}
 						{{ par - 1 === 6 ? "Birdie" : null }}
@@ -89,7 +89,7 @@
 						id="btn7"
 						:class="{'pressedButton':display&& activeButton === 'btn7'}"
 						class="pb-2 btn btn-warning"
-						@click="holes.hole === activehole ? (holes.strokes = 7) : null, buttonActions(player, activehole, 'btn7')"
+						@click="holes.hole === activehole ? (holes.strokes = 7) : null, buttonActions(activehole, player, 'btn7')"
 					>
 						{{ par === 7 ? "par" : null }}
 						{{ par - 1 === 7 ? "Birdie" : null }}
@@ -103,7 +103,7 @@
 						id="btn8"
 						:class="{'pressedButton':display&& activeButton === 'btn8'}"
 						class="pb-2 btn btn-warning"
-						@click="holes.hole === activehole ? (holes.strokes = 8) : null, buttonActions(player, activehole, 'btn8')"
+						@click="holes.hole === activehole ? (holes.strokes = 8) : null, buttonActions(activehole, player, 'btn8')"
 					>8</button>
 
 					<!-- 9 -->
@@ -111,7 +111,7 @@
 						id="btn9"
 						:class="{'pressedButton':display&& activeButton === 'btn9'}"
 						class="pb-2 btn btn-warning"
-						@click="holes.hole === activehole ? (holes.strokes = 9) : null, buttonActions(player, activehole, 'btn9')"
+						@click="holes.hole === activehole ? (holes.strokes = 9) : null, buttonActions(activehole, player, 'btn9')"
 					>9</button>
 				</b-col>
 			</b-row>
@@ -122,7 +122,7 @@
 						id="btn0"
 						:class="{'pressedButton':display&& activeButton === 'btn0'}"
 						class="pb-2 btn btn-warning"
-						@click="holes.hole === activehole ? (holes.strokes = NaN) : null, buttonActions(player, activehole, 'btn0')"
+						@click="holes.hole === activehole ? (holes.strokes = NaN) : null, buttonActions(activehole, player, 'btn0')"
 					>-/0</button>
 				</b-col>
 			</b-row>
@@ -149,7 +149,7 @@
 			};
 		},
 		methods: {
-			buttonActions(player, activehole, buttonId) {
+			buttonActions(activehole, player, buttonId) {
 				this.activeButton = buttonId;
 
 				this.display = true;
