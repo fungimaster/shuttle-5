@@ -17,7 +17,7 @@ const schp = (slopeRating, courseRating, banansPar) => {
     },
     {
       name: "player 4",
-      HCP: 10,
+      HCP: 36,
       HCPSlope: 0
     }
   ];

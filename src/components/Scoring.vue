@@ -1,7 +1,7 @@
-6<template>
+<template>
 	<div>
 		<!-- Spelare 1 -->
-		<b-modal no-fade ref="1" id="modal-1" ok-only>
+		<b-modal no-fade ref="1" id="modal-1" ok-only hide-backdrop hide-footer static lazy>
 			<b-container>
 				<b-row align-v="center" align-h="center">
 					<p class>
@@ -69,7 +69,7 @@
 
 		<!-- SPELARE 2 -->
 
-		<b-modal no-fade ref="2" id="modal-2" ok-only>
+		<b-modal no-fade ref="2" id="modal-2" ok-only hide-backdrop>
 			<button hidden class="btn btn-success" @click="prevModal()">prev</button>
 			<button hidden class="btn btn-success" @click="nextModal()">next</button>
 
@@ -140,7 +140,7 @@
 
 		<!--  SPELARE 3 -->
 
-		<b-modal no-fade ref="3" id="modal-3" ok-only>
+		<b-modal no-fade ref="3" id="modal-3" ok-only hide-backdrop>
 			<button hidden class="btn btn-success" @click="prevModal()">prev</button>
 			<button hidden class="btn btn-success" @click="nextModal()">next</button>
 
@@ -211,7 +211,7 @@
 
 		<!--  SPELARE 4 -->
 
-		<b-modal no-fade ref="4" id="modal-4" ok-only>
+		<b-modal no-fade ref="4" id="modal-4" ok-only hide-backdrop>
 			<button hidden class="btn btn-success" @click="prevModal()">prev</button>
 			<button hidden class="btn btn-success" @click="nextModal()">next</button>
 
@@ -321,16 +321,16 @@
 			}
 		},
 		methods: {
-			buttonActions(player, activehole) {
+			buttonActions(activehole, player) {
 				setTimeout(() => {
-					this.sendScore(player, activehole), this.nextModal();
-				}, 400);
+					this.sendScore(activehole, player), this.nextModal();
+				}, 50);
 			},
 			updateCounter(number) {
 				this.$emit("updateCounter", number);
 			},
 			sendScore(player, activehole) {
-				this.$emit("sendScore", player, activehole);
+				this.$emit("sendScore", activehole, player);
 			},
 			prevModal() {
 				this.counter === 1
