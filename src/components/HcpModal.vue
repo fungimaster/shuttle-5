@@ -271,6 +271,7 @@
 		background-color: #195a3a !important;
 		border-radius: 50px !important;
 		box-shadow: 0 !important;
+		border: 0 !important;
 	}
 
 	.btn.btn-primary.active,

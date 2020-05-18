@@ -689,7 +689,7 @@
 		computed: {
 			setTieBreak() {
 				let tieBreak = false;
-				if (this.tie === true && this.holesLeft === 1) {
+				if (this.tie === true && this.holesLeft === 0) {
 					tieBreak = true;
 				}
 				return tieBreak;
