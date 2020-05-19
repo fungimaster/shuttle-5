@@ -186,7 +186,7 @@
 				el.innerHTML = intialsArray[0] + "." + intialsArray[1];
 			},
 			negativeToPostive(el) {
-				let number = parseInt(el.innerHTML);
+				let number = parseFloat(el.innerHTML);
 				if (number > 0) {
 					return;
 				}
