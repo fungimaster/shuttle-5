@@ -1,76 +1,79 @@
-const schp = (slopeRating, courseRating, banansPar) => {
-  let testData = [
-    {
-      name: "player 1",
-      HCP: 0,
-      HCPSlope: 0,
-    },
-    {
-      name: "player 2",
-      HCP: 5,
-      HCPSlope: 0,
-    },
-    {
-      name: "player 3",
-      HCP: 15,
-      HCPSlope: 0,
-    },
-    {
-      name: "player 4",
-      HCP: 15,
-      HCPSlope: 0,
-    },
-  ];
+const schp = (slopeRating, courseRating, banansPar, players) => {
+  // let testData = [
+  //   {
+  //     name: "player 1",
+  //     hcp: 36,
+  //     HCPSlope: 0,
+  //   },
+  //   {
+  //     name: "player 2",
+  //     hcp: 36,
+  //     HCPSlope: 0,
+  //   },
+  //   {
+  //     name: "player 3",
+  //     hcp: 14.9,
+  //     HCPSlope: 0,
+  //   },
+  //   {
+  //     name: "player 4",
+  //     hcp: 15.0,
+  //     HCPSlope: 0,
+  //   },
+  // ];
 
+  let testData = players;
   let slopeHandicapList = [];
 
-  //FIXAR LAG HCP PÅ MAX 28
+  //FIXAR LAG hcp PÅ MAX 28
   //SPELARE 1-2
-  if (testData[0].HCP + testData[1].HCP > 28) {
-    if (testData[0].HCP === testData[1].HCP) {
-      const difference = testData[0].HCP + testData[1].HCP - 28;
-      testData[0].HCP = testData[0].HCP - difference / 2;
-      testData[1].HCP = testData[1].HCP - difference / 2;
+  if (testData[0].hcp + testData[1].hcp > 28) {
+    if (testData[0].hcp === testData[1].hcp) {
+      const difference = testData[0].hcp + testData[1].hcp - 28;
+      testData[0].hcp = testData[0].hcp - difference / 2;
+      testData[1].hcp = testData[1].hcp - difference / 2;
     }
 
-    const highestHCP = Math.max(testData[0].HCP, testData[1].HCP);
-    const substract = testData[0].HCP + testData[1].HCP - 28;
+    const highestHCP = Math.max(testData[0].hcp, testData[1].hcp);
+    const substract = testData[0].hcp + testData[1].hcp - 28;
 
-    if (testData[0].HCP === highestHCP && testData[0].HCP !== testData[1].HCP) {
-      testData[0].HCP = testData[0].HCP - substract;
+    if (testData[0].hcp === highestHCP && testData[0].hcp !== testData[1].hcp) {
+      testData[0].hcp = testData[0].hcp - substract;
     }
 
-    if (testData[0].HCP === highestHCP && testData[0].HCP !== testData[1].HCP) {
-      testData[1].HCP = testData[1].HCP - substract;
+    if (testData[0].hcp === highestHCP && testData[0].hcp !== testData[1].hcp) {
+      testData[1].hcp = testData[1].hcp - substract;
     }
   }
 
   //SPELARE 3-4
-  if (testData[2].HCP + testData[3].HCP > 28) {
-    if (testData[2].HCP === testData[3].HCP) {
-      const difference = testData[2].HCP + testData[3].HCP - 28;
+  if (testData[2].hcp + testData[3].hcp > 28) {
+    if (testData[2].hcp === testData[3].hcp) {
+      const difference = testData[2].hcp + testData[3].hcp - 28;
 
-      testData[2].HCP = testData[2].HCP - difference / 2;
-      testData[3].HCP = testData[3].HCP - difference / 2;
+      testData[2].hcp = testData[2].hcp - difference / 2;
+      testData[3].hcp = testData[3].hcp - difference / 2;
     }
 
-    const highestHCP = Math.max(testData[2].HCP, testData[3].HCP);
-    const substract = testData[2].HCP + testData[3].HCP - 28;
+    const highestHCP = Math.max(testData[2].hcp, testData[3].hcp);
+    const substract = testData[2].hcp + testData[3].hcp - 28;
 
-    if (testData[2].HCP === highestHCP && testData[2].HCP !== testData[3].HCP) {
-      testData[2].HCP = testData[2].HCP - substract;
+    if (testData[2].hcp === highestHCP && testData[2].hcp !== testData[3].hcp) {
+      testData[2].hcp = testData[2].hcp - substract;
     }
 
-    if (testData[3].HCP === highestHCP && testData[2].HCP !== testData[3].HCP) {
-      testData[3].HCP = testData[3].HCP - substract;
+    if (testData[3].hcp === highestHCP && testData[2].hcp !== testData[3].hcp) {
+      testData[3].hcp = testData[3].hcp - substract;
     }
   }
+
+  console.log(testData);
 
   //SLUT - FIXAR LAG HCP PÅ MAX 28
 
   testData.forEach((player) => {
     slopeHandicapList.push(
-      hcpSlope(player.HCP, slopeRating, courseRating, banansPar)
+      hcpSlope(player.hcp, slopeRating, courseRating, banansPar)
     );
   });
 
