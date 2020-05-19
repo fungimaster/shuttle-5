@@ -689,7 +689,7 @@
 		computed: {
 			setTieBreak() {
 				let tieBreak = false;
-				if (this.tie === true && this.holesLeft === 0) {
+				if (this.tie === true && this.holesLeft <= 1) {
 					tieBreak = true;
 				}
 				return tieBreak;
@@ -1136,6 +1136,7 @@
 
 				try {
 					let response = await axios.post(url, gameID);
+					console.log(response.data)
 					this.course = response.data.holes;
 				} catch (e) {
 					error => console.log(error);
@@ -1146,20 +1147,34 @@
 				if (!this.winnerDeclared) {
 					return;
 				}
+				
+				const data = {
+					_id: this.gameID,
+					holes: this.course,
+					result: "",
+					status: "Finished"
+				};
+
+
+				if (!this.leader) {
+					//awayteam winner
+					data.finalResult = `${this.matchScore * -1}&${this.holesLeft}`
+				} else {
+					//hometeam winner
+					data.finalResult = `${this.matchScore}&${this.holesLeft}`
+				}
+					
 
 				const url = "https://admin.matchplay.se/methods/updateGame";
 
-				const data = {
-					_id: this.gameID,
-					holes: this.course
-				};
-
+			
 				try {
 					let response = await axios.post(url, data);
 					console.log("winner posted ", response);
 				} catch (e) {
 					error => console.log(error);
 				}
+
 			},
 			valueOfLowestScoreOnHole(holeIndex) {
 				//Om delat hål --> return
@@ -1360,19 +1375,20 @@
 				}
 			},
 			async saveData() {
+				
 				const data = {
-					gameData: this.players
+					_id: this.gameID,
+					holes: this.course,
+					status: "Pending"
 				};
 
-				// try {
-				// 	let response = await axios.post(
-				// 		"http://localhost:3000/scorecard",
-				// 		data
-				// 	);
-				// 	console.log("saved data", response);
-				// } catch (e) {
-				// 	error => console.log(error);
-				// }
+				const url = "https://admin.matchplay.se/methods/updateGame";
+			
+				try {
+					let response = await axios.post(url, data);
+				} catch (e) {
+					error => console.log(error);
+				}
 			},
 
 			async schp() {
@@ -1524,11 +1540,11 @@
 
 	/* leader board */
 	/* 
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																		#overview {
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																			/*  margin-left: 10px;
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																		  margin-right: 10px; 
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																		}
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																	*/
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																		#overview {
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																			/*  margin-left: 10px;
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																		  margin-right: 10px; 
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																		}
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																	*/
 	.initialsTeam1 {
 		color: #fd9b37;
 	}
@@ -1611,8 +1627,8 @@
 	}
 
 	/* 	.showLowestScore {
-																																																																																																																																																																																																																																																													text-decoration: underline;
-																																																																																																																																																																																																																																																												} */
+																																																																																																																																																																																																																																																																													text-decoration: underline;
+																																																																																																																																																																																																																																																																												} */
 
 	/* HEADER ROW */
 	.holeRow {
@@ -1810,12 +1826,12 @@
 		border-color: #195a3a !important;
 	}
 	/*	#nextHole {
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																	
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																		  font-size: 20px;  
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																		  margin-bottom: 10px;
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																		  margin-top: 12px;
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																		   width: 340px; 
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																	}*/
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																	
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																		  font-size: 20px;  
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																		  margin-bottom: 10px;
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																		  margin-top: 12px;
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																		   width: 340px; 
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																	}*/
 	/* LEADER SECTION  */
 	.leaderSection {
 		/* border-top: 1px solid #333; */
@@ -1852,7 +1868,7 @@
 
 	.leaderTeam1 {
 		/*  background-color: #fd9b37;
-																																																																																																																																																																																																																																																															  border: 1px #fd9b37 solid; */
+																																																																																																																																																																																																																																																																															  border: 1px #fd9b37 solid; */
 		background-color: #fff;
 		width: 20px;
 		padding: 0;
@@ -1860,7 +1876,7 @@
 	}
 	.leaderTeam2 {
 		/* background-color: #69b3fe;
-																																																																																																																																																																																																																																																															  border: 1px #69b3fe solid; */
+																																																																																																																																																																																																																																																																															  border: 1px #69b3fe solid; */
 		background-color: #fff;
 		width: 20px;
 		padding: 0;
@@ -1870,8 +1886,8 @@
 	p {
 		font-size: 0.7em;
 		/* text-overflow: ellipsis;
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																		  white-space: nowrap;
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																		  overflow: hidden; */
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																		  white-space: nowrap;
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																		  overflow: hidden; */
 	}
 
 	.leaderTeam1 h4 {
