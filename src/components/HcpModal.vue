@@ -186,7 +186,7 @@
 				el.innerHTML = intialsArray[0] + "." + intialsArray[1];
 			},
 			negativeToPostive(el) {
-				let number = parseInt(el.innerHTML);
+				let number = parseFloat(el.innerHTML);
 				if (number > 0) {
 					return;
 				}
@@ -271,6 +271,7 @@
 		background-color: #195a3a !important;
 		border-radius: 50px !important;
 		box-shadow: 0 !important;
+		border: 0 !important;
 	}
 
 	.btn.btn-primary.active,

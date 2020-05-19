@@ -45,17 +45,69 @@
 
 						<!-- LÄMNADE HÄR FÖR ATT ENKELT KUNNA DUBBELKOLLA ATT SLAG PER SPELARE STÄMMER-->
 
-						<!--  <ul v-for="hole in course" :key="hole.index">
-          <li>{{ hole.hole }} : {{ hole.slag }}</li>
+						<!--  	<ul v-for="hole in course" :key="hole.index">
+          							<li>{{ hole.hole }} : {{ hole.slag }}</li>
 						</ul>-->
 
-						<app-tie-break-modal v-if="setTieBreak"></app-tie-break-modal>
+						<!-- AVSLUTA MATCH OCH SÄRSPEL -->
+						<app-tie-break-modal v-if="setTieBreak && !gameClosed"></app-tie-break-modal>
 
-						<button
-							class="btn btn-info"
-							@click="winnerDeclared = !winnerDeclared"
-						>Declare winner? ( {{winnerDeclared}})</button>
-						<button hidden @click="sendWinner" class="btn btn-info">SEND WINNER</button>
+						<b-row align-v="center" align-h="center">
+							<button
+								@click="sendTiebreakWinner(homeTeamId)"
+								v-if="setTieBreak && !gameClosed"
+								class="btn btn-danger disable-dbl-tap-zoom"
+							>Skicka in särspels-vinnare: {{this.players[0].name}} och {{this.players[1].name}}</button>
+
+							<button
+								@click="sendTiebreakWinner(awayTeamId)"
+								v-if="setTieBreak && !gameClosed"
+								class="btn btn-danger disable-dbl-tap-zoom"
+							>Skicka in särspels-vinnare:{{this.players[2].name}} och {{this.players[3].name}}</button>
+
+							<!-- TIE_BREAK: Avslutad ej stängd -->
+							<b-col cols="10" v-if="winnerSent && !gameClosed" class="winnerJumbotron">
+								<p>
+									Resultat inskickat (
+									<i class="material-icons pb-1 pr-1">emoji_events</i>
+									{{winningTeam}})
+									<i class="material-icons pb-1 pr-1">send</i>
+								</p>
+								<p>Match ej avslutad</p>
+							</b-col>
+
+							<!-- TIE_BREAK: Avslutad och stängd -->
+							<b-col cols="10" v-if="winnerSent && gameClosed" class="winnerJumbotron">
+								<h4>
+									Resultat inskickat
+									<i class="material-icons pb-1 pr-1">send</i>
+								</h4>
+								<h4>
+									Match avslutad
+									<i class="material-icons pb-1 pr-1">done</i>
+								</h4>
+								<h1>
+									Vinnare: {{winningTeam}}
+									<i class="material-icons pb-1 pr-1">emoji_events</i>
+								</h1>
+							</b-col>
+
+							<button
+								v-if="setTieBreak && !gameClosed"
+								@click="sendWinner('Finished'), gameClosed = true"
+								class="btn btn-danger disable-dbl-tap-zoom"
+							>Avsluta matchen</button>
+
+							<!--  STÄNA MATCH EJ SÄRSPEL  -->
+
+							<button
+								v-if="winnerDeclared && !gameClosed"
+								@click="winnerDeclared = true,  sendWinner('Finished'), gameClosed = true"
+								class="btn btn-danger disable-dbl-tap-zoom"
+							>Avsluta matchen</button>
+
+							<!-- SÄRSPEL SLUT -->
+						</b-row>
 
 						<!-- TEAM 1 CONTAINER -->
 						<div
@@ -121,6 +173,12 @@
 							</div>
 						</div>
 
+						<button
+							hidden
+							@click="winnerDeclared = !winnerDeclared"
+							class="btn btn-info"
+						>Declare winner? ( {{winnerDeclared}})</button>
+
 						<!-- TEAM 2 CONTAINER -->
 						<div
 							class="team2ScoreCard"
@@ -184,6 +242,7 @@
 
 						<!-- SCORING MODAL -->
 						<app-scoring
+							v-if="!gameClosed"
 							:players="players"
 							:activehole="activeHole"
 							:active="active"
@@ -658,6 +717,12 @@
 				lowestSingleScoreOnHole: [],
 				tieBreak: false,
 				gameID: "",
+				homeTeamId: "",
+				awayTeamId: "",
+				winnerSent: false, 
+				winningTeam: "",
+				gameClosed: false, 
+
 
 				//Fiktiv data nedan
 				course: [
@@ -689,7 +754,7 @@
 		computed: {
 			setTieBreak() {
 				let tieBreak = false;
-				if (this.tie === true && this.holesLeft === 1) {
+				if (this.tie === true && this.holesLeft <= 1) {
 					tieBreak = true;
 				}
 				return tieBreak;
@@ -1020,7 +1085,7 @@
 							{ hole: 17, strokes: 0, slag: 0 },
 							{ hole: 18, strokes: 0, slag: 0 }
 						],
-						hcp: -5,
+						hcp: 13.5,
 						tee: "svart"
 					},
 					{
@@ -1045,8 +1110,8 @@
 							{ hole: 17, strokes: 0, slag: 0 },
 							{ hole: 18, strokes: 0, slag: 0 }
 						],
-						hcp: 0,
-						tee: "vit"
+						hcp: 6.7,
+						tee: "vit TEXT"
 					},
 					{
 						name: "Anders Tegnell",
@@ -1070,7 +1135,7 @@
 							{ hole: 17, strokes: 0, slag: 0 },
 							{ hole: 18, strokes: 0, slag: 0 }
 						],
-						hcp: 5,
+						hcp: 1.8,
 						tee: "Gul"
 					},
 					{
@@ -1095,7 +1160,7 @@
 							{ hole: 17, strokes: 0, slag: 0 },
 							{ hole: 18, strokes: 0, slag: 0 }
 						],
-						hcp: 10,
+						hcp: 21.1,
 						tee: "Blå"
 					}
 				];
@@ -1122,12 +1187,45 @@
 		},
 		watch: {
 			winnerDeclared: {
-				handler: function(val, oldVal) {
-					this.sendWinner(); // call it in the context of your component object
+				handler: function() {
+					this.sendWinner(); 
 				}
 			}
 		},
 		methods: {
+			async sendTiebreakWinner(winningTeamId) {
+
+				const data = {
+					_id: this.gameID,
+					holes: this.course,
+					status: "Finished",
+					result: "",
+					winner: winningTeamId
+				};
+
+				if (winningTeamId === this.homeTeamId) {
+					//hometeam winner
+					data.result = `${this.matchScore * -1}&${this.holesLeft}`
+					this.winningTeam = `${this.players[0].name} och  ${this.players[1].name}`
+				} else {
+					//awayteam winner
+					data.result = `${this.matchScore}&${this.holesLeft}`
+					this.winningTeam = `${this.players[2].name} och  ${this.players[3].name}`
+				}
+
+				const url = "https://admin.matchplay.se/methods/updateGame";
+			
+				try {
+					let response = await axios.post(url, data);
+					console.log("tiebreak data: ", data);
+				} catch (e) {
+					error => console.log(error);
+				}
+				this.winnerSent = true
+				
+
+			},
+
 			async getGameData() {
 				const url = "https://admin.matchplay.se/methods/getGameData";
 				const gameID = {
@@ -1136,30 +1234,65 @@
 
 				try {
 					let response = await axios.post(url, gameID);
+					console.log(response.data)
+					
 					this.course = response.data.holes;
+					this.homeTeamId = response.data.hometeam
+					this.awayTeamId = response.data.awayteam
+
+					
+
 				} catch (e) {
 					error => console.log(error);
 				}
 			},
 
-			async sendWinner() {
+			async sendWinner(winnerStatus) {
+
 				if (!this.winnerDeclared) {
 					return;
+				}
+								
+				const data = {
+					_id: this.gameID,
+					holes: this.course,
+					status: "Pending",
+					result: "",
+					winner: "",
+				};
+
+
+				if (this.leader) {
+					//hometeam winner
+					data.result = `${this.matchScore}&${this.holesLeft}`
+					data.winner = this.homeTeamId
+					this.winningTeam = `${this.players[0].name} och  ${this.players[1].name}`
+
+				} else {
+					//awayteam winner
+					data.result = `${this.matchScore *-1}&${this.holesLeft}`
+					data.winner = this.awayTeamId
+					this.winningTeam = `${this.players[2].name} och  ${this.players[3].name}`
+
+				}
+					
+				//om matchen är avslutad: 
+				if(winnerStatus) {
+					data.status = winnerStatus
+					this.winnerSent = true
 				}
 
 				const url = "https://admin.matchplay.se/methods/updateGame";
 
-				const data = {
-					_id: this.gameID,
-					holes: this.course
-				};
-
+			
 				try {
 					let response = await axios.post(url, data);
-					console.log("winner posted ", response);
+					console.log("winner data ", data);
 				} catch (e) {
 					error => console.log(error);
 				}
+
+
 			},
 			valueOfLowestScoreOnHole(holeIndex) {
 				//Om delat hål --> return
@@ -1250,136 +1383,30 @@
 					this.displayToast = true;
 				}
 			},
-			async loadData() {
-				try {
-					/*
-																																																																																																																																let response = await axios.get("http://localhost:3000/scorecard");
-																																																																																																																																const data = response.data[response.data.length - 1];
-																																																																																																																																this.players = data.gameData;
-																																																																																																																															 */
-					this.players = [
-						{
-							name: "Br W",
-							holes: [
-								{ hole: 1, strokes: 0, slag: 0 },
-								{ hole: 2, strokes: 0, slag: 0 },
-								{ hole: 3, strokes: 0, slag: 0 },
-								{ hole: 4, strokes: 0, slag: 0 },
-								{ hole: 5, strokes: 0, slag: 0 },
-								{ hole: 6, strokes: 0, slag: 0 },
-								{ hole: 7, strokes: 0, slag: 0 },
-								{ hole: 8, strokes: 0, slag: 0 },
-								{ hole: 9, strokes: 0, slag: 0 },
-								{ hole: 10, strokes: 0, slag: 0 },
-								{ hole: 11, strokes: 0, slag: 0 },
-								{ hole: 12, strokes: 0, slag: 0 },
-								{ hole: 13, strokes: 0, slag: 0 },
-								{ hole: 14, strokes: 0, slag: 0 },
-								{ hole: 15, strokes: 0, slag: 0 },
-								{ hole: 16, strokes: 0, slag: 0 },
-								{ hole: 17, strokes: 0, slag: 0 },
-								{ hole: 18, strokes: 0, slag: 0 }
-							],
-							hcp: -5
-						},
-						{
-							name: "Donald Trump",
-							holes: [
-								{ hole: 1, strokes: 0, slag: 0 },
-								{ hole: 2, strokes: 0, slag: 0 },
-								{ hole: 3, strokes: 0, slag: 0 },
-								{ hole: 4, strokes: 0, slag: 0 },
-								{ hole: 5, strokes: 0, slag: 0 },
-								{ hole: 6, strokes: 0, slag: 0 },
-								{ hole: 7, strokes: 0, slag: 0 },
-								{ hole: 8, strokes: 0, slag: 0 },
-								{ hole: 9, strokes: 0, slag: 0 },
-								{ hole: 10, strokes: 0, slag: 0 },
-								{ hole: 11, strokes: 0, slag: 0 },
-								{ hole: 12, strokes: 0, slag: 0 },
-								{ hole: 13, strokes: 0, slag: 0 },
-								{ hole: 14, strokes: 0, slag: 0 },
-								{ hole: 15, strokes: 0, slag: 0 },
-								{ hole: 16, strokes: 0, slag: 0 },
-								{ hole: 17, strokes: 0, slag: 0 },
-								{ hole: 18, strokes: 0, slag: 0 }
-							],
-							hcp: 0
-						},
-						{
-							name: "Anders Tegnell",
-							holes: [
-								{ hole: 1, strokes: 0, slag: 0 },
-								{ hole: 2, strokes: 0, slag: 0 },
-								{ hole: 3, strokes: 0, slag: 0 },
-								{ hole: 4, strokes: 0, slag: 0 },
-								{ hole: 5, strokes: 0, slag: 0 },
-								{ hole: 6, strokes: 0, slag: 0 },
-								{ hole: 7, strokes: 0, slag: 0 },
-								{ hole: 8, strokes: 0, slag: 0 },
-								{ hole: 9, strokes: 0, slag: 0 },
-								{ hole: 10, strokes: 0, slag: 0 },
-								{ hole: 11, strokes: 0, slag: 0 },
-								{ hole: 12, strokes: 0, slag: 0 },
-								{ hole: 13, strokes: 0, slag: 0 },
-								{ hole: 14, strokes: 0, slag: 0 },
-								{ hole: 15, strokes: 0, slag: 0 },
-								{ hole: 16, strokes: 0, slag: 0 },
-								{ hole: 17, strokes: 0, slag: 0 },
-								{ hole: 18, strokes: 0, slag: 0 }
-							],
-							hcp: 5
-						},
-						{
-							name: "Joan Jett",
-							holes: [
-								{ hole: 1, strokes: 0, slag: 0 },
-								{ hole: 2, strokes: 0, slag: 0 },
-								{ hole: 3, strokes: 0, slag: 0 },
-								{ hole: 4, strokes: 0, slag: 0 },
-								{ hole: 5, strokes: 0, slag: 0 },
-								{ hole: 6, strokes: 0, slag: 0 },
-								{ hole: 7, strokes: 0, slag: 0 },
-								{ hole: 8, strokes: 0, slag: 0 },
-								{ hole: 9, strokes: 0, slag: 0 },
-								{ hole: 10, strokes: 0, slag: 0 },
-								{ hole: 11, strokes: 0, slag: 0 },
-								{ hole: 12, strokes: 0, slag: 0 },
-								{ hole: 13, strokes: 0, slag: 0 },
-								{ hole: 14, strokes: 0, slag: 0 },
-								{ hole: 15, strokes: 0, slag: 0 },
-								{ hole: 16, strokes: 0, slag: 0 },
-								{ hole: 17, strokes: 0, slag: 0 },
-								{ hole: 18, strokes: 0, slag: 0 }
-							],
-							hcp: 10
-						}
-					];
-				} catch (e) {
-					console.log(e);
-				}
-			},
+	
 			async saveData() {
+				
 				const data = {
-					gameData: this.players
+					_id: this.gameID,
+					//players: this.players,
+					status: "Pending"
 				};
 
-				// try {
-				// 	let response = await axios.post(
-				// 		"http://localhost:3000/scorecard",
-				// 		data
-				// 	);
-				// 	console.log("saved data", response);
-				// } catch (e) {
-				// 	error => console.log(error);
-				// }
+				const url = "https://admin.matchplay.se/methods/updateGame";
+			
+				try {
+					let response = await axios.post(url, data);
+				} catch (e) {
+					error => console.log(error);
+				}
 			},
 
 			async schp() {
 				const { slopeHandicapList, newHcpPrel } = schp(
 					this.courseRating,
 					this.slopeRating,
-					this.banansPar
+					this.banansPar,
+					this.players
 				);
 
 				//detta värde bröts ut för att kunna skickas vidare till
@@ -1463,6 +1490,26 @@
 	};
 </script>
 <style scoped>
+	/*  Särspel och vinnargrejor */
+	.winnerJumbotron {
+		border-radius: 10px;
+		background-color: #195a3a;
+		padding: 10px;
+		margin-bottom: 10px;
+	}
+	.winnerJumbotron h4 {
+		color: white;
+	}
+	.winnerJumbotron p {
+		color: white;
+	}
+
+	.btn-danger {
+		margin: 10px !important;
+	}
+
+	/* ------------------- */
+
 	.container {
 		/* fix for no padding on scorecard phone */
 		padding-top: 0px;
@@ -1524,11 +1571,11 @@
 
 	/* leader board */
 	/* 
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																		#overview {
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																			/*  margin-left: 10px;
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																		  margin-right: 10px; 
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																		}
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																	*/
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																													#overview {
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																														/*  margin-left: 10px;
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																													  margin-right: 10px; 
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																													}
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																												*/
 	.initialsTeam1 {
 		color: #fd9b37;
 	}
@@ -1611,8 +1658,8 @@
 	}
 
 	/* 	.showLowestScore {
-																																																																																																																																																																																																																																																													text-decoration: underline;
-																																																																																																																																																																																																																																																												} */
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																								text-decoration: underline;
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																							} */
 
 	/* HEADER ROW */
 	.holeRow {
@@ -1810,12 +1857,12 @@
 		border-color: #195a3a !important;
 	}
 	/*	#nextHole {
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																	
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																		  font-size: 20px;  
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																		  margin-bottom: 10px;
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																		  margin-top: 12px;
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																		   width: 340px; 
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																	}*/
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																													  font-size: 20px;  
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																													  margin-bottom: 10px;
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																													  margin-top: 12px;
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																													   width: 340px; 
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																												}*/
 	/* LEADER SECTION  */
 	.leaderSection {
 		/* border-top: 1px solid #333; */
@@ -1852,7 +1899,7 @@
 
 	.leaderTeam1 {
 		/*  background-color: #fd9b37;
-																																																																																																																																																																																																																																																															  border: 1px #fd9b37 solid; */
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																										  border: 1px #fd9b37 solid; */
 		background-color: #fff;
 		width: 20px;
 		padding: 0;
@@ -1860,7 +1907,7 @@
 	}
 	.leaderTeam2 {
 		/* background-color: #69b3fe;
-																																																																																																																																																																																																																																																															  border: 1px #69b3fe solid; */
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																										  border: 1px #69b3fe solid; */
 		background-color: #fff;
 		width: 20px;
 		padding: 0;
@@ -1870,8 +1917,8 @@
 	p {
 		font-size: 0.7em;
 		/* text-overflow: ellipsis;
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																		  white-space: nowrap;
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																		  overflow: hidden; */
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																													  white-space: nowrap;
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																													  overflow: hidden; */
 	}
 
 	.leaderTeam1 h4 {

@@ -8,6 +8,7 @@
 					<p>Spela hål 1 igen med samma regler som tidigare.</p>
 					<p>Om ingen vinnare kan utses, spela hål 18 igen.</p>
 					<p>Om ingen vinnare kan utses efter hål 1 och 18, vinner det lag med högst HCP</p>
+					<p>Slutligen glöm inte att skicka in vinnaren med en av knapparna på scorekortet</p>
 					<p>
 						Lycka till!
 						<span class="material-icons">thumb_up</span>
