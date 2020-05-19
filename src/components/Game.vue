@@ -51,7 +51,7 @@
                 <span v-if="!hometeamcoursename">Hemmaklubb saknas</span><br />
               </b-col>
 
-              <b-col class="col-12 col-md-6 text-right mt-3" :class="{ 'winner': winner && awayteam === winner, 'loser': winner && hometeam === winner}">
+              <b-col class="col-12 col-md-6 text-right mt-3 mt-md-0" :class="{ 'winner': winner && awayteam === winner, 'loser': winner && hometeam === winner}">
                 <strong>BORTALAG</strong><br />
                 <span>{{awayteamleadername}}</span> &
                 <span>{{awayteammembername}}</span
@@ -111,7 +111,7 @@
                             class="mt-3 mb-0 small"
                             variant="info"
                           >
-                            Hemmalaget (ni) bokar bana och speltid i samråd med bortalaget. Se kontaktuppgifter under kontaktfliken. Boka först tid på banan och skriv sedan in bana, datum och tid för matchen!
+                            Hemmalaget (ni) bokar bana och speltid i samråd med bortalaget. Se kontaktuppgifter under kontaktfliken. Boka först tid på banan och välj sedan bana nedan, datum och tid för matchen och meddela era motståndare!
                           </b-alert>
 
                     <div v-if="!isteamleader && status!='Finished'">
@@ -146,6 +146,13 @@
                             </b-form-group>
                           </b-col>
                           <b-col class="col-6 text-left">
+                             <b-form-group class="">
+                                <label for="gametime">Tid</label>
+                                 <b-form-input v-model="gametime" placeholder="Tex 08:10"></b-form-input>
+                             </b-form-group>
+                          </b-col>
+                         
+                          <b-col hidden class="col-6 text-left">
                             <b-form-group class="">
                               <label for="gametime">Tid</label>
                               <vue-timepicker
@@ -192,13 +199,20 @@
                               </b-form-input>
                             </b-form-group>
 
-                            <b-button
+                            <b-button v-if="!isSaving"
                               @click="saveResult()"
                               variant="warning"
                               class="mr-1 mb-3 btn-sm"
                               ><i class="material-icons mr-2">save</i>Spara tid
                               & plats</b-button
                             >
+                             <b-button v-if="isSaving" variant="success" class="mr-1 mb-3 btn-sm"
+                          ><b-spinner
+                            small
+                            type="grow"
+                            class="mr-2"
+                          ></b-spinner
+                          >Sparar...</b-button>
                             <a
                               v-if="awayteamleadermobile"
                               :href="'sms://'+awayteamleadermobile + '?&body=Dags att spela golf i Matchplay! Vi möts på ' + query + ' ' + getgamedate() + ' kl ' + gametime + '. MVH ' + hometeamleadername"
@@ -246,7 +260,7 @@
                             class="mt-1 mb-0 small"
                             variant="warning"
                           >
-                           Klicka på knappen <strong>STARTA MATCH</strong> för att välja klubb/slinga/tee för spelarna när det dags att spela golf!
+                           Klicka på knappen <strong>STARTA MATCH</strong> nedanför för att välja klubb/slinga/tee för spelarna när det är dags att spela golf!
                           </b-alert>
 
                           <b-button v-if="isteamleader"
@@ -296,8 +310,8 @@
                             >&nbsp;</span
                           ></a
                         >
-                        <br />
-                        <p class="mt-3 d-none d-sm-block">
+                       
+                        <p hidden class="mt-3 d-none d-sm-block hidden">
                           {{hometeamleadermobile}} |
                           <a
                             :href="'mailto:' + hometeamleaderemail"
@@ -332,8 +346,8 @@
                             >&nbsp;</span
                           ></a
                         >
-                        <br />
-                        <p class="mt-3 d-none d-sm-block">
+                       
+                        <p hidden class="mt-3 d-none d-sm-block hidden">
                           {{hometeammembermobile}} |
                           <a
                             :href="'mailto:' + hometeammemberemail"
@@ -370,8 +384,8 @@
                             >&nbsp;</span
                           ></a
                         >
-                        <br />
-                        <p class="mt-3 d-none d-sm-block">
+                       
+                        <p hidden class="mt-3 d-none d-sm-block hidden">
                           {{awayteamleadermobile}} |
                           <a
                             :href="'mailto:' + awayteamleaderemail"
@@ -408,8 +422,8 @@
                             >&nbsp;</span
                           ></a
                         >
-                        <br />
-                        <p class="mt-3 d-none d-sm-block">
+                     
+                        <p hidden class="mt-3 d-none d-sm-block hidden">
                           {{awayteammembermobile}} |
                           <a
                             :href="'mailto:' + awayteammemberemail"
@@ -1145,11 +1159,12 @@
       },
       saveResult() {
 
-        if (this.lastsaved !== moment().format('HH:mm')) {
+        //if (this.lastsaved !== moment().format('HH:mm')) {
           this.isSaving = true;
-        }
+        //}
 
-        let game_id = this.$route.query.id;
+        let gameid = this.$route.query.id;
+       // console.log(gameid,)
         if (gameid === '') return;
 
 
@@ -1161,9 +1176,9 @@
                             "_id": gameid,
                             "gamedate": moment(this.gamedate).format('YYYY-MM-DD'),
                             "gametime": this.gametime,
-                            "club": this.clubid,
-                            "winner": this.winner,
-                            "status": this.status
+                            "club": this.clubid
+                            //"winner": this.winner,
+                            //"status": this.status
                         })
                         .then(response => {
                             if (response.data.hasOwnProperty('error')) {
@@ -1221,6 +1236,21 @@
   font-family: "Eurostile LT Std";
   font-size: 16px;
   line-height: 20px;
+}
+
+.time-picker input {
+  height: 38px;
+    line-height: 1.25;
+    border-color: #cbd5e0;
+    border-radius:4px !important;
+}
+
+.vue__time-picker input.display-time {
+    border: 1px solid #000;
+    width: 10em;
+    height: 2.2em;
+    padding: .3em .5em;
+    font-size: 1em;
 }
 
 .text-white a {
