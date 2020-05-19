@@ -42,7 +42,7 @@
         <b-col md="8">
           <b-container class="mt-3 mt-md-4">
             <b-row class="justify-content-center" align-h="center">
-              <b-col class="col-12 col-md-6">
+              <b-col class="col-12 col-md-6" :class="{ 'winner': winner && hometeam === winner, 'loser': winner && awayteam === winner}">
                 <strong>HEMMALAG</strong><br />
                 <span>{{hometeamleadername}}</span> &
                 <span>{{hometeammembername}}</span
@@ -51,7 +51,7 @@
                 <span v-if="!hometeamcoursename">Hemmaklubb saknas</span><br />
               </b-col>
 
-              <b-col class="col-12 col-md-6 text-right mt-3">
+              <b-col class="col-12 col-md-6 text-right mt-3 mt-md-0" :class="{ 'winner': winner && awayteam === winner, 'loser': winner && hometeam === winner}">
                 <strong>BORTALAG</strong><br />
                 <span>{{awayteamleadername}}</span> &
                 <span>{{awayteammembername}}</span
@@ -105,11 +105,32 @@
                       <span class="my-nav-item">Spelplats</span>
                     </template>
 
+                      <b-alert
+                            v-if="isteamleader && status!='Finished'"
+                            show
+                            class="mt-3 mb-0 small"
+                            variant="info"
+                          >
+                            Hemmalaget (ni) bokar bana och speltid i samråd med bortalaget. Se kontaktuppgifter under kontaktfliken. Boka först tid på banan och välj sedan bana nedan, datum och tid för matchen och meddela era motståndare!
+                          </b-alert>
+
                     <div v-if="!isteamleader && status!='Finished'">
                       <div v-if="gamedate">{{ getgamedate()}} {{gametime}}</div>
                       <div v-else>Speltid är inte bestämd än</div>
                       <div v-if="query">@ {{query}}</div>
-                      <div v-else>@ (spelplats saknas)</div>
+                      <div v-else>@ (Golfbana saknas)</div>
+
+
+
+                        <b-alert
+                            v-if="status!='Finished'"
+                            show
+                            class="mt-3 mb-0 small"
+                            variant="info"
+                          >
+                            Hemmalaget bokar bana och speltid i samråd med er. Se kontaktuppgifter under kontaktfliken.
+                          </b-alert>
+
                     </div>
 
                     <div v-if="isteamleader">
@@ -125,6 +146,13 @@
                             </b-form-group>
                           </b-col>
                           <b-col class="col-6 text-left">
+                             <b-form-group class="">
+                                <label for="gametime">Tid</label>
+                                 <b-form-input v-model="gametime" placeholder="Tex 08:10"></b-form-input>
+                             </b-form-group>
+                          </b-col>
+                         
+                          <b-col hidden class="col-6 text-left">
                             <b-form-group class="">
                               <label for="gametime">Tid</label>
                               <vue-timepicker
@@ -171,13 +199,20 @@
                               </b-form-input>
                             </b-form-group>
 
-                            <b-button
+                            <b-button v-if="!isSaving"
                               @click="saveResult()"
                               variant="warning"
                               class="mr-1 mb-3 btn-sm"
                               ><i class="material-icons mr-2">save</i>Spara tid
                               & plats</b-button
                             >
+                             <b-button v-if="isSaving" variant="success" class="mr-1 mb-3 btn-sm"
+                          ><b-spinner
+                            small
+                            type="grow"
+                            class="mr-2"
+                          ></b-spinner
+                          >Sparar...</b-button>
                             <a
                               v-if="awayteamleadermobile"
                               :href="'sms://'+awayteamleadermobile + '?&body=Dags att spela golf i Matchplay! Vi möts på ' + query + ' ' + getgamedate() + ' kl ' + gametime + '. MVH ' + hometeamleadername"
@@ -201,27 +236,38 @@
                     <b-container class="mt-3">
                       <b-row class="justify-content-center" align-h="center">
                         <b-col class="col-12 text-left">
-                          <b-alert
-                            v-if="isteammember && status!='Finished'"
-                            show
-                            class="mt-3 mb-0 small"
-                            variant="info"
-                          >
-                            Endast hemmalaget
-                            <strong>{{hometeamname}}</strong> kan rapportera
-                            resultatet för denna match.
-                          </b-alert>
-
+                         
                           <b-alert show class="mt-1 small" variant="info">
-                            Använd vårt system för att föra score i matchen!
+                            Hemmalaget ansvarar för att föra score för matchen via vårt system!
                             Rätt hcp-regler används och vi hämtar aktuella
                             hcp/slope/tee från Svenska Golfförbundet.
                           </b-alert>
 
-                          <b-button
+                           <b-alert
+                            v-if="isteammember && status!='Finished'"
+                            show
+                            class="mt-1 mb-0 small"
+                            variant="warning"
+                          >
+                            Endast hemmalaget
+                            kan rapportera
+                            resultatet för denna match.
+                          </b-alert>
+
+                           <b-alert
+                            v-if="isteamleader && status!='Finished'"
+                            show
+                            class="mt-1 mb-0 small"
+                            variant="warning"
+                          >
+                           Klicka på knappen <strong>STARTA MATCH</strong> nedanför för att välja klubb/slinga/tee för spelarna när det är dags att spela golf!
+                          </b-alert>
+
+                          <b-button v-if="isteamleader"
+                          :disabled="status === 'Finished'"
                             @click="startGame()"
                             variant="success"
-                            class="mr-1"
+                            class="mr-1 mt-3"
                             ><i class="material-icons mr-2"
                               >play_circle_filled</i
                             >Starta match</b-button
@@ -234,6 +280,165 @@
                     <template v-slot:title>
                       <span class="my-nav-item">Kontakt</span>
                     </template>
+
+                <b-container class="mt-4 mt-md-5">
+                    <b-row class="justify-content-center" align-h="center">
+                      <!-- home team leader -->
+                      <b-col v-if="!isteamleader" class="col-12 text-left">
+                        <span class="contact"
+                          >{{hometeamleadername}} ({{hometeamleadergolfid}})</span
+                        >
+                       
+                        <a v-if="hometeamleadermobile" :href="'tel:'+hometeamleadermobile"
+                          ><span
+                            class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"
+                            ><i class="material-icons mr-1">phone</i
+                            >&nbsp;</span
+                          ></a
+                        >
+                        <a v-if="hometeamleadermobile" :href="'sms://'+hometeamleadermobile"
+                          ><span
+                            class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"
+                            ><i class="material-icons mr-1">textsms</i
+                            >&nbsp;</span
+                          ></a
+                        >
+                        <a v-if="hometeamleaderemail" :href="'mailto:' + hometeamleaderemail"
+                          ><span
+                            class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"
+                            ><i class="material-icons mr-1">alternate_email</i
+                            >&nbsp;</span
+                          ></a
+                        >
+                       
+                        <p hidden class="mt-3 d-none d-sm-block hidden">
+                          {{hometeamleadermobile}} |
+                          <a
+                            :href="'mailto:' + hometeamleaderemail"
+                            >{{hometeamleaderemail}}</a
+                          >
+                        </p>
+                      </b-col>
+                       <!-- home team member -->
+                       <b-col v-if="!isteamleader" class="col-12 text-left mt-3">
+                        <span class="contact"
+                          >{{hometeammembername}} ({{hometeammembergolfid}})</span
+                        >
+                       
+                        <a v-if="hometeammembermobile" :href="'tel:'+hometeammembermobile"
+                          ><span
+                            class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"
+                            ><i class="material-icons mr-1">phone</i
+                            >&nbsp;</span
+                          ></a
+                        >
+                        <a v-if="hometeammembermobile" :href="'sms://'+hometeammembermobile"
+                          ><span
+                            class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"
+                            ><i class="material-icons mr-1">textsms</i
+                            >&nbsp;</span
+                          ></a
+                        >
+                        <a v-if="hometeammemberemail" :href="'mailto:' + hometeammemberemail"
+                          ><span
+                            class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"
+                            ><i class="material-icons mr-1">alternate_email</i
+                            >&nbsp;</span
+                          ></a
+                        >
+                       
+                        <p hidden class="mt-3 d-none d-sm-block hidden">
+                          {{hometeammembermobile}} |
+                          <a
+                            :href="'mailto:' + hometeammemberemail"
+                            >{{hometeammemberemail}}</a
+                          >
+                        </p>
+                      </b-col>
+
+                      <!-- away team member -->
+
+                      <b-col v-if="!isteammember" class="col-12 text-right">
+                        <span class="contact"
+                          >{{awayteamleadername}} ({{awayteamleadergolfid}})</span
+                        >
+                       
+                        <a v-if="awayteamleadermobile" :href="'tel:'+awayteamleadermobile"
+                          ><span
+                            class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"
+                            ><i class="material-icons mr-1">phone</i
+                            >&nbsp;</span
+                          ></a
+                        >
+                        <a v-if="awayteamleadermobile" :href="'sms://'+awayteamleadermobile"
+                          ><span
+                            class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"
+                            ><i class="material-icons mr-1">textsms</i
+                            >&nbsp;</span
+                          ></a
+                        >
+                        <a v-if="awayteamleaderemail" :href="'mailto:' + awayteamleaderemail"
+                          ><span
+                            class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"
+                            ><i class="material-icons mr-1">alternate_email</i
+                            >&nbsp;</span
+                          ></a
+                        >
+                       
+                        <p hidden class="mt-3 d-none d-sm-block hidden">
+                          {{awayteamleadermobile}} |
+                          <a
+                            :href="'mailto:' + awayteamleaderemail"
+                            >{{awayteamleaderemail}}</a
+                          >
+                        </p>
+                      </b-col>
+
+ <!-- away team member -->
+
+                      <b-col v-if="!isteammember" class="col-12 text-right mt-3">
+                        <span class="contact"
+                          >{{awayteammembername}} ({{awayteammembergolfid}})</span
+                        >
+                       
+                        <a v-if="awayteammembermobile" :href="'tel:'+awayteammembermobile"
+                          ><span
+                            class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"
+                            ><i class="material-icons mr-1">phone</i
+                            >&nbsp;</span
+                          ></a
+                        >
+                        <a v-if="awayteammembermobile" :href="'sms://'+awayteammembermobile"
+                          ><span
+                            class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"
+                            ><i class="material-icons mr-1">textsms</i
+                            >&nbsp;</span
+                          ></a
+                        >
+                        <a v-if="awayteammemberemail" :href="'mailto:' + awayteammemberemail"
+                          ><span
+                            class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"
+                            ><i class="material-icons mr-1">alternate_email</i
+                            >&nbsp;</span
+                          ></a
+                        >
+                     
+                        <p hidden class="mt-3 d-none d-sm-block hidden">
+                          {{awayteammembermobile}} |
+                          <a
+                            :href="'mailto:' + awayteammemberemail"
+                            >{{awayteammemberemail}}</a
+                          >
+                        </p>
+                      </b-col>
+
+
+
+                    </b-row>
+                  </b-container>
+                    
+
+
                   </b-tab>
                 </b-tabs>
 
@@ -310,7 +515,7 @@
             </b-row>
           </b-container>
 
-          <b-container class="mt-1 mt-md-2">
+          <b-container hidden class="mt-1 mt-md-2">
             <b-row class="justify-content-center" align-h="center">
               <b-col class="col-12 text-center p-0 m-0">
                 <b-button
@@ -325,7 +530,7 @@
                   >Se kontaktuppgifter</b-button
                 >
 
-                <div v-if="showcontacts && (isteamleader || isteammember)">
+                <div hidden v-if="showcontacts && (isteamleader || isteammember)">
                   <b-container class="mt-4 mt-md-5">
                     <b-row class="justify-content-center" align-h="center">
                       <b-col v-if="!isteamleader" class="col-12 text-left">
@@ -416,7 +621,7 @@
           </b-container>
 
           <b-container>
-            <b-row class="justify-content-center mt-4 mt-md-5" align-h="center">
+            <b-row class="justify-content-center mt-5 mt-md-5" align-h="center">
               <b-col class="col-6 text-center p-0 m-0">
                 <span class="label">Spelperiod</span>
                 <span class="team"
@@ -443,7 +648,7 @@
                 >
               </b-col>
 
-              <b-col class="col-6 text-center p-0 m-0">
+              <b-col hidden class="col-6 text-center p-0 m-0">
                 <a
                   :href="game_url"
                   target="_blank"
@@ -528,6 +733,10 @@
       hometeamcoursename: '',
       awayteamcoursename: '',
       hometeamleadername: '',
+      hometeamleadergolfid: '',
+      awayteamleadergolfid: '',
+      hometeammembergolfid: '',
+      awayteammembergolfid: '',
       hometeammembername: '',
       hometeamleadermobile: '',
       hometeamleaderemail: '',
@@ -605,6 +814,11 @@
                             this.hometeamleadername = response.data.hometeamleadername;
                             this.awayteamleadername = response.data.awayteamleadername;
 
+                            this.hometeamleadergolfid  = response.data.hometeamleadergolfid;
+                            this.hometeammembergolfid  = response.data.hometeammembergolfid;
+                            this.awayteamleadergolfid  = response.data.awayteamleadergolfid;
+                            this.awayteammembergolfid  = response.data.awayteammembergolfid;
+
                             this.hometeamcoursename = response.data.hometeamcoursename;
                             this.awayteamcoursename = response.data.awayteamcoursename;
 
@@ -632,10 +846,12 @@
                             //this.hometeamleaderid = response.data.hometeamleader;
                             this.hometeamleadermobile = response.data.hometeamleadermobile;
                             this.hometeamleaderemail = response.data.hometeamleaderemail;
+                            this.hometeammemberemail = response.data.hometeammemberemail;
                             this.awayteamleadername = response.data.awayteamleadername;
-                            //this.awayteamleaderid = response.data.awayteamleader;
+                            this.awayteammembername = response.data.awayteammembername;
                             this.awayteamleadermobile = response.data.awayteamleadermobile;
                             this.awayteamleaderemail = response.data.awayteamleaderemail;
+                            this.awayteammemberemail = response.data.awayteammemberemail;
 
                             //IS TEAM LEADER?
                             let userinfo = localStorage.getItem('userinfo');
@@ -943,11 +1159,12 @@
       },
       saveResult() {
 
-        if (this.lastsaved !== moment().format('HH:mm')) {
+        //if (this.lastsaved !== moment().format('HH:mm')) {
           this.isSaving = true;
-        }
+        //}
 
-        let game_id = this.$route.query.id;
+        let gameid = this.$route.query.id;
+       // console.log(gameid,)
         if (gameid === '') return;
 
 
@@ -959,9 +1176,9 @@
                             "_id": gameid,
                             "gamedate": moment(this.gamedate).format('YYYY-MM-DD'),
                             "gametime": this.gametime,
-                            "club": this.clubid,
-                            "winner": this.winner,
-                            "status": this.status
+                            "club": this.clubid
+                            //"winner": this.winner,
+                            //"status": this.status
                         })
                         .then(response => {
                             if (response.data.hasOwnProperty('error')) {
@@ -1021,6 +1238,21 @@
   line-height: 20px;
 }
 
+.time-picker input {
+  height: 38px;
+    line-height: 1.25;
+    border-color: #cbd5e0;
+    border-radius:4px !important;
+}
+
+.vue__time-picker input.display-time {
+    border: 1px solid #000;
+    width: 10em;
+    height: 2.2em;
+    padding: .3em .5em;
+    font-size: 1em;
+}
+
 .text-white a {
   color: #fff !important;
 }
@@ -1037,13 +1269,14 @@
   color: $success;
 }
 
-.result.loser {
+.result.loser, .loser{
   color: red;
+  text-decoration: line-through;
 }
 
 .team.winner,
 .foot.winner {
-  font-family: "Titillium Web Bold";
+
 }
 
 .team.loser,
@@ -1073,7 +1306,6 @@ span.team {
 
 span.contact {
   display: block;
-  font-family: "Titillium Web Bold";
 }
 
 span.contact,
@@ -1151,7 +1383,7 @@ p {
 }
 
 .my-nav-item {
-  font-size: 0.9em;
+  font-size: 0.85em;
 }
 
 @media only screen and (max-width: 330px) {
