@@ -48,7 +48,6 @@ const schp = (slopeRating, courseRating, banansPar, players) => {
     playerData[3].hcp = newHcp2;
   })();
 
-  console.log("hcp efter max 28:", playerData);
   //slope-hcp
   playerData.forEach((player) => {
     slopeHandicapList.push(
