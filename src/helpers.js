@@ -1,77 +1,56 @@
 const schp = (slopeRating, courseRating, banansPar, players) => {
-  // let testData = [
-  //   {
-  //     name: "player 1",
-  //     hcp: 36,
-  //     HCPSlope: 0,
-  //   },
-  //   {
-  //     name: "player 2",
-  //     hcp: 36,
-  //     HCPSlope: 0,
-  //   },
-  //   {
-  //     name: "player 3",
-  //     hcp: 14.9,
-  //     HCPSlope: 0,
-  //   },
-  //   {
-  //     name: "player 4",
-  //     hcp: 15.0,
-  //     HCPSlope: 0,
-  //   },
-  // ];
-
-  let testData = players;
+  let playerData = players;
   let slopeHandicapList = [];
 
   //FIXAR LAG hcp PÅ MAX 28
-  //SPELARE 1-2
-  if (testData[0].hcp + testData[1].hcp > 28) {
-    if (testData[0].hcp === testData[1].hcp) {
-      const difference = testData[0].hcp + testData[1].hcp - 28;
-      testData[0].hcp = testData[0].hcp - difference / 2;
-      testData[1].hcp = testData[1].hcp - difference / 2;
+  function max28perTeam(hcp1, hcp2) {
+    let newHcp1 = hcp1;
+    let newHcp2 = hcp2;
+
+    if (hcp1 + hcp2 < 28) {
+      return { newHcp1, newHcp2 };
+    }
+    if (hcp1 === hcp2) {
+      const difference = hcp1 + hcp2 - 28;
+      newHcp1 = hcp1 - difference / 2;
+      newHcp2 = hcp2 - difference / 2;
     }
 
-    const highestHCP = Math.max(testData[0].hcp, testData[1].hcp);
-    const substract = testData[0].hcp + testData[1].hcp - 28;
+    const highestHCP = Math.max(hcp1, hcp2);
+    const substract = hcp1 + hcp2 - 28;
 
-    if (testData[0].hcp === highestHCP && testData[0].hcp !== testData[1].hcp) {
-      testData[0].hcp = testData[0].hcp - substract;
+    if (hcp1 === highestHCP && hcp1 !== hcp2) {
+      newHcp1 = hcp1 - substract;
     }
 
-    if (testData[0].hcp === highestHCP && testData[0].hcp !== testData[1].hcp) {
-      testData[1].hcp = testData[1].hcp - substract;
+    if (hcp2 === highestHCP && hcp1 !== hcp2) {
+      newHcp2 = hcp2 - substract;
     }
+
+    return { newHcp1, newHcp2 };
   }
 
-  //SPELARE 3-4
-  if (testData[2].hcp + testData[3].hcp > 28) {
-    if (testData[2].hcp === testData[3].hcp) {
-      const difference = testData[2].hcp + testData[3].hcp - 28;
+  (function () {
+    let { newHcp1, newHcp2 } = max28perTeam(
+      playerData[0].hcp,
+      playerData[1].hcp
+    );
+    playerData[0].hcp = newHcp1;
+    playerData[1].hcp = newHcp2;
+  })();
 
-      testData[2].hcp = testData[2].hcp - difference / 2;
-      testData[3].hcp = testData[3].hcp - difference / 2;
-    }
+  (function () {
+    let { newHcp1, newHcp2 } = max28perTeam(
+      playerData[2].hcp,
+      playerData[3].hcp
+    );
+    playerData[2].hcp = newHcp1;
+    playerData[3].hcp = newHcp2;
+  })();
 
-    const highestHCP = Math.max(testData[2].hcp, testData[3].hcp);
-    const substract = testData[2].hcp + testData[3].hcp - 28;
-
-    if (testData[2].hcp === highestHCP && testData[2].hcp !== testData[3].hcp) {
-      testData[2].hcp = testData[2].hcp - substract;
-    }
-
-    if (testData[3].hcp === highestHCP && testData[2].hcp !== testData[3].hcp) {
-      testData[3].hcp = testData[3].hcp - substract;
-    }
-  }
-
-  console.log(testData);
-
-  //SLUT - FIXAR LAG HCP PÅ MAX 28
-
-  testData.forEach((player) => {
+  console.log("hcp efter max 28:", playerData);
+  //slope-hcp
+  playerData.forEach((player) => {
     slopeHandicapList.push(
       hcpSlope(player.hcp, slopeRating, courseRating, banansPar)
     );
@@ -100,8 +79,6 @@ const schp = (slopeRating, courseRating, banansPar, players) => {
 };
 
 const hcpSlope = (hcp, courseRating, slopeRating, banansPar) => {
-  // hcp > 28 ? (hcp = 28) : hcp;
-
   let hcpSlope = Math.round(
     hcp * (slopeRating / 113) + (courseRating - banansPar)
   );
