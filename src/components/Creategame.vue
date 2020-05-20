@@ -64,6 +64,7 @@
               <transition name="fade" v-if="form.course && loadingCourse == 2">
                 <b-form-group
                   id="input-group-3"
+                  v-if="slingaOptions.length > 0"
                   class="inputField"
                   label="Välj slinga"
                 >
@@ -73,6 +74,7 @@
                     v-on:change="teeAndSlope"
                   ></b-form-select>
                 </b-form-group>
+                <p v-else>Ingen 18-hålsbana hittad</p>
               </transition>
             </div>
 
@@ -212,6 +214,7 @@ export default {
         ],
         hcp: 1.2,
         shcp: null,
+        tee: "",
       },
       {
         name: "Player 2",
@@ -239,6 +242,7 @@ export default {
         ],
         hcp: 20,
         shcp: null,
+        tee: "",
       },
       {
         name: "Player 3",
@@ -266,6 +270,7 @@ export default {
         ],
         hcp: 11,
         shcp: null,
+        tee: "",
       },
       {
         name: "Player 4",
@@ -293,6 +298,7 @@ export default {
         ],
         hcp: 5,
         shcp: null,
+        tee: "",
       },
     ];
     try {
@@ -547,6 +553,8 @@ export default {
       let player = this.players.find((player) => player.playerId === name);
 
       player.shcp = slopeRating;
+      player.tee = tee.text;
+      console.log(player);
     },
 
     calculateSlopeRating(hcp, slopeValue, courseRating, coursePar) {
