@@ -15,16 +15,19 @@
 							<b-col cols="4" class="explanation">
 								<p>Exakt Hcp</p>
 							</b-col>
-							<b-col v-for="player in players" :key="player.index" cols="2" class="playerData">
-								<p v-negativeToPostive>{{ player.hcp }}</p>
+							<b-col v-for="hcp in hcpUnmutated" :key="hcp.index" cols="2" class="playerData">
+								<p v-negativeToPostive>{{ hcp }}</p>
 							</b-col>
 						</b-row>
 						<b-row>
 							<b-col cols="4" class="explanation">
-								<p>Max 28 Hcp</p>
+								<p>Max 28 Hcp per team</p>
 							</b-col>
 							<b-col v-for="player in players" :key="player.index" cols="2" class="playerData">
-								<p v-negativeToPostive>{{ player.hcp > 28 ? 28 : player.hcp }}</p>
+								<p v-negativeToPostive>
+									{{ Math.round((player.hcp + Number.EPSILON) * 100) / 100
+									}}
+								</p>
 							</b-col>
 						</b-row>
 						<b-row>
@@ -199,7 +202,8 @@
 			"banansPar",
 			"players",
 			"slope",
-			"slopeHandicapList"
+			"slopeHandicapList",
+			"hcpUnmutated"
 		],
 		data() {
 			return {
