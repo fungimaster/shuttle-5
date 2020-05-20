@@ -97,10 +97,10 @@
                     </b-col>
                     <b-col cols="10">
                       <p class="playerInfo" id="playerName">
-                        {{ player.name }} (hcp: {{ player.hcp }}, slopehcp:
-                        <span v-if="player.slopehcp == null">Välj tee</span
+                        {{ player.name }} (hcp: {{ player.hcp }}, shcp:
+                        <span v-if="player.shcp == null">Välj tee</span
                         ><span v-else>
-                          {{ Number(player.slopehcp.toFixed(1)) }})
+                          {{ Number(player.shcp.toFixed(1)) }})
                         </span>
                       </p>
                     </b-col>
@@ -211,7 +211,7 @@ export default {
           { hole: 18, strokes: 0, slag: 0 },
         ],
         hcp: 1.2,
-        slopehcp: null,
+        shcp: null,
       },
       {
         name: "Player 2",
@@ -238,7 +238,7 @@ export default {
           { hole: 18, strokes: 0, slag: 0 },
         ],
         hcp: 20,
-        slopehcp: null,
+        shcp: null,
       },
       {
         name: "Player 3",
@@ -265,7 +265,7 @@ export default {
           { hole: 18, strokes: 0, slag: 0 },
         ],
         hcp: 11,
-        slopehcp: null,
+        shcp: null,
       },
       {
         name: "Player 4",
@@ -292,7 +292,7 @@ export default {
           { hole: 18, strokes: 0, slag: 0 },
         ],
         hcp: 5,
-        slopehcp: null,
+        shcp: null,
       },
     ];
     try {
@@ -301,6 +301,7 @@ export default {
           id: this.gameID,
         })
         .then((response) => {
+          console.log(response.data);
           if (response.data.status == "No game found") {
             this.errorMSG = "Something went wrong (No game found)";
           } else {
@@ -505,6 +506,7 @@ export default {
         .post("https://matchplay.meteorapp.com/methods/updateGame", {
           _id: this.gameID,
           holes: this.holesArray,
+          scorecard: this.players,
         })
         .then((response) => {
           console.log(response.data);
@@ -544,7 +546,7 @@ export default {
       );
       let player = this.players.find((player) => player.playerId === name);
 
-      player.slopehcp = slopeRating;
+      player.shcp = slopeRating;
     },
 
     calculateSlopeRating(hcp, slopeValue, courseRating, coursePar) {
