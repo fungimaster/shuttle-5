@@ -910,7 +910,7 @@
                                             
                                         </span>
 
-                                        <div class="mt-2 mb-2">
+                                        <div class="mt-2 mb-2" :class="{ 'winner': game.winner && game.hometeam === game.winner, 'loser': game.winner && game.awayteam === game.winner}">
                                             <strong>HEMMALAG</strong><br>
                                             <span>{{game.hometeamleadername}}</span> & <span>{{game.hometeammembername}}</span><br>                                      
                                              <span v-if="game.hometeamcoursename">{{game.hometeamcoursename}}</span>
@@ -926,7 +926,7 @@
                                            
                                         </span>
 
-                                        <div class="mt-2 mb-2">
+                                        <div class="mt-2 mb-2" :class="{ 'winner': game.winner && game.awayteam === game.winner, 'loser': game.winner && game.hometeam === game.winner}">
                                            <strong>BORTALAG</strong><br>
                                            <span>{{game.awayteamleadername}}</span> & <span>{{game.awayteammembername}}</span><br>                                        
                                              <span v-if="game.awayteamcoursename">{{game.awayteamcoursename}}</span>
@@ -2906,6 +2906,15 @@ export default {
 
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
+
+.winner {
+  color: $success;
+}
+
+.result.loser, .loser{
+  color: red;
+ text-decoration: line-through;
+}
 
 .header {
     background-image: url( https://res.cloudinary.com/dn3hzwewp/image/upload/w_400,o_25/v1583999753/matchplay/Background-8.jpg);
