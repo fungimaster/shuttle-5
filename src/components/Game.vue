@@ -100,7 +100,7 @@
             <b-row class="justify-content-center" align-h="center">
               <b-col class="col-12 text-center p-0 mt-3">
                 <b-tabs content-class="mt-4" v-model="tabIndex" no-key-nav>
-                  <b-tab title-link-class="ml-1 p-2">
+                  <b-tab v-if="status !='Finished'" title-link-class="ml-1 p-2">
                     <template v-slot:title>
                       <span class="my-nav-item">Spelplats</span>
                     </template>
@@ -199,6 +199,40 @@
                               </b-form-input>
                             </b-form-group>
 
+                            
+                 <!--  VÄLJA SLINGA -->
+              <div
+                v-if="loadingCourse == 1"
+                class="d-flex justify-content-center mb-3"
+              >
+ <b-spinner
+                        small
+                        type="grow"
+                        class="m-2"
+                      ></b-spinner>
+                      <p>Hämtar slingor...</p>
+              </div>
+              <transition name="fade" v-if="query && loadingCourse === 2">
+                  <b-form-group
+                  id="input-group-3"
+                  v-if="slingaOptions.length > 0"
+                  class="inputField"
+                  label="Välj slinga"
+                >
+                  <b-form-select
+                    v-model="slinga"
+                    :options="slingaOptions"
+                     v-on:change="setLoopname"
+                  ></b-form-select>
+                </b-form-group>
+                <p v-else>Ingen 18-hålsbana hittad</p>
+                
+                 </transition>
+                <p>{{loadingCourse}}</p>
+                <p>{{query}}</p>
+                <p>{{slinga}}</p>
+                <p>{{slinganame}}</p>
+
                             <b-button v-if="!isSaving"
                               @click="saveResult()"
                               variant="warning"
@@ -263,7 +297,7 @@
                            Klicka på knappen <strong>STARTA MATCH</strong> nedanför för att välja klubb/slinga/tee för spelarna när det är dags att spela golf!
                           </b-alert>
 
-                          <b-button v-if="isteamleader"
+                          <b-button v-if="isteamleader && status !== 'Finished'"
                           :disabled="status === 'Finished'"
                             @click="startGame()"
                             variant="success"
@@ -271,6 +305,14 @@
                             ><i class="material-icons mr-2"
                               >play_circle_filled</i
                             >Starta match</b-button
+                          >
+                          <b-button v-if="status === 'Finished'"
+                            @click="getScorecard()"
+                            variant="success"
+                            class="mr-1 mt-3"
+                            ><i class="material-icons mr-2"
+                              >play_circle_filled</i
+                            >Visa scorekortet</b-button
                           >
                         </b-col>
                       </b-row>
@@ -698,6 +740,10 @@
         },
       ],
         //TYPEAHEAD CLUBS
+      slinga: '',
+      slinganame: '',
+      slingaOptions: [],
+      loadingCourse: 2,
       query: '',
       clubs: clubs,
       clubid:'',
@@ -755,6 +801,9 @@
       }
     },
  created() {
+
+     //scroll to top
+      window.scrollTo(0, 0);
 
      //check logged in
      let userinfo = localStorage.getItem('userinfo');
@@ -900,6 +949,15 @@
                               //console.log('no game date')
                             }
 
+                            //set loop
+                             if (response.data.hasOwnProperty('loop')) {
+                             this.slinga = response.data.loop;
+                             this.slinganame = response.data.loopname;
+                             this.loadingCourse == 2
+                            } else {
+                              //console.log('no game date')
+                            }
+
 
 
 
@@ -920,6 +978,54 @@
 },
 
    methods: {
+     setLoopname(id) {
+       console.log(id);
+       let result = this.slingaOptions.find((item) => item.value == id);
+      this.slinganame = result.text;
+     
+     },
+         // Get info from GIT
+    getCourse: function (gitID) {
+      this.axios
+        .post(globalState.admin_url + "getCourseInfoData", {
+          id: gitID,
+        })
+        .then((response) => {
+          this.parseCourse(response.data);
+          //console.log(response.data);
+        })
+        .catch((error) => {
+          this.errorMSG = "Something went wrong (No course found)";
+          console.log(error);
+        });
+    },
+      // Hämta alla loops och hål från en bana
+    parseCourse: function (course) {
+      let parsedLoop = [];
+      course.forEach((courseItem) => {
+        if (courseItem.IsNineHoleCourse == "false") {
+          courseItem.Loops.forEach((loop) => {
+            if (Array.isArray(loop)) {
+              loop.forEach((item) => {
+                let loopItem = {};
+                loopItem.value = item.ID;
+                loopItem.text = item.Name;
+                loopItem.slopes = item.Slopes;
+                loopItem.Holes = item.Holes;
+
+                if (loopItem.Holes.length == 18) {
+                  parsedLoop.push(loopItem);
+                }
+              });
+            }
+          });
+        }
+      });
+
+      this.slingaOptions = parsedLoop;
+      //Dölj spinner och visa slingor
+      this.loadingCourse = 2;
+    },
      getgamedate: function() {
         return moment(this.gamedate).format('YYYY-MM-DD')
      },
@@ -1020,6 +1126,10 @@
             })
         },
         onSearchItemSelected(item) {
+
+            this.loadingCourse = 1;
+            this.getCourse(item.gitID); //get loops
+            
 
             this.selectedSearchItem = item.title;
             this.query = item.title;
@@ -1157,6 +1267,9 @@
       startGame() {
        location.href = "creategame?id="+this.game_id;
       },
+       getScorecard() {
+       location.href = "scorecard?id="+this.game_id;
+      },
       saveResult() {
 
         //if (this.lastsaved !== moment().format('HH:mm')) {
@@ -1171,12 +1284,15 @@
 
     //FETCH DATA FROM ID AND METHOD
     //updateGame(_id) --> status :ok / error
+    
 
                         this.axios.post(globalState.admin_url+'updateGame', {
                             "_id": gameid,
                             "gamedate": moment(this.gamedate).format('YYYY-MM-DD'),
                             "gametime": this.gametime,
-                            "club": this.clubid
+                            "club": this.clubid,
+                            "loop": this.slinga,
+                            "loopname": this.slinganame
                             //"winner": this.winner,
                             //"status": this.status
                         })

@@ -1478,7 +1478,7 @@ export default {
 
     },
     created() {
-
+       
     },
     mixins: [tagsMixin],
     methods: {
@@ -2824,13 +2824,15 @@ export default {
   };
 },
 
-    updated: function () {},
+    updated: function () {
+          //scroll to top
+        window.scrollTo(0, 0);
+    },
 
     mounted: function () {
         //console.log("ROUTE", this.$route.query.resetpw)
 
-
-
+       
         const server = new simpleDDP(opts, [simpleDDPLogin]);
         let parentVue = this;
 
