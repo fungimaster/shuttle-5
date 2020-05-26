@@ -14,7 +14,10 @@
             <h2>VÄLKOMMEN TILL MATCHPLAY, GOLFTÄVLINGEN FÖR BÅDE PRIVATPERSONER OCH FÖRETAG</h2>
             <p>Matchplay är en matchspelstävling för par med officiellt handikapp. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.</p>
             <p>Ta chansen att ta dig till Sverigefinalen och sedan vidare utomlands! Alla deltagare får pikeér från PING.</p>
-            
+             
+            <h2 class="mb-3">Anmälan stänger om</h2>
+            <appCountdown deadline="2020-05-27 18:00:00"></appCountdown>
+
              <b-alert show class="mt-4 small" variant="warning">
                 Start för tävlingen och sista anmälningsdag är ändrad! Tävlingen startar 1 juni och sista dagen för anmälan är 27:e maj. <a href="https://www.facebook.com/pg/matchplaysweden/posts/?ref=page_internal">Läs mer här</a>
                 <span hidden><strong>OBS!</strong> Alla anmälda lag får tröjor från PING men vill man vara säker på att ha dom till matchstart i början av maj så måste man anmäla laget innan 1 april.</span>               
@@ -531,13 +534,17 @@ import { tagsMixin } from "../mixins/tagsMixin";
 /*import VuePhoneNumberInput from 'vue-phone-number-input';
 import 'vue-phone-number-input/dist/vue-phone-number-input.css';*/
 import { VueTelInput } from 'vue-tel-input'
+import FlipCountdown from "./FlipCountdown";
+
 
 export default {
   name: "hello",
 components: {   
       //'phone':VuePhoneNumberInput,
      // 'phone':VueTelInput,
-      VueTelInput
+      VueTelInput,
+      appCountdown: FlipCountdown
+
     },
   data() {
     return {
