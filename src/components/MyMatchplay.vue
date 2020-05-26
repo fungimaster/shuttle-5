@@ -937,8 +937,12 @@
                                    </div>
                                    <div class="pt-0 pb-3 mt-0">    
                                         <span :id="'tooltip-game-distance-'+idx2">
-                                            <i class="fas fa-road mr-1 mb-1"></i>
-                                            <span style="padding-left:3px;">{{game.distance}} km</span>                                                   
+                                            <div>
+                                            <i class="fas fa-road mr-1 mb-1" style="float:left;"></i>
+                                            </div>
+                                             <div style="display:flex;">
+                                            <span style="padding-left:4px;">{{game.distance}} km</span>  
+                                             </div>                                                 
                                             <b-tooltip :target="'tooltip-game-distance-'+idx2" triggers="hover" placement="top">
                                                 Avstånd mellan lagen
                                              </b-tooltip>                                           
@@ -948,37 +952,76 @@
                                        
                                             <i hidden class="fas mr-1 mb-1"></i>
                                              <span v-if="game.status === 'In progress'">
-                                                 <b-spinner small type="grow" class="mr-2 mb-2"></b-spinner>
+                                                 <div class="ml-1" style="float:left;">
+                                                 <b-spinner small type="grow" class="red mr-3 mb-2"></b-spinner>
+                                                 </div>
+                                                  <div style="display:flex;padding-left:6px;">
                                                 LIVE
+                                                  </div>
                                              </span>
                                              <span v-if="game.status === 'Finished'">
-                                                <i class="fas fa-check mr-1 mb-1" style="color:#28a745;"></i>
+                                                 <div>
+                                                <i class="fas fa-check mr-1 mb-1" style="float:left;color:#28a745;"></i>
+                                                 </div>
+                                                  <div style="display:flex;">
                                                 <span style="padding-left:6px;">{{game.result}}</span>
+                                                  </div>
                                              </span>                                              
                                              <span v-if="game.status === 'Pending'">
-                                                 <i class="fas fa-circle mr-1 mb-1" style="color:#ffc107;"></i>
-                                                 <span style="padding-left:4px;">Matchen har inte startat</span>
+                                                 <div>
+                                                    <i class="fas fa-circle mr-1 mb-1" style="float:left;color:#ffc107;"></i>
+                                                 </div>
+                                                 <div style="display:flex;">
+                                                 <span style="padding-left:5px;">Matchen har inte startat</span>
+                                                 </div>
                                              </span>                                                                                         
                                    </div>
                                     <div class="pt-0 pb-3 mt-0" v-if="game.status === 'Finished' && getgamedate(game.gamedate,'full') !== 'Invalid date' && game.gametime">                                              
-                                                 <i class="fas fa-clock mr-1 mb-1"></i>
-                                                <span style="padding-left:6px;">{{ getgamedate(game.gamedate,'full')}}</span> <span>{{game.gametime}}</span>                                                                                                                         
+                                                 <div>
+                                                 <i class="fas fa-clock mr-1 mb-1" style="float:left;"></i>
+                                                 </div>
+                                                     <div style="display:flex;">
+                                                <span style="padding-left:6px;">{{ getgamedate(game.gamedate,'full')}}</span> <span>{{game.gametime}}</span>  
+                                                     </div>                                                                                                                       
                                    </div>
 
-                                    <div class="pt-0 pb-3 mt-0" v-if="game.clubname">                                              
-                                                <i class="fas fa-map-marker mr-1 mb-1" style="padding-left:3px;"></i>
-                                                <span style="padding-left:7px;">{{ game.clubname }}</span>                                                                                                                        
+                                    <div class="pt-0 pb-3 mt-0" v-if="game.clubname">
+                                        <div>                                             
+                                                <i class="fas fa-map-marker mr-1 mb-1 pt-1" style="float:left;"></i>
+                                        </div>
+                                        <div style="display:flex;">
+                                                <span style="padding-left:6px;">{{ game.clubname }}</span>
+                                        </div>                                                                                                                       
                                    </div>
 
-                                   <div class="pt-0 pb-3 mt-0" v-if="!game.clubname">                                              
-                                                <i class="fas fa-map-marker mr-1 mb-1" style="padding-left:3px;"></i>
-                                                <span style="padding-left:4px;">Spelplats ej bestämd än</span>                                                                                                                        
+                                   <div class="pt-0 pb-3 mt-0" v-if="!game.clubname">                
+                                        <div>                                
+                                                <i class="fas fa-map-marker mr-1 mb-1 pt-1" style="float:left"></i>
+                                                </div>
+<div style="display:flex;">
+                                                <span style="padding-left:4px;">Spelplats ej bestämd än</span>     
+                                                </div>                                                                                                                   
                                    </div>
+
+                                    <div class="pt-0 pb-3 mt-0" v-if="game.loopname"> 
+                                        <div>                                             
+                                                <i class="fas fa-directions mr-1 mb-1 pt-1" style="float:left;"></i>
+                                        </div>
+                                        <div style="display:flex;">
+                                                <span style="padding-left:7px;">{{ game.loopname }}</span>        
+                                        </div>                                                                                                                
+                                   </div>
+
+                                   
 
                                     <div class="pt-0 pb-3 mt-0" v-if="game.status !== 'Finished' && game.gamedate">                                               
                                         <span >
-                                            <i class="fas fa-calendar-week mr-1 mb-1"></i>
-                                            <span style="padding-left:5px;">{{game.gamedate}} / kl {{game.gametime}}</span>                                                  
+                                            <div>
+                                            <i class="fas fa-calendar-week mr-1 mb-1" style="float:left;;"></i>
+                                            </div>
+                                            <div style="display:flex;">
+                                            <span style="padding-left:6px;">{{game.gamedate}} / kl {{game.gametime}}</span>   
+                                            </div>                                               
                                         </span>                                        
                                    </div>
 
@@ -2826,7 +2869,7 @@ export default {
 
     updated: function () {
           //scroll to top
-        window.scrollTo(0, 0);
+        //window.scrollTo(0, 0);
     },
 
     mounted: function () {
@@ -2909,8 +2952,14 @@ export default {
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
 
+
+
 .winner {
   color: $success;
+}
+
+.red {
+    color: red;
 }
 
 .result.loser, .loser{
@@ -2951,6 +3000,8 @@ export default {
 
 .team i {
     vertical-align: bottom;
+    text-align: center;
+    width:30px;
 }
 
 .sessions-container.my-schedule .row.session {
@@ -3075,4 +3126,14 @@ img.overview-logo {
         box-shadow: 0 0 0 45px rgba(232, 76, 61, 0);
     }
 }
+
+@media only screen and (max-width: 330px) {
+		/* iphone 5/se */
+
+    * {
+        font-size:14px;
+    }
+
+}
+
 </style>
