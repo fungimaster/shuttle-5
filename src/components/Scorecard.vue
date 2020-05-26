@@ -392,6 +392,7 @@
 		<!--  LEADER BOARD -->
 		<div>
 			<b-container id="overview" v-if="overview">
+			
 				<b-row class="pt-3" align-v="center" align-h="center">
 					<!-- HOME TEAM -->
 					<b-col class="col-4 scoreTeam text-left pl-3" :class="{ scoreTeam1: leader && !tie }">
@@ -399,7 +400,7 @@
 							style="float:left;"
 						>{{getFirstName(players[0].name)}} & {{getFirstName(players[1].name)}}</span>
 						<i v-if="!tie && winnerDeclared && leader" class="material-icons pb-1 pl-1">emoji_events</i>
-						<span v-if="!tie && !winnerDeclared">{{dormy1}}</span>
+						<span v-if="!tie && !winnerDeclared" class="dormy">{{dormy2}}</span>
 					</b-col>
 
 					<!-- score -->
@@ -410,22 +411,30 @@
 						<span v-if="tie" id="tie">A/S</span>
 						<span v-if="!leader && !tie && !winnerDeclared">{{ matchScore * -1 }}UP</span>
 						<!-- away leads -->
-						<span v-if="!leader && winnerDeclared">{{ matchScore * -1 }}&{{holesLeft}}</span>
-						<!-- home wins -->
+						<span
+							v-if="!leader && winnerDeclared && holesLeft !== 0"
+						>{{ matchScore * -1 }}&{{holesLeft}}</span>
+						<!-- away wins -->
+						<span v-if="!leader && winnerDeclared && holesLeft === 0">{{ matchScore * -1 }}UP</span>
+						<!-- away wins on last hole -->
+
+						<!--  -->
 
 						<span v-if="leader && !tie && !winnerDeclared">{{ matchScore }}UP</span>
 						<!-- home leads -->
-						<span v-if="leader && winnerDeclared">{{ matchScore }}&{{holesLeft}}</span>
+						<span v-if="leader && winnerDeclared &&  holesLeft !== 0">{{ matchScore }}&{{holesLeft}}</span>
 						<!-- home wins -->
+						<span v-if="leader && winnerDeclared && holesLeft === 0">{{ matchScore }}UP</span>
+						<!-- home wins on last hole -->
 					</b-col>
 
 					<!-- away team -->
 					<b-col class="col-4 scoreTeam text-right pr-3" :class="{ scoreTeam2: !leader && !tie }">
 						<i v-if="!tie && winnerDeclared && !leader" class="material-icons pb-1 pr-1">emoji_events</i>
 						<span
-							style="float:right;"
+							:style="dormy1 === '' ? 'float:right' : 'float:left'"
 						>{{getFirstName(players[2].name)}} & {{getFirstName(players[3].name)}}</span>
-						<span style="clear:right;" v-if="!tie && !winnerDeclared">{{dormy2}}</span>
+						<span style="clear:right;" v-if="!tie && !winnerDeclared" class="dormy">{{dormy1}}</span>
 					</b-col>
 				</b-row>
 
