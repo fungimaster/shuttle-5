@@ -125,6 +125,7 @@
                           button-variant="primary"
                           required
                           class="radioSlinga"
+                          :size="teeOptionsMale.length >= 5 ? 'sm' : 'md'"
                         >
                         </b-form-radio-group>
                         <b-form-radio-group
@@ -138,6 +139,7 @@
                           button-variant="primary"
                           required
                           class="radioSlinga"
+                          :size="teeOptionsMale.length >= 5 ? 'sm' : 'md'"
                         >
                         </b-form-radio-group>
                       </b-form-group>

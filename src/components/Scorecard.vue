@@ -49,65 +49,103 @@
           							<li>{{ hole.hole }} : {{ hole.slag }}</li>
 						</ul>-->
 
+
 						<!-- AVSLUTA MATCH OCH SÄRSPEL -->
 						<app-tie-break-modal v-if="setTieBreak && !gameClosed"></app-tie-break-modal>
 
 						<b-row align-v="center" align-h="center">
-							<button
-								@click="sendTiebreakWinner(homeTeamId)"
-								v-if="setTieBreak && !gameClosed"
-								class="btn btn-danger disable-dbl-tap-zoom"
-							>Skicka in särspels-vinnare: {{this.players[0].name}} och {{this.players[1].name}}</button>
+							<b-col cols="6">
+								<button
+									@click="sendTiebreakWinner(homeTeamId)"
+									v-if="setTieBreak && !gameClosed"
+									class="btn btn-danger disable-dbl-tap-zoom"
+								>
+									VINNARE:
+									<br />
+									{{this.players[0].name}} &
+									{{this.players[1].name}}
+									<br />
+									<br />Skicka
+									<i class="material-icons pb-1 pr-1">send</i>
+								</button>
+							</b-col>
 
-							<button
-								@click="sendTiebreakWinner(awayTeamId)"
-								v-if="setTieBreak && !gameClosed"
-								class="btn btn-danger disable-dbl-tap-zoom"
-							>Skicka in särspels-vinnare:{{this.players[2].name}} och {{this.players[3].name}}</button>
+							<b-col cols="6">
+								<button
+									@click="sendTiebreakWinner(awayTeamId)"
+									v-if="setTieBreak && !gameClosed"
+									class="btn btn-danger disable-dbl-tap-zoom"
+								>
+									VINNARE:
+									<br />
+									{{this.players[2].name}} & {{this.players[3].name}}
+									<br />
+									<br />Skicka
+									<i class="material-icons pb-1 pr-1">send</i>
+								</button>
+							</b-col>
 
 							<!-- TIE_BREAK: Avslutad ej stängd -->
-							<b-col cols="10" v-if="winnerSent && !gameClosed" class="winnerJumbotron">
-								<p>
-									Resultat inskickat (
-									<i class="material-icons pb-1 pr-1">emoji_events</i>
-									{{winningTeam}})
-									<i class="material-icons pb-1 pr-1">send</i>
-								</p>
-								<p>Match ej avslutad</p>
-							</b-col>
+						</b-row>
 
-							<!-- TIE_BREAK: Avslutad och stängd -->
-							<b-col cols="10" v-if="winnerSent && gameClosed" class="winnerJumbotron">
-								<h4>
+						<b-row align-h="center">
+							<b-col cols="11 text-center p-2" v-if="winnerSent && !gameClosed" class="winnerJumbotron">
+								<p>
 									Resultat inskickat
 									<i class="material-icons pb-1 pr-1">send</i>
-								</h4>
-								<h4>
+								</p>
+								<p>
+									{{winningTeam}}
+									<i class="material-icons pb-1 pr-1">emoji_events</i>
+								</p>
+
+								<h5 >Avsluta matchen för låsa för redigering</h5>
+							</b-col>
+						</b-row>
+
+						<!-- TIE_BREAK: Avslutad och stängd -->
+						<b-row align-h="center">
+							<b-col cols="11 text-center p-2" v-if="winnerSent && gameClosed" class="winnerJumbotron">
+								<p>
+									Resultat inskickat
+									<i class="material-icons pb-1 pr-1">send</i>
+								</br>
 									Match avslutad
 									<i class="material-icons pb-1 pr-1">done</i>
-								</h4>
-								<h1>
-									Vinnare: {{winningTeam}}
-									<i class="material-icons pb-1 pr-1">emoji_events</i>
-								</h1>
+								</br>
+									<span class="nameOfWinner">Vinnare: {{winningTeam}}
+									<i class="material-icons pb-1 pr-1">emoji_events</i> </span>
+								</p>
 							</b-col>
+							<b-col cols="6 p-2">
+						 		<router-link to="/mymatchplay" v-if="winnerSent && gameClosed">
+									<button class="btn btn-warning disable-dbl-tap-zoom ">
+										MATCHER <i class="far fa-golf-club mr-2"></i> 
+									</button>
+								 </router-link> 
+							</b-col>
+						</b-row>
 
+					
+
+						<b-row align-v="center" align-h="center">
 							<button
+								:disabled="winnerSent === false"
 								v-if="setTieBreak && !gameClosed"
 								@click="sendWinner('Finished'), gameClosed = true"
 								class="btn btn-danger disable-dbl-tap-zoom"
 							>Avsluta matchen</button>
 
-							<!--  STÄNA MATCH EJ SÄRSPEL  -->
+							<!--  STÄNGA MATCH EJ SÄRSPEL  -->
 
 							<button
 								v-if="winnerDeclared && !gameClosed"
 								@click="winnerDeclared = true,  sendWinner('Finished'), gameClosed = true"
 								class="btn btn-danger disable-dbl-tap-zoom"
 							>Avsluta matchen</button>
-
-							<!-- SÄRSPEL SLUT -->
 						</b-row>
+
+						<!-- SÄRSPEL SLUT -->
 
 						<!-- TEAM 1 CONTAINER -->
 						<div
@@ -138,7 +176,7 @@
 									<b-col class="text-right pr-4">
 										<div v-if="index === 0">
 											<button
-												class="btn btn-warning disable-dbl-tap-zoom"
+												class="btn btn-secondary disable-dbl-tap-zoom"
 												@click="$bvModal.show('modal-1'), (counter = 1)"
 												v-if="
                       currentStrokesList.slice(0, 1)[0] !==
@@ -146,7 +184,7 @@
                     "
 											>-</button>
 											<button
-												class="btn btn-warning disable-dbl-tap-zoom"
+												class="btn btn-secondary disable-dbl-tap-zoom"
 												v-else
 												@click="$bvModal.show('modal-1'), (counter = 1)"
 											>{{ currentStrokesList.slice(0, 1)[0] }}</button>
@@ -155,7 +193,7 @@
 										<div v-if="index === 1">
 											<button
 												@click="$bvModal.show('modal-2'), (counter = 2)"
-												class="btn btn-warning disable-dbl-tap-zoom"
+												class="btn btn-secondary disable-dbl-tap-zoom"
 												v-if="
                       currentStrokesList.slice(1, 2)[0] !==
                         currentStrokesList.slice(1, 2)[0]
@@ -164,7 +202,7 @@
 
 											<button
 												@click="$bvModal.show('modal-2'), (counter = 2)"
-												class="btn btn-warning disable-dbl-tap-zoom"
+												class="btn btn-secondary disable-dbl-tap-zoom"
 												v-else
 											>{{ currentStrokesList.slice(1, 2)[0] }}</button>
 										</div>
@@ -207,7 +245,7 @@
 										<div v-if="index === 0">
 											<button
 												@click="$bvModal.show('modal-3'), (counter = 3)"
-												class="btn btn-warning disable-dbl-tap-zoom"
+												class="btn btn-secondary disable-dbl-tap-zoom"
 												v-if="
                       currentStrokesList.slice(2, 3)[0] !==
                         currentStrokesList.slice(2, 3)[0]
@@ -215,14 +253,14 @@
 											>-</button>
 											<button
 												@click="$bvModal.show('modal-3'), (counter = 3)"
-												class="btn btn-warning disable-dbl-tap-zoom"
+												class="btn btn-secondary disable-dbl-tap-zoom"
 												v-else
 											>{{ currentStrokesList.slice(2, 3)[0] }}</button>
 										</div>
 										<!-- SPELAR 4 -->
 										<div v-if="index === 1">
 											<button
-												class="btn btn-warning disable-dbl-tap-zoom"
+												class="btn btn-secondary disable-dbl-tap-zoom"
 												@click="$bvModal.show('modal-4'), (counter = 4)"
 												v-if="
                       currentStrokesList.slice(3, 4)[0] !==
@@ -231,7 +269,7 @@
 											>-</button>
 											<button
 												@click="$bvModal.show('modal-4'), (counter = 4)"
-												class="btn btn-warning disable-dbl-tap-zoom"
+												class="btn btn-secondary disable-dbl-tap-zoom"
 												v-else
 											>{{ currentStrokesList.slice(3, 4)[0] }}</button>
 										</div>
@@ -308,7 +346,7 @@
 										style="float:left;"
 									>{{getFirstName(players[0].name)}} & {{getFirstName(players[1].name)}}</span>
 									<i v-if="!tie && winnerDeclared && leader" class="material-icons pb-1 pl-1">emoji_events</i>
-									<span v-if="!tie && !winnerDeclared">{{dormy1}}</span>
+									<span v-if="!tie && !winnerDeclared" class="dormy">{{dormy2}}</span>
 								</b-col>
 
 								<!-- score -->
@@ -319,22 +357,30 @@
 									<span v-if="tie" id="tie">A/S</span>
 									<span v-if="!leader && !tie && !winnerDeclared">{{ matchScore * -1 }}UP</span>
 									<!-- away leads -->
-									<span v-if="!leader && winnerDeclared">{{ matchScore * -1 }}&{{holesLeft}}</span>
-									<!-- home wins -->
+									<span
+										v-if="!leader && winnerDeclared && holesLeft !== 0"
+									>{{ matchScore * -1 }}&{{holesLeft}}</span>
+									<!-- away wins -->
+									<span v-if="!leader && winnerDeclared && holesLeft === 0">{{ matchScore * -1 }}UP</span>
+									<!-- away wins on last hole -->
+
+									<!--  -->
 
 									<span v-if="leader && !tie && !winnerDeclared">{{ matchScore }}UP</span>
 									<!-- home leads -->
-									<span v-if="leader && winnerDeclared">{{ matchScore }}&{{holesLeft}}</span>
+									<span v-if="leader && winnerDeclared &&  holesLeft !== 0">{{ matchScore }}&{{holesLeft}}</span>
 									<!-- home wins -->
+									<span v-if="leader && winnerDeclared && holesLeft === 0">{{ matchScore }}UP</span>
+									<!-- home wins on last hole -->
 								</b-col>
 
 								<!-- away team -->
 								<b-col class="col-4 scoreTeam text-right pr-3" :class="{ scoreTeam2: !leader && !tie }">
 									<i v-if="!tie && winnerDeclared && !leader" class="material-icons pb-1 pr-1">emoji_events</i>
 									<span
-										style="float:right;"
+										:style="dormy1 === '' ? 'float:right' : 'float:left'"
 									>{{getFirstName(players[2].name)}} & {{getFirstName(players[3].name)}}</span>
-									<span style="clear:right;" v-if="!tie && !winnerDeclared">{{dormy2}}</span>
+									<span style="clear:right;" v-if="!tie && !winnerDeclared" class="dormy">{{dormy1}}</span>
 								</b-col>
 							</b-row>
 						</footer>
@@ -820,11 +866,11 @@
 				this.dormy1 = "";
 
 				if (totalWins1 - totalWins2 === holesLeft) {
-					this.dormy2 = "DORMY";
+					this.dormy2 = ": DORMY";
 					//return "TEAM 2 är dormy";
 				}
 				if (totalWins2 - totalWins1 === holesLeft) {
-					this.dormy1 = "DORMY";
+					this.dormy1 = ": DORMY";
 					//return "TEAM 1 dormy";
 				}
 
@@ -1049,12 +1095,9 @@
 		},
 
 		async beforeMount() {
-			//OBS! bara för att kunna testa lokalt
-			if (!this.$route.query.id) {
-				this.gameID = "E5zWJ6wqnZNNCkY2i";
-			} else {
-				this.gameID = this.$route.query.id;
-			}
+			this.$store.dispatch('updateUserInfo')
+			this.gameID = this.$route.query.id;
+		
 
 			try {
 				//hämtar data och lägger det i this.player
@@ -1176,18 +1219,36 @@
 				//fixar team-namn
 				this.team1 = "lag 1"; //data.gameData[0].team;
 				this.team2 = "lag 2";
-				/* data.gameData.forEach(element => {
-																																																																																																																																	if (element.team != this.team1) {
-																																																																																																																																		this.team2 = 'lag 2'//element.team;																																																											}
-																																																										 																																																																							}); */
+																																																																																																																																		
 			} catch (e) {
 				console.log(e);
 			}
 
 			 (async () => {
-				 await this.getGameData();
-				 //this.schp kallas först när getGameData är klar. 
+				//schp nedan och loopen behöver datan som skapas med getGameData. Där av async/await. 
+				await this.getGameData();
+
+				//kallar på schp-metoden. 
 				this.schp();
+
+				//uppdaterar nameCount med namn som spelaren har poäng/score inrapporterat redan på hålet. 
+				let counter = -1
+				this.players.forEach(player => {
+					counter++
+						player.holes.forEach( (hole, index) => {	
+							//gör om null till NaN
+							if (hole.strokes === null ){
+							 	this.players[counter].holes[index].strokes = NaN
+							 }
+							//lägger till namn i NamnCount i scores eller streck finns
+							if (hole.strokes > 0 || hole.strokes !== hole.strokes) {
+								 this.nameCount[index].push(this.players[counter].name)								
+							 }
+						});
+					});	
+				//kallar på CurrentStrokes för att makeToas ska uppdatera så att vinnar-klass sätts korrekt på teamrutorna. 
+				this.currentStrokes(1)	
+				
 			 })()
 			
 		},
@@ -1241,17 +1302,39 @@
 				try {
 					let response = await axios.post(url, gameID);
 				
-					
 					this.course = response.data.holes;
 					this.players  = response.data.scorecard
 					this.homeTeamId = response.data.hometeam
-					this.awayTeamId = response.data.awayteam
-
-					console.log(response.data)
-						const [ hcp1, hcp2, hcp3, hcp4 ] = response.data.scorecard
-                    this.hcpUnmutated = [ hcp1.hcp, hcp2.hcp, hcp3.hcp, hcp4.hcp ]
-					console.log("getGameData -> hcpUnmutated", this.hcpUnmutated)
+					this.awayTeamId = response.data.awayteam                   
+				
+					const [ hcp1, hcp2, hcp3, hcp4 ] = response.data.scorecard
+					this.hcpUnmutated = [ hcp1.hcp, hcp2.hcp, hcp3.hcp, hcp4.hcp ]
 					
+					//lägger till golf-id på this.players för att kunna använda dessa i vid uppräkning i nameCount
+					const golfId = [response.data.hometeamleadergolfid, response.data.hometeammembergolfid, response.data.awayteamleadergolfid, response.data.awayteammembergolfid,   ]
+					let i = 0
+					for (const player of this.players) {
+						player.id = golfId[i]
+						i++
+					}
+					
+					//hanterar vad som händer när man öppnar upp en stängd match
+					if (response.data.status === "Finished") {
+									this.gameClosed = true
+									this.winnerSent = true
+									this.winnerDeclared = true
+								}
+					if (response.data.status === "Finished") {
+							if (response.data.winner === response.data.hometeam) {
+								this.winningTeam = `${this.players[0].name} och  ${this.players[1].name}`
+
+							} else {
+								this.winningTeam = `${this.players[2].name} och  ${this.players[3].name}`
+
+							}
+								}
+			
+			
 
 				} catch (e) {
 					error => console.log(error);
@@ -1259,17 +1342,19 @@
 			},
 
 			async sendWinner(winnerStatus) {
-
-				if (!this.winnerDeclared) {
-					return;
-				}
-								
+				
+				//Sendwinner triggas så fort winnerDeclared byter värde. Så för att inte avslutade matcher 
+				// ska skickas in igen som pending så retunerar funktionen om gameClosed. 
+				if (!this.winnerDeclared || this.gameClosed) {
+					return;	
+					}						
+											
 				const data = {
-					_id: this.gameID,
-					scorecard: this.players,
-					status: "Pending",
-					result: "",
-					winner: "",
+				_id: this.gameID,
+				scorecard: this.players,
+				status: "Pending",
+				result: "",
+				winner: "",
 				};
 
 
@@ -1302,7 +1387,6 @@
 				} catch (e) {
 					error => console.log(error);
 				}
-
 
 			},
 			valueOfLowestScoreOnHole(holeIndex) {
@@ -1369,17 +1453,18 @@
 			getPar() {
 				this.parData = this.course.find(e => e.hole === this.activeHole);
 			},
-			currentStrokes(activehole, player = { name: "lorem" }) {
+			currentStrokes(activehole, player = { name: "lorem", id: 123 }) {
 				const currentIndex = activehole - 1;
 
 				//hål 1 får ett ingångsvärde här som de andra hålen får vid hålbyte.
 				if (this.nameCount[0].length === 0) {
-					this.nameCount[0].push("loremuniktId");
+					this.nameCount[0].push("lorem123");
 				}
 
-				const { name } = player;
+				
+				const { name, id } = player;
 
-				let uniqueName = name + "uniktId";
+				let uniqueName = name + id;
 
 				if (this.nameCount[currentIndex].includes(uniqueName)) {
 					null;
@@ -1402,11 +1487,11 @@
 					scorecard: this.players,
 					status: "Pending"
 				};
-
 				const url = "https://admin.matchplay.se/methods/updateGame";
 			
 				try {
 					let response = await axios.post(url, data);
+					
 				} catch (e) {
 					error => console.log(error);
 				}
@@ -1500,15 +1585,26 @@
 		}
 	};
 </script>
-<style scoped>
+<style lang="scss"  scoped>
+
+	@import "../styles/variables.scss";
+
 	/*  Särspel och vinnargrejor */
 	.winnerJumbotron {
 		border-radius: 10px;
 		background-color: #195a3a;
 		padding: 10px;
 		margin-bottom: 10px;
+		-webkit-box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.19);
+		-moz-box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.19);
+		box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.19);
+		border-radius: 10px;
+		padding: 5px 10px;
 	}
 	.winnerJumbotron h4 {
+		color: white;
+	}
+	.winnerJumbotron h5 {
 		color: white;
 	}
 	.winnerJumbotron p {
@@ -1517,6 +1613,10 @@
 
 	.btn-danger {
 		margin: 10px !important;
+	}
+
+	.nameOfWinner {
+		color: $orange !important;
 	}
 
 	/* ------------------- */
@@ -1581,12 +1681,7 @@
 	}
 
 	/* leader board */
-	/* 
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																								#overview {
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																									/*  margin-left: 10px;
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																								  margin-right: 10px; 
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																								}
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																							*/
+
 	.initialsTeam1 {
 		color: #fd9b37;
 	}
@@ -1668,10 +1763,6 @@
 		color: white;
 	}
 
-	/* 	.showLowestScore {
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																			text-decoration: underline;
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																		} */
-
 	/* HEADER ROW */
 	.holeRow {
 		margin-bottom: 20px;
@@ -1693,8 +1784,8 @@
 	.holeRow p {
 		margin-top: 15%;
 	}
-	/*  SCORE CARD  */
 
+	/*  SCORE CARD  */
 	.score {
 		line-height: 2.3em;
 		letter-spacing: 2px;
@@ -1820,7 +1911,7 @@
 	.buttons {
 		margin-top: 15px;
 	}
-	.btn-warning,
+	.btn-secondary,
 	.btn-success {
 		/* border-radius: 50%; */
 		width: 77px;
@@ -1833,7 +1924,7 @@
 	}
 
 	.btn-success .material-icons,
-	.btn-warning .material-icons {
+	.btn-secondary .material-icons {
 		font-size: 1.4em;
 		margin-left: -4px;
 	}
@@ -1845,19 +1936,19 @@
 		border: 0 !important;
 		border-color: #195a3a !important;
 	}
-	.btn-warning,
-	.btn-warning:hover,
-	.btn-warning:active,
-	.btn-warning:visited,
-	.btn-warning:focus,
-	.btn-warning:disabled {
+	.btn-secondary,
+	.btn-secondary:hover,
+	.btn-secondary:active,
+	.btn-secondary:visited,
+	.btn-secondary:focus,
+	.btn-secondary:disabled {
 		background-color: #195a3a !important;
 		color: white !important;
 		border: 0 !important;
 		box-shadow: 0 !important;
 	}
-	.btn-warning:focus,
-	.btn-warning.focus {
+	.btn-secondary:focus,
+	.btn-secondary.focus {
 		box-shadow: 0 !important;
 	}
 	.btn.btn-primary,
@@ -1867,14 +1958,12 @@
 		box-shadow: 0 !important;
 		border-color: #195a3a !important;
 	}
-	/*	#nextHole {
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																							
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																								  font-size: 20px;  
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																								  margin-bottom: 10px;
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																								  margin-top: 12px;
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																								   width: 340px; 
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																							}*/
 	/* LEADER SECTION  */
+	.dormy {
+		font-size: 9px;
+		overflow: hidden;
+	}
+
 	.leaderSection {
 		/* border-top: 1px solid #333; */
 		position: fixed;
@@ -1910,7 +1999,7 @@
 
 	.leaderTeam1 {
 		/*  background-color: #fd9b37;
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																					  border: 1px #fd9b37 solid; */
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																			  border: 1px #fd9b37 solid; */
 		background-color: #fff;
 		width: 20px;
 		padding: 0;
@@ -1918,7 +2007,7 @@
 	}
 	.leaderTeam2 {
 		/* background-color: #69b3fe;
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																					  border: 1px #69b3fe solid; */
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																				  border: 1px #69b3fe solid; */
 		background-color: #fff;
 		width: 20px;
 		padding: 0;
@@ -1928,8 +2017,8 @@
 	p {
 		font-size: 0.7em;
 		/* text-overflow: ellipsis;
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																								  white-space: nowrap;
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																								  overflow: hidden; */
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																							  white-space: nowrap;
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																							  overflow: hidden; */
 	}
 
 	.leaderTeam1 h4 {
@@ -2012,7 +2101,7 @@
 			height: 30px;
 		}
 
-		.buttons .btn-warning .material-icons {
+		.buttons .btn-secondary .material-icons {
 			font-size: 1.3em;
 			margin-left: -7px;
 			margin-bottom: 3px;
