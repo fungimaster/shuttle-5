@@ -119,6 +119,8 @@
                       <div v-else>Speltid är inte bestämd än</div>
                       <div v-if="query">@ {{query}}</div>
                       <div v-else>@ (Golfbana saknas)</div>
+                      <div v-if="slinganame">{{slinganame}}</div>
+                      <div v-else>(Slinga saknas)</div>
 
 
 
@@ -1019,7 +1021,7 @@
      clear() {
 
         this.boxTwo = ''
-            this.$bvModal.msgBoxConfirm('Är du säker på att du vill rensa tid och plats för matchen? Du kan alltid välja ny efter.', {
+            this.$bvModal.msgBoxConfirm('Är du säker på att du vill rensa bana/slinga för matchen? Du kan alltid välja ny efter.', {
                     title: 'Rensa spelplats??',
                     size: 'md',
                     buttonSize: 'md',
@@ -1036,8 +1038,6 @@
         this.slingaOptions = [];
         this.slinganame = '';
         this.loadingCourse = 0;
-        this.gametime = '';
-        this.gamedate = '';
         this.saveResult()
                     }
                 })
