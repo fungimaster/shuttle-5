@@ -115,8 +115,8 @@
 					>9</button>
 				</b-col>
 			</b-row>
-			<b-row align-self="center">
-				<b-col cols="4">
+			<b-row align-h="center">
+				<b-col cols="12">
 					<!-- 0 -->
 					<button
 						id="btn0"
@@ -177,7 +177,7 @@
 
 	button {
 		width: 90px;
-		height: 60px;
+		height: 70px;
 		margin: 2px;
 		font-size: 14px;
 	}
@@ -193,11 +193,18 @@
 		background-color: #fff !important;
 	}
 
+	@media screen and (max-width: 374px) {
+		.btn-warning {
+			width: 85px !important;
+			font-size: 13px !important;
+			height: 70px !important;
+		}
+	}
 	@media screen and (max-width: 320px) {
-		button {
-			width: 70px !important;
-			font-size: 10px !important;
-			height: 50px !important;
+		.btn-warning {
+			width: 68px !important;
+			font-size: 11px !important;
+			height: 53px !important;
 		}
 	}
 </style>

@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<!-- Spelare 1 -->
-		<b-modal no-fade ref="1" id="modal-1" ok-only hide-backdrop hide-footer static lazy>
+		<b-modal no-fade ref="1" id="modal-1" hide-footer hide-backdrop>
 			<b-container>
 				<b-row align-v="center" align-h="center">
 					<p class>
@@ -69,7 +69,7 @@
 
 		<!-- SPELARE 2 -->
 
-		<b-modal no-fade ref="2" id="modal-2" ok-only hide-backdrop>
+		<b-modal no-fade ref="2" id="modal-2" hide-footer hide-backdrop>
 			<button hidden class="btn btn-success" @click="prevModal()">prev</button>
 			<button hidden class="btn btn-success" @click="nextModal()">next</button>
 
@@ -140,7 +140,7 @@
 
 		<!--  SPELARE 3 -->
 
-		<b-modal no-fade ref="3" id="modal-3" ok-only hide-backdrop>
+		<b-modal no-fade ref="3" id="modal-3" hide-footer hide-backdrop>
 			<button hidden class="btn btn-success" @click="prevModal()">prev</button>
 			<button hidden class="btn btn-success" @click="nextModal()">next</button>
 
@@ -211,7 +211,7 @@
 
 		<!--  SPELARE 4 -->
 
-		<b-modal no-fade ref="4" id="modal-4" ok-only hide-backdrop>
+		<b-modal no-fade ref="4" id="modal-4" hide-footer hide-backdrop>
 			<button hidden class="btn btn-success" @click="prevModal()">prev</button>
 			<button hidden class="btn btn-success" @click="nextModal()">next</button>
 
@@ -396,6 +396,11 @@
 <style lang="scss" scoped>
 	@import "../styles/variables.scss";
 
+	//deep-selector av bootstrap-modal inom scoped styled component
+	>>> .modal-content {
+		min-height: 590px;
+	}
+
 	h2 {
 		font-weight: bold;
 		margin-top: 1em;
@@ -412,7 +417,7 @@
 	}
 	.btn-info {
 		height: 52px !important;
-		max-width: 74px !important;
+		max-width: 70px !important;
 	}
 
 	.classDisplayNone {
@@ -456,9 +461,23 @@
 		color: #000;
 	}
 
+	@media screen and (max-width: 374px) {
+		.btn-info {
+			width: 67px !important;
+		}
+	}
+
+	@media screen and (max-width: 360px) {
+		>>> .modal-content {
+			min-height: 0;
+		}
+	}
 	@media screen and (max-width: 320px) {
 		.btn-info {
-			width: 60px !important;
+			width: 55px !important;
+		}
+		>>> .modal-content {
+			min-height: 0;
 		}
 	}
 </style>
