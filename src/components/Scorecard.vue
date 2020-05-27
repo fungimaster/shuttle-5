@@ -697,7 +697,7 @@
 </template>
 <script>
 	import axios from "axios";
-	import { schp, hcpSlope } from "../helpers.js";
+	import { shcp } from "../helpers.js";
 	import ScoringVue from "./Scoring.vue";
 	import HcpModalVue from "./HcpModal.vue";
 	import TieBreakModalVue from "./TieBreakModal.vue";
@@ -812,9 +812,11 @@
 					{ hole: 17, par: 4, index: 15, slag: [0, 0, 0, 0] },
 					{ hole: 18, par: 3, index: 4, slag: [0, 0, 0, 0] }
 				],
-				courseRating: 69.9,
-				slopeRating: 129,
-				banansPar: 70
+
+				//OBS! används som exempel i HCP-Modal
+				 courseRating: 69.9,
+				 slopeRating: 129,
+				 banansPar: 70
 			};
 		},
 
@@ -1244,11 +1246,11 @@
 			}
 
 			 (async () => {
-				//schp nedan och loopen behöver datan som skapas med getGameData. Där av async/await. 
+				//shcp nedan och loopen behöver datan som skapas med getGameData. Där av async/await. 
 				await this.getGameData();
 
-				//kallar på schp-metoden. 
-				this.schp();
+				//kallar på shcp-metoden. 
+				this.shcp();
 
 				//uppdaterar nameCount med namn som spelaren har poäng/score inrapporterat redan på hålet. 
 				let counter = -1
@@ -1325,6 +1327,7 @@
 
 					this.course = response.data.holes;
 					this.players  = response.data.scorecard
+                    console.log("getGameData -> this.players", this.players)
 					this.homeTeamId = response.data.hometeam
 					this.awayTeamId = response.data.awayteam                   
 				
@@ -1518,13 +1521,8 @@
 				}
 			},
 
-			async schp() {
-				const { slopeHandicapList, newHcpPrel } = schp(
-					this.courseRating,
-					this.slopeRating,
-					this.banansPar,
-					this.players
-				);
+			async shcp() {
+				const { slopeHandicapList, newHcpPrel } = shcp(this.players);
 
 				//detta värde bröts ut för att kunna skickas vidare till
 				this.slopeHandicapList = slopeHandicapList;
@@ -1540,9 +1538,6 @@
 				this.assignSlagPerIndex(value4, 3);
 				const sortedByHole = this.course.sort((a, b) => a.hole - b.hole);
 				this.course = sortedByHole;
-			},
-			hcpSlope() {
-				hcpSlope();
 			},
 			assignSlagPerIndex(value, playerIndex) {
 				const sortedByIndex = this.course.sort((a, b) => a.index - b.index);
