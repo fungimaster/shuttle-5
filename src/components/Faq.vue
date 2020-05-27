@@ -62,7 +62,8 @@
 
 					<div class="section" id="2">
 						<h3 class="pt-5">2. ANMÄLAN</h3>
-						<p>
+						<p v-if="closed">Anmälan till årets tävling är stängd!</p>
+						<p v-if="!closed">
 							Ni anmäler er enkelt via hemsidan.
 							<a href="/#register">Klicka här</a> för att komma dit direkt.
 						</p>
@@ -119,7 +120,12 @@
 
 						<div class="section" id="11">
 							<h3 class="pt-5">11. SPELDAGAR</h3>
-							<p>Från omgång ett ända fram till finalen finns tidsramar för respektive omgång. Det är av största vikt att Ni som deltagare utgår från att kunna avsätta minst en runda golf inom de veckor som omgången gäller. Ni kommer via vårt system få mail skickade till er med all nödvändig info kring kontakten med era motståndare. Oavsett om ni är hemma- eller bortalag så ansvarar bägge lagen för att kontakt skapas och tid bokas. Kan inte lagen komma överens om lämplig tidpunkt eller bana skall lagkaptenen i det lag som har fördel av hemmabana kontakta tävlingsledningen. Ha även med er att ni kan använda er av en reserv för att lösa er match. Reserv anmäler ni på hemsidan på er profil på matchplay.se. Har man bestämt tid för spel (datum och klockslag) och något lag sedan, oberoende av orsak, vill byta tid (inom deadline för omgången) är det upp till motståndarlaget att gå med på detta. Blir man ej överens om ny tid och matchen ej spelas, vinner det lag som är berett på spel på den ursprungliga tiden - på WO.</p>
+							<p>
+								Från omgång ett ända fram till finalen finns tidsramar för respektive omgång. Det är av största vikt att Ni som deltagare utgår från att kunna avsätta minst en runda golf inom de veckor som omgången gäller. Ni kommer via vårt system få mail skickade till er med all nödvändig info kring kontakten med era motståndare. Oavsett om ni är hemma- eller bortalag så ansvarar bägge lagen för att kontakt skapas och tid bokas. Kan inte lagen komma överens om lämplig tidpunkt eller bana skall lagkaptenen i det lag som har fördel av hemmabana kontakta tävlingsledningen. Ha även med er att ni kan använda er av en reserv för att lösa er match. Reserv anmäler ni till oss på
+								<a
+									href="info@matchplay.se"
+								>info@matchplay.se</a> så fort ni vet att en reserv behövs, gärna i god tid innan matchen ska spelas så vi hinner ändra i systemet. Har man bestämt tid för spel (datum och klockslag) och något lag sedan, oberoende av orsak, vill byta tid (inom deadline för omgången) är det upp till motståndarlaget att gå med på detta. Blir man ej överens om ny tid och matchen ej spelas, vinner det lag som är berett på spel på den ursprungliga tiden - på WO.
+							</p>
 						</div>
 
 						<div class="section" id="12">
@@ -133,12 +139,17 @@
 
 						<div class="section" id="13">
 							<h3 class="pt-5">13. ERSÄTTARE/RESERV</h3>
-							<p>I Matchplay är det okej att använda sig av en reserv. Reserv anmäls på hemsidan på er adminsida. Är inte reserv anmäld i systemet och laget spelar med reserv kan laget bli diskvalificerat. Reservinträde skall också meddelas motståndarna innan spel, när reserv deltager i tävlingen. Man får bara använda sig av en reserv (samma person). Denna reserv kan komplettera laget vid behov under hela tävlingen. Observera att reserv inte får spela i annat deltagande lag som fortfarande är med i tävlingen. Har man åkt ur tävlingen kan och får man gå in som reserv i annat lag.</p>
+							<p>
+								I Matchplay är det okej att använda sig av en reserv. Reserv anmäler ni till oss på
+								<a
+									href="info@matchplay.se"
+								>info@matchplay.se</a> så fort ni vet att en reserv behövs, gärna i god tid innan matchen ska spelas så vi hinner ändra i systemet.. Är inte reserv anmäld i systemet och laget spelar med reserv kan laget bli diskvalificerat. Reservinträde skall också meddelas motståndarna innan spel, när reserv deltager i tävlingen. Man får bara använda sig av en reserv (samma person). Denna reserv kan komplettera laget vid behov under hela tävlingen. Observera att reserv inte får spela i annat deltagande lag som fortfarande är med i tävlingen. Har man åkt ur tävlingen kan och får man gå in som reserv i annat lag.
+							</p>
 						</div>
 
 						<div class="section" id="14">
 							<h3 class="pt-5">14. MATCHRAPPORTERING</h3>
-							<p>Vid avslutad match rapporteras resultatet i det digitala scorekortet, tex på er telefon. Resultatet laddas då upp direkt till hemsidan och vårt lottningssystem, som tar fram nya motståndare till er och ni får utskick om detta så fort motståndet är klart.</p>
+							<p>Det är obligatoriskt att använda vårt digitala scorekort för att rapportera matchresultat. Hemmalag (kapten eller medspelare) väljer klubb/slinga/tee när matchen ska starta, rätt slope räknas ut och matchplays regler för hcp räknas ut automatiskt. Ni rapporterar in hål för hål enkelt och ser vilket lag som vinner/förlorar/delar resp. hål. Resultatet laddas kontinuerligt upp direkt till hemsidan och matchen ligger live (för andra att följa). När matchen är avgjord visas detta i det digitala scorekortet och ni skickar in resultatet. Vinnarna får meddelande när nästa lottning är gjord (ev. förlorarna också i andra chansen).</p>
 						</div>
 
 						<div class="section" id="15">
@@ -217,6 +228,7 @@
     name: 'faq',
     data () {
       return {
+		  closed:true,
       doctitle: 'Info - ' + this.$store.state.conferencename
       }
     },

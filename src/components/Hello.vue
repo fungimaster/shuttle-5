@@ -13,12 +13,15 @@
           <b-col class="col-12 col-md-9">            
             <h2>VÄLKOMMEN TILL MATCHPLAY, GOLFTÄVLINGEN FÖR BÅDE PRIVATPERSONER OCH FÖRETAG</h2>
             <p>Matchplay är en matchspelstävling för par med officiellt handikapp. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.</p>
-            <p>Ta chansen att ta dig till Sverigefinalen och sedan vidare utomlands! Alla deltagare får pikeér från PING.</p>
-             
+            <p v-if="!closed">Ta chansen att ta dig till Sverigefinalen och sedan vidare utomlands! Alla deltagare får pikeér från PING.</p>
+             <p v-if="closed">Den 1 juni startar tävlingens första omgång!</p>
+            
+             <div v-if="!closed">
             <h2 class="mb-3">Anmälan stänger om</h2>
             <appCountdown deadline="2020-05-27 18:00:00"></appCountdown>
+             </div>
 
-             <b-alert show class="mt-4 small" variant="warning">
+             <b-alert v-if="!closed" show class="mt-4 small" variant="warning">
                 Start för tävlingen och sista anmälningsdag är ändrad! Tävlingen startar 1 juni och sista dagen för anmälan är 27:e maj. <a href="https://www.facebook.com/pg/matchplaysweden/posts/?ref=page_internal">Läs mer här</a>
                 <span hidden><strong>OBS!</strong> Alla anmälda lag får tröjor från PING men vill man vara säker på att ha dom till matchstart i början av maj så måste man anmäla laget innan 1 april.</span>               
                 <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
@@ -29,8 +32,8 @@
              </b-alert>
                        
             <div class="buttons text-left">
-              <a href="#register" class="btn blue-bg btn-md text-white mt-3 mr-2">Anmälan</a>
-              <a href="/mymatchplay" class="btn blue-bg btn-md text-white mt-3">Laghantering</a>
+              <a v-if="!closed" href="#register" class="btn blue-bg btn-md text-white mt-3 mr-2">Anmälan</a>
+              <a href="/mymatchplay" class="btn blue-bg btn-md text-white mt-3">Lag- och matchhantering</a>
             </div>
           </b-col>
           <b-col class="col-md-3 d-none d-md-block pl-2 justify-content-center align-self-center">           
@@ -48,7 +51,7 @@
       <b-container>
         <b-row>
           <b-col class="mb-3">
-            <b-alert show class="small" variant="danger">
+            <b-alert hidden class="small" variant="danger">
               <p>
                 <h4>Bäste golfare</h4>
 Med tanke på det läge vi befinner oss i gällande Coronaviruset och den oro som finns, så vill vi på Matchplay meddela alla våra redan betalda deltagare, samt alla som vill vara med, att <strong>OM någon instans</strong> skulle förklara vår sport golf som ett hot mot virusets framfart och därmed stoppa spel i hela landet i samband med vår start den 1 maj, så kommer <strong>alla få sin deltagaravgift tillbaka</strong>.
@@ -60,7 +63,7 @@ Vi ses på det kortklippta! <i class="material-icons">favorite</i>
         </b-row>
         <b-row>        
           <b-col id="register" ref="register">
-            <h2 class="teaser-header orange">Anmäl dig som spelare</h2>
+            <h2 v-if="!closed" class="teaser-header orange">Anmäl dig som spelare</h2>
             <h2 class="hidden teaser-header orange">Det är klart du vill vara med i golftävlingen, registrera dig här!</h2>
             <b-row class="mb-3 mt-3">
               <b-col md="12" class="teaser-content" ref="success" id="success">
@@ -84,7 +87,7 @@ Vi ses på det kortklippta! <i class="material-icons">favorite</i>
                   <b-row class="mt-4 mb-4">
                     
                     
-                     <b-col xs="12" sm="7">
+                     <b-col v-if="!closed" xs="12" sm="7">
                        <h4>Alla deltagare får en piké från PING</h4>
                        <b-row>
                          <b-col class="col-7">
@@ -96,13 +99,17 @@ Vi ses på det kortklippta! <i class="material-icons">favorite</i>
                        </b-row>
                        
                      </b-col>
-                     <b-col sm="1" class="d-none d-sm-block left-line">
-                       
+                    
+                      <b-col xs="12" sm="6" class="mt-4 mt-md-0">
+                       <h4>Kommande matcher</h4>
+                        <p>Inom kort kommer bokade matcher visas här samt annan information om lagen!</p>
+                         
                      </b-col>
-                      <b-col xs="12" sm="4" class="mt-4 mt-md-0">
+                     
+                      <b-col xs="12" sm="6" class="mt-4 mt-md-0 mr-0 pr-0">
                        <h4>Topplista klubbar *</h4>
                         <b-row v-for="(club,idx) in clubs" :key="idx">
-                          <b-col class="col-10">
+                          <b-col class="col-10 mr-0 pr-0">
                               <span class="line">{{idx+1}}. {{truncate(club.club)}}</span>
                           </b-col>
                           <b-col hidden class="col-2 text-right">                           
@@ -115,7 +122,7 @@ Vi ses på det kortklippta! <i class="material-icons">favorite</i>
                          
                      </b-col>
                   </b-row>
-                       <b-row class="mt-4 mb-2">
+                       <b-row v-if="!closed" class="mt-4 mb-2">
                     <b-col xs="12" sm="12" class="mt-2">
                       <h4>Skriv in ditt Golf-ID</h4>
                       <p>Börja med att ange ditt Golf-ID så hämtar vi en del av informationen automatiskt från Svenska Golfförbundet.</p>
@@ -125,7 +132,7 @@ Vi ses på det kortklippta! <i class="material-icons">favorite</i>
                     </b-col>
                   </b-row>
 
-               <b-form inline @submit.stop.prevent @submit="getGolfId" @reset="onReset" v-if="showform1">
+               <b-form  inline @submit.stop.prevent @submit="getGolfId" @reset="onReset" v-if="showform1 && !closed">
                   <b-input :state="validation" v-model="golfid"
                     inputmode="numeric"
                     pattern="[- +()0-9]+"
@@ -186,7 +193,7 @@ Vi ses på det kortklippta! <i class="material-icons">favorite</i>
         height="4px"
       ></b-progress>
     </b-alert>                
-                   <b-alert show class="mt-4 small form-text text-muted">Saknar du ditt Golf-ID ber vi dig kontakta din hemmaklubb för hjälp.</b-alert>                  
+                   <b-alert v-if="!closed" show class="mt-4 small form-text text-muted">Saknar du ditt Golf-ID ber vi dig kontakta din hemmaklubb för hjälp.</b-alert>                  
                    
                     
 
@@ -418,7 +425,7 @@ Vi ses på det kortklippta! <i class="material-icons">favorite</i>
            <div class="step">
             <i class="material-icons">ballot</i>
             <h5>Lottning</h5>
-            <p>I slutet av april görs lottningen för den första omgången och där det tas hänsyn till att alla lag ska få så kort resa som möjligt. Du kommer få information via mail samt på matchplay.se när lottningen är klar och du kan då se vilket lag ni kommer möta.</p>
+            <p>I slutet av maj görs lottningen för den första omgången och där det tas hänsyn till att alla lag ska få så kort resa som möjligt. Du kommer få information via mail samt på matchplay.se när lottningen är klar och du kan då se vilket lag ni kommer möta.</p>
             </div>
           </b-col>
 
@@ -442,7 +449,7 @@ Vi ses på det kortklippta! <i class="material-icons">favorite</i>
             <div class="step">
               <i class="material-icons">flight_takeoff</i>
             <h5>Finalen</h5>
-            <p>De 2 vinnande lagen i Sverigefinalen åker med Matchplay till Spanska solkusten för att göra upp om titeln. Flyg, hotell och allt spel ingår för de bägge lagen och på vilken bana finalen spelas blir klart under januari 2020.</p>
+            <p>De 2 vinnande lagen i Sverigefinalen åker med Matchplay till Spanska solkusten för att göra upp om titeln. Flyg, hotell och allt spel ingår för de bägge lagen och på vilken bana finalen spelas blir klart under sommaren 2020 (beroende på utv. av Covid-19).</p>
             </div>
           </b-col>
 
@@ -548,6 +555,7 @@ components: {
     },
   data() {
     return {
+  closed: true,
    bindProps: {
         mode: "international",
         defaultCountry: "SE",
@@ -684,7 +692,7 @@ components: {
  
   methods: {    
      truncate: function(club) {
-        let len = 50;
+        let len = 30;
         if (club.length > len)
           return club.substring(0,len) + '...';
         else
@@ -697,7 +705,7 @@ components: {
                 
                 this.axios.post('https://matchplay.meteorapp.com/methods/' + 'getTopClubs', {    //getclubstoplist                   
                         "competition":"sFAc3dvrn2P9pXHAz",
-	                      "no":5
+	                      "no":10
                     })
                     .then(response => {
                         //console.log(response.data)                        
