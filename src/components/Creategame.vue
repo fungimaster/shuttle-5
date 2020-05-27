@@ -87,6 +87,8 @@
                     Era nya hcp samt slag per hål ser ni i nästa steg.</b-alert
                   >
                 </div>
+                <p>Välj tee för spelarna</p>
+
                 <b-form-group
                   v-for="(player, index) in players"
                   :key="player.index"
@@ -154,21 +156,19 @@
             {{ errorMSG }}
           </div>
         </b-col>
-        <b-col class="col-12 mt-5 pt-5"> </b-col>
+        <b-col class="col-12 mt-5"> </b-col>
 
-        <footer class="fixed-bottom" md="12">
-          <b-row class="teOff" no-gutters>
-            <b-col v-if="form.slinga && allTeesSelected" md="12">
-              <b-button
-                class="teOffButton"
-                @click="onSubmit"
-                variant="primary"
-                size="lg"
-                >Tee off!</b-button
-              >
-            </b-col>
-          </b-row>
-        </footer>
+        <b-row class="" no-gutters>
+          <b-col v-if="form.slinga && allTeesSelected" md="12">
+            <b-button
+              class="btn btn-success btn-sm text-white mt-3 mr-md-2"
+              @click="onSubmit"
+              variant="primary"
+              size="lg"
+              >Tee off!</b-button
+            >
+          </b-col>
+        </b-row>
       </b-row>
     </b-container>
   </div>
@@ -182,6 +182,7 @@ import { globalState } from "../main.js";
 
 export default {
   async beforeMount() {
+    //Uppdatera username i meny
     this.$store.dispatch("updateUserInfo");
     this.gameID = this.$route.query.id;
 
@@ -190,7 +191,8 @@ export default {
       return;
     }
 
-    //Create dummy data
+    //Skapa Dummy data
+
     this.players = [
       {
         name: "Player 1",
@@ -309,6 +311,7 @@ export default {
         tee: "",
       },
     ];
+
     try {
       this.axios
         .post("https://admin.matchplay.se/methods/getGameData", {
@@ -319,16 +322,15 @@ export default {
           if (response.data.status == "No game found") {
             this.errorMSG = "Something went wrong (No game found)";
           } else {
+            if (response.data.club) {
+              this.savedclubId = response.data.club;
+            }
+            if (response.data.loop) {
+              this.savedLoopId = response.data.loop;
+            }
             this.createPlayers(response.data);
           }
           //Kolla om klubb redan är vald
-
-          if (response.data.club) {
-            this.savedclubId = response.data.club;
-          }
-          if (response.data.loop) {
-            this.savedLoopId = response.data.loop;
-          }
         })
         .catch((error) => {
           this.errorMSG = "Something went wrong (getGameData failed)";
@@ -352,6 +354,7 @@ export default {
               this.courseQuery.push({
                 title: course.title,
                 gitID: course.gitID,
+                id: course._id,
               });
           });
           this.loading = false;
@@ -391,6 +394,9 @@ export default {
       errorMSG: "",
       form: {
         course: "",
+        courseID: "",
+        loop: "",
+        loopname: "",
         slinga: "",
         checked: [],
         tees: "",
@@ -419,11 +425,10 @@ export default {
         let preSelectedCourse = this.courses.find(
           (course) => course._id === this.savedclubId
         );
-
+        this.form.courseID = this.savedclubId;
         this.loadingCourse = 1;
         this.form.course = preSelectedCourse.title;
         this.getCourse(preSelectedCourse.gitID);
-        console.log(this.savedLoopId);
       }
     },
     onSearchItemSelected(item) {
@@ -433,40 +438,51 @@ export default {
       this.form.slinga = "";
       this.loadingCourse = 1;
       this.form.course = item.title;
+      this.form.courseID = item.id;
       this.getCourse(item.gitID);
+      console.log(item);
     },
     createPlayers: function (data) {
-      this.players[0].name = data.hometeamleadername;
-      this.players[0].gitID = data.hometeamleadergolfid;
-      this.players[1].name = data.hometeammembername;
-      this.players[1].gitID = data.hometeammembergolfid;
-      this.players[2].name = data.awayteamleadername;
-      this.players[2].gitID = data.awayteamleadergolfid;
-      this.players[3].name = data.awayteammembername;
-      this.players[3].gitID = data.awayteammembergolfid;
+      if (
+        data.hometeamleadergolfid &&
+        data.hometeammembergolfid &&
+        data.awayteamleadergolfid &&
+        data.awayteammembergolfid
+      ) {
+        this.players[0].name = data.hometeamleadername;
+        this.players[0].gitID = data.hometeamleadergolfid;
+        this.players[1].name = data.hometeammembername;
+        this.players[1].gitID = data.hometeammembergolfid;
+        this.players[2].name = data.awayteamleadername;
+        this.players[2].gitID = data.awayteamleadergolfid;
+        this.players[3].name = data.awayteammembername;
+        this.players[3].gitID = data.awayteammembergolfid;
 
-      this.players.forEach((element) => {
-        this.axios
-          .post(globalState.admin_url + "getPlayerByGolfid", {
-            golfid: element.gitID,
-          })
-          .then((response) => {
-            element.hcp = parseFloat(
-              response.data.hcp.replace(/,/g, ".")
-            ).toFixed(1);
-            element.name =
-              response.data.firstname + " " + response.data.lastname;
-            console.log(response.data);
-            element.gender = response.data.gender;
-          })
-          .catch((error) => {
-            this.errorMSG = "Something went wrong (Player not found)";
+        this.players.forEach((element) => {
+          this.axios
+            .post(globalState.admin_url + "getPlayerByGolfid", {
+              golfid: element.gitID,
+            })
+            .then((response) => {
+              element.hcp = parseFloat(
+                response.data.hcp.replace(/,/g, ".")
+              ).toFixed(1);
+              element.name =
+                response.data.firstname + " " + response.data.lastname;
 
-            console.log(error);
-          });
-      });
+              element.gender = response.data.gender;
+            })
+            .catch((error) => {
+              this.errorMSG = "Something went wrong (Player not found)";
 
-      console.log(this.players);
+              console.log(error);
+            });
+        });
+
+        console.log(this.players);
+      } else {
+        this.errorMSG = "Something went wrong (Missin GIT on player)";
+      }
     },
     // Get info from GIT
     getCourse: function (gitID) {
@@ -553,10 +569,8 @@ export default {
       });
 
       this.slingaOptions = parsedLoop;
-      console.log(this.slingaOptions);
     },
     async onSubmit() {
-      console.log(this.holesArray);
       this.loadingtext = "Skapar scorekort";
       this.loading = true;
 
@@ -565,6 +579,11 @@ export default {
           _id: this.gameID,
           holes: this.holesArray,
           scorecard: this.players,
+          status: "In progress",
+          club: this.form.courseID,
+          clubname: this.form.course,
+          loop: this.form.loop,
+          loopname: this.form.loopname,
         })
         .then((response) => {
           console.log(response.data);
@@ -622,14 +641,15 @@ export default {
     teeAndSlope(id) {
       //this.selectedSearchItem = item;
       //console.log('selected',item);
+
       this.teeOptions = [];
       this.teeOptionsMale = [];
       this.teeOptionsFemale = [];
       let result = this.slingaOptions.find((item) => item.value == id);
-      console.log(this.slingaOptions);
       console.log(result);
-      console.log(id);
       let coursepar = 0;
+      this.form.loop = result.value;
+      this.form.loopname = result.text;
 
       result.Holes.forEach((holeItem) => {
         let hole = {};
@@ -765,8 +785,8 @@ export default {
 
 /*  BUTTONS */
 
-.btn.btn-primary.active,
-.btn.btn-primary:active {
+>>> .btn.btn-primary.active,
+>>> .btn.btn-primary:active {
   background-color: #d77c27 !important;
   /*outline: 0.5px dashed rgba(255, 255, 255, 0.9) !important;*/
   /*outline-offset: -2px !important;*/
@@ -775,20 +795,14 @@ export default {
   outline: none;
 }
 
-.btn.btn-primary,
-.btn.btn-primary {
+>>> .btn.btn-primary,
+>>> .btn.btn-primary {
   background-color: #074da1 !important;
   border-radius: 40 !important;
   border: 0 !important;
   margin: 1px !important;
-}
-
-.btn-primary,
-.btn-primary {
-  background-color: #074da1 !important;
-  border-radius: 40 !important;
-  border: 0 !important;
-  margin: 1px !important;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 /* FOOTEr */
