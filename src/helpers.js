@@ -1,4 +1,4 @@
-const schp = (slopeRating, courseRating, banansPar, players) => {
+const shcp = (players) => {
   let playerData = players;
   let slopeHandicapList = [];
 
@@ -50,9 +50,7 @@ const schp = (slopeRating, courseRating, banansPar, players) => {
 
   //slope-hcp
   playerData.forEach((player) => {
-    slopeHandicapList.push(
-      hcpSlope(player.hcp, slopeRating, courseRating, banansPar)
-    );
+    slopeHandicapList.push(player.shcp);
   });
 
   let hcpSlopeReduced = slopeHandicapList.map((hcpSlope) => hcpSlope * 0.9);
@@ -77,11 +75,4 @@ const schp = (slopeRating, courseRating, banansPar, players) => {
   return { slopeHandicapList, newHcpPrel };
 };
 
-const hcpSlope = (hcp, courseRating, slopeRating, banansPar) => {
-  let hcpSlope = Math.round(
-    hcp * (slopeRating / 113) + (courseRating - banansPar)
-  );
-  return hcpSlope;
-};
-
-export { schp, hcpSlope };
+export { shcp };
