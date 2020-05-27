@@ -1199,7 +1199,9 @@
         onSearchItemSelected(item) {
 
             this.loadingCourse = 1;
+            this.slinganame = '';
             this.getCourse(item.gitID); //get loops
+
             
 
             this.selectedSearchItem = item.title;

@@ -145,7 +145,7 @@
       </template>    
 
 <b-container class="mt-3 mt-md-5" v-if="team.step === 0">        
-            <b-row align-h="center" v-if="teams.length === 0 || !teams.length">
+            <b-row align-h="center" v-if="teams.length === 0 || !teams.length || !closed">
                     <b-col md="12" class="mt-2">
                         <h2 hidden>Skapa ditt blivande mästarlag</h2>
                         <p class="mt-3">Nu är det dags att skapa ditt lag för matchplay 2020. Klicka på knappen nedan och följ instruktionerna.</p>
@@ -240,7 +240,7 @@
                                 <p class="mb-0" style="color:green;" v-if="team.paid">
                                     <i class="material-icons mr-2">attach_money</i>{{text.paidteam}}
                                 </p>
-                                <p class="mb-0" style="color:red;" v-if="!team.paid">
+                                <p class="mb-0" style="color:red;" v-if="!team.paid || !closed">
                                     <i class="material-icons mr-2">money_off</i>{{text.not_paidteam}}
                                     <b-button v-if="!team.invoice" @click="goToStep(team, 4)" variant="success" class="btn-sm float-right">Betala</b-button>
                                 </p>
@@ -1115,7 +1115,8 @@ export default {
     data() {
         let clubs = [];
         let countries = ['Afghanistan', 'Åland Islands', 'Albania', 'Algeria', 'American Samoa', 'AndorrA', 'Angola', 'Anguilla', 'Antarctica', 'Antigua and Barbuda', 'Argentina', 'Armenia', 'Aruba', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bermuda', 'Bhutan', 'Bolivia', 'Bosnia and Herzegovina', 'Botswana', 'Bouvet Island', 'Brazil', 'British Indian Ocean Territory', 'Brunei Darussalam', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Cape Verde', 'Cayman Islands', 'Central African Republic', 'Chad', 'Chile', 'China', 'Christmas Island', 'Cocos (Keeling) Islands', 'Colombia', 'Comoros', 'Congo', 'Congo, The Democratic Republic of the', 'Cook Islands', 'Costa Rica', 'Cote D\'Ivoire', 'Croatia', 'Cuba', 'Cyprus', 'Czech Republic', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic', 'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Eritrea', 'Estonia', 'Ethiopia', 'Falkland Islands (Malvinas)', 'Faroe Islands', 'Fiji', 'Finland', 'France', 'French Guiana', 'French Polynesia', 'French Southern Territories', 'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana', 'Gibraltar', 'Greece', 'Greenland', 'Grenada', 'Guadeloupe', 'Guam', 'Guatemala', 'Guernsey', 'Guinea', 'Guinea-Bissau', 'Guyana', 'Haiti', 'Heard Island and Mcdonald Islands', 'Holy See (Vatican City State)', 'Honduras', 'Hong Kong', 'Hungary', 'Iceland', 'India'];
-        return {           
+        return {    
+            closed: true,       
             tabIndex: 0,
             games:0,
             teamscount:0,

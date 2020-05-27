@@ -11,7 +11,7 @@
           <h1>Pikeér från PING</h1>
           <p class="mt-3">Tack vare vår sponsor PING förses alla deltagare med en piké när man anmält sitt lag! <strong>Värde 599: per styck.-</strong>
           </p>
-          <p>
+          <p v-if="!closed">
           Du väljer pikeér till ditt lag efter  <a href="/#register">registreringen</a>.
           </p>
         </b-col>
@@ -92,6 +92,7 @@
     name: 'ping',
     data () {
       return {
+         closed: true,
         doctitle: 'Pikeér från PING',
        shirts: [
       { name: 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_300,c_scale/v1575307928/matchplay/ping/1.png' }     
