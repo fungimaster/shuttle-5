@@ -1,5 +1,5 @@
 <template>
-	<div v-if="['Scorecard','CreateGame','Game'].indexOf($route.name) === -1">
+	<div v-if="['Scorecard','CreateGame','Game','MyMatchplay'].indexOf($route.name) === -1">
 		<b-container class="sponsors">
 			<hr class="mb-5" />
 
@@ -132,10 +132,10 @@ export default {
 		margin-top: 12rem;
 		padding: 10rem 0 0 0;
 		/*  background-image: url(
-	    https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,
-	    q_69,
-	    w_1207/v1572942209/matchplay/c640cf_402261724c71433c9662662c3114e5b8_mv2_d_4500_3000_s_4_2.png
-	  ); */
+		    https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,
+		    q_69,
+		    w_1207/v1572942209/matchplay/c640cf_402261724c71433c9662662c3114e5b8_mv2_d_4500_3000_s_4_2.png
+		  ); */
 		background-repeat: no-repeat;
 		background-position: top center;
 		background-size: cover;

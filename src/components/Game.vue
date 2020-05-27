@@ -100,7 +100,7 @@
             <b-row class="justify-content-center" align-h="center">
               <b-col class="col-12 text-center p-0 mt-3">
                 <b-tabs content-class="mt-4" v-model="tabIndex" no-key-nav>
-                  <b-tab title-link-class="ml-1 p-2">
+                  <b-tab v-if="status !='Finished'" title-link-class="ml-1 p-2">
                     <template v-slot:title>
                       <span class="my-nav-item">Spelplats</span>
                     </template>
@@ -119,6 +119,8 @@
                       <div v-else>Speltid är inte bestämd än</div>
                       <div v-if="query">@ {{query}}</div>
                       <div v-else>@ (Golfbana saknas)</div>
+                      <div v-if="slinganame">{{slinganame}}</div>
+                      <div v-else>(Slinga saknas)</div>
 
 
 
@@ -199,6 +201,42 @@
                               </b-form-input>
                             </b-form-group>
 
+                            
+                 <!--  VÄLJA SLINGA -->
+              <div
+                v-if="loadingCourse == 1"
+                class="d-flex justify-content-center mb-3"
+              >
+ <b-spinner
+                        small
+                        type="grow"
+                        class="m-2"
+                      ></b-spinner>
+                      <p>Hämtar slingor...</p>
+              </div>
+              <transition name="fade" v-if="query && loadingCourse === 2">
+              
+                  <b-form-group
+                  id="input-group-3"
+                  v-if="slingaOptions.length > 0"
+                  class="inputField"
+                  label="Välj slinga"
+                >
+                  <b-form-select
+                    v-model="slinga"
+                    :options="slingaOptions"
+                     v-on:change="setLoopname"
+                  ></b-form-select>
+                </b-form-group>
+                <p v-if="slingaOptions === 0">Ingen 18-hålsbana hittad</p>
+                
+                    
+                 </transition>
+
+                     <p v-if="slinganame">Slinga: {{slinganame}}</p>
+                
+                
+
                             <b-button v-if="!isSaving"
                               @click="saveResult()"
                               variant="warning"
@@ -213,9 +251,16 @@
                             class="mr-2"
                           ></b-spinner
                           >Sparar...</b-button>
+                              <b-button
+                              @click="clear()"
+                              variant="danger"
+                              class="mr-1 mb-3 btn-sm"
+                              ><i class="material-icons mr-2">clear</i>Rensa</b-button
+                            >
+                            
                             <a
                               v-if="awayteamleadermobile"
-                              :href="'sms://'+awayteamleadermobile + '?&body=Dags att spela golf i Matchplay! Vi möts på ' + query + ' ' + getgamedate() + ' kl ' + gametime + '. MVH ' + hometeamleadername"
+                              :href="'sms://'+awayteamleadermobile + '?&body=Dags att spela golf i Matchplay! Vi spelar på ' + query + ' (' + slinganame + ') ' + getgamedate() + ' kl ' + gametime + '. MVH ' + hometeamleadername"
                               ><span
                                 class="btn btn-info btn-sm text-white mr-1 mb-2"
                                 ><i class="material-icons mr-2">textsms</i
@@ -237,7 +282,7 @@
                       <b-row class="justify-content-center" align-h="center">
                         <b-col class="col-12 text-left">
                          
-                          <b-alert show class="mt-1 small" variant="info">
+                          <b-alert v-if="status !== 'Finished'" show class="mt-1 small" variant="info">
                             Hemmalaget ansvarar för att föra score för matchen via vårt system!
                             Rätt hcp-regler används och vi hämtar aktuella
                             hcp/slope/tee från Svenska Golfförbundet.
@@ -263,7 +308,7 @@
                            Klicka på knappen <strong>STARTA MATCH</strong> nedanför för att välja klubb/slinga/tee för spelarna när det är dags att spela golf!
                           </b-alert>
 
-                          <b-button v-if="isteamleader"
+                          <b-button v-if="isteamleader && status === 'Pending'"
                           :disabled="status === 'Finished'"
                             @click="startGame()"
                             variant="success"
@@ -271,6 +316,22 @@
                             ><i class="material-icons mr-2"
                               >play_circle_filled</i
                             >Starta match</b-button
+                          >
+                          <b-button v-if="isteamleader && status === 'In progress'"
+                            @click="getScorecard()"
+                            variant="success"
+                            class="mr-1 mt-3"
+                            ><i class="material-icons mr-2"
+                              >play_circle_filled</i
+                            >Öppna scorekortet</b-button
+                          >
+                          <b-button v-if="status === 'Finished'"
+                            @click="getScorecard()"
+                            variant="success"
+                            class="mr-1 mt-3"
+                            ><i class="material-icons mr-2"
+                              >play_circle_filled</i
+                            >Visa scorekortet</b-button
                           >
                         </b-col>
                       </b-row>
@@ -358,7 +419,7 @@
 
                       <!-- away team member -->
 
-                      <b-col v-if="!isteammember" class="col-12 text-right">
+                      <b-col v-if="!isteammember && awayteamleadergolfid" class="col-12 text-right">
                         <span class="contact"
                           >{{awayteamleadername}} ({{awayteamleadergolfid}})</span
                         >
@@ -393,10 +454,11 @@
                           >
                         </p>
                       </b-col>
+                       
 
  <!-- away team member -->
 
-                      <b-col v-if="!isteammember" class="col-12 text-right mt-3">
+                      <b-col v-if="!isteammember && awayteammembergolfid" class="col-12 text-right mt-3">
                         <span class="contact"
                           >{{awayteammembername}} ({{awayteammembergolfid}})</span
                         >
@@ -431,6 +493,7 @@
                           >
                         </p>
                       </b-col>
+                       
 
 
 
@@ -698,6 +761,10 @@
         },
       ],
         //TYPEAHEAD CLUBS
+      slinga: '',
+      slinganame: '',
+      slingaOptions: [],
+      loadingCourse: 0,
       query: '',
       clubs: clubs,
       clubid:'',
@@ -755,6 +822,9 @@
       }
     },
  created() {
+
+     //scroll to top
+      window.scrollTo(0, 0);
 
      //check logged in
      let userinfo = localStorage.getItem('userinfo');
@@ -843,15 +913,33 @@
 
 
                             this.hometeamleadername = response.data.hometeamleadername;
-                            //this.hometeamleaderid = response.data.hometeamleader;
                             this.hometeamleadermobile = response.data.hometeamleadermobile;
                             this.hometeamleaderemail = response.data.hometeamleaderemail;
-                            this.hometeammemberemail = response.data.hometeammemberemail;
-                            this.awayteamleadername = response.data.awayteamleadername;
-                            this.awayteammembername = response.data.awayteammembername;
+
+                          
+                             if (response.data.hasOwnProperty('hometeammemberemail')) {
+                              this.hometeammemberemail = response.data.hometeammemberemail
+                            }
+
+                            if (response.data.hasOwnProperty('hometeammembermobile')) {
+                              this.hometeammembermobile = response.data.hometeammembermobile
+                            }
+
                             this.awayteamleadermobile = response.data.awayteamleadermobile;
                             this.awayteamleaderemail = response.data.awayteamleaderemail;
-                            this.awayteammemberemail = response.data.awayteammemberemail;
+                            
+                           if (response.data.hasOwnProperty('awayteammembername')) {
+                              this.awayteammembername = response.data.awayteammembername
+                            }
+                           
+                           if (response.data.hasOwnProperty('awayteammemberemail')) {
+                              this.awayteammemberemail = response.data.awayteammemberemail
+                            }
+
+                            if (response.data.hasOwnProperty('awayteammembermobile')) {
+                              this.awayteammembermobile = response.data.awayteammembermobile
+                            }
+                  
 
                             //IS TEAM LEADER?
                             let userinfo = localStorage.getItem('userinfo');
@@ -900,6 +988,16 @@
                               //console.log('no game date')
                             }
 
+                            //set loop
+                             if (response.data.hasOwnProperty('loop')) {
+                             this.slinga = response.data.loop;
+                             this.slinganame = response.data.loopname;
+                             this.slingaOptions = {"name":this.slinganame}
+                             this.loadingCourse == 2
+                            } else {
+                              //console.log('no game date')
+                            }
+
 
 
 
@@ -920,6 +1018,85 @@
 },
 
    methods: {
+     clear() {
+
+        this.boxTwo = ''
+            this.$bvModal.msgBoxConfirm('Är du säker på att du vill rensa bana/slinga för matchen? Du kan alltid välja ny efter.', {
+                    title: 'Rensa spelplats??',
+                    size: 'md',
+                    buttonSize: 'md',
+                    okVariant: 'danger',
+                    okTitle: 'Japp, jag är säker',
+                    cancelTitle: 'Nej tack',
+                    footerClass: 'p-2',
+                    hideHeaderClose: false,
+                    centered: true
+                })
+                .then(value => {
+                    if (value) {
+                         this.query = '';
+        this.slingaOptions = [];
+        this.slinganame = '';
+        this.loadingCourse = 0;
+        this.saveResult()
+                    }
+                })
+                .catch(err => {
+                    // An error occurred
+                })
+
+
+
+       
+     },
+     setLoopname(id) {
+       console.log(id);
+       let result = this.slingaOptions.find((item) => item.value == id);
+      this.slinganame = result.text;
+     
+     },
+         // Get info from GIT
+    getCourse: function (gitID) {
+      this.axios
+        .post(globalState.admin_url + "getCourseInfoData", {
+          id: gitID,
+        })
+        .then((response) => {
+          this.parseCourse(response.data);
+          //console.log(response.data);
+        })
+        .catch((error) => {
+          this.errorMSG = "Something went wrong (No course found)";
+          console.log(error);
+        });
+    },
+      // Hämta alla loops och hål från en bana
+    parseCourse: function (course) {
+      let parsedLoop = [];
+      course.forEach((courseItem) => {
+        if (courseItem.IsNineHoleCourse == "false") {
+          courseItem.Loops.forEach((loop) => {
+            if (Array.isArray(loop)) {
+              loop.forEach((item) => {
+                let loopItem = {};
+                loopItem.value = item.ID;
+                loopItem.text = item.Name;
+                loopItem.slopes = item.Slopes;
+                loopItem.Holes = item.Holes;
+
+                if (loopItem.Holes.length == 18) {
+                  parsedLoop.push(loopItem);
+                }
+              });
+            }
+          });
+        }
+      });
+
+      this.slingaOptions = parsedLoop;
+      //Dölj spinner och visa slingor
+      this.loadingCourse = 2;
+    },
      getgamedate: function() {
         return moment(this.gamedate).format('YYYY-MM-DD')
      },
@@ -1020,6 +1197,10 @@
             })
         },
         onSearchItemSelected(item) {
+
+            this.loadingCourse = 1;
+            this.getCourse(item.gitID); //get loops
+            
 
             this.selectedSearchItem = item.title;
             this.query = item.title;
@@ -1157,6 +1338,9 @@
       startGame() {
        location.href = "creategame?id="+this.game_id;
       },
+       getScorecard() {
+       location.href = "scorecard?id="+this.game_id;
+      },
       saveResult() {
 
         //if (this.lastsaved !== moment().format('HH:mm')) {
@@ -1171,12 +1355,15 @@
 
     //FETCH DATA FROM ID AND METHOD
     //updateGame(_id) --> status :ok / error
+    
 
                         this.axios.post(globalState.admin_url+'updateGame', {
                             "_id": gameid,
                             "gamedate": moment(this.gamedate).format('YYYY-MM-DD'),
                             "gametime": this.gametime,
-                            "club": this.clubid
+                            "club": this.clubid,
+                            "loop": this.slinga,
+                            "loopname": this.slinganame
                             //"winner": this.winner,
                             //"status": this.status
                         })
