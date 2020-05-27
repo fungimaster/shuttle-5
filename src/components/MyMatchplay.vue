@@ -167,7 +167,7 @@
                             <b-card-title>
                                 <span v-if="team.type === 'Company'" class="pr-2">{{team.teamname}}</span>
                                 <span v-else class="pr-2">Ditt lag</span>
-                                <div v-if="!team.teammemberemail && !team.teammembergolfid">
+                                <div v-if="!team.teammemberemail && !team.teammembergolfid && !closed">
                                     <b-button size="sm" v-if="!team.invoice" @click="goToStep(team, 2)" variant="success" class="mt-3">Bjud in lagkamrat</b-button>
                                 </div>
                             </b-card-title>
@@ -240,9 +240,9 @@
                                 <p class="mb-0" style="color:green;" v-if="team.paid">
                                     <i class="material-icons mr-2">attach_money</i>{{text.paidteam}}
                                 </p>
-                                <p class="mb-0" style="color:red;" v-if="!team.paid || !closed">
+                                <p class="mb-0" style="color:red;" v-if="!team.paid">
                                     <i class="material-icons mr-2">money_off</i>{{text.not_paidteam}}
-                                    <b-button v-if="!team.invoice" @click="goToStep(team, 4)" variant="success" class="btn-sm float-right">Betala</b-button>
+                                    <b-button v-if="!team.invoice && !closed" @click="goToStep(team, 4)" variant="success" class="btn-sm float-right">Betala</b-button>
                                 </p>
                             </template>
                             <b-button hidden variant="primary" class="blue-bg">Redigera lag</b-button>
