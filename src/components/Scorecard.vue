@@ -458,8 +458,16 @@
 					</b-col>
 				</b-row>
 
-				<!--  TABELL HÅL 1-9 -->
+				<!--  TABELL CLUBNAME AND LOOP (EGEN TABELL FÖR ATT KUNNA SÄTTA TEXT-OVERFLOW: ELLIPSIS--> 
+				<table class="tableClubAndLoop">
+					<tr >	
+						<td colspan="2" class="tableClubAndLoopTd"> {{clubname}}: {{loop}}</td>
+					</tr>
+				</table>
+
+				<!--  TABELL HÅL 1-9 --> 
 				<table class="table9">
+					
 					<tr>
 						<th>Hole:</th>
 						<td v-for="hole in course.slice(0, 9)" :key="hole.index">{{ hole.hole }}</td>
@@ -779,6 +787,8 @@
 				winningTeam: "",
 				gameClosed: false, 
 				hcpUnmutated: [],
+				clubname:"", 
+				loop: "",
 
 
 				//Fiktiv data nedan
@@ -1310,7 +1320,9 @@
 
 				try {
 					let response = await axios.post(url, gameID);
-				
+					this.clubname = response.data.clubname
+					this.loop = response.data.loopname
+
 					this.course = response.data.holes;
 					this.players  = response.data.scorecard
 					this.homeTeamId = response.data.hometeam
@@ -1730,6 +1742,25 @@
 	}
 
 	/* leader board      ---> table */
+
+	.table9 {
+		margin-top: 0
+	}	
+
+	.tableClubAndLoop{
+		margin-bottom: 0;
+		text-align: left;
+		table-layout: fixed;
+		font-size: 12px;
+		width: 100%;
+	}
+	.tableClubAndLoopTd {
+		text-align: left;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		border-bottom: 0;
+	}
 
 	table {
 		table-layout: auto;
