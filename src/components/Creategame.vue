@@ -318,7 +318,6 @@ export default {
           id: this.gameID,
         })
         .then((response) => {
-          console.log(response.data);
           if (response.data.status == "No game found") {
             this.errorMSG = "Something went wrong (No game found)";
           } else {
@@ -478,8 +477,6 @@ export default {
               console.log(error);
             });
         });
-
-        console.log(this.players);
       } else {
         this.errorMSG = "Something went wrong (Missin GIT on player)";
       }
@@ -492,7 +489,6 @@ export default {
         })
         .then((response) => {
           this.parseCourse(response.data);
-          console.log(response.data);
         })
         .catch((error) => {
           this.errorMSG = "Something went wrong (No course found)";
@@ -646,7 +642,7 @@ export default {
       this.teeOptionsMale = [];
       this.teeOptionsFemale = [];
       let result = this.slingaOptions.find((item) => item.value == id);
-      console.log(result);
+
       let coursepar = 0;
       this.form.loop = result.value;
       this.form.loopname = result.text;
