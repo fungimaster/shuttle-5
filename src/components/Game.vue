@@ -260,7 +260,7 @@
                             
                             <a
                               v-if="awayteamleadermobile"
-                              :href="'sms://'+awayteamleadermobile + '?&body=Dags att spela golf i Matchplay! Vi spelar på ' + query + ' (' + slinganame + ') ' + getgamedate() + ' kl ' + gametime + '. MVH ' + hometeamleadername"
+                              :href="'sms://'+awayteamleadermobile + '?&body=Dags att spela golf i Matchplay! Vi spelar på ' + query.replace('&','och') + ' (' + slinganame.replace('&','och') + ') ' + getgamedate() + ' kl ' + gametime + '. MVH ' + hometeamleadername"
                               ><span
                                 class="btn btn-info btn-sm text-white mr-1 mb-2"
                                 ><i class="material-icons mr-2">textsms</i
