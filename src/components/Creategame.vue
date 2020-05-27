@@ -13,7 +13,7 @@
                     class="m-5"
                     style="width: 5rem; height: 5rem;"
                   ></b-spinner>
-                  <p>Hämtar banor...</p>
+                  <p>{{ loadingtext }}</p>
                 </b-col>
               </b-row>
             </b-container>
@@ -21,13 +21,7 @@
           <div v-if="!errorMSG && !loading">
             <div>
               <!-- VÄLJA KLUBB -->
-              <b-button
-                class="teOffButton"
-                @click="clearCourse"
-                variant="primary"
-                size="sm"
-                >clear</b-button
-              >
+
               <b-form-group label="Välj klubb från listan:" class="inputField">
                 <suggestions
                   v-model="form.course"
@@ -81,7 +75,18 @@
             <!-- VÄLJA TEE -->
 
             <transition name="fade" mode="out-in" class="inputField">
-              <div v-if="form.slinga" class="teams">
+              <div v-if="form.slinga">
+                <div class="col-12 m-0 p-0 mb-3">
+                  <b-alert
+                    v-if="form.slinga"
+                    show
+                    class="mt-3 mb-0 small"
+                    variant="info"
+                    >Era handicap kommer räknas ut exakt med slope mm efter val
+                    av tee tillsammans med matchplays regler för hcp-uträkning.
+                    Era nya hcp samt slag per hål ser ni i nästa steg.</b-alert
+                  >
+                </div>
                 <b-form-group
                   v-for="(player, index) in players"
                   :key="player.index"
@@ -91,7 +96,7 @@
                       <div
                         class="teamColor"
                         :class="
-                          player.team === team1
+                          player.team === 1
                             ? 'teamColorBanner1'
                             : 'teamColorBanner2'
                         "
@@ -99,11 +104,7 @@
                     </b-col>
                     <b-col cols="10">
                       <p class="playerInfo" id="playerName">
-                        {{ player.name }} (hcp: {{ player.hcp }}, shcp:
-                        <span v-if="player.shcp == null">Välj tee</span
-                        ><span v-else>
-                          {{ Number(player.shcp.toFixed(1)) }})
-                        </span>
+                        {{ player.name }} (hcp: {{ player.hcp }})
                       </p>
                     </b-col>
                   </b-row>
@@ -116,7 +117,7 @@
               -->
                         <b-form-radio-group
                           v-if="player.gender == 0"
-                          v-model="form.tees[index]"
+                          v-model="form.checked[index]"
                           v-on:change="
                             getSlopes($event, player.playerId, player.hcp)
                           "
@@ -130,7 +131,7 @@
                         </b-form-radio-group>
                         <b-form-radio-group
                           v-if="player.gender == 1"
-                          v-model="form.tees[index]"
+                          v-model="form.checked[index]"
                           v-on:change="
                             getSlopes($event, player.playerId, player.hcp)
                           "
@@ -157,7 +158,7 @@
 
         <footer class="fixed-bottom" md="12">
           <b-row class="teOff" no-gutters>
-            <b-col v-if="form.slinga" md="12">
+            <b-col v-if="form.slinga && allTeesSelected" md="12">
               <b-button
                 class="teOffButton"
                 @click="onSubmit"
@@ -181,6 +182,7 @@ import { globalState } from "../main.js";
 
 export default {
   async beforeMount() {
+    this.$store.dispatch("updateUserInfo");
     this.gameID = this.$route.query.id;
 
     if (!this.gameID) {
@@ -193,6 +195,7 @@ export default {
       {
         name: "Player 1",
         gender: "0",
+        team: 1,
         playerId: "1",
         holes: [
           { hole: 1, strokes: 0, slag: 0 },
@@ -221,6 +224,7 @@ export default {
       {
         name: "Player 2",
         gender: "0",
+        team: 1,
         playerId: "2",
         holes: [
           { hole: 1, strokes: 0, slag: 0 },
@@ -249,6 +253,7 @@ export default {
       {
         name: "Player 3",
         playerId: "3",
+        team: 2,
         gender: "0",
         holes: [
           { hole: 1, strokes: 0, slag: 0 },
@@ -277,6 +282,7 @@ export default {
       {
         name: "Player 4",
         playerId: "4",
+        team: 2,
         gender: "1",
         holes: [
           { hole: 1, strokes: 0, slag: 0 },
@@ -315,6 +321,14 @@ export default {
           } else {
             this.createPlayers(response.data);
           }
+          //Kolla om klubb redan är vald
+
+          if (response.data.club) {
+            this.savedclubId = response.data.club;
+          }
+          if (response.data.loop) {
+            this.savedLoopId = response.data.loop;
+          }
         })
         .catch((error) => {
           this.errorMSG = "Something went wrong (getGameData failed)";
@@ -341,6 +355,7 @@ export default {
               });
           });
           this.loading = false;
+          this.loadPreSelectedData();
         })
         .catch((error) => {
           this.errorMSG = "Something went wrong (getGolfclubs failed)";
@@ -360,13 +375,18 @@ export default {
       players: [],
       courses: [],
       loading: true,
+      savedclubId: "",
+      savedLoopId: "",
+      loadingtext: "Hämtar banor...",
       courseOptions: [],
       slingaOptions: [],
       teeOptions: [],
       teeOptionsMale: [],
       teeOptionsFemale: [],
       loadingCourse: 0,
+      allTeesSelected: false,
       holesArray: [],
+
       slopes: [],
       errorMSG: "",
       form: {
@@ -394,8 +414,23 @@ export default {
   },
   methods: {
     // Club selected in searchfield
+    loadPreSelectedData() {
+      if (this.savedclubId) {
+        let preSelectedCourse = this.courses.find(
+          (course) => course._id === this.savedclubId
+        );
+
+        this.loadingCourse = 1;
+        this.form.course = preSelectedCourse.title;
+        this.getCourse(preSelectedCourse.gitID);
+        console.log(this.savedLoopId);
+      }
+    },
     onSearchItemSelected(item) {
       //Visa spinner
+      this.savedLoopId = "";
+      this.savedclubId = "";
+      this.form.slinga = "";
       this.loadingCourse = 1;
       this.form.course = item.title;
       this.getCourse(item.gitID);
@@ -419,7 +454,9 @@ export default {
             element.hcp = parseFloat(
               response.data.hcp.replace(/,/g, ".")
             ).toFixed(1);
-
+            element.name =
+              response.data.firstname + " " + response.data.lastname;
+            console.log(response.data);
             element.gender = response.data.gender;
           })
           .catch((error) => {
@@ -471,6 +508,16 @@ export default {
       });
 
       this.slingaOptions = parsedLoop;
+
+      if (this.savedLoopId) {
+        this.form.slinga = this.savedLoopId;
+        this.teeAndSlope(this.savedLoopId);
+      } else if (this.slingaOptions.length == 1) {
+        this.form.slinga = this.slingaOptions[0].value;
+
+        this.teeAndSlope(this.slingaOptions[0].value);
+      }
+
       //Dölj spinner och visa slingor
       this.loadingCourse = 2;
     },
@@ -510,6 +557,9 @@ export default {
     },
     async onSubmit() {
       console.log(this.holesArray);
+      this.loadingtext = "Skapar scorekort";
+      this.loading = true;
+
       this.axios
         .post("https://matchplay.meteorapp.com/methods/updateGame", {
           _id: this.gameID,
@@ -555,10 +605,16 @@ export default {
       let player = this.players.find((player) => player.playerId === name);
 
       player.shcp = slopeRating;
-      player.tee = tee.text;
-      console.log(player);
-    },
 
+      player.tee = tee.text;
+      this.checkAllTeeSelected();
+    },
+    checkAllTeeSelected() {
+      let player = this.players.find((player) => player.shcp === null);
+      if (!player) {
+        this.allTeesSelected = true;
+      }
+    },
     calculateSlopeRating(hcp, slopeValue, courseRating, coursePar) {
       return Math.round(hcp * (slopeValue / 113) + (courseRating - coursePar));
     },
@@ -570,6 +626,9 @@ export default {
       this.teeOptionsMale = [];
       this.teeOptionsFemale = [];
       let result = this.slingaOptions.find((item) => item.value == id);
+      console.log(this.slingaOptions);
+      console.log(result);
+      console.log(id);
       let coursepar = 0;
 
       result.Holes.forEach((holeItem) => {
@@ -629,7 +688,9 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
+@import "../styles/variables.scss";
+
 * {
   font-family: Eurostile LT Std, Arial, sans-serif;
 }
@@ -663,22 +724,22 @@ export default {
   height: 40px;
 }
 
-.teamColorBanner1 {
-  margin-top: 25px;
+.teamColorBanner1,
+.teamColorBanner2 {
+  margin-top: 3px;
   height: 15px;
   width: 15px;
-  background-color: white;
   border-radius: 10px;
-  border: 3px solid #fd9b37;
+}
+
+.teamColorBanner1 {
+  background-color: $team1;
+  border: 3px solid $team1;
 }
 
 .teamColorBanner2 {
-  margin-top: 25px;
-  height: 15px;
-  width: 15px;
-  background-color: white;
-  border-radius: 10px;
-  border: 3px solid #69b3fe;
+  background-color: $team2;
+  border: 3px solid $team2;
 }
 
 /* TRANSITION */
