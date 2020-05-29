@@ -26,8 +26,8 @@
                 <suggestions
                   v-model="form.course"
                   :options="options"
-                  :onInputChange="onCountryInputChange"
-                  :onItemSelected="onSearchItemSelected"
+                  :onInputChange="clubSelectedInput"
+                  :onItemSelected="clubSelected"
                   class="suggestions"
                 >
                   <div slot="item" slot-scope="props">
@@ -65,7 +65,7 @@
                   <b-form-select
                     v-model="form.slinga"
                     :options="slingaOptions"
-                    v-on:change="teeAndSlope"
+                    v-on:change="courseSelected"
                   ></b-form-select>
                 </b-form-group>
                 <p v-else>Ingen 18-hålsbana hittad</p>
@@ -155,20 +155,21 @@
           <div v-else>
             {{ errorMSG }}
           </div>
-        </b-col>
-        <b-col class="col-12 mt-5"> </b-col>
 
-        <b-row class="" no-gutters>
-          <b-col v-if="form.slinga && allTeesSelected" md="12">
+          <div
+            class="col-12 m-0 p-0 mb-3"
+            v-if="form.slinga && allTeesSelected && !loading"
+            md="12"
+          >
             <b-button
-              class="btn btn-success btn-sm text-white mt-3 mr-md-2"
-              @click="onSubmit"
+              class="teOff btn btn-success btn-sm text-white mt-3 mr-md-2"
+              @click="TeeOff"
               variant="primary"
               size="lg"
               >Tee off!</b-button
             >
-          </b-col>
-        </b-row>
+          </div>
+        </b-col>
       </b-row>
     </b-container>
   </div>
@@ -184,14 +185,14 @@ export default {
   async beforeMount() {
     //Uppdatera username i meny
     this.$store.dispatch("updateUserInfo");
+    //Kolla så att vi har med ett match id i URL:en
     this.gameID = this.$route.query.id;
-
     if (!this.gameID) {
       this.errorMSG = "Something went wrong (No ID in call)";
       return;
     }
 
-    //Skapa Dummy data
+    //Skapa en array med dummy data som vi sen fyller på med riktigt data
 
     this.players = [
       {
@@ -311,7 +312,7 @@ export default {
         tee: "",
       },
     ];
-
+    //Hämta gamedata med hjälp av id
     try {
       this.axios
         .post("https://admin.matchplay.se/methods/getGameData", {
@@ -321,12 +322,8 @@ export default {
           if (response.data.status == "No game found") {
             this.errorMSG = "Something went wrong (No game found)";
           } else {
-            if (response.data.club) {
-              this.savedclubId = response.data.club;
-            }
-            if (response.data.loop) {
-              this.savedLoopId = response.data.loop;
-            }
+            //console.log(response.data);
+            this.readGameData(response.data);
             this.createPlayers(response.data);
           }
           //Kolla om klubb redan är vald
@@ -338,7 +335,7 @@ export default {
     } catch (e) {
       console.log(e);
     }
-
+    //Hämta alla golfklubbar
     try {
       this.axios
         .post("https://admin.matchplay.se/methods/getGolfclubs")
@@ -357,7 +354,10 @@ export default {
               });
           });
           this.loading = false;
-          this.loadPreSelectedData();
+          //Ladda sparad data
+          if (this.savedclubId) {
+            this.loadPreSelectedData();
+          }
         })
         .catch((error) => {
           this.errorMSG = "Something went wrong (getGolfclubs failed)";
@@ -389,7 +389,6 @@ export default {
       allTeesSelected: false,
       holesArray: [],
 
-      slopes: [],
       errorMSG: "",
       form: {
         course: "",
@@ -398,9 +397,6 @@ export default {
         loopname: "",
         slinga: "",
         checked: [],
-        tees: "",
-        teesmale: "",
-        teesfemale: "",
       },
       show: true,
       test: {},
@@ -418,28 +414,44 @@ export default {
     //this.getGolfClubs();
   },
   methods: {
-    // Club selected in searchfield
+    readGameData: function (data) {
+      if (data.club) {
+        this.savedclubId = data.club;
+      }
+      if (data.loop) {
+        this.savedLoopId = data.loop;
+      }
+    },
+
     loadPreSelectedData() {
-      if (this.savedclubId) {
-        let preSelectedCourse = this.courses.find(
-          (course) => course._id === this.savedclubId
-        );
+      //Hämta den sparade coursen och läs in dess slingor
+      let preSelectedCourse = this.courses.find(
+        (course) => course._id === this.savedclubId
+      );
+      if (preSelectedCourse) {
         this.form.courseID = this.savedclubId;
         this.loadingCourse = 1;
         this.form.course = preSelectedCourse.title;
         this.getCourse(preSelectedCourse.gitID);
       }
     },
-    onSearchItemSelected(item) {
-      //Visa spinner
+    clubSelected(item) {
+      this.clearTeeSelections();
+
+      this.form.loop = "";
+      this.form.loopname = "";
+
       this.savedLoopId = "";
       this.savedclubId = "";
       this.form.slinga = "";
+
+      //Visa spinner
+
       this.loadingCourse = 1;
       this.form.course = item.title;
       this.form.courseID = item.id;
+
       this.getCourse(item.gitID);
-      console.log(item);
     },
     createPlayers: function (data) {
       if (
@@ -520,35 +532,31 @@ export default {
       });
 
       this.slingaOptions = parsedLoop;
-
+      // Kolla om det finns en sparad slinga i getGameData
       if (this.savedLoopId) {
         this.form.slinga = this.savedLoopId;
-        this.teeAndSlope(this.savedLoopId);
+        this.courseSelected(this.savedLoopId);
       } else if (this.slingaOptions.length == 1) {
         this.form.slinga = this.slingaOptions[0].value;
 
-        this.teeAndSlope(this.slingaOptions[0].value);
+        this.courseSelected(this.slingaOptions[0].value);
       }
 
       //Dölj spinner och visa slingor
       this.loadingCourse = 2;
     },
 
-    clearCourse: function () {
-      this.form.course = "";
-      this.form.slinga = "";
-      this.slingaOptions = [];
-      this.slingaOptions = [];
-
-      this.courses = [];
-      this.courseOptions = [];
-      this.slingaOptions = [];
+    clearTeeSelections: function () {
+      //Klubb
+      this.holesArray = [];
       this.teeOptions = [];
-
       this.teeOptionsMale = [];
       this.teeOptionsFemale = [];
-      this.slopes = [];
-      this.loadingCourse = 0;
+      this.form.checked = [];
+      this.players.forEach((player) => {
+        player.shcp = null;
+      });
+      this.allTeesSelected = false;
     },
 
     parseTee: function (course) {
@@ -566,7 +574,7 @@ export default {
 
       this.slingaOptions = parsedLoop;
     },
-    async onSubmit() {
+    async TeeOff() {
       this.loadingtext = "Skapar scorekort";
       this.loading = true;
 
@@ -582,7 +590,7 @@ export default {
           loopname: this.form.loopname,
         })
         .then((response) => {
-          console.log(response.data);
+          //console.log(response.data);
           location.href = "scorecard?id=" + this.gameID;
         })
         .catch((error) => {
@@ -590,7 +598,7 @@ export default {
           console.log(error);
         });
     },
-    onCountryInputChange(query) {
+    clubSelectedInput(query) {
       if (query.trim().length === 0) {
         return null;
       }
@@ -620,6 +628,7 @@ export default {
       let player = this.players.find((player) => player.playerId === name);
 
       player.shcp = slopeRating;
+      //console.log(player.shcp);
 
       player.tee = tee.text;
       this.checkAllTeeSelected();
@@ -628,19 +637,18 @@ export default {
       let player = this.players.find((player) => player.shcp === null);
       if (!player) {
         this.allTeesSelected = true;
+      } else {
+        this.allTeesSelected = false;
       }
     },
     calculateSlopeRating(hcp, slopeValue, courseRating, coursePar) {
       return Math.round(hcp * (slopeValue / 113) + (courseRating - coursePar));
     },
 
-    teeAndSlope(id) {
+    courseSelected(id) {
       //this.selectedSearchItem = item;
       //console.log('selected',item);
-
-      this.teeOptions = [];
-      this.teeOptionsMale = [];
-      this.teeOptionsFemale = [];
+      this.clearTeeSelections();
       let result = this.slingaOptions.find((item) => item.value == id);
 
       let coursepar = 0;
@@ -809,8 +817,6 @@ export default {
 }
 
 .teOff {
-  position: absolute;
-  bottom: 0;
   width: 100% !important;
 }
 </style>
