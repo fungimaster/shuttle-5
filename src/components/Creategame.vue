@@ -158,16 +158,26 @@
 
           <div
             class="col-12 m-0 p-0 mb-3"
-            v-if="form.slinga && allTeesSelected && !loading"
+            v-if="form.slinga && !loading"
             md="12"
           >
             <b-button
               class="teOff btn btn-success btn-sm text-white mt-3 mr-md-2"
               @click="TeeOff"
               variant="primary"
+              :disabled="!allTeesSelected"
               size="lg"
               >Tee off!</b-button
             >
+            <div style="height: 100px;">
+              <b-alert
+                v-if="!allTeesSelected"
+                show
+                class="mt-3 mb-0 small"
+                variant="info"
+                >Välj tee för samtliga spelare</b-alert
+              >
+            </div>
           </div>
         </b-col>
       </b-row>
