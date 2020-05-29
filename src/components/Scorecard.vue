@@ -1327,7 +1327,7 @@
 
 					this.course = response.data.holes;
 					this.players  = response.data.scorecard
-                    console.log("getGameData -> this.players", this.players)
+					console.log("getGameData -> this.players", this.players)
 					this.homeTeamId = response.data.hometeam
 					this.awayTeamId = response.data.awayteam                   
 				
@@ -2124,6 +2124,25 @@
 		min-height: calc(100vh);
 	}
 
+	
+	@media only screen and (max-width: 352px) {
+		/* iphone 5/se */
+
+		.btn.btn-primary {
+			
+			font-size: 14px;
+		}
+		
+		.material-icons {
+			font-size: 15px !important;
+		}
+
+		.playerInfo {
+			font-size: 0.6em;;
+		}
+		
+	}
+
 	@media only screen and (max-width: 330px) {
 		/* iphone 5/se */
 
@@ -2136,8 +2155,14 @@
 			height: 30px;
 		}
 
-		.buttons .btn-secondary .material-icons {
+		.btn.btn-secondary {
 			font-size: 1.3em;
+			margin-left: -7px;
+			margin-bottom: 3px;
+		}
+		
+		.material-icons {
+			font-size: 14px !important;
 			margin-left: -7px;
 			margin-bottom: 3px;
 		}
@@ -2150,5 +2175,7 @@
 			font-size: 0.7em;
 		}
 	}
+
+
 </style>
 

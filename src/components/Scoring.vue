@@ -472,6 +472,11 @@
 			min-height: 0;
 		}
 	}
+	@media screen and (max-width: 334px) {
+		.btn-info {
+			width: 55px !important;
+		}
+	}
 	@media screen and (max-width: 320px) {
 		.btn-info {
 			width: 55px !important;
