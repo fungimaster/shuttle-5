@@ -34,8 +34,14 @@
 							<b-col cols="4" class="explanation">
 								<p>Tee</p>
 							</b-col>
-							<b-col v-for="player in players" :key="player.index" cols="2" class="playerData">
-								<p>{{ player.tee }}</p>
+							<b-col
+								v-for="player in players"
+								:key="player.index"
+								cols="2"
+								class="playerData"
+								id="teeContainer"
+							>
+								<p class="text-overflowHidden">{{ player.tee }}</p>
 							</b-col>
 						</b-row>
 						<b-row>
@@ -61,7 +67,7 @@
 								cols="2"
 								class="playerData"
 							>
-								<p v-negativeToPostive>{{ hcpslope > 28 ? 28 * 0.9 : hcpslope * 0.9 }}</p>
+								<p v-negativeToPostive>{{ Math.round((hcpslope * 0.9)*10)/10 }}</p>
 							</b-col>
 						</b-row>
 						<b-row>
@@ -287,5 +293,66 @@
 
 	.nav-item {
 		cursor: pointer;
+	}
+
+	/* TEE */
+	.teeContainer {
+		overflow: hidden;
+	}
+	.text-overflowHidden {
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+	}
+
+	/* MEDIA QUERIES */
+
+	@media only screen and (max-width: 357px) {
+		/* iphone 5/se */
+		.explanation {
+			font-size: 10px;
+		}
+	}
+	@media only screen and (max-width: 335px) {
+		/* iphone 5/se */
+		.explanation {
+			font-size: 9px;
+		}
+	}
+	@media only screen and (max-width: 352px) {
+		/* iphone 5/se */
+
+		.btn.btn-primary {
+			font-size: 16px !important;
+			padding: 6px;
+		}
+		.material-icons {
+			font-size: 16px !important;
+			padding: 2px;
+		}
+	}
+	@media only screen and (max-width: 341px) {
+		/* iphone 5/se */
+
+		.btn.btn-primary {
+			font-size: 15px !important;
+			padding: 6px;
+		}
+		.material-icons {
+			font-size: 15px !important;
+			padding: 2px;
+		}
+	}
+
+	@media only screen and (max-width: 330px) {
+		/* iphone 5/se */
+
+		.btn.btn-primary {
+			font-size: 14px !important;
+			padding: 6px;
+		}
+		.material-icons {
+			font-size: 1px !important;
+		}
 	}
 </style>

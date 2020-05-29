@@ -200,6 +200,20 @@
 			height: 70px !important;
 		}
 	}
+	@media screen and (max-width: 360px) {
+		.btn-warning {
+			width: 80px !important;
+			font-size: 13px !important;
+			height: 70px !important;
+		}
+	}
+	@media screen and (max-width: 344px) {
+		.btn-warning {
+			width: 72px !important;
+			font-size: 12px !important;
+			height: 62px !important;
+		}
+	}
 	@media screen and (max-width: 320px) {
 		.btn-warning {
 			width: 68px !important;
