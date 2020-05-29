@@ -20,6 +20,7 @@ import NotFound from '@/components/NotFound'
 import CreateGame from '@/components/Creategame'
 import Scorecard from '@/components/Scorecard'
 import Game from '@/components/Game'
+import Register from '@/components/Register'
 
 Vue.use(Router)
 
@@ -70,6 +71,11 @@ export default new Router({
       path: '/creategame',
       name: 'CreateGame',
       component: CreateGame
+    },
+    {
+      path: '/register',
+      name: 'Register',
+      component: Register
     },
     {
       path: '/scorecard',
