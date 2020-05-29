@@ -353,6 +353,7 @@
 		}
 		.material-icons {
 			font-size: 14px !important;
+			margin-bottom: 3px !important;
 		}
 	}
 </style>

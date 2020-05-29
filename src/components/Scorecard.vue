@@ -32,7 +32,7 @@
 								</b-row>
 							</b-col>
 
-							<b-col class="col-2 pl-0 text-right">
+							<b-col class="rightArrowCol col-2 pl-0 text-right">
 								<button
 									@click="activeHole++, saveData(),currentStrokes(activeHole)"
 									class="holeButtons disable-dbl-tap-zoom"
@@ -2174,8 +2174,6 @@
 		
 		.material-icons {
 			font-size: 14px !important;
-			margin-left: -7px;
-			margin-bottom: 3px;
 		}
 
 		.playerInfo {
@@ -2185,7 +2183,20 @@
 		.bottombuttons {
 			font-size: 0.7em;
 		}
-		
+
+		//sätter höger-pilen lite längre högerut på iphone5
+		.rightArrowCol {
+			padding: 0 !important; 
+		}
+	
+		#nextHole {
+			font-size: 13px;
+		}
+		table {
+			table-layout: fixed;
+    		font-size: 8px;
+		}
+	
 	}
 
 
