@@ -216,9 +216,9 @@
 	}
 	@media screen and (max-width: 320px) {
 		.btn-warning {
-			width: 68px !important;
+			width: 70px !important;
 			font-size: 11px !important;
-			height: 53px !important;
+			height: 60px !important;
 		}
 	}
 </style>

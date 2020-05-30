@@ -352,7 +352,8 @@
 			padding: 6px;
 		}
 		.material-icons {
-			font-size: 1px !important;
+			font-size: 14px !important;
+			margin-bottom: 3px !important;
 		}
 	}
 </style>

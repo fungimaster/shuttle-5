@@ -484,6 +484,12 @@
 		>>> .modal-content {
 			min-height: 0;
 		}
+		//krymper h2 för att knapparna sla få bli stora
+		// men numpad-modalen inte blir större än fönstret
+		//för att undvika "hoppighet"
+		h2 {
+			font-size: 15px !important;
+		}
 	}
 </style>
 

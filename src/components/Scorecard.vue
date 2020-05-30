@@ -12,6 +12,7 @@
 									class="holeButtons disable-dbl-tap-zoom"
 									id="buttonLeft"
 									:disabled="activeHole === 1"
+									:style="activeHole === 1 ? 'opacity: 0.3' : null"
 								>
 									<span class="material-icons">arrow_back_ios</span>
 								</button>
@@ -31,11 +32,12 @@
 								</b-row>
 							</b-col>
 
-							<b-col class="col-2 pl-0 text-right">
+							<b-col class="rightArrowCol col-2 pl-0 text-right">
 								<button
 									@click="activeHole++, saveData(),currentStrokes(activeHole)"
 									class="holeButtons disable-dbl-tap-zoom"
 									id="buttonRight"
+									:style="activeHole === 18 ? 'opacity: 0.3' : null"
 									:disabled="activeHole === 18"
 								>
 									<span class="material-icons">arrow_forward_ios</span>
@@ -341,7 +343,7 @@
 						<footer class="fixed-bottom">
 							<b-row class="leaderSection" align-v="center" align-h="center">
 								<!-- HOME TEAM -->
-								<b-col class="col-4 scoreTeam text-left pl-3" :class="{ scoreTeam1: leader && !tie }">
+								<b-col class="col-4 scoreTeam text-left pl-3" :class="[{ scoreTeam1: leader && !tie }, {scoreTeamDormy: dormy2 !== ''}]">
 									<span
 										style="float:left;"
 									>{{getFirstName(players[0].name)}} & {{getFirstName(players[1].name)}}</span>
@@ -375,7 +377,7 @@
 								</b-col>
 
 								<!-- away team -->
-								<b-col class="col-4 scoreTeam text-right pr-3" :class="{ scoreTeam2: !leader && !tie }">
+								<b-col class="col-4 scoreTeam text-right pr-3" :class="[{ scoreTeam2: !leader && !tie }, {scoreTeamDormy: dormy1 !== ''}]">
 									<i v-if="!tie && winnerDeclared && !leader" class="material-icons pb-1 pr-1">emoji_events</i>
 									<span
 										:style="dormy1 === '' ? 'float:right' : 'float:left'"
@@ -395,7 +397,7 @@
 			
 				<b-row class="pt-3" align-v="center" align-h="center">
 					<!-- HOME TEAM -->
-					<b-col class="col-4 scoreTeam text-left pl-3" :class="{ scoreTeam1: leader && !tie }">
+					<b-col class="col-4 scoreTeam text-left pl-3" :class="[{ scoreTeam1: leader && !tie }, {scoreTeamDormy: dormy2 !== ''}]">
 						<span
 							style="float:left;"
 						>{{getFirstName(players[0].name)}} & {{getFirstName(players[1].name)}}</span>
@@ -429,7 +431,7 @@
 					</b-col>
 
 					<!-- away team -->
-					<b-col class="col-4 scoreTeam text-right pr-3" :class="{ scoreTeam2: !leader && !tie }">
+					<b-col class="col-4 scoreTeam text-right pr-3" :class="[{ scoreTeam2: !leader && !tie }, {scoreTeamDormy: dormy1 !== ''}]">
 						<i v-if="!tie && winnerDeclared && !leader" class="material-icons pb-1 pr-1">emoji_events</i>
 						<span
 							:style="dormy1 === '' ? 'float:right' : 'float:left'"
@@ -1995,7 +1997,7 @@
 	}
 	/* LEADER SECTION  */
 	.dormy {
-		font-size: 9px;
+		font-size: 7px;
 		overflow: hidden;
 	}
 
@@ -2124,8 +2126,17 @@
 		min-height: calc(100vh);
 	}
 
+
+@media only screen and (max-width: 375px) {
+	// iphone 6 och 7		
+	.scoreTeamDormy {
+			font-size: 0.4em !important; 
+		
+
+		}	
+}
 	
-	@media only screen and (max-width: 352px) {
+@media only screen and (max-width: 352px) {
 		/* iphone 5/se */
 
 		.btn.btn-primary {
@@ -2163,17 +2174,29 @@
 		
 		.material-icons {
 			font-size: 14px !important;
-			margin-left: -7px;
-			margin-bottom: 3px;
 		}
 
 		.playerInfo {
-			font-size: 0.6em;
+			font-size: 0.5em;
 		}
 
 		.bottombuttons {
 			font-size: 0.7em;
 		}
+
+		//sätter höger-pilen lite längre högerut på iphone5
+		.rightArrowCol {
+			padding: 0 !important; 
+		}
+	
+		#nextHole {
+			font-size: 13px;
+		}
+		table {
+			table-layout: fixed;
+    		font-size: 8px;
+		}
+	
 	}
 
 
