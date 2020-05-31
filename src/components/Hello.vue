@@ -17,7 +17,7 @@
              <p hidden v-if="closed">I helgen (30-31 maj) lottas första omgången. Den 1 juni startar tävlingen!</p>
             
             <b-alert v-if="closed" show class="mt-4 small" variant="warning">
-                I helgen (30-31 maj) lottas första omgången. Den 1 juni startar tävlingen!      
+                Alla matcher är lottade och omgång 1 spelas mellan 1-14 juni!    
                 <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
              </b-alert>
 
