@@ -12,7 +12,7 @@
         <b-row>
           <b-col class="col-12 col-md-9">            
             <h2>VÄLKOMMEN TILL MATCHPLAY, GOLFTÄVLINGEN FÖR BÅDE PRIVATPERSONER OCH FÖRETAG</h2>
-            <p>Matchplay är en matchspelstävling för par med officiellt handikapp. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.</p>
+            <p class="mt-3 mt-md-0">Matchplay är en matchspelstävling för par med officiellt handikapp. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.</p>
             <p v-if="!closed">Ta chansen att ta dig till Sverigefinalen och sedan vidare utomlands! Alla deltagare får pikeér från PING.</p>
              <p hidden v-if="closed">I helgen (30-31 maj) lottas första omgången. Den 1 juni startar tävlingen!</p>
             
@@ -108,11 +108,28 @@ Vi ses på det kortklippta! <i class="material-icons">favorite</i>
                     
                       <b-col xs="12" sm="6" class="mt-4 mt-md-0">
                        <h4>Kommande matcher</h4>
-                        <p>Inom kort kommer bokade matcher visas här samt annan information om lagen!</p>
+                        <p hidden>Inom kort kommer bokade matcher visas här samt annan information om lagen!</p>
+                        <b-row v-if="gamescount === 0">
+                          <b-col>
+                            Inga bokade matcher än så länge...
+                          </b-col>
+                        </b-row>
+                         <b-row v-for="(game,idx2) in games" :key="idx2" v-if="gamescount > 0">
+                          <b-col class="col-10 mr-0 pr-0 mt-2">
+                             <p>{{game.gamedate}} - {{game.gametime}}
+                              <p>{{game.clubname}}</p>
+                              <p>{{game.roundname}}</p>                             
+                              <p>{{game.hometeamleadername}} & {{game.hometeammembername}}</p>
+                              <p>{{game.awayteamleadername}} & {{game.awayteammembername}}</p>
+                          </b-col>
+                          <b-col hidden class="col-2 text-right">                           
+                          <span class="line">({{game.count}})</span>
+                          </b-col>
+                        </b-row>
                          
                      </b-col>
                      
-                      <b-col xs="12" sm="6" class="mt-4 mt-md-0 mr-0 pr-0">
+                      <b-col xs="12" sm="6" class="mt-5 mt-md-0 mr-0 pr-0">
                        <h4>Topplista klubbar *</h4>
                         <b-row v-for="(club,idx) in clubs" :key="idx">
                           <b-col class="col-10 mr-0 pr-0">
@@ -588,6 +605,8 @@ components: {
         }
       },
       clubs: 0,
+      games: 0,
+      gamescount: 0,
       showhelper: false,
       //contbutton1: 'Fortsätt till nästa steg',
       docontinue: true,
@@ -694,6 +713,7 @@ components: {
 
         this.$store.dispatch('updateUserInfo');
         this.getTopListClubs();
+        this.getGames();
   },
  
   methods: {    
@@ -703,6 +723,27 @@ components: {
           return club.substring(0,len) + '...';
         else
           return club;
+      },
+      getGames() {
+
+                //loading
+                this.value = 5;
+                this.gamescount = 0;
+                
+                this.axios.post('https://matchplay.meteorapp.com/methods/' + 'getGames', {    //getclubstoplist                   
+                        "competition":"sFAc3dvrn2P9pXHAz",
+	                      "limit":5
+                    })
+                    .then(response => {
+                        //console.log(response.data)                                                
+                        this.games = response.data;
+                        this.gamescount = response.data.length;
+                      
+
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
       },
    getTopListClubs() {
 
