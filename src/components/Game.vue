@@ -301,7 +301,7 @@
                                 hometeamleadername
                               "
                               ><span
-                                class="btn btn-info btn-sm text-white mr-1 mb-2"
+                                class="btn btn-info btn-sm text-white mr-1 mb-3"
                                 ><i class="material-icons mr-2">textsms</i
                                 >Skicka sms med info</span
                               ></a
@@ -312,7 +312,7 @@
                       </b-container>
                     </div>
                   </b-tab>
-                  <b-tab title-link-class="ml-1 p-2">
+                  <b-tab title-link-class="ml-1 p-2" v-if="isteamleader || isteammember">
                     <template v-slot:title>
                       <span class="my-nav-item">Scorekort</span>
                     </template>
@@ -386,7 +386,7 @@
                       </b-row>
                     </b-container>
                   </b-tab>
-                  <b-tab title-link-class="ml-1 p-2">
+                  <b-tab title-link-class="ml-1 p-2" v-if="isteamleader || isteammember">
                     <template v-slot:title>
                       <span class="my-nav-item">Kontakt</span>
                     </template>
@@ -913,6 +913,7 @@ export default {
 
     //get userinfo localstorage object json
     userinfo = JSON.parse(userinfo);
+   // console.log(userinfo)
 
     //get id from parameter
     let gameid = this.$route.query.id;
@@ -1138,7 +1139,7 @@ export default {
     parseCourse: function (course) {
       let parsedLoop = [];
       course.forEach((courseItem) => {
-        if (courseItem.IsNineHoleCourse == "false") {
+         if (courseItem.IsNineHoleCourse == "false" || courseItem.Name === "Björkhagens GK") {
           courseItem.Loops.forEach((loop) => {
             if (Array.isArray(loop)) {
               loop.forEach((item) => {
