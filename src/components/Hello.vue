@@ -108,9 +108,9 @@ Vi ses på det kortklippta! <i class="material-icons">favorite</i>
                     
                       <b-col xs="12" sm="6" class="mt-4 mt-md-0">
                        <h4>Kommande matcher</h4>
-                        <p hidden>Inom kort kommer bokade matcher visas här samt annan information om lagen!</p>
+                        <p>Inom kort kommer bokade matcher visas här samt annan information om lagen!</p>
                         <b-row v-if="gamescount === 0">
-                          <b-col>
+                          <b-col hidden>
                             Inga bokade matcher än så länge...
                           </b-col>
                         </b-row>
@@ -713,7 +713,7 @@ components: {
 
         this.$store.dispatch('updateUserInfo');
         this.getTopListClubs();
-        this.getGames();
+       // this.getGames();
   },
  
   methods: {    

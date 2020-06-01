@@ -2968,7 +2968,7 @@ export default {
 @import "../styles/variables.scss";
 
 img {
-    max-width:80%;
+    max-width:70%;
 }
 
 .winner {
