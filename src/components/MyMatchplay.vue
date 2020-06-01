@@ -166,6 +166,8 @@
                         <b-card class="mb-2 team header">
                             <b-card-title>
                                 <span v-if="team.type === 'Company'" class="pr-2">{{team.teamname}}</span>
+                                <img v-if="team.type === 'Company'" class="pt-3 pb-3" :src="`https://res.cloudinary.com/dn3hzwewp/image/upload/w_400,c_scale//matchplay/logos/${team.logourl}.png`"></span>
+
                                 <span v-else class="pr-2">Ditt lag</span>
                                 <div v-if="!team.teammemberemail && !team.teammembergolfid && !closed">
                                     <b-button size="sm" v-if="!team.invoice" @click="goToStep(team, 2)" variant="success" class="mt-3">Bjud in lagkamrat</b-button>
@@ -196,6 +198,7 @@
                                         </b-tooltip>
                                     </span>
                                 </div>
+
                                 <div class="pt-0 pb-3">
                                     <span :id="'tooltip-course-' + idx">
                                         <i class="material-icons mr-2">golf_course</i>{{team.coursename}}
@@ -205,7 +208,14 @@
                                     </span>
                                 </div>
 
-                                <div class="pt-0 pb-0">
+                                  <div v-if="!team.teamreservegolfid" class="pt-0 pb-3">
+                                    <b-button hidden size="sm" @click="goToStep(team, 2)" variant="success" class="">Välj reserv</b-button>
+                                     <b-button size="sm" variant="success" class="">Välj reserv (kommer snart)!</b-button>
+                                </div>
+
+
+
+                                <div class="pt-0 pb-0" hidden>
                                     <span :id="'tooltip-nextgame-' + idx">
                                         <i class="material-icons mr-2">date_range</i>Väntar på lottning
                                         <b-tooltip :target="'tooltip-nextgame-' + idx" triggers="hover" placement="top">
@@ -230,7 +240,6 @@
                                    
                                   
                                 </div>
-
                                 
                                 <div v-if="!team.sponsmerch">
                                     <b-button size="sm" @click="goToStep(team, 3)" variant="success" class="mt-3">Välj tröjor</b-button>
@@ -1017,7 +1026,7 @@
                                     <div class="pt-0 pb-3 mt-0" v-if="game.status !== 'Finished' && game.gamedate">                                               
                                         <span >
                                             <div>
-                                            <i class="fas fa-calendar-week mr-1 mb-1" style="float:left;;"></i>
+                                            <i class="fas fa-calendar-week mr-1 mb-1" style="float:left;"></i>
                                             </div>
                                             <div style="display:flex;">
                                             <span style="padding-left:6px;">{{game.gamedate}} / kl {{game.gametime}}</span>   
@@ -1027,11 +1036,16 @@
 
                                     <div class="pt-0 pb-3 mt-0" v-if="game.status !== 'Finished' && !game.gamedate">                                               
                                         <span :id="'tooltip-game-rounddates-'+idx2">
-                                            <i class="fas fa-calendar-week mr-1 mb-1"></i>
+                                             <div>
+                                            <i class="fas fa-calendar-week mr-1 mb-1" style="float:left;"></i>
+                                            </div>
+                                            <div style="display:flex;">
                                             <span style="padding-left:5px;">Spelas mellan {{getgamedate(game.roundstartdate,'half')}} - {{getgamedate(game.roundenddate,'half')}}</span>                                                   
+                                             </div>
                                             <b-tooltip :target="'tooltip-game-rounddates-'+idx2" triggers="hover" placement="top">
                                                 Spelomgång, datum
                                              </b-tooltip>
+                                            
                                         </span>                                        
                                    </div>
                                     <div class="pt-0 pb-0 mt-0">                                        
@@ -2953,7 +2967,9 @@ export default {
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
 
-
+img {
+    max-width:80%;
+}
 
 .winner {
   color: $success;
