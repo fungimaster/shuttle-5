@@ -34,7 +34,7 @@
 
 							<b-col class="rightArrowCol col-2 pl-0 text-right">
 								<button
-									@click="activeHole++, saveData(),currentStrokes(activeHole)"
+									@click="activeHole++, saveData(),currentStrokes(activeHole), sendInProgress()"
 									class="holeButtons disable-dbl-tap-zoom"
 									id="buttonRight"
 									:style="activeHole === 18 ? 'opacity: 0.3' : null"
@@ -134,7 +134,7 @@
 							<button
 								:disabled="winnerSent === false"
 								v-if="setTieBreak && !gameClosed"
-								@click="sendWinner('Finished'), gameClosed = true"
+								@click="sendWinner('Finished'), closeGame()"
 								class="btn btn-danger disable-dbl-tap-zoom"
 							>Avsluta matchen</button>
 
@@ -142,7 +142,7 @@
 
 							<button
 								v-if="winnerDeclared && !gameClosed"
-								@click="winnerDeclared = true,  sendWinner('Finished'), gameClosed = true"
+								@click="winnerDeclared = true,  sendWinner('Finished'), closeGame()"
 								class="btn btn-danger disable-dbl-tap-zoom"
 							>Avsluta matchen</button>
 						</b-row>
@@ -312,7 +312,7 @@
 									id="nextHole"
 									class="btn-md pl-3 pr-3 bottombuttons"
 									variant="primary"
-									@click="activeHole++, saveData(), makeToast('success'), currentStrokes(activeHole)"
+									@click="activeHole++, saveData(), makeToast('success'), currentStrokes(activeHole), sendInProgress()"
 								>
 									Nästa hål
 									<span class="material-icons">arrow_forward_ios</span>
@@ -346,7 +346,7 @@
 								<b-col class="col-4 scoreTeam text-left pl-3" :class="[{ scoreTeam1: leader && !tie }, {scoreTeamDormy: dormy2 !== ''}]">
 									<span
 										style="float:left;"
-									>{{getFirstName(players[0].name)}} & {{getFirstName(players[1].name)}}</span>
+									>{{getInitials(players[0].name)}} & {{getInitials(players[1].name)}}</span>
 									<i v-if="!tie && winnerDeclared && leader" class="material-icons pb-1 pl-1">emoji_events</i>
 									<span v-if="!tie && !winnerDeclared" class="dormy">{{dormy2}}</span>
 								</b-col>
@@ -381,7 +381,7 @@
 									<i v-if="!tie && winnerDeclared && !leader" class="material-icons pb-1 pr-1">emoji_events</i>
 									<span
 										:style="dormy1 === '' ? 'float:right' : 'float:left'"
-									>{{getFirstName(players[2].name)}} & {{getFirstName(players[3].name)}}</span>
+									>{{getInitials(players[2].name)}} & {{getInitials(players[3].name)}}</span>
 									<span style="clear:right;" v-if="!tie && !winnerDeclared" class="dormy">{{dormy1}}</span>
 								</b-col>
 							</b-row>
@@ -400,7 +400,7 @@
 					<b-col class="col-4 scoreTeam text-left pl-3" :class="[{ scoreTeam1: leader && !tie }, {scoreTeamDormy: dormy2 !== ''}]">
 						<span
 							style="float:left;"
-						>{{getFirstName(players[0].name)}} & {{getFirstName(players[1].name)}}</span>
+						>{{getInitials(players[0].name)}} & {{getInitials(players[1].name)}}</span>
 						<i v-if="!tie && winnerDeclared && leader" class="material-icons pb-1 pl-1">emoji_events</i>
 						<span v-if="!tie && !winnerDeclared" class="dormy">{{dormy2}}</span>
 					</b-col>
@@ -435,7 +435,7 @@
 						<i v-if="!tie && winnerDeclared && !leader" class="material-icons pb-1 pr-1">emoji_events</i>
 						<span
 							:style="dormy1 === '' ? 'float:right' : 'float:left'"
-						>{{getFirstName(players[2].name)}} & {{getFirstName(players[3].name)}}</span>
+						>{{getInitials(players[2].name)}} & {{getInitials(players[3].name)}}</span>
 						<span style="clear:right;" v-if="!tie && !winnerDeclared" class="dormy">{{dormy1}}</span>
 					</b-col>
 				</b-row>
@@ -690,7 +690,17 @@
 							:slope="slopedHcpPlayers"
 							:slope-handicap-list="slopeHandicapList"
 							:hcpUnmutated="hcpUnmutated"
+							:modalMounted="modalMounted"
 						></app-hcp-modal>
+					</b-col>
+					<b-col class="col-5">
+						
+					</b-col>
+					<b-col class="col-7 text-right">
+						<button class="btn btn-primary" @click="resetGame">
+							<span class="material-icons">warning</span>
+							Börja om
+						</button>
 					</b-col>
 				</b-row>
 			</b-container>
@@ -720,6 +730,7 @@
 				}
 			},
 			initials(el) {
+				
 				if (el.innerText.length === 3) {
 					return;
 				}
@@ -730,14 +741,7 @@
 			},
 			bold(el) {
 				el.style.fontWeight = "900";
-			},
-			nullIsStroke(el) {
-				let newString = string.trim();
-
-				if (newString !== newString) {
-					el.innerHTML = "heej";
-				} else return;
-			}
+			},	
 		},
 		data() {
 			return {
@@ -746,7 +750,7 @@
 				activeHole: 1,
 				team1: [],
 				team2: [],
-				overview: false,
+				overview: true,
 				nameCount: [
 					[],
 					[],
@@ -791,6 +795,7 @@
 				hcpUnmutated: [],
 				clubname:"", 
 				loop: "",
+				modalMounted: false, 
 
 
 				//Fiktiv data nedan
@@ -982,6 +987,7 @@
 				if (this.players.length === 0) {
 					return;
 				}
+				
 				let score = 0;
 				const strokes = this.listOfStrokesList();
 
@@ -1121,15 +1127,13 @@
 			this.$store.dispatch('updateUserInfo')
 			this.gameID = this.$route.query.id;
 		
+		
+			//fixar team-namn
+			this.team1 = "lag 1"; //data.gameData[0].team;
+			this.team2 = "lag 2";
 
-			try {
-				//hämtar data och lägger det i this.player
 
-				/* const response = await axios.get("http://localhost:3000/scorecard");
-																																																																																																																																	const data = response.data[response.data.length - 1];
-																																																																																																																																	this.players = data.gameData;
-																																																																																																																																	 */
-
+/*			try {
 				this.players = [
 					{
 						name: "Spelare 1",
@@ -1231,26 +1235,14 @@
 						hcp: 0,
 						tee: "Blå"
 					}
-				];
-
-				//lägger till par på this.player.holes för att komma åt par under översikten
-				this.players.forEach(player => {
-					player.holes.forEach((hole, index) => {
-						hole.par = this.course[index].par;
-					});
-				});
-				//fixar team-namn
-				this.team1 = "lag 1"; //data.gameData[0].team;
-				this.team2 = "lag 2";
-																																																																																																																																		
+				];																																																																																																																															
 			} catch (e) {
 				console.log(e);
 			}
-
+*/
 			 (async () => {
 				//shcp nedan och loopen behöver datan som skapas med getGameData. Där av async/await. 
-				await this.getGameData();
-
+				await this.getGameData()
 				//kallar på shcp-metoden. 
 				this.shcp();
 
@@ -1271,7 +1263,17 @@
 					});	
 				//kallar på CurrentStrokes för att makeToas ska uppdatera så att vinnar-klass sätts korrekt på teamrutorna. 
 				this.currentStrokes(1)	
-				
+
+					//lägger till par på this.player.holes för att komma åt par under översikten
+				this.players.forEach(player => {
+					player.holes.forEach((hole, index) => {
+						hole.par = this.course[index].par;
+					});
+				});
+
+				//gör så att hcpmodal visas en gång när sidan hämtas men inte varje gång översiken hämtas. 
+				this.modalMounted = true
+
 			 })()
 			
 		},
@@ -1280,9 +1282,35 @@
 				handler: function() {
 					this.sendWinner(); 
 				}
-			}
+			},
+			
 		},
 		methods: {
+			closeGame () {
+				this.$bvModal.msgBoxConfirm('Vill du avsluta matchen? Matchen kommer stängas för redigering och går ej att öppna igen',
+					 {
+						title: "Avsluta mathchen",
+						size: "md",
+						buttonSize: "md",
+						okVariant: "danger",
+						okTitle: "Japp, jag är säker",
+						cancelTitle: "Nej tack",
+						footerClass: "p-2",
+						hideHeaderClose: false,
+						centered: true,
+					}
+					
+					)
+					.then(value => {
+						if(value) {											
+							this.gameClosed = true
+						}
+					})
+					.catch(err => {
+						// An error occurred
+					})
+
+			},
 			async sendTiebreakWinner(winningTeamId) {
 
 				const data = {
@@ -1378,7 +1406,6 @@
 				const data = {
 				_id: this.gameID,
 				scorecard: this.players,
-				status: "Pending",
 				result: "",
 				winner: "",
 				};
@@ -1413,6 +1440,63 @@
 				} catch (e) {
 					error => console.log(error);
 				}
+
+			},
+			async sendInProgress() {
+				if (this.nameCount[0].length < 5) {
+					return
+				}
+				
+				const url = "https://admin.matchplay.se/methods/updateGame";
+				const data = {
+							_id: this.gameID,
+							status: "In progress"
+						};
+				try {
+					let response = await axios.post(url, data);
+				} catch (error) {
+					error => console.log(error);
+				}
+
+			},
+			async resetGame() {
+
+					this.$bvModal.msgBoxConfirm('Är du säker på du vill starta om matchen? All hål kommer nollställas och alla data går förlorad',
+					 {
+						title: "Whoops, Mulligan!",
+						size: "md",
+						buttonSize: "md",
+						okVariant: "danger",
+						okTitle: "Japp, jag är säker",
+						cancelTitle: "Nej tack",
+						footerClass: "p-2",
+						hideHeaderClose: false,
+						centered: true,
+					}
+					
+					)
+					.then(value => {
+						if(value) {											
+							(async () => {
+								const url = "https://admin.matchplay.se/methods/updateGame";
+								const data = {
+											_id: this.gameID,
+											status: "Pending"
+										};
+								try {
+									let response = await axios.post(url, data);
+									location.href = "creategame?id=" + this.gameID;
+								} catch (error) {
+									error => console.log(error);
+								}
+							})()
+						}
+					})
+					.catch(err => {
+						// An error occurred
+					})
+			
+				
 
 			},
 			valueOfLowestScoreOnHole(holeIndex) {
@@ -1467,7 +1551,7 @@
 				return winner;
 			},
 
-			getFirstName(name) {
+			getInitials(name) {
 				return (
 					name.split(" ")[0].substring(0, 1) + name.split(" ")[1].substring(0, 1)
 				);
@@ -1511,7 +1595,6 @@
 				const data = {
 					_id: this.gameID,
 					scorecard: this.players,
-					status: "Pending"
 				};
 				const url = "https://admin.matchplay.se/methods/updateGame";
 			
