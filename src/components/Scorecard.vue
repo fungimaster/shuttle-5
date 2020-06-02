@@ -1290,7 +1290,7 @@
 				this.overviewButtonClicked === false ?	this.overview = false : null
 			},
 			closeGame () {
-				this.$bvModal.msgBoxConfirm('Vill du avsluta matchen? Matchen kommer stängas för redigering och går ej att öppna igen',
+				this.$bvModal.msgBoxConfirm('Vill du avsluta matchen? Matchen kommer stängas för redigering och går ej att öppna igen.',
 					 {
 						title: "Avsluta mathchen",
 						size: "md",

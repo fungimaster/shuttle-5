@@ -557,7 +557,7 @@ export default {
           _id: this.gameID,
           holes: this.holesArray,
           scorecard: this.players,
-          status: "In progress",
+          status: "Pending",
           club: this.form.courseID,
           clubname: this.form.course,
           loop: this.form.loop,
