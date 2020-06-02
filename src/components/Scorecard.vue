@@ -101,7 +101,7 @@
 									<i class="material-icons pb-1 pr-1">emoji_events</i>
 								</p>
 
-								<h5 >Avsluta matchen för låsa för redigering</h5>
+								<h5 >Avsluta matchen för att låsa för redigering</h5>
 							</b-col>
 						</b-row>
 
@@ -301,7 +301,7 @@
 								<b-button
 									class="btn-md pl-3 pr-3 bottombuttons"
 									variant="primary"
-									@click="overview = !overview"
+									@click="overview = !overview, overviewButtonClicked = true"
 								>
 									<span class="material-icons">reorder</span> Översikt
 								</b-button>
@@ -464,7 +464,7 @@
 				<!--  TABELL CLUBNAME AND LOOP (EGEN TABELL FÖR ATT KUNNA SÄTTA TEXT-OVERFLOW: ELLIPSIS--> 
 				<table class="tableClubAndLoop">
 					<tr >	
-						<td colspan="2" class="tableClubAndLoopTd"> {{clubname}}: {{loop}}</td>
+						<td colspan="2" class="tableClubAndLoopTd"> {{clubname = "Golfklubb"}}: {{loop = "Slinga"}}</td>
 					</tr>
 				</table>
 
@@ -692,6 +692,7 @@
 							:slope-handicap-list="slopeHandicapList"
 							:hcpUnmutated="hcpUnmutated"
 							:modalMounted="modalMounted"
+							@hidingModalInComponent="hideOverview"
 						></app-hcp-modal>
 					</b-col>
 					<b-col class="col-5">
@@ -797,6 +798,7 @@
 				clubname:"", 
 				loop: "",
 				modalMounted: false, 
+				overviewButtonClicked: false, 
 
 
 				//Fiktiv data nedan
@@ -1123,112 +1125,112 @@
 				return tie;
 			}
 		},
-		// created() {
-		// 	this.players = [
-		// 			{
-		// 				name: "Spelare 1",
-		// 				holes: [
-		// 					{ hole: 1, strokes: 0, slag: 0 },
-		// 					{ hole: 2, strokes: 0, slag: 0 },
-		// 					{ hole: 3, strokes: 0, slag: 0 },
-		// 					{ hole: 4, strokes: 0, slag: 0 },
-		// 					{ hole: 5, strokes: 0, slag: 0 },
-		// 					{ hole: 6, strokes: 0, slag: 0 },
-		// 					{ hole: 7, strokes: 0, slag: 0 },
-		// 					{ hole: 8, strokes: 0, slag: 0 },
-		// 					{ hole: 9, strokes: 0, slag: 0 },
-		// 					{ hole: 10, strokes: 0, slag: 0 },
-		// 					{ hole: 11, strokes: 0, slag: 0 },
-		// 					{ hole: 12, strokes: 0, slag: 0 },
-		// 					{ hole: 13, strokes: 0, slag: 0 },
-		// 					{ hole: 14, strokes: 0, slag: 0 },
-		// 					{ hole: 15, strokes: 0, slag: 0 },
-		// 					{ hole: 16, strokes: 0, slag: 0 },
-		// 					{ hole: 17, strokes: 0, slag: 0 },
-		// 					{ hole: 18, strokes: 0, slag: 0 }
-		// 				],
-		// 				hcp: 0,
-		// 				tee: "svart"
-		// 			},
-		// 			{
-		// 				name: "Spelare 2",
-		// 				holes: [
-		// 					{ hole: 1, strokes: 0, slag: 0 },
-		// 					{ hole: 2, strokes: 0, slag: 0 },
-		// 					{ hole: 3, strokes: 0, slag: 0 },
-		// 					{ hole: 4, strokes: 0, slag: 0 },
-		// 					{ hole: 5, strokes: 0, slag: 0 },
-		// 					{ hole: 6, strokes: 0, slag: 0 },
-		// 					{ hole: 7, strokes: 0, slag: 0 },
-		// 					{ hole: 8, strokes: 0, slag: 0 },
-		// 					{ hole: 9, strokes: 0, slag: 0 },
-		// 					{ hole: 10, strokes: 0, slag: 0 },
-		// 					{ hole: 11, strokes: 0, slag: 0 },
-		// 					{ hole: 12, strokes: 0, slag: 0 },
-		// 					{ hole: 13, strokes: 0, slag: 0 },
-		// 					{ hole: 14, strokes: 0, slag: 0 },
-		// 					{ hole: 15, strokes: 0, slag: 0 },
-		// 					{ hole: 16, strokes: 0, slag: 0 },
-		// 					{ hole: 17, strokes: 0, slag: 0 },
-		// 					{ hole: 18, strokes: 0, slag: 0 }
-		// 				],
-		// 				hcp: 0,
-		// 				tee: "vit TEXT"
-		// 			},
-		// 			{
-		// 				name: "Spelare 3",
-		// 				holes: [
-		// 					{ hole: 1, strokes: 0 },
-		// 					{ hole: 2, strokes: 0 },
-		// 					{ hole: 3, strokes: 0, slag: 0 },
-		// 					{ hole: 4, strokes: 0, slag: 0 },
-		// 					{ hole: 5, strokes: 0, slag: 0 },
-		// 					{ hole: 6, strokes: 0, slag: 0 },
-		// 					{ hole: 7, strokes: 0, slag: 0 },
-		// 					{ hole: 8, strokes: 0, slag: 0 },
-		// 					{ hole: 9, strokes: 0, slag: 0 },
-		// 					{ hole: 10, strokes: 0, slag: 0 },
-		// 					{ hole: 11, strokes: 0, slag: 0 },
-		// 					{ hole: 12, strokes: 0, slag: 0 },
-		// 					{ hole: 13, strokes: 0, slag: 0 },
-		// 					{ hole: 14, strokes: 0, slag: 0 },
-		// 					{ hole: 15, strokes: 0, slag: 0 },
-		// 					{ hole: 16, strokes: 0, slag: 0 },
-		// 					{ hole: 17, strokes: 0, slag: 0 },
-		// 					{ hole: 18, strokes: 0, slag: 0 }
-		// 				],
-		// 				hcp: 0,
-		// 				tee: "Gul"
-		// 			},
-		// 			{
-		// 				name: "Spelare 4",
-		// 				holes: [
-		// 					{ hole: 1, strokes: 0, slag: 0 },
-		// 					{ hole: 2, strokes: 0, slag: 0 },
-		// 					{ hole: 3, strokes: 0, slag: 0 },
-		// 					{ hole: 4, strokes: 0, slag: 0 },
-		// 					{ hole: 5, strokes: 0, slag: 0 },
-		// 					{ hole: 6, strokes: 0, slag: 0 },
-		// 					{ hole: 7, strokes: 0, slag: 0 },
-		// 					{ hole: 8, strokes: 0, slag: 0 },
-		// 					{ hole: 9, strokes: 0, slag: 0 },
-		// 					{ hole: 10, strokes: 0, slag: 0 },
-		// 					{ hole: 11, strokes: 0, slag: 0 },
-		// 					{ hole: 12, strokes: 0, slag: 0 },
-		// 					{ hole: 13, strokes: 0, slag: 0 },
-		// 					{ hole: 14, strokes: 0, slag: 0 },
-		// 					{ hole: 15, strokes: 0, slag: 0 },
-		// 					{ hole: 16, strokes: 0, slag: 0 },
-		// 					{ hole: 17, strokes: 0, slag: 0 },
-		// 					{ hole: 18, strokes: 0, slag: 0 }
-		// 				],
-		// 				hcp: 0,
-		// 				tee: "Blå"
-		// 			}
-		// 		];				
-		// },
+		
 
 		beforeMount() {
+			this.players = [
+					{
+						name: "Spelare 1",
+						holes: [
+							{ hole: 1, strokes: 0, slag: 0 },
+							{ hole: 2, strokes: 0, slag: 0 },
+							{ hole: 3, strokes: 0, slag: 0 },
+							{ hole: 4, strokes: 0, slag: 0 },
+							{ hole: 5, strokes: 0, slag: 0 },
+							{ hole: 6, strokes: 0, slag: 0 },
+							{ hole: 7, strokes: 0, slag: 0 },
+							{ hole: 8, strokes: 0, slag: 0 },
+							{ hole: 9, strokes: 0, slag: 0 },
+							{ hole: 10, strokes: 0, slag: 0 },
+							{ hole: 11, strokes: 0, slag: 0 },
+							{ hole: 12, strokes: 0, slag: 0 },
+							{ hole: 13, strokes: 0, slag: 0 },
+							{ hole: 14, strokes: 0, slag: 0 },
+							{ hole: 15, strokes: 0, slag: 0 },
+							{ hole: 16, strokes: 0, slag: 0 },
+							{ hole: 17, strokes: 0, slag: 0 },
+							{ hole: 18, strokes: 0, slag: 0 }
+						],
+						hcp: 0,
+						tee: "svart"
+					},
+					{
+						name: "Spelare 2",
+						holes: [
+							{ hole: 1, strokes: 0, slag: 0 },
+							{ hole: 2, strokes: 0, slag: 0 },
+							{ hole: 3, strokes: 0, slag: 0 },
+							{ hole: 4, strokes: 0, slag: 0 },
+							{ hole: 5, strokes: 0, slag: 0 },
+							{ hole: 6, strokes: 0, slag: 0 },
+							{ hole: 7, strokes: 0, slag: 0 },
+							{ hole: 8, strokes: 0, slag: 0 },
+							{ hole: 9, strokes: 0, slag: 0 },
+							{ hole: 10, strokes: 0, slag: 0 },
+							{ hole: 11, strokes: 0, slag: 0 },
+							{ hole: 12, strokes: 0, slag: 0 },
+							{ hole: 13, strokes: 0, slag: 0 },
+							{ hole: 14, strokes: 0, slag: 0 },
+							{ hole: 15, strokes: 0, slag: 0 },
+							{ hole: 16, strokes: 0, slag: 0 },
+							{ hole: 17, strokes: 0, slag: 0 },
+							{ hole: 18, strokes: 0, slag: 0 }
+						],
+						hcp: 0,
+						tee: "vit TEXT"
+					},
+					{
+						name: "Spelare 3",
+						holes: [
+							{ hole: 1, strokes: 0 },
+							{ hole: 2, strokes: 0 },
+							{ hole: 3, strokes: 0, slag: 0 },
+							{ hole: 4, strokes: 0, slag: 0 },
+							{ hole: 5, strokes: 0, slag: 0 },
+							{ hole: 6, strokes: 0, slag: 0 },
+							{ hole: 7, strokes: 0, slag: 0 },
+							{ hole: 8, strokes: 0, slag: 0 },
+							{ hole: 9, strokes: 0, slag: 0 },
+							{ hole: 10, strokes: 0, slag: 0 },
+							{ hole: 11, strokes: 0, slag: 0 },
+							{ hole: 12, strokes: 0, slag: 0 },
+							{ hole: 13, strokes: 0, slag: 0 },
+							{ hole: 14, strokes: 0, slag: 0 },
+							{ hole: 15, strokes: 0, slag: 0 },
+							{ hole: 16, strokes: 0, slag: 0 },
+							{ hole: 17, strokes: 0, slag: 0 },
+							{ hole: 18, strokes: 0, slag: 0 }
+						],
+						hcp: 0,
+						tee: "Gul"
+					},
+					{
+						name: "Spelare 4",
+						holes: [
+							{ hole: 1, strokes: 0, slag: 0 },
+							{ hole: 2, strokes: 0, slag: 0 },
+							{ hole: 3, strokes: 0, slag: 0 },
+							{ hole: 4, strokes: 0, slag: 0 },
+							{ hole: 5, strokes: 0, slag: 0 },
+							{ hole: 6, strokes: 0, slag: 0 },
+							{ hole: 7, strokes: 0, slag: 0 },
+							{ hole: 8, strokes: 0, slag: 0 },
+							{ hole: 9, strokes: 0, slag: 0 },
+							{ hole: 10, strokes: 0, slag: 0 },
+							{ hole: 11, strokes: 0, slag: 0 },
+							{ hole: 12, strokes: 0, slag: 0 },
+							{ hole: 13, strokes: 0, slag: 0 },
+							{ hole: 14, strokes: 0, slag: 0 },
+							{ hole: 15, strokes: 0, slag: 0 },
+							{ hole: 16, strokes: 0, slag: 0 },
+							{ hole: 17, strokes: 0, slag: 0 },
+							{ hole: 18, strokes: 0, slag: 0 }
+						],
+						hcp: 0,
+						tee: "Blå"
+					}
+				];	
+
 			this.$store.dispatch('updateUserInfo')
 			this.gameID = this.$route.query.id;
 		
@@ -1284,6 +1286,9 @@
 			
 		},
 		methods: {
+			hideOverview() {
+				this.overviewButtonClicked === false ?	this.overview = false : null
+			},
 			closeGame () {
 				this.$bvModal.msgBoxConfirm('Vill du avsluta matchen? Matchen kommer stängas för redigering och går ej att öppna igen',
 					 {
@@ -1459,7 +1464,7 @@
 			},
 			async resetGame() {
 
-					this.$bvModal.msgBoxConfirm('Är du säker på du vill starta om matchen? All hål kommer nollställas och alla data går förlorad',
+					this.$bvModal.msgBoxConfirm('Väljer du att starta om matchen får du välja bana, slinga och tee igen. Notera att all data går förlorad från matchen med score per hål och ev. matchresultat!',
 					 {
 						title: "Whoops, Mulligan!",
 						size: "md",
