@@ -111,7 +111,7 @@
                         <b-button hidden @click="logoutPrompt" variant="warning" class="mt-3 btn-sm">Logga ut</b-button>
                     </b-col>
                     <b-col md="12" class="mt-3">
-                        <h2 class="teaser-header orange mt-3">Hej {{userdetails.firstname}}</h2>
+                        <h2 class="teaser-header orange mt-3">Hej {{userdetails.firstname}}</h2>                          
                     </b-col>
                     <b-col hidden md="12" class="mt-3">
                         <h2>Skapa ditt blivande mästarlag</h2>
@@ -123,7 +123,7 @@
                 </b-row>
                 <b-row align-h="center" v-if="teams.length > 0" class="mb-2">
                     <b-col md="6" class="mt-5">
-                        <h2 class="teaser-header orange">Hej {{userdetails.firstname}}</h2>
+                        <h2 class="teaser-header orange">Hej {{userdetails.firstname}}</h2>                       
                     </b-col>
                     <b-col md="6" class="text-right">
                         <b-button v-if="!showteamslist" variant="primary" class="blue-bg btn-sm" v-on:click="create_team('new')"><i class="material-icons smaller">sports_golf</i> Skapa ett lag</b-button>
@@ -143,6 +143,54 @@
          <template v-slot:title>
       Lag ({{teamscount}})
       </template>    
+
+
+<b-modal ref="my-modal" hide-footer>
+<b-container class="p-1">
+     <b-row>
+        <b-col>       
+             <h2><strong>Välj reserv</strong></h2>
+
+
+                                <b-form-group>
+                                    <label for="name">Reserv (xxxxxx-xxx)</label>
+                                    <b-form-input id="teamreservename" v-model="team.teamreservename" placeholder="Golf id (xxxxxx-xxx)">
+                                    </b-form-input>
+                                    <b-button @click="checkGolfID(team.teamreservename,'3')" variant="info" size="sm" class="float-right mt-1">
+                                        <b-spinner v-if="showspinner_3" small type="grow" class="mr-2"></b-spinner>Sök spelare
+                                    </b-button>
+                                </b-form-group>
+                                <b-alert v-if="team.showplayer3" :variant="team.checkgolfidvariant3" show class="mt-4 small form-text">
+                                    Spelare: {{team.player_3_name}}<br>
+                                    HCP: {{team.player_3_hcp}}
+
+                                    <b-form-input class="mt-2" v-if="!team.player_3_exists" v-model="team.teamreserveemail" placeholder="E-mail till reserven" required>
+                                    </b-form-input>
+
+                                    <p class="mt-2" v-if="!team.player_3_exists">
+                                        När du sparar laget kommer vi skicka en inbjudan till din lagkamrat.
+                                    </p>
+                                    <p class="mt-2" v-if="team.player_3_exists">
+                                        {{team.player_3_name}} har ett matchplay-konto och kommer att få en förfrågan via email om att vara med i ditt lag.
+                                    </p>
+                                   <b-button @click="saveReserve()" variant="success" size="sm" class="float-right mt-1">
+                                        Spara
+                                    </b-button>
+                                    <b-form-input hidden v-model="team.teamreservegolfid" placeholder="Golfid">
+                                    </b-form-input>
+                                </b-alert>
+                            
+
+
+        </b-col>
+     </b-row>
+
+                                   
+        </b-container>        
+      
+      <b-button class="mt-3" variant="outline-danger" block @click="hideModal">Stäng</b-button>      
+    </b-modal>
+
 
 <b-container class="mt-3 mt-md-5" v-if="team.step === 0">        
             <b-row align-h="center" v-if="teams.length === 0 || !teams.length || !closed">
@@ -208,9 +256,11 @@
                                     </span>
                                 </div>
 
-                                  <div v-if="!team.teamreservegolfid" class="pt-0 pb-3">
-                                    <b-button hidden size="sm" @click="goToStep(team, 2)" variant="success" class="">Välj reserv</b-button>
-                                     <b-button size="sm" variant="success" class="">Välj reserv (kommer snart)!</b-button>
+                                  <div v-if="!team.teamreservegolfid" class="pt-0 pb-3">                                    
+                                     <b-button size="sm" variant="success" @click="showModal(team._id)" class="">Välj reserv</b-button>
+
+                           
+
                                 </div>
 
 
@@ -833,78 +883,6 @@
 
 <b-row v-if="games.length > 0 || games.length" align-h="center">
 
- <b-modal ref="my-modal" hide-footer :title="gamedetails2.teamname">
-<b-container class="p-1">
-     <b-row>
-        <b-col>       
-             <h2><strong>{{gamedetails2.teamname}}</strong></h2>
-             <span>{{gamedetails2.teamleader}}</span> & <span>{{gamedetails2.teammember}}</span><br>
-             {{gamedetails2.teamzip}} {{gamedetails2.teamcity}}<br>                                             
-             <span v-if="gamedetails2.teamclub">{{gamedetails2.teamclub}}</span>
-             <span v-if="!gamedetails2.teamclub">Padelklubb saknas</span>    
-        </b-col>
-     </b-row>
-
-
-            <b-row v-if="gamedetails.length === 0 || !gamedetails.length" align-h="center">
-                <b-col>
-                    <p class="text-center mt-2 mb-3"><i class="far fa-robot fa-3x"></i></p>
-                    <p class="text-center">
-                    Detta laget har inga spelade matcher än
-                    </p>
-                </b-col>
-            </b-row>
-
-<b-row>
-     <b-col class="mt-4">
-         <h2><strong>Tidigare matcher</strong></h2>
-     </b-col>
-</b-row>
-
-       
-    <b-row v-for="(game,idx3) in gamedetails" :key="idx3" class="game">
-          <b-col class="col-12 mt-2 mb-2 text-left">                 
-               <strong>RUNDA</strong><br>               
-               {{game.roundname}}
-          </b-col>
-     
-          <b-col class="col-12 mt-2 mb-2 text-left">                 
-               <strong>HEMMALAG</strong><br>               
-               <span class="" v-if="game.status === 'Finished'" v-bind:class="{ winner: game.winnername === game.hometeamname,loser: game.winnername !== game.hometeamname }">{{game.hometeamname}}<br></span>
-               <span v-else>{{game.hometeamname}}<br></span>
-               <span>{{game.hometeamleadername}}</span> & <span>{{game.hometeammembername}}</span>              
-          </b-col>
-      
-
-      
-          <b-col class="col-12 mt-2 mb-2 text-left">                 
-               <strong>BORTALAG</strong><br>               
-               <span class="" v-if="game.status === 'Finished'" v-bind:class="{ winner: game.winnername === game.awayteamname,loser: game.winnername !== game.awayteamname }">{{game.awayteamname}}<br></span>
-                <span v-else>{{game.awayteamname}}<br></span>     
-               <span>{{game.awayteamleadername}}</span> & <span>{{game.awayteammembername}}</span>                                            
-          </b-col>
-     
-      
-          <b-col v-if="game.clubname" class="col-12 mt-2 mb-2 text-left">                 
-               <strong>SPELPLATS</strong><br>
-               <span>{{game.clubname}}</span><br>
-               <span v-if="game.gamedate">{{game.gamedate}}</span><span><span v-if="game.gametime"> kl. {{game.gametime}}</span></span>
-          </b-col>
-        
-     
-          <b-col v-if="game.status !== 'Pending'" class="col-12 mt-2 mb-2 text-left">                 
-               <strong>RESULTAT</strong><br>               
-               <span v-if="game.status === 'Finished'">{{game.homeset1}}-{{game.awayset1}} / {{game.homeset2}}-{{game.awayset2}} <span v-if="game.homeset3 > 0 || game.awayset3 > 0"> / {{game.homeset3}}-{{game.awayset3}}</span></span>               
-               <span v-if="!game.clubname"><br><small>{{ getgamedate2(game.finishedAt)}} sedan</small></span>
-          </b-col>
-      </b-row>    
-                                   
-        </b-container>        
-      
-      <b-button class="mt-3" variant="outline-danger" block @click="hideModal">Stäng</b-button>      
-    </b-modal>
-
-
         <b-col sm="6" lg="6" class="team pl-2 pr-2 pb-2" v-for="(game,idx2) in this.games" :key="idx2">
 
              <b-card class="mb-2 team">
@@ -1085,6 +1063,8 @@
                         </b-row>
     </b-container>
 </div>
+
+
 </template>
 
 <script>
@@ -1095,6 +1075,7 @@ import Spinner from "./spinner/Spinner";
 import Suggestions from 'v-suggestions';
 import 'v-suggestions/dist/v-suggestions.css';
 import moment from 'moment';
+import { globalState } from "../main.js";
 import {
     VueTelInput
 } from 'vue-tel-input'
@@ -1130,6 +1111,7 @@ export default {
         let clubs = [];
         let countries = ['Afghanistan', 'Åland Islands', 'Albania', 'Algeria', 'American Samoa', 'AndorrA', 'Angola', 'Anguilla', 'Antarctica', 'Antigua and Barbuda', 'Argentina', 'Armenia', 'Aruba', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bermuda', 'Bhutan', 'Bolivia', 'Bosnia and Herzegovina', 'Botswana', 'Bouvet Island', 'Brazil', 'British Indian Ocean Territory', 'Brunei Darussalam', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Cape Verde', 'Cayman Islands', 'Central African Republic', 'Chad', 'Chile', 'China', 'Christmas Island', 'Cocos (Keeling) Islands', 'Colombia', 'Comoros', 'Congo', 'Congo, The Democratic Republic of the', 'Cook Islands', 'Costa Rica', 'Cote D\'Ivoire', 'Croatia', 'Cuba', 'Cyprus', 'Czech Republic', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic', 'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Eritrea', 'Estonia', 'Ethiopia', 'Falkland Islands (Malvinas)', 'Faroe Islands', 'Fiji', 'Finland', 'France', 'French Guiana', 'French Polynesia', 'French Southern Territories', 'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana', 'Gibraltar', 'Greece', 'Greenland', 'Grenada', 'Guadeloupe', 'Guam', 'Guatemala', 'Guernsey', 'Guinea', 'Guinea-Bissau', 'Guyana', 'Haiti', 'Heard Island and Mcdonald Islands', 'Holy See (Vatican City State)', 'Honduras', 'Hong Kong', 'Hungary', 'Iceland', 'India'];
         return {    
+            choosereserve: false,
             closed: true,       
             tabIndex: 0,
             games:0,
@@ -1561,7 +1543,42 @@ export default {
          let gamedate2 = new Date(finishedat);           
          return moment(gamedate2, "YYYY-MM-DD hh:mm").fromNow();   
      },
-         showModal(homeaway,game) {
+         saveReserve() {
+
+             if (this.team.teamreserveemail === undefined) {
+                 alert('Skriv in en e-post adress');
+                 return;
+             }
+
+             console.log(this.team._id)
+                
+                let url = globalState.admin_url + 'updateTeam'              
+                
+                this.axios.post(url, {
+                        "competition": "sFAc3dvrn2P9pXHAz",                        
+                        "_id": this.team._id,                       
+                        "teamreserveemail": this.team.teamreserveemail,                       
+                        "teamreservegolfid": this.team.teamreservegolfid                       
+                    })
+                    .then(response => {
+                        if (response.data.status === 'error') {
+                            return;
+                        }
+
+                        if (response.data.status === 'ok') {
+                           console.log('success')                      
+                        }
+
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+
+            
+         },
+         showModal(id) {
+          // console.log(id)
+            this.team._id = id;
         //this.gamedetails2 = game;
         //console.log(homeaway,game);
         /*
@@ -1570,16 +1587,8 @@ export default {
              {{gamedetails2.hometeamzip}} {{gamedetails2.hometeamcity}}<br>                                             
              <span v-if="gamedetails2.hometeamclubname">{{gamedetails2.hometeamclubname}}</span>
              <span v-if="!gamedetails2.hometeamclubname">Padelklubb saknas</span>    
-        */
-        this.gamedetails2.teamname = game[homeaway + 'teamname'];
-        this.gamedetails2.teamleader = game[homeaway + 'teamleadername'];
-        this.gamedetails2.teammember = game[homeaway + 'teammembername'];
-        this.gamedetails2.teamzip = game[homeaway + 'teamzip'];
-        this.gamedetails2.teamcity = game[homeaway + 'teamcity']; 
-        this.gamedetails2.teamclub = game[homeaway + 'teamclubname'];
+        */        
 
-
-        this.getGamesTeam(game[homeaway + 'team'],game)       
         this.$refs['my-modal'].show()
       },
 
@@ -2606,6 +2615,7 @@ export default {
 
         },
         checkGolfID: function (golfid, target) {
+            console.log(golfid,target)
             this.team.ownid = '';
             let userinfo = localStorage.getItem('userinfo');
             userinfo = JSON.parse(userinfo);
@@ -2634,7 +2644,7 @@ export default {
                 this.showspinner_3 = true;
 
                 //Check if own golf id search, not accepted
-                if (userinfo.golfid === golfid) {
+                if (userinfo.golfid === golfid) {                    
                     this.team.checkgolfidvariant3 = "warning";
                     this.team.player_3_name = 'Du kan inte söka på ditt eget golf id.'
                     this.team.showplayer3 = true;
@@ -2672,7 +2682,7 @@ export default {
                             this.team.showplayer2 = true;
                         }
 
-                        if (target === '3') {
+                        if (target === '3') {                            
                             this.team.checkgolfidvariant3 = "primary";
                             this.team.showplayer3 = true;
                             this.team.player_3_name = response.data.firstname + ' ' + response.data.lastname;
@@ -2683,6 +2693,7 @@ export default {
                             this.team.showplayer3 = true;
                             this.showspinner_3 = false;
                             this.team.showplayer3 = true;
+                            //console.log(this.team.player_3_name,this.team.player_3_hcp)
                         }
 
                         //this.form.hcp = response.data.hcp.replace(/,/g, '.')
@@ -2756,6 +2767,11 @@ export default {
                     // An error occurred
                 })
         },
+
+        showReserveModal: function() {
+           
+        },
+
 
         logout: function () {
 
