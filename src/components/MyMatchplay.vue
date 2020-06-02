@@ -990,7 +990,7 @@
                                                  <i class="fas fa-clock mr-1 mb-1" style="float:left;"></i>
                                                  </div>
                                                      <div style="display:flex;">
-                                                <span style="padding-left:6px;">{{ getgamedate(game.gamedate,'full')}}</span> <span>{{game.gametime}}</span>  
+                                                <span style="padding-left:6px;">{{ getgamedate(game.gamedate,'full')}}</span>&nbsp;<span>{{game.gametime}}</span>  
                                                      </div>                                                                                                                       
                                    </div>
 
