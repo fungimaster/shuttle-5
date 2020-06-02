@@ -1,152 +1,185 @@
 <template>
-	<div>
-		<b-container>
-			<b-row class="justify-content-center" align-h="center">
-				<b-col md="6">
-					<div v-if="loading" class="d-flex justify-content-center mb-3">
-						<b-container>
-							<b-row v-if="loading" align-h="center">
-								<b-col md="6" class="text-center">
-									<b-spinner big type="grow" class="m-5" style="width: 5rem; height: 5rem;"></b-spinner>
-									<p>{{ loadingtext }}</p>
-								</b-col>
-							</b-row>
-						</b-container>
-					</div>
-					<div v-if="!errorMSG && !loading">
-						<div>
-							<!-- VÄLJA KLUBB -->
+  <div>
+    <b-container>
+      <b-row class="justify-content-center" align-h="center">
+        <b-col md="6">
+          <div v-if="loading" class="d-flex justify-content-center mb-3">
+            <b-container>
+              <b-row v-if="loading" align-h="center">
+                <b-col md="6" class="text-center">
+                  <b-spinner
+                    big
+                    type="grow"
+                    class="m-5"
+                    style="width: 5rem; height: 5rem;"
+                  ></b-spinner>
+                  <p>{{ loadingtext }}</p>
+                </b-col>
+              </b-row>
+            </b-container>
+          </div>
+          <div v-if="!errorMSG && !loading">
+            <div>
+              <!-- VÄLJA KLUBB -->
 
-							<b-form-group label="Välj klubb från listan:" class="inputField">
-								<suggestions
-									v-model="form.course"
-									:options="options"
-									:onInputChange="clubSelectedInput"
-									:onItemSelected="clubSelected"
-									class="suggestions"
-								>
-									<div slot="item" slot-scope="props">
-										<strong>{{ props.item.title }}</strong>
-									</div>
-								</suggestions>
-							</b-form-group>
+              <b-form-group label="Välj klubb från listan:" class="inputField">
+                <suggestions
+                  v-model="form.course"
+                  :options="options"
+                  :onInputChange="clubSelectedInput"
+                  :onItemSelected="clubSelected"
+                  class="suggestions"
+                >
+                  <div slot="item" slot-scope="props">
+                    <strong>{{ props.item.title }}</strong>
+                  </div>
+                </suggestions>
+              </b-form-group>
 
-							<!--  VÄLJA SLINGA -->
-							<div v-if="loadingCourse == 1" class="d-flex justify-content-center mb-3">
-								<b-container>
-									<b-row v-if="loadingCourse == 1" align-h="center">
-										<b-col md="6" class="text-center">
-											<b-spinner big type="grow" class="m-5" style="width: 5rem; height: 5rem;"></b-spinner>
-											<p>Hämtar slingor...</p>
-										</b-col>
-									</b-row>
-								</b-container>
-							</div>
-							<transition name="fade" v-if="form.course && loadingCourse == 2">
-								<b-form-group
-									id="input-group-3"
-									v-if="slingaOptions.length > 0"
-									class="inputField"
-									label="Välj slinga"
-								>
-									<b-form-select v-model="form.slinga" :options="slingaOptions" v-on:change="courseSelected"></b-form-select>
-								</b-form-group>
-								<p v-else>Ingen 18-hålsbana hittad</p>
-							</transition>
-						</div>
+              <!--  VÄLJA SLINGA -->
+              <div
+                v-if="loadingCourse == 1"
+                class="d-flex justify-content-center mb-3"
+              >
+                <b-container>
+                  <b-row v-if="loadingCourse == 1" align-h="center">
+                    <b-col md="6" class="text-center">
+                      <b-spinner
+                        big
+                        type="grow"
+                        class="m-5"
+                        style="width: 5rem; height: 5rem;"
+                      ></b-spinner>
+                      <p>Hämtar slingor...</p>
+                    </b-col>
+                  </b-row>
+                </b-container>
+              </div>
+              <transition name="fade" v-if="form.course && loadingCourse == 2">
+                <b-form-group
+                  id="input-group-3"
+                  v-if="slingaOptions.length > 0"
+                  class="inputField"
+                  label="Välj slinga"
+                >
+                  <b-form-select
+                    v-model="form.slinga"
+                    :options="slingaOptions"
+                    v-on:change="courseSelected"
+                  ></b-form-select>
+                </b-form-group>
+                <p v-else>Ingen 18-hålsbana hittad</p>
+              </transition>
+            </div>
 
-						<!-- VÄLJA TEE -->
+            <!-- VÄLJA TEE -->
 
-						<transition name="fade" mode="out-in" class="inputField">
-							<div v-if="form.slinga">
-								<div class="col-12 m-0 p-0 mb-3">
-									<b-alert v-if="form.slinga" show class="mt-3 mb-0 small" variant="info">
-										Era handicap kommer räknas ut exakt med slope mm efter val
-										av tee tillsammans med matchplays regler för hcp-uträkning.
-										Era nya hcp samt slag per hål ser ni i nästa steg.
-									</b-alert>
-								</div>
-								<p>Välj tee för spelarna</p>
+            <transition name="fade" mode="out-in" class="inputField">
+              <div v-if="form.slinga">
+                <div class="col-12 m-0 p-0 mb-3">
+                  <b-alert
+                    v-if="form.slinga"
+                    show
+                    class="mt-3 mb-0 small"
+                    variant="info"
+                  >
+                    Era handicap kommer räknas ut exakt med slope mm efter val
+                    av tee tillsammans med matchplays regler för hcp-uträkning.
+                    Era nya hcp samt slag per hål ser ni i nästa steg.
+                  </b-alert>
+                </div>
+                <p>Välj tee för spelarna</p>
 
-								<b-form-group v-for="(player, index) in players" :key="player.index">
-									<b-row no-gutters>
-										<b-col cols="1" class="teamColor">
-											<div
-												class="teamColor"
-												:class="
+                <b-form-group
+                  v-for="(player, index) in players"
+                  :key="player.index"
+                >
+                  <b-row no-gutters>
+                    <b-col cols="1" class="teamColor">
+                      <div
+                        class="teamColor"
+                        :class="
                           player.team === 1
                             ? 'teamColorBanner1'
                             : 'teamColorBanner2'
                         "
-											></div>
-										</b-col>
-										<b-col cols="10">
-											<p class="playerInfo" id="playerName">{{ player.name }} (hcp: {{ player.hcp }})</p>
-										</b-col>
-									</b-row>
+                      ></div>
+                    </b-col>
+                    <b-col cols="10">
+                      <p class="playerInfo" id="playerName">
+                        {{ player.name }} (hcp: {{ player.hcp }})
+                      </p>
+                    </b-col>
+                  </b-row>
 
-									<b-row no-gutters>
-										<b-col cols="12">
-											<b-form-group id="input-group-6" class="inputField">
-												<!--  v-model="form.tees[index]"
+                  <b-row no-gutters>
+                    <b-col cols="12">
+                      <b-form-group id="input-group-6" class="inputField">
+                        <!--  v-model="form.tees[index]"
              :options="teeOptions"
 												-->
-												<b-form-radio-group
-													v-if="player.gender == 0"
-													v-model="form.checked[index]"
-													v-on:change="
+                        <b-form-radio-group
+                          v-if="player.gender == 0"
+                          v-model="form.checked[index]"
+                          v-on:change="
                             getSlopes($event, player.playerId, player.hcp)
                           "
-													:options="teeOptionsMale"
-													buttons
-													button-variant="primary"
-													required
-													class="radioSlinga"
-													:size="teeOptionsMale.length >= 5 ? 'sm' : 'md'"
-												></b-form-radio-group>
-												<b-form-radio-group
-													v-if="player.gender == 1"
-													v-model="form.checked[index]"
-													v-on:change="
+                          :options="teeOptionsMale"
+                          buttons
+                          button-variant="primary"
+                          required
+                          class="radioSlinga"
+                          :size="teeOptionsMale.length >= 5 ? 'sm' : 'md'"
+                        ></b-form-radio-group>
+                        <b-form-radio-group
+                          v-if="player.gender == 1"
+                          v-model="form.checked[index]"
+                          v-on:change="
                             getSlopes($event, player.playerId, player.hcp)
                           "
-													:options="teeOptionsFemale"
-													buttons
-													button-variant="primary"
-													required
-													class="radioSlinga"
-													:size="teeOptionsMale.length >= 5 ? 'sm' : 'md'"
-												></b-form-radio-group>
-											</b-form-group>
-										</b-col>
-									</b-row>
-								</b-form-group>
-							</div>
-						</transition>
-					</div>
-					<div v-else>{{ errorMSG }}</div>
+                          :options="teeOptionsFemale"
+                          buttons
+                          button-variant="primary"
+                          required
+                          class="radioSlinga"
+                          :size="teeOptionsMale.length >= 5 ? 'sm' : 'md'"
+                        ></b-form-radio-group>
+                      </b-form-group>
+                    </b-col>
+                  </b-row>
+                </b-form-group>
+              </div>
+            </transition>
+          </div>
+          <div v-else>{{ errorMSG }}</div>
 
-					<div class="col-12 m-0 p-0 mb-3" v-if="form.slinga && !loading" md="12">
-						<b-button
-							class="teOff btn btn-success btn-sm text-white mt-3 mr-md-2"
-							@click="TeeOff"
-							variant="primary"
-							:disabled="!allTeesSelected"
-							size="lg"
-						>Tee off!</b-button>
-						<div style="height: 100px;">
-							<b-alert
-								v-if="!allTeesSelected"
-								show
-								class="mt-3 mb-0 small"
-								variant="info"
-							>Välj tee för samtliga spelare</b-alert>
-						</div>
-					</div>
-				</b-col>
-			</b-row>
-		</b-container>
-	</div>
+          <div
+            class="col-12 m-0 p-0 mb-3"
+            v-if="form.slinga && !loading"
+            md="12"
+          >
+            <b-button
+              class="teOff btn btn-success btn-sm text-white mt-3 mr-md-2"
+              @click="TeeOff"
+              variant="primary"
+              :disabled="!allTeesSelected"
+              size="lg"
+              >Tee off!</b-button
+            >
+            <div style="height: 100px;">
+              <b-alert
+                v-if="!allTeesSelected"
+                show
+                class="mt-3 mb-0 small"
+                variant="info"
+                >Välj tee för samtliga spelare</b-alert
+              >
+            </div>
+          </div>
+        </b-col>
+      </b-row>
+    </b-container>
+  </div>
 </template>
 
 <script>
@@ -485,8 +518,12 @@ export default {
     // Hämta alla loops och hål från en bana
     parseCourse: function (course) {
       let parsedLoop = [];
-      course.forEach((courseItem) => {       
-        if (courseItem.IsNineHoleCourse == "false" || courseItem.Name === "Björkhagens GK") {
+
+      course.forEach((courseItem) => {
+        if (
+          courseItem.IsNineHoleCourse == "false" ||
+          courseItem.Name === "Björkhagens GK"
+        ) {
           courseItem.Loops.forEach((loop) => {
             if (Array.isArray(loop)) {
               loop.forEach((item) => {
@@ -496,7 +533,7 @@ export default {
                 loopItem.slopes = item.Slopes;
                 loopItem.Holes = item.Holes;
 
-                if (loopItem.Holes.length == 18) {
+                if (loopItem.Holes.length == 18 && loopItem.slopes.length > 1) {
                   parsedLoop.push(loopItem);
                 }
               });
@@ -687,110 +724,110 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-	@import "../styles/variables.scss";
+@import "../styles/variables.scss";
 
-	* {
-		font-family: Eurostile LT Std, Arial, sans-serif;
-	}
-	.container {
-		padding-top: 40px;
-	}
+* {
+  font-family: Eurostile LT Std, Arial, sans-serif;
+}
+.container {
+  padding-top: 40px;
+}
 
-	/* INPUTFIELD CLUB */
-	.suggestions {
-		text-align: left !important;
-	}
+/* INPUTFIELD CLUB */
+.suggestions {
+  text-align: left !important;
+}
 
-	/* SPELAR OCH TEAM INFO */
-	.playerInfo {
-		margin-bottom: 0;
-		text-align: left;
-	}
+/* SPELAR OCH TEAM INFO */
+.playerInfo {
+  margin-bottom: 0;
+  text-align: left;
+}
 
-	#playerName {
-		font-weight: 900;
-	}
+#playerName {
+  font-weight: 900;
+}
 
-	.teams {
-		margin: 10px;
-		margin-left: 0;
-		margin-right: 0;
-	}
+.teams {
+  margin: 10px;
+  margin-left: 0;
+  margin-right: 0;
+}
 
-	.teamColor {
-		width: 8px;
-		height: 40px;
-	}
+.teamColor {
+  width: 8px;
+  height: 40px;
+}
 
-	.teamColorBanner1,
-	.teamColorBanner2 {
-		margin-top: 3px;
-		height: 15px;
-		width: 15px;
-		border-radius: 10px;
-	}
+.teamColorBanner1,
+.teamColorBanner2 {
+  margin-top: 3px;
+  height: 15px;
+  width: 15px;
+  border-radius: 10px;
+}
 
-	.teamColorBanner1 {
-		background-color: $team1;
-		border: 3px solid $team1;
-	}
+.teamColorBanner1 {
+  background-color: $team1;
+  border: 3px solid $team1;
+}
 
-	.teamColorBanner2 {
-		background-color: $team2;
-		border: 3px solid $team2;
-	}
+.teamColorBanner2 {
+  background-color: $team2;
+  border: 3px solid $team2;
+}
 
-	/* TRANSITION */
+/* TRANSITION */
 
-	.fade-enter {
-		opacity: 0;
-	}
+.fade-enter {
+  opacity: 0;
+}
 
-	.fade-enter-active {
-		transition: opacity 0.8s;
-	}
-	.fade-leave-to {
-		opacity: 0;
-	}
+.fade-enter-active {
+  transition: opacity 0.8s;
+}
+.fade-leave-to {
+  opacity: 0;
+}
 
-	.fade-leave-active {
-		transition: opacity 0.8s;
-	}
+.fade-leave-active {
+  transition: opacity 0.8s;
+}
 
-	.radioSlinga {
-		display: flex !important;
-	}
+.radioSlinga {
+  display: flex !important;
+}
 
-	/*  BUTTONS */
+/*  BUTTONS */
 
-	>>> .btn.btn-primary.active,
-	>>> .btn.btn-primary:active {
-		background-color: #d77c27 !important;
-		/*outline: 0.5px dashed rgba(255, 255, 255, 0.9) !important;*/
-		/*outline-offset: -2px !important;*/
-		/*transform: scale(0.95) !important;*/
-		border: 0 !important;
-		outline: none;
-	}
+>>> .btn.btn-primary.active,
+>>> .btn.btn-primary:active {
+  background-color: #d77c27 !important;
+  /*outline: 0.5px dashed rgba(255, 255, 255, 0.9) !important;*/
+  /*outline-offset: -2px !important;*/
+  /*transform: scale(0.95) !important;*/
+  border: 0 !important;
+  outline: none;
+}
 
-	>>> .btn.btn-primary,
-	>>> .btn.btn-primary {
-		background-color: #074da1 !important;
-		border-radius: 40 !important;
-		border: 0 !important;
-		margin: 1px !important;
-		padding-top: 20px;
-		padding-bottom: 20px;
-	}
+>>> .btn.btn-primary,
+>>> .btn.btn-primary {
+  background-color: #074da1 !important;
+  border-radius: 40 !important;
+  border: 0 !important;
+  margin: 1px !important;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
 
-	/* FOOTEr */
-	.teOffButton {
-		margin-top: 10px;
-		width: 100%;
-		border-radius: 0 !important;
-	}
+/* FOOTEr */
+.teOffButton {
+  margin-top: 10px;
+  width: 100%;
+  border-radius: 0 !important;
+}
 
-	.teOff {
-		width: 100% !important;
-	}
+.teOff {
+  width: 100% !important;
+}
 </style>
