@@ -1062,9 +1062,12 @@ export default {
         }
 
         //set loop
-        if (response.data.hasOwnProperty("loop")) {
+        if (response.data.hasOwnProperty("loop")) {          
           this.slinga = response.data.loop;
-          this.slinganame = response.data.loopname;
+          if (response.data.hasOwnProperty("loopname")) {
+            this.slinganame = response.data.loopname;
+          }
+          
           this.slingaOptions = { name: this.slinganame };
           this.loadingCourse == 2;
         } else {
@@ -1115,9 +1118,8 @@ export default {
           // An error occurred
         });
     },
-    setLoopname(id) {
-      console.log(id);
-      let result = this.slingaOptions.find((item) => item.value == id);
+    setLoopname(id) {     
+      let result = this.slingaOptions.find((item) => item.value == id);     
       this.slinganame = result.text;
     },
     // Get info from GIT
@@ -1159,6 +1161,9 @@ export default {
       });
 
       this.slingaOptions = parsedLoop;
+      //console.log(this.slingaOptions[0])
+      this.slinga = this.slingaOptions[0].value; //set default
+      this.slinganame = this.slingaOptions[0].text; //set default
       //Dölj spinner och visa slingor
       this.loadingCourse = 2;
     },
