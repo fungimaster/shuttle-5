@@ -247,6 +247,17 @@
                                     </span>
                                 </div>
 
+                                <div v-if="team.teamreservegolfid" class="pt-0 pb-3">
+                                     <span :id="'tooltip-teammember3-' + idx">
+                                        <i class="material-icons mr-2">person_pin</i>Reserv: {{team.teamreservegolfid}}
+                                        <b-tooltip :target="'tooltip-teammember3-' + idx" triggers="hover" placement="top">
+                                            Denna reserv kan väljas när en match ska startas
+                                        </b-tooltip>                                        
+                                    </span>
+                                </div>
+
+                                
+
                                 <div class="pt-0 pb-3">
                                     <span :id="'tooltip-course-' + idx">
                                         <i class="material-icons mr-2">golf_course</i>{{team.coursename}}
@@ -258,9 +269,6 @@
 
                                   <div v-if="!team.teamreservegolfid" class="pt-0 pb-3">                                    
                                      <b-button size="sm" variant="success" @click="showModal(team._id)" class="">Välj reserv</b-button>
-
-                           
-
                                 </div>
 
 

@@ -120,10 +120,14 @@
                       <span class="my-nav-item">Spelplats</span>
                     </template>
 
+<b-container class="mt-3">
+                      <b-row class="justify-content-center" align-h="center">
+                        <b-col class="col-12 text-left">
+
                     <b-alert
                       v-if="isteamleader && status != 'Finished'"
                       show
-                      class="mt-3 mb-0 small"
+                     class="mt-1 small"
                       variant="info"
                     >
                       Hemmalaget (ni) bokar bana och speltid i samråd med
@@ -131,6 +135,9 @@
                       först tid på banan och välj sedan bana nedan, datum och
                       tid för matchen och meddela era motståndare!
                     </b-alert>
+                        </b-col>
+                      </b-row>
+</b-container>
 
                     <div v-if="!isteamleader && status != 'Finished'">
                       <div v-if="gamedate">
