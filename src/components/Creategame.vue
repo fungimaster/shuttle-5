@@ -108,6 +108,15 @@
                     <b-col cols="10">
                       <p class="playerInfo" id="playerName">
                         {{ player.name }} (hcp: {{ player.hcp }})
+                        <b-button
+                          v-if="
+                            (player.team == 1 && hometeamreservegolfid) ||
+                            (player.team == 2 && awayteamreservegolfid)
+                          "
+                          class="btn reservbtn"
+                          @click="updatePlayer(index)"
+                          >Byt till reserv</b-button
+                        >
                       </p>
                     </b-col>
                   </b-row>
@@ -329,7 +338,7 @@ export default {
           if (response.data.status == "No game found") {
             this.errorMSG = "Something went wrong (No game found)";
           } else {
-            //console.log(response.data);
+            console.log(response.data);
             this.readGameData(response.data);
             this.createPlayers(response.data);
           }
@@ -380,6 +389,8 @@ export default {
       gameID: "",
       team1: "",
       team2: "",
+      hometeamreservegolfid: "",
+      awayteamreservegolfid: "",
       displaySlinga: false,
       players: [],
       courses: [],
@@ -475,6 +486,8 @@ export default {
         this.players[2].gitID = data.awayteamleadergolfid;
         this.players[3].name = data.awayteammembername;
         this.players[3].gitID = data.awayteammembergolfid;
+        this.hometeamreservegolfid = data.hometeamreservegolfid;
+        this.awayteamreservegolfid = data.awayteamreservegolfid;
 
         this.players.forEach((element) => {
           this.axios
@@ -500,6 +513,66 @@ export default {
         this.errorMSG = "Something went wrong (Missin GIT on player)";
       }
     },
+    updatePlayer: function (index) {
+      this.boxTwo = "";
+      this.$bvModal
+        .msgBoxConfirm("Är du säker på att du vill byta till reservspelare.", {
+          title: "Byt till reserv?",
+          size: "md",
+          buttonSize: "md",
+          okVariant: "danger",
+          okTitle: "Japp, jag är säker",
+          cancelTitle: "Nej tack",
+          footerClass: "p-2",
+          hideHeaderClose: false,
+          centered: true,
+        })
+        .then((value) => {
+          if (value) {
+            console.log(index);
+            let gitID = "";
+            if (index < 2) {
+              gitID = this.hometeamreservegolfid;
+            } else {
+              gitID = this.awayteamreservegolfid;
+            }
+            if (gitID) {
+              this.axios
+                .post(globalState.admin_url + "getPlayerByGolfid", {
+                  golfid: gitID,
+                })
+                .then((response) => {
+                  this.players[index].hcp = parseFloat(
+                    response.data.hcp.replace(/,/g, ".")
+                  ).toFixed(1);
+                  this.players[index].name =
+                    response.data.firstname + " " + response.data.lastname;
+                  this.form.checked[index] = null;
+                  this.players[index].gender = response.data.gender;
+                  this.players[index].tee = "";
+                  this.players[index].shcp = null;
+                  if (index < 2) {
+                    this.players[index].gitID = this.hometeamreservegolfid;
+                    this.hometeamreservegolfid = "";
+                  } else {
+                    this.players[index].gitID = awayteamreservegolfid;
+                    this.awayteamreservegolfid = "";
+                  }
+                  this.allTeesSelected = false;
+                })
+                .catch((error) => {
+                  this.errorMSG = "Something went wrong (Player not found)";
+
+                  console.log(error);
+                });
+            }
+          }
+        })
+        .catch((err) => {
+          // An error occurred
+        });
+    },
+
     // Get info from GIT
     getCourse: function (gitID) {
       this.axios
@@ -642,6 +715,7 @@ export default {
       //console.log(player.shcp);
 
       player.tee = tee.text;
+
       this.checkAllTeeSelected();
     },
     checkAllTeeSelected() {
@@ -820,6 +894,12 @@ export default {
   padding-bottom: 20px;
 }
 
+.reservbtn {
+  background-color: #074da1 !important;
+  padding: 0px 10px 0px 10px;
+  text-transform: none;
+  float: right;
+}
 /* FOOTEr */
 .teOffButton {
   margin-top: 10px;
