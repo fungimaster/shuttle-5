@@ -343,14 +343,13 @@
 						<footer class="fixed-bottom">
 							<b-row class="leaderSection" align-v="center" align-h="center">
 								<!-- HOME TEAM -->
-								<b-col class="col-4 scoreTeam text-left pl-3" :class="[{ scoreTeam1: leader && !tie }, {scoreTeamDormy: dormy2 !== ''}]">
+								<b-col class="col-4 scoreTeam text-left pl-3" :class="[{ scoreTeam1: leader && !tie }, {scoreTeamDormy: setDormyClass(dormy2) }]">
 									<span
 										style="float:left;"
 									>{{getInitials(players[0].name)}} & {{getInitials(players[1].name)}}</span>
 									<i v-if="!tie && winnerDeclared && leader" class="material-icons pb-1 pl-1">emoji_events</i>
 									<span v-if="!tie && !winnerDeclared" class="dormy">{{dormy2}}</span>
 								</b-col>
-
 								<!-- score -->
 								<b-col
 									class="col-4 text-center score"
@@ -377,10 +376,10 @@
 								</b-col>
 
 								<!-- away team -->
-								<b-col class="col-4 scoreTeam text-right pr-3" :class="[{ scoreTeam2: !leader && !tie }, {scoreTeamDormy: dormy1 !== ''}]">
+								<b-col class="col-4 scoreTeam text-right pr-3" :class="[{ scoreTeam2: !leader && !tie }, {scoreTeamDormy: setDormyClass(dormy1)}]">
 									<i v-if="!tie && winnerDeclared && !leader" class="material-icons pb-1 pr-1">emoji_events</i>
 									<span
-										:style="dormy1 === '' ? 'float:right' : 'float:left'"
+										:style="(dormy1 === '') || (setTieBreak === true) ? 'float:right' : 'float:left'"
 									>{{getInitials(players[2].name)}} & {{getInitials(players[3].name)}}</span>
 									<span style="clear:right;" v-if="!tie && !winnerDeclared" class="dormy">{{dormy1}}</span>
 								</b-col>
@@ -397,7 +396,7 @@
 			
 				<b-row class="pt-3" align-v="center" align-h="center">
 					<!-- HOME TEAM -->
-					<b-col class="col-4 scoreTeam text-left pl-3" :class="[{ scoreTeam1: leader && !tie }, {scoreTeamDormy: dormy2 !== ''}]">
+					<b-col class="col-4 scoreTeam text-left pl-3" :class="[{ scoreTeam1: leader && !tie }, {scoreTeamDormy: setDormyClass(dormy2)}]">
 						<span
 							style="float:left;"
 						
@@ -432,10 +431,10 @@
 					</b-col>
 
 					<!-- away team -->
-					<b-col class="col-4 scoreTeam text-right pr-3" :class="[{ scoreTeam2: !leader && !tie }, {scoreTeamDormy: dormy1 !== ''}]">
+					<b-col class="col-4 scoreTeam text-right pr-3" :class="[{ scoreTeam2: !leader && !tie }, {scoreTeamDormy: setDormyClass(dormy1)}]">
 						<i v-if="!tie && winnerDeclared && !leader" class="material-icons pb-1 pr-1">emoji_events</i>
 						<span
-							:style="dormy1 === '' ? 'float:right' : 'float:left'"
+							:style="(dormy1 === '') || (setTieBreak === true) ? 'float:right' : 'float:left'"
 						>{{players.length !== 0 ? getInitials(players[2].name) : ''}} & {{players.length !== 0 ? getInitials(players[3].name) : ''}}</span>
 						<span style="clear:right;" v-if="!tie && !winnerDeclared" class="dormy">{{dormy1}}</span>
 					</b-col>
@@ -464,7 +463,7 @@
 				<!--  TABELL CLUBNAME AND LOOP (EGEN TABELL FÖR ATT KUNNA SÄTTA TEXT-OVERFLOW: ELLIPSIS--> 
 				<table class="tableClubAndLoop">
 					<tr >	
-						<td colspan="2" class="tableClubAndLoopTd"> {{clubname = "Golfklubb"}}: {{loop = "Slinga"}}</td>
+						<td colspan="2" class="tableClubAndLoopTd"> {{ clubname }}: {{ loop }}</td>
 					</tr>
 				</table>
 
@@ -474,12 +473,10 @@
 					<tr>
 						<th>Hole:</th>
 						<td v-for="hole in course.slice(0, 9)" :key="hole.index">{{ hole.hole }}</td>
-						<td v-bold>OUT</td>
 					</tr>
 					<tr>
 						<th>Par:</th>
 						<td v-for="hole in course.slice(0, 9)" :key="hole.index">{{ hole.par }}</td>
-						<td v-bold>{{ parFirstNine }}</td>
 					</tr>
 
 					<!--  SPELARE 1 -->
@@ -493,11 +490,7 @@
                 score: holes.strokes
               }"
 						>{{ holes.strokes === 0 ? null : holes.strokes }}</td>
-						<td
-							v-for="score in playerScoreFrontNine.slice(0, 1)"
-							:key="score.index"
-							v-bold
-						>{{ score !== score ? "-" : score }}</td>
+						
 					</tr>
 
 					<!-- SPELARE 2 -->
@@ -511,11 +504,7 @@
                 score: holes.strokes
               }"
 						>{{ holes.strokes === 0 ? null : holes.strokes }}</td>
-						<td
-							v-for="score in playerScoreFrontNine.slice(1, 2)"
-							:key="score.index"
-							v-bold
-						>{{ score !== score ? "-" : score }}</td>
+						
 					</tr>
 
 					<tr class="emptyRow">
@@ -535,11 +524,7 @@
                 score: holes.strokes
               }"
 						>{{ holes.strokes === 0 ? null : holes.strokes }}</td>
-						<td
-							v-for="score in playerScoreFrontNine.slice(2, 3)"
-							:key="score.index"
-							v-bold
-						>{{ score !== score ? "-" : score }}</td>
+					
 					</tr>
 
 					<!-- SPELARE 4 -->
@@ -553,11 +538,7 @@
                 score: holes.strokes
               }"
 						>{{ holes.strokes === 0 ? null : holes.strokes }}</td>
-						<td
-							v-for="score in playerScoreFrontNine.slice(3, 4)"
-							:key="score.index"
-							v-bold
-						>{{ score !== score ? "-" : score }}</td>
+						
 					</tr>
 				</table>
 
@@ -566,14 +547,12 @@
 					<tr>
 						<th>Hole:</th>
 						<td v-for="hole in course.slice(9, 18)" :key="hole.index">{{ hole.hole }}</td>
-						<td v-bold>IN</td>
-						<td v-bold>TOT</td>
+						
 					</tr>
 					<tr>
 						<th>Par:</th>
 						<td v-for="hole in course.slice(9, 18)" :key="hole.index">{{ hole.par }}</td>
-						<td v-bold>{{ parTotal - parFirstNine }}</td>
-						<td v-bold>{{ parTotal }}</td>
+						
 					</tr>
 
 					<!-- SPELARE 1 -->
@@ -587,16 +566,6 @@
                 score: holes.strokes
               }"
 						>{{ holes.strokes === 0 ? null : holes.strokes }}</td>
-						<td
-							v-for="score in playerScoreBackNine.slice(0, 1)"
-							:key="score.index"
-							v-bold
-						>{{ score !== score ? "-" : score }}</td>
-						<td
-							v-for="score in playerScoreTotal.slice(0, 1)"
-							:key="score.index"
-							v-bold
-						>{{ score !== score ? "-" : score }}</td>
 					</tr>
 
 					<!-- SPELARE 2 -->
@@ -609,17 +578,7 @@
 							v-changeNanAndZero:arguments="{
                 score: holes.strokes
               }"
-						>{{ holes.strokes === 0 ? null : holes.strokes }}</td>
-						<td
-							v-for="score in playerScoreBackNine.slice(1, 2)"
-							:key="score.index"
-							v-bold
-						>{{ score !== score ? "-" : score }}</td>
-						<td
-							v-for="score in playerScoreTotal.slice(1, 2)"
-							:key="score.index"
-							v-bold
-						>{{ score !== score ? "-" : score }}</td>
+						>{{ holes.strokes === 0 ? null : holes.strokes }}</td>		
 					</tr>
 
 					<tr class="emptyRow">
@@ -637,17 +596,7 @@
 							v-changeNanAndZero:arguments="{
                 score: holes.strokes
               }"
-						>{{ holes.strokes === 0 ? null : holes.strokes }}</td>
-						<td
-							v-for="score in playerScoreBackNine.slice(2, 3)"
-							:key="score.index"
-							v-bold
-						>{{ score !== score ? "-" : score }}</td>
-						<td
-							v-for="score in playerScoreTotal.slice(2, 3)"
-							:key="score.index"
-							v-bold
-						>{{ score !== score ? "-" : score }}</td>
+						>{{ holes.strokes === 0 ? null : holes.strokes }}</td>		
 					</tr>
 
 					<!-- SPELARE 4 -->
@@ -661,16 +610,6 @@
                 score: holes.strokes
               }"
 						>{{ holes.strokes === 0 ? null : holes.strokes }}</td>
-						<td
-							v-for="score in playerScoreBackNine.slice(3, 4)"
-							:key="score.index"
-							v-bold
-						>{{ score !== score ? "-" : score }}</td>
-						<td
-							v-for="score in playerScoreTotal.slice(3, 4)"
-							:key="score.index"
-							v-bold
-						>{{ score !== score ? "-" : score }}</td>
 					</tr>
 				</table>
 
@@ -695,16 +634,19 @@
 							@hidingModalInComponent="hideOverview"
 						></app-hcp-modal>
 					</b-col>
-					<b-col class="col-5">
+					</b-row>
+					
+					<b-row class="mt-2">
+						<b-col class="col-5">
 						
-					</b-col>
-					<b-col class="col-7 text-right">
-						<button class="btn btn-primary" @click="resetGame">
-							<span class="material-icons">warning</span>
-							Börja om
-						</button>
-					</b-col>
-				</b-row>
+						</b-col>
+						<b-col class="col-7 text-right">
+							<button class="btn btn-primary" @click="resetGame">
+								<span class="material-icons">warning</span>
+								Börja om
+							</button>
+						</b-col>
+					</b-row>
 			</b-container>
 		</div>
 	</div>
@@ -795,8 +737,8 @@
 				winningTeam: "",
 				gameClosed: false, 
 				hcpUnmutated: [],
-				clubname:"", 
-				loop: "",
+				clubname:"Klubbnamn", 
+				loop: "Slinga",
 				modalMounted: false, 
 				overviewButtonClicked: false, 
 
@@ -1286,6 +1228,12 @@
 			
 		},
 		methods: {
+			setDormyClass (dormy) {
+				if(dormy !== '' && this.setTieBreak === false) {
+					return true
+				} else return false
+				 
+			},
 			hideOverview() {
 				this.overviewButtonClicked === false ?	this.overview = false : null
 			},
@@ -1847,7 +1795,7 @@
 	}
 
 	table {
-		table-layout: auto;
+		table-layout: fixed;
 		text-align: left;
 		width: 100%;
 		margin: 25px auto;

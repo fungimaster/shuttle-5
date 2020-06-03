@@ -160,7 +160,7 @@
           >
             <b-button
               class="teOff btn btn-success btn-sm text-white mt-3 mr-md-2"
-              @click="TeeOff"
+              @click="teeOff"
               variant="primary"
               :disabled="!allTeesSelected"
               size="lg"
@@ -189,7 +189,7 @@ import "v-suggestions/dist/v-suggestions.css";
 import { globalState } from "../main.js";
 
 export default {
-  async beforeMount() {
+  beforeMount() {
     //Uppdatera username i meny
     this.$store.dispatch("updateUserInfo");
     //Kolla så att vi har med ett match id i URL:en
@@ -328,7 +328,11 @@ export default {
         .then((response) => {
           if (response.data.status == "No game found") {
             this.errorMSG = "Something went wrong (No game found)";
-          } else {
+          } 
+          else if (response.data.status === "Finished") {
+              this.errorMSG = "Matchen är avslutad";
+          }  
+          else {
             //console.log(response.data);
             this.readGameData(response.data);
             this.createPlayers(response.data);
@@ -585,7 +589,7 @@ export default {
 
       this.slingaOptions = parsedLoop;
     },
-    async TeeOff() {
+    teeOff() {
       this.loadingtext = "Skapar scorekort";
       this.loading = true;
 

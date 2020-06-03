@@ -359,6 +359,8 @@
 		.btn.btn-primary {
 			font-size: 14px !important;
 			padding: 6px;
+			padding-top: 7px;
+			padding-bottom: 7px;
 		}
 		.material-icons {
 			font-size: 14px !important;
