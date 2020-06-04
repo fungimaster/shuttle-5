@@ -108,15 +108,15 @@ Vi ses på det kortklippta! <i class="material-icons">favorite</i>
                     
                       <b-col xs="12" sm="6" class="mt-4 mt-md-0">
                        <h4>Kommande matcher</h4>
-                        <p>Inom kort kommer bokade matcher visas här samt annan information om lagen!</p>
+                        <p hidden>Inom kort kommer bokade matcher visas här samt annan information om lagen!</p>
                         <b-row v-if="gamescount === 0">
-                          <b-col hidden>
-                            Inga bokade matcher än så länge...
+                          <b-col >
+                            Inom kort kommer bokade matcher visas här samt annan information om lagen!
                           </b-col>
                         </b-row>
                          <b-row v-for="(game,idx2) in games" :key="idx2" v-if="gamescount > 0">
-                          <b-col class="col-10 mr-0 pr-0 mt-2">
-                             <p>{{game.gamedate}} - {{game.gametime}}
+                          <b-col class="box col-10 mr-0 pr-0 mt-2">
+                            <small>{{getgamedate2(game.gamedate,game.gametime)}}</small>     
                               <p>{{game.clubname}}</p>
                               <p>{{game.roundname}}</p>                             
                               <p>{{game.hometeamleadername}} & {{game.hometeammembername}}</p>
@@ -566,6 +566,31 @@ import 'vue-phone-number-input/dist/vue-phone-number-input.css';*/
 import { VueTelInput } from 'vue-tel-input'
 import FlipCountdown from "./FlipCountdown";
 
+import moment from 'moment';
+import VueMoment from 'vue-moment';
+import { globalState } from "../main.js";
+
+moment.locale('sv');
+
+moment.updateLocale('sv', {
+    relativeTime : {
+        future: "om %s",
+        past:   "%s",
+        ss : '%d sek',
+        m:  "1 minut",
+        mm: "%d min",
+        h:  "en timme",
+        hh: "%d timmar",
+        d:  "en dag",
+        dd: "%d dagar",
+        M:  "en månad",
+        MM: "%d mån",
+        y:  "ett år",
+        yy: "%d år"
+    }
+});
+
+
 
 export default {
   name: "hello",
@@ -713,10 +738,19 @@ components: {
 
         this.$store.dispatch('updateUserInfo');
         this.getTopListClubs();
-       // this.getGames();
+        //this.getGames();
   },
  
   methods: {    
+  getgamedate2: function(gamedate,gametime) {
+        var gamedate2 = '"' + gamedate + '"' + ' ' + gametime;
+        return moment(gamedate2, "YYYY-MM-DD hh:mm").fromNow(); 
+     }, 
+ getgamedate: function(finishedat) {  
+        let gamedate2 = new Date(finishedat);       
+        return moment(gamedate2, "YYYY-MM-DD hh:mm").fromNow();  
+     },
+
      truncate: function(club) {
         let len = 30;
         if (club.length > len)
@@ -729,17 +763,24 @@ components: {
                 //loading
                 this.value = 5;
                 this.gamescount = 0;
-                
-                this.axios.post('https://matchplay.meteorapp.com/methods/' + 'getGames', {    //getclubstoplist                   
-                        "competition":"sFAc3dvrn2P9pXHAz",
-	                      "limit":5
-                    })
+
+                  const today = moment().format("YYYY-MM-DD");
+                  const today_h = moment().format("HH:mm");
+
+                  this.axios.post(globalState.admin_url + 'getGamesAdvanced', {                       
+                        "competition":"sFAc3dvrn2P9pXHAz",                        
+                        "status":"Pending",                       
+                        "from": today + " " + today_h,
+                        //"to": today + " 23:59",
+                        "limit": 5
+                   
+                    })                
+               
                     .then(response => {
                         //console.log(response.data)                                                
                         this.games = response.data;
-                        this.gamescount = response.data.length;
                       
-
+                        this.gamescount = this.games.length
                     })
                     .catch(error => {
                         console.log(error);
@@ -1001,6 +1042,19 @@ trylogin()
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
+
+.box {
+    padding: 1em 1.5em 1em 1em;
+    border-radius: .3em;
+    border: none;
+    background-color: #0f70b7;
+    color: #fff;
+    background-image: url(https://res.cloudinary.com/dn3hzwewp/image/upload/f_auto,q_80,w_1200/v1583251782/matchplay_padel/Background-stats.jpg);
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    background-size: cover;
+    box-shadow: 2px 2px 5px 0 rgba(0,0,0,.27);
+}
 
 .left-line {
   border-left:1px solid #e6e6e6;
