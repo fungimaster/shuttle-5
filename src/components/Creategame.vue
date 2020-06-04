@@ -108,16 +108,19 @@
                     <b-col cols="10">
                       <p class="playerInfo" id="playerName">
                         {{ player.name }} (hcp: {{ player.hcp }})
-                        <b-button
-                          v-if="
-                            (player.team == 1 && hometeamreservegolfid) ||
-                            (player.team == 2 && awayteamreservegolfid)
-                          "
-                          class="btn reservbtn"
-                          @click="updatePlayer(index)"
-                          >Byt till reserv</b-button
-                        >
                       </p>
+                      <b-button
+                        v-if="player.team == 1 && hometeamreservegolfid"
+                        class="btn reservbtn"
+                        @click="updatePlayer(index)"
+                        >Byt till reserv ({{ hometeamreservegolfid }})</b-button
+                      >
+                      <b-button
+                        v-if="player.team == 2 && awayteamreservegolfid"
+                        class="btn reservbtn"
+                        @click="updatePlayer(index)"
+                        >Byt till reserv ({{ awayteamreservegolfid }})</b-button
+                      >
                     </b-col>
                   </b-row>
 
@@ -555,7 +558,7 @@ export default {
                     this.players[index].gitID = this.hometeamreservegolfid;
                     this.hometeamreservegolfid = "";
                   } else {
-                    this.players[index].gitID = awayteamreservegolfid;
+                    this.players[index].gitID = this.awayteamreservegolfid;
                     this.awayteamreservegolfid = "";
                   }
                   this.allTeesSelected = false;
@@ -620,7 +623,7 @@ export default {
       if (this.savedLoopId) {
         this.form.slinga = this.savedLoopId;
         this.courseSelected(this.savedLoopId);
-      } else if (this.slingaOptions.length == 1) {
+      } else {
         this.form.slinga = this.slingaOptions[0].value;
 
         this.courseSelected(this.slingaOptions[0].value);
@@ -898,7 +901,8 @@ export default {
   background-color: #074da1 !important;
   padding: 0px 10px 0px 10px;
   text-transform: none;
-  float: right;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 /* FOOTEr */
 .teOffButton {
