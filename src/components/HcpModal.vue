@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<b-modal id="modal-1" title ok-only>
+		<b-modal id="modal-1" title="Handicaps" ok-only ref="my-modal" @hide="hide">
 			<b-tabs content-class="mt-3" v-model="tabIndex" no-key-nav>
 				<b-tab title-link-class="ml-2">
 					<template v-slot:title>Beräkning</template>
@@ -39,9 +39,9 @@
 								:key="player.index"
 								cols="2"
 								class="playerData"
-								id="teeContainer"
+								:class="player.tee.length > 5 ? 'longTeeName' : null"
 							>
-								<p class="text-overflowHidden">{{ player.tee }}</p>
+								<p>{{player.tee}}</p>
 							</b-col>
 						</b-row>
 						<b-row>
@@ -79,8 +79,8 @@
 									}}) och avrunda till närmsta heltal
 								</p>
 								<p v-else>
-									Dra av {{ slopeHandicapList[getIndexOfLowest] * 0.9 }}, nolla
-									lägsta hcp ({{ slopeHandicapList[getIndexOfLowest] * 0.9 }}) och
+									Dra av {{ Math.round((slopeHandicapList[getIndexOfLowest] * 0.9)*10)/10 }}, nolla
+									lägsta hcp ({{ Math.round((slopeHandicapList[getIndexOfLowest] * 0.9)*10)/10 }}) och
 									avrunda till närmsta heltal
 								</p>
 							</b-col>
@@ -209,7 +209,9 @@
 			"players",
 			"slope",
 			"slopeHandicapList",
-			"hcpUnmutated"
+			"hcpUnmutated",
+			"modalMounted"
+		
 		],
 		data() {
 			return {
@@ -218,10 +220,25 @@
 				tee: 57,
 				showExplanation: false,
 				showData: true,
-				tabIndex: 0
+				tabIndex: 0,
+								
 			};
 		},
-		method: {},
+		watch: {
+			modalMounted: {
+				handler: function() {
+					this.showModal()
+				}
+			}
+		},
+		methods: {
+			showModal() {
+				this.$refs['my-modal'].show()
+			},
+			hide() {
+				this.$emit('hidingModalInComponent')
+			}
+		},
 		computed: {
 			slopeA() {
 				return Math.round(
@@ -296,32 +313,26 @@
 	}
 
 	/* TEE */
-	.teeContainer {
-		overflow: hidden;
-	}
-	.text-overflowHidden {
-		text-overflow: ellipsis;
-		white-space: nowrap;
-		overflow: hidden;
+	.longTeeName {
+		padding-left: 5px;
 	}
 
 	/* MEDIA QUERIES */
 
-	@media only screen and (max-width: 357px) {
-		/* iphone 5/se */
+	@media only screen and (max-width: 360px) {
 		.explanation {
 			font-size: 10px;
 		}
+		.longTeeName {
+			font-size: 9px;
+		}
 	}
 	@media only screen and (max-width: 335px) {
-		/* iphone 5/se */
 		.explanation {
 			font-size: 9px;
 		}
 	}
 	@media only screen and (max-width: 352px) {
-		/* iphone 5/se */
-
 		.btn.btn-primary {
 			font-size: 16px !important;
 			padding: 6px;
@@ -332,8 +343,6 @@
 		}
 	}
 	@media only screen and (max-width: 341px) {
-		/* iphone 5/se */
-
 		.btn.btn-primary {
 			font-size: 15px !important;
 			padding: 6px;
@@ -350,10 +359,15 @@
 		.btn.btn-primary {
 			font-size: 14px !important;
 			padding: 6px;
+			padding-top: 7px;
+			padding-bottom: 7px;
 		}
 		.material-icons {
 			font-size: 14px !important;
 			margin-bottom: 3px !important;
+		}
+		.longTeeName {
+			font-size: 9px;
 		}
 	}
 </style>

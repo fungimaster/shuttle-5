@@ -34,7 +34,7 @@
 
 							<b-col class="rightArrowCol col-2 pl-0 text-right">
 								<button
-									@click="activeHole++, saveData(),currentStrokes(activeHole)"
+									@click="activeHole++, saveData(),currentStrokes(activeHole), sendInProgress()"
 									class="holeButtons disable-dbl-tap-zoom"
 									id="buttonRight"
 									:style="activeHole === 18 ? 'opacity: 0.3' : null"
@@ -101,7 +101,7 @@
 									<i class="material-icons pb-1 pr-1">emoji_events</i>
 								</p>
 
-								<h5 >Avsluta matchen för låsa för redigering</h5>
+								<h5 >Avsluta matchen för att låsa för redigering</h5>
 							</b-col>
 						</b-row>
 
@@ -134,7 +134,7 @@
 							<button
 								:disabled="winnerSent === false"
 								v-if="setTieBreak && !gameClosed"
-								@click="sendWinner('Finished'), gameClosed = true"
+								@click="sendWinner('Finished'), closeGame()"
 								class="btn btn-danger disable-dbl-tap-zoom"
 							>Avsluta matchen</button>
 
@@ -142,7 +142,7 @@
 
 							<button
 								v-if="winnerDeclared && !gameClosed"
-								@click="winnerDeclared = true,  sendWinner('Finished'), gameClosed = true"
+								@click="winnerDeclared = true,  sendWinner('Finished'), closeGame()"
 								class="btn btn-danger disable-dbl-tap-zoom"
 							>Avsluta matchen</button>
 						</b-row>
@@ -301,7 +301,7 @@
 								<b-button
 									class="btn-md pl-3 pr-3 bottombuttons"
 									variant="primary"
-									@click="overview = !overview"
+									@click="overview = !overview, overviewButtonClicked = true"
 								>
 									<span class="material-icons">reorder</span> Översikt
 								</b-button>
@@ -312,7 +312,7 @@
 									id="nextHole"
 									class="btn-md pl-3 pr-3 bottombuttons"
 									variant="primary"
-									@click="activeHole++, saveData(), makeToast('success'), currentStrokes(activeHole)"
+									@click="activeHole++, saveData(), makeToast('success'), currentStrokes(activeHole), sendInProgress()"
 								>
 									Nästa hål
 									<span class="material-icons">arrow_forward_ios</span>
@@ -343,14 +343,13 @@
 						<footer class="fixed-bottom">
 							<b-row class="leaderSection" align-v="center" align-h="center">
 								<!-- HOME TEAM -->
-								<b-col class="col-4 scoreTeam text-left pl-3" :class="[{ scoreTeam1: leader && !tie }, {scoreTeamDormy: dormy2 !== ''}]">
+								<b-col class="col-4 scoreTeam text-left pl-3" :class="[{ scoreTeam1: leader && !tie }, {scoreTeamDormy: setDormyClass(dormy2) }]">
 									<span
 										style="float:left;"
-									>{{getFirstName(players[0].name)}} & {{getFirstName(players[1].name)}}</span>
+									>{{getInitials(players[0].name)}} & {{getInitials(players[1].name)}}</span>
 									<i v-if="!tie && winnerDeclared && leader" class="material-icons pb-1 pl-1">emoji_events</i>
 									<span v-if="!tie && !winnerDeclared" class="dormy">{{dormy2}}</span>
 								</b-col>
-
 								<!-- score -->
 								<b-col
 									class="col-4 text-center score"
@@ -377,11 +376,11 @@
 								</b-col>
 
 								<!-- away team -->
-								<b-col class="col-4 scoreTeam text-right pr-3" :class="[{ scoreTeam2: !leader && !tie }, {scoreTeamDormy: dormy1 !== ''}]">
+								<b-col class="col-4 scoreTeam text-right pr-3" :class="[{ scoreTeam2: !leader && !tie }, {scoreTeamDormy: setDormyClass(dormy1)}]">
 									<i v-if="!tie && winnerDeclared && !leader" class="material-icons pb-1 pr-1">emoji_events</i>
 									<span
-										:style="dormy1 === '' ? 'float:right' : 'float:left'"
-									>{{getFirstName(players[2].name)}} & {{getFirstName(players[3].name)}}</span>
+										:style="(dormy1 === '') || (setTieBreak === true) ? 'float:right' : 'float:left'"
+									>{{getInitials(players[2].name)}} & {{getInitials(players[3].name)}}</span>
 									<span style="clear:right;" v-if="!tie && !winnerDeclared" class="dormy">{{dormy1}}</span>
 								</b-col>
 							</b-row>
@@ -397,10 +396,11 @@
 			
 				<b-row class="pt-3" align-v="center" align-h="center">
 					<!-- HOME TEAM -->
-					<b-col class="col-4 scoreTeam text-left pl-3" :class="[{ scoreTeam1: leader && !tie }, {scoreTeamDormy: dormy2 !== ''}]">
+					<b-col class="col-4 scoreTeam text-left pl-3" :class="[{ scoreTeam1: leader && !tie }, {scoreTeamDormy: setDormyClass(dormy2)}]">
 						<span
 							style="float:left;"
-						>{{getFirstName(players[0].name)}} & {{getFirstName(players[1].name)}}</span>
+						
+						>{{ players.length !== 0 ? getInitials(players[0].name): ''}} & {{players.length !== 0 ? getInitials(players[1].name) : ''}}</span>
 						<i v-if="!tie && winnerDeclared && leader" class="material-icons pb-1 pl-1">emoji_events</i>
 						<span v-if="!tie && !winnerDeclared" class="dormy">{{dormy2}}</span>
 					</b-col>
@@ -431,11 +431,11 @@
 					</b-col>
 
 					<!-- away team -->
-					<b-col class="col-4 scoreTeam text-right pr-3" :class="[{ scoreTeam2: !leader && !tie }, {scoreTeamDormy: dormy1 !== ''}]">
+					<b-col class="col-4 scoreTeam text-right pr-3" :class="[{ scoreTeam2: !leader && !tie }, {scoreTeamDormy: setDormyClass(dormy1)}]">
 						<i v-if="!tie && winnerDeclared && !leader" class="material-icons pb-1 pr-1">emoji_events</i>
 						<span
-							:style="dormy1 === '' ? 'float:right' : 'float:left'"
-						>{{getFirstName(players[2].name)}} & {{getFirstName(players[3].name)}}</span>
+							:style="(dormy1 === '') || (setTieBreak === true) ? 'float:right' : 'float:left'"
+						>{{players.length !== 0 ? getInitials(players[2].name) : ''}} & {{players.length !== 0 ? getInitials(players[3].name) : ''}}</span>
 						<span style="clear:right;" v-if="!tie && !winnerDeclared" class="dormy">{{dormy1}}</span>
 					</b-col>
 				</b-row>
@@ -463,7 +463,7 @@
 				<!--  TABELL CLUBNAME AND LOOP (EGEN TABELL FÖR ATT KUNNA SÄTTA TEXT-OVERFLOW: ELLIPSIS--> 
 				<table class="tableClubAndLoop">
 					<tr >	
-						<td colspan="2" class="tableClubAndLoopTd"> {{clubname}}: {{loop}}</td>
+						<td colspan="2" class="tableClubAndLoopTd"> {{ clubname }}: {{ loop }}</td>
 					</tr>
 				</table>
 
@@ -473,12 +473,10 @@
 					<tr>
 						<th>Hole:</th>
 						<td v-for="hole in course.slice(0, 9)" :key="hole.index">{{ hole.hole }}</td>
-						<td v-bold>OUT</td>
 					</tr>
 					<tr>
 						<th>Par:</th>
 						<td v-for="hole in course.slice(0, 9)" :key="hole.index">{{ hole.par }}</td>
-						<td v-bold>{{ parFirstNine }}</td>
 					</tr>
 
 					<!--  SPELARE 1 -->
@@ -492,11 +490,7 @@
                 score: holes.strokes
               }"
 						>{{ holes.strokes === 0 ? null : holes.strokes }}</td>
-						<td
-							v-for="score in playerScoreFrontNine.slice(0, 1)"
-							:key="score.index"
-							v-bold
-						>{{ score !== score ? "-" : score }}</td>
+						
 					</tr>
 
 					<!-- SPELARE 2 -->
@@ -510,11 +504,7 @@
                 score: holes.strokes
               }"
 						>{{ holes.strokes === 0 ? null : holes.strokes }}</td>
-						<td
-							v-for="score in playerScoreFrontNine.slice(1, 2)"
-							:key="score.index"
-							v-bold
-						>{{ score !== score ? "-" : score }}</td>
+						
 					</tr>
 
 					<tr class="emptyRow">
@@ -534,11 +524,7 @@
                 score: holes.strokes
               }"
 						>{{ holes.strokes === 0 ? null : holes.strokes }}</td>
-						<td
-							v-for="score in playerScoreFrontNine.slice(2, 3)"
-							:key="score.index"
-							v-bold
-						>{{ score !== score ? "-" : score }}</td>
+					
 					</tr>
 
 					<!-- SPELARE 4 -->
@@ -552,11 +538,7 @@
                 score: holes.strokes
               }"
 						>{{ holes.strokes === 0 ? null : holes.strokes }}</td>
-						<td
-							v-for="score in playerScoreFrontNine.slice(3, 4)"
-							:key="score.index"
-							v-bold
-						>{{ score !== score ? "-" : score }}</td>
+						
 					</tr>
 				</table>
 
@@ -565,14 +547,12 @@
 					<tr>
 						<th>Hole:</th>
 						<td v-for="hole in course.slice(9, 18)" :key="hole.index">{{ hole.hole }}</td>
-						<td v-bold>IN</td>
-						<td v-bold>TOT</td>
+						
 					</tr>
 					<tr>
 						<th>Par:</th>
 						<td v-for="hole in course.slice(9, 18)" :key="hole.index">{{ hole.par }}</td>
-						<td v-bold>{{ parTotal - parFirstNine }}</td>
-						<td v-bold>{{ parTotal }}</td>
+						
 					</tr>
 
 					<!-- SPELARE 1 -->
@@ -586,16 +566,6 @@
                 score: holes.strokes
               }"
 						>{{ holes.strokes === 0 ? null : holes.strokes }}</td>
-						<td
-							v-for="score in playerScoreBackNine.slice(0, 1)"
-							:key="score.index"
-							v-bold
-						>{{ score !== score ? "-" : score }}</td>
-						<td
-							v-for="score in playerScoreTotal.slice(0, 1)"
-							:key="score.index"
-							v-bold
-						>{{ score !== score ? "-" : score }}</td>
 					</tr>
 
 					<!-- SPELARE 2 -->
@@ -608,17 +578,7 @@
 							v-changeNanAndZero:arguments="{
                 score: holes.strokes
               }"
-						>{{ holes.strokes === 0 ? null : holes.strokes }}</td>
-						<td
-							v-for="score in playerScoreBackNine.slice(1, 2)"
-							:key="score.index"
-							v-bold
-						>{{ score !== score ? "-" : score }}</td>
-						<td
-							v-for="score in playerScoreTotal.slice(1, 2)"
-							:key="score.index"
-							v-bold
-						>{{ score !== score ? "-" : score }}</td>
+						>{{ holes.strokes === 0 ? null : holes.strokes }}</td>		
 					</tr>
 
 					<tr class="emptyRow">
@@ -636,17 +596,7 @@
 							v-changeNanAndZero:arguments="{
                 score: holes.strokes
               }"
-						>{{ holes.strokes === 0 ? null : holes.strokes }}</td>
-						<td
-							v-for="score in playerScoreBackNine.slice(2, 3)"
-							:key="score.index"
-							v-bold
-						>{{ score !== score ? "-" : score }}</td>
-						<td
-							v-for="score in playerScoreTotal.slice(2, 3)"
-							:key="score.index"
-							v-bold
-						>{{ score !== score ? "-" : score }}</td>
+						>{{ holes.strokes === 0 ? null : holes.strokes }}</td>		
 					</tr>
 
 					<!-- SPELARE 4 -->
@@ -660,16 +610,6 @@
                 score: holes.strokes
               }"
 						>{{ holes.strokes === 0 ? null : holes.strokes }}</td>
-						<td
-							v-for="score in playerScoreBackNine.slice(3, 4)"
-							:key="score.index"
-							v-bold
-						>{{ score !== score ? "-" : score }}</td>
-						<td
-							v-for="score in playerScoreTotal.slice(3, 4)"
-							:key="score.index"
-							v-bold
-						>{{ score !== score ? "-" : score }}</td>
 					</tr>
 				</table>
 
@@ -690,9 +630,23 @@
 							:slope="slopedHcpPlayers"
 							:slope-handicap-list="slopeHandicapList"
 							:hcpUnmutated="hcpUnmutated"
+							:modalMounted="modalMounted"
+							@hidingModalInComponent="hideOverview"
 						></app-hcp-modal>
 					</b-col>
-				</b-row>
+					</b-row>
+					
+					<b-row class="mt-2">
+						<b-col class="col-5">
+						
+						</b-col>
+						<b-col class="col-7 text-right">
+							<button class="btn btn-primary" @click="resetGame">
+								<span class="material-icons">warning</span>
+								Börja om
+							</button>
+						</b-col>
+					</b-row>
 			</b-container>
 		</div>
 	</div>
@@ -720,6 +674,7 @@
 				}
 			},
 			initials(el) {
+				
 				if (el.innerText.length === 3) {
 					return;
 				}
@@ -730,14 +685,7 @@
 			},
 			bold(el) {
 				el.style.fontWeight = "900";
-			},
-			nullIsStroke(el) {
-				let newString = string.trim();
-
-				if (newString !== newString) {
-					el.innerHTML = "heej";
-				} else return;
-			}
+			},	
 		},
 		data() {
 			return {
@@ -746,7 +694,7 @@
 				activeHole: 1,
 				team1: [],
 				team2: [],
-				overview: false,
+				overview: true,
 				nameCount: [
 					[],
 					[],
@@ -789,8 +737,10 @@
 				winningTeam: "",
 				gameClosed: false, 
 				hcpUnmutated: [],
-				clubname:"", 
-				loop: "",
+				clubname:"Klubbnamn", 
+				loop: "Slinga",
+				modalMounted: false, 
+				overviewButtonClicked: false, 
 
 
 				//Fiktiv data nedan
@@ -982,6 +932,7 @@
 				if (this.players.length === 0) {
 					return;
 				}
+				
 				let score = 0;
 				const strokes = this.listOfStrokesList();
 
@@ -1116,21 +1067,10 @@
 				return tie;
 			}
 		},
-
-		async beforeMount() {
-			this.$store.dispatch('updateUserInfo')
-			this.gameID = this.$route.query.id;
 		
 
-			try {
-				//hämtar data och lägger det i this.player
-
-				/* const response = await axios.get("http://localhost:3000/scorecard");
-																																																																																																																																	const data = response.data[response.data.length - 1];
-																																																																																																																																	this.players = data.gameData;
-																																																																																																																																	 */
-
-				this.players = [
+		beforeMount() {
+			this.players = [
 					{
 						name: "Spelare 1",
 						holes: [
@@ -1231,26 +1171,20 @@
 						hcp: 0,
 						tee: "Blå"
 					}
-				];
+				];	
 
-				//lägger till par på this.player.holes för att komma åt par under översikten
-				this.players.forEach(player => {
-					player.holes.forEach((hole, index) => {
-						hole.par = this.course[index].par;
-					});
-				});
-				//fixar team-namn
-				this.team1 = "lag 1"; //data.gameData[0].team;
-				this.team2 = "lag 2";
-																																																																																																																																		
-			} catch (e) {
-				console.log(e);
-			}
+			this.$store.dispatch('updateUserInfo')
+			this.gameID = this.$route.query.id;
+		
+		
+			//fixar team-namn
+			this.team1 = "lag 1"; //data.gameData[0].team;
+			this.team2 = "lag 2";																																																																																																																											
+			
 
 			 (async () => {
 				//shcp nedan och loopen behöver datan som skapas med getGameData. Där av async/await. 
-				await this.getGameData();
-
+				await this.getGameData()
 				//kallar på shcp-metoden. 
 				this.shcp();
 
@@ -1271,7 +1205,17 @@
 					});	
 				//kallar på CurrentStrokes för att makeToas ska uppdatera så att vinnar-klass sätts korrekt på teamrutorna. 
 				this.currentStrokes(1)	
-				
+
+					//lägger till par på this.player.holes för att komma åt par under översikten
+				this.players.forEach(player => {
+					player.holes.forEach((hole, index) => {
+						hole.par = this.course[index].par;
+					});
+				});
+
+				//gör så att hcpmodal visas en gång när sidan hämtas men inte varje gång översiken hämtas. 
+				this.modalMounted = true
+
 			 })()
 			
 		},
@@ -1280,9 +1224,44 @@
 				handler: function() {
 					this.sendWinner(); 
 				}
-			}
+			},
+			
 		},
 		methods: {
+			setDormyClass (dormy) {
+				if(dormy !== '' && this.setTieBreak === false) {
+					return true
+				} else return false
+				 
+			},
+			hideOverview() {
+				this.overviewButtonClicked === false ?	this.overview = false : null
+			},
+			closeGame () {
+				this.$bvModal.msgBoxConfirm('Vill du avsluta matchen? Matchen kommer stängas för redigering och går ej att öppna igen.',
+					 {
+						title: "Avsluta mathchen",
+						size: "md",
+						buttonSize: "md",
+						okVariant: "danger",
+						okTitle: "Japp, jag är säker",
+						cancelTitle: "Nej tack",
+						footerClass: "p-2",
+						hideHeaderClose: false,
+						centered: true,
+					}
+					
+					)
+					.then(value => {
+						if(value) {											
+							this.gameClosed = true
+						}
+					})
+					.catch(err => {
+						// An error occurred
+					})
+
+			},
 			async sendTiebreakWinner(winningTeamId) {
 
 				const data = {
@@ -1378,7 +1357,6 @@
 				const data = {
 				_id: this.gameID,
 				scorecard: this.players,
-				status: "Pending",
 				result: "",
 				winner: "",
 				};
@@ -1413,6 +1391,63 @@
 				} catch (e) {
 					error => console.log(error);
 				}
+
+			},
+			async sendInProgress() {
+				if (this.nameCount[0].length < 5) {
+					return
+				}
+				
+				const url = "https://admin.matchplay.se/methods/updateGame";
+				const data = {
+							_id: this.gameID,
+							status: "In progress"
+						};
+				try {
+					let response = await axios.post(url, data);
+				} catch (error) {
+					error => console.log(error);
+				}
+
+			},
+			async resetGame() {
+
+					this.$bvModal.msgBoxConfirm('Väljer du att starta om matchen får du välja bana, slinga och tee igen. Notera att all data går förlorad från matchen med score per hål och ev. matchresultat!',
+					 {
+						title: "Whoops, Mulligan!",
+						size: "md",
+						buttonSize: "md",
+						okVariant: "danger",
+						okTitle: "Japp, jag är säker",
+						cancelTitle: "Nej tack",
+						footerClass: "p-2",
+						hideHeaderClose: false,
+						centered: true,
+					}
+					
+					)
+					.then(value => {
+						if(value) {											
+							(async () => {
+								const url = "https://admin.matchplay.se/methods/updateGame";
+								const data = {
+											_id: this.gameID,
+											status: "Pending"
+										};
+								try {
+									let response = await axios.post(url, data);
+									location.href = "creategame?id=" + this.gameID;
+								} catch (error) {
+									error => console.log(error);
+								}
+							})()
+						}
+					})
+					.catch(err => {
+						// An error occurred
+					})
+			
+				
 
 			},
 			valueOfLowestScoreOnHole(holeIndex) {
@@ -1467,7 +1502,8 @@
 				return winner;
 			},
 
-			getFirstName(name) {
+			getInitials(name) {
+				
 				return (
 					name.split(" ")[0].substring(0, 1) + name.split(" ")[1].substring(0, 1)
 				);
@@ -1511,7 +1547,6 @@
 				const data = {
 					_id: this.gameID,
 					scorecard: this.players,
-					status: "Pending"
 				};
 				const url = "https://admin.matchplay.se/methods/updateGame";
 			
@@ -1760,7 +1795,7 @@
 	}
 
 	table {
-		table-layout: auto;
+		table-layout: fixed;
 		text-align: left;
 		width: 100%;
 		margin: 25px auto;
