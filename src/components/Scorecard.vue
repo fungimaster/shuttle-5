@@ -684,11 +684,8 @@
             axios.post(url, gameID)
                 .then(response =>  {
                      awayteam = response.data.awayteam
-                     console.log("created -> awayteam", awayteam)
                      hometeam = response.data.hometeam
-                     console.log("created -> hometeam", hometeam)
                         for (const team of teams) {
-                                console.log("created -> team", team._id)
                                 if(team._id === awayteam || team._id === hometeam) {
 									this.authorized = true
                             }
@@ -699,7 +696,6 @@
                     console.log(error)
 				})
 				
-			console.log(this.authorized);
 		},
 		components: {
 			appScoring: ScoringVue,
@@ -1346,7 +1342,6 @@
 			
 				try {
 					let response = await axios.post(url, data);
-					console.log("tiebreak data: ", data);
 				} catch (e) {
 					error => console.log(error);
 				}
@@ -1446,7 +1441,6 @@
 			
 				try {
 					let response = await axios.post(url, data);
-					console.log("winner data ", data);
 				} catch (e) {
 					error => console.log(error);
 				}
