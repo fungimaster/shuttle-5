@@ -176,7 +176,7 @@
 
 			<b-container hidden class="container"></b-container>
 		</b-modal>
-		<button v-b-modal.modal-1 class="btn btn-primary">
+		<button v-if="authorized" v-b-modal.modal-1 class="btn btn-primary" >
 			<span class="material-icons">help</span> HCP Beräkning
 		</button>
 	</div>
@@ -210,7 +210,8 @@
 			"slope",
 			"slopeHandicapList",
 			"hcpUnmutated",
-			"modalMounted"
+			"modalMounted",
+			"authorized"
 		
 		],
 		data() {

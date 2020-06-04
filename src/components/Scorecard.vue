@@ -616,12 +616,12 @@
 				<!-- BUTTON FÖR MATCH VY -->
 				<b-row class="mt-4">
 					<b-col class="col-5">
-						<button class="btn btn-primary" @click="overview = !overview">
+						<button class="btn btn-primary" @click="overview = !overview" v-if="authorized">
 							<span class="material-icons">create</span>
 							Match
 						</button>
 					</b-col>
-					<b-col class="col-7 text-right">
+					<b-col class="col-7 text-right" >
 						<app-hcp-modal
 							:course-rating="courseRating"
 							:slope-rating="slopeRating"
@@ -631,6 +631,7 @@
 							:slope-handicap-list="slopeHandicapList"
 							:hcpUnmutated="hcpUnmutated"
 							:modalMounted="modalMounted"
+							:authorized="authorized"
 							@hidingModalInComponent="hideOverview"
 						></app-hcp-modal>
 					</b-col>
@@ -641,7 +642,7 @@
 						
 						</b-col>
 						<b-col class="col-7 text-right">
-							<button class="btn btn-primary" @click="resetGame">
+							<button v-if="authorized && (status !== 'Finished')" class="btn btn-primary" @click="resetGame">
 								<span class="material-icons">warning</span>
 								Börja om
 							</button>
@@ -659,6 +660,47 @@
 	import TieBreakModalVue from "./TieBreakModal.vue";
 
 	export default {
+		created() {
+            this.gameID = this.$route.query.id;
+			let userinfo = localStorage.getItem("userinfo");
+
+			//ej Inloggad
+			if (!userinfo) {
+				this.authorized = false
+				return
+			}
+
+            userinfo = JSON.parse(userinfo)
+            let teams = [...userinfo.teams]
+
+            const url = "https://admin.matchplay.se/methods/getGameData";
+            const gameID = {
+                id: this.gameID
+            };
+
+			//hanterar om ej inloggad men någon annans scorecard
+            let awayteam = ""
+			let hometeam = ""
+            axios.post(url, gameID)
+                .then(response =>  {
+                     awayteam = response.data.awayteam
+                     console.log("created -> awayteam", awayteam)
+                     hometeam = response.data.hometeam
+                     console.log("created -> hometeam", hometeam)
+                        for (const team of teams) {
+                                console.log("created -> team", team._id)
+                                if(team._id === awayteam || team._id === hometeam) {
+									this.authorized = true
+                            }
+                        }
+
+                })
+                .catch(error => {
+                    console.log(error)
+				})
+				
+			console.log(this.authorized);
+		},
 		components: {
 			appScoring: ScoringVue,
 			appHcpModal: HcpModalVue,
@@ -741,6 +783,8 @@
 				loop: "Slinga",
 				modalMounted: false, 
 				overviewButtonClicked: false, 
+				authorized: false, 
+				status: "", 
 
 
 				//Fiktiv data nedan
@@ -1214,7 +1258,23 @@
 				});
 
 				//gör så att hcpmodal visas en gång när sidan hämtas men inte varje gång översiken hämtas. 
-				this.modalMounted = true
+				if (this.status === "Finished") {
+						this.overview = false
+						setTimeout(() => {
+							this.overview = true
+						}, 0);
+						return
+				} 
+				else if ((this.status === "In progress" || this.status === "Pending") && this.authorized === false) {
+							this.overview = false
+				  	setTimeout(() => {
+							this.overview = true
+				 		}, 0);
+						return
+				}
+				else {
+					this.modalMounted = true
+				}
 
 			 })()
 			
@@ -1305,10 +1365,9 @@
 					let response = await axios.post(url, gameID);
 					this.clubname = response.data.clubname
 					this.loop = response.data.loopname
-
+					this.status = response.data.status
 					this.course = response.data.holes;
 					this.players  = response.data.scorecard
-					console.log("getGameData -> this.players", this.players)
 					this.homeTeamId = response.data.hometeam
 					this.awayTeamId = response.data.awayteam                   
 				
