@@ -39,7 +39,7 @@
             <div class="buttons text-left">
               <a v-if="!closed" href="#register" class="btn blue-bg btn-md text-white mt-3 mr-2">Anmälan</a>
               <a href="/mymatchplay" class="btn blue-bg btn-md text-white mt-3">Lag- och matchhantering</a>
-              <a href="/register" class="btn btn-warning btn-md text-white mt-3">Efterhandsregistera spelare</a>
+              <a href="/register" class="btn btn-warning btn-md text-white mt-3">Efterhandsregistrera spelare</a>
             </div>
           </b-col>
           <b-col class="col-md-3 d-none d-md-block pl-2 justify-content-center align-self-center">           
@@ -106,21 +106,30 @@ Vi ses på det kortklippta! <i class="material-icons">favorite</i>
                        
                      </b-col>
                     
-                      <b-col xs="12" sm="6" class="mt-4 mt-md-0">
+                      <b-col xs="12" sm="12" class="mt-4 mt-md-0">
+
+
                        <h4>Kommande matcher</h4>
                         <p hidden>Inom kort kommer bokade matcher visas här samt annan information om lagen!</p>
-                        <b-row v-if="gamescount === 0">
-                          <b-col >
+                        <b-row v-if="loadinggames">
+                          <b-col>
+                            <b-spinner small type="grow" class="mr-2"></b-spinner>Hämtar kommande matcher...
+                          </b-col>
+                        </b-row>
+                        <b-row v-if="gamescount === 0 && !loadinggames">
+                          <b-col>
                             Inom kort kommer bokade matcher visas här samt annan information om lagen!
                           </b-col>
                         </b-row>
-                         <b-row v-for="(game,idx2) in games" :key="idx2" v-if="gamescount > 0">
-                          <b-col class="box col-10 mr-0 pr-0 mt-2">
-                            <small>{{getgamedate2(game.gamedate,game.gametime)}}</small>     
-                              <p>{{game.clubname}}</p>
-                              <p>{{game.roundname}}</p>                             
-                              <p>{{game.hometeamleadername}} & {{game.hometeammembername}}</p>
-                              <p>{{game.awayteamleadername}} & {{game.awayteammembername}}</p>
+                         <b-row v-if="gamescount > 0" class="">
+                          <b-col v-for="(game,idx2) in games" :key="idx2" xs="12" sm="4"  class=" p-2">
+                            <div class="box">                            
+                              <span>{{game.clubname}}</span>
+                              <small>{{getgamedate2(game.gamedate,game.gametime)}}</small>
+                              <span>{{game.roundname}}</span>                             
+                              <span>{{game.hometeamleadername}} & {{game.hometeammembername}}</span>
+                              <span>{{game.awayteamleadername}} & {{game.awayteammembername}}</span>
+                            </div>
                           </b-col>
                           <b-col hidden class="col-2 text-right">                           
                           <span class="line">({{game.count}})</span>
@@ -129,7 +138,7 @@ Vi ses på det kortklippta! <i class="material-icons">favorite</i>
                          
                      </b-col>
                      
-                      <b-col xs="12" sm="6" class="mt-5 mt-md-0 mr-0 pr-0">
+                      <b-col xs="12" sm="12" class="mt-5 mt-md-3 mr-0 pr-0">
                        <h4>Topplista klubbar *</h4>
                         <b-row v-for="(club,idx) in clubs" :key="idx">
                           <b-col class="col-10 mr-0 pr-0">
@@ -603,6 +612,7 @@ components: {
     },
   data() {
     return {
+
   closed: true,
    bindProps: {
         mode: "international",
@@ -630,7 +640,9 @@ components: {
         }
       },
       clubs: 0,
-      games: 0,
+      loadinggames: true,
+      game: {},
+      games: [],
       gamescount: 0,
       showhelper: false,
       //contbutton1: 'Fortsätt till nästa steg',
@@ -738,7 +750,7 @@ components: {
 
         this.$store.dispatch('updateUserInfo');
         this.getTopListClubs();
-        //this.getGames();
+        this.getGames();
   },
  
   methods: {    
@@ -778,9 +790,9 @@ components: {
                
                     .then(response => {
                         //console.log(response.data)                                                
-                        this.games = response.data;
-                      
-                        this.gamescount = this.games.length
+                        this.games = response.data;                      
+                        this.gamescount = this.games.length;
+                        this.loadinggames = false;
                     })
                     .catch(error => {
                         console.log(error);
@@ -1044,16 +1056,26 @@ trylogin()
 @import "../styles/variables.scss";
 
 .box {
-    padding: 1em 1.5em 1em 1em;
+
+  border: none;
+   border-radius: .3em;
+   padding: 1em 1em 1em 1em;  
+   font-size:0.8em;
+   background-color: #0f70b7;
+   color: #fff;   
+    /*
     border-radius: .3em;
     border: none;
-    background-color: #0f70b7;
-    color: #fff;
-    background-image: url(https://res.cloudinary.com/dn3hzwewp/image/upload/f_auto,q_80,w_1200/v1583251782/matchplay_padel/Background-stats.jpg);
+    
+    color: #fff;   
     background-repeat: no-repeat;
     background-position: 0 0;
     background-size: cover;
-    box-shadow: 2px 2px 5px 0 rgba(0,0,0,.27);
+    box-shadow: 2px 2px 5px 0 rgba(0,0,0,.27);*/
+}
+
+.box span {
+  display:block;
 }
 
 .left-line {
