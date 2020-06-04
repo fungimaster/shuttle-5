@@ -170,10 +170,10 @@
                                     <p class="mt-2" v-if="!team.player_3_exists">
                                         När du sparar laget kommer vi skicka en inbjudan till din lagkamrat.
                                     </p>
-                                    <p class="mt-2" v-if="team.player_3_exists">
+                                    <p hidden class="mt-2" v-if="team.player_3_exists">
                                         {{team.player_3_name}} har ett matchplay-konto och kommer att få en förfrågan via email om att vara med i ditt lag.
                                     </p>
-                                   <b-button @click="saveReserve()" variant="success" size="sm" class="float-right mt-1">
+                                   <b-button v-if="team.checkgolfidvariant3 === 'primary'" @click="saveReserve()" variant="success" size="sm" class="float-right mt-3">
                                         Spara
                                     </b-button>
                                     <b-form-input hidden v-model="team.teamreservegolfid" placeholder="Golfid">
@@ -268,10 +268,8 @@
                                 </div>
 
                                   <div v-if="!team.teamreservegolfid" class="pt-0 pb-3">                                    
-                                     <b-button size="sm" variant="success" @click="showModal(team._id)" class="">Välj reserv</b-button>
+                                     <b-button size="sm" variant="success" @click="showModal(team._id)" class="">Välj reservspelare</b-button>
                                 </div>
-
-
 
                                 <div class="pt-0 pb-0" hidden>
                                     <span :id="'tooltip-nextgame-' + idx">
@@ -1554,11 +1552,11 @@ export default {
          saveReserve() {
 
              if (this.team.teamreserveemail === undefined) {
-                 alert('Skriv in en e-post adress');
-                 return;
+                 //alert('Skriv in en e-post adress');
+                 //return;
              }
 
-             console.log(this.team._id)
+             //console.log(this.team._id)
                 
                 let url = globalState.admin_url + 'updateTeam'              
                 
@@ -1574,7 +1572,10 @@ export default {
                         }
 
                         if (response.data.status === 'ok') {
-                           console.log('success')                      
+                           //console.log('success')                        
+                           this.hideModal();
+                           location.reload();
+
                         }
 
                     })
@@ -2623,7 +2624,7 @@ export default {
 
         },
         checkGolfID: function (golfid, target) {
-            console.log(golfid,target)
+            //console.log(golfid,target)
             this.team.ownid = '';
             let userinfo = localStorage.getItem('userinfo');
             userinfo = JSON.parse(userinfo);
