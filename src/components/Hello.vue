@@ -71,7 +71,7 @@ Vi ses på det kortklippta! <i class="material-icons">favorite</i>
           <b-col id="register" ref="register">
             <h2 v-if="!closed" class="teaser-header orange">Anmäl dig som spelare</h2>
             <h2 class="hidden teaser-header orange">Det är klart du vill vara med i golftävlingen, registrera dig här!</h2>
-            <b-row class="mb-3 mt-3">
+            <b-row class="mb-3 mt-1">
               <b-col md="12" class="teaser-content" ref="success" id="success">
                   <h3 v-if="showqualified" class="mt-3 mb-4">
                     Grattis, du kan vara med i tävlingen <i class="material-icons">tag_faces</i>
@@ -90,7 +90,7 @@ Vi ses på det kortklippta! <i class="material-icons">favorite</i>
                   </h3>
 
                 <div class="form-group" v-if="showform1">
-                  <b-row class="mt-4 mb-4">
+                  <b-row class="mt-0 mb-4">
                     
                     
                      <b-col v-if="!closed" xs="12" sm="7">
@@ -104,16 +104,16 @@ Vi ses på det kortklippta! <i class="material-icons">favorite</i>
                          </b-col>
                        </b-row>
                        
-                     </b-col>
+                     </b-col>                
                     
-                      <b-col xs="12" sm="12" class="mt-4 mt-md-0">
+                      <b-col xs="12" sm="12" class="mt-0 mt-md-0">
 
 
-                       <h4>Kommande matcher</h4>
+                       <h4>Matcher</h4>
                         <p hidden>Inom kort kommer bokade matcher visas här samt annan information om lagen!</p>
                         <b-row v-if="loadinggames">
                           <b-col>
-                            <b-spinner small type="grow" class="mr-2"></b-spinner>Hämtar kommande matcher...
+                            <b-spinner small type="grow" class="mr-2"></b-spinner>Hämtar matcher...
                           </b-col>
                         </b-row>
                         <b-row v-if="gamescount === 0 && !loadinggames">
@@ -121,24 +121,48 @@ Vi ses på det kortklippta! <i class="material-icons">favorite</i>
                             Inom kort kommer bokade matcher visas här samt annan information om lagen!
                           </b-col>
                         </b-row>
+
                          <b-row v-if="gamescount > 0" class="">
-                          <b-col v-for="(game,idx2) in games" :key="idx2" xs="12" sm="4"  class=" p-2">
-                            <div class="box">                            
-                              <span>{{game.clubname}}</span>
-                              <small>{{getgamedate2(game.gamedate,game.gametime)}}</small>
-                              <span>{{game.roundname}}</span>                             
-                              <span>{{game.hometeamleadername}} & {{game.hometeammembername}}</span>
-                              <span>{{game.awayteamleadername}} & {{game.awayteammembername}}</span>
-                            </div>
+                          <b-col v-for="(game,idx2) in games" :key="idx2" xs="12" sm="12" class="pt-5 pb-5 pl-md-2 pr-md-2 game" v-bind:class="{ greybg: idx2 % 2 === 0 }">                            
+                             <b-row>
+                                 <b-col class="gameheader col-12 text-center mb-4">                                                                                                                              
+                                   <span v-if="game.clubname">{{game.clubname}}</span>
+                                   <span v-if="!game.clubname">Golfklubb saknas</span>
+                                 </b-col>
+                             </b-row>
+                             <b-row>
+                                 <b-col class="hometeam col-5 text-right pr-0">
+                                   <span v-if="game.hometeamtype === 'Company'">{{game.hometeamcompany}}</span>
+                                   <span v-if="game.hometeamtype === 'Private'">{{lastname(game.hometeamleadername)}}</span>
+                                   <span v-if="game.hometeamtype === 'Private' && game.hometeammembername">{{lastname(game.hometeammembername)}}</span>
+                                   <span v-if="game.hometeamtype === 'Private' && !game.hometeammembername"><i class="material-icons mr-1 mb-1 missing">warning</i>EJ REG SPELARE</span>
+                                   <img v-if="game.hometeamtype === 'Company'" class="pt-3 pb-3" :src="`https://res.cloudinary.com/dn3hzwewp/image/upload/h_50,c_scale/matchplay/logos/${game.hometeamlogourl}.png`"></span>
+                                 </b-col>
+                                  <b-col class="col-2 m-0 p-0 my-auto text-center">
+                                   <span v-if="game.result && game.status === 'Finished'">{{game.result}}</span>          
+                                    <span v-if="game.status !== 'Finished'">vs</span>        
+                                    <span v-if="game.status === 'In progress'">{{game.result}}</span>                                
+                                 </b-col>
+                                  <b-col class="awayteam col-5 text-left pl-0">
+                                   <span>{{lastname(game.awayteamleadername)}}</span>
+                                   <span v-if="game.awayteammembername">{{lastname(game.awayteammembername)}}</span>
+                                   <span v-if="!game.awayteammembername">EJ REG SPELARE<i class="material-icons ml-1 mb-1 missing">warning</i></span>
+                                   <img v-if="game.awayteamtype === 'Company'" class="pt-3 pb-3" :src="`https://res.cloudinary.com/dn3hzwewp/image/upload/h_50,c_scale/matchplay/logos/${game.awayteamlogourl}.png`"></span>
+                                 </b-col>
+                             </b-row>
+                             <b-row>
+                                <b-col class="col-12 text-center mt-4">
+                                <span v-if="game.status === 'In progress'"><b-spinner small type="grow" class="mr-2 mb-1 red"></b-spinner>LIVE</span>
+                                   <span v-if="game.status === 'Pending' && game.gamedate"><i class="material-icons mr-2 mb-1">schedule</i>{{getgamedate2(game.gamedate,game.gametime)}}</span>
+                                   <span v-if="game.status === 'Finished' && game.finishedAt"><i class="material-icons mr-2 mb-1 green">check_circle_outline</i>{{getgamedate2(game.gamedate)}} sedan</span>
+                                </b-col>
+                             </b-row>                             
                           </b-col>
-                          <b-col hidden class="col-2 text-right">                           
-                          <span class="line">({{game.count}})</span>
-                          </b-col>
-                        </b-row>
+                         </b-row>                         
                          
                      </b-col>
                      
-                      <b-col xs="12" sm="12" class="mt-5 mt-md-3 mr-0 pr-0">
+                      <b-col hidden xs="12" sm="12" class="mt-5 mt-md-3 mr-0">
                        <h4>Topplista klubbar *</h4>
                         <b-row v-for="(club,idx) in clubs" :key="idx">
                           <b-col class="col-10 mr-0 pr-0">
@@ -150,8 +174,7 @@ Vi ses på det kortklippta! <i class="material-icons">favorite</i>
                         </b-row>
                         <b-col class="text-left mt-2">
                           <small>*Flest anmälda lag per klubb</small>
-                        </b-col>
-                         
+                        </b-col>                         
                      </b-col>
                   </b-row>
                        <b-row v-if="!closed" class="mt-4 mb-2">
@@ -495,7 +518,7 @@ Vi ses på det kortklippta! <i class="material-icons">favorite</i>
               
             </b-row>
           </b-col>          
-          <b-col xl="1"></b-col>
+          
         </b-row>
       </b-container>
     </div>
@@ -640,10 +663,18 @@ components: {
         }
       },
       clubs: 0,
-      loadinggames: true,
+       loadinggames: true,
       game: {},
       games: [],
       gamescount: 0,
+      loadinggames: true,
+      game1: {},
+      games1: [],
+      gamescount1: 0,
+      loadinggames2: true,
+      game2: {},
+      games2: [],
+      gamescount2: 0,
       showhelper: false,
       //contbutton1: 'Fortsätt till nästa steg',
       docontinue: true,
@@ -682,6 +713,9 @@ components: {
   },
    
   computed: {
+
+     
+
       validation() {
 
       let validated = false;
@@ -749,11 +783,16 @@ components: {
         //console.log("ROUTE", this.$route.query.resetpw)
 
         this.$store.dispatch('updateUserInfo');
-        this.getTopListClubs();
-        this.getGames();
+        //this.getTopListClubs();
+        this.getGames(); //in progress, finished, pending
   },
  
   methods: {    
+   lastname(thename) {        
+        //return thename.split(" ")[1]
+        let names = thename.split(" ")
+       return names[names.length - 1]
+      },
   getgamedate2: function(gamedate,gametime) {
         var gamedate2 = '"' + gamedate + '"' + ' ' + gametime;
         return moment(gamedate2, "YYYY-MM-DD hh:mm").fromNow(); 
@@ -773,7 +812,7 @@ components: {
       getGames() {
 
                 //loading
-                this.value = 5;
+               
                 this.gamescount = 0;
 
                   const today = moment().format("YYYY-MM-DD");
@@ -781,21 +820,75 @@ components: {
 
                   this.axios.post(globalState.admin_url + 'getGamesAdvanced', {                       
                         "competition":"sFAc3dvrn2P9pXHAz",                        
-                        "status":"Pending",                       
-                        "from": today + " " + today_h,
+                        "status":"In progress",                       
+                        //"from": today + " " + today_h,
                         //"to": today + " 23:59",
-                        "limit": 5
+                        //"limit": 10
                    
                     })                
                
                     .then(response => {
                         //console.log(response.data)                                                
-                        this.games = response.data;                      
+                        this.games = response.data;                  
                         this.gamescount = this.games.length;
-                        this.loadinggames = false;
+
+                        //Get finished games
+                        let finishedgames = [];
+                        this.axios.post(globalState.admin_url + 'getGamesAdvanced', {                       
+                        "competition":"sFAc3dvrn2P9pXHAz",
+                        "status":"Finished",
+                        //"from": today + " " + today_h,
+                        //"to": today + " 23:59",
+                        "limit": 5
+                   
+                        })                
+                  
+                        .then(response => {
+                            //console.log(response.data)
+                            finishedgames = response.data;
+                          
+                            this.games = this.games.concat(finishedgames);              
+                            this.gamescount = this.games.length;
+
+                            //GET UPCOMING GAMES                           
+                              let upcominggames = [];
+                              this.axios.post(globalState.admin_url + 'getGamesAdvanced', {                       
+                              "competition":"sFAc3dvrn2P9pXHAz",
+                              "status":"Pending",
+                              //"from": today + " " + today_h,
+                              //"to": today + " 23:59",
+                              "limit": 10
+                        
+                              })                
+                        
+                              .then(response => {
+                                  //console.log(response.data)
+                                  upcominggames = response.data;
+                                
+                                  this.games = this.games.concat(upcominggames);          
+                                  this.gamescount = this.games.length;
+                                  this.loadinggames = false;
+                              })
+                              .catch(error => {
+                                  console.log(error);
+                                  this.loadinggames = false;
+                              });
+
+                            this.loadinggames = false;
+                        })
+                        .catch(error => {
+                            console.log(error);
+                            this.loadinggames = false;
+                        });
+
+
+                        
+
+
                     })
                     .catch(error => {
                         console.log(error);
+                        this.loadinggames = false;
                     });
       },
    getTopListClubs() {
@@ -1055,18 +1148,51 @@ trylogin()
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
 
+.red {
+  color: red;
+}
+
+.green {
+  color: #33cc33 !important;
+}
+
+.game {
+    @media (max-width: 575px) {
+    font-size:0.8em;
+  }
+  
+}
+
+.game i.missing {
+  font-size:16px;
+  color:red;
+}
+
+.greybg {
+  background: #f6f6f6;
+}
+
+.hometeam, .awayteam {
+ text-transform: uppercase;
+}
+
+.gameheader {
+  font-size:1.2em;
+  text-transform: uppercase;
+}
+
 .box {
 
   border: none;
    border-radius: .3em;
    padding: 1em 1em 1em 1em;  
    font-size:0.8em;
-   background-color: #0f70b7;
-   color: #fff;   
+  
+  
     /*
     border-radius: .3em;
     border: none;
-    
+     background-color: #0f70b7;
     color: #fff;   
     background-repeat: no-repeat;
     background-position: 0 0;
@@ -1074,7 +1200,7 @@ trylogin()
     box-shadow: 2px 2px 5px 0 rgba(0,0,0,.27);*/
 }
 
-.box span {
+.hometeam span, .awayteam span {
   display:block;
 }
 

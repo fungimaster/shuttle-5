@@ -42,7 +42,7 @@
 			</b-row>
 		</b-container>
 
-		<footer class="text-center text-white">
+		<footer class="text-center">
 			<cookie-law theme="matchplay" buttonText="OKEJ" buttonClass="Cookie--matchplay">
 				<div slot="message">
 					Denna site använder cookies för att förbättra din användarupplevelse.
@@ -64,8 +64,8 @@
 									<p>Ängelholm</p>
 									<p>Telefon: 010 - 522 00 07</p>
 									<p class="links mb-5">
-										<router-link to="/ping" class>PING</router-link>|
-										<router-link to="/info" class>Om tävlingen</router-link>|
+										<router-link to="/ping" class>PING</router-link>&nbsp;|
+										<router-link to="/info" class>Om tävlingen</router-link>&nbsp;|
 										<router-link to="/cookies" class>Cookies/Data</router-link>
 									</p>
 								</b-col>
@@ -129,13 +129,13 @@ export default {
 		display: block;
 	}
 	footer {
-		margin-top: 12rem;
-		padding: 10rem 0 0 0;
+		margin-top: 0rem;
+		padding: 0rem 0 0 0;
 		/*  background-image: url(
-		    https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,
-		    q_69,
-		    w_1207/v1572942209/matchplay/c640cf_402261724c71433c9662662c3114e5b8_mv2_d_4500_3000_s_4_2.png
-		  ); */
+											    https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,
+											    q_69,
+											    w_1207/v1572942209/matchplay/c640cf_402261724c71433c9662662c3114e5b8_mv2_d_4500_3000_s_4_2.png
+											  ); */
 		background-repeat: no-repeat;
 		background-position: top center;
 		background-size: cover;
@@ -177,7 +177,7 @@ export default {
 	}
 	footer .middle {
 		padding: 120px 0;
-		color: #fff;
+		color: #000;
 	}
 	footer .newsletter {
 		width: 100%;
@@ -185,7 +185,7 @@ export default {
 	}
 
 	footer .links a {
-		color: #fff !important;
+		color: #000 !important;
 		font-size: 1rem;
 	}
 
