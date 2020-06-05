@@ -1364,8 +1364,8 @@
 					this.course = response.data.holes;
 					this.players  = response.data.scorecard
 					this.homeTeamId = response.data.hometeam
-					this.awayTeamId = response.data.awayteam                   
-				
+					this.awayTeamId = response.data.awayteam     
+                 
 					const [ hcp1, hcp2, hcp3, hcp4 ] = response.data.scorecard
 					this.hcpUnmutated = [ hcp1.hcp, hcp2.hcp, hcp3.hcp, hcp4.hcp ]
 					
@@ -1600,7 +1600,10 @@
 				const data = {
 					_id: this.gameID,
 					scorecard: this.players,
+					result: this.matchScore,
+					holesleft: this.holesLeft
 				};
+
 				const url = "https://admin.matchplay.se/methods/updateGame";
 			
 				try {
@@ -1609,6 +1612,7 @@
 				} catch (e) {
 					error => console.log(error);
 				}
+
 			},
 
 			async shcp() {

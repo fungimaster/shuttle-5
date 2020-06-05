@@ -3,7 +3,10 @@
     <b-container>
       <b-row class="justify-content-center" align-h="center">
         <b-col md="6">
-          <div v-if="loading" class="d-flex justify-content-center mb-3">
+          <div
+            v-if="!errorMSG && loading"
+            class="d-flex justify-content-center mb-3"
+          >
             <b-container>
               <b-row v-if="loading" align-h="center">
                 <b-col md="6" class="text-center">
@@ -171,6 +174,7 @@
             md="12"
           >
             <b-button
+              v-if="!errorMSG"
               class="teOff btn btn-success btn-sm text-white mt-3 mr-md-2"
               @click="teeOff"
               variant="primary"
@@ -180,7 +184,7 @@
             >
             <div style="height: 100px;">
               <b-alert
-                v-if="!allTeesSelected"
+                v-if="!errorMSG && !allTeesSelected"
                 show
                 class="mt-3 mb-0 small"
                 variant="info"
@@ -201,15 +205,59 @@ import "v-suggestions/dist/v-suggestions.css";
 import { globalState } from "../main.js";
 
 export default {
-  beforeMount() {
-    //Uppdatera username i meny
-    this.$store.dispatch("updateUserInfo");
+  created() {
     //Kolla så att vi har med ett match id i URL:en
     this.gameID = this.$route.query.id;
     if (!this.gameID) {
       this.errorMSG = "Something went wrong (No ID in call)";
       return;
     }
+
+    let userinfo = localStorage.getItem("userinfo");
+
+    if (!userinfo) {
+      this.errorMSG =
+        "Du saknar behörighet för denna sida. Var vänlig logga in. Du skickas nu vidare till inloggningssidan";
+      return setTimeout(() => {
+        this.$router.push("MyMatchplay");
+      }, 5000);
+    }
+
+    userinfo = JSON.parse(userinfo);
+    let teams = [...userinfo.teams];
+    const url = "https://admin.matchplay.se/methods/getGameData";
+    const gameID = {
+      id: this.gameID,
+    };
+
+    let hometeam = "";
+    let authorized = false;
+    axios
+      .post(url, gameID)
+      .then((response) => {
+        hometeam = response.data.hometeam;
+        for (const team of teams) {
+          if (team._id === hometeam) {
+            authorized = true;
+          }
+        }
+      })
+      .then(() => {
+        if (!authorized) {
+          this.errorMSG =
+            "Du saknar behörighet att skapa denna match. Du skickas nu vidare till Din sida";
+          setTimeout(() => {
+            this.$router.push("MyMatchplay");
+          }, 5000);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+  beforeMount() {
+    //Uppdatera username i meny
+    this.$store.dispatch("updateUserInfo");
 
     //Skapa en array med dummy data som vi sen fyller på med riktigt data
 
@@ -340,11 +388,9 @@ export default {
         .then((response) => {
           if (response.data.status == "No game found") {
             this.errorMSG = "Something went wrong (No game found)";
-          } 
-          else if (response.data.status === "Finished") {
-              this.errorMSG = "Matchen är avslutad";
-          }  
-          else {
+          } else if (response.data.status === "Finished") {
+            this.errorMSG = "Matchen är avslutad";
+          } else {
             //console.log(response.data);
             this.readGameData(response.data);
             this.createPlayers(response.data);
