@@ -140,8 +140,8 @@ Vi ses på det kortklippta! <i class="material-icons">favorite</i>
                                  </b-col>
                                   <b-col class="col-2 m-0 p-0 my-auto text-center">
                                    <span v-if="game.result && game.status === 'Finished'">{{game.result}}</span>          
-                                    <span v-if="game.status !== 'Finished'">vs</span>        
-                                    <span v-if="game.status === 'In progress'">{{game.result}}</span>                                
+                                    <span v-if="game.status === 'Pending'">vs</span>        
+                                    <span v-if="game.status === 'In progress'">{{getScore(game.result)}}</span>                                
                                  </b-col>
                                   <b-col class="awayteam col-5 text-left pl-0">
                                    <span>{{lastname(game.awayteamleadername)}}</span>
@@ -788,6 +788,14 @@ components: {
   },
  
   methods: {    
+  getScore(result) {
+      if (result > 0) { //home team leads
+        return result + 'UP'
+      }
+      if (result < 0) { //away team leads
+        return result + 'UP'
+      }
+  },
    lastname(thename) {        
         //return thename.split(" ")[1]
         let names = thename.split(" ")
@@ -855,8 +863,8 @@ components: {
                               this.axios.post(globalState.admin_url + 'getGamesAdvanced', {                       
                               "competition":"sFAc3dvrn2P9pXHAz",
                               "status":"Pending",
-                              //"from": today + " " + today_h,
-                              //"to": today + " 23:59",
+                              "from": today + " " + today_h,
+                              "to": today + " 23:59",
                               "limit": 10
                         
                               })                
