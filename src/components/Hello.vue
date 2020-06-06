@@ -130,29 +130,38 @@ Vi ses på det kortklippta! <i class="material-icons">favorite</i>
                                    <span v-if="!game.clubname">Golfklubb saknas</span>
                                  </b-col>
                              </b-row>
-                             <b-row>
-                                 <b-col class="hometeam col-5 text-right pr-0">
-                                   <span v-if="game.hometeamtype === 'Company'">{{game.hometeamcompany}}</span>
-                                   <span v-if="game.hometeamtype === 'Private'">{{lastname(game.hometeamleadername)}}</span>
-                                   <span v-if="game.hometeamtype === 'Private' && game.hometeammembername">{{lastname(game.hometeammembername)}}</span>
-                                   <span v-if="game.hometeamtype === 'Private' && !game.hometeammembername"><i class="material-icons mr-1 mb-1 missing">warning</i>EJ REG SPELARE</span>
-                                   <img v-if="game.hometeamtype === 'Company'" class="pt-3 pb-3" :src="`https://res.cloudinary.com/dn3hzwewp/image/upload/h_50,c_scale/matchplay/logos/${game.hometeamlogourl}.png`"></span>
+                             <b-row>                              
+                                 <b-col class="hometeam col-5 text-right pr-2 pt-2 pb-2" v-bind:class="{ homeleader: game.status != 'Pending' && (game.result > 0 || game.hometeam == game.winner)}">
+                                   <span hidden v-if="game.hometeamtype === 'Company'">{{game.hometeamcompany}}</span>
+                                   <span>{{lastname(game.hometeamleadername)}}</span>
+                                   <span v-if="game.hometeammembername">{{lastname(game.hometeammembername)}}</span>
+                                   <span v-if="!game.hometeammembername"><i class="material-icons mr-1 mb-1 missing">warning</i>EJ REG SPELARE</span>                                   
                                  </b-col>
-                                  <b-col class="col-2 m-0 p-0 my-auto text-center">
-                                   <span v-if="game.result && game.status === 'Finished'">{{game.result}}</span>          
+                                  <b-col class="col-2 m-0 p-0 text-center result" v-bind:class="{ homeleader: game.status != 'Pending' && (game.result > 0 || game.hometeam == game.winner ), awayleader: game.status != 'Pending' && (game.result < 0 || game.awayteam == game.winner ) }">                                    
+                                    <span v-if="game.result && game.status === 'Finished'">{{game.result}}</span>          
                                     <span v-if="game.status === 'Pending'">vs</span>        
-                                    <span v-if="game.status === 'In progress'">{{getScore(game.result)}}</span>                                
+                                    <span v-if="game.status === 'In progress'">{{getScore(game.result)}}</span>                                            
                                  </b-col>
-                                  <b-col class="awayteam col-5 text-left pl-0">
+                                  <b-col class="awayteam col-5 text-left pl-2 pt-2 pb-2" v-bind:class="{ awayleader: game.status != 'Pending' && (game.result < 0 || game.awayteam == game.winner ) }">
                                    <span>{{lastname(game.awayteamleadername)}}</span>
                                    <span v-if="game.awayteammembername">{{lastname(game.awayteammembername)}}</span>
-                                   <span v-if="!game.awayteammembername">EJ REG SPELARE<i class="material-icons ml-1 mb-1 missing">warning</i></span>
-                                   <img v-if="game.awayteamtype === 'Company'" class="pt-3 pb-3" :src="`https://res.cloudinary.com/dn3hzwewp/image/upload/h_50,c_scale/matchplay/logos/${game.awayteamlogourl}.png`"></span>
-                                 </b-col>
+                                   <span v-if="!game.awayteammembername">EJ REG SPELARE<i class="material-icons ml-1 mb-1 missing">warning</i></span>                                   
+                                 </b-col>                                
+                             </b-row>
+                             <b-row>
+                               <b-col class="col-5 pr-0 text-right">
+                                <img v-if="game.hometeamtype === 'Company'" class="pt-3 pb-3" :src="`https://res.cloudinary.com/dn3hzwewp/image/upload/h_50,c_scale/matchplay/logos/${game.hometeamlogourl}.png`"></span>
+                               </b-col>
+                               <b-col class="col-2 p-0 m-0">
+                                
+                               </b-col>
+                               <b-col class="col-5 pl-0 text-left">
+                                <img v-if="game.awayteamtype === 'Company'" class="pt-3 pb-3" :src="`https://res.cloudinary.com/dn3hzwewp/image/upload/h_50,c_scale/matchplay/logos/${game.awayteamlogourl}.png`"></span>
+                               </b-col>
                              </b-row>
                              <b-row>
                                 <b-col class="col-12 text-center mt-4">
-                                <span v-if="game.status === 'In progress'"><b-spinner small type="grow" class="mr-2 mb-1 red"></b-spinner>LIVE</span>
+                                <span v-if="game.status === 'In progress'"><b-spinner small type="grow" class="mr-2 mb-1 red"></b-spinner>LIVE <span v-if="game.holesleft">efter {{18-game.holesleft}} hål</span></span>
                                    <span v-if="game.status === 'Pending' && game.gamedate"><i class="material-icons mr-2 mb-1">schedule</i>{{getgamedate2(game.gamedate,game.gametime)}}</span>
                                    <span v-if="game.status === 'Finished' && game.finishedAt"><i class="material-icons mr-2 mb-1 green">check_circle_outline</i>{{getgamedate2(game.gamedate)}} sedan</span>
                                 </b-col>
@@ -637,6 +646,7 @@ components: {
     return {
 
   closed: true,
+  leader:'',
    bindProps: {
         mode: "international",
         defaultCountry: "SE",
@@ -789,11 +799,19 @@ components: {
  
   methods: {    
   getScore(result) {
+
+    this.leader = '';
+    
       if (result > 0) { //home team leads
-        return result + 'UP'
+        this.leader = 'home';
+        return result + 'UP';
       }
       if (result < 0) { //away team leads
-        return result + 'UP'
+        this.leader = 'away';       
+        return result.substr(1) + 'UP'        
+      }
+      if (result == 0) { //A/S        
+        return 'A/S'
       }
   },
    lastname(thename) {        
@@ -847,7 +865,7 @@ components: {
                         "status":"Finished",
                         //"from": today + " " + today_h,
                         //"to": today + " 23:59",
-                        "limit": 5
+                        "limit": 10
                    
                         })                
                   
@@ -863,8 +881,8 @@ components: {
                               this.axios.post(globalState.admin_url + 'getGamesAdvanced', {                       
                               "competition":"sFAc3dvrn2P9pXHAz",
                               "status":"Pending",
-                              "from": today + " " + today_h,
-                              "to": today + " 23:59",
+                              //"from": today + " " + today_h,
+                              //"to": today + " 23:59",
                               "limit": 10
                         
                               })                
@@ -1155,6 +1173,20 @@ trylogin()
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
+
+.result {
+  line-height: 4em;
+}
+
+
+.homeleader {
+  background-color: $team1;
+  
+}
+
+.awayleader {
+  background-color: $team2;    
+}
 
 .red {
   color: red;
