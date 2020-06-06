@@ -5,28 +5,28 @@ const shcp = (players) => {
   //FIXAR LAG hcp PÅ MAX 28
   function max28perTeam(hcp1, hcp2) {
     let newHcp1 = hcp1;
+    // console.log("functionmax28perTeam -> newHcp1", newHcp1);
     let newHcp2 = hcp2;
-
-    if (hcp1 + hcp2 < 28) {
-      return { newHcp1, newHcp2 };
-    }
-    if (hcp1 === hcp2) {
-      const difference = hcp1 + hcp2 - 28;
-      newHcp1 = hcp1 - difference / 2;
-      newHcp2 = hcp2 - difference / 2;
-    }
-
-    const highestHCP = Math.max(hcp1, hcp2);
-    const substract = hcp1 + hcp2 - 28;
-
-    if (hcp1 === highestHCP && hcp1 !== hcp2) {
-      newHcp1 = hcp1 - substract;
-    }
-
-    if (hcp2 === highestHCP && hcp1 !== hcp2) {
-      newHcp2 = hcp2 - substract;
-    }
-
+    // console.log("functionmax28perTeam -> newHcp2", newHcp2);
+    // if (hcp1 + hcp2 <= 28) {
+    //   return { newHcp1, newHcp2 };
+    // }
+    // if (hcp1 === hcp2) {
+    //   const difference = hcp1 + hcp2 - 28;
+    //   newHcp1 = hcp1 - difference / 2;
+    //   newHcp2 = hcp2 - difference / 2;
+    // }
+    // const highestHCP = Math.max(hcp1, hcp2);
+    // const substract = hcp1 + hcp2 - 28;
+    // if (hcp1 === highestHCP && hcp1 !== hcp2) {
+    //   console.log("functionmax28perTeam -> hcp1", hcp1);
+    //   newHcp1 = hcp1 - substract;
+    //   console.log("functionmax28perTeam -> substract", substract);
+    //   console.log("functionmax28perTeam -> newHcp1", newHcp1);
+    // }
+    // if (hcp2 === highestHCP && hcp1 !== hcp2) {
+    //   newHcp2 = hcp2 - substract;
+    // }
     return { newHcp1, newHcp2 };
   }
 

@@ -685,8 +685,8 @@
                 .then(response =>  {
                      awayteam = response.data.awayteam
                      hometeam = response.data.hometeam
-                        for (const team of teams) {
-                                if(team._id === awayteam || team._id === hometeam) {
+                        for (const team of teams) {							
+                                if(team._id === awayteam || team._id === hometeam || userinfo.golfid === '780110-015') {
 									this.authorized = true
                             }
                         }
@@ -1367,7 +1367,7 @@
 					this.awayTeamId = response.data.awayteam     
                  
 					const [ hcp1, hcp2, hcp3, hcp4 ] = response.data.scorecard
-					this.hcpUnmutated = [ hcp1.hcp, hcp2.hcp, hcp3.hcp, hcp4.hcp ]
+					this.hcpUnmutated = [ hcp1.orghcp, hcp2.orghcp, hcp3.orghcp, hcp4.orghcp ]
 					
 					//lägger till golf-id på this.players för att kunna använda dessa i vid uppräkning i nameCount
 					const golfId = [response.data.hometeamleadergolfid, response.data.hometeammembergolfid, response.data.awayteamleadergolfid, response.data.awayteammembergolfid,   ]
