@@ -288,6 +288,7 @@ export default {
           { hole: 18, strokes: 0, slag: 0 },
         ],
         hcp: 1.2,
+        orghcp: 0,
         shcp: null,
         tee: "",
       },
@@ -317,6 +318,7 @@ export default {
           { hole: 18, strokes: 0, slag: 0 },
         ],
         hcp: 20,
+        orghcp: 0,
         shcp: null,
         tee: "",
       },
@@ -346,6 +348,7 @@ export default {
           { hole: 18, strokes: 0, slag: 0 },
         ],
         hcp: 11,
+        orghcp: 0,
         shcp: null,
         tee: "",
       },
@@ -375,6 +378,7 @@ export default {
           { hole: 18, strokes: 0, slag: 0 },
         ],
         hcp: 5,
+        orghcp: 0,
         shcp: null,
         tee: "",
       },
@@ -551,6 +555,9 @@ export default {
               element.hcp = parseFloat(
                 response.data.hcp.replace(/,/g, ".")
               ).toFixed(1);
+              element.orghcp = parseFloat(
+                response.data.hcp.replace(/,/g, ".")
+              ).toFixed(1);
               element.name =
                 response.data.firstname + " " + response.data.lastname;
 
@@ -565,6 +572,27 @@ export default {
       } else {
         this.errorMSG = "Something went wrong (Missin GIT on player)";
       }
+    },
+
+    max28perTeam: function (hcp1, hcp2) {
+      let newHcp1 = parseFloat(hcp1);
+      let newHcp2 = parseFloat(hcp2);
+
+      if (newHcp1 + newHcp2 < 28) {
+        return { newHcp1, newHcp2 };
+      }
+      const substract = newHcp1 + newHcp2 - 28;
+      if (newHcp1 === newHcp2) {
+        newHcp1 = newHcp1 - subtract / 2;
+        newHcp1 = newHcp2 - subtract / 2;
+      } else {
+        if (newHcp1 > newHcp2) {
+          newHcp1 = newHcp1 - substract;
+        } else {
+          newHcp2 = newHcp2 - substract;
+        }
+      }
+      return { newHcp1, newHcp2 };
     },
     updatePlayer: function (index) {
       this.boxTwo = "";
@@ -712,6 +740,30 @@ export default {
       this.slingaOptions = parsedLoop;
     },
     teeOff() {
+      console.log(this.players);
+      let team1hcp = this.max28perTeam(
+        this.players[0].hcp,
+        this.players[1].hcp
+      );
+      let team2hcp = this.max28perTeam(
+        this.players[2].hcp,
+        this.players[3].hcp
+      );
+      this.players[0].hcp = team1hcp.newHcp1.toFixed(1);
+      this.players[1].hcp = team1hcp.newHcp2.toFixed(1);
+      this.players[2].hcp = team2hcp.newHcp1.toFixed(1);
+      this.players[3].hcp = team2hcp.newHcp2.toFixed(1);
+
+      this.players.forEach((player) => {
+        let slopeRating = this.calculateSlopeRating(
+          player.hcp,
+          player.parsedSlopeValue,
+          player.parsedCoursRating,
+          this.coursePar
+        );
+        player.shcp = slopeRating;
+      });
+
       this.loadingtext = "Skapar scorekort";
       this.loading = true;
 
@@ -765,6 +817,9 @@ export default {
       let player = this.players.find((player) => player.playerId === name);
 
       player.shcp = slopeRating;
+      player.parsedSlopeValue = parsedSlopeValue;
+      player.parsedCoursRating = parsedCoursRating;
+
       //console.log(player.shcp);
 
       player.tee = tee.text;
