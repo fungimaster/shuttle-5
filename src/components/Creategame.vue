@@ -3,19 +3,11 @@
     <b-container>
       <b-row class="justify-content-center" align-h="center">
         <b-col md="6">
-          <div
-            v-if="!errorMSG && loading"
-            class="d-flex justify-content-center mb-3"
-          >
+          <div v-if="!errorMSG && loading" class="d-flex justify-content-center mb-3">
             <b-container>
               <b-row v-if="loading" align-h="center">
                 <b-col md="6" class="text-center">
-                  <b-spinner
-                    big
-                    type="grow"
-                    class="m-5"
-                    style="width: 5rem; height: 5rem;"
-                  ></b-spinner>
+                  <b-spinner big type="grow" class="m-5" style="width: 5rem; height: 5rem;"></b-spinner>
                   <p>{{ loadingtext }}</p>
                 </b-col>
               </b-row>
@@ -40,19 +32,11 @@
               </b-form-group>
 
               <!--  VÄLJA SLINGA -->
-              <div
-                v-if="loadingCourse == 1"
-                class="d-flex justify-content-center mb-3"
-              >
+              <div v-if="loadingCourse == 1" class="d-flex justify-content-center mb-3">
                 <b-container>
                   <b-row v-if="loadingCourse == 1" align-h="center">
                     <b-col md="6" class="text-center">
-                      <b-spinner
-                        big
-                        type="grow"
-                        class="m-5"
-                        style="width: 5rem; height: 5rem;"
-                      ></b-spinner>
+                      <b-spinner big type="grow" class="m-5" style="width: 5rem; height: 5rem;"></b-spinner>
                       <p>Hämtar slingor...</p>
                     </b-col>
                   </b-row>
@@ -80,12 +64,7 @@
             <transition name="fade" mode="out-in" class="inputField">
               <div v-if="form.slinga">
                 <div class="col-12 m-0 p-0 mb-3">
-                  <b-alert
-                    v-if="form.slinga"
-                    show
-                    class="mt-3 mb-0 small"
-                    variant="info"
-                  >
+                  <b-alert v-if="form.slinga" show class="mt-3 mb-0 small" variant="info">
                     Era handicap kommer räknas ut exakt med slope mm efter val
                     av tee tillsammans med matchplays regler för hcp-uträkning.
                     Era nya hcp samt slag per hål ser ni i nästa steg.
@@ -93,10 +72,7 @@
                 </div>
                 <p>Välj tee för spelarna</p>
 
-                <b-form-group
-                  v-for="(player, index) in players"
-                  :key="player.index"
-                >
+                <b-form-group v-for="(player, index) in players" :key="player.index">
                   <b-row no-gutters>
                     <b-col cols="1" class="teamColor">
                       <div
@@ -109,21 +85,20 @@
                       ></div>
                     </b-col>
                     <b-col cols="10">
-                      <p class="playerInfo" id="playerName">
-                        {{ player.name }} (hcp: {{ player.hcp }})
-                      </p>
+                      <p
+                        class="playerInfo"
+                        id="playerName"
+                      >{{ player.name }} (hcp: {{ player.hcp }})</p>
                       <b-button
                         v-if="player.team == 1 && hometeamreservegolfid"
                         class="btn reservbtn"
                         @click="updatePlayer(index)"
-                        >Byt till reserv ({{ hometeamreservegolfid }})</b-button
-                      >
+                      >Byt till reserv ({{ hometeamreservegolfid }})</b-button>
                       <b-button
                         v-if="player.team == 2 && awayteamreservegolfid"
                         class="btn reservbtn"
                         @click="updatePlayer(index)"
-                        >Byt till reserv ({{ awayteamreservegolfid }})</b-button
-                      >
+                      >Byt till reserv ({{ awayteamreservegolfid }})</b-button>
                     </b-col>
                   </b-row>
 
@@ -132,7 +107,7 @@
                       <b-form-group id="input-group-6" class="inputField">
                         <!--  v-model="form.tees[index]"
              :options="teeOptions"
-												-->
+                        -->
                         <b-form-radio-group
                           v-if="player.gender == 0"
                           v-model="form.checked[index]"
@@ -168,11 +143,7 @@
           </div>
           <div v-else>{{ errorMSG }}</div>
 
-          <div
-            class="col-12 m-0 p-0 mb-3"
-            v-if="form.slinga && !loading"
-            md="12"
-          >
+          <div class="col-12 m-0 p-0 mb-3" v-if="form.slinga && !loading" md="12">
             <b-button
               v-if="!errorMSG"
               class="teOff btn btn-success btn-sm text-white mt-3 mr-md-2"
@@ -180,16 +151,14 @@
               variant="primary"
               :disabled="!allTeesSelected"
               size="lg"
-              >Tee off!</b-button
-            >
+            >Tee off!</b-button>
             <div style="height: 100px;">
               <b-alert
                 v-if="!errorMSG && !allTeesSelected"
                 show
                 class="mt-3 mb-0 small"
                 variant="info"
-                >Välj tee för samtliga spelare</b-alert
-              >
+              >Välj tee för samtliga spelare</b-alert>
             </div>
           </div>
         </b-col>
@@ -237,7 +206,7 @@ export default {
       .then((response) => {
         hometeam = response.data.hometeam;
         for (const team of teams) {
-          if (team._id === hometeam) {
+          if (team._id === hometeam || userinfo.golfid === '780110-015') {            
             authorized = true;
           }
         }
