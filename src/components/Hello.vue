@@ -109,7 +109,7 @@ Vi ses på det kortklippta! <i class="material-icons">favorite</i>
                       <b-col xs="12" sm="12" class="mt-0 mt-md-0">
 
 
-                       <h4>Matcher</h4>
+                       <h4>Pågående matcher</h4>
                         <p hidden>Inom kort kommer bokade matcher visas här samt annan information om lagen!</p>
                         <b-row v-if="loadinggames">
                           <b-col>
@@ -118,12 +118,12 @@ Vi ses på det kortklippta! <i class="material-icons">favorite</i>
                         </b-row>
                         <b-row v-if="gamescount === 0 && !loadinggames">
                           <b-col>
-                            Inom kort kommer bokade matcher visas här samt annan information om lagen!
+                            Just nu pågår inga matcher...
                           </b-col>
                         </b-row>
 
                          <b-row v-if="gamescount > 0" class="">
-                          <b-col v-for="(game,idx2) in games" :key="idx2" xs="12" sm="12" class="pt-5 pb-5 pl-md-2 pr-md-2 game" v-bind:class="{ greybg: idx2 % 2 === 0 }">                            
+                          <b-col v-for="(game,idx2) in games" :key="idx2" xs="12" sm="12" class="pt-3 pb-3 pl-md-2 pr-md-2 game" v-bind:class="{ greybg: idx2 % 2 === 0 }">                            
                              <b-row>
                                  <b-col class="gameheader col-12 text-center mb-4">                                                                                                                              
                                    <span v-if="game.clubname">{{game.clubname}}</span>
@@ -161,13 +161,22 @@ Vi ses på det kortklippta! <i class="material-icons">favorite</i>
                              </b-row>
                              <b-row>
                                 <b-col class="col-12 text-center mt-4">
-                                <span v-if="game.status === 'In progress'"><b-spinner small type="grow" class="mr-2 mb-1 red"></b-spinner>LIVE <span v-if="game.holesleft">efter {{18-game.holesleft}} hål</span></span>
+                                <span v-if="game.status === 'In progress'"><b-spinner small type="grow" class="mr-2 mb-1 red"></b-spinner>LIVE <span v-if="game.holesleft">efter {{18-game.holesleft}} hål</span>
+                                - <a target="_blank" :href="`scorecard?id=${game._id}`">scorekort</a>
+                                </span>                                
                                    <span v-if="game.status === 'Pending' && game.gamedate"><i class="material-icons mr-2 mb-1">schedule</i>{{getgamedate2(game.gamedate,game.gametime)}}</span>
                                    <span v-if="game.status === 'Finished' && game.finishedAt"><i class="material-icons mr-2 mb-1 green">check_circle_outline</i>{{getgamedate2(game.gamedate)}} sedan</span>
                                 </b-col>
                              </b-row>                             
                           </b-col>
-                         </b-row>                         
+                         </b-row> 
+
+                                   <b-row class="mt-5">
+                                     <b-col>
+                                       <h4>Spelade/kommande matcher</h4>
+                        <p>Inom kort kommer spelade och kommande matcher visas här!</p>
+                                     </b-col>
+                                   </b-row>              
                          
                      </b-col>
                      
@@ -794,10 +803,33 @@ components: {
 
         this.$store.dispatch('updateUserInfo');
         //this.getTopListClubs();
-        this.getGames(); //in progress, finished, pending
+        this.getGamesInprogress(); //in progress
   },
  
-  methods: {    
+  methods: {
+   compareValues(key, order = 'asc') {
+  return function innerSort(a, b) {
+    if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
+      // property doesn't exist on either object
+      return 0;
+    }
+
+    const varA = (typeof a[key] === 'string')
+      ? a[key].toUpperCase() : a[key];
+    const varB = (typeof b[key] === 'string')
+      ? b[key].toUpperCase() : b[key];
+
+    let comparison = 0;
+    if (varA > varB) {
+      comparison = 1;
+    } else if (varA < varB) {
+      comparison = -1;
+    }
+    return (
+      (order === 'desc') ? (comparison * -1) : comparison
+    );
+  };
+},
   getScore(result) {
 
     this.leader = '';
@@ -835,6 +867,36 @@ components: {
         else
           return club;
       },
+      getGamesInprogress() {
+
+                //loading
+               
+                this.gamescount = 0;
+
+                  const today = moment().format("YYYY-MM-DD");
+                  const today_h = moment().format("HH:mm");
+
+                  this.axios.post(globalState.admin_url + 'getGamesAdvanced', {                       
+                        "competition":"sFAc3dvrn2P9pXHAz",                        
+                        "status":"In progress",                       
+                        //"from": today + " " + today_h,
+                        //"to": today + " 23:59",
+                        "limit": 10
+                   
+                    })                
+               
+                    .then(response => {
+                        //console.log(response.data)                                                
+                        this.games = response.data;                  
+                        this.gamescount = this.games.length;
+                        this.loadinggames = false;
+
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        this.loadinggames = false;
+                    });
+      },
       getGames() {
 
                 //loading
@@ -865,15 +927,17 @@ components: {
                         "status":"Finished",
                         //"from": today + " " + today_h,
                         //"to": today + " 23:59",
-                        "limit": 10
+                        "limit": 15                      
                    
                         })                
                   
                         .then(response => {
                             //console.log(response.data)
                             finishedgames = response.data;
+
+                            finishedgames = finishedgames.sort(this.compareValues('gamedate','desc'))
                           
-                            this.games = this.games.concat(finishedgames);              
+                            this.games = this.games.concat(finishedgames);         
                             this.gamescount = this.games.length;
 
                             //GET UPCOMING GAMES                           
@@ -881,8 +945,8 @@ components: {
                               this.axios.post(globalState.admin_url + 'getGamesAdvanced', {                       
                               "competition":"sFAc3dvrn2P9pXHAz",
                               "status":"Pending",
-                              //"from": today + " " + today_h,
-                              //"to": today + " 23:59",
+                              "from": today + " " + today_h,
+                              "to": today + " 23:59",
                               "limit": 10
                         
                               })                
@@ -1210,6 +1274,7 @@ trylogin()
 
 .greybg {
   background: #f6f6f6;
+  border-radius: 0.3em;
 }
 
 .hometeam, .awayteam {
