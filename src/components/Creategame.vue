@@ -91,10 +91,10 @@
                       ></div>
                     </b-col>
                     <b-col cols="10">
-                      <p
-                        class="playerInfo"
-                        id="playerName"
-                      >{{ player.name }} (hcp: {{ player.hcp }})</p>
+                      <p class="playerInfo" id="playerName">
+                        {{ player.name }} (hcp:
+                        <span v-negativeToPostive>{{ player.hcp }}</span>)
+                      </p>
                       <b-button
                         v-if="player.team == 1 && hometeamreservegolfid"
                         class="btn reservbtn"
@@ -180,6 +180,16 @@ import "v-suggestions/dist/v-suggestions.css";
 import { globalState } from "../main.js";
 
 export default {
+  directives: {
+			negativeToPostive(el) {        
+        let number = parseFloat(el.innerHTML);
+       
+				if (number > 0) {
+					return;
+				}
+				el.innerHTML = "+" + number * -1;
+			}
+		},
   created() {
     //Kolla så att vi har med ett match id i URL:en
     this.gameID = this.$route.query.id;
@@ -539,13 +549,24 @@ export default {
             .post(globalState.admin_url + "getPlayerByGolfid", {
               golfid: element.gitID,
             })
-            .then((response) => {
+            .then((response) => {                        
+
               element.hcp = parseFloat(
                 response.data.hcp.replace(/,/g, ".")
               ).toFixed(1);
+
+              if (response.data.hcp.includes('+')) {                
+                element.hcp = -Math.abs(element.hcp)               
+              }
+
               element.orghcp = parseFloat(
                 response.data.hcp.replace(/,/g, ".")
               ).toFixed(1);
+
+              if (response.data.hcp.includes('+')) {                
+               element.orghcp = -Math.abs(element.hcp)
+              }
+
               element.name =
                 response.data.firstname + " " + response.data.lastname;
 
@@ -599,7 +620,7 @@ export default {
         })
         .then((value) => {
           if (value) {
-            console.log(index);
+           
             let gitID = "";
             if (index < 2) {
               gitID = this.hometeamreservegolfid;
@@ -615,9 +636,21 @@ export default {
                   this.players[index].hcp = parseFloat(
                     response.data.hcp.replace(/,/g, ".")
                   ).toFixed(1);
+
+                  //fix plus hcp
+                  if (response.data.hcp.includes('+')) {                
+                    this.players[index].hcp = -Math.abs(this.players[index].hcp)            
+                  }
+
                   this.players[index].orghcp = parseFloat(
                     response.data.hcp.replace(/,/g, ".")
                   ).toFixed(1);
+
+                  //fix plus hcp
+                  if (response.data.hcp.includes('+')) {                
+                    this.players[index].orghcp = -Math.abs(this.players[index].hcp)            
+                  }
+
                   this.players[index].name =
                     response.data.firstname + " " + response.data.lastname;
                   this.form.checked[index] = null;
@@ -732,7 +765,7 @@ export default {
       this.slingaOptions = parsedLoop;
     },
     teeOff() {
-      console.log(this.players);
+      //console.log(this.players);
       let team1hcp = this.max28perTeam(
         this.players[0].hcp,
         this.players[1].hcp
