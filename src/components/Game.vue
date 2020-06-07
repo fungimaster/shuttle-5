@@ -178,7 +178,11 @@
                               <b-form-input
                                 v-model="gametime"
                                 placeholder="Tex 08:10"
+                                :state="validateTime"
                               ></b-form-input>
+                               <b-form-invalid-feedback :state="validateTime">
+                                    Format: xx:xx
+                                </b-form-invalid-feedback>
                             </b-form-group>
                           </b-col>
 
@@ -901,6 +905,19 @@ export default {
       game_url: "",
       doctitle: "Match - " + this.$store.state.conferencename,
     };
+  },
+  computed: {
+  validateTime() {
+        var timeFormat = /^([0-9]{2})\:([0-9]{2})$/;
+if(timeFormat.test(this.gametime) == false)
+{
+    //console.log('Time one is wrong');
+    return false;
+} else {
+  return true;
+}
+
+      }
   },
   created() {
     //scroll to top

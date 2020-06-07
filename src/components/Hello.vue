@@ -39,7 +39,7 @@
             <div class="buttons text-left">
               <a v-if="!closed" href="#register" class="btn blue-bg btn-md text-white mt-3 mr-2">Anmälan</a>
               <a href="/mymatchplay" class="btn blue-bg btn-md text-white mt-3">Lag- och matchhantering</a>
-              <a href="/register" class="btn btn-warning btn-md text-white mt-3">Efterhandsregistera spelare</a>
+              <a href="/register" class="btn btn-warning btn-md text-white mt-3">Efterhandsregistrera spelare</a>
             </div>
           </b-col>
           <b-col class="col-md-3 d-none d-md-block pl-2 justify-content-center align-self-center">           
@@ -71,7 +71,7 @@ Vi ses på det kortklippta! <i class="material-icons">favorite</i>
           <b-col id="register" ref="register">
             <h2 v-if="!closed" class="teaser-header orange">Anmäl dig som spelare</h2>
             <h2 class="hidden teaser-header orange">Det är klart du vill vara med i golftävlingen, registrera dig här!</h2>
-            <b-row class="mb-3 mt-3">
+            <b-row class="mb-3 mt-1">
               <b-col md="12" class="teaser-content" ref="success" id="success">
                   <h3 v-if="showqualified" class="mt-3 mb-4">
                     Grattis, du kan vara med i tävlingen <i class="material-icons">tag_faces</i>
@@ -90,7 +90,7 @@ Vi ses på det kortklippta! <i class="material-icons">favorite</i>
                   </h3>
 
                 <div class="form-group" v-if="showform1">
-                  <b-row class="mt-4 mb-4">
+                  <b-row class="mt-0 mb-4">
                     
                     
                      <b-col v-if="!closed" xs="12" sm="7">
@@ -104,32 +104,83 @@ Vi ses på det kortklippta! <i class="material-icons">favorite</i>
                          </b-col>
                        </b-row>
                        
-                     </b-col>
+                     </b-col>                
                     
-                      <b-col xs="12" sm="6" class="mt-4 mt-md-0">
-                       <h4>Kommande matcher</h4>
+                      <b-col xs="12" sm="12" class="mt-0 mt-md-0">
+
+
+                       <h4>Pågående matcher</h4>
                         <p hidden>Inom kort kommer bokade matcher visas här samt annan information om lagen!</p>
-                        <b-row v-if="gamescount === 0">
-                          <b-col >
-                            Inom kort kommer bokade matcher visas här samt annan information om lagen!
+                        <b-row v-if="loadinggames">
+                          <b-col>
+                            <b-spinner small type="grow" class="mr-2"></b-spinner>Hämtar matcher...
                           </b-col>
                         </b-row>
-                         <b-row v-for="(game,idx2) in games" :key="idx2" v-if="gamescount > 0">
-                          <b-col class="box col-10 mr-0 pr-0 mt-2">
-                            <small>{{getgamedate2(game.gamedate,game.gametime)}}</small>     
-                              <p>{{game.clubname}}</p>
-                              <p>{{game.roundname}}</p>                             
-                              <p>{{game.hometeamleadername}} & {{game.hometeammembername}}</p>
-                              <p>{{game.awayteamleadername}} & {{game.awayteammembername}}</p>
-                          </b-col>
-                          <b-col hidden class="col-2 text-right">                           
-                          <span class="line">({{game.count}})</span>
+                        <b-row v-if="gamescount === 0 && !loadinggames">
+                          <b-col>
+                            Just nu pågår inga matcher...
                           </b-col>
                         </b-row>
+
+                         <b-row v-if="gamescount > 0" class="">
+                          <b-col v-for="(game,idx2) in games" :key="idx2" xs="12" sm="12" class="pt-3 pb-3 pl-md-2 pr-md-2 game" v-bind:class="{ greybg: idx2 % 2 === 0 }">                            
+                             <b-row>
+                                 <b-col class="gameheader col-12 text-center mb-4">                                                                                                                              
+                                   <span v-if="game.clubname">{{game.clubname}}</span>
+                                   <span v-if="!game.clubname">Golfklubb saknas</span>
+                                 </b-col>
+                             </b-row>
+                             <b-row>                              
+                                 <b-col class="hometeam col-5 text-right pr-2 pt-2 pb-2" v-bind:class="{ homeleader: game.status != 'Pending' && (game.result > 0 || game.hometeam == game.winner)}">
+                                   <span hidden v-if="game.hometeamtype === 'Company'">{{game.hometeamcompany}}</span>
+                                   <span>{{lastname(game.hometeamleadername)}}</span>
+                                   <span v-if="game.hometeammembername">{{lastname(game.hometeammembername)}}</span>
+                                   <span v-if="!game.hometeammembername"><i class="material-icons mr-1 mb-1 missing">warning</i>EJ REG SPELARE</span>                                   
+                                 </b-col>
+                                  <b-col class="col-2 m-0 p-0 text-center result" v-bind:class="{ homeleader: game.status != 'Pending' && (game.result > 0 || game.hometeam == game.winner ), awayleader: game.status != 'Pending' && (game.result < 0 || game.awayteam == game.winner ) }">                                    
+                                    <span v-if="game.result && game.status === 'Finished'">{{game.result}}</span>          
+                                    <span v-if="game.status === 'Pending'">vs</span>        
+                                    <span v-if="game.status === 'In progress'">{{getScore(game.result)}}</span>                                            
+                                 </b-col>
+                                  <b-col class="awayteam col-5 text-left pl-2 pt-2 pb-2" v-bind:class="{ awayleader: game.status != 'Pending' && (game.result < 0 || game.awayteam == game.winner ) }">
+                                   <span>{{lastname(game.awayteamleadername)}}</span>
+                                   <span v-if="game.awayteammembername">{{lastname(game.awayteammembername)}}</span>
+                                   <span v-if="!game.awayteammembername">EJ REG SPELARE<i class="material-icons ml-1 mb-1 missing">warning</i></span>                                   
+                                 </b-col>                                
+                             </b-row>
+                             <b-row>
+                               <b-col class="col-5 pr-0 text-right">
+                                <img v-if="game.hometeamtype === 'Company'" class="pt-3 pb-3" :src="`https://res.cloudinary.com/dn3hzwewp/image/upload/h_50,c_scale/matchplay/logos/${game.hometeamlogourl}.png`"></span>
+                               </b-col>
+                               <b-col class="col-2 p-0 m-0">
+                                
+                               </b-col>
+                               <b-col class="col-5 pl-0 text-left">
+                                <img v-if="game.awayteamtype === 'Company'" class="pt-3 pb-3" :src="`https://res.cloudinary.com/dn3hzwewp/image/upload/h_50,c_scale/matchplay/logos/${game.awayteamlogourl}.png`"></span>
+                               </b-col>
+                             </b-row>
+                             <b-row>
+                                <b-col class="col-12 text-center mt-4">
+                                <span v-if="game.status === 'In progress'"><b-spinner small type="grow" class="mr-2 mb-1 red"></b-spinner>LIVE <span v-if="game.holesleft">efter {{18-game.holesleft}} hål</span>
+                                - <a target="_blank" :href="`scorecard?id=${game._id}`">scorekort</a>
+                                </span>                                
+                                   <span v-if="game.status === 'Pending' && game.gamedate"><i class="material-icons mr-2 mb-1">schedule</i>{{getgamedate2(game.gamedate,game.gametime)}}</span>
+                                   <span v-if="game.status === 'Finished' && game.finishedAt"><i class="material-icons mr-2 mb-1 green">check_circle_outline</i>{{getgamedate2(game.gamedate)}} sedan</span>
+                                </b-col>
+                             </b-row>                             
+                          </b-col>
+                         </b-row> 
+
+                                   <b-row class="mt-5">
+                                     <b-col>
+                                       <h4>Spelade/kommande matcher</h4>
+                        <p>Inom kort kommer spelade och kommande matcher visas här!</p>
+                                     </b-col>
+                                   </b-row>              
                          
                      </b-col>
                      
-                      <b-col xs="12" sm="6" class="mt-5 mt-md-0 mr-0 pr-0">
+                      <b-col hidden xs="12" sm="12" class="mt-5 mt-md-3 mr-0">
                        <h4>Topplista klubbar *</h4>
                         <b-row v-for="(club,idx) in clubs" :key="idx">
                           <b-col class="col-10 mr-0 pr-0">
@@ -141,8 +192,7 @@ Vi ses på det kortklippta! <i class="material-icons">favorite</i>
                         </b-row>
                         <b-col class="text-left mt-2">
                           <small>*Flest anmälda lag per klubb</small>
-                        </b-col>
-                         
+                        </b-col>                         
                      </b-col>
                   </b-row>
                        <b-row v-if="!closed" class="mt-4 mb-2">
@@ -486,7 +536,7 @@ Vi ses på det kortklippta! <i class="material-icons">favorite</i>
               
             </b-row>
           </b-col>          
-          <b-col xl="1"></b-col>
+          
         </b-row>
       </b-container>
     </div>
@@ -603,7 +653,9 @@ components: {
     },
   data() {
     return {
+
   closed: true,
+  leader:'',
    bindProps: {
         mode: "international",
         defaultCountry: "SE",
@@ -630,8 +682,18 @@ components: {
         }
       },
       clubs: 0,
-      games: 0,
+       loadinggames: true,
+      game: {},
+      games: [],
       gamescount: 0,
+      loadinggames: true,
+      game1: {},
+      games1: [],
+      gamescount1: 0,
+      loadinggames2: true,
+      game2: {},
+      games2: [],
+      gamescount2: 0,
       showhelper: false,
       //contbutton1: 'Fortsätt till nästa steg',
       docontinue: true,
@@ -670,6 +732,9 @@ components: {
   },
    
   computed: {
+
+     
+
       validation() {
 
       let validated = false;
@@ -737,11 +802,55 @@ components: {
         //console.log("ROUTE", this.$route.query.resetpw)
 
         this.$store.dispatch('updateUserInfo');
-        this.getTopListClubs();
-        //this.getGames();
+        //this.getTopListClubs();
+        this.getGamesInprogress(); //in progress
   },
  
-  methods: {    
+  methods: {
+   compareValues(key, order = 'asc') {
+  return function innerSort(a, b) {
+    if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
+      // property doesn't exist on either object
+      return 0;
+    }
+
+    const varA = (typeof a[key] === 'string')
+      ? a[key].toUpperCase() : a[key];
+    const varB = (typeof b[key] === 'string')
+      ? b[key].toUpperCase() : b[key];
+
+    let comparison = 0;
+    if (varA > varB) {
+      comparison = 1;
+    } else if (varA < varB) {
+      comparison = -1;
+    }
+    return (
+      (order === 'desc') ? (comparison * -1) : comparison
+    );
+  };
+},
+  getScore(result) {
+
+    this.leader = '';
+    
+      if (result > 0) { //home team leads
+        this.leader = 'home';
+        return result + 'UP';
+      }
+      if (result < 0) { //away team leads
+        this.leader = 'away';       
+        return result.substr(1) + 'UP'        
+      }
+      if (result == 0) { //A/S        
+        return 'A/S'
+      }
+  },
+   lastname(thename) {        
+        //return thename.split(" ")[1]
+        let names = thename.split(" ")
+       return names[names.length - 1]
+      },
   getgamedate2: function(gamedate,gametime) {
         var gamedate2 = '"' + gamedate + '"' + ' ' + gametime;
         return moment(gamedate2, "YYYY-MM-DD hh:mm").fromNow(); 
@@ -758,10 +867,10 @@ components: {
         else
           return club;
       },
-      getGames() {
+      getGamesInprogress() {
 
                 //loading
-                this.value = 5;
+               
                 this.gamescount = 0;
 
                   const today = moment().format("YYYY-MM-DD");
@@ -769,21 +878,107 @@ components: {
 
                   this.axios.post(globalState.admin_url + 'getGamesAdvanced', {                       
                         "competition":"sFAc3dvrn2P9pXHAz",                        
-                        "status":"Pending",                       
-                        "from": today + " " + today_h,
+                        "status":"In progress",                       
+                        //"from": today + " " + today_h,
                         //"to": today + " 23:59",
-                        "limit": 5
+                        "limit": 10
                    
                     })                
                
                     .then(response => {
                         //console.log(response.data)                                                
-                        this.games = response.data;
-                      
-                        this.gamescount = this.games.length
+                        this.games = response.data;                  
+                        this.gamescount = this.games.length;
+                        this.loadinggames = false;
+
                     })
                     .catch(error => {
                         console.log(error);
+                        this.loadinggames = false;
+                    });
+      },
+      getGames() {
+
+                //loading
+               
+                this.gamescount = 0;
+
+                  const today = moment().format("YYYY-MM-DD");
+                  const today_h = moment().format("HH:mm");
+
+                  this.axios.post(globalState.admin_url + 'getGamesAdvanced', {                       
+                        "competition":"sFAc3dvrn2P9pXHAz",                        
+                        "status":"In progress",                       
+                        //"from": today + " " + today_h,
+                        //"to": today + " 23:59",
+                        //"limit": 10
+                   
+                    })                
+               
+                    .then(response => {
+                        //console.log(response.data)                                                
+                        this.games = response.data;                  
+                        this.gamescount = this.games.length;
+
+                        //Get finished games
+                        let finishedgames = [];
+                        this.axios.post(globalState.admin_url + 'getGamesAdvanced', {                       
+                        "competition":"sFAc3dvrn2P9pXHAz",
+                        "status":"Finished",
+                        //"from": today + " " + today_h,
+                        //"to": today + " 23:59",
+                        "limit": 15                      
+                   
+                        })                
+                  
+                        .then(response => {
+                            //console.log(response.data)
+                            finishedgames = response.data;
+
+                            finishedgames = finishedgames.sort(this.compareValues('gamedate','desc'))
+                          
+                            this.games = this.games.concat(finishedgames);         
+                            this.gamescount = this.games.length;
+
+                            //GET UPCOMING GAMES                           
+                              let upcominggames = [];
+                              this.axios.post(globalState.admin_url + 'getGamesAdvanced', {                       
+                              "competition":"sFAc3dvrn2P9pXHAz",
+                              "status":"Pending",
+                              "from": today + " " + today_h,
+                              "to": today + " 23:59",
+                              "limit": 10
+                        
+                              })                
+                        
+                              .then(response => {
+                                  //console.log(response.data)
+                                  upcominggames = response.data;
+                                
+                                  this.games = this.games.concat(upcominggames);          
+                                  this.gamescount = this.games.length;
+                                  this.loadinggames = false;
+                              })
+                              .catch(error => {
+                                  console.log(error);
+                                  this.loadinggames = false;
+                              });
+
+                            this.loadinggames = false;
+                        })
+                        .catch(error => {
+                            console.log(error);
+                            this.loadinggames = false;
+                        });
+
+
+                        
+
+
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        this.loadinggames = false;
                     });
       },
    getTopListClubs() {
@@ -1043,17 +1238,75 @@ trylogin()
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
 
+.result {
+  line-height: 4em;
+}
+
+
+.homeleader {
+  background-color: $team1;
+  
+}
+
+.awayleader {
+  background-color: $team2;    
+}
+
+.red {
+  color: red;
+}
+
+.green {
+  color: #33cc33 !important;
+}
+
+.game {
+    @media (max-width: 575px) {
+    font-size:0.8em;
+  }
+  
+}
+
+.game i.missing {
+  font-size:16px;
+  color:red;
+}
+
+.greybg {
+  background: #f6f6f6;
+  border-radius: 0.3em;
+}
+
+.hometeam, .awayteam {
+ text-transform: uppercase;
+}
+
+.gameheader {
+  font-size:1.2em;
+  text-transform: uppercase;
+}
+
 .box {
-    padding: 1em 1.5em 1em 1em;
+
+  border: none;
+   border-radius: .3em;
+   padding: 1em 1em 1em 1em;  
+   font-size:0.8em;
+  
+  
+    /*
     border-radius: .3em;
     border: none;
-    background-color: #0f70b7;
-    color: #fff;
-    background-image: url(https://res.cloudinary.com/dn3hzwewp/image/upload/f_auto,q_80,w_1200/v1583251782/matchplay_padel/Background-stats.jpg);
+     background-color: #0f70b7;
+    color: #fff;   
     background-repeat: no-repeat;
     background-position: 0 0;
     background-size: cover;
-    box-shadow: 2px 2px 5px 0 rgba(0,0,0,.27);
+    box-shadow: 2px 2px 5px 0 rgba(0,0,0,.27);*/
+}
+
+.hometeam span, .awayteam span {
+  display:block;
 }
 
 .left-line {
