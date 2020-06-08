@@ -93,7 +93,7 @@
                     <b-col cols="10">
                       <p class="playerInfo" id="playerName">
                         {{ player.name }} (hcp:
-                        <span v-negativeToPostive>{{ player.hcp }}</span>)
+                        <span v-negativeToPostive:arguments="{hcp: player.hcp}">{{ player.hcp }}</span>)
                       </p>
                       <b-button
                         v-if="player.team == 1 && hometeamreservegolfid"
@@ -181,14 +181,28 @@ import { globalState } from "../main.js";
 
 export default {
   directives: {
-			negativeToPostive(el) {        
-        let number = parseFloat(el.innerHTML);
-       
-				if (number > 0) {
-					return;
-				}
-				el.innerHTML = "+" + number * -1;
-			}
+		 negativeToPostive: {
+        bind(el, bind) {
+          let number = parseFloat(bind.value.hcp);
+
+          if (number > 0) {
+            return;
+          }
+          el.innerHTML = "+" + number * -1;
+        },
+        update(el, bind) {
+          console.log("bind", bind.value.hcp);
+          let number = parseFloat(bind.value.hcp);
+          console.log("update -> number", number);
+
+          if (number > 0) {
+            el.innerHTML = number;
+            return
+          }
+          el.innerHTML = "+" + number * -1;
+        },
+        unbind: function () {},
+      },
 		},
   created() {
     //Kolla så att vi har med ett match id i URL:en
