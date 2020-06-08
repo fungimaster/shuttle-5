@@ -109,7 +109,7 @@ Vi ses på det kortklippta! <i class="material-icons">favorite</i>
                       <b-col xs="12" sm="12" class="mt-0 mt-md-0">
 
 
-                       <h4>Pågående matcher</h4>
+                       <h4>Pågående matcher <span v-if="updating1"><b-spinner small type="grow" class="ml-2 mr-1 mb-1 red"></b-spinner>...</span></h4>
                         <p hidden>Inom kort kommer bokade matcher visas här samt annan information om lagen!</p>
                         <b-row v-if="loadinggames">
                           <b-col>
@@ -683,6 +683,7 @@ components: {
       },
       clubs: 0,
        loadinggames: true,
+       updating1: false,
       game: {},
       games: [],
       gamescount: 0,
@@ -871,7 +872,7 @@ components: {
 
                 //loading
                
-                this.gamescount = 0;
+                //this.gamescount = 0;
 
                   const today = moment().format("YYYY-MM-DD");
                   const today_h = moment().format("HH:mm");
@@ -890,6 +891,13 @@ components: {
                         this.games = response.data;                  
                         this.gamescount = this.games.length;
                         this.loadinggames = false;
+                        this.updating1 = false;
+
+                         //RELOAD
+                        setTimeout(() => {                   
+                              this.updating1 = true;
+                              this.getGamesInprogress();
+                            }, 60000);
 
                     })
                     .catch(error => {
