@@ -93,7 +93,7 @@
                     <b-col cols="10">
                       <p class="playerInfo" id="playerName">
                         {{ player.name }} (hcp:
-                        <span v-negativeToPostive>{{ player.hcp }}</span>)
+                        <span v-negativeToPostive:arguments="{hcp: player.hcp}">{{ player.hcp }}</span>)
                       </p>
                       <b-button
                         v-if="player.team == 1 && hometeamreservegolfid"
@@ -181,14 +181,26 @@ import { globalState } from "../main.js";
 
 export default {
   directives: {
-			negativeToPostive(el) {        
-        let number = parseFloat(el.innerHTML);
-       
-				if (number > 0) {
-					return;
-				}
-				el.innerHTML = "+" + number * -1;
-			}
+		 negativeToPostive: {
+        bind(el, bind) {
+          let number = parseFloat(bind.value.hcp);
+
+          if (number > 0) {
+            return;
+          }
+          el.innerHTML = "+" + number * -1;
+        },
+        update(el, bind) {
+          let number = parseFloat(bind.value.hcp);
+
+          if (number > 0) {
+            el.innerHTML = number;
+            return
+          }
+          el.innerHTML = "+" + number * -1;
+        },
+        unbind: function () {},
+      },
 		},
   created() {
     //Kolla så att vi har med ett match id i URL:en
@@ -591,15 +603,35 @@ export default {
       if (newHcp1 + newHcp2 < 28) {
         return { newHcp1, newHcp2 };
       }
+
       const substract = newHcp1 + newHcp2 - 28;
+
+      const playerDifference = Math.abs(newHcp1 - newHcp2)
+      const newSubtract = playerDifference - substract
+      
+
       if (newHcp1 === newHcp2) {
         newHcp1 = newHcp1 - subtract / 2;
         newHcp2 = newHcp2 - subtract / 2;
       } else {
         if (newHcp1 > newHcp2) {
-          newHcp1 = newHcp1 - substract;
+          if (playerDifference > substract) {
+              newHcp1 = newHcp1 - substract
+          } else {
+            newHcp1 = newHcp1 - playerDifference
+            const substractSub = substract - playerDifference
+            newHcp1 = newHcp1 - substractSub/2
+            newHcp2 = newHcp2 - substractSub/2
+          }
         } else {
-          newHcp2 = newHcp2 - substract;
+          if (playerDifference > substract) {
+              newHcp2 = newHcp2 - substract
+          } else {
+            newHcp2 = newHcp2 - playerDifference
+            const substractSub = substract - playerDifference
+            newHcp1 = newHcp1 - substractSub/2
+            newHcp2 = newHcp2 - substractSub/2
+          }
         }
       }
       return { newHcp1, newHcp2 };
@@ -788,7 +820,7 @@ export default {
         );
         player.shcp = slopeRating;
       });
-
+         
       this.loadingtext = "Skapar scorekort";
       this.loading = true;
 
