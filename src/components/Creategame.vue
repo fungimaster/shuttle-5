@@ -191,9 +191,7 @@ export default {
           el.innerHTML = "+" + number * -1;
         },
         update(el, bind) {
-          console.log("bind", bind.value.hcp);
           let number = parseFloat(bind.value.hcp);
-          console.log("update -> number", number);
 
           if (number > 0) {
             el.innerHTML = number;
@@ -605,15 +603,35 @@ export default {
       if (newHcp1 + newHcp2 < 28) {
         return { newHcp1, newHcp2 };
       }
+
       const substract = newHcp1 + newHcp2 - 28;
+
+      const playerDifference = Math.abs(newHcp1 - newHcp2)
+      const newSubtract = playerDifference - substract
+      
+
       if (newHcp1 === newHcp2) {
         newHcp1 = newHcp1 - subtract / 2;
         newHcp2 = newHcp2 - subtract / 2;
       } else {
         if (newHcp1 > newHcp2) {
-          newHcp1 = newHcp1 - substract;
+          if (playerDifference > substract) {
+              newHcp1 = newHcp1 - substract
+          } else {
+            newHcp1 = newHcp1 - playerDifference
+            const substractSub = substract - playerDifference
+            newHcp1 = newHcp1 - substractSub/2
+            newHcp2 = newHcp2 - substractSub/2
+          }
         } else {
-          newHcp2 = newHcp2 - substract;
+          if (playerDifference > substract) {
+              newHcp2 = newHcp2 - substract
+          } else {
+            newHcp2 = newHcp2 - playerDifference
+            const substractSub = substract - playerDifference
+            newHcp1 = newHcp1 - substractSub/2
+            newHcp2 = newHcp2 - substractSub/2
+          }
         }
       }
       return { newHcp1, newHcp2 };
@@ -802,7 +820,7 @@ export default {
         );
         player.shcp = slopeRating;
       });
-
+         
       this.loadingtext = "Skapar scorekort";
       this.loading = true;
 
