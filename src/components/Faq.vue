@@ -103,7 +103,7 @@
 						</p>
 						<p>
 							De erhållna slagen för matchen gäller från index 1 och uppåt. Vi hänvisar samtidigt till SGF:s Spel- och Tävlingshandbok.
-							Vid lika efter 18 hål spelas särspelshål med början på hål 1 (sudden death) eller hål 18. Erhållna slag utdelas på samma hål som ursprungsmatchen. Om matchen fortfarande är lika kan fler hål spelas tills vinnaren är utsedd. Om lagen fortfarande är lika efter särspel vinner laget som har högst hcp.
+							Vid lika efter 18 hål spelas särspelshål med början på hål 1 (sudden death) eller hål 18. Erhållna slag utdelas på samma hål som ursprungsmatchen. Om matchen fortfarande är lika kan fler hål spelas tills vinnaren är utsedd. Om lagen fortfarande är lika efter särspel vinner laget som har lägst hcp.
 						</p>
 					</div>
 
