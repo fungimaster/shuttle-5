@@ -121,9 +121,13 @@
                              <b-row>                              
                                  <b-col class="hometeam col-5 text-right pr-2 pt-2 pb-2" v-bind:class="{ homeleader: game.status != 'Pending' && (game.result > 0 || game.hometeam == game.winner)}">
                                    <span hidden v-if="game.hometeamtype === 'Company'">{{game.hometeamcompany}}</span>
-                                   <span>{{lastname(game.hometeamleadername)}}</span>
-                                   <span v-if="game.hometeammembername">{{lastname(game.hometeammembername)}}</span>
-                                   <span v-if="!game.hometeammembername"><i class="material-icons mr-1 mb-1 missing">warning</i>EJ REG SPELARE</span>                                   
+                                   <span v-if="!game.actuallyplaying">{{lastname(game.hometeamleadername)}}</span>
+                                   <span v-if="game.actuallyplaying">{{lastname(game.actuallyplaying[0])}}</span>
+
+                                   <span v-if="!game.actuallyplaying">{{lastname(game.hometeammembername)}}</span>
+                                   <span v-if="game.actuallyplaying">{{lastname(game.actuallyplaying[1])}}</span>
+                                   <span hidden v-if="game.hometeammembername">{{lastname(game.hometeammembername)}}</span>
+                                   <span v-if="!game.hometeammembername && !game.actuallyplaing"><i class="material-icons mr-1 mb-1 missing">warning</i>EJ REG SPELARE</span>                                   
                                  </b-col>
                                   <b-col class="col-2 m-0 p-0 text-center result" v-bind:class="{ homeleader: game.status != 'Pending' && (game.result > 0 || game.hometeam == game.winner ), awayleader: game.status != 'Pending' && (game.result < 0 || game.awayteam == game.winner ) }">                                    
                                     <span v-if="game.result && game.status === 'Finished'">{{game.result}}</span>          
@@ -131,9 +135,14 @@
                                     <span v-if="game.status === 'In progress'">{{getScore(game.result)}}</span>                                            
                                  </b-col>
                                   <b-col class="awayteam col-5 text-left pl-2 pt-2 pb-2" v-bind:class="{ awayleader: game.status != 'Pending' && (game.result < 0 || game.awayteam == game.winner ) }">
-                                   <span>{{lastname(game.awayteamleadername)}}</span>
-                                   <span v-if="game.awayteammembername">{{lastname(game.awayteammembername)}}</span>
-                                   <span v-if="!game.awayteammembername">EJ REG SPELARE<i class="material-icons ml-1 mb-1 missing">warning</i></span>                                   
+                                   <span v-if="!game.actuallyplaying">{{lastname(game.awayteamleadername)}}</span>
+                                   <span v-if="game.actuallyplaying">{{lastname(game.actuallyplaying[2])}}</span>  
+
+                                   <span v-if="!game.actuallyplaying">{{lastname(game.awayteammembername)}}</span>
+                                   <span v-if="game.actuallyplaying">{{lastname(game.actuallyplaying[3])}}</span>                                         
+
+                                   <span hidden v-if="game.awayteammembername">{{lastname(game.awayteammembername)}}</span>
+                                   <span v-if="!game.awayteammembername && !game.actuallyplaing">EJ REG SPELARE<i class="material-icons ml-1 mb-1 missing">warning</i></span>                                   
                                  </b-col>                                
                              </b-row>
                              <b-row>
@@ -154,7 +163,7 @@
                                    <span v-if="game.status != 'Finished' && game.winner && game.gamedate"><i class="material-icons mr-2 mb-1">schedule</i>{{game.gamedate}} | {{game.gametime}}</span>
                                    <span v-if="game.status === 'Pending' && game.gamedate"><i class="material-icons mr-2 mb-1">schedule</i>{{getgamedate2(game.gamedate,game.gametime)}}</span>
                                    <span v-if="game.status === 'Finished' && game.finishedAt"><i class="material-icons mr-2 mb-1 green">check_circle_outline</i>{{getgamedate2(game.gamedate)}} sedan</span>
-                                   <span v-if="game.status != 'Finished'"> | <a target="_blank" :href="`scorecard?id=${game._id}`"><i class="fal fa-golf-ball"></i> scorekort</a></span>
+                                   <span v-if="game.status != 'Finished'"> | <a target="_blank" :href="`scorecard?id=${game._id}`"><i class="fal fa-list"></i> scorekort</a></span>
                                 </b-col>
                              </b-row>                             
                           </b-col>
@@ -944,9 +953,16 @@ components: {
                     .then(response => {
                         //console.log(response.data)                                                
                         this.games = response.data;                  
+
+                        this.games = this.games.filter((game) => {
+                          if (!game.winner) return true;
+                        })
+
                         this.gamescount = this.games.length;
                         this.loadinggames = false;
                         this.updating1 = false;
+
+
 
                          //RELOAD
                         setTimeout(() => {                   
