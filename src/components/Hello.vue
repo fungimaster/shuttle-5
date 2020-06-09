@@ -106,7 +106,7 @@
                         </b-row>
                         <b-row v-if="gamescount === 0 && !loadinggames">
                           <b-col>
-                            Just nu pågår inga matcher... men när matcher spelas kan dom följas live via scorekortet!
+                            Just nu pågår inga matcher... men när matcher spelas kan dom följas live här!
                           </b-col>
                         </b-row>
 
@@ -174,7 +174,7 @@
                       <!-- PENDING GAMES -->
                       <b-col xs="12" sm="12" class="mt-5 mt-md-5">
 
-                       <h4>Kommande matcher idag<span v-if="updating2"><b-spinner small type="grow" class="ml-2 mr-1 mb-1 red"></b-spinner>...</span></h4>
+                       <h4>Kommande matcher<span v-if="updating2"><b-spinner small type="grow" class="ml-2 mr-1 mb-1 red"></b-spinner>...</span></h4>
                         <p hidden>Inom kort kommer bokade matcher visas här samt annan information om lagen!</p>
                         <b-row v-if="loadinggames2">
                           <b-col>
@@ -183,7 +183,7 @@
                         </b-row>
                         <b-row v-if="gamescount2 === 0 && !loadinggames2">
                           <b-col>
-                           Inga matcher spelas idag...
+                          Just nu finns inga fler planerade matcher, återkom efter nästa lottning!
                           </b-col>
                         </b-row>
 
@@ -989,7 +989,7 @@ components: {
                         "competition":"sFAc3dvrn2P9pXHAz",                        
                         "status":"Pending",                       
                         "from": today + " " + today_h,
-                        "to": today + " 23:59",
+                        //"to": today + " 23:59",
                         "limit": 20
                    
                     })                
