@@ -86,7 +86,7 @@
 
 					<div class="section" id="6">
 						<h3 class="pt-5">6. HANDICAPGRÄNS</h3>
-						<p>Officellt handicap (36.0) krävs för deltagande. Högsta HCP i matchspel är 28.0 och har laget tillsammans högre än 28.0 i hcp kommer spelaren med högst hcp i laget bli reducerad med x antal slag. Tex: Om spelare A har 16 i hcp och spelare B har 19 i hcp blir detta 35 sammanlagt, vilket innebär att spelare B får 7 slag färre (35-28=7) och kommer få nytt exakt hcp på 12 som sedan slope och matchspeluträkningar baseras på. Detta görs för att få så rättvisa matcher som möjligt mellan lagen.</p>
+						<p>Officellt handicap (36.0) krävs för deltagande. Högsta HCP i matchspel är 28.0 och har laget tillsammans högre än 28.0 i hcp kommer spelarna i laget dela på reduceringen. Tex: Om spelare A har 16 i hcp och spelare B har 19 i hcp blir detta 35 sammanlagt, vilket innebär att spelare A och B får 3.5 slag färre och kommer få nytt exakt hcp på 12.5 och 15.5 som sedan slope och matchspeluträkningar baseras på. Detta görs för att få så rättvisa matcher som möjligt mellan lagen. När en match påbörjas räknas allt ut automatiskt och information om uträkningen finns tillgänglig i scorekortet.</p>
 					</div>
 
 					<div class="section" id="7">
