@@ -127,7 +127,7 @@
                                    <span v-if="!game.actuallyplaying">{{lastname(game.hometeammembername)}}</span>
                                    <span v-if="game.actuallyplaying">{{lastname(game.actuallyplaying[1])}}</span>
                                    <span hidden v-if="game.hometeammembername">{{lastname(game.hometeammembername)}}</span>
-                                   <span v-if="!game.hometeammembername && !game.actuallyplaing"><i class="material-icons mr-1 mb-1 missing">warning</i>EJ REG SPELARE</span>                                   
+                                   <span hidden v-if="!game.hometeammembername && !game.actuallyplaing"><i class="material-icons mr-1 mb-1 missing">warning</i>EJ REG SPELARE</span>                                   
                                  </b-col>
                                   <b-col class="col-2 m-0 p-0 text-center result" v-bind:class="{ homeleader: game.status != 'Pending' && (game.result > 0 || game.hometeam == game.winner ), awayleader: game.status != 'Pending' && (game.result < 0 || game.awayteam == game.winner ) }">                                    
                                     <span v-if="game.result && game.status === 'Finished'">{{game.result}}</span>          
@@ -142,7 +142,7 @@
                                    <span v-if="game.actuallyplaying">{{lastname(game.actuallyplaying[3])}}</span>                                         
 
                                    <span hidden v-if="game.awayteammembername">{{lastname(game.awayteammembername)}}</span>
-                                   <span v-if="!game.awayteammembername && !game.actuallyplaing">EJ REG SPELARE<i class="material-icons ml-1 mb-1 missing">warning</i></span>                                   
+                                   <span hidden v-if="!game.awayteammembername && !game.actuallyplaing">EJ REG SPELARE<i class="material-icons ml-1 mb-1 missing">warning</i></span>                                   
                                  </b-col>                                
                              </b-row>
                              <b-row>
