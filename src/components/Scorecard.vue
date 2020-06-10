@@ -1368,6 +1368,7 @@
                  
 					const [ hcp1, hcp2, hcp3, hcp4 ] = response.data.scorecard
 					this.hcpUnmutated = [ hcp1.orghcp, hcp2.orghcp, hcp3.orghcp, hcp4.orghcp ]
+                    console.log("getGameData -> this.hcpUnmutated ", this.hcpUnmutated )
 					
 					//lägger till golf-id på this.players för att kunna använda dessa i vid uppräkning i nameCount
 					const golfId = [response.data.hometeamleadergolfid, response.data.hometeammembergolfid, response.data.awayteamleadergolfid, response.data.awayteammembergolfid,   ]
