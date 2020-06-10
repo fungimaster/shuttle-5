@@ -73,9 +73,9 @@
 						<b-row>
 							<b-col cols="4" class="explanation">
 								<p v-if="slopeHandicapList[getIndexOfLowest] * 1.1 < 0">
-									Nolla lägsta hcp ({{
-									slopeHandicapList[getIndexOfLowest] * 1.1 * -1
-									}}), lägg till {{ slopeHandicapList[getIndexOfLowest] * 1.1 * -1 }} på övriga 
+									Nolla lägsta hcp ({{Math.round(
+									slopeHandicapList[getIndexOfLowest] * 1.1 * -1)*10/10
+									}}), lägg till {{ Math.round(slopeHandicapList[getIndexOfLowest] * 1.1 * -1)*10/10 }} på övriga 
 									  och avrunda till närmsta heltal
 								</p>
 								<p v-else>

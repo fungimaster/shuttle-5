@@ -471,7 +471,7 @@
 				<table class="table9">
 					
 					<tr>
-						<th>Hole:</th>
+						<th>Hål:</th>
 						<td v-for="hole in course.slice(0, 9)" :key="hole.index">{{ hole.hole }}</td>
 					</tr>
 					<tr>
@@ -545,7 +545,7 @@
 				<!--  TABELL HÅL 10-18 -->
 				<table class="table18">
 					<tr>
-						<th>Hole:</th>
+						<th>Hål:</th>
 						<td v-for="hole in course.slice(9, 18)" :key="hole.index">{{ hole.hole }}</td>
 						
 					</tr>
