@@ -67,7 +67,7 @@
 								cols="2"
 								class="playerData"
 							>
-								<p v-negativeToPostive>{{ Math.round((hcpslope * 0.9)*10)/10 }}</p>
+								<p v-negativeToPostive>{{ Math.sign(hcpslope) === 1 ? (Math.round((hcpslope * 0.9)*10)/10) : (Math.round((hcpslope * 1.1)*10)/10)   }}</p>
 							</b-col>
 						</b-row>
 						<b-row>
