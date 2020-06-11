@@ -1110,9 +1110,9 @@ components: {
                   this.axios.post(globalState.admin_url + 'getGamesAdvanced', {                       
                         "competition":"sFAc3dvrn2P9pXHAz",                        
                         "status":"Pending",                       
-                        "from": today + " " + today_h,
+                        "from": today + " " + today_h
                         //"to": today + " 23:59",
-                        "limit": 20
+                        //"limit": 20
                    
                     })                
                
@@ -1156,7 +1156,7 @@ components: {
                     .then(response => {
                         //console.log(response.data)                                                
                         let finishedgames = response.data;
-                        this.games3 = finishedgames.sort(this.compareValues('gamedate','desc'));                      
+                        this.games3 = finishedgames.sort(this.compareValues('finishedAt','desc'));                      
                         this.gamescount3 = this.games3.length;
                         this.loadinggames3 = false;
                         this.updating3 = false;
@@ -1222,8 +1222,8 @@ components: {
                               "competition":"sFAc3dvrn2P9pXHAz",
                               "status":"Pending",
                               "from": today + " " + today_h,
-                              "to": today + " 23:59",
-                              "limit": 10
+                              "to": today + " 23:59"
+                              //"limit": 10
                         
                               })                
                         
