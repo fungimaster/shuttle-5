@@ -15,7 +15,7 @@
 							<b-col cols="4" class="explanation">
 								<p>Exakt Hcp</p>
 							</b-col>
-							<b-col v-for="hcp in hcpUnmutated" :key="hcp.index" cols="2" class="playerData">
+							<b-col v-for="hcp in hcpUnmutated" cols="2" class="playerData">
 								<p v-negativeToPostive>{{ hcp }}</p>
 							</b-col>
 						</b-row>
@@ -67,21 +67,18 @@
 								cols="2"
 								class="playerData"
 							>
-								<p v-negativeToPostive>{{ Math.round((hcpslope * 0.9)*10)/10 }}</p>
+								<p v-negativeToPostive>{{ Math.sign(hcpslope) === 1 ? (Math.round((hcpslope * 0.9)*10)/10) : (Math.round((hcpslope * 1.1)*10)/10)   }}</p>
 							</b-col>
-						</b-row>
+						</b-row>											 
+
 						<b-row>
 							<b-col cols="4" class="explanation">
-								<p v-if="slopeHandicapList[getIndexOfLowest] * 0.9 < 0">
-									Lägg till {{ slopeHandicapList[getIndexOfLowest] * 0.9 * -1 }},
-									nolla lägsta hcp ({{
-									slopeHandicapList[getIndexOfLowest] * 0.9 * -1
-									}}) och avrunda till närmsta heltal
+								<p v-if="slopeHandicapList[getIndexOfLowest] * 1.1 < 0">
+									Nolla lägsta hcp ({{(Math.round((slopeHandicapList[getIndexOfLowest] * 1.1)*10)/10)*-1}}), lägg till  {{(Math.round((slopeHandicapList[getIndexOfLowest] * 1.1)*10)/10) *-1}} på övriga 
+									  och avrunda till närmsta heltal
 								</p>
 								<p v-else>
-									Dra av {{ Math.round((slopeHandicapList[getIndexOfLowest] * 0.9)*10)/10 }}, nolla
-									lägsta hcp ({{ Math.round((slopeHandicapList[getIndexOfLowest] * 0.9)*10)/10 }}) och
-									avrunda till närmsta heltal
+									Nolla lägsta hcp ({{(Math.round((slopeHandicapList[getIndexOfLowest] * 0.9)*10)/10)}}), dra av  {{(Math.round((slopeHandicapList[getIndexOfLowest] * 0.9)*10)/10)}} på övriga och avrunda till närmsta heltal.
 								</p>
 							</b-col>
 							<b-col v-for="singleSlope in slope" :key="singleSlope.index" cols="2" class="playerData">
@@ -129,8 +126,7 @@
 						<b-row>
 							<b-col cols="6" class="explanation">
 								<p>
-									Efter att slopen {{ slope }} räknats in reduceras respektive
-									spelares HCP med 10%
+									Efter att slopen ({{ slopeA }} & {{slopeB}}) räknats ut samt eventuellt justerats till max 28 per lag, reduceras respektive spelares HCP med 10%.
 								</p>
 							</b-col>
 							<b-col cols="3" class="playerData">
