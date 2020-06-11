@@ -74,7 +74,7 @@
                     show
                     class="mt-3 mb-0 small"
                     variant="warning"
-                  >OBS! Ett lag får max ha 28 tillsammans. Spelaren med högst hcp i laget får sitt hcp reducerat i nästa steg när scorekortet skapas.</b-alert>
+                  >OBS! Ett lag får max ha 28 tillsammans. Spelarna i laget får sitt hcp reducerat i nästa steg när scorekortet skapas.</b-alert>
                 </div>
                 <p>Välj tee för spelarna</p>
 
@@ -263,6 +263,8 @@ export default {
       if (team1hcp > 28 || team2hcp > 28) {
         this.max28 = true;
       }
+
+
   },
   beforeMount() {
     //Uppdatera username i meny
@@ -562,7 +564,7 @@ export default {
               golfid: element.gitID,
             })
             .then((response) => {                        
-
+                
               element.hcp = parseFloat(
                 response.data.hcp.replace(/,/g, ".")
               ).toFixed(1);
@@ -575,9 +577,20 @@ export default {
                 response.data.hcp.replace(/,/g, ".")
               ).toFixed(1);
 
+              
+
               if (response.data.hcp.includes('+')) {                
                element.orghcp = -Math.abs(element.hcp)
               }
+
+              //TEST
+              /*
+              if (element.gitID === '780110-015') {
+              element.orghcp = 30.6
+              element.hcp = 30.6      
+              }
+              */
+              //TEST
 
               element.name =
                 response.data.firstname + " " + response.data.lastname;
@@ -594,9 +607,23 @@ export default {
       } else {
         this.errorMSG = "Something went wrong (Missin GIT on player)";
       }
-    },
 
+
+    },
     max28perTeam: function (hcp1, hcp2) {
+      let newHcp1 = parseFloat(hcp1);
+      let newHcp2 = parseFloat(hcp2);
+      
+      if (newHcp1 + newHcp2 < 28) {
+        return { newHcp1, newHcp2 };
+      }
+      const difference = newHcp1 + newHcp2 - 28;
+        newHcp1 = newHcp1 - difference / 2;
+        newHcp2 = newHcp2 - difference / 2;
+
+      return { newHcp1, newHcp2 };
+    },
+    max28perTeamOLD: function (hcp1, hcp2) {
       let newHcp1 = parseFloat(hcp1);
       let newHcp2 = parseFloat(hcp2);
 
@@ -823,6 +850,7 @@ export default {
          
       this.loadingtext = "Skapar scorekort";
       this.loading = true;
+
 
       this.axios
         .post("https://matchplay.meteorapp.com/methods/updateGame", {
