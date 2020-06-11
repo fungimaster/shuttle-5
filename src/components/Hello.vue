@@ -946,19 +946,21 @@ components: {
                         "status":"In progress",                       
                         //"from": today + " " + today_h,
                         //"to": today + " 23:59",
-                        "limit": 10
+                        "limit": 15
+
                    
                     })                
                
                     .then(response => {
                         //console.log(response.data)                                                
                         this.games = response.data;                  
+                        console.log("getGamesInprogress ->  this.games",  this.games)
 
                         this.games = this.games.filter((game) => {
                           if (!game.winner) return true;
                         })
-
                         this.gamescount = this.games.length;
+                        console.log("getGamesInprogress ->  this.games",  this.games)
                         this.loadinggames = false;
                         this.updating1 = false;
 
