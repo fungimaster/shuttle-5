@@ -69,17 +69,16 @@
 							>
 								<p v-negativeToPostive>{{ Math.sign(hcpslope) === 1 ? (Math.round((hcpslope * 0.9)*10)/10) : (Math.round((hcpslope * 1.1)*10)/10)   }}</p>
 							</b-col>
-						</b-row>
+						</b-row>											 
+
 						<b-row>
 							<b-col cols="4" class="explanation">
 								<p v-if="slopeHandicapList[getIndexOfLowest] * 1.1 < 0">
-									Nolla lägsta hcp ({{Math.round(
-									slopeHandicapList[getIndexOfLowest] * 1.1 * -1)*10/10
-									}}), lägg till {{ Math.round(slopeHandicapList[getIndexOfLowest] * 1.1 * -1)*10/10 }} på övriga 
+									Nolla lägsta hcp ( {{(Math.round((slopeHandicapList[getIndexOfLowest] * 1.1)*10)/10)*-1}}), lägg till  {{(Math.round((slopeHandicapList[getIndexOfLowest] * 1.1)*10)/10) *-1}} på övriga 
 									  och avrunda till närmsta heltal
 								</p>
 								<p v-else>
-									Nolla lägsta hcp ({{ Math.round((slopeHandicapList[getIndexOfLowest] * 0.9)*10)/10 }}), dra av {{ Math.round((slopeHandicapList[getIndexOfLowest] * 0.9)*10)/10 }} på övriga och avrunda till närmsta heltal
+									Nolla lägsta hcp ( {{(Math.round((slopeHandicapList[getIndexOfLowest] * 0.9)*10)/10)}}), dra av  {{(Math.round((slopeHandicapList[getIndexOfLowest] * 0.9)*10)/10)}} på övriga och avrunda till närmsta heltal.
 								</p>
 							</b-col>
 							<b-col v-for="singleSlope in slope" :key="singleSlope.index" cols="2" class="playerData">
