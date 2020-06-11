@@ -1,5 +1,6 @@
 const shcp = (players) => {
   let playerData = players;
+  console.log("shcp -> playerData", playerData)
   let slopeHandicapList = [];
 
   //FIXAR LAG hcp PÅ MAX 28
@@ -53,7 +54,15 @@ const shcp = (players) => {
     slopeHandicapList.push(player.shcp);
   });
 
-  let hcpSlopeReduced = slopeHandicapList.map((hcpSlope) => hcpSlope * 0.9);
+  // let hcpSlopeReduced = slopeHandicapList.map((hcpSlope) =>  hcpSlope * 0.9);
+
+  let hcpSlopeReduced = slopeHandicapList.reduce((total, amount) => {
+    total.push(Math.sign(amount) === 1 ? amount * 0.9 : amount * 1.1)
+    return total
+  }, [])
+
+  console.log("shcp -> hcpSlopeReduced", hcpSlopeReduced)
+
 
   let smallestHCP = 999;
   hcpSlopeReduced.forEach((hcp) => {

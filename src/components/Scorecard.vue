@@ -471,7 +471,7 @@
 				<table class="table9">
 					
 					<tr>
-						<th>Hole:</th>
+						<th>Hål:</th>
 						<td v-for="hole in course.slice(0, 9)" :key="hole.index">{{ hole.hole }}</td>
 					</tr>
 					<tr>
@@ -545,7 +545,7 @@
 				<!--  TABELL HÅL 10-18 -->
 				<table class="table18">
 					<tr>
-						<th>Hole:</th>
+						<th>Hål:</th>
 						<td v-for="hole in course.slice(9, 18)" :key="hole.index">{{ hole.hole }}</td>
 						
 					</tr>
@@ -1368,6 +1368,7 @@
                  
 					const [ hcp1, hcp2, hcp3, hcp4 ] = response.data.scorecard
 					this.hcpUnmutated = [ hcp1.orghcp, hcp2.orghcp, hcp3.orghcp, hcp4.orghcp ]
+                    console.log("getGameData -> this.hcpUnmutated ", this.hcpUnmutated )
 					
 					//lägger till golf-id på this.players för att kunna använda dessa i vid uppräkning i nameCount
 					const golfId = [response.data.hometeamleadergolfid, response.data.hometeammembergolfid, response.data.awayteamleadergolfid, response.data.awayteammembergolfid,   ]
