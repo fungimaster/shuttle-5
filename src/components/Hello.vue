@@ -125,6 +125,7 @@
                                  <b-col class="gameheader col-12 text-center mb-4">                                                                                                                              
                                    <span v-if="game.clubname">{{game.clubname}}</span>
                                    <span v-if="!game.clubname">Golfklubb saknas</span>
+                                    <span class="small d-block" v-if="game.roundname">{{game.roundname}}</span>
                                  </b-col>
                              </b-row>
                              <b-row>                              
@@ -207,6 +208,7 @@
                                  <b-col class="gameheader col-12 text-center mb-4">                                                                                                                              
                                    <span v-if="game.clubname">{{game.clubname}}</span>
                                    <span v-if="!game.clubname">Golfklubb saknas</span>
+                                     <span class="small d-block" v-if="game.roundname">{{game.roundname}}</span>
                                  </b-col>
                              </b-row>
                              <b-row>                              
@@ -280,6 +282,7 @@
                                  <b-col class="gameheader col-12 text-center mb-4">                                                                                                                              
                                    <span v-if="game.clubname">{{game.clubname}}</span>
                                    <span v-if="!game.clubname">Golfklubb saknas</span>
+                                     <span class="small d-block" v-if="game.roundname">{{game.roundname}}</span>
                                  </b-col>
                              </b-row>
                              <b-row>                              
@@ -318,6 +321,7 @@
                              <b-row>
                                 <b-col class="col-12 text-center mt-4">                                    
                                    <span v-if="game.status === 'Finished' && game.finishedAt"><i class="material-icons mr-2 mb-1 green">check_circle_outline</i>{{getgamedate(game.gamedate,game.gametime)}} sedan</span>
+                                   <span> | <a target="_blank" :href="`scorecard?id=${game._id}`"><i class="fal fa-list"></i> scorekort</a></span>
                                 </b-col>
                              </b-row>                             
                           </b-col>
