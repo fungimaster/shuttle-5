@@ -295,7 +295,7 @@
                                                                 
                                  </b-col>
                                   <b-col class="col-2 m-0 p-0 text-center result" v-bind:class="{ homeleader: game.status != 'Pending' && (game.result > 0 || game.hometeam == game.winner ), awayleader: game.status != 'Pending' && (game.result < 0 || game.awayteam == game.winner ) }">                                    
-                                    <span v-if="game.result && game.status === 'Finished' && game.result !== '0&0'">{{game.result}}</span>         
+                                    <span v-if="game.result && game.status === 'Finished' && game.result !== '0&0'">{{getScore(game.result)}}</span>         
                                      <span class="smaller" v-if="game.result === '0&0'">SÄRSPEL</span>                                    
                                  </b-col>
                                   <b-col class="awayteam col-5 text-left pl-2 pt-2 pb-2" v-bind:class="{ awayleader: game.status != 'Pending' && (game.result < 0 || game.awayteam == game.winner ) }">
@@ -1006,6 +1006,25 @@ components: {
 
     if (result === '0&0') { //särspelat
         return 'SÄRSPEL';
+      }
+
+       if (result === '1&0') { //särspelat
+        return '1UP';
+      }
+
+      if (result === '2&0') { //särspelat
+        return '2&1';
+      }
+      if (result === '3&0') { //särspelat
+        return '3&2';
+      }
+
+      if (result === '4&0') { //särspelat
+        return '4&3';
+      }
+
+      if (result === '4&2') { //särspelat
+        return '4&3';
       }
 
       if (result.includes('&') || result.includes('UP')) {
