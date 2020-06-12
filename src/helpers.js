@@ -1,6 +1,6 @@
 const shcp = (players) => {
   let playerData = players;
-  console.log("shcp -> playerData", playerData)
+  //console.log("shcp -> playerData", playerData)
   let slopeHandicapList = [];
 
   //FIXAR LAG hcp PÅ MAX 28
@@ -61,7 +61,7 @@ const shcp = (players) => {
     return total
   }, [])
 
-  console.log("shcp -> hcpSlopeReduced", hcpSlopeReduced)
+  //console.log("shcp -> hcpSlopeReduced", hcpSlopeReduced)
 
 
   let smallestHCP = 999;

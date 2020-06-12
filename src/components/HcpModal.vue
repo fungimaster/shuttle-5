@@ -15,7 +15,7 @@
 							<b-col cols="4" class="explanation">
 								<p>Exakt Hcp</p>
 							</b-col>
-							<b-col v-for="hcp in hcpUnmutated" cols="2" class="playerData">
+							<b-col v-for="hcp in hcpUnmutated" :key="hcp.index" cols="2" class="playerData">
 								<p v-negativeToPostive>{{ hcp }}</p>
 							</b-col>
 						</b-row>

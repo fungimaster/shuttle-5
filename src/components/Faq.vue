@@ -98,9 +98,11 @@
 						<h3 class="pt-5">8. SPELFORM</h3>
 						<p>
 							Alla matcher spelas som 4-boll, Match/Bästboll. De 2 spelarna i lagen som har bästa score på respektive hål, mäts mot varandra. Bästa score vinner hålet till laget. Är bästa score samma hos bägge lagen delas hålet.
-							Efter att slopen räknats in reduceras respektive spelares HCP med 10%. Avrundning till närmaste heltal (uppåt vid 0.5, 1.5, 2.5 osv). De tre spelarna med högst reducerat spelhandicap får i matchen slag motsvarande skillnaden till den spelaren som har lägst spelhandicap. Spelaren med lägst reducerat spelhandicap spelar med 0 i spelhandicap.
-							<strong>OBS! Vårt digitala scorekort räknar ut detta till er innan match!</strong>
-						</p>
+							Efter att slopen räknats in reduceras respektive spelares HCP med 10%. De tre spelarna med högst reducerat spelhandicap får i matchen slag motsvarande skillnaden till den spelaren som har lägst spelhandicap. Spelaren med lägst reducerat spelhandicap spelar med 0 i spelhandicap. Till sist sker avrundning till närmaste heltal (uppåt vid 0.5, 1.5, 2.5 osv).
+							<strong>OBS! Vårt digitala scorekort räknar ut detta till er innan match!</strong><br>
+							<p class="text-center"><b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1591952386/matchplay/hcp.png"></b-img>
+							</p>
+						
 						<p>
 							De erhållna slagen för matchen gäller från index 1 och uppåt. Vi hänvisar samtidigt till SGF:s Spel- och Tävlingshandbok.
 							Vid lika efter 18 hål spelas särspelshål med början på hål 1 (sudden death) eller hål 18. Erhållna slag utdelas på samma hål som ursprungsmatchen. Om matchen fortfarande är lika kan fler hål spelas tills vinnaren är utsedd. Om lagen fortfarande är lika efter särspel vinner laget som har lägst hcp.

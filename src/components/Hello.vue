@@ -1074,13 +1074,13 @@ components: {
                     .then(response => {
                         //console.log(response.data)                                                
                         this.games = response.data;                  
-                        console.log("getGamesInprogress ->  this.games",  this.games)
+                        //console.log("getGamesInprogress ->  this.games",  this.games)
 
                         this.games = this.games.filter((game) => {
                           if (!game.winner) return true;
                         })
                         this.gamescount = this.games.length;
-                        console.log("getGamesInprogress ->  this.games",  this.games)
+                        //console.log("getGamesInprogress ->  this.games",  this.games)
                         this.loadinggames = false;
                         this.updating1 = false;
 

@@ -498,7 +498,7 @@
 						<th v-initials class="initialsTeam1">{{ player.name }}</th>
 						<td
 							:class="[{'showWinnerOverviewTeam1' : isInWinningHoleTeam(1)[index]}, holes.strokes === valueOfLowestScoreOnHole(index) ? 'showLowestScore' : null]"
-							v-for="holes, index in player.holes.slice(0, 9)"
+							v-for="(holes, index) in player.holes.slice(0, 9)"
 							:key="holes.index"
 							v-changeNanAndZero:arguments="{
                 score: holes.strokes
@@ -1368,7 +1368,7 @@
                  
 					const [ hcp1, hcp2, hcp3, hcp4 ] = response.data.scorecard
 					this.hcpUnmutated = [ hcp1.orghcp, hcp2.orghcp, hcp3.orghcp, hcp4.orghcp ]
-                    console.log("getGameData -> this.hcpUnmutated ", this.hcpUnmutated )
+                    //console.log("getGameData -> this.hcpUnmutated ", this.hcpUnmutated )
 					
 					//lägger till golf-id på this.players för att kunna använda dessa i vid uppräkning i nameCount
 					const golfId = [response.data.hometeamleadergolfid, response.data.hometeammembergolfid, response.data.awayteamleadergolfid, response.data.awayteammembergolfid,   ]
