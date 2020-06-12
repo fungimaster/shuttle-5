@@ -200,7 +200,6 @@
                                 }"
                                 font-size="inherit"
                                 input-width="100%"
-                                input-class="test"
                               ></vue-timepicker>
                             </b-form-group>
                           </b-col>
@@ -393,6 +392,20 @@
                               >play_circle_filled</i
                             >Visa scorekortet</b-button
                           >
+                           <b-alert
+                            v-if="(isteamleader || isteammember) && status != 'Finished'"
+                            show
+                            class="mt-3 mb-0 small"
+                            variant="danger"
+                          >
+                            Om scorekortet av någon anledning inte fungerar när matchen ska spelas görs beräkningen enligt följande:<br>
+                            1. Gällande slopehcp på bana efter val av tee<br>
+                            2. Dra av 10% (tex hcp 14 får -1.4 = 12.6)<br>
+                            3. Nolla den lägsta hcp oavsett lag och dra av (eller lägg på för +hcp) skillnaden från övrigas hcp<br>
+                            4. Avrunda till närmsta heltal<br>
+                            5. Spela matchen och rapportera in resultatet till oss<br><br>
+                            OBS! Ett lag får max ha 28 (innan slope) tillsammans. Tex: Om spelare A har 16 i hcp och spelare B har 19 i hcp blir detta 35 sammanlagt, vilket innebär att spelare A och B får 3.5 slag färre och kommer få nytt exakt hcp på 12.5 och 15.5 som sedan slope och matchspeluträkningar baseras på. Detta görs för att få så rättvisa matcher som möjligt mellan lagen.
+                          </b-alert>
                         </b-col>
                       </b-row>
                     </b-container>
