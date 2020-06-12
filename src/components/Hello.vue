@@ -1042,7 +1042,7 @@ components: {
         //let gamedate2 = new Date(finishedat);       
         //return moment(gamedate2, "YYYY-MM-DD hh:mm").fromNow();  
         var gamedate2 = '"' + gamedate + '"' + ' ' + gametime;        
-        return moment(gamedate2, "YYYY-MM-DD hh:mm").add(4, 'hours').fromNow();
+        return moment(gamedate2, "YYYY-MM-DD hh:mm").add(3, 'hours').fromNow();
 
      },
 
