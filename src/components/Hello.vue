@@ -320,7 +320,7 @@
                              </b-row>
                              <b-row>
                                 <b-col class="col-12 text-center mt-4">                                    
-                                   <span v-if="game.status === 'Finished' && game.finishedAt"><i class="material-icons mr-2 mb-1 green">check_circle_outline</i>{{getgamedate(game.gamedate,game.gametime)}} sedan</span>
+                                   <span v-if="game.status === 'Finished' && game.finishedAt"><i class="material-icons mr-2 mb-1 green">check_circle_outline</i>{{getgamedate(game.finishedAt)}} sedan</span>
                                    <span> | <a target="_blank" :href="`scorecard?id=${game._id}`"><i class="fal fa-list"></i> scorekort</a></span>
                                 </b-col>
                              </b-row>                             
@@ -1038,11 +1038,11 @@ components: {
         var gamedate2 = '"' + gamedate + '"' + ' ' + gametime;
         return moment(gamedate2, "YYYY-MM-DD hh:mm").fromNow(); 
      }, 
- getgamedate: function(gamedate,gametime) {  
-        //let gamedate2 = new Date(finishedat);       
-        //return moment(gamedate2, "YYYY-MM-DD hh:mm").fromNow();  
-        var gamedate2 = '"' + gamedate + '"' + ' ' + gametime;        
-        return moment(gamedate2, "YYYY-MM-DD hh:mm").add(3, 'hours').fromNow();
+ getgamedate: function(finishedate) {  
+        let gamedate2 = new Date(finishedate);       
+        return moment(gamedate2, "YYYY-MM-DD hh:mm").fromNow();  
+        //var gamedate2 = '"' + gamedate + '"' + ' ' + gametime;        
+        //return moment(gamedate2, "YYYY-MM-DD hh:mm").add(3, 'hours').fromNow();
 
      },
 
