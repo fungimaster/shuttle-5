@@ -16,8 +16,13 @@
             <p v-if="!closed">Ta chansen att ta dig till Sverigefinalen och sedan vidare utomlands! Alla deltagare får pikeér från PING.</p>
              <p hidden v-if="closed">I helgen (30-31 maj) lottas första omgången. Den 1 juni startar tävlingen!</p>
             
-            <b-alert v-if="closed" show class="mt-4 small" variant="warning">
+            <b-alert v-if="closed" hidden class="mt-4 small" variant="warning">
                 Alla matcher är lottade och omgång 1 spelas mellan 1-14 juni!  <a href="#games">Se matcher längre ner!</a>
+                <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
+             </b-alert>
+
+              <b-alert v-if="closed" show class="mt-4 small" variant="warning">
+                Omgång 2 lottas under måndagen den 15 juni, håll utkik här på hemsidan eller på <a href="https://www.facebook.com/matchplaysweden/">facebook</a> för uppdateringar om nya matcher och speldatum för nästa omgång!
                 <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
              </b-alert>
 
@@ -295,8 +300,8 @@
                                                                 
                                  </b-col>
                                   <b-col class="col-2 m-0 p-0 text-center result" v-bind:class="{ homeleader: game.status != 'Pending' && (game.result > 0 || game.hometeam == game.winner ), awayleader: game.status != 'Pending' && (game.result < 0 || game.awayteam == game.winner ) }">                                    
-                                    <span v-if="game.result && game.status === 'Finished' && game.result !== '0&0'">{{getScore(game.result)}}</span>         
-                                     <span class="smaller" v-if="game.result === '0&0'">SÄRSPEL</span>                                    
+                                    <span v-if="game.result && game.status === 'Finished'">{{getScore(game.result)}}</span>         
+                                                             
                                  </b-col>
                                   <b-col class="awayteam col-5 text-left pl-2 pt-2 pb-2" v-bind:class="{ awayleader: game.status != 'Pending' && (game.result < 0 || game.awayteam == game.winner ) }">
                                    <span v-if="!game.actuallyplaying[0]">{{lastname(game.awayteamleadername)}}</span>
@@ -1004,7 +1009,7 @@ components: {
     this.leader = '';
     
 
-    if (result === '0&0') { //särspelat
+    if (result === '0&0' || result === '0') { //särspelat
         return 'SÄRSPEL';
       }
 
@@ -1021,6 +1026,14 @@ components: {
 
       if (result === '4&0') { //särspelat
         return '4&3';
+      }
+
+       if (result === '5&0') { //särspelat
+        return '5&4';
+      }
+
+      if (result === '6&0') { //särspelat
+        return '5&4';
       }
 
       if (result === '4&2') { //särspelat
