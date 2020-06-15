@@ -1448,8 +1448,8 @@
 
 			},
 			async sendInProgress() {
-				if (this.nameCount[0].length < 5) {
-					return
+				if (this.nameCount[0].length < 5 || this.status === "Finished") {
+					return;
 				}
 				
 				const url = "https://admin.matchplay.se/methods/updateGame";
