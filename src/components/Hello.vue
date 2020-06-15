@@ -281,6 +281,14 @@
                           </b-col>
                         </b-row>
 
+                        <b-row hidden class="mb-3">
+                          <b-col>
+                            <b-button v-on:click="getGamesFinished('all')" variant="primary">Alla</b-button>
+                            <b-button v-on:click="getGamesFinished('Omgång 1')" variant="primary">Omgång 1</b-button>
+                            <b-button v-on:click="getGamesFinished('Omgång 2')" variant="primary">Omgång 2</b-button>
+                          </b-col>
+                        </b-row>
+
                          <b-row v-if="gamescount3 > 0" class="">
                           <b-col v-for="(game,idx1) in games3" :key="idx1" xs="12" sm="12" class="pt-3 pb-3 pl-md-2 pr-md-2 game" v-bind:class="{ greybg: idx1 % 2 === 0 }">                            
                              <b-row>
@@ -782,6 +790,8 @@ import { globalState } from "../main.js";
 
 moment.locale('sv');
 
+let options = {};
+
 moment.updateLocale('sv', {
     relativeTime : {
         future: "om %s",
@@ -977,7 +987,7 @@ components: {
         //this.getTopListClubs();
         this.getGamesInprogress(); //in progress
         this.getGamesPending(); //pending
-        this.getGamesFinished(); //finished
+        this.getGamesFinished('all'); //finished
   },
  
   methods: {
@@ -1008,6 +1018,9 @@ components: {
 
     this.leader = '';
     
+    if (result === 'W/O') {
+      return "W/O";
+    }
 
     if (result === '0&0' || result === '0') { //särspelat
         return 'SÄRSPEL';
@@ -1168,23 +1181,35 @@ components: {
                         this.loadinggames2 = false;
                     });
       },
-        getGamesFinished() {
+        getGamesFinished(round) {
 
                 //loading
                
                 //this.gamescount = 0;
-
+               
+                //set saved filter
+                //this.classoptions = localStorage.getItem('active_round');
+                //console.log(this.classoptions)
+                //if (this.classoptions === 'null' || this.classoptions === null) {      
+                //  delete options['roundname'];                
+                //} else {
+                 // options["roundname"] = this.classoptions;
+                //}                       
+                      
+                options["competition"] = 'sFAc3dvrn2P9pXHAz';    
+                options["status"] = 'Finished';
+                
+                if (round === 'all') {      
+                  delete options['roundname'];              
+                } else {
+                  options["roundname"] = round;
+                }
+                
+                
                   const today = moment().format("YYYY-MM-DD");
                   const today_h = moment().format("HH:mm");
 
-                  this.axios.post(globalState.admin_url + 'getGamesAdvanced', {                       
-                        "competition":"sFAc3dvrn2P9pXHAz",                        
-                        "status":"Finished"                     
-                        //"from": today + " " + today_h,
-                        //"to": today + " 23:59",
-                        //"limit": 20
-                   
-                    })                
+                  this.axios.post(globalState.admin_url + 'getGamesAdvanced', options)                
                
                     .then(response => {
                         //console.log(response.data)                                                
@@ -1198,7 +1223,7 @@ components: {
                         setTimeout(() => {                   
                               this.updating3 = true;
                               this.getGamesFinished();
-                            }, 60000);
+                            }, 120000);
 
                     })
                     .catch(error => {

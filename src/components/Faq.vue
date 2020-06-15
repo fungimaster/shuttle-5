@@ -55,6 +55,13 @@
 						</a>
 					</div>
 
+<div class="section first" id="1">
+						<h3>LÖPANDE INFO</h3>
+						<p>Matchplay är en tävling som enbart marknadsförs på sociala medier och därför är det vår största informationskanal mot alla våra deltagare. <a href="https://www.facebook.com/matchplaysweden/">Följ oss gärna</a> där för snabbast info gällande allt som rör tävlingen.
+</p>
+					</div>
+					
+
 					<div class="section first" id="1">
 						<h3>1. REGIONER MATCHPLAY 2020</h3>
 						<p>Matchplay spelas i hela Sverige. Längre resväg kan förekomma vid få registrerade lag i vissa regioner av Sverige. Värt att poängtera är att lottningen alltid sker med geografiskt utgångsläge som prioritering för minimera reslängd.</p>
@@ -104,8 +111,27 @@
 							</p>
 						
 						<p>
-							De erhållna slagen för matchen gäller från index 1 och uppåt. Vi hänvisar samtidigt till SGF:s Spel- och Tävlingshandbok.
-							Vid lika efter 18 hål spelas särspelshål med början på hål 1 (sudden death) eller hål 18. Erhållna slag utdelas på samma hål som ursprungsmatchen. Om matchen fortfarande är lika kan fler hål spelas tills vinnaren är utsedd. Om lagen fortfarande är lika efter särspel vinner laget som har lägst hcp.
+							De erhållna slagen för matchen gäller från index 1 och uppåt. Vi hänvisar samtidigt till SGF:s Spel- och Tävlingshandbok. Erhållna slag utdelas på samma hål som ursprungsmatchen. 
+						</p>
+						<br>
+						<h4>Särspel</h4>
+						<p>
+							Vid lika efter 18 hål är det särspel enligt följande prioritering:<br><br>
+							<ol>
+								<li>
+Omspel hål 18 repetitivt tills skilje finns (alternativt hål 9 om matchen startades på hål 10)
+								</li>
+								<li>
+Start hål 1 (alternativt hål 10 om matchen startades där)
+								</li>
+								<li>
+Laget med lägst HCP inom laget utses till vinnare
+								</li>
+							</ol>
+						</p>
+						<p>
+							Vid omstart hål 18 (alt hål 9) så är detta om bakomvarande spel tillåter detta. Lagen ska vänta i maximalt 30 minuter efter avslutat spel för att sedan sikta på punkt 2.
+Vid omstart hål 1 (alt. Hål 10) så gäller det att det finns plats såklart. Lagen ska vänta i maximalt 30 minuter för spel annars siktar man på punkt 3.
 						</p>
 					</div>
 
