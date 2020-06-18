@@ -21,8 +21,14 @@
                 <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
              </b-alert>
 
-              <b-alert v-if="closed" show class="mt-4 small" variant="warning">
+              <b-alert v-if="closed" hidden class="mt-4 small" variant="warning">
                 Omgång 2 lottas under måndagen den 15 juni, håll utkik här på hemsidan eller på <a href="https://www.facebook.com/matchplaysweden/">facebook</a> för uppdateringar om nya matcher och speldatum för nästa omgång!
+                <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
+             </b-alert>
+
+             <b-alert v-if="closed" show class="mt-4 small" variant="warning">
+                Omgång 2 spelas mellan 15/6 - 5/7. <a href="#games">Se matcher längre ner!</a><br>
+                Nyheter och aktuell info om tävlingen ses bäst på vår <a href="https://www.facebook.com/matchplaysweden/">facebooksida</a>.
                 <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
              </b-alert>
 
@@ -105,7 +111,7 @@
                           <b-tab title-link-class="ml-2">
                             <template v-slot:title>
                              <span class="d-none d-sm-block"><b-spinner v-if="gamescount > 0" small type="grow" class="ml-0 pl-0 mr-1 mb-1 red"></b-spinner>LIVE ({{gamescount}})</span>
-                             <span class="d-sm-none"><i class="fal fa-heart-rate"></i> ({{gamescount}})</span>
+                             <span class="d-sm-none small-tabs"><i class="fal fa-heart-rate"></i> ({{gamescount}})</span>
                             </template> 
                             <!-- IN PROGRESS GAMES -->
                       <b-col xs="12" sm="12" class="mt-4 mt-md-4">
@@ -120,7 +126,7 @@
                         </b-row>
                         <b-row v-if="gamescount === 0 && !loadinggames">
                           <b-col>
-                            Just nu pågår inga matcher... men när matcher spelas kan dom följas live här!
+                            Just nu pågår inga matcher... men när matcher spelas kan dom följas live här! <br>OBS! Sidan laddas om automatiskt när en match startar.
                           </b-col>
                         </b-row>
 
@@ -188,13 +194,13 @@
                           </b-tab>
                           <b-tab title-link-class="ml-2">
                              <template v-slot:title>
-                              <span class="d-none d-sm-block">KOMMANDE ({{gamescount2}})</span>
-                              <span class="d-sm-none"><i class="fal fa-hourglass"></i> ({{gamescount2}})</span>
+                              <span class="d-none d-sm-block">KOMMANDE <span v-if="updating2"><b-spinner small class="ml-1 mr-1 mb-1"></b-spinner></span><span v-else>({{gamescount2}})</span></span>
+                              <span class="d-sm-none small-tabs"><i class="fal fa-hourglass"></i> ({{gamescount2}})</span>
                             </template> 
                              <!-- PENDING GAMES -->
                       <b-col xs="12" sm="12" class="mt-4 mt-md-4">
 
-                       <h4>Kommande matcher<span v-if="updating2"><b-spinner small type="grow" class="ml-2 mr-1 mb-1 red"></b-spinner>...</span></h4>
+                       <h4>Kommande (bokade) matcher<span v-if="updating2"><b-spinner small type="grow" class="ml-2 mr-1 mb-1 red"></b-spinner>...</span></h4>
                         <p hidden>Inom kort kommer bokade matcher visas här samt annan information om lagen!</p>
                         <b-row v-if="loadinggames2">
                           <b-col>
@@ -261,31 +267,30 @@
                           </b-tab>
                            <b-tab title-link-class="ml-2">
                               <template v-slot:title>
-                             <span class="d-none d-sm-block">SPELADE ({{gamescount3}})</span>
-                              <span class="d-sm-none"><i class="fal fa-check"></i> ({{gamescount3}})</span>
+                             <span class="d-none d-sm-block">SPELADE <span v-if="updating3"><b-spinner small class="ml-1 mr-1 mb-1"></b-spinner></span><span v-else>({{gamescount3}})</span></span>
+                              <span class="d-sm-none small-tabs"><i class="fal fa-check"></i> ({{gamescount3}})</span>
                             </template> 
                                    <!--FINISHED GAMES -->
                       <b-col xs="12" sm="12" class="mt-4 mt-md-4">
 
 
-                       <h4>Spelade matcher <span v-if="updating1"><b-spinner small type="grow" class="ml-2 mr-1 mb-1 red"></b-spinner>...</span></h4>
+                       <h4>Spelade matcher - {{active_round}} <span v-if="updating1"><b-spinner small type="grow" class="ml-2 mr-1 mb-1 red"></b-spinner>...</span></h4>
                         <p hidden>Inom kort kommer bokade matcher visas här samt annan information om lagen!</p>
-                        <b-row v-if="loadinggames3">
+                       
+                        <b-row class="mb-4 mt-4">
                           <b-col>
-                            <b-spinner small type="grow" class="mr-2"></b-spinner>Hämtar matcher...
-                          </b-col>
-                        </b-row>
-                        <b-row v-if="gamescount3 === 0 && !loadinggames3">
-                          <b-col>
-                            
+                             <b-button hidden size="sm" v-on:click="updategames()" variant="primary">update</b-button>
+                            <b-button hidden size="sm" v-on:click="getGamesFinished('button','all')" variant="primary">Alla</b-button>
+                           
+                            <b-button size="sm" v-on:click="getGamesFinished('button','Omgång 1')" variant="primary">Omgång 1</b-button>                           
+                            <b-button size="sm" v-on:click="getGamesFinished('button','Omgång 2')" variant="primary">Omgång 2</b-button>                          
+                            <b-button size="sm" v-on:click="getGamesFinished('button','Omgång 2 AC')" variant="primary">Omgång 2 AC</b-button>                            
                           </b-col>
                         </b-row>
 
-                        <b-row hidden class="mb-3">
+                         <b-row v-if="loadinggames3">
                           <b-col>
-                            <b-button v-on:click="getGamesFinished('all')" variant="primary">Alla</b-button>
-                            <b-button v-on:click="getGamesFinished('Omgång 1')" variant="primary">Omgång 1</b-button>
-                            <b-button v-on:click="getGamesFinished('Omgång 2')" variant="primary">Omgång 2</b-button>
+                            <b-spinner small type="grow" class="mr-2"></b-spinner>Hämtar matcher...
                           </b-col>
                         </b-row>
 
@@ -334,13 +339,55 @@
                              <b-row>
                                 <b-col class="col-12 text-center mt-4">                                    
                                    <span v-if="game.status === 'Finished' && game.finishedAt"><i class="material-icons mr-2 mb-1 green">check_circle_outline</i>{{getgamedate(game.finishedAt)}} sedan</span>
-                                   <span> | <a target="_blank" :href="`scorecard?id=${game._id}`"><i class="fal fa-list"></i> scorekort</a></span>
+                                   <span v-if="game.result != 'W/O'"> | <a target="_blank" :href="`scorecard?id=${game._id}`"><i class="fal fa-list"></i> scorekort</a></span>
                                 </b-col>
                              </b-row>                             
                           </b-col>
                          </b-row>                                         
                      </b-col>
                           </b-tab>
+
+                          <!-- träd... -->
+                        <b-tab title-link-class="ml-2">
+                             
+                             <template hidden v-slot:title>
+                             <span hidden class1="d-none d-sm-block"><i class="fal fa-sitemap green mr-2"></i>TRÄD</span>
+                              <span hidden class="d-sm-none small-tabs"><i class="fal fa-sitemap green"></i></span>
+                            </template> 
+                             
+                                   <!--FINISHED GAMES -->
+                      <b-col hidden xs="12" sm="12" class="mt-4 mt-md-4">
+
+
+                       <h4>Spelarträd <span v-if="updating1"><b-spinner small type="grow" class="ml-2 mr-1 mb-1 red"></b-spinner>...</span></h4>
+                       <p class="mt-3">Då matcherna i första hand lottas med hänsyn till närmsta avstånd mellan lagen kan vi inte visa ett spelarträd men på denna sida kommer successivt mer information komma ut
+                         med information om antal lag i omgångar mm.
+                       </p>
+                        <b-row class="mt-4">
+                          <b-col class="col-6">
+                            <h5 class="mb-4">HUVUDTÄVLINGEN</h5>
+                            <p class="inactive-round">Omgång 1 = 240 lag</p>
+                            <p class="active-round">Omgång 2 = 122 lag</p>
+                            <b-alert show class="mt-4 p-2 smaller">
+                              Pga av olika omständigheter har 2 lag flyttats upp från andra chansen till huvudtävlingen.
+                            </b-alert>
+                          </b-col>
+                          <b-col class="col-6">
+                            <h5 class="mb-4">ANDRA CHANSEN</h5>
+                            <p>Omgång 2 AC = 118 lag</p>                          
+                          </b-col>
+                        </b-row>
+                      
+                        
+                                        
+
+                      
+                                      
+                     </b-col>
+                          </b-tab>
+                          <!-- end -->
+
+
                         </b-tabs>
                     </b-col>
                     
@@ -854,24 +901,25 @@ components: {
       clubs: 0,
       //IN PROGRESS GAMES
       loadinggames: true,
-      updating1: false,
+      updating1: true,
       game: {},
       games: [],
       gamescount: 0,
 
       //TABS
       tabIndex: 0,
+      active_round:'Omgång 2',
       
       //PENDING GAMES
       loadinggames2: true,
-      updating2: false,
+      updating2: true,
       game2: {},
       games2: [],
       gamescount2: 0,
 
        //FINISHED GAMES
       loadinggames3: true,
-      updating3: false,
+      updating3: true,
       game3: {},
       games3: [],
       gamescount3: 0,
@@ -980,14 +1028,16 @@ components: {
       }
     },
   mixins: [tagsMixin],
+
   mounted: function () {
         //console.log("ROUTE", this.$route.query.resetpw)
 
         this.$store.dispatch('updateUserInfo');
         //this.getTopListClubs();
         this.getGamesInprogress(); //in progress
-        this.getGamesPending(); //pending
-        this.getGamesFinished('all'); //finished
+        //this.getGamesPending(); //pending
+        //this.getGamesFinished('Omgång 2'); //finished
+
   },
  
   methods: {
@@ -1125,17 +1175,16 @@ components: {
                           if (!game.winner) return true;
                         })
                         this.gamescount = this.games.length;
+                        
                         //console.log("getGamesInprogress ->  this.games",  this.games)
                         this.loadinggames = false;
                         this.updating1 = false;
 
+                        //LOAD PENDING
+                        this.updating2 = true;
+                        this.getGamesPending();
 
-
-                         //RELOAD
-                        setTimeout(() => {                   
-                              this.updating1 = true;
-                              this.getGamesInprogress();
-                            }, 60000);
+                        
 
                     })
                     .catch(error => {
@@ -1166,14 +1215,14 @@ components: {
                         //console.log(response.data)                                                
                         this.games2 = response.data;                  
                         this.gamescount2 = this.games2.length;
+                        
                         this.loadinggames2 = false;
                         this.updating2 = false;
 
-                         //RELOAD
-                        setTimeout(() => {                   
-                              this.updating2 = true;
-                              this.getGamesPending();
-                            }, 60000);
+                         //LOAD FINISHED
+                         this.updating3 = true;
+                         this.getGamesFinished('loader',this.active_round);
+                        
 
                     })
                     .catch(error => {
@@ -1181,13 +1230,29 @@ components: {
                         this.loadinggames2 = false;
                     });
       },
-        getGamesFinished(round) {
-
+      updategames() {
+          this.updating1 = false;                   
+          this.getGamesFinished('loader',this.active_round);
+      },
+        getGamesFinished(origin,round) {
+          
                 //loading
                
-                //this.gamescount = 0;
-               
-                //set saved filter
+                this.updating3 = true;                               
+          
+                if (origin === 'loader') {
+                  if (localStorage.getItem('active_round') !== 'null' || localStorage.getItem('active_round') !== null) {
+                    
+                    this.active_round = localStorage.getItem('active_round');
+                  }
+                }
+                
+                if (origin === 'button') {
+                  //set saved filter 
+                  localStorage.setItem('active_round',round);
+                  this.active_round = round;
+                }
+          
                 //this.classoptions = localStorage.getItem('active_round');
                 //console.log(this.classoptions)
                 //if (this.classoptions === 'null' || this.classoptions === null) {      
@@ -1202,7 +1267,7 @@ components: {
                 if (round === 'all') {      
                   delete options['roundname'];              
                 } else {
-                  options["roundname"] = round;
+                  options["roundname"] = round;
                 }
                 
                 
@@ -1219,11 +1284,13 @@ components: {
                         this.loadinggames3 = false;
                         this.updating3 = false;
 
-                         //RELOAD
-                        setTimeout(() => {                   
-                              this.updating3 = true;
-                              this.getGamesFinished();
-                            }, 120000);
+                        
+                          //RELOAD IN PROGRESS (INITATOR)
+                         setTimeout(() => {
+                          this.updating1 = false;                   
+                          this.getGamesInprogress(); //in progress                          
+                        }, 60000);  
+                        
 
                     })
                     .catch(error => {
@@ -1572,6 +1639,14 @@ trylogin()
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
 
+p.inactive-round {
+  text-decoration:line-through;
+}
+
+p.active-round {
+  
+}
+
 .smaller {
   font-size:0.7em;
 }
@@ -1601,9 +1676,10 @@ trylogin()
 .game {
     @media (max-width: 575px) {
     font-size:0.8em;
-  }
-  
+  }  
 }
+
+
 
 .game i.missing {
   font-size:16px;
@@ -1977,7 +2053,17 @@ h4 {
 h5 {
     font-size: 1.1rem !important;
 }
+
+
+
 }
+
+@media (max-width:767px){
+.small-tabs {
+  font-size:0.8em;
+}
+}
+
 
 
 
