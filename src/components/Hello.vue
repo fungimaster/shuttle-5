@@ -111,7 +111,7 @@
                           <b-tab title-link-class="ml-2">
                             <template v-slot:title>
                              <span class="d-none d-sm-block"><b-spinner v-if="gamescount > 0" small type="grow" class="ml-0 pl-0 mr-1 mb-1 red"></b-spinner>LIVE ({{gamescount}})</span>
-                             <span class="d-sm-none small-tabs"><i class="fal fa-heart-rate"></i> ({{gamescount}})</span>
+                             <span class="d-sm-none small-tabs"><i class="fal fa-heart-rate"></i> <span v-if="updating1"><b-spinner small class="ml-1 mr-1 mb-1"></b-spinner></span><span v-else>({{gamescount}})</span></span>
                             </template> 
                             <!-- IN PROGRESS GAMES -->
                       <b-col xs="12" sm="12" class="mt-4 mt-md-4">
@@ -126,7 +126,7 @@
                         </b-row>
                         <b-row v-if="gamescount === 0 && !loadinggames">
                           <b-col>
-                            Just nu pågår inga matcher... men när matcher spelas kan dom följas live här! <br>OBS! Sidan laddas om automatiskt när en match startar.
+                            Just nu pågår inga matcher... men när matcher spelas kan dom följas live här! <br><br>OBS! Sidan laddas om automatiskt när en match startar.
                           </b-col>
                         </b-row>
 
@@ -195,7 +195,7 @@
                           <b-tab title-link-class="ml-2">
                              <template v-slot:title>
                               <span class="d-none d-sm-block">KOMMANDE <span v-if="updating2"><b-spinner small class="ml-1 mr-1 mb-1"></b-spinner></span><span v-else>({{gamescount2}})</span></span>
-                              <span class="d-sm-none small-tabs"><i class="fal fa-hourglass"></i> ({{gamescount2}})</span>
+                              <span class="d-sm-none small-tabs"><i class="fal fa-hourglass"></i> <span v-if="updating2"><b-spinner small class="ml-1 mr-1 mb-1"></b-spinner></span><span v-else>({{gamescount2}})</span></span>
                             </template> 
                              <!-- PENDING GAMES -->
                       <b-col xs="12" sm="12" class="mt-4 mt-md-4">
@@ -268,7 +268,7 @@
                            <b-tab title-link-class="ml-2">
                               <template v-slot:title>
                              <span class="d-none d-sm-block">SPELADE <span v-if="updating3"><b-spinner small class="ml-1 mr-1 mb-1"></b-spinner></span><span v-else>({{gamescount3}})</span></span>
-                              <span class="d-sm-none small-tabs"><i class="fal fa-check"></i> ({{gamescount3}})</span>
+                             <span class="d-sm-none small-tabs"><i class="fal fa-check"></i> <span v-if="updating3"><b-spinner small class="ml-1 mr-1 mb-1"></b-spinner></span><span v-else>({{gamescount3}})</span></span>
                             </template> 
                                    <!--FINISHED GAMES -->
                       <b-col xs="12" sm="12" class="mt-4 mt-md-4">
@@ -283,8 +283,9 @@
                             <b-button hidden size="sm" v-on:click="getGamesFinished('button','all')" variant="primary">Alla</b-button>
                            
                             <b-button size="sm" v-on:click="getGamesFinished('button','Omgång 1')" variant="primary">Omgång 1</b-button>                           
-                            <b-button size="sm" v-on:click="getGamesFinished('button','Omgång 2')" variant="primary">Omgång 2</b-button>                          
-                            <b-button size="sm" v-on:click="getGamesFinished('button','Omgång 2 AC')" variant="primary">Omgång 2 AC</b-button>                            
+                            <b-button size="sm" v-on:click="getGamesFinished('button','Omgång 2')" variant="primary">Omgång 2</b-button>      
+                                                
+                            <b-button hidden size="sm" v-on:click="getGamesFinished('button','Omgång 2')" variant="primary">Omgång 2 AC</b-button>                            
                           </b-col>
                         </b-row>
 
@@ -2047,11 +2048,11 @@ h3 {
 }
 
 h4 {
-    font-size: 1.3rem !important;
+    font-size: 1.1rem !important;
 }
 
 h5 {
-    font-size: 1.1rem !important;
+    font-size: 1.0rem !important;
 }
 
 
