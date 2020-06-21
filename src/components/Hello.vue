@@ -153,7 +153,7 @@
                                   <b-col class="col-2 m-0 p-0 text-center result" v-bind:class="{ homeleader: game.status != 'Pending' && (game.result > 0 || game.hometeam == game.winner ), awayleader: game.status != 'Pending' && (game.result < 0 || game.awayteam == game.winner ) }">                                    
                                     <span v-if="game.result && game.status === 'Finished'">{{game.result}}</span>          
                                     <span v-if="game.status === 'Pending'">vs</span>        
-                                    <span v-if="game.status === 'In progress'">{{getScore(game.result)}}</span>                                            
+                                    <span v-if="game.status === 'In progress'">{{getScore(game.result,game.status)}}</span>                                            
                                  </b-col>
                                   <b-col class="awayteam col-5 text-left pl-2 pt-2 pb-2" v-bind:class="{ awayleader: game.status != 'Pending' && (game.result < 0 || game.awayteam == game.winner ) }">
                                    <span v-if="!game.actuallyplaying[0]">{{lastname(game.awayteamleadername)}}</span>
@@ -232,7 +232,7 @@
                                   <b-col class="col-2 m-0 p-0 text-center result" v-bind:class="{ homeleader: game.status != 'Pending' && (game.result > 0 || game.hometeam == game.winner ), awayleader: game.status != 'Pending' && (game.result < 0 || game.awayteam == game.winner ) }">                                    
                                     <span v-if="game.result && game.status === 'Finished'">{{game.result}}</span>          
                                     <span v-if="game.status === 'Pending'">vs</span>        
-                                    <span v-if="game.status === 'In progress'">{{getScore(game.result)}}</span>                                            
+                                    <span v-if="game.status === 'In progress'">{{getScore(game.result,game.status)}}</span>                                            
                                  </b-col>
                                   <b-col class="awayteam col-5 text-left pl-2 pt-2 pb-2" v-bind:class="{ awayleader: game.status != 'Pending' && (game.result < 0 || game.awayteam == game.winner ) }">
                                    <span>{{lastname(game.awayteamleadername)}}</span>
@@ -314,7 +314,7 @@
                                                                 
                                  </b-col>
                                   <b-col class="col-2 m-0 p-0 text-center result" v-bind:class="{ homeleader: game.status != 'Pending' && (game.result > 0 || game.hometeam == game.winner ), awayleader: game.status != 'Pending' && (game.result < 0 || game.awayteam == game.winner ) }">                                    
-                                    <span v-if="game.result && game.status === 'Finished'">{{getScore(game.result)}}</span>         
+                                    <span v-if="game.result && game.status === 'Finished'">{{getScore(game.result,game.status)}}</span>         
                                                              
                                  </b-col>
                                   <b-col class="awayteam col-5 text-left pl-2 pt-2 pb-2" v-bind:class="{ awayleader: game.status != 'Pending' && (game.result < 0 || game.awayteam == game.winner ) }">
@@ -1065,15 +1065,16 @@ components: {
     );
   };
 },
-  getScore(result) {
+  getScore(result,status) {
 
     this.leader = '';
+   
     
     if (result === 'W/O') {
       return "W/O";
     }
 
-    if (result === '0&0' || result === '0') { //särspelat
+      if ((result === '0&0' || result === '0') && status != 'In progress') { //särspelat
         return 'SÄRSPEL';
       }
 
