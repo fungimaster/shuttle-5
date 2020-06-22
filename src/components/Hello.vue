@@ -8,7 +8,7 @@
     </div>
 
     <!-- Modal för att öppa matcher/scorekort -->
-    <b-modal v-model="modalShow" no-fade size="lg">
+    <b-modal v-model="modalShow" no-fade ok-only size="lg">
          <router-view> </router-view>
     </b-modal>
 
