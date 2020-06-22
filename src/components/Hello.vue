@@ -345,8 +345,7 @@
                              <b-row>
                                 <b-col class="col-12 text-center mt-4">                                    
                                    <span v-if="game.status === 'Finished' && game.finishedAt"><i class="material-icons mr-2 mb-1 green">check_circle_outline</i>{{getgamedate(game.finishedAt)}} sedan</span>
-                                 <router-link  @click="modalShow = !modalShow"  :to="`viewer?id=${game._id}`"> Öppna Match </router-link> 
-
+                                    <span v-if="game.result != 'W/O'"> | <router-link  @click="modalShow = !modalShow"  :to="`viewer?id=${game._id}`">   <i class="fal fa-list"></i> scorekort </router-link></span>
                                 </b-col>
                              </b-row>                             
                           </b-col>
