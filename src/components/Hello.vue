@@ -110,14 +110,14 @@
                         <b-tabs content-class="mt-3" v-model="tabIndex" no-key-nav>
                           <b-tab title-link-class="ml-2">
                             <template v-slot:title>
-                             <span class="d-none d-sm-block"><b-spinner v-if="gamescount > 0" small type="grow" class="ml-0 pl-0 mr-1 mb-1 red"></b-spinner>LIVE ({{gamescount}})</span>
+                             <span class="d-none d-sm-block"><b-spinner v-if="gamescount > 0" small type="grow" class="ml-0 pl-0 mr-1 mb-1 red"></b-spinner>LIVE <span v-if="updating1"><b-spinner small class="ml-1 mr-1 mb-1"></b-spinner></span><span v-else>({{gamescount}})</span></span>
                              <span class="d-sm-none small-tabs"><i class="fal fa-heart-rate"></i> <span v-if="updating1"><b-spinner small class="ml-1 mr-1 mb-1"></b-spinner></span><span v-else>({{gamescount}})</span></span>
                             </template> 
                             <!-- IN PROGRESS GAMES -->
                       <b-col xs="12" sm="12" class="mt-4 mt-md-4">
 
 
-                       <h4>Pågående matcher <span v-if="updating1"><b-spinner small type="grow" class="ml-2 mr-1 mb-1 red"></b-spinner>...</span></h4>
+                       <h4>Pågående matcher</h4>
                         <p hidden>Inom kort kommer bokade matcher visas här samt annan information om lagen!</p>
                         <b-row v-if="loadinggames">
                           <b-col>
@@ -125,9 +125,16 @@
                           </b-col>
                         </b-row>
                         <b-row v-if="gamescount === 0 && !loadinggames">
-                          <b-col>
-                            Just nu pågår inga matcher... men när matcher spelas kan dom följas live här! <br><br>OBS! Sidan laddas om automatiskt när en match startar.
+                          <b-col class="col-12 mt-3">
+                            
+                            <p v-if="hasnextgame">
+                              <strong>Nästa match:</strong> {{lastname(nextgame.hometeamleadername)}} & {{lastname(nextgame.hometeammembername)}} vs {{lastname(nextgame.awayteamleadername)}} & {{lastname(nextgame.awayteammembername)}}
+                               {{getgamedate2(nextgame.gamedate,nextgame.gametime)}} på <span v-if="nextgame.clubname">{{nextgame.clubname}}</span><span v-if="!nextgame.clubname">Golfklubb saknas</span>.
+                             </p>
+                            <p v-if="!nextgame">Just nu pågår inga matcher... men när matcher spelas kan dom följas live här!</p>                             
+                            <p>OBS! Sidan laddas om automatiskt när en match startar.</p>
                           </b-col>
+                         
                         </b-row>
 
                          <b-row v-if="gamescount > 0" class="">
@@ -200,7 +207,8 @@
                              <!-- PENDING GAMES -->
                       <b-col xs="12" sm="12" class="mt-4 mt-md-4">
 
-                       <h4>Kommande (bokade) matcher<span v-if="updating2"><b-spinner small type="grow" class="ml-2 mr-1 mb-1 red"></b-spinner>...</span></h4>
+                        <span class="float-right" style="cursor:pointer;" v-on:click="getGamesPending('not-initial')"><i class="far fa-sync-alt"></i></span>
+                       <h4>Kommande (bokade) <span v-if="updating2"><b-spinner small type="grow" class="ml-2 mr-1 mb-1 red"></b-spinner>...</span></h4>
                         <p hidden>Inom kort kommer bokade matcher visas här samt annan information om lagen!</p>
                         <b-row v-if="loadinggames2">
                           <b-col>
@@ -273,8 +281,8 @@
                                    <!--FINISHED GAMES -->
                       <b-col xs="12" sm="12" class="mt-4 mt-md-4">
 
-
-                       <h4>Spelade matcher - {{active_round}} <span v-if="updating1"><b-spinner small type="grow" class="ml-2 mr-1 mb-1 red"></b-spinner>...</span></h4>
+                        <span class="float-right" style="cursor:pointer;" v-on:click="updategames()"><i class="far fa-sync-alt"></i></span>
+                       <h4>Spelade - {{active_round}} <span v-if="updating1"><b-spinner small type="grow" class="ml-2 mr-1 mb-1 red"></b-spinner>...</span></h4>
                         <p hidden>Inom kort kommer bokade matcher visas här samt annan information om lagen!</p>
                        
                         <b-row class="mb-4 mt-4">
@@ -917,6 +925,8 @@ components: {
       game2: {},
       games2: [],
       gamescount2: 0,
+      hasnextgame:false,
+      nextgame:{},
 
        //FINISHED GAMES
       loadinggames3: true,
@@ -1035,9 +1045,13 @@ components: {
 
         this.$store.dispatch('updateUserInfo');
         //this.getTopListClubs();
-        this.getGamesInprogress(); //in progress
+        this.getGamesInprogress('initial'); //in progress
         //this.getGamesPending(); //pending
         //this.getGamesFinished('Omgång 2'); //finished
+
+
+
+
 
   },
  
@@ -1082,26 +1096,26 @@ components: {
         return '1UP';
       }
 
-      if (result === '2&0') { //särspelat
+      if (result === '2&0') { 
         return '2&1';
       }
-      if (result === '3&0') { //särspelat
+      if (result === '3&0') { 
         return '3&2';
       }
 
-      if (result === '4&0') { //särspelat
+      if (result === '4&0' || (result === '4' && status === 'Finished')) { 
         return '4&3';
       }
 
-       if (result === '5&0') { //särspelat
+       if (result === '5&0' || (result === '5' && status === 'Finished')) { 
         return '5&4';
       }
 
-      if (result === '6&0') { //särspelat
+      if (result === '6&0' || (result === '6' && status === 'Finished')) { 
         return '5&4';
       }
 
-      if (result === '4&2') { //särspelat
+      if (result === '4&2') { 
         return '4&3';
       }
 
@@ -1150,9 +1164,12 @@ components: {
         else
           return club;
       },
-      getGamesInprogress() {
+      getGamesInprogress(type) {
 
                 //loading
+                
+                this.loadinggames = true;
+                this.updating1 = true;
                
                 //this.gamescount = 0;
 
@@ -1182,10 +1199,17 @@ components: {
                         this.loadinggames = false;
                         this.updating1 = false;
 
-                        //LOAD PENDING
-                        this.updating2 = true;
-                        this.getGamesPending();
-
+                        //LOAD PENDING if initial
+                        if (type === 'initial') {
+                          this.updating2 = true;
+                          this.getGamesPending('initial');
+                        } else {
+                            //RELOAD IN PROGRESS (INITATOR)
+                         setTimeout(() => {
+                          this.updating1 = false;                   
+                          this.getGamesInprogress('not-initial'); //in progress                          
+                        }, 60000);  
+                        }
                         
 
                     })
@@ -1194,11 +1218,12 @@ components: {
                         this.loadinggames = false;
                     });
       },
-      getGamesPending() {
+      getGamesPending(type) {
 
                 //loading
                
-                //this.gamescount = 0;
+                //this.gamescount = 0;                
+                this.updating2 = true;
 
                   const today = moment().format("YYYY-MM-DD");
                   //const today_h = moment().format("HH:mm");
@@ -1221,9 +1246,20 @@ components: {
                         this.loadinggames2 = false;
                         this.updating2 = false;
 
+                        //get next game in line
+                        if (this.gamescount2 > 0) {
+                          this.hasnextgame = true;
+                          this.nextgame = this.games2[0];                          
+                        } else {
+                          this.hasnextgame = false;
+                        }
+                        
+
                          //LOAD FINISHED
-                         this.updating3 = true;
-                         this.getGamesFinished('loader',this.active_round);
+                         if (type==='initial') {
+                          this.updating3 = true;                         
+                          this.getGamesFinished('loader',this.active_round);
+                         }
                         
 
                     })
@@ -1240,15 +1276,15 @@ components: {
           
                 //loading
                
-                this.updating3 = true;                               
-          
+                this.updating3 = true;     
+              
                 if (origin === 'loader') {
-                  if (localStorage.getItem('active_round') !== 'null' || localStorage.getItem('active_round') !== null) {
-                    
+                  //if (localStorage.getItem('active_round') !== null) {                    
+                  if (localStorage.hasOwnProperty('active_round'))  {                                        
                     this.active_round = localStorage.getItem('active_round');
                   }
                 }
-                
+               
                 if (origin === 'button') {
                   //set saved filter 
                   localStorage.setItem('active_round',round);
@@ -1290,7 +1326,7 @@ components: {
                           //RELOAD IN PROGRESS (INITATOR)
                          setTimeout(() => {
                           this.updating1 = false;                   
-                          this.getGamesInprogress(); //in progress                          
+                          this.getGamesInprogress('not-initial'); //in progress                          
                         }, 60000);  
                         
 

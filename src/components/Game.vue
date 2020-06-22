@@ -179,6 +179,7 @@
                                 v-model="gametime"
                                 placeholder="Tex 08:10"
                                 :state="validateTime"
+                                id='gametime'
                               ></b-form-input>
                                <b-form-invalid-feedback :state="validateTime">
                                     Format: xx:xx
@@ -507,6 +508,53 @@
                           </p>
                         </b-col>
 
+                        <!-- home team reserve -->
+                        <b-col
+                          v-if="!isteamleader"
+                          class="col-12 text-left mt-3"
+                        >
+                          <span class="contact"
+                            >RESERV: {{ hometeamreservename }} ({{
+                              hometeamreservegolfid
+                            }})</span
+                          >
+
+                          <a
+                            v-if="hometeamreservemobile"
+                            :href="'tel:' + hometeamreservemobile"
+                            ><span
+                              class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"
+                              ><i class="material-icons mr-1">phone</i
+                              >&nbsp;</span
+                            ></a
+                          >
+                          <a
+                            v-if="hometeamreservemobile"
+                            :href="'sms://' + hometeamreservemobile"
+                            ><span
+                              class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"
+                              ><i class="material-icons mr-1">textsms</i
+                              >&nbsp;</span
+                            ></a
+                          >
+                          <a
+                            v-if="hometeamreserveemail"
+                            :href="'mailto:' + hometeamreserveemail"
+                            ><span
+                              class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"
+                              ><i class="material-icons mr-1">alternate_email</i
+                              >&nbsp;</span
+                            ></a
+                          >
+
+                          <p hidden class="mt-3 d-none d-sm-block hidden">
+                            {{ hometeamreserveemail }} |
+                            <a :href="'mailto:' + hometeamreserveemail">{{
+                              hometeamreserveemail
+                            }}</a>
+                          </p>
+                        </b-col>
+
                         <!-- away team member -->
 
                         <b-col
@@ -602,6 +650,55 @@
                             }}</a>
                           </p>
                         </b-col>
+
+                        <!-- away team reserve -->
+
+                        <b-col
+                          v-if="!isteammember && awayteamreservegolfid"
+                          class="col-12 text-right mt-3"
+                        >
+                          <span class="contact"
+                            >RESERV: {{ awayteamreservename }} ({{
+                              awayteamreservegolfid
+                            }})</span
+                          >
+
+                          <a
+                            v-if="awayteamreservemobile"
+                            :href="'tel:' + awayteamreservemobile"
+                            ><span
+                              class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"
+                              ><i class="material-icons mr-1">phone</i
+                              >&nbsp;</span
+                            ></a
+                          >
+                          <a
+                            v-if="awayteamreservemobile"
+                            :href="'sms://' + awayteamreservemobile"
+                            ><span
+                              class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"
+                              ><i class="material-icons mr-1">textsms</i
+                              >&nbsp;</span
+                            ></a
+                          >
+                          <a
+                            v-if="awayteamreserveemail"
+                            :href="'mailto:' + awayteamreserveemail"
+                            ><span
+                              class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"
+                              ><i class="material-icons mr-1">alternate_email</i
+                              >&nbsp;</span
+                            ></a
+                          >
+
+                          <p hidden class="mt-3 d-none d-sm-block hidden">
+                            {{ awayteamreservemobile }} |
+                            <a :href="'mailto:' + awayteamreserveemail">{{
+                              awayteamreserveemail
+                            }}</a>
+                          </p>
+                        </b-col>
+
                       </b-row>
                     </b-container>
                   </b-tab>
@@ -897,23 +994,42 @@ export default {
       awayteam: "",
       hometeamcoursename: "",
       awayteamcoursename: "",
+      //home teamleader
       hometeamleadername: "",
       hometeamleadergolfid: "",
-      awayteamleadergolfid: "",
-      hometeammembergolfid: "",
-      awayteammembergolfid: "",
-      hometeammembername: "",
       hometeamleadermobile: "",
       hometeamleaderemail: "",
-      hometeammembername: "",
+            
+      //home team member
+      hometeammembername: "",      
+      hometeammembergolfid: "",
       hometeammembermobile: "",
       hometeammemberemail: "",
+      
+      //home team reserve
+      hometeamreservename: "",      
+      hometeamreservegolfid: "",
+      hometeamreservemobile: "",
+      hometeamreserveemail: "",
+
+      //away team leader
       awayteamleadername: "",
+      awayteamleadergolfid: "",  
       awayteamleadermobile: "",
-      awayteamleaderemail: "",
+      awayteamleaderemail: "",   
+
+      //away team member
       awayteammembername: "",
+      awayteammembergolfid: "",      
       awayteammembermobile: "",
       awayteammemberemail: "",
+
+       //away team reserve
+      awayteamreservename: "",
+      awayteamreservegolfid: "",      
+      awayteamreservemobile: "",
+      awayteamreserveemail: "",
+
       game_id: "",
       game_url: "",
       doctitle: "Match - " + this.$store.state.conferencename,
@@ -1006,8 +1122,16 @@ if(timeFormat.test(this.gametime) == false)
           this.hometeammembername = response.data.hometeammembername;
         }
 
+         if (response.data.hasOwnProperty("hometeamreservename")) {
+          this.hometeamreservename = response.data.hometeamreservename;
+        }
+
         if (response.data.hasOwnProperty("awayteammembername")) {
           this.awayteammembername = response.data.awayteammembername;
+        }
+
+        if (response.data.hasOwnProperty("awayteamreservename")) {          
+          this.awayteamreservename = response.data.awayteamreservename;
         }
 
         this.hometeam = response.data.hometeam;
@@ -1025,6 +1149,8 @@ if(timeFormat.test(this.gametime) == false)
         this.hometeamleadermobile = response.data.hometeamleadermobile;
         this.hometeamleaderemail = response.data.hometeamleaderemail;
 
+
+        //HOME TEAM MEMBER
         if (response.data.hasOwnProperty("hometeammemberemail")) {
           this.hometeammemberemail = response.data.hometeammemberemail;
         }
@@ -1033,8 +1159,23 @@ if(timeFormat.test(this.gametime) == false)
           this.hometeammembermobile = response.data.hometeammembermobile;
         }
 
+         //HOME TEAM RESERVE
+        if (response.data.hasOwnProperty("hometeamreservegolfid")) {
+          this.hometeamreservegolfid = response.data.hometeamreservegolfid;
+        }
+
+        if (response.data.hasOwnProperty("hometeamreserveemail")) {
+          this.hometeamreserveemail = response.data.hometeamreserveemail;
+        }
+
+        if (response.data.hasOwnProperty("hometeamreservemobile")) {
+          this.hometeamreservemobile = response.data.hometeamreservemobile;
+        }
+
         this.awayteamleadermobile = response.data.awayteamleadermobile;
         this.awayteamleaderemail = response.data.awayteamleaderemail;
+
+        //away team member
 
         if (response.data.hasOwnProperty("awayteammembername")) {
           this.awayteammembername = response.data.awayteammembername;
@@ -1046,6 +1187,24 @@ if(timeFormat.test(this.gametime) == false)
 
         if (response.data.hasOwnProperty("awayteammembermobile")) {
           this.awayteammembermobile = response.data.awayteammembermobile;
+        }
+
+        //away team reserve
+
+        if (response.data.hasOwnProperty("awayteamreservegolfid")) {          
+          this.awayteamreservegolfid = response.data.awayteamreservegolfid;
+        }
+
+        if (response.data.hasOwnProperty("awayteamreservename")) {
+          this.awayteamreservename = response.data.awayteamreservename;
+        }
+
+        if (response.data.hasOwnProperty("awayteamreserveemail")) {
+          this.awayteamreserveemail = response.data.awayteamreserveemail;
+        }
+
+        if (response.data.hasOwnProperty("awayteamreservemobile")) {
+          this.awayteamreservemobile = response.data.awayteamreservemobile;
         }
 
         //IS TEAM LEADER?
@@ -1438,6 +1597,14 @@ if(timeFormat.test(this.gametime) == false)
       location.href = "scorecard?id=" + this.game_id;
     },
     saveResult() {
+                
+                
+      let element = document.querySelector("#gametime");
+      if (element.classList.contains("is-invalid")) {                  
+        return;
+      }
+ 
+
       //if (this.lastsaved !== moment().format('HH:mm')) {
       this.isSaving = true;
       //}
