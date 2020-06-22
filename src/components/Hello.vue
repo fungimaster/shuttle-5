@@ -7,6 +7,11 @@
       </div>
     </div>
 
+    <!-- Modal för att öppa matcher/scorekort -->
+    <b-modal v-model="modalShow" no-fade size="lg">
+         <router-view> </router-view>
+    </b-modal>
+
     <div class="hero">      
       <b-container class="d-flex">
         <b-row>
@@ -340,7 +345,8 @@
                              <b-row>
                                 <b-col class="col-12 text-center mt-4">                                    
                                    <span v-if="game.status === 'Finished' && game.finishedAt"><i class="material-icons mr-2 mb-1 green">check_circle_outline</i>{{getgamedate(game.finishedAt)}} sedan</span>
-                                   <span v-if="game.result != 'W/O'"> | <a target="_blank" :href="`scorecard?id=${game._id}`"><i class="fal fa-list"></i> scorekort</a></span>
+                                 <router-link  @click="modalShow = !modalShow"  :to="`viewer?id=${game._id}`"> Öppna Match </router-link> 
+
                                 </b-col>
                              </b-row>                             
                           </b-col>
@@ -861,6 +867,21 @@ moment.updateLocale('sv', {
 
 
 export default {
+   watch: {
+    $route(newVal, oldVal) {
+ 
+      immediate: true,
+      this.modalShow = newVal.meta && newVal.meta.modalShow;
+    },
+    modalShow: {
+				handler: function() {
+          if (this.modalShow === false) {
+              this.$router.push({path: "/"})
+          } 
+				}
+			}
+  
+  },
   name: "hello",
 components: {   
       //'phone':VuePhoneNumberInput,
@@ -871,7 +892,7 @@ components: {
     },
   data() {
     return {
-
+  modalShow: false,
   closed: true,
   leader:'',
    bindProps: {

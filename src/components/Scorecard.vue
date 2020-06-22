@@ -340,7 +340,7 @@
 							<h4 v-if="!leader && !tie">{{ matchScore * -1 }}</h4>
 						</b-col>
 
-						<footer class="fixed-bottom">
+						<footer class="fixed-bottom" v-if="displayFooter">
 							<b-row class="leaderSection" align-v="center" align-h="center">
 								<!-- HOME TEAM -->
 								<b-col class="col-4 scoreTeam text-left pl-3" :class="[{ scoreTeam1: leader && !tie }, {scoreTeamDormy: setDormyClass(dormy2) }]">
@@ -661,6 +661,7 @@
 
 	export default {
 		created() {
+			this.$route.name === "viewer" ? this.displayFooter = false : null 
             this.gameID = this.$route.query.id;
 			let userinfo = localStorage.getItem("userinfo");
 
@@ -781,6 +782,7 @@
 				overviewButtonClicked: false, 
 				authorized: false, 
 				status: "", 
+				displayFooter: true, 
 
 
 				//Fiktiv data nedan
