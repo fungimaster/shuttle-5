@@ -489,8 +489,7 @@
 							v-changeNanAndZero:arguments="{
                 score: holes.strokes
               }"
-						>{{ holes.strokes === 0 ? null : holes.strokes }}</td>
-						
+					>{{ holes.strokes === 0 ? null : holes.strokes }}  <span :class="[{ hideSlag: slagTable(0, index) === 0 ? true : false }, 'slagInTable']" >{{slagTable(0, index)}}</span></td>						
 					</tr>
 
 					<!-- SPELARE 2 -->
@@ -503,7 +502,7 @@
 							v-changeNanAndZero:arguments="{
                 score: holes.strokes
               }"
-						>{{ holes.strokes === 0 ? null : holes.strokes }}</td>
+						>{{ holes.strokes === 0 ? null : holes.strokes }}  <span :class="[{ hideSlag: slagTable(1, index) === 0 ? true : false }, 'slagInTable']" >{{slagTable(1, index)}}</span></td>
 						
 					</tr>
 
@@ -523,7 +522,7 @@
 							v-changeNanAndZero:arguments="{
                 score: holes.strokes
               }"
-						>{{ holes.strokes === 0 ? null : holes.strokes }}</td>
+						>{{ holes.strokes === 0 ? null : holes.strokes }}  <span :class="[{ hideSlag: slagTable(2, index) === 0 ? true : false }, 'slagInTable']" >{{slagTable(2, index)}}</span></td>
 					
 					</tr>
 
@@ -537,7 +536,7 @@
 							v-changeNanAndZero:arguments="{
                 score: holes.strokes
               }"
-						>{{ holes.strokes === 0 ? null : holes.strokes }}</td>
+						>{{ holes.strokes === 0 ? null : holes.strokes }}  <span :class="[{ hideSlag: slagTable(3, index ) === 0 ? true : false }, 'slagInTable']" >{{slagTable(3, index)}}</span></td>
 						
 					</tr>
 				</table>
@@ -565,7 +564,7 @@
 							v-changeNanAndZero:arguments="{
                 score: holes.strokes
               }"
-						>{{ holes.strokes === 0 ? null : holes.strokes }}</td>
+						>{{ holes.strokes === 0 ? null : holes.strokes }}  <span :class="[{ hideSlag: slagTable(0, index + 9) === 0 ? true : false }, 'slagInTable']" >{{slagTable(0, index +9)}}</span></td>
 					</tr>
 
 					<!-- SPELARE 2 -->
@@ -578,7 +577,7 @@
 							v-changeNanAndZero:arguments="{
                 score: holes.strokes
               }"
-						>{{ holes.strokes === 0 ? null : holes.strokes }}</td>		
+						>{{ holes.strokes === 0 ? null : holes.strokes }}  <span :class="[{ hideSlag: slagTable(1, index + 9) === 0 ? true : false }, 'slagInTable']" >{{slagTable(1, index +9)}}</span></td>		
 					</tr>
 
 					<tr class="emptyRow">
@@ -596,7 +595,7 @@
 							v-changeNanAndZero:arguments="{
                 score: holes.strokes
               }"
-						>{{ holes.strokes === 0 ? null : holes.strokes }}</td>		
+						>{{ holes.strokes === 0 ? null : holes.strokes }}  <span :class="[{ hideSlag: slagTable(2, index + 9) === 0 ? true : false }, 'slagInTable']" >{{slagTable(2, index +9)}}</span></td>	
 					</tr>
 
 					<!-- SPELARE 4 -->
@@ -609,7 +608,7 @@
 							v-changeNanAndZero:arguments="{
                 score: holes.strokes
               }"
-						>{{ holes.strokes === 0 ? null : holes.strokes }}</td>
+						>{{ holes.strokes === 0 ? null : holes.strokes }}  <span :class="[{ hideSlag: slagTable(3, index + 9) === 0 ? true : false }, 'slagInTable']" >{{slagTable(3, index +9)}}</span></td>
 					</tr>
 				</table>
 
@@ -648,6 +647,19 @@
 							</button>
 						</b-col>
 					</b-row>
+					<b-row align-v="center" no-gutters>
+						<b-col  v-if="!authorized && status !== 'Finished'" cols="12">
+							 <h5>QUIET <span class="lowerCase">Please! Match pågår </span></h5>
+							 <h5> <span class="lowerCase timeUpdated">Uppdaterad: {{updatedAt}}</span> <span v-if="updating"><b-spinner small type="grow" class="ml-2 mr-1 mb-1 red"> </b-spinner></span></h5>
+						</b-col >
+						<b-col cols="3"  v-if="!authorized"  v-for="{name}, index in players" >
+							<div class="displayNamesNoAuth">
+								<p>{{name}} </p>	
+								<p>{{slopedHcpPlayers[index]}} </p>	
+							</div>
+						</b-col>
+					</b-row>
+
 			</b-container>
 		</div>
 	</div>
@@ -659,6 +671,28 @@
 	import HcpModalVue from "./HcpModal.vue";
 	import TieBreakModalVue from "./TieBreakModal.vue";
 
+	import moment from 'moment';
+
+	moment.locale('sv');
+
+	moment.updateLocale('sv', {
+	    relativeTime : {
+	        future: "om %s",
+	        past:   "%s",
+	        ss : '%d sek',
+	        m:  "1 minut",
+	        mm: "%d min",
+	        h:  "en timme",
+	        hh: "%d timmar",
+	        d:  "en dag",
+	        dd: "%d dagar",
+	        M:  "en månad",
+	        MM: "%d mån",
+	        y:  "ett år",
+	        yy: "%d år"
+	    }
+	});
+
 	export default {
 		created() {
             this.gameID = this.$route.query.id;
@@ -667,6 +701,7 @@
 			//ej Inloggad
 			if (!userinfo) {
 				this.authorized = false
+				this.refreshGame() 
 				return
 			}
 
@@ -691,11 +726,14 @@
                             }
                         }
 
-                })
+				})
+				.then( () => {
+					this.refreshGame() 
+				})
                 .catch(error => {
                     console.log(error)
 				})
-				
+
 		},
 		components: {
 			appScoring: ScoringVue,
@@ -781,6 +819,8 @@
 				overviewButtonClicked: false, 
 				authorized: false, 
 				status: "", 
+				updating: true, 
+				updatedAt: null,
 
 
 				//Fiktiv data nedan
@@ -1085,6 +1125,25 @@
 				//holeWinner används för att visa hålvinnare.
 				this.holeWinner = matchScore;
 
+				//POSTAR IN SCORE HÄR SÅ MAN KOMMER ÅT DET SOM UNAUTH TITTARE
+				if (this.winnerDeclared && this.nameCount[this.activeHole-1].length === 5 && this.status !== "Finished") {
+					(async () => {
+  						const data = {
+						_id: this.gameID,
+						scorecard: this.players,
+						};
+
+						const url = "https://admin.matchplay.se/methods/updateGame";
+						try {
+							let response = await axios.post(url, data);
+						} catch (e) {
+							error => console.log(error);
+						}
+						})()
+						
+				}
+
+
 				matchScore.forEach(subtractedScore => {
 					if (subtractedScore != 0) {
 						if (subtractedScore > 0) {
@@ -1284,6 +1343,21 @@
 			
 		},
 		methods: {
+			refreshGame() {
+								
+				this.updatedAt = moment().format('LTS'); 
+
+				setTimeout(() => {
+					if (this.status === "Finished") {
+					return
+					}
+					if(this.authorized) {
+						return
+					}
+					location.reload();
+				}, 120000);
+				
+			},
 			setDormyClass (dormy) {
 				if(dormy !== '' && this.setTieBreak === false) {
 					return true
@@ -1368,7 +1442,6 @@
                  
 					const [ hcp1, hcp2, hcp3, hcp4 ] = response.data.scorecard
 					this.hcpUnmutated = [ hcp1.orghcp, hcp2.orghcp, hcp3.orghcp, hcp4.orghcp ]
-                    //console.log("getGameData -> this.hcpUnmutated ", this.hcpUnmutated )
 					
 					//lägger till golf-id på this.players för att kunna använda dessa i vid uppräkning i nameCount
 					const golfId = [response.data.hometeamleadergolfid, response.data.hometeammembergolfid, response.data.awayteamleadergolfid, response.data.awayteammembergolfid,   ]
@@ -1442,6 +1515,8 @@
 			
 				try {
 					let response = await axios.post(url, data);
+					//sätter lokal status till Finished för att protokollförare inte ska kunna skicka in in progress igen genom att byta hål. 
+					this.status = winnerStatus
 				} catch (e) {
 					error => console.log(error);
 				}
@@ -1463,6 +1538,11 @@
 					error => console.log(error);
 				}
 
+			},
+			slagTable(playerIndex, holeIndex) {
+				// skickar tillbaka slag för den spelare och hålindex man skickar in. 
+				let slag = this.course.find(e => e.hole === holeIndex +1);
+				return slag.slag[playerIndex];
 			},
 			async resetGame() {
 
@@ -1597,6 +1677,10 @@
 			},
 	
 			async saveData() {
+				//hindrar att status byts om man öppnar sin egna avslutade match och bröjar byta hål. 
+				if (this.status === "Finished") {
+					return;
+				}
 				
 				const data = {
 					_id: this.gameID,
@@ -1792,6 +1876,33 @@
 	}
 
 	/* leader board */
+	.displayNamesNoAuth {
+		background-color: $masters-green;
+		color: white; 
+		padding: 5px; 
+		padding-bottom: 0;
+		margin-left: 1px; 
+		margin-right: 1px; 
+		border-radius: 5px;
+		font-size: 14px;
+		min-height: 48px;
+		font-size: clamp(
+			14px,      /*min */
+			2vw,      /*value */
+			20px   /*max */
+		);
+	
+	}
+	.displayNamesNoAuth, p {
+		margin-bottom: 3px; 
+	}
+	.lowerCase {
+		text-transform: none;
+	}
+
+	.timeUpdated {
+		font-size: 13px;
+	}
 
 	.initialsTeam1 {
 		color: #fd9b37;
@@ -1892,6 +2003,13 @@
 		background-color: #69b3fe;
 		color: white;
 	}
+	.slagInTable {
+		vertical-align: text-top;
+		font-size: 6px;
+		line-height: 6px;
+		margin-left: -2px;
+	}
+
 
 	/* HEADER ROW */
 	.holeRow {
