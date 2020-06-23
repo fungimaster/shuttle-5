@@ -478,6 +478,10 @@
 						<th>Par:</th>
 						<td v-for="hole in course.slice(0, 9)" :key="hole.index">{{ hole.par }}</td>
 					</tr>
+					<tr>
+						<th>Index:</th>
+						<td v-for="hole in course.slice(0, 9)" :key="hole.index">{{ hole.index }}</td>
+					</tr>
 
 					<!--  SPELARE 1 -->
 					<tr v-for="player in players.slice(0, 1)" :key="player.index">
@@ -552,6 +556,10 @@
 						<th>Par:</th>
 						<td v-for="hole in course.slice(9, 18)" :key="hole.index">{{ hole.par }}</td>
 						
+					</tr>
+					<tr>
+						<th>Index:</th>
+						<td v-for="hole in course.slice(9, 18)" :key="hole.index">{{ hole.index }}</td>
 					</tr>
 
 					<!-- SPELARE 1 -->
@@ -1986,6 +1994,10 @@
 		color: white;
 	}
 	tr:nth-child(2) {
+		background: #195a3a;
+		color: white;
+	}
+	tr:nth-child(3) {
 		background: #195a3a;
 		color: white;
 	}
