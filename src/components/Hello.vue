@@ -127,7 +127,7 @@
                         <b-row v-if="gamescount === 0 && !loadinggames">
                           <b-col class="col-12 mt-3">
                             
-                            <p v-if="hasnextgame">
+                            <p v-if="hasnextgame && gamescount === 0">
                               <strong>Nästa match:</strong> {{lastname(nextgame.hometeamleadername)}} & {{lastname(nextgame.hometeammembername)}} vs {{lastname(nextgame.awayteamleadername)}} & {{lastname(nextgame.awayteammembername)}}
                                {{getgamedate2(nextgame.gamedate,nextgame.gametime)}} på <span v-if="nextgame.clubname">{{nextgame.clubname}}</span><span v-if="!nextgame.clubname">Golfklubb saknas</span>.
                              </p>
