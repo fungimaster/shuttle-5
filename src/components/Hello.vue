@@ -275,14 +275,14 @@
                           </b-tab>
                            <b-tab title-link-class="ml-2">
                               <template v-slot:title>
-                             <span class="d-none d-sm-block">SPELADE <span v-if="updating3"><b-spinner small class="ml-1 mr-1 mb-1"></b-spinner></span><span v-else>({{gamescount3}})</span></span>
+                             <span class="d-none d-sm-block">SPELADE <span v-if="updating3"><b-spinner small class="ml-1 mr-1 mb-1"></b-spinner></span></span>
                              <span class="d-sm-none small-tabs"><i class="fal fa-check"></i> <span v-if="updating3"><b-spinner small class="ml-1 mr-1 mb-1"></b-spinner></span><span v-else>({{gamescount3}})</span></span>
                             </template> 
                                    <!--FINISHED GAMES -->
                       <b-col xs="12" sm="12" class="mt-4 mt-md-4">
 
                         <span class="float-right" style="cursor:pointer;" v-on:click="updategames()"><i class="far fa-sync-alt"></i></span>
-                       <h4>Spelade - {{active_round}} <span v-if="updating1"><b-spinner small type="grow" class="ml-2 mr-1 mb-1 red"></b-spinner>...</span></h4>
+                       <h4>Spelade - {{active_round}} <span v-if="updating3"><b-spinner small type="grow" class="ml-2 mr-1 mb-1 red"></b-spinner>...</span><span v-else>({{gamescount3}})</span></h4>
                         <p hidden>Inom kort kommer bokade matcher visas här samt annan information om lagen!</p>
                        
                         <b-row class="mb-4 mt-4">
@@ -355,6 +355,47 @@
                          </b-row>                                         
                      </b-col>
                           </b-tab>
+
+                            <!-- topplista klubbar... -->
+                        <b-tab title-link-class="ml-2">
+                             
+                             <template v-slot:title>
+                             <span class="d-none d-sm-block">STATISTIK</span>
+                              <span class="d-sm-none small-tabs"><i class="fal fa-chart-line"></i></span>
+                            </template> 
+                                                                
+                      <b-col xs="12" sm="12" class="mt-4 mt-md-4">
+
+
+                       <h4>STATISTIK</h4>
+                       <p class="mt-3">
+                         Vilka golfklubbar kommer in på <strong>topp-20-listan</strong> över spelade matcher på sina banor? Se nedan <i class="fal fa-smile"></i>
+                       </p>
+                        <b-row>                         
+                             <b-col class="col-10 col-md-10 mr-0 pr-0 mb-2">
+                               <strong>Golfklubb</strong>
+                             </b-col>
+                          <b-col class="col-2 col-md-2 text-right mb-2">          
+                            <strong>Antal</strong>
+                          </b-col>                                
+                        </b-row>
+                         <b-row v-for="(club,idx) in clubs" :key="idx" class="mb-2">
+                          <b-col class="col-10 col-md-10 mr-0 pr-0" v-bind:class="{no1: idx === 0, no2: idx === 1, no3: idx === 2 }">
+                              <span class="line" >{{idx+1}}. {{truncate(club.club)}}</span>
+                          </b-col>
+                          <b-col class="col-2 col-md-2 text-right" v-bind:class="{no1: idx === 0, no2: idx === 1, no3: idx === 2 }">          
+                            <span class="line">({{club.count}})</span>
+                          </b-col>                         
+                        </b-row>
+                      
+                        
+                                        
+
+                      
+                                      
+                     </b-col>
+                          </b-tab>
+                          <!-- end -->
 
                           <!-- träd... -->
                         <b-tab title-link-class="ml-2">
@@ -1044,7 +1085,7 @@ components: {
         //console.log("ROUTE", this.$route.query.resetpw)
 
         this.$store.dispatch('updateUserInfo');
-        //this.getTopListClubs();
+        this.getTopListClubsPlayed();
         this.getGamesInprogress('initial'); //in progress
         //this.getGamesPending(); //pending
         //this.getGamesFinished('Omgång 2'); //finished
@@ -1439,6 +1480,25 @@ components: {
                         console.log(error);
                     });
       },
+      getTopListClubsPlayed() {
+
+                //loading
+                this.value = 5;
+                
+                this.axios.post('https://matchplay.meteorapp.com/methods/' + 'getTopClubsPlayed', {    //getclubstoplist                   
+                        "competition":"sFAc3dvrn2P9pXHAz",
+	                      "no":20
+                    })
+                    .then(response => {
+                        //console.log(response.data)                        
+                        this.clubs = response.data;                        
+                      
+
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+      },
      countDownChanged(dismissCountDown) {
         this.dismissCountDown = dismissCountDown
       },
@@ -1676,6 +1736,12 @@ trylogin()
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
+
+.no1 {
+  background-color: $gold;
+}
+
+
 
 p.inactive-round {
   text-decoration:line-through;
