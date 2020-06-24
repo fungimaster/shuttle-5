@@ -1,6 +1,10 @@
 <template>
 	<div>
-		<b-container class>
+		<div v-if="loadingSpinner"  class="text-center min-vh-100">
+	 		<b-spinner big type="grow" class="align-items-center m-5" style="width: 5rem; height: 5rem;"></b-spinner>
+		</div>
+
+		<b-container class  v-if="!loadingSpinner">
 			<b-row class="justify-content-center" align-h="center">
 				<b-col md="6" class="p-0">
 					<b-container class v-if="!overview" id="landscape">
@@ -391,9 +395,8 @@
 				</b-col>
 			</b-row>
 		</b-container>
-
 		<!--  LEADER BOARD -->
-		<div>
+		<div  v-if="!loadingSpinner">
 			<b-container id="overview" v-if="overview">
 			
 				<b-row class="pt-3" align-v="center" align-h="center">
@@ -785,7 +788,7 @@
 				authorized: false, 
 				status: "", 
 				viewedInModal: false, 
-
+				loadingSpinner: true, 
 
 				//Fiktiv data nedan
 				course: [
@@ -1256,7 +1259,7 @@
 						hole.par = this.course[index].par;
 					});
 				});
-
+				this.loadingSpinner = false
 				//gör så att hcpmodal visas en gång när sidan hämtas men inte varje gång översiken hämtas. 
 				if (this.status === "Finished") {
 						this.overview = false
