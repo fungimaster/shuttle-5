@@ -173,6 +173,9 @@ export default new Router({
     if (to.hash && to.name === "Faq") {
       return { selector: to.hash }
     }
+    if (to.name === "viewer" || from.name === "viewer"){
+      return savedPosition;
+   }
     else if (savedPosition) {
       return savedPosition;
     }
