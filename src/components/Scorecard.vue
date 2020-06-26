@@ -1,6 +1,10 @@
 <template>
 	<div>
-		<b-container class>
+		<div v-if="loadingSpinner"  class="text-center min-vh-100">
+	 		<b-spinner big type="grow" class="align-items-center m-5" style="width: 5rem; height: 5rem;"></b-spinner>
+		</div>
+
+		<b-container class  v-if="!loadingSpinner">
 			<b-row class="justify-content-center" align-h="center">
 				<b-col md="6" class="p-0">
 					<b-container class v-if="!overview" id="landscape">
@@ -21,7 +25,7 @@
 							<b-col class="col-8 text-center p-0">
 								<b-row>
 									<b-col xs="4" class="pl-2 pr-0 text-right">
-										<span class="holepar">Par: {{ par }}</span>
+										<span class="holepar" :class="{holeparModal: viewedInModal}">Par: {{ par }}</span>
 									</b-col>
 									<b-col xs="4" class="p-0 pr-1 pl-1">
 										<span class="activeHole">{{ activeHole }}</span>
@@ -165,7 +169,7 @@
 									<b-col xs="6" class="playerNameContainer">
 										<p class="playerName">{{ player.name }}</p>
 
-										<div class="playerInfo">
+										<div class="playerInfo" :class="{playerInfoModal: viewedInModal}">
 											<span>SHCP {{ slopedHcpPlayers[index] }}</span>
 											<span
 												:class="{ hideSlag: slag(index) === 0 ? true : false }"
@@ -234,7 +238,7 @@
 									<b-col xs="6" class="playerNameContainer">
 										<p class="playerName">{{ player.name }}</p>
 
-										<div class="playerInfo">
+										<div class="playerInfo" :class="{playerInfoModal: viewedInModal}">
 											<span>SHCP {{ slopedHcpPlayers[index + 2] }}</span>
 											<span
 												:class="{ hideSlag: slag(index + 2) === 0 ? true : false }"
@@ -300,10 +304,11 @@
 							<b-col class="col-6">
 								<b-button
 									class="btn-md pl-3 pr-3 bottombuttons"
+									:class="{bottombuttonsModal: viewedInModal}"
 									variant="primary"
 									@click="overview = !overview, overviewButtonClicked = true"
 								>
-									<span class="material-icons">reorder</span> Översikt
+									<span class="material-icons" v-if="!viewedInModal">reorder</span> Översikt
 								</b-button>
 							</b-col>
 							<b-col class="col-6 text-right">
@@ -311,11 +316,12 @@
 									v-if="activeHole < 18"
 									id="nextHole"
 									class="btn-md pl-3 pr-3 bottombuttons"
+									:class="{bottombuttonsModal: viewedInModal}"
 									variant="primary"
 									@click="activeHole++, saveData(), makeToast('success'), currentStrokes(activeHole), sendInProgress()"
 								>
 									Nästa hål
-									<span class="material-icons">arrow_forward_ios</span>
+									<span class="material-icons" v-if="!viewedInModal">arrow_forward_ios</span>
 								</b-button>
 							</b-col>
 						</b-row>
@@ -340,7 +346,7 @@
 							<h4 v-if="!leader && !tie">{{ matchScore * -1 }}</h4>
 						</b-col>
 
-						<footer class="fixed-bottom">
+						<footer class="fixed-bottom" v-if="!viewedInModal">
 							<b-row class="leaderSection" align-v="center" align-h="center">
 								<!-- HOME TEAM -->
 								<b-col class="col-4 scoreTeam text-left pl-3" :class="[{ scoreTeam1: leader && !tie }, {scoreTeamDormy: setDormyClass(dormy2) }]">
@@ -389,14 +395,13 @@
 				</b-col>
 			</b-row>
 		</b-container>
-
 		<!--  LEADER BOARD -->
-		<div>
+		<div  v-if="!loadingSpinner">
 			<b-container id="overview" v-if="overview">
 			
 				<b-row class="pt-3" align-v="center" align-h="center">
 					<!-- HOME TEAM -->
-					<b-col class="col-4 scoreTeam text-left pl-3" :class="[{ scoreTeam1: leader && !tie }, {scoreTeamDormy: setDormyClass(dormy2)}]">
+					<b-col class="col-4 scoreTeam text-left pl-3" :class="[{ scoreTeam1: leader && !tie }, {scoreTeamDormy: setDormyClass(dormy2)},  {scoreTeamModal: viewedInModal}]">
 						<span
 							style="float:left;"
 						
@@ -431,7 +436,7 @@
 					</b-col>
 
 					<!-- away team -->
-					<b-col class="col-4 scoreTeam text-right pr-3" :class="[{ scoreTeam2: !leader && !tie }, {scoreTeamDormy: setDormyClass(dormy1)}]">
+					<b-col class="col-4 scoreTeam text-right pr-3" :class="[{ scoreTeam2: !leader && !tie }, {scoreTeamDormy: setDormyClass(dormy1)}, {scoreTeamModal: viewedInModal}]">
 						<i v-if="!tie && winnerDeclared && !leader" class="material-icons pb-1 pr-1">emoji_events</i>
 						<span
 							:style="(dormy1 === '') || (setTieBreak === true) ? 'float:right' : 'float:left'"
@@ -661,6 +666,7 @@
 
 	export default {
 		created() {
+			this.$route.name === "viewer" ? this.viewedInModal = true : null 
             this.gameID = this.$route.query.id;
 			let userinfo = localStorage.getItem("userinfo");
 
@@ -781,7 +787,8 @@
 				overviewButtonClicked: false, 
 				authorized: false, 
 				status: "", 
-
+				viewedInModal: false, 
+				loadingSpinner: true, 
 
 				//Fiktiv data nedan
 				course: [
@@ -1252,7 +1259,7 @@
 						hole.par = this.course[index].par;
 					});
 				});
-
+				this.loadingSpinner = false
 				//gör så att hcpmodal visas en gång när sidan hämtas men inte varje gång översiken hämtas. 
 				if (this.status === "Finished") {
 						this.overview = false
@@ -2018,6 +2025,10 @@
 		text-align: left;
 		line-height: 1px;
 	}
+	.playerInfoModal {
+			//skriver över .playerIndo om scorecard visas i Modal.
+			font-size: 10px;
+		}
 	.playerTotalScore {
 		margin-top: 8px !important;
 		text-align: left;
@@ -2105,6 +2116,10 @@
 	}
 	.scoreTeam {
 		font-size: 0.7em;
+	}
+	.scoreTeamModal {
+		//skriver over scoreTeam ovan om Scorevard öppnad i modal
+		font-size: 0.6em;
 	}
 
 	.scoreTeam span {
@@ -2225,8 +2240,11 @@
 	.scoreTeamDormy {
 			font-size: 0.4em !important; 
 		
-
-		}	
+	}	
+	.bottombuttonsModal {
+	///skriver över bottombuttons omm visas som modal	
+		font-size: 14px;
+	}
 }
 	
 @media only screen and (max-width: 352px) {
@@ -2272,10 +2290,24 @@
 		.playerInfo {
 			font-size: 0.5em;
 		}
+		.playerInfoModal {
+			//skriver över .playerIndo om scorecard visas i Modal.
+			font-size: 6px;
+		}
 
 		.bottombuttons {
 			font-size: 0.7em;
 		}
+		.bottombuttonsModal {
+			///skriver över bottombuttons omm visas som modal	
+			font-size: 9px !important;
+		}
+		.scoreTeamModal {
+		//skriver over scoreTeam ovan om Scorevard öppnad i modal
+			font-size: 0.5em;
+		}
+
+	
 
 		//sätter höger-pilen lite längre högerut på iphone5
 		.rightArrowCol {
@@ -2289,6 +2321,12 @@
 			table-layout: fixed;
     		font-size: 8px;
 		}
+
+		.holeparModal {
+			///skriver över holepar omm visas som modal	
+			font-size: 13px;
+		}
+		
 	
 	}
 
