@@ -196,7 +196,7 @@
                                    <span v-if="game.status != 'Finished' && game.winner && game.gamedate"><i class="material-icons mr-2 mb-1">schedule</i>{{game.gamedate}} | {{game.gametime}}</span>
                                    <span v-if="game.status === 'Pending' && game.gamedate"><i class="material-icons mr-2 mb-1">schedule</i>{{getgamedate2(game.gamedate,game.gametime)}}</span>
                                    <span v-if="game.status === 'Finished' && game.finishedAt"><i class="material-icons mr-2 mb-1 green">check_circle_outline</i>{{getgamedate2(game.gamedate)}} sedan</span>
-                                   <span v-if="game.status != 'Finished'"> | <a target="_blank" :href="`scorecard?id=${game._id}`"><i class="fal fa-list"></i> scorekort</a></span>
+                                   <span v-if="game.status != 'Finished'"> | <router-link  @click="modalShow = !modalShow"  :to="`viewer?id=${game._id}`">   <i class="fal fa-list"></i> scorekort </router-link></span>
                                 </b-col>
                              </b-row>                             
                           </b-col>
