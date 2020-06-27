@@ -369,8 +369,9 @@
 
                        <h4>STATISTIK</h4>
                        <p class="mt-3">
-                         Vilka golfklubbar kommer in på <strong>topp-20-listan</strong> över spelade matcher på sina banor? Se nedan <i class="fal fa-smile"></i>
+                         Vilka golfklubbar kommer in på <strong>topp-20-listan</strong> över spelade matcher på sina banor? Se nedan <i class="fal fa-smile"></i>                         
                        </p>
+                       <p>Inom kort kommer vi även presentera <strong>birdieligan</strong> på denna sida!</p>                    
                         <b-row>                         
                              <b-col class="col-10 col-md-10 mr-0 pr-0 mb-2">
                                <strong>Golfklubb</strong>
@@ -379,7 +380,7 @@
                             <strong>Antal</strong>
                           </b-col>                                
                         </b-row>
-                         <b-row v-for="(club,idx) in clubs" :key="idx" class="mb-2">
+                         <b-row v-for="(club,idx) in clubs" :key="idx" class="mb-2" v-bind:class="{ greybg: idx % 2 === 0 }">
                           <b-col class="col-10 col-md-10 mr-0 pr-0" v-bind:class="{no1: idx === 0, no2: idx === 1, no3: idx === 2 }">
                               <span class="line" >{{idx+1}}. {{truncate(club.club)}}</span>
                           </b-col>
