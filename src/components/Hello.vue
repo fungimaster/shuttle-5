@@ -276,7 +276,7 @@
                            <b-tab title-link-class="ml-2">
                               <template v-slot:title>
                              <span class="d-none d-sm-block">SPELADE <span v-if="updating3"><b-spinner small class="ml-1 mr-1 mb-1"></b-spinner></span></span>
-                             <span class="d-sm-none small-tabs"><i class="fal fa-check"></i> <span v-if="updating3"><b-spinner small class="ml-1 mr-1 mb-1"></b-spinner></span><span v-else>({{gamescount3}})</span></span>
+                             <span class="d-sm-none small-tabs"><i class="fal fa-check"></i> <span v-if="updating3"><b-spinner small class="ml-1 mr-1 mb-1"></b-spinner></span></span>
                             </template> 
                                    <!--FINISHED GAMES -->
                       <b-col xs="12" sm="12" class="mt-4 mt-md-4">
