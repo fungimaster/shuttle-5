@@ -660,7 +660,7 @@
 							 <h5>QUIET <span class="lowerCase">Please! Match pågår </span></h5>
 							 <h5> <span class="lowerCase timeUpdated">Uppdaterad: {{updatedAt}}</span> <span v-if="updating"><b-spinner small type="grow" class="ml-2 mr-1 mb-1 red"> </b-spinner></span></h5>
 						</b-col >
-						<b-col cols="3"  v-if="!authorized"  v-for="{name}, index in players" >
+						<b-col cols="3" v-if="!authorized" v-for="{name}, index in players">
 							<div class="displayNamesNoAuth">
 								<p>{{name}} </p>	
 								<p>SHCP: {{slopedHcpPlayers[index]}} </p>	
