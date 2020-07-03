@@ -663,7 +663,7 @@
 						<b-col cols="3"  v-if="!authorized"  v-for="{name}, index in players" >
 							<div class="displayNamesNoAuth">
 								<p>{{name}} </p>	
-								<p>{{slopedHcpPlayers[index]}} </p>	
+								<p>SHCP: {{slopedHcpPlayers[index]}} </p>	
 							</div>
 						</b-col>
 					</b-row>
