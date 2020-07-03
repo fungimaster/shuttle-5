@@ -30,7 +30,18 @@ export default new Router({
     {
       path: '/',
       name: 'Start',
-      component: Hello
+      component: Hello,
+      children: [
+        {
+          path: '/viewer',
+          name: 'viewer',
+          component: Scorecard,
+          props: true,
+          meta: {
+            modalShow: true
+            }
+        },
+      ]
     },
     {
       path: '/tickets',
@@ -80,8 +91,9 @@ export default new Router({
     {
       path: '/scorecard',
       name: 'Scorecard',
-      component: Scorecard
+      component: Scorecard,
     },
+   
     {
       path: '/game',
       name: 'Game',
@@ -161,6 +173,9 @@ export default new Router({
     if (to.hash && to.name === "Faq") {
       return { selector: to.hash }
     }
+    if (to.name === "viewer" || from.name === "viewer"){
+      return savedPosition;
+   }
     else if (savedPosition) {
       return savedPosition;
     }
