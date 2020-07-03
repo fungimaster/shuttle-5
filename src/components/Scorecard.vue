@@ -827,9 +827,10 @@
 				overviewButtonClicked: false, 
 				authorized: false, 
 				status: "", 
+				viewedInModal: false, 
+				loadingSpinner: true, 
 				updating: true, 
-				updatedAt: null,
-
+				updatedAt: null,				
 
 				//Fiktiv data nedan
 				course: [
