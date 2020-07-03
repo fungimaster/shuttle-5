@@ -141,6 +141,12 @@
                           </b-col>
                          
                         </b-row>
+                        
+                         <b-row v-if="gamescount > 0" class="mt-2 mb-2">
+                           <b-col>
+                             <small>Sidan uppdateras automatiskt...</small>
+                           </b-col>
+                         </b-row>
 
                          <b-row v-if="gamescount > 0" class="">
                           <b-col v-for="(game,idx1) in games" :key="idx1" xs="12" sm="12" class="pt-3 pb-3 pl-md-2 pr-md-2 game" v-bind:class="{ greybg: idx1 % 2 === 0 }">                            

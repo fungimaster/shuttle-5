@@ -661,10 +661,11 @@
 						</b-col>
 					</b-row>
 					<b-row align-v="center" no-gutters>
-						<b-col  v-if="!authorized && status !== 'Finished'" cols="12">
-							 <h5>QUIET <span class="lowerCase">Please! Match pågår </span></h5>
-							 <h5> <span class="lowerCase timeUpdated">Uppdaterad: {{updatedAt}}</span> <span v-if="updating"><b-spinner small type="grow" class="ml-2 mr-1 mb-1 red"> </b-spinner></span></h5>
-						</b-col >
+						<b-col v-if="!authorized && status !== 'Finished'" cols="12">
+							 <h5>QUIET <span class="lowerCase">Please! Match pågår (startade {{gametime}}) </span></h5>
+							 <h5> <span class="lowerCase timeUpdated">Uppdaterad: {{updatedAt}}</span> <span v-if="updating"><b-spinner small type="grow" class="hidden ml-2 mr-1 mb-1 red"> </b-spinner></span></h5>
+						</b-col>						
+
 						<b-col cols="3" v-if="!authorized" v-for="{name}, index in players">
 							<div class="displayNamesNoAuth">
 								<p>{{name}} </p>	
@@ -715,7 +716,7 @@
 			//ej Inloggad
 			if (!userinfo) {
 				this.authorized = false
-				this.refreshGame() 
+				this.refreshGame();
 				return
 			}
 
@@ -836,7 +837,8 @@
 				viewedInModal: false, 
 				loadingSpinner: true, 
 				updating: true, 
-				updatedAt: null,				
+				updatedAt: null,		
+				gametime: '',		
 
 				//Fiktiv data nedan
 				course: [
@@ -1358,11 +1360,14 @@
 			
 		},
 		methods: {
+			refreshGame2() {
+				this.getGameData();				
+			},
 			refreshGame() {
 								
-				this.updatedAt = moment().format('LTS'); 
+				this.updatedAt = moment().format('LTS');
 
-				setTimeout(() => {
+/* 				setTimeout(() => {
 					if (this.status === "Finished") {
 					return
 					}
@@ -1370,7 +1375,7 @@
 						return
 					}
 					location.reload();
-				}, 120000);
+				}, 120000); */
 				
 			},
 			setDormyClass (dormy) {
@@ -1453,7 +1458,8 @@
 					this.course = response.data.holes;
 					this.players  = response.data.scorecard
 					this.homeTeamId = response.data.hometeam
-					this.awayTeamId = response.data.awayteam     
+					this.awayTeamId = response.data.awayteam
+					this.gametime = response.data.gametime
                  
 					const [ hcp1, hcp2, hcp3, hcp4 ] = response.data.scorecard
 					this.hcpUnmutated = [ hcp1.orghcp, hcp2.orghcp, hcp3.orghcp, hcp4.orghcp ]
