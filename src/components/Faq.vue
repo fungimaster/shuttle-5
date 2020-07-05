@@ -149,10 +149,8 @@ Vid omstart hål 1 (alt. Hål 10) så gäller det att det finns plats såklart. 
 						<div class="section" id="11">
 							<h3 class="pt-5">11. SPELDAGAR</h3>
 							<p>
-								Från omgång ett ända fram till finalen finns tidsramar för respektive omgång. Det är av största vikt att Ni som deltagare utgår från att kunna avsätta minst en runda golf inom de veckor som omgången gäller. Ni kommer via vårt system få mail skickade till er med all nödvändig info kring kontakten med era motståndare. Oavsett om ni är hemma- eller bortalag så ansvarar bägge lagen för att kontakt skapas och tid bokas. Kan inte lagen komma överens om lämplig tidpunkt eller bana skall lagkaptenen i det lag som har fördel av hemmabana kontakta tävlingsledningen. Ha även med er att ni kan använda er av en reserv för att lösa er match. Reserv anmäler ni till oss på
-								<a
-									href="info@matchplay.se"
-								>info@matchplay.se</a> så fort ni vet att en reserv behövs, gärna i god tid innan matchen ska spelas så vi hinner ändra i systemet. Har man bestämt tid för spel (datum och klockslag) och något lag sedan, oberoende av orsak, vill byta tid (inom deadline för omgången) är det upp till motståndarlaget att gå med på detta. Blir man ej överens om ny tid och matchen ej spelas, vinner det lag som är berett på spel på den ursprungliga tiden - på WO.
+								Från omgång ett ända fram till finalen finns tidsramar för respektive omgång. Det är av största vikt att Ni som deltagare utgår från att kunna avsätta minst en runda golf inom de veckor som omgången gäller. Ni kommer via vårt system få mail skickade till er med all nödvändig info kring kontakten med era motståndare. Oavsett om ni är hemma- eller bortalag så ansvarar bägge lagen för att kontakt skapas och tid bokas. Kan inte lagen komma överens om lämplig tidpunkt eller bana skall lagkaptenen i det lag som har fördel av hemmabana kontakta tävlingsledningen. Ha även med er att ni kan använda er av en reserv för att lösa er match.</p><p>Reserv anmäler ni under LAGFLIKEN på din sida. Klicka på knappen "välj reserv" och följ instruktionerna. Reserven behöver anmälas INNAN matchen och scorekortet startas. Om reserv finns väljs denna när matchen startas.</p>
+								<p>Har man bestämt tid för spel (datum och klockslag) och något lag sedan, oberoende av orsak, vill byta tid (inom deadline för omgången) är det upp till motståndarlaget att gå med på detta. Blir man ej överens om ny tid och matchen ej spelas, vinner det lag som är berett på spel på den ursprungliga tiden - på WO.
 							</p>
 						</div>
 
@@ -168,10 +166,9 @@ Vid omstart hål 1 (alt. Hål 10) så gäller det att det finns plats såklart. 
 						<div class="section" id="13">
 							<h3 class="pt-5">13. ERSÄTTARE/RESERV</h3>
 							<p>
-								I Matchplay är det okej att använda sig av en reserv. Reserv anmäler ni till oss på
-								<a
-									href="info@matchplay.se"
-								>info@matchplay.se</a> så fort ni vet att en reserv behövs, gärna i god tid innan matchen ska spelas så vi hinner ändra i systemet.. Är inte reserv anmäld i systemet och laget spelar med reserv kan laget bli diskvalificerat. Reservinträde skall också meddelas motståndarna innan spel, när reserv deltager i tävlingen. Man får bara använda sig av en reserv (samma person). Denna reserv kan komplettera laget vid behov under hela tävlingen. Observera att reserv inte får spela i annat deltagande lag som fortfarande är med i tävlingen. Har man åkt ur tävlingen kan och får man gå in som reserv i annat lag.
+								I Matchplay är det okej att använda sig av en reserv.
+								<p>Reserv anmäler ni under LAGFLIKEN på din sida. Klicka på knappen "välj reserv" och följ instruktionerna. Reserven behöver anmälas INNAN matchen och scorekortet startas. Om reserv finns väljs denna när matchen startas.</p>
+							    Är inte reserv anmäld i systemet och laget spelar med reserv kan laget bli diskvalificerat. Reservinträde skall också meddelas motståndarna innan spel, när reserv deltager i tävlingen. Man får bara använda sig av en reserv (samma person). Denna reserv kan komplettera laget vid behov under hela tävlingen. Observera att reserv inte får spela i annat deltagande lag som fortfarande är med i tävlingen. Har man åkt ur tävlingen kan och får man gå in som reserv i annat lag.
 							</p>
 						</div>
 

@@ -31,7 +31,13 @@
                 <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
              </b-alert>
 
-             <b-alert v-if="closed" show class="mt-4 small" variant="warning">
+
+              <b-alert v-if="closed" show class="mt-4 small" variant="warning">
+                Omgång 3 lottas under måndagen den 6 juli, håll utkik här på hemsidan eller på <a href="https://www.facebook.com/matchplaysweden/">facebook</a> för uppdateringar om nya matcher och speldatum för nästa omgång!
+                <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
+             </b-alert>
+
+             <b-alert v-if="closed" hidden class="mt-4 small" variant="warning">
                 Omgång 2 spelas mellan 15/6 - 5/7. <a href="#games">Se matcher längre ner!</a><br>
                 Nyheter och aktuell info om tävlingen ses bäst på vår <a href="https://www.facebook.com/matchplaysweden/">facebooksida</a>.
                 <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
@@ -302,9 +308,10 @@
                             <b-button hidden size="sm" v-on:click="getGamesFinished('button','all')" variant="primary">Alla</b-button>
                            
                             <b-button size="sm" v-on:click="getGamesFinished('button','Omgång 1')" variant="primary">Omgång 1</b-button>                           
-                            <b-button size="sm" v-on:click="getGamesFinished('button','Omgång 2')" variant="primary">Omgång 2</b-button>      
+                            <b-button size="sm" v-on:click="getGamesFinished('button','Omgång 2')" variant="primary">Omgång 2</b-button> 
+                            <b-button size="sm" v-on:click="getGamesFinished('button','Omgång 3')" variant="primary">Omgång 3</b-button>      
                                                 
-                            <b-button hidden size="sm" v-on:click="getGamesFinished('button','Omgång 2')" variant="primary">Omgång 2 AC</b-button>                            
+                            <b-button hidden size="sm" v-on:click="getGamesFinished('button','Omgång 3')" variant="primary">Omgång 2 AC</b-button>                            
                           </b-col>
                         </b-row>
 
@@ -985,7 +992,7 @@ components: {
 
       //TABS
       tabIndex: 0,
-      active_round:'Omgång 2',
+      active_round:'Omgång 3',
       
       //PENDING GAMES
       loadinggames2: true,
