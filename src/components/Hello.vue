@@ -32,13 +32,13 @@
              </b-alert>
 
 
-              <b-alert v-if="closed" show class="mt-4 small" variant="warning">
+              <b-alert v-if="closed" hidden class="mt-4 small" variant="warning">
                 Omgång 3 lottas under måndagen den 6 juli, håll utkik här på hemsidan eller på <a href="https://www.facebook.com/matchplaysweden/">facebook</a> för uppdateringar om nya matcher och speldatum för nästa omgång!
                 <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
              </b-alert>
 
-             <b-alert v-if="closed" hidden class="mt-4 small" variant="warning">
-                Omgång 2 spelas mellan 15/6 - 5/7. <a href="#games">Se matcher längre ner!</a><br>
+             <b-alert v-if="closed" show class="mt-4 small" variant="warning">
+                Omgång 3 (huvudtävlingen och andra chansen) spelas mellan 6/7 - 19/7. <a href="#games">Se matcher längre ner!</a>
                 Nyheter och aktuell info om tävlingen ses bäst på vår <a href="https://www.facebook.com/matchplaysweden/">facebooksida</a>.
                 <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
              </b-alert>
