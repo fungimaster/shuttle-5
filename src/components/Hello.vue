@@ -292,14 +292,14 @@
                           </b-tab>
                            <b-tab title-link-class="ml-2">
                               <template v-slot:title>
-                             <span class="d-none d-sm-block">SPELADE <span v-if="updating3"><b-spinner small class="ml-1 mr-1 mb-1"></b-spinner></span><span v-else>({{gamescount3}})</span></span>
-                             <span class="d-sm-none small-tabs"><i class="fal fa-check"></i> <span v-if="updating3"><b-spinner small class="ml-1 mr-1 mb-1"></b-spinner></span><span v-else>({{gamescount3}})</span></span>
+                             <span class="d-none d-sm-block">SPELADE <span v-if="updating3"><b-spinner small class="ml-1 mr-1 mb-1"></b-spinner></span><span hidden v-else>({{gamescount3}})</span></span>
+                             <span class="d-sm-none small-tabs"><i class="fal fa-check"></i> <span v-if="updating3"><b-spinner small class="ml-1 mr-1 mb-1"></b-spinner></span><span hidden v-else>({{gamescount3}})</span></span>
                             </template> 
                                    <!--FINISHED GAMES -->
                       <b-col xs="12" sm="12" class="mt-4 mt-md-4">
 
                         <span class="float-right" style="cursor:pointer;" v-on:click="updategames()"><i class="far fa-sync-alt"></i></span>
-                       <h4>Spelade - {{active_round}} <span v-if="updating3"><b-spinner small type="grow" class="ml-2 mr-1 mb-1 red"></b-spinner>...</span><span v-else>({{gamescount3}})</span></h4>
+                       <h4>Spelade - {{active_round}} <span v-if="updating3"><b-spinner small type="grow" class="ml-2 mr-1 mb-1 red"></b-spinner>...</span><span hidden v-else>({{gamescount3}})</span></h4>
                         <p hidden>Inom kort kommer bokade matcher visas här samt annan information om lagen!</p>
                        
                         <b-row class="mb-4 mt-4">
@@ -309,7 +309,13 @@
                            
                             <b-button size="sm" v-on:click="getGamesFinished('button','Omgång 1')" variant="primary">Omgång 1</b-button>                           
                             <b-button size="sm" v-on:click="getGamesFinished('button','Omgång 2')" variant="primary">Omgång 2</b-button> 
-                            <b-button size="sm" v-on:click="getGamesFinished('button','Omgång 3')" variant="primary">Omgång 3</b-button>      
+                            <b-button size="sm" v-on:click="getGamesFinished('button','Omgång 3')" variant="primary">Omgång 3</b-button>
+                            
+                            <form hidden v-on:submit.prevent="search">
+                              <input type="text" id="searchfield" class="form-control" placeholder="Sök på namn/klubb">
+                              <b-button @click="search()" variant="success" class="mt-2 btn-sm">Sök</b-button>
+                              <b-button @click="cancelsearch()" variant="danger" class="mt-2 btn-sm">Rensa</b-button>
+                            </form>  
                                                 
                             <b-button hidden size="sm" v-on:click="getGamesFinished('button','Omgång 3')" variant="primary">Omgång 2 AC</b-button>                            
                           </b-col>
@@ -320,6 +326,7 @@
                             <b-spinner small type="grow" class="mr-2"></b-spinner>Hämtar matcher...
                           </b-col>
                         </b-row>
+                       
 
                          <b-row v-if="gamescount3 > 0" class="">
                           <b-col v-for="(game,idx1) in games3" :key="idx1" xs="12" sm="12" class="pt-3 pb-3 pl-md-2 pr-md-2 game" v-bind:class="{ greybg: idx1 % 2 === 0 }">                            
@@ -386,10 +393,31 @@
 
 
                        <h4>STATISTIK</h4>
+                      
+                      <b-row hidden class="mt-4 mb-4">
+                        <b-col class="col-12 col-md-3">
+                          Antal lag:  {{team.total}}
+                        </b-col>
+                         <b-col class="col-12 col-md-3">
+                          <span class="green">Kvarvarande lag: {{team.winner}}</span>
+                        </b-col>
+                         <b-col class="col-12 col-md-3">
+                          <span class="orange">Andra chansen: {{team.secondchance}}</span>
+                        </b-col>
+                         <b-col class="col-12 col-md-3">
+                          <span class="red">Utslagna: {{team.defeated}}</span>
+                        </b-col>
+                      </b-row>
+                     
+                      <hr hidden>
+                      
+                      
+
+
                        <p class="mt-3">
                          Vilka golfklubbar kommer in på <strong>topp-20-listan</strong> över spelade matcher på sina banor? Se nedan <i class="fal fa-smile"></i>                         
                        </p>
-                       <p>Inom kort kommer vi även presentera <strong>birdieligan</strong> på denna sida!</p>                    
+                       <p hidden>Inom kort kommer vi även presentera <strong>birdieligan</strong> på denna sida!</p>                    
                         <b-row>                         
                              <b-col class="col-10 col-md-10 mr-0 pr-0 mb-2">
                                <strong>Golfklubb</strong>
@@ -1010,6 +1038,15 @@ components: {
       games3: [],
       gamescount3: 0,
       
+      team: {
+        winner: 0,
+        secondchance: 0,
+        defeated: 0,
+        total: 0,
+      },
+      searchfield: '',
+
+
       showhelper: false,
       //contbutton1: 'Fortsätt till nästa steg',
       docontinue: true,
@@ -1027,6 +1064,7 @@ components: {
       golfid: '',
       golfid2: '',
       doctitle: this.$store.state.conferencename,
+      
       form: {       
         golfid: "",
         mobile: "",
@@ -1121,6 +1159,7 @@ components: {
         this.$store.dispatch('updateUserInfo');
         this.getTopListClubsPlayed();
         this.getGamesInprogress('initial'); //in progress
+        //this.getTeamsCount();
         //this.getGamesPending(); //pending
         //this.getGamesFinished('Omgång 2'); //finished
 
@@ -1131,6 +1170,24 @@ components: {
   },
  
   methods: {
+    search: function() { 
+
+    let searchvalue = document.getElementById('searchfield').value.toLowerCase();
+    console.log('inne',searchvalue)
+    console.log(this.games)
+     this.games = this.games.filter(function(game) {
+       //console.log(searchvalue,game.hometeamname.includes(searchvalue.toLowerCase()))
+      console.log(searchvalue)
+	    return game.hometeamname.toLowerCase().includes(searchvalue.toLowerCase()) || game.awayteamname.toLowerCase().includes(searchvalue.toLowerCase())
+     });
+     //this.gamescount = this.games.length
+  },
+  cancelsearch: function() {
+    let searchvalue = document.getElementById('searchfield');
+    searchvalue.value = '';
+    this.games = this.gamesOrg;
+    this.gamescount = this.games.length
+  },
    compareValues(key, order = 'asc') {
   return function innerSort(a, b) {
     if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
@@ -1498,6 +1555,26 @@ components: {
                     .catch(error => {
                         console.log(error);
                         this.loadinggames = false;
+                    });
+      },
+         getTeamsCount() {
+
+                //loading                
+                
+                this.axios.post('https://matchplay.meteorapp.com/methods/' + 'getTeamsCount', {    //getclubstoplist                   
+                        "competition":"sFAc3dvrn2P9pXHAz"
+                    })
+                    .then(response => {
+                        //console.log(response.data)                        
+                        this.team.total = response.data.total;
+                        this.team.defeated = response.data.defeated;
+                        this.team.secondchance = response.data.secondchance;
+                        this.team.winner = response.data.winner;
+                        //this.clubs = response.data;   
+
+                    })
+                    .catch(error => {
+                        console.log(error);
                     });
       },
    getTopListClubs() {

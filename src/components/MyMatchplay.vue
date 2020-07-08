@@ -250,11 +250,12 @@
 
                                 <div v-if="team.teamreservegolfid" class="pt-0 pb-3">
                                      <span :id="'tooltip-teammember3-' + idx">
-                                        <i class="material-icons mr-2">person_pin</i>Reserv: {{team.teamreservegolfid}}
+                                        <i class="material-icons mr-2">person_pin</i>Reserv: {{team.teamreservegolfid}}                                        
                                         <b-tooltip :target="'tooltip-teammember3-' + idx" triggers="hover" placement="top">
                                             Denna reserv kan väljas när en match ska startas
-                                        </b-tooltip>                                        
+                                        </b-tooltip>                                                                                
                                     </span>
+                                      <a @click="showHelpReserve()" class="btn btn-secondary btn-sm text-white mr-md-2 pl-0 pr-0"><i class="fas fa-question ml-1 mr-1 mb-1"></i></a>  
                                 </div>
 
                                 
@@ -270,7 +271,12 @@
 
                                   <div v-if="!team.teamreservegolfid" class="pt-0 pb-3">                                    
                                      <b-button size="sm" variant="success" @click="showModal(team._id)" class="">Välj reservspelare</b-button>
+                                     <a @click="showHelpReserve()" class="btn btn-secondary btn-sm text-white mr-md-2 pl-0 pr-0"><i class="fas fa-question ml-1 mr-1 mb-1"></i></a>                                     
                                 </div>
+
+                                  <b-alert v-if="showhelpreserve" show class="small text-center mt-1" variant="info">
+                                            Om ditt lag har en reserv tillgänglig för spel kan hemmalaget, när ni träffas innan spel, välja denna person i samband med att tee väljs innan matchen startar.
+                                  </b-alert>
 
                                 <div class="pt-0 pb-0" hidden>
                                     <span :id="'tooltip-nextgame-' + idx">
@@ -1125,6 +1131,7 @@ export default {
             teamscount:0,
             gamescount:0,
             showhelpgame: false,
+            showhelpreserve: false,
             bindProps: {
                 mode: "international",
                 defaultCountry: "SE",
@@ -1529,7 +1536,11 @@ export default {
     },
     mixins: [tagsMixin],
     methods: {
-       
+             showHelpReserve: function(){
+                if (this.showhelpreserve) {
+          this.showhelpreserve = false;         
+        } else this.showhelpreserve = true;
+        },
 
           showHelpGame: function(){
                 if (this.showhelpgame) {

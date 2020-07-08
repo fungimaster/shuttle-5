@@ -393,6 +393,10 @@
                               >play_circle_filled</i
                             >Visa scorekortet</b-button
                           >
+                           <b-alert show class="small text-center mt-3" variant="info">
+                              <h5>Information om reserver</h5>
+                                           Om laget har en reserv tillgänglig för spel kan hemmalaget, när ni träffas innan spel, välja denna person i samband med att tee väljs innan matchen startar.
+                                 </b-alert>
                            <b-alert
                             v-if="(isteamleader || isteammember) && status != 'Finished'"
                             show
@@ -699,6 +703,14 @@
                           </p>
                         </b-col>
 
+                      </b-row>
+                      <b-row>
+                        <b-col>
+                            <b-alert show class="small text-center mt-3" variant="info">
+                              <h5>Information om reserver</h5>
+                                           Om laget har en reserv tillgänglig för spel kan hemmalaget, när ni träffas innan spel, välja denna person i samband med att tee väljs innan matchen startar.
+                                 </b-alert>
+                        </b-col>
                       </b-row>
                     </b-container>
                   </b-tab>
