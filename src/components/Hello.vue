@@ -15,7 +15,7 @@
     <div class="hero">      
       <b-container class="d-flex">
         <b-row>
-          <b-col class="col-12 col-md-9">            
+          <b-col class="col-12 col-md-12">            
             <h2>VÄLKOMMEN TILL MATCHPLAY, GOLFTÄVLINGEN FÖR BÅDE PRIVATPERSONER OCH FÖRETAG</h2>
             <p class="mt-3 mt-md-0">Matchplay är en matchspelstävling för par med officiellt handikapp. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.</p>
             <p v-if="!closed">Ta chansen att ta dig till Sverigefinalen och sedan vidare utomlands! Alla deltagare får pikeér från PING.</p>
@@ -66,7 +66,7 @@
           </b-col>
           <b-col class="col-md-3 d-none d-md-block pl-2 justify-content-center align-self-center">           
            <a href="#charity">
-            <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/e_colorize,co_rgb:fff/v1576503821/matchplay/badge4.png" title="10% av lagavgiften går till Matchplay Charity"></b-img>            
+            <b-img hidden src="https://res.cloudinary.com/dn3hzwewp/image/upload/e_colorize,co_rgb:fff/v1576503821/matchplay/badge4.png" title="10% av lagavgiften går till Matchplay Charity"></b-img>            
            </a>
 
             <b-img hidden src="https://res.cloudinary.com/dn3hzwewp/image/upload/e_colorize,co_rgb:fff/v1573118127/matchplay/matchplay-new-logo-2020.png" alt=""></b-img>
@@ -292,14 +292,14 @@
                           </b-tab>
                            <b-tab title-link-class="ml-2">
                               <template v-slot:title>
-                             <span class="d-none d-sm-block">SPELADE <span v-if="updating3"><b-spinner small class="ml-1 mr-1 mb-1"></b-spinner></span><span hidden v-else>({{gamescount3}})</span></span>
+                             <span class="d-none d-sm-block">SPELADE <span v-if="updating3"><b-spinner small class="ml-1 mr-1 mb-1"></b-spinner></span><span v-else>({{gamescount3}})</span></span>
                              <span class="d-sm-none small-tabs"><i class="fal fa-check"></i> <span v-if="updating3"><b-spinner small class="ml-1 mr-1 mb-1"></b-spinner></span><span hidden v-else>({{gamescount3}})</span></span>
                             </template> 
                                    <!--FINISHED GAMES -->
                       <b-col xs="12" sm="12" class="mt-4 mt-md-4">
 
                         <span class="float-right" style="cursor:pointer;" v-on:click="updategames()"><i class="far fa-sync-alt"></i></span>
-                       <h4>Spelade - {{active_round}} <span v-if="updating3"><b-spinner small type="grow" class="ml-2 mr-1 mb-1 red"></b-spinner>...</span><span hidden v-else>({{gamescount3}})</span></h4>
+                       <h4>Spelade - {{active_round}} <span v-if="updating3"><b-spinner small type="grow" class="ml-2 mr-1 mb-1 red"></b-spinner>...</span><span v-else>({{gamescount3}})</span></h4>
                         <p hidden>Inom kort kommer bokade matcher visas här samt annan information om lagen!</p>
                        
                         <b-row class="mb-4 mt-4">
@@ -392,7 +392,7 @@
                       <b-col xs="12" sm="12" class="mt-4 mt-md-4">
 
 
-                       <h4>STATISTIK</h4>
+                       <h4 hidden>STATISTIK</h4>
                       
                       <b-row hidden class="mt-4 mb-4">
                         <b-col class="col-12 col-md-3">
@@ -410,15 +410,38 @@
                       </b-row>
                      
                       <hr hidden>
-                      
-                      
 
+                          <h5 class="mt-3">
+                         Birdieligan
+                        </h5>
 
+                        <b-row class="mt-3">                         
+                             <b-col class="col-10 col-md-10 mr-0 pr-0 mb-2">
+                               <strong>Spelare</strong>
+                             </b-col>
+                          <b-col class="col-2 col-md-2 text-right mb-2">          
+                            <strong>Antal</strong>
+                          </b-col>                                
+                        </b-row>
+                      
+                        <b-row v-for="(birdie,idx5) in birdies" :key="idx5" class="mb-2" v-bind:class="{ greybg: idx5 % 2 === 0 }">
+                            <b-col class="col-10 col-md-10 mr-0 pr-0" v-bind:class="{no1: idx5 === 0, no2: idx5 === 1, no3: idx5 === 2 }">
+                              <span class="line" >{{idx5+1}}. {{truncate(birdie.playername)}}</span>
+                            </b-col>
+                            <b-col class="col-2 col-md-2 text-right" v-bind:class="{no1: idx5 === 0, no2: idx5 === 1, no3: idx5 === 2 }">          
+                              <span class="line">({{birdie.birdie}})</span>
+                            </b-col>                         
+                         </b-row>
+
+                         <hr>
+
+                        <h5 class="mt-4">
+                          Toppklubbar (spelade matcher)
+                        </h5>
                        <p class="mt-3">
                          Vilka golfklubbar kommer in på <strong>topp-20-listan</strong> över spelade matcher på sina banor? Se nedan <i class="fal fa-smile"></i>                         
-                       </p>
-                       <p hidden>Inom kort kommer vi även presentera <strong>birdieligan</strong> på denna sida!</p>                    
-                        <b-row>                         
+                       </p>                                     
+                        <b-row class="mt-3">                          
                              <b-col class="col-10 col-md-10 mr-0 pr-0 mb-2">
                                <strong>Golfklubb</strong>
                              </b-col>
@@ -435,7 +458,7 @@
                           </b-col>                         
                         </b-row>
                       
-                        
+                       
                                         
 
                       
@@ -584,7 +607,7 @@
 
                     <div class="col-12 d-block d-md-none justify-content-center align-self-center p-5">           
             <a href="#charity">
-            <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1576503821/matchplay/badge4.png" alt=""></b-img>            
+            <b-img hidden src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1576503821/matchplay/badge4.png" alt=""></b-img>            
             </a>
           </div>
 
@@ -853,14 +876,14 @@
       </b-container>
     </div>
 
-<div class="teaser-container" id="charity" ref="charity">
+<div hidden class="teaser-container" id="charity" ref="charity">
  
  
 
   <b-container>
 <b-row>
    
-   <b-col class="mb-3">
+   <b-col hidden class="mb-3">
 <h2 class="teaser-header orange">Matchplay Charity</h2>
    </b-col>
 </b-row>
@@ -869,7 +892,7 @@
    
   
 
-    <b-col md="5" class="p-5">
+    <b-col hidden md="5" class="p-5">
        <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1576504784/matchplay/charity.png">
     </b-col>
     <b-col md="7">
@@ -1011,6 +1034,7 @@ components: {
         }
       },
       clubs: 0,
+      birdies: 0,
       //IN PROGRESS GAMES
       loadinggames: true,
       updating1: true,
@@ -1158,6 +1182,7 @@ components: {
 
         this.$store.dispatch('updateUserInfo');
         this.getTopListClubsPlayed();
+        this.getBirdies();
         this.getGamesInprogress('initial'); //in progress
         //this.getTeamsCount();
         //this.getGamesPending(); //pending
@@ -1608,6 +1633,26 @@ components: {
                     .then(response => {
                         //console.log(response.data)                        
                         this.clubs = response.data;                        
+                      
+
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+      },
+            getBirdies() {
+
+                //loading
+                this.value = 5;
+                
+                this.axios.post('https://matchplay.meteorapp.com/methods/' + 'getAchievementData', {    //getclubstoplist                   
+                        "competition":"sFAc3dvrn2P9pXHAz",
+                        "type":"birdie",
+	                      "no":20
+                    })
+                    .then(response => {
+                        console.log(response.data)                        
+                        this.birdies = response.data;                        
                       
 
                     })
