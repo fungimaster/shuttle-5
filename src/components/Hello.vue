@@ -37,8 +37,14 @@
                 <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
              </b-alert>
 
-             <b-alert v-if="closed" show class="mt-4 small" variant="warning">
+             <b-alert v-if="closed" hidden class="mt-4 small" variant="warning">
                 Omgång 3 (huvudtävlingen och andra chansen) spelas mellan 6/7 - 19/7. <a href="#games">Se matcher längre ner!</a>
+                Nyheter och aktuell info om tävlingen ses bäst på vår <a href="https://www.facebook.com/matchplaysweden/">facebooksida</a>.
+                <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
+             </b-alert>
+
+              <b-alert v-if="closed" show class="mt-4 small" variant="warning">
+                Omgång 4 (huvudtävlingen och andra chansen) spelas mellan 20/7 - 3/8. <a href="#games">Se matcher längre ner!</a>
                 Nyheter och aktuell info om tävlingen ses bäst på vår <a href="https://www.facebook.com/matchplaysweden/">facebooksida</a>.
                 <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
              </b-alert>
@@ -234,7 +240,7 @@
                         </b-row>
                         <b-row v-if="gamescount2 === 0 && !loadinggames2">
                           <b-col>
-                          Just nu finns inga fler planerade matcher, återkom efter nästa lottning!
+                          Just nu finns inga fler planerade matcher, återkom efter nästa lottning! Matcherna visas här när starttid bokats mellan lagen.
                           </b-col>
                         </b-row>
 
@@ -293,7 +299,7 @@
                            <b-tab title-link-class="ml-2">
                               <template v-slot:title>
                              <span class="d-none d-sm-block">SPELADE <span v-if="updating3"><b-spinner small class="ml-1 mr-1 mb-1"></b-spinner></span><span v-else>({{gamescount3}})</span></span>
-                             <span class="d-sm-none small-tabs"><i class="fal fa-check"></i> <span v-if="updating3"><b-spinner small class="ml-1 mr-1 mb-1"></b-spinner></span><span hidden v-else>({{gamescount3}})</span></span>
+                             <span class="d-sm-none small-tabs"><i class="fal fa-check"></i> <span v-if="updating3"><b-spinner small class="ml-1 mr-1 mb-1"></b-spinner></span><span v-else>({{gamescount3}})</span></span>
                             </template> 
                                    <!--FINISHED GAMES -->
                       <b-col xs="12" sm="12" class="mt-4 mt-md-4">
@@ -310,6 +316,7 @@
                             <b-button size="sm" v-on:click="getGamesFinished('button','Omgång 1')" variant="primary">Omgång 1</b-button>                           
                             <b-button size="sm" v-on:click="getGamesFinished('button','Omgång 2')" variant="primary">Omgång 2</b-button> 
                             <b-button size="sm" v-on:click="getGamesFinished('button','Omgång 3')" variant="primary">Omgång 3</b-button>
+                            <b-button size="sm" v-on:click="getGamesFinished('button','Omgång 4')" variant="primary">Omgång 4</b-button>
                             
                             <form hidden v-on:submit.prevent="search">
                               <input type="text" id="searchfield" class="form-control" placeholder="Sök på namn/klubb">
@@ -1044,7 +1051,7 @@ components: {
 
       //TABS
       tabIndex: 0,
-      active_round:'Omgång 3',
+      active_round:'Omgång 4',
       
       //PENDING GAMES
       loadinggames2: true,
