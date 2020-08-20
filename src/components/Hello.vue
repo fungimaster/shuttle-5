@@ -56,7 +56,7 @@
              </b-alert>
 
               <b-alert v-if="closed" show class="mt-4 small" variant="warning">
-                Omgång 6 (huvudtävlingen) spelas mellan 19/8 - 2/9. <a href="#games">Se matcher längre ner!</a> Andra chansen får ett nytt upplägg i omgång 6, mer info kommer inom kort på Facebook!
+                Omgång 6 (huvudtävlingen och andra chansen) spelas mellan 19/8 - 2/9. <a href="#games">Se matcher längre ner!</a>
                 Nyheter och aktuell info om tävlingen ses bäst på vår <a href="https://www.facebook.com/matchplaysweden/">facebooksida</a>.
                 <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
              </b-alert>
