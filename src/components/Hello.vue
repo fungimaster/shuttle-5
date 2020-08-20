@@ -49,8 +49,14 @@
                 <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
              </b-alert>
 
-              <b-alert v-if="closed" show class="mt-4 small" variant="warning">
+              <b-alert v-if="closed" hidden class="mt-4 small" variant="warning">
                 Omgång 5 (huvudtävlingen och andra chansen) spelas mellan 4/8 - 18/8. <a href="#games">Se matcher längre ner!</a>
+                Nyheter och aktuell info om tävlingen ses bäst på vår <a href="https://www.facebook.com/matchplaysweden/">facebooksida</a>.
+                <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
+             </b-alert>
+
+              <b-alert v-if="closed" show class="mt-4 small" variant="warning">
+                Omgång 6 (huvudtävlingen) spelas mellan 19/8 - 2/9. <a href="#games">Se matcher längre ner!</a> Andra chansen får ett nytt upplägg i omgång 6, mer info kommer inom kort på Facebook!
                 Nyheter och aktuell info om tävlingen ses bäst på vår <a href="https://www.facebook.com/matchplaysweden/">facebooksida</a>.
                 <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
              </b-alert>
@@ -324,6 +330,7 @@
                             <b-button size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Omgång 3')" variant="primary">Omgång 3</b-button>
                             <b-button size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Omgång 4')" variant="primary">Omgång 4</b-button>
                             <b-button size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Omgång 5')" variant="primary">Omgång 5</b-button>
+                            <b-button size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Omgång 6')" variant="primary">Omgång 6</b-button>
                             
                             <form hidden v-on:submit.prevent="search">
                               <input type="text" id="searchfield" class="form-control" placeholder="Sök på namn/klubb">
@@ -1058,7 +1065,7 @@ components: {
 
       //TABS
       tabIndex: 0,
-      active_round:'Omgång 5',
+      active_round:'Omgång 6',
       
       //PENDING GAMES
       loadinggames2: true,
@@ -1198,6 +1205,7 @@ components: {
         this.getTopListClubsPlayed();
         this.getBirdies();
         this.getGamesInprogress('initial'); //in progress
+        localStorage.setItem('active_round',this.active_round);
         //this.getTeamsCount();
         //this.getGamesPending(); //pending
         //this.getGamesFinished('Omgång 2'); //finished
