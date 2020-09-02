@@ -55,8 +55,15 @@
                 <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
              </b-alert>
 
-              <b-alert v-if="closed" show class="mt-4 small" variant="warning">
+              <b-alert v-if="closed" hidden class="mt-4 small" variant="warning">
                 <strong>8 lag</strong> återstår nu i resp spår av tävlingen (HT och AC). Omgång 6 (huvudtävlingen och andra chansen) spelas mellan 19/8 - 2/9. <a href="#games">Se matcher längre ner!</a>
+                Nyheter och aktuell info om tävlingen ses bäst på vår <a href="https://www.facebook.com/matchplaysweden/">facebooksida</a>.
+                <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
+             </b-alert>
+
+              <b-alert v-if="closed" show class="mt-4 small" variant="warning">
+                <strong>4 lag</strong> återstår nu i resp spår av tävlingen (HT och AC). Omgång 7 (huvudtävlingen och andra chansen) spelas mellan 1/9 - 15/9. <a href="#games">Se matcher längre ner!</a>
+                <br><br>Omgång 8 (Sverigefinalen) spelas på Allerum GK 23-24 oktober. Se mer info längre ner.
                 Nyheter och aktuell info om tävlingen ses bäst på vår <a href="https://www.facebook.com/matchplaysweden/">facebooksida</a>.
                 <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
              </b-alert>
@@ -132,10 +139,23 @@
                          </b-col>
                        </b-row>
                        
-                     </b-col>    
+                     </b-col>   
+
+                     <b-col class="col-12 col-md-3 mt-3 mb-4 text-center">
+                       <img class="pt-3 pb-3" :src="`https://res.cloudinary.com/dn3hzwewp/image/upload/v1599032379/matchplay/logo.png`">
+                     </b-col>
+                     <b-col class="col-12 col-md-9 mt-3 mb-4">
+                       <h3>Sverigefinal på Allerum GK</h3>
+                       <p>Sverigefinalen (omgång 8) går av stapeln mellan den 23e och 24e oktober på Allerum GK som ligger strax nordväst om Helsingborg. De <strong>fyra</strong> finallagen kommer att spela på Ängsbanan som är en öppen ängs- och parkbana med flera inslag av vatten och ruff. Hål 5-13 invigdes 1993 och hål 14-4 1995. Spelare kan välja på att spela banan från 4800-6300 meter. Sex olika längder finns; 48, 51, 54, 57, 60 och 63. <a target="_blank" href="http://www.allerumgk.nu/">Länk till Allerum GKs hemsida.</a>
+                         </p><p>Följ finalmatcherna här och på Facebook! 
+                       </p>
+
+                       </b-col>
+
+
 
                      <!-- tabs games -->
-                    <b-col xs="12" sm="12" class="mt-0 mt-md-0">
+                    <b-col xs="12" sm="12" class="mt-2 mt-md-2">
                         <b-tabs content-class="mt-3" v-model="tabIndex" no-key-nav>
                           <b-tab title-link-class="ml-2">
                             <template v-slot:title>
@@ -331,6 +351,7 @@
                             <b-button size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Omgång 4')" variant="primary">Omgång 4</b-button>
                             <b-button size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Omgång 5')" variant="primary">Omgång 5</b-button>
                             <b-button size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Omgång 6')" variant="primary">Omgång 6</b-button>
+                            <b-button size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Omgång 7')" variant="primary">Omgång 7</b-button>
                             
                             <form hidden v-on:submit.prevent="search">
                               <input type="text" id="searchfield" class="form-control" placeholder="Sök på namn/klubb">
@@ -1065,7 +1086,7 @@ components: {
 
       //TABS
       tabIndex: 0,
-      active_round:'Omgång 6',
+      active_round:'Omgång 7',
       
       //PENDING GAMES
       loadinggames2: true,
