@@ -146,7 +146,7 @@
                      </b-col>
                      <b-col class="col-12 col-md-9 mt-3 mb-4">
                        <h3>Sverigefinal på Allerum GK</h3>
-                       <p>Sverigefinalen (omgång 8) går av stapeln mellan den 23e och 24e oktober på Allerum GK som ligger strax nordväst om Helsingborg. De <strong>fyra</strong> finallagen kommer att spela på Ängsbanan som är en öppen ängs- och parkbana med flera inslag av vatten och ruff. Hål 5-13 invigdes 1993 och hål 14-4 1995. Spelare kan välja på att spela banan från 4800-6300 meter. Sex olika längder finns; 48, 51, 54, 57, 60 och 63. <a target="_blank" href="http://www.allerumgk.nu/">Länk till Allerum GKs hemsida.</a>
+                       <p>Sverigefinalen (omgång 8) går av stapeln mellan den 23e och 24e oktober på Allerum GK som ligger strax norr om Helsingborg. De <strong>fyra</strong> finallagen kommer att spela på Ängsbanan som är en öppen ängs- och parkbana med flera inslag av vatten och ruff. Hål 5-13 invigdes 1993 och hål 14-4 1995. Spelare kan välja på att spela banan från 4800-6300 meter. Sex olika längder finns; 48, 51, 54, 57, 60 och 63. <a target="_blank" href="http://www.allerumgk.nu/">Länk till Allerum GKs hemsida.</a>
                          </p><p>Följ finalmatcherna här och på Facebook! 
                        </p>
 
