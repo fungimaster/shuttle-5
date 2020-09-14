@@ -61,10 +61,16 @@
                 <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
              </b-alert>
 
-              <b-alert v-if="closed" show class="mt-4 small" variant="warning">
+              <b-alert v-if="closed" hidden class="mt-4 small" variant="warning">
                 <strong>4 lag</strong> återstår nu i resp spår av tävlingen (HT och AC). Omgång 7 (huvudtävlingen och andra chansen) spelas mellan 1/9 - 15/9. <a href="#games">Se matcher längre ner!</a>
                 <br><br>Omgång 8 (Sverigefinalen) spelas på Allerum GK 23-24 oktober. Se mer info längre ner.
                 Nyheter och aktuell info om tävlingen ses bäst på vår <a href="https://www.facebook.com/matchplaysweden/">facebooksida</a>.
+                <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
+             </b-alert>
+
+              <b-alert v-if="closed" show class="mt-4 small" variant="warning">
+                <p><strong>Lagen som är vidare till Sverigefinalen är nu utsedda!</strong></p><p> I huvudtävlingen är CARNOR/WEDIN och IDLING/ANDERSSON vidare. I andra chansen är CHRISTIANSSON/NILESKÄR och THURESON/DAHL vidare.</p>
+                Se mer info om Sverigefinalen längre ner. Nyheter och aktuell info om tävlingen ses bäst på vår <a href="https://www.facebook.com/matchplaysweden/">facebooksida</a>.
                 <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
              </b-alert>
 
@@ -146,7 +152,7 @@
                      </b-col>
                      <b-col class="col-12 col-md-9 mt-3 mb-4">
                        <h3>Sverigefinal på Allerum GK</h3>
-                       <p>Sverigefinalen (omgång 8) går av stapeln mellan den 23e och 24e oktober på Allerum GK som ligger strax norr om Helsingborg. De <strong>fyra</strong> finallagen kommer att spela på Ängsbanan som är en öppen ängs- och parkbana med flera inslag av vatten och ruff. Hål 5-13 invigdes 1993 och hål 14-4 1995. Spelare kan välja på att spela banan från 4800-6300 meter. Sex olika längder finns; 48, 51, 54, 57, 60 och 63. <a target="_blank" href="http://www.allerumgk.nu/">Länk till Allerum GKs hemsida.</a>
+                       <p>Sverigefinalen (omgång 8) går av stapeln mellan den 23e och 24e oktober på Allerum GK som ligger strax norr om Helsingborg. De <strong>fyra</strong> finallagen kommer att spela på Ängsbanan som är en öppen ängs- och parkbana med flera inslag av vatten och ruff. Spelare kan välja på att spela banan från 4800-6300 meter. Sex olika längder finns; 48, 51, 54, 57, 60 och 63. <a target="_blank" href="http://www.allerumgk.nu/">Länk till Allerum GKs hemsida.</a>
                          </p><p>Följ finalmatcherna här och på Facebook! 
                        </p>
 
@@ -466,11 +472,11 @@
                           </b-col>                                
                         </b-row>
                       
-                        <b-row v-for="(birdie,idx5) in birdies" :key="idx5" class="mb-2" v-bind:class="{ greybg: idx5 % 2 === 0 }">
-                            <b-col class="col-10 col-md-10 mr-0 pr-0" v-bind:class="{no1: idx5 === 0, no2: idx5 === 1, no3: idx5 === 2 }">
-                              <span class="line" >{{idx5+1}}. {{truncate(birdie.playername)}}</span>
+                        <b-row v-for="(birdie,index) in birdies" :key="'bird'+index" class="mb-2" v-bind:class="{ greybg:index% 2 === 0 }">
+                            <b-col class="col-10 col-md-10 mr-0 pr-0" v-bind:class="{no1:index=== 0, no2: index === 1, no3: index === 2 }">
+                              <span class="line" >{{index+1}}. {{truncate(birdie.playername)}}</span>
                             </b-col>
-                            <b-col class="col-2 col-md-2 text-right" v-bind:class="{no1: idx5 === 0, no2: idx5 === 1, no3: idx5 === 2 }">          
+                            <b-col class="col-2 col-md-2 text-right" v-bind:class="{no1:index=== 0, no2: +index === 1, no3: index === 2 }">          
                               <span class="line">({{birdie.birdie}})</span>
                             </b-col>                         
                          </b-row>
@@ -559,9 +565,9 @@
                      
                       <b-col hidden xs="12" sm="12" class="mt-5 mt-md-3 mr-0">
                        <h4>Topplista klubbar *</h4>
-                        <b-row v-for="(club,idx) in clubs" :key="idx">
+                        <b-row v-for="(club,idx0) in clubs" :key="idx0">
                           <b-col class="col-10 mr-0 pr-0">
-                              <span class="line">{{idx+1}}. {{truncate(club.club)}}</span>
+                              <span class="line">{{idx0+1}}. {{truncate(club.club)}}</span>
                           </b-col>
                           <b-col hidden class="col-2 text-right">                           
                           <span class="line">({{club.count}})</span>
@@ -1693,11 +1699,8 @@ components: {
                         "type":"birdie",
 	                      "no":20
                     })
-                    .then(response => {
-                        console.log(response.data)                        
-                        this.birdies = response.data;                        
-                      
-
+                    .then(response => {                                   
+                        this.birdies = response.data;  
                     })
                     .catch(error => {
                         console.log(error);
