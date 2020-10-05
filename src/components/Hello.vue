@@ -92,7 +92,7 @@
             <div class="buttons text-left" id="games" ref="games">
               <a v-if="!closed" href="#register" class="btn blue-bg btn-md text-white mt-3 mr-2">Anmälan</a>
               <a href="/mymatchplay" class="btn blue-bg btn-md text-white mt-3">Lag- och matchhantering</a>
-              <a href="/register" class="btn btn-warning btn-md text-white mt-3">Efterhandsregistrera spelare</a>
+              <a hidden href="/register" class="btn btn-warning btn-md text-white mt-3">Efterhandsregistrera spelare</a>
             </div>
           </b-col>
           <b-col class="col-md-3 d-none d-md-block pl-2 justify-content-center align-self-center">           
@@ -358,6 +358,7 @@
                             <b-button size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Omgång 5')" variant="primary">Omgång 5</b-button>
                             <b-button size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Omgång 6')" variant="primary">Omgång 6</b-button>
                             <b-button size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Omgång 7')" variant="primary">Omgång 7</b-button>
+                            <b-button size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Sverigefinal')" variant="primary">Sverigefinal</b-button>
                             
                             <form hidden v-on:submit.prevent="search">
                               <input type="text" id="searchfield" class="form-control" placeholder="Sök på namn/klubb">
@@ -1092,7 +1093,7 @@ components: {
 
       //TABS
       tabIndex: 0,
-      active_round:'Omgång 7',
+      active_round:'Sverigefinal',
       
       //PENDING GAMES
       loadinggames2: true,
