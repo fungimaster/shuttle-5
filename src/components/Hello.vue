@@ -68,9 +68,14 @@
                 <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
              </b-alert>
 
-              <b-alert v-if="closed" show class="mt-4 small" variant="warning">
+              <b-alert v-if="closed" hidden class="mt-4 small" variant="warning">
                 <p><strong>Lagen som är vidare till Sverigefinalen är nu utsedda!</strong></p><p> I huvudtävlingen är CARNOR/WEDIN och IDLING/ANDERSSON vidare. I andra chansen är CHRISTIANSSON/NILESKÄR och THURESON/DAHL vidare.</p>
                 Se mer info om Sverigefinalen längre ner. Nyheter och aktuell info om tävlingen ses bäst på vår <a href="https://www.facebook.com/matchplaysweden/">facebooksida</a>.
+                <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
+             </b-alert>
+
+              <b-alert v-if="closed" show class="mt-4 small" variant="warning">
+                <p><h4>LAGEN TILL FINALEN I SPANIEN ÄR KLARA</h4>Efter 358 spelade matcher på nästan 100 golfklubbar runtom i Sverige har vi nu korat vinnarna till Spanienfinalen!<br>Grattis till Joel Carnor/Emma Wedin samt Kim Christiansson/Martin Nileskär! Se mer info längre ner om vinnarna och finalresan.</p>
                 <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
              </b-alert>
 
@@ -91,7 +96,7 @@
                        
             <div class="buttons text-left" id="games" ref="games">
               <a v-if="!closed" href="#register" class="btn blue-bg btn-md text-white mt-3 mr-2">Anmälan</a>
-              <a href="/mymatchplay" class="btn blue-bg btn-md text-white mt-3">Lag- och matchhantering</a>
+              <a href="/mymatchplay" hidden class="btn blue-bg btn-md text-white mt-3">Lag- och matchhantering</a>
               <a hidden href="/register" class="btn btn-warning btn-md text-white mt-3">Efterhandsregistrera spelare</a>
             </div>
           </b-col>
@@ -147,23 +152,44 @@
                        
                      </b-col>   
 
-                     <b-col class="col-12 col-md-3 mt-3 mb-4 text-center">
+
+                  
+                     <b-col class="col-12 mb-5">
+                       <h3>Finalparen klara för Spanien</h3>
+                       <p>Vi säger stort grattis till våra finalpar som är klara för den stora Matchplayfinalen på Los Naranjos i Spanien mellan den 7-11 februari 2021.<br>
+                       </p>
+                       <b-row>
+                       <b-col class="col-12 col-md-6">                         
+                          <img class="" :src="`https://res.cloudinary.com/dn3hzwewp/image/upload/v1603714880/matchplay/matchplay_final1.png`">
+                          <p class="mt-1">Joel Carnor & Emma Wedin</p><a target="_blank"  class="btn blue-bg btn-md text-white mt-0" href="https://fb.watch/1mv7rhBfNC/">länk till segerintervju</a>
+                       </b-col>
+                         <b-col class="col-12 col-md-6 pt-3 pt-md-0">                         
+                          <img class="" :src="`https://res.cloudinary.com/dn3hzwewp/image/upload/v1603714880/matchplay/matchplay_final2.png`">
+                         <p class="mt-1">Kim Christiansson & Martin Nileskär</p><a target="_blank" class="btn blue-bg btn-md text-white mt-0" href="https://fb.watch/1mveFbmDox/">länk till segerintervju</a>
+                       </b-col>
+                       </b-row>                     
+                       
+
+                       </b-col>
+                       
+         
+                     <b-col hidden class="col-12 col-md-3 mt-5 mb-4 text-center">
                        <img class="pt-3 pb-3" :src="`https://res.cloudinary.com/dn3hzwewp/image/upload/v1599032379/matchplay/logo.png`">
                      </b-col>
-                     <b-col class="col-12 col-md-9 mt-3 mb-4">
+                     <b-col hidden class="col-12 col-md-9 mt-5 mb-4">
                        <h3>Sverigefinal på Allerum GK</h3>
                        <p>Sverigefinalen (omgång 8) går av stapeln mellan den 23e och 24e oktober på Allerum GK som ligger strax norr om Helsingborg. De <strong>fyra</strong> finallagen kommer att spela på Ängsbanan som är en öppen ängs- och parkbana med flera inslag av vatten och ruff. Spelare kan välja på att spela banan från 4800-6300 meter. Sex olika längder finns; 48, 51, 54, 57, 60 och 63. <a target="_blank" href="http://www.allerumgk.nu/">Länk till Allerum GKs hemsida.</a>
                          </p><p>Följ finalmatcherna här och på Facebook! 
                        </p>
 
                        </b-col>
-
+                   
 
 
                      <!-- tabs games -->
                     <b-col xs="12" sm="12" class="mt-2 mt-md-2">
                         <b-tabs content-class="mt-3" v-model="tabIndex" no-key-nav>
-                          <b-tab title-link-class="ml-2">
+                          <b-tab disabled title-link-class="ml-2">
                             <template v-slot:title>
                              <span class="d-none d-sm-block"><b-spinner v-if="gamescount > 0" small type="grow" class="ml-0 pl-0 mr-1 mb-1 red"></b-spinner>LIVE <span v-if="updating1"><b-spinner small class="ml-1 mr-1 mb-1"></b-spinner></span><span v-else>({{gamescount}})</span></span>
                              <span class="d-sm-none small-tabs"><i class="fal fa-heart-rate"></i> <span v-if="updating1"><b-spinner small class="ml-1 mr-1 mb-1"></b-spinner></span><span v-else>({{gamescount}})</span></span>
@@ -260,7 +286,7 @@
                      </b-col>
                      <!-- END In progress games -->
                           </b-tab>
-                          <b-tab title-link-class="ml-2">
+                          <b-tab disabled title-link-class="ml-2">
                              <template v-slot:title>
                               <span class="d-none d-sm-block">KOMMANDE <span v-if="updating2"><b-spinner small class="ml-1 mr-1 mb-1"></b-spinner></span><span v-else>({{gamescount2}})</span></span>
                               <span class="d-sm-none small-tabs"><i class="fal fa-hourglass"></i> <span v-if="updating2"><b-spinner small class="ml-1 mr-1 mb-1"></b-spinner></span><span v-else>({{gamescount2}})</span></span>
@@ -906,7 +932,7 @@
             <div class="step">
               <i class="material-icons">flight_takeoff</i>
             <h5>Finalen</h5>
-            <p>De 2 vinnande lagen i Sverigefinalen åker med Matchplay till Spanska solkusten för att göra upp om titeln. Flyg, hotell och allt spel ingår för de bägge lagen och på vilken bana finalen spelas blir klart under sommaren 2020 (beroende på utv. av Covid-19).</p>
+            <p>De 2 vinnande lagen i Sverigefinalen åker med Matchplay till Spanska solkusten för att göra upp om titeln. Flyg, hotell och allt spel ingår för de bägge lagen på Los Naranjos mellan den 7-11 februari 2021.</p>
             </div>
           </b-col>
 
@@ -1411,11 +1437,12 @@ components: {
                           this.updating2 = true;
                           this.getGamesPending('initial');
                         } else {
-                            //RELOAD IN PROGRESS (INITATOR)
-                         setTimeout(() => {
+                            //RELOAD IN PROGRESS (INITATOR) 
+                            //NOT USED UNTIL NEXT MATCHPLAY 2021
+                         /* setTimeout(() => {
                           this.updating1 = false;                   
                           this.getGamesInprogress('not-initial'); //in progress                          
-                        }, 60000);  
+                        }, 60000);   */
                         }
                         
 
@@ -1678,7 +1705,7 @@ components: {
                 
                 this.axios.post('https://matchplay.meteorapp.com/methods/' + 'getTopClubsPlayed', {    //getclubstoplist                   
                         "competition":"sFAc3dvrn2P9pXHAz",
-	                      "no":20
+	                      "no":99
                     })
                     .then(response => {
                         //console.log(response.data)                        
