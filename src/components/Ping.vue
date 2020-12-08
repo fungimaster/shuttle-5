@@ -4,7 +4,7 @@
     :title="doctitle"
 
     />
-    <b-container>
+    <b-container hidden>
       <b-row>
         <b-col xl="1"></b-col>
         <b-col class="col-12 mt-5 mb-3">

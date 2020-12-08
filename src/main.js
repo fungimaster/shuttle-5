@@ -44,7 +44,7 @@ const store = new Vuex.Store({
     count: 0,
     maproom: '',
     speaker: {},
-    conferencename: 'Matchplay 2020',
+    conferencename: 'Matchplay 2021',
     docimage: 'https://res.cloudinary.com/dn3hzwewp/image/upload/v1573118127/matchplay/matchplay-new-logo-2020.png',
     userInfo: "Logga in"
 

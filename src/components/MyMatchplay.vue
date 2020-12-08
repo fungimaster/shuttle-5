@@ -115,7 +115,7 @@
                     </b-col>
                     <b-col hidden md="12" class="mt-3">
                         <h2>Skapa ditt blivande mästarlag</h2>
-                        <p class="mt-3">Nu är det dags att skapa ditt lag för matchplay 2020. Klicka på knappen nedan och följ instruktionerna.</p>
+                        <p class="mt-3" >Nu är det dags att skapa ditt lag för matchplay 2021. Klicka på knappen nedan och följ instruktionerna.</p>
                     </b-col>
                     <b-col hidden md="12" class="pt-1 text-center mt-3 mb-5">
                         <b-button variant="primary" class="blue-bg mt-5 mb-3 pulse-button btn-lg" v-on:click="create_team('new')"><i class="material-icons">sports_golf</i> Skapa ditt lag</b-button>
@@ -197,9 +197,9 @@
                     <b-col md="12" class="mt-2">
                         <h2 hidden>Skapa ditt blivande mästarlag</h2>
                         <p v-if="closed" class="mt-3">Om inga lag syns här har något blivit fel med lagkopplingen, se kontaktuppg. längst ner på sidan.</p>
-                        <p v-if="!closed" class="mt-3">Nu är det dags att skapa ditt lag för matchplay 2020. Klicka på knappen nedan och följ instruktionerna.</p>
+                        <p v-if="!closed && teams.length === 0 || !teams.length" class="mt-3" >Nu är det dags att skapa ditt lag för matchplay 2021. Klicka på knappen nedan och följ instruktionerna.</p>
                     </b-col>
-                    <b-col v-if="!closed" md="12" class="pt-1 text-center mt-2 mb-3">
+                    <b-col v-if="!closed && teams.length === 0 || !teams.length" md="12" class="pt-1 text-center mt-2 mb-3">
                         <b-button variant="primary" class="blue-bg mt-3 mb-3 pulse-button btn-lg" v-on:click="create_team('new')"><i class="material-icons">sports_golf</i> Skapa ditt lag</b-button>
                     </b-col>
             </b-row>
@@ -218,14 +218,12 @@
                                 <img v-if="team.type === 'Company'" class="pt-3 pb-3" :src="`https://res.cloudinary.com/dn3hzwewp/image/upload/w_400,c_scale//matchplay/logos/${team.logourl}.png`"></span>
 
                                 <span v-else class="pr-2">Ditt lag</span>
-                                <div v-if="!team.teammemberemail && !team.teammembergolfid && !closed">
-                                    <b-button size="sm" v-if="!team.invoice" @click="goToStep(team, 2)" variant="success" class="mt-3">Bjud in lagkamrat</b-button>
-                                </div>
+                                
                             </b-card-title>
                             <b-card-text class="mt-0">
                                 <div class="pt-0 pb-3">
                                     <span :id="'tooltip-teamleader-' + idx">
-                                        <i class="material-icons mr-2">person_pin</i>{{team.teamleadername}}
+                                        <i class="material-icons mr-2">person_pin</i>{{team.teamleadername}} (c)
                                         <b-tooltip :target="'tooltip-teamleader-' + idx" triggers="hover" placement="top">
                                             Lagkaptenen för laget
                                         </b-tooltip>
@@ -239,13 +237,20 @@
                                         </b-tooltip>
                                     </span>
                                 </div>
-                                <div v-if="!team.teammembername" class="pt-0 pb-3">
+                                <div v-if="!team.teammembername && team.teammembergolfid" class="pt-0 pb-3">
                                     <span :id="'tooltip-teammember2-' + idx">
-                                        <i class="material-icons mr-2">person_pin</i>Väntar på lagkamrat
+                                        <i class="material-icons mr-2 red">error</i><span v-if="!team.teammembername && team.teammembergolfid">{{team.teammembergolfid}}</span>
                                         <b-tooltip :target="'tooltip-teammember2-' + idx" triggers="hover" placement="top">
                                             Vi väntar på att din lagkamrat ska registera sig på matchplay.se
                                         </b-tooltip>
                                     </span>
+                                </div>
+
+                                <div v-if="!team.teammembername && !team.teammembergolfid" class="pt-0 pb-3">
+                                <div v-if="!team.teammemberemail && !team.teammembergolfid && !closed">
+                                     <i class="material-icons mr-0 red">error</i>
+                                    <b-button size="sm" v-if="!team.invoice" @click="goToStep(team, 2)" variant="success" class="ml-0">Bjud in lagkamrat</b-button>
+                                </div>
                                 </div>
 
                                 <div v-if="team.teamreservegolfid" class="pt-0 pb-3">
@@ -286,7 +291,7 @@
                                         </b-tooltip>
                                     </span>
                                 </div>
-                                <div v-if="team.sponsmerch" class="mt-4">
+                                <div hidden v-if="team.sponsmerch" class="mt-4">
                                     <b-container>
                                         <b-row>
                                             <b-col class="col-6 text-center p-0 m-0">{{getFirstname(team.teamleadername)}} ({{team.sponsmerch.property01}})<br>
@@ -304,7 +309,7 @@
                                   
                                 </div>
                                 
-                                <div v-if="!team.sponsmerch">
+                                <div hidden v-if="!team.sponsmerch">
                                     <b-button size="sm" @click="goToStep(team, 3)" variant="success" class="mt-3">Välj tröjor</b-button>
                                 </div>
                             </b-card-text>
@@ -314,7 +319,7 @@
                                 </p>
                                 <p class="mb-0" style="color:red;" v-if="!team.paid">
                                     <i class="material-icons mr-2">money_off</i>{{text.not_paidteam}}
-                                    <b-button v-if="!team.invoice && !closed" @click="goToStep(team, 4)" variant="success" class="btn-sm float-right">Betala</b-button>
+                                    <b-button v-if="!team.invoice && !closed" @click="goToStep(team, 3)" variant="success" class="btn-sm float-right">Betala</b-button>
                                 </p>
                             </template>
                             <b-button hidden variant="primary" class="blue-bg">Redigera lag</b-button>
@@ -335,11 +340,12 @@
                                 <b-card class="mt-1 mb-1" no-body>
                                     <b-card-header>
                                         Ditt lag<span v-if="team.name != ''">: {{team.name}}</span>
+                                        
                                         <img class="overview-logo" v-bind:src="team.logo" v-if="team.type === 'Company'" />
                                     </b-card-header>
                                     <b-card-body>
                                         <b-card-text class="mt-3">
-                                            <div class="pt-0 pb-3">
+                                            <div hidden class="pt-0 pb-3">
                                                 <span id="tooltip-teamleader">
                                                     <i class="material-icons mr-2">supervised_user_circle</i> {{userdetails.firstname}} {{userdetails.lastname}}<span v-if="team.player_2_name"> & {{team.player_2_name}}</span>
                                                     <b-tooltip target="tooltip-teamleader" triggers="hover" placement="top">
@@ -450,7 +456,7 @@
                         <b-row align-h="center">
                             <b-col md="6">
                                 <b-form-group class="mb-5" v-if="team.type != null && !team.is_readonly">
-                                    <label for="query">Välj hemmaklubb för matcher<i v-b-popover.hover.top="'Välj en klubb som ligger nära där du bor eller tänkt spela dina matcher.'" title="Hjälp" class="help material-icons mr-2">help_outline</i></label>
+                                    <label for="query">Välj hemmaklubb för matcher<i v-b-popover.hover.top="'Välj klubben du är medlem i eller som ligger nära där du bor eller tänkt spela dina matcher på.'" title="Hjälp" class="help material-icons mr-2">help_outline</i></label>
                                     <suggestions v-model="query" id="query" :options="options" :onInputChange="onCountryInputChange" required :onItemSelected="onSearchItemSelected" style="width:100%;">
                                         <div slot="item" slot-scope="props" class="single-item">
                                             <span class="name">{{props.item.title}}</span>
@@ -556,7 +562,7 @@
                             <b-col md="6">
                                 <b-button @click.prevent="prev()" variant="light"><i class="material-icons">arrow_back_ios</i>Tillbaka</b-button>
                                 <b-button :disabled="team.teammembergolfid === ''" class="mt-0 mt-sm-0 float-right" @click.prevent="next()" variant="success">
-                                    <b-spinner v-if="showloginspinner" small type="grow" class="mr-2"></b-spinner>Välj tröjor<i class="ml-2 material-icons">arrow_forward_ios</i>
+                                    <b-spinner v-if="showloginspinner" small type="grow" class="mr-2"></b-spinner>Betala<i class="ml-2 material-icons">arrow_forward_ios</i>
                                 </b-button>
                             </b-col>
                         </b-row>
@@ -572,189 +578,9 @@
                         </b-row>
                     </b-container>
                 </div>
-
-                <!-- STEP 2 TRÖJOR -->
-                <div v-if="team.step === 3">
-                    <b-container class="mt-3 mb-3">
-                        <b-row class="mt-4">
-                            <b-col class="col-12">
-                                <p>
-                                    Dags att välja pikeér från PING till dig och din lagkamrat. Välj 2 st pikeér totalt från herr/dam och ange storlek.
-                                </p>
-                            </b-col>
-                        </b-row>
-                    </b-container>
-                    <b-container v-if="!team.completemode">
-                        <b-row align-h="center">
-                            <b-col md="6" class="text-center mb-5">
-                                <b-button @click.prevent="skipStep()" variant="success">
-                                    Jag vill välja tröjor senare<i class="ml-2 material-icons mr-2">arrow_forward_ios</i>
-                                </b-button>
-                            </b-col>
-                        </b-row>
-                    </b-container>
-
-                    <b-container class="mt-3 mb-3">
-                        <b-row class="mt-4">
-                            <b-col md="6" class="mb-3">
-                                <b-card @click="shirtState(1)" class="pointer" :variant="team.giveaway.player1" :border-variant="team.giveaway.player1" body-bg-variant="light" :header="team.giveaway.player1header" :header-bg-variant="team.giveaway.player1" :header-text-variant="team.giveaway.player2" align="center">
-                                    <b-card-text>
-                                        Pikémodell: <b-img v-if="team.shirtPicker.player1.shirt" class="mr-2" id="shirtimage1" :src="getShirtImg(team.shirtPicker.player1.shirt)"></b-img><br>
-                                        Storlek: {{team.shirtPicker.player1.size}}<br>
-                                    </b-card-text>
-                                </b-card>
-
-                            </b-col>
-                            <b-col md="6" class="">
-                                <b-card @click="shirtState(2)" class="pointer" :variant="team.giveaway.player12" :border-variant="team.giveaway.player2" body-bg-variant="light" :header="team.giveaway.player2header" :header-bg-variant="team.giveaway.player2" :header-text-variant="team.giveaway.player1" align="center">
-                                    <b-card-text>
-                                        Pikémodell: <b-img v-if="team.shirtPicker.player2.shirt" class="mr-2" id="shirtimage1" :src="getShirtImg(team.shirtPicker.player2.shirt)"></b-img><br>
-                                        Storlek: {{team.shirtPicker.player2.size}}<br>
-                                    </b-card-text>
-                                </b-card>
-
-                            </b-col>
-                            <b-col md="12" class="mt-4">
-                                <hr>
-                            </b-col>
-                        </b-row>
-                        <b-row class="mt-4 justify-content-md-center">
-                            <b-col md="3" class="text-center">
-                                <b-button id="male-button" class="" @click="setGender('male')" :variant="team.shirtPicker.gender">HERR</b-button>
-                                <b-button id="female-button" class="" @click="team.shirtPicker.gender = 'female'" :variant="team.shirtPicker.gender">DAM</b-button>
-                            </b-col>
-                        </b-row>
-                        <b-row class="mt-4 justify-content-md-center">
-                            <b-col md="auto" class="text-center">
-                                <b-form-select inline v-model="team.giveaway.selected" :options="sizeOptions()" @change.native="myChange">
-                                </b-form-select>
-                            </b-col>
-                        </b-row>
-                    </b-container>
-
-                    <!-- HERR -->
-                    <b-container class="mt-3 mb-3" v-if="team.shirtPicker.gender === 'male'">
-                        <b-row>
-                            <b-col :class="{ 'selected': team.shirtPicker.selected === '1'}" class="col-6 col-md-4 p-3 text-center shirt" @click="selectShirt('1')">
-                                <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120,c_scale/v1575307928/matchplay/ping/1.png"></b-img>
-                            </b-col>
-                            <b-col :class="{ 'selected': team.shirtPicker.selected === '2'}" class="col-6 col-md-4 p-3 text-center shirt" @click="selectShirt('2')">
-                                <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120,c_scale/v1575307928/matchplay/ping/2.png"></b-img>
-                            </b-col>
-                            <b-col :class="{ 'selected': team.shirtPicker.selected === '3'}" class="col-6 col-md-4 p-3 text-center shirt" @click="selectShirt('3')">
-                                <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120,c_scale/v1575307928/matchplay/ping/3.png"></b-img>
-                            </b-col>
-                            <b-col :class="{ 'selected': team.shirtPicker.selected === '4'}" class="col-6 col-md-4 p-3 text-center shirt" @click="selectShirt('4')">
-                                <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120,c_scale/v1575307927/matchplay/ping/4.png"></b-img>
-                            </b-col>
-                            <b-col :class="{ 'selected': team.shirtPicker.selected === '5'}" class="col-6 col-md-4 p-3 text-center shirt" @click="selectShirt('5')">
-                                <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120,c_scale/v1575307926/matchplay/ping/5.png"></b-img>
-                            </b-col>
-                            <b-col :class="{ 'selected': team.shirtPicker.selected === '6'}" class="col-6 col-md-4 p-3 text-center shirt" @click="selectShirt('6')">
-                                <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120,c_scale/v1575307926/matchplay/ping/6.png"></b-img>
-                            </b-col>
-                            <b-col :class="{ 'selected': team.shirtPicker.selected === '7'}" class="col-6 col-md-4 p-3 text-center shirt" @click="selectShirt('7')">
-                                <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120,c_scale/v1575307926/matchplay/ping/7.png"></b-img>
-                            </b-col>
-                        </b-row>
-                    </b-container>
-
-                    <!-- DAM -->
-                    <b-container class="mt-3 mb-3" v-if="team.shirtPicker.gender === 'female'">
-                        <b-row>
-                            <b-col :class="{ 'selected': team.shirtPicker.selected === '8'}" class="col-6 col-md-4 p-3 text-center shirt" @click="selectShirt('8')">
-                                <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120,c_scale/v1575307927/matchplay/ping/8.png"></b-img>
-                            </b-col>
-                            <b-col :class="{ 'selected': team.shirtPicker.selected === '9'}" class="col-6 col-md-4 p-3 text-center shirt" @click="selectShirt('9')">
-                                <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120,c_scale/v1575307927/matchplay/ping/9.png"></b-img>
-                            </b-col>
-                            <b-col :class="{ 'selected': team.shirtPicker.selected === '10'}" class="col-6 col-md-4 p-3 text-center shirt" @click="selectShirt('10')">
-                                <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120,c_scale/v1575307927/matchplay/ping/10.png"></b-img>
-                            </b-col>
-                            <b-col :class="{ 'selected': team.shirtPicker.selected === '11'}" class="col-6 col-md-4 p-3 text-center shirt" @click="selectShirt('11')">
-                                <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120,c_scale/v1575307927/matchplay/ping/11.png"></b-img>
-                            </b-col>
-                            <b-col :class="{ 'selected': team.shirtPicker.selected === '12'}" class="col-6 col-md-4 p-3 text-center shirt" @click="selectShirt('12')">
-                                <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120,c_scale/v1575307927/matchplay/ping/12.png"></b-img>
-                            </b-col>
-                            <b-col :class="{ 'selected': team.shirtPicker.selected === '13'}" class="col-6 col-md-4 p-3 text-center shirt" @click="selectShirt('13')">
-                                <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120,c_scale/v1575307927/matchplay/ping/13.png"></b-img>
-                            </b-col>
-                            <b-col :class="{ 'selected': team.shirtPicker.selected === '14'}" class="col-6 col-md-4 p-3 text-center shirt" @click="selectShirt('14')">
-                                <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_120,c_scale/v1575307926/matchplay/ping/14.png"></b-img>
-                            </b-col>
-                        </b-row>
-                    </b-container>
-
-                    <b-container class="mt-3 mb-4 small">
-                        <b-row>
-                            <b-col md="12">
-                                <hr>
-                            </b-col>
-                        </b-row>
-                        <b-row align-h="center">
-                            <b-col md="6" class="mt-2 mb-4">
-                                <h4>Skickas till adress:</h4>
-                            </b-col>
-                        </b-row>
-
-                        <b-row align-h="center">
-
-                            <b-col md="6">
-
-                                <b-form-input class="mb-2" id="sponsname" name="sponsname" v-model="giveawayname" required placeholder="Skriv in ditt namn" :state="validate_sponsname"></b-form-input>
-
-                                <b-form-input class="mb-2" id="sponsaddress" name="streetaddress" v-model="team.giveaway.sponsaddress" required placeholder="Skriv in din gatuadress" :state="validate_sponsaddress"></b-form-input>
-
-                                <b-form-input class="mb-2" id="sponszipcode" name="zipcode" v-model="team.giveaway.sponszipcode" required placeholder="Skriv in ditt postnr" :state="validate_sponszipcode"></b-form-input>
-
-                                <b-form-input class="mb-2" id="sponscity" name="city" v-model="team.giveaway.sponscity" required placeholder="Skriv in din postort" :state="validate_sponscity"></b-form-input>
-                            </b-col>
-                        </b-row>
-                    </b-container>
-
-                    <b-container v-if="!team.completemode">
-                        <b-row align-h="center">
-                            <b-col md="6">
-                                <b-button @click.prevent="prev()" variant="light"><i class="material-icons ml-2">arrow_back_ios</i>Tillbaka</b-button>
-                                <b-button class="mt-sm-0 float-right" @click.prevent="next()" variant="success">
-                                    <b-spinner v-if="showloginspinner" small type="grow" class="mr-2"></b-spinner>Spara<i class="ml-2 material-icons">arrow_forward_ios</i>
-                                </b-button>
-                            </b-col>
-                        </b-row>
-                    </b-container>
-                    <b-container v-if="!team.completemode" class="mt-3 mb-4 p-0">
-                        <b-row align-h="center">
-                            <b-col md="auto">
-                                <b-alert v-if="team.giveaway.shirtwarning" variant="warning" show class="mt-4 form-text text-muted text-center">Var snäll och välj två tröjor med storlek till ditt lag innan du betalar.</b-alert>
-
-                            </b-col>
-                        </b-row>
-                    </b-container>
-
-                    <b-container v-if="team.completemode">
-                        <b-row align-h="center">
-                            <b-col md="6">
-                                <b-button @click.prevent="cancel_team()" variant="light"><i class="material-icons">clear</i> Avbryt</b-button>
-                                <b-button class="mt-sm-0 float-right" @click.prevent="shirtComplete()" variant="success">
-                                    <b-spinner v-if="showloginspinner" small type="grow" class="mr-2"></b-spinner> <i class="ml-2 material-icons mr-2">done</i>Klar
-                                </b-button>
-                            </b-col>
-                        </b-row>
-                    </b-container>
-                    <b-container v-if="team.completemode" class="mt-3 mb-4 p-0">
-                        <b-row align-h="center">
-                            <b-col md="auto">
-                                <b-alert v-if="team.giveaway.shirtwarning" variant="warning" show class="mt-4 form-text text-muted text-center">Var snäll och välj två tröjor med storlek till ditt lag.</b-alert>
-
-                            </b-col>
-                        </b-row>
-                    </b-container>
-
-                </div>
-
+        
                 <!-- STEP 3 -->
-                <div v-if="team.step === 4">
+                <div v-if="team.step === 3">
                     <b-container>
                         <b-row align-h="center">
                             <b-col md="6">
@@ -836,9 +662,11 @@
                     <b-container>
                         <b-row align-h="center">
                             <b-col v-if="this.paymentstatus === 'PAID'" md="6">
-                                <h2 class="text-center"><i class="material-icons">favorite_border</i> Tack! <i class="material-icons">favorite_border</i></h2>
-                                <p>Ditt lag är betalt och klart. Vi återkommer med information om matcher och leverans av pikéer.</p>
-                                <p>Hälsningar<br>matchplay</p>
+                                <h2 class="text-center"><i class="pb-1 material-icons">favorite_border</i> Tack! <i class="pb-1 material-icons">favorite_border</i></h2>
+                                <p>Ditt lag är betalt och klart. Vi återkommer med information om lottning och matcher i god tid innan tävlingen startar!</p>
+                                <p>Dela gärna på Facebook för att utmana andra samt ta chansen att vinna fina priser!</p>
+                                <p><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.matchplay.se" class="btn blue-bg btn-md text-white mb-3">Dela på Facebook</a></p>
+                                <p>Hälsningar Matchplay <i class="pb-0 mr-2 material-icons red">favorite</i></p>
                             </b-col>
                             <b-col v-if="this.paymentstatus === 'DECLINED'" md="6">
                                 <h2 class="text-center"><i class="material-icons">eject</i> Du valde att avbryta betalningen</h2>
@@ -1125,7 +953,7 @@ export default {
         let countries = ['Afghanistan', 'Åland Islands', 'Albania', 'Algeria', 'American Samoa', 'AndorrA', 'Angola', 'Anguilla', 'Antarctica', 'Antigua and Barbuda', 'Argentina', 'Armenia', 'Aruba', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bermuda', 'Bhutan', 'Bolivia', 'Bosnia and Herzegovina', 'Botswana', 'Bouvet Island', 'Brazil', 'British Indian Ocean Territory', 'Brunei Darussalam', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Cape Verde', 'Cayman Islands', 'Central African Republic', 'Chad', 'Chile', 'China', 'Christmas Island', 'Cocos (Keeling) Islands', 'Colombia', 'Comoros', 'Congo', 'Congo, The Democratic Republic of the', 'Cook Islands', 'Costa Rica', 'Cote D\'Ivoire', 'Croatia', 'Cuba', 'Cyprus', 'Czech Republic', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic', 'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Eritrea', 'Estonia', 'Ethiopia', 'Falkland Islands (Malvinas)', 'Faroe Islands', 'Fiji', 'Finland', 'France', 'French Guiana', 'French Polynesia', 'French Southern Territories', 'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana', 'Gibraltar', 'Greece', 'Greenland', 'Grenada', 'Guadeloupe', 'Guam', 'Guatemala', 'Guernsey', 'Guinea', 'Guinea-Bissau', 'Guyana', 'Haiti', 'Heard Island and Mcdonald Islands', 'Holy See (Vatican City State)', 'Honduras', 'Hong Kong', 'Hungary', 'Iceland', 'India'];
         return {    
             choosereserve: false,
-            closed: true,       
+            closed: false,       
             tabIndex: 0,
             games:0,
             teamscount:0,
@@ -1358,8 +1186,8 @@ export default {
                     ],
                 },
                 _id: '',
-                price_private: 900,
-                price_company: 2400,
+                price_private: 695,
+                price_company: 2195,
                 checkgolfidvariant2: 'primary',
                 checkgolfidvariant3: 'primary',
                 showplayer1: false,
@@ -3003,6 +2831,14 @@ export default {
 
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
+
+.green {
+    color:green !important;
+}
+
+.red {
+    color:red !important;
+}
 
 img {
     max-width:70%;

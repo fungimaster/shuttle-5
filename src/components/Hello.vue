@@ -3,7 +3,7 @@
     <vue-headful :title="doctitle" />
     <div class="hidden theme text-center">
       <div class="container">
-        <h2 class="when">Matchplay 2020</h2>
+        <h2 class="when">Matchplay 2021</h2>
       </div>
     </div>
 
@@ -16,11 +16,17 @@
       <b-container class="d-flex">
         <b-row>
           <b-col class="col-12 col-md-12">            
-            <h2>VÄLKOMMEN TILL MATCHPLAY, GOLFTÄVLINGEN FÖR BÅDE PRIVATPERSONER OCH FÖRETAG</h2>
+            <h2>VÄLKOMMEN TILL MATCHPLAY 2021, GOLFTÄVLINGEN FÖR BÅDE PRIVATPERSONER OCH FÖRETAG</h2>
             <p class="mt-3 mt-md-0">Matchplay är en matchspelstävling för par med officiellt handikapp. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.</p>
-            <p v-if="!closed">Ta chansen att ta dig till Sverigefinalen och sedan vidare utomlands! Alla deltagare får pikeér från PING.</p>
+            <p hidden v-if="!closed">Ta chansen att ta dig till Sverigefinalen och sedan vidare utomlands!</p>
+            <p hidden v-if="!closed">2020 spelades 358 matcher på nästan 100 golfklubbar.</p>
              <p hidden v-if="closed">I helgen (30-31 maj) lottas första omgången. Den 1 juni startar tävlingen!</p>
             
+            <b-alert show class="mt-4 small" variant="info">
+                Tävlingen startar den 3:e maj 2021 men anmäl ditt lag redan nu!                
+                För mer uppdaterad information håll koll på <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a>.
+             </b-alert>
+
             <b-alert v-if="closed" hidden class="mt-4 small" variant="warning">
                 Alla matcher är lottade och omgång 1 spelas mellan 1-14 juni!  <a href="#games">Se matcher längre ner!</a>
                 <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
@@ -79,12 +85,12 @@
                 <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
              </b-alert>
 
-             <div v-if="!closed">
-            <h2 class="mb-3">Anmälan stänger om</h2>
-            <appCountdown deadline="2020-05-27 18:00:00"></appCountdown>
+             <div hidden v-if="!closed" class="mt-4">
+            <h3 class="mb-3 text-center">Anmälan stänger om</h3>
+            <appCountdown deadline="2021-04-30 23:59:00"></appCountdown>
              </div>
 
-             <b-alert v-if="!closed" show class="mt-4 small" variant="warning">
+             <b-alert v-if="!closed" hidden class="mt-4 small" variant="warning">
                 Start för tävlingen och sista anmälningsdag är ändrad! Tävlingen startar 1 juni och sista dagen för anmälan är 27:e maj. <a href="https://www.facebook.com/pg/matchplaysweden/posts/?ref=page_internal">Läs mer här</a>
                 <span hidden><strong>OBS!</strong> Alla anmälda lag får tröjor från PING men vill man vara säker på att ha dom till matchstart i början av maj så måste man anmäla laget innan 1 april.</span>               
                 <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
@@ -95,16 +101,13 @@
              </b-alert>
                        
             <div class="buttons text-left" id="games" ref="games">
-              <a v-if="!closed" href="#register" class="btn blue-bg btn-md text-white mt-3 mr-2">Anmälan</a>
-              <a href="/mymatchplay" hidden class="btn blue-bg btn-md text-white mt-3">Lag- och matchhantering</a>
+              <a v-if="!closed" href="/register" class="btn blue-bg btn-md text-white mt-3 mr-2">Anmälan</a>
+              <a href="/mymatchplay" class="btn blue-bg btn-md text-white mt-3">Lag- och matchhantering</a>
               <a hidden href="/register" class="btn btn-warning btn-md text-white mt-3">Efterhandsregistrera spelare</a>
             </div>
           </b-col>
           <b-col class="col-md-3 d-none d-md-block pl-2 justify-content-center align-self-center">           
-           <a href="#charity">
-            <b-img hidden src="https://res.cloudinary.com/dn3hzwewp/image/upload/e_colorize,co_rgb:fff/v1576503821/matchplay/badge4.png" title="10% av lagavgiften går till Matchplay Charity"></b-img>            
-           </a>
-
+          
             <b-img hidden src="https://res.cloudinary.com/dn3hzwewp/image/upload/e_colorize,co_rgb:fff/v1573118127/matchplay/matchplay-new-logo-2020.png" alt=""></b-img>
           </b-col>
         </b-row>
@@ -113,11 +116,93 @@
 <!-- TEMP HIDDEN -->   
     <div class="teaser-container">
       <b-container>       
-        <b-row>        
+        <b-row>      
+            
           <b-col id="register" ref="register">
-            <h2 v-if="!closed" class="teaser-header orange">Anmäl dig som spelare</h2>
-            <h2 class="hidden teaser-header orange">Det är klart du vill vara med i golftävlingen, registrera dig här!</h2>
+            <h3 v-if="!closed" class="teaser-header orange">Registrera ditt lag för Matchplay 2021</h3>
+            <p>Hela tävlingen är digitaliserad där vi kontrollerar Golf-ID, hcp, slope för att kunna applicera våra hcputräkningar inför varje match. Vi har byggt ett enkelt digitalt scorekort som hemmalaget ansvarar för att fylla i under matchens gång, allt för att ni spelare ska kunna ägna er mer åt golfmatchen samt bidra till trevlig stämning tillsammans med era motspelare.</p>
+            <a v-if="!closed" href="/register" class="btn blue-bg btn-md text-white mt-3 mr-2"><i class="pb-1 mr-2 material-icons">thumb_up</i>Steg 1 - Kontroll av Golf-ID</a>
+            <h2 hidden class="teaser-header orange">Det är klart du vill vara med i golftävlingen, registrera dig här!</h2>
             <b-row class="mb-3 mt-1">
+
+ <b-col hidden xs="12" sm="12" class="mt-2">
+                      <h4 hidden>Skriv in ditt Golf-ID</h4>
+                      <p>Börja med att ange ditt Golf-ID så hämtar vi en del av informationen automatiskt från Svenska Golfförbundet.</p>
+                     <b-alert show class="small" variant="primary">Anmälan innehåller 4 steg. 1. Kontrollera om du kan vara med i tävlingen</b-alert>
+                    <b-alert hidden show variant="danger">
+                      Vi har just nu problem med kopplingen till GIT men jobbar på en lösning, prova igen lite senare!
+                    </b-alert>
+                    </b-col>
+
+                  <b-col class="col-12">
+
+               <b-form hidden inline @submit.stop.prevent @submit="getGolfId" @reset="onReset" v-if="showform1 && !closed">
+                  <b-input :state="validation" v-model="golfid"
+                    inputmode="numeric"
+                    pattern="[- +()0-9]+"
+                    type="text"
+                    size="lg"
+                    style="width:200px;"
+                    class="form-control mr-1"
+                    id="golfid"
+                    placeholder="xxxxxx-xxx"
+                    value                             
+                  />                              
+                  
+                  <b-input hidden v-model="golfid2"
+                    ref="golfid2"
+                    inputmode="numeric"
+                    pattern="[0-9]*"
+                    type="text"
+                    style="width:100px;"
+                    class="form-control ml-1"                
+                    id="golfid2"
+                    placeholder="xxx"
+                    value
+                  />                  
+                  <b-button type="submit" size="md" variant="primary" class="btn blue-bg btn-special ml-0 mt-1 ml-sm-2 mt-sm-0"><b-spinner v-if="showloadgolfid" small type="grow" class="mr-2"></b-spinner>{{ contbutton1 }}
+                    
+                  </b-button>
+                  
+                   <b-form-invalid-feedback :state="validation" v-if="showhelper">
+        Ange ditt Golf-ID med de 6 första siffrorna i ditt personnummer och sedan 3 siffror efter bindestrecket.
+      </b-form-invalid-feedback>      
+       <b-form-valid-feedback :state="validation" v-if="showhelper">
+        Ser bra ut!
+      </b-form-valid-feedback>
+                  <button type="submit" v-on:click="getGolfId()" class="hidden btn blue-bg mt-1">{{ contbutton1 }}</button>
+                </b-form> 
+               
+               <b-alert class="mt-4 small form-text text-muted"
+      :show="dismissCountDown2"
+      variant="warning"
+     
+    >
+      <p>Du finns redan med i Matchplay som en registrerad spelare.</p>
+       <a href="/mymatchplay" class="btn blue-bg text-white mb-3">Logga in</a>
+    </b-alert>   
+               
+                <b-alert class="mt-4 small form-text text-muted"
+      :show="dismissCountDown"
+      dismissible
+      variant="warning"
+      @dismissed="dismissCountDown=0"
+      @dismiss-count-down="countDownChanged"
+    >
+      <p>Vi kunde tyvärr inte hitta ditt Golf-ID hos Svenska Golfförbundet, var vänlig försök igen.</p>
+      <b-progress
+        variant="warning"
+        :max="dismissSecs"
+        :value="dismissCountDown"
+        height="4px"
+      ></b-progress>
+    </b-alert>                
+                   <b-alert hidden v-if="!closed" show class="mt-4 small form-text text-muted">Saknar du ditt Golf-ID ber vi dig kontakta din hemmaklubb för hjälp.</b-alert>                  
+                  
+                  </b-col>
+
+
+
               <b-col md="12" class="teaser-content" ref="success" id="success">
                   <h3 v-if="showqualified" class="mt-3 mb-4">
                     Grattis, du kan vara med i tävlingen <i class="material-icons">tag_faces</i>
@@ -137,25 +222,9 @@
 
                 <div class="form-group" v-if="showform1">
                   <b-row class="mt-0 mb-4">
-                    
-                    
-                     <b-col v-if="!closed" xs="12" sm="7">
-                       <h4>Alla deltagare får en piké från PING</h4>
-                       <b-row>
-                         <b-col class="col-7">
-                           <p>Tack vare vår sponsor PING förses alla deltagare med en piké när man har anmält sitt lag! <strong>Värde 599:- styck.</strong></p>
-                         </b-col>
-                         <b-col class="col-5">
-                           <router-link to="/ping" class=""><b-img alt="ping" src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,h_150/v1575881646/matchplay/ping/ping_shirts.png"></b-img></router-link>
-                         </b-col>
-                       </b-row>
-                       
-                     </b-col>   
-
-
-                  
-                     <b-col class="col-12 mb-5">
-                       <h3>Finalparen klara för Spanien</h3>
+                                                          
+                     <b-col class="col-12 mt-5">
+                       <h3>Finalparen från Matchplay 2020 klara för Spanien</h3>
                        <p>Vi säger stort grattis till våra finalpar som är klara för den stora Matchplayfinalen på Los Naranjos i Spanien mellan den 7-11 februari 2021.<br>
                        </p>
                        <b-row>
@@ -187,7 +256,7 @@
 
 
                      <!-- tabs games -->
-                    <b-col xs="12" sm="12" class="mt-2 mt-md-2">
+                    <b-col hidden xs="12" sm="12" class="mt-4 mt-md-2">
                         <b-tabs content-class="mt-3" v-model="tabIndex" no-key-nav>
                           <b-tab disabled title-link-class="ml-2">
                             <template v-slot:title>
@@ -605,86 +674,10 @@
                         </b-col>                         
                      </b-col>
                   </b-row>
-                       <b-row v-if="!closed" class="mt-4 mb-2">
-                    <b-col xs="12" sm="12" class="mt-2">
-                      <h4>Skriv in ditt Golf-ID</h4>
-                      <p>Börja med att ange ditt Golf-ID så hämtar vi en del av informationen automatiskt från Svenska Golfförbundet.</p>
-                    <b-alert hidden show variant="danger">
-                      Vi har just nu problem med kopplingen till GIT men jobbar på en lösning, prova igen lite senare!
-                    </b-alert>
-                    </b-col>
-                  </b-row>
-
-               <b-form  inline @submit.stop.prevent @submit="getGolfId" @reset="onReset" v-if="showform1 && !closed">
-                  <b-input :state="validation" v-model="golfid"
-                    inputmode="numeric"
-                    pattern="[- +()0-9]+"
-                    type="text"
-                    size="lg"
-                    style="width:200px;"
-                    class="form-control mr-1"
-                    id="golfid"
-                    placeholder="xxxxxx-xxx"
-                    value                             
-                  />                              
-                  
-                  <b-input hidden v-model="golfid2"
-                    ref="golfid2"
-                    inputmode="numeric"
-                    pattern="[0-9]*"
-                    type="text"
-                    style="width:100px;"
-                    class="form-control ml-1"                
-                    id="golfid2"
-                    placeholder="xxx"
-                    value
-                  />                  
-                  <b-button type="submit" size="md" variant="primary" class="btn blue-bg btn-special ml-0 mt-1 ml-sm-2 mt-sm-0"><b-spinner v-if="showloadgolfid" small type="grow" class="mr-2"></b-spinner>{{ contbutton1 }}
-                    
-                  </b-button>
-                  
-                   <b-form-invalid-feedback :state="validation" v-if="showhelper">
-        Ange ditt Golf-ID med de 6 första siffrorna i ditt personnummer och sedan 3 siffror efter bindestrecket.
-      </b-form-invalid-feedback>      
-       <b-form-valid-feedback :state="validation" v-if="showhelper">
-        Ser bra ut!
-      </b-form-valid-feedback>
-                  <button type="submit" v-on:click="getGolfId()" class="hidden btn blue-bg mt-1">{{ contbutton1 }}</button>
-                </b-form> 
-               
-               <b-alert class="mt-4 small form-text text-muted"
-      :show="dismissCountDown2"
-      variant="warning"
-     
-    >
-      <p>Du finns redan med i Matchplay som en registrerad spelare.</p>
-       <a href="/mymatchplay" class="btn blue-bg text-white mb-3">Logga in</a>
-    </b-alert>   
-               
-                <b-alert class="mt-4 small form-text text-muted"
-      :show="dismissCountDown"
-      dismissible
-      variant="warning"
-      @dismissed="dismissCountDown=0"
-      @dismiss-count-down="countDownChanged"
-    >
-      <p>Vi kunde tyvärr inte hitta ditt Golf-ID hos Svenska Golfförbundet, var vänlig försök igen.</p>
-      <b-progress
-        variant="warning"
-        :max="dismissSecs"
-        :value="dismissCountDown"
-        height="4px"
-      ></b-progress>
-    </b-alert>                
-                   <b-alert v-if="!closed" show class="mt-4 small form-text text-muted">Saknar du ditt Golf-ID ber vi dig kontakta din hemmaklubb för hjälp.</b-alert>                  
+                       <b-row hidden v-if="!closed" class="mt-4 mb-2">
                    
-                    
-
-                    <div class="col-12 d-block d-md-none justify-content-center align-self-center p-5">           
-            <a href="#charity">
-            <b-img hidden src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1576503821/matchplay/badge4.png" alt=""></b-img>            
-            </a>
-          </div>
+                  </b-row>
+ 
 
                 </div>
 
@@ -763,7 +756,7 @@
                   <b-row v-if="docontinue">
                     <b-col lg="12">
                        <b-alert v-if="docontinue" show class="mt-4 small" variant="primary">
-                    När registreringen är genomförd väljer du att skapa ett lag eller så blir du ihopkopplad med ett befintligt lag där du har blivit vald som lagmedlem.
+                    När registreringen är genomförd väljer du att skapa ett lag eller så blir du ihopkopplad med ett befintligt lag där du har blivit vald som lagmedlem. Betalning av laget sker i nästa steg, du förbinder dig <strong>inte</strong> att skapa ett lag bara för att du registrerar dig som spelare!
                   </b-alert>
                        <b-alert hidden show class="mt-4 mb-4 small" variant="primary">
                     Vi behöver veta lite mer om dig innan du kan gå vidare med registrerigen, vänligen fyll i informationen nedan.
@@ -875,16 +868,16 @@
               </b-col>
             </b-row>
 
-            <b-row class="mb-5 mt-5">
+            <b-row class="mb-5 mt-0">
               <b-col md="12" class="teaser-content">
                 
                 <h3 class="orange mb-3">SÅ HÄR FUNGERAR DET</h3>
 
-<p>Matchplay spelas 2020 i hela Sverige och är en tävling för 2-mannalag (herr, dam eller mixed). Officiellt HCP krävs för att delta. Tävlingsformen är 4-boll, Match/Bästboll. Beroende på antal anmälda lag kommer det bli 6-7 omgångar fram till Sverigefinalen. Varje omgång spelas inom 2 veckor där det vinnande laget går vidare i tävlingen.</p>
+<p>Matchplay spelas 2021 i hela Sverige och är en tävling för 2-mannalag (herr, dam eller mixed). Officiellt HCP krävs för att delta. Tävlingsformen är 4-boll, Match/Bästboll. Beroende på antal anmälda lag kommer det bli 6-7 omgångar fram till Sverigefinalen. Varje omgång spelas inom 2 veckor där det vinnande laget går vidare i tävlingen.</p>
 <p>Ta er till Sverigefinalen och upplev en magisk helg med Matchplay! Sverigefinalen görs upp på en golfklubb som ligger geografiskt bra till för de kvarvarande fyra lagen. Hotell, frukost, all golf samt en bankett på kvällen ingår. De 2 bästa lagen i Sverigefinalen åker med Matchplay till Spanska solkusten för att göra upp om titeln. Flyg, hotell och allt spel ingår för de bägge lagen.
 </p>
   <p>
-  Priset för deltagande i tävlingen är 900:-/lag för privatpersoner och 2400:-/lag (exkl. moms) för företag. Varje lag är garanterat minst 2 matcher.
+  Priset för deltagande i tävlingen är 695:-/lag för privatpersoner och 2195:-/lag (exkl. moms) för företag. Varje lag är garanterat minst 2 matcher.
 </p>
                 <b-container class="mt-5 mb-4">
       <b-row>
@@ -892,7 +885,7 @@
             <div class="step">
             <i class="material-icons">assignment_turned_in</i>
             <h5>Registrering</h5>
-            <p>Börja med att skriva in ditt Golf-ID på matchplay.se där du direkt får besked om du är kvalificerad. Ha din lagkamrats Golf-ID tillhands och önskad modell/storlek på piké. Du blir sedan direkt inloggad för att påbörja ditt lagbygge.</p>
+            <p>Börja med att skriva in ditt Golf-ID på matchplay.se där du direkt får besked om du är kvalificerad. Ha din lagkamrats Golf-ID tillhands och önskad modell/storlek på piké. Du blir sedan direkt inloggad för att påbörja ditt lagbygge.</p>            
             </div>
           </b-col>
 
@@ -900,7 +893,7 @@
             <div class="step">
             <i class="material-icons">supervised_user_circle</i>
             <h5>Laganmälan</h5>
-            <p>Nu ska du som lagkapten skapa ditt lag och väljer typ av lag (privat/företag), lagmedlem och pikeér från PING. Laget blir inte aktivt förrens du har betalat med swish (privatpersoner), voucher eller faktura (företag).</p>
+            <p>Nu ska du som lagkapten skapa ditt lag och väljer typ av lag (privat/företag) och lagmedlem. Laget blir inte aktivt förrens du har betalat med swish (privatpersoner), voucher eller faktura (företag).</p>
             </div>
           </b-col>
 
@@ -932,7 +925,7 @@
             <div class="step">
               <i class="material-icons">flight_takeoff</i>
             <h5>Finalen</h5>
-            <p>De 2 vinnande lagen i Sverigefinalen åker med Matchplay till Spanska solkusten för att göra upp om titeln. Flyg, hotell och allt spel ingår för de bägge lagen på Los Naranjos mellan den 7-11 februari 2021.</p>
+            <p>De 2 vinnande lagen i Sverigefinalen åker med Matchplay till Spanska solkusten för att göra upp om titeln. Flyg, hotell och allt spel ingår för de bägge lagen.</p>
             </div>
           </b-col>
 
@@ -951,34 +944,6 @@
       </b-container>
     </div>
 
-<div hidden class="teaser-container" id="charity" ref="charity">
- 
- 
-
-  <b-container>
-<b-row>
-   
-   <b-col hidden class="mb-3">
-<h2 class="teaser-header orange">Matchplay Charity</h2>
-   </b-col>
-</b-row>
-
-<b-row>
-   
-  
-
-    <b-col hidden md="5" class="p-5">
-       <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1576504784/matchplay/charity.png">
-    </b-col>
-    <b-col md="7">
-       <p class="mt-4 mt-md-0 pt-md-4">
-         Stiftelsen Matchplay Charity grundades med mål att göra skillnad. Vi vill bidra till att hjälpa människor till bättre livskvalitet, hälsa och välmående. Detta genom att främja fysisk aktivitet och att förebygga psykisk ohälsa. Stiftelsens grundare Andreas Granqvist och Henrik Larsson har länge haft visionen, nu har de satt målen och det är ämnen som de själva har ett brinnande engagemang för. Med er laganmälan bidrar ni med 10% av anmälningsavgiften varje år.
-      </p><p><a href="https://matchplaycharity.se/"  target="_blank" class="btn blue-bg btn-md text-white mb-3">Läs mer på vår hemsida</a>          
-       </p>
-    </b-col>
-</b-row>
-      </b-container>
-</div>
 
 <div class="teaser-container hidden" id="teaser1">
  
@@ -1081,7 +1046,7 @@ components: {
   data() {
     return {
   modalShow: false,
-  closed: true,
+  closed: false,
   leader:'',
    bindProps: {
         mode: "international",
@@ -1253,13 +1218,15 @@ components: {
   mixins: [tagsMixin],
 
   mounted: function () {
-        //console.log("ROUTE", this.$route.query.resetpw)
-
+       
+       /*
         this.$store.dispatch('updateUserInfo');
         this.getTopListClubsPlayed();
         this.getBirdies();
         this.getGamesInprogress('initial'); //in progress
         localStorage.setItem('active_round',this.active_round);
+        */
+        
         //this.getTeamsCount();
         //this.getGamesPending(); //pending
         //this.getGamesFinished('Omgång 2'); //finished
@@ -2154,7 +2121,7 @@ margin-top:0 !important;
 
 .hero {
   background: url(
-      https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg
+      https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:20,co_rgb:000000/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg
   );
 
   background-repeat: no-repeat;
@@ -2162,13 +2129,13 @@ margin-top:0 !important;
   background-size: cover;
   color: #fff;
   padding: 180px 0 180px 0;
-  background-position: right 0px top 0px;
+  background-position: right 0px top 50%;
   @media (min-width: 320px) {
     padding: 6rem 0 5rem 0;
     /*background-position: bottom 10% right 0;*/
   }
   @media (min-width: 480px) {
-    padding: 8rem 0 8rem 0;
+    padding: 3rem 0 8rem 0;
     /*background-position: bottom 0% right 0;*/
   }
   @media (min-width: 768px) {
