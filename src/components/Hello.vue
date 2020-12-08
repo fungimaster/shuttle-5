@@ -15,14 +15,14 @@
     <div class="hero">      
       <b-container class="d-flex">
         <b-row>
-          <b-col class="col-12 col-md-12">            
+          <b-col class="col-12 col-md-12 mt-4">            
             <h2>VÄLKOMMEN TILL MATCHPLAY 2021, GOLFTÄVLINGEN FÖR BÅDE PRIVATPERSONER OCH FÖRETAG</h2>
             <p class="mt-3 mt-md-0">Matchplay är en matchspelstävling för par med officiellt handikapp. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.</p>
             <p hidden v-if="!closed">Ta chansen att ta dig till Sverigefinalen och sedan vidare utomlands!</p>
             <p hidden v-if="!closed">2020 spelades 358 matcher på nästan 100 golfklubbar.</p>
              <p hidden v-if="closed">I helgen (30-31 maj) lottas första omgången. Den 1 juni startar tävlingen!</p>
             
-            <b-alert show class="mt-4 small" variant="info">
+            <b-alert show class="mt-4 small" variant="warning">
                 Tävlingen startar den 3:e maj 2021 men anmäl ditt lag redan nu!                
                 För mer uppdaterad information håll koll på <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a>.
              </b-alert>
@@ -120,7 +120,7 @@
             
           <b-col id="register" ref="register">
             <h3 v-if="!closed" class="teaser-header orange">Registrera ditt lag för Matchplay 2021</h3>
-            <p>Hela tävlingen är digitaliserad där vi kontrollerar Golf-ID, hcp, slope för att kunna applicera våra hcputräkningar inför varje match. Vi har byggt ett enkelt digitalt scorekort som hemmalaget ansvarar för att fylla i under matchens gång, allt för att ni spelare ska kunna ägna er mer åt golfmatchen samt bidra till trevlig stämning tillsammans med era motspelare.</p>
+            <p>Hela tävlingen är numera digitaliserad där vi kontrollerar Golf-ID, hcp, slope för att kunna applicera våra hcputräkningar inför varje match. Vi har byggt ett enkelt digitalt scorekort som hemmalaget ansvarar för att fylla i under matchens gång, allt för att ni spelare ska kunna ägna er mer åt golfmatchen samt bidra till trevlig stämning tillsammans med era motspelare.</p>
             <a v-if="!closed" href="/register" class="btn blue-bg btn-md text-white mt-3 mr-2"><i class="pb-1 mr-2 material-icons">thumb_up</i>Steg 1 - Kontroll av Golf-ID</a>
             <h2 hidden class="teaser-header orange">Det är klart du vill vara med i golftävlingen, registrera dig här!</h2>
             <b-row class="mb-3 mt-1">

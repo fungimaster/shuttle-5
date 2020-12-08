@@ -64,7 +64,7 @@
 									<p>Ängelholm</p>
 									<p>Telefon: 010 - 522 00 07</p>
 									<p class="links mb-5">
-										<router-link to="/ping" class>PING</router-link>&nbsp;|
+										<router-link hidden to="/ping" class>PING</router-link>&nbsp;
 										<router-link to="/info" class>Om tävlingen</router-link>&nbsp;|
 										<router-link to="/cookies" class>Cookies/Data</router-link>
 									</p>
