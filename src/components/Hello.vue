@@ -24,7 +24,7 @@
             
             <b-alert show class="mt-4 small" variant="warning">
                 Tävlingen startar den 3:e maj 2021 men anmäl ditt lag redan nu!                
-                För mer uppdaterad information håll koll på <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a>.
+                För mer uppdaterad information håll koll på <a href="https://www.facebook.com/matchplaysweden/" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplay_sweden/" target="_blank">Instagram</a>.
              </b-alert>
 
             <b-alert v-if="closed" hidden class="mt-4 small" variant="warning">
