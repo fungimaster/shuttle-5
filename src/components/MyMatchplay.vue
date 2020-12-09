@@ -490,7 +490,7 @@
                         </b-row>
 
                         <b-row v-if="!team.completemode" align-h="center">
-                            <b-col md="6" class="text-center mb-5">
+                            <b-col md="6" class="text-center mb-3">
                                 <b-button @click.prevent="skipStep()" variant="success">
                                     Jag vill bjuda in en lagkamrat senare<i class="ml-2 material-icons mr-2">arrow_forward_ios</i>
                                 </b-button>

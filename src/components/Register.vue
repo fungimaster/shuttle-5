@@ -23,7 +23,7 @@
   </b-col>
 
   <b-col v-if="this.player==='player2'">
-    <p>Din kompis har skapat ett lag i tävlingen och för att <strong>göra laget komplett</strong> behöver du registrera dig som spelare här på matchplay! Följ instruktionerna nedan.</p>    
+    <p>Din kompis <span v-if="captain" style="font-weight:bold;color:green;">{{captain}}</span> har skapat ett lag i tävlingen och för att <strong>göra laget komplett</strong> behöver du registrera dig som spelare här på matchplay! Följ instruktionerna nedan.</p>    
     <hr>
   </b-col>
 </b-row>
@@ -68,7 +68,7 @@
                     class="form-control mr-1"
                     id="golfid"
                     placeholder="xxxxxx-xxx"
-                    value                             
+                    value                            
                   />                              
                   
                   <b-input hidden v-model="golfid2"
@@ -120,7 +120,9 @@
         height="4px"
       ></b-progress>
     </b-alert>                
-                   <b-alert show class="mt-4 small form-text text-muted" v-if="this.player==='player1'">Inget förbinder dig att skapa ett lag genom att fortsätta till nästa steg. Betalningen sker först när ett lag skapas.</b-alert>                  
+                   <b-alert show class="mt-4 small form-text text-muted" v-if="this.player==='player1'">Inget förbinder dig att skapa ett lag genom att fortsätta till nästa steg. Betalningen sker först när ett lag skapas.
+                     Anmälningskostnad per lag är <strong>{{price1}} kr</strong> för privatpersoner och <strong>{{price2}} kr</strong> (exkl. moms) för företag.
+                     </b-alert>                  
                    
 
                 </div>
@@ -364,6 +366,10 @@ components: {
           showDialCode: false
         }
       },
+      price1:'695',
+      price2:'2195',
+      captain:'',
+      invitegolfid:'',
       player: 'player1',
       step: 'step1',
       showhelper: false,
@@ -459,6 +465,17 @@ components: {
                   this.player = this.$route.query.player;
                 }
               }
+
+              if (this.$route.query.captain) {                
+                  this.captain = this.$route.query.captain;                
+              }
+
+              if (this.$route.query.golfid) {                
+                  this.golfid = this.$route.query.golfid;
+
+              }
+
+              
   },
  
   methods: {    

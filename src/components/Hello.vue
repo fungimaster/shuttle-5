@@ -18,11 +18,17 @@
           <b-col class="col-12 col-md-12 mt-4">            
             <h2>VÄLKOMMEN TILL MATCHPLAY 2021, GOLFTÄVLINGEN FÖR BÅDE PRIVATPERSONER OCH FÖRETAG</h2>
             <p class="mt-3 mt-md-0">Matchplay är en matchspelstävling för par med officiellt handikapp. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.</p>
-            <p hidden v-if="!closed">Ta chansen att ta dig till Sverigefinalen och sedan vidare utomlands!</p>
+            <p v-if="!closed">Ta chansen att ta dig till Sverigefinalen och sedan vidare utomlands!</p>
             <p hidden v-if="!closed">2020 spelades 358 matcher på nästan 100 golfklubbar.</p>
              <p hidden v-if="closed">I helgen (30-31 maj) lottas första omgången. Den 1 juni startar tävlingen!</p>
             
-            <b-alert show class="mt-4 small" variant="warning">
+             <div class="buttons text-left" id="games" ref="games">
+              <a v-if="!closed" href="/register" class="btn blue-bg btn-md text-white mt-2 mr-2">Anmälan ({{price1}} kr)</a>
+              <a href="/mymatchplay" class="btn blue-bg btn-md text-white mt-2">Lag- och matchhantering</a>
+              <a hidden href="/register" class="btn btn-warning btn-md text-white mt-2">Efterhandsregistrera spelare</a>
+            </div>
+
+            <b-alert show class="mt-4 smaller" variant="warning">
                 Tävlingen startar den 3:e maj 2021 men anmäl ditt lag redan nu!                
                 För mer uppdaterad information håll koll på <a href="https://www.facebook.com/matchplaysweden/" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplay_sweden/" target="_blank">Instagram</a>.
              </b-alert>
@@ -100,11 +106,7 @@
                 Håll koll via <a href="https://www.facebook.com/matchplaysweden/" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplay_sweden/" target="_blank">Instagram</a>.
              </b-alert>
                        
-            <div class="buttons text-left" id="games" ref="games">
-              <a v-if="!closed" href="/register" class="btn blue-bg btn-md text-white mt-3 mr-2">Anmälan</a>
-              <a href="/mymatchplay" class="btn blue-bg btn-md text-white mt-3">Lag- och matchhantering</a>
-              <a hidden href="/register" class="btn btn-warning btn-md text-white mt-3">Efterhandsregistrera spelare</a>
-            </div>
+           
           </b-col>
           <b-col class="col-md-3 d-none d-md-block pl-2 justify-content-center align-self-center">           
           
@@ -119,10 +121,14 @@
         <b-row>      
             
           <b-col id="register" ref="register">
-            <h3 v-if="!closed" class="teaser-header orange">Registrera ditt lag för Matchplay 2021</h3>
-            <p>Hela tävlingen är numera digitaliserad där vi kontrollerar Golf-ID, hcp, slope för att kunna applicera våra hcputräkningar inför varje match. Vi har byggt ett enkelt digitalt scorekort som hemmalaget ansvarar för att fylla i under matchens gång, allt för att ni spelare ska kunna ägna er mer åt golfmatchen samt bidra till trevlig stämning tillsammans med era motspelare.</p>
+            <h3 v-if="!closed" class="teaser-header orange">Anmäl ditt lag till Matchplay 2021</h3>
+            <p>Hela tävlingen är numera digitaliserad där vi kontrollerar Golf-ID, hcp, slope mm för att kunna applicera våra hcputräkningar inför varje match. Ni använder vårt digitala scorekort för att föra score och vänner/familj kan följa matcherna live!</p>
+            <p>Anmälningskostnad per lag är <strong>{{price1}} kr</strong> för privatpersoner och <strong>{{price2}} kr</strong> (exkl. moms) för företag.</p>
             <a v-if="!closed" href="/register" class="btn blue-bg btn-md text-white mt-3 mr-2"><i class="pb-1 mr-2 material-icons">thumb_up</i>Steg 1 - Kontroll av Golf-ID</a>
             <h2 hidden class="teaser-header orange">Det är klart du vill vara med i golftävlingen, registrera dig här!</h2>
+            
+            
+            
             <b-row class="mb-3 mt-1">
 
  <b-col hidden xs="12" sm="12" class="mt-2">
@@ -221,8 +227,40 @@
                   </h3>
 
                 <div class="form-group" v-if="showform1">
+                <hr>
+
                   <b-row class="mt-0 mb-4">
-                                                          
+                    <b-col class="col-12 col-md-6 mt-3">
+                        <div class="testimonial">
+                          <b-row>
+                          <b-col class="col-3 pt-3">
+                            <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_100,c_fill,ar_1:1,g_auto,r_max/v1487143678/tumblr_mw5qi37cnW1sjeb1ro1_r4_500_v0vzjg.png">
+                          </b-col>                          
+                            <b-col class="col-9">                              
+                              <p>"Jag och min kompis Sven deltog i Matchplay 2020 och det var överraskande roligt att tävla! Jag brukar inte tävla men det var så kul att mäta sig mot andra och vi hade jättetrevliga motståndare. Vi förlorade tyvärr första matchen men fick ju en ny chans i andra chansen."</p>
+                              - Arne Thorildsson
+                            </b-col>                                                        
+                          </b-row>
+                        </div>
+                    </b-col>
+                    <b-col class="col-12 col-md-6 mt-3">
+                        <div class="testimonial">
+                          <b-row>
+                          <b-col class="col-3 pt-3">
+                            <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_100,c_fill,ar_1:1,g_auto,r_max/v1487749682/tone_cxgmpj.png">
+                          </b-col>                          
+                            <b-col class="col-9">                              
+                              <p>"Jag rekommenderar verkligen att vara med i tävlingen, det är så kul att träffa andra golfare som delar passionen till sporten. Det digitala scorekortet är superenkelt, man ser direkt vilket lag som vinner hålet och hur det står i matchen. Kul att vänner kan följa matchen direkt på sajten."</p>
+                              - Ida Svensson
+                            </b-col>                                                        
+                          </b-row>
+                        </div>
+                    </b-col>
+                  </b-row>
+
+
+                  <b-row class="mt-0 mb-4">
+                                      
                      <b-col class="col-12 mt-5">
                        <h3>Finalparen från Matchplay 2020 klara för Spanien</h3>
                        <p>Vi säger stort grattis till våra finalpar som är klara för den stora Matchplayfinalen på Los Naranjos i Spanien mellan den 7-11 februari 2021.<br>
@@ -877,7 +915,7 @@
 <p>Ta er till Sverigefinalen och upplev en magisk helg med Matchplay! Sverigefinalen görs upp på en golfklubb som ligger geografiskt bra till för de kvarvarande fyra lagen. Hotell, frukost, all golf samt en bankett på kvällen ingår. De 2 bästa lagen i Sverigefinalen åker med Matchplay till Spanska solkusten för att göra upp om titeln. Flyg, hotell och allt spel ingår för de bägge lagen.
 </p>
   <p>
-  Priset för deltagande i tävlingen är 695:-/lag för privatpersoner och 2195:-/lag (exkl. moms) för företag. Varje lag är garanterat minst 2 matcher.
+  Priset för deltagande i tävlingen är {{price1}}:-/lag för privatpersoner och {{price2}}:-/lag (exkl. moms) för företag. Varje lag är garanterat minst 2 matcher.
 </p>
                 <b-container class="mt-5 mb-4">
       <b-row>
@@ -885,7 +923,7 @@
             <div class="step">
             <i class="material-icons">assignment_turned_in</i>
             <h5>Registrering</h5>
-            <p>Börja med att skriva in ditt Golf-ID på matchplay.se där du direkt får besked om du är kvalificerad. Ha din lagkamrats Golf-ID tillhands och önskad modell/storlek på piké. Du blir sedan direkt inloggad för att påbörja ditt lagbygge.</p>            
+            <p>Börja med att skriva in ditt Golf-ID på matchplay.se där du direkt får besked om du är kvalificerad. Ha din lagkamrats Golf-ID tillhands. Du blir sedan direkt inloggad för att påbörja ditt lagbygge.</p>            
             </div>
           </b-col>
 
@@ -1110,6 +1148,8 @@ components: {
       },
       searchfield: '',
 
+      price1:'695',
+      price2:'2195',
 
       showhelper: false,
       //contbutton1: 'Fortsätt till nästa steg',
@@ -1939,6 +1979,14 @@ trylogin()
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
 
+.testimonial {
+  font-size:0.9em;
+}
+
+.testimonial img {
+width: 100%;
+}
+
 .no1 {
   background-color: $gold;
 }
@@ -1954,7 +2002,7 @@ p.active-round {
 }
 
 .smaller {
-  font-size:0.7em;
+  font-size:0.9em;
 }
 
 .result {
@@ -2131,7 +2179,7 @@ margin-top:0 !important;
   padding: 180px 0 180px 0;
   background-position: right 0px top 50%;
   @media (min-width: 320px) {
-    padding: 6rem 0 5rem 0;
+    padding: 2rem 0 5rem 0;
     /*background-position: bottom 10% right 0;*/
   }
   @media (min-width: 480px) {
@@ -2357,7 +2405,11 @@ h4 {
 }
 
 h5 {
-    font-size: 1.0rem !important;
+    font-size: 1.2rem !important;
+}
+
+.step {
+  min-height:auto;
 }
 
 
