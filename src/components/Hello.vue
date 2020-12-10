@@ -23,7 +23,7 @@
              <p hidden v-if="closed">I helgen (30-31 maj) lottas första omgången. Den 1 juni startar tävlingen!</p>
             
              <div class="buttons text-left" id="games" ref="games">
-              <a v-if="!closed" href="/register" class="btn blue-bg btn-md text-white mt-2 mr-2">Anmälan ({{price1}} kr)</a>
+              <a v-if="!closed" href="/register" class="btn blue-bg btn-md text-white mt-2 mr-2">Anmälan</a>
               <a href="/mymatchplay" class="btn blue-bg btn-md text-white mt-2">Lag- och matchhantering</a>
               <a hidden href="/register" class="btn btn-warning btn-md text-white mt-2">Efterhandsregistrera spelare</a>
             </div>
