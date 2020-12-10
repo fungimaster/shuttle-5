@@ -20,6 +20,8 @@
       </div>
       <b-navbar-nav class="ml-auto">
         <!-- <b-nav-item :to="{path: '/line-up', query: {tags:$route.query.tags, day:$route.query.day}}">Line-up</b-nav-item> -->
+        <b-nav-item to="/register">Anmälan</b-nav-item>
+
         <b-nav-item to="/info">Om tävlingen</b-nav-item>
 
         <b-nav-item hidden to="/ping">PING</b-nav-item>
