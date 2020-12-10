@@ -23,6 +23,7 @@
     "v-calendar": "^1.0.6",
     "v-suggestions": "^1.1.1",
     "vue": "^2.6.12",
+    "vue-cookie-accept-decline": "^5.4.0",
     "vue-cookie-law": "^1.13.3",
     "vue-headful": "^2.1.0",
     "vue-mailchimp-subscribe": "^1.1.0",
