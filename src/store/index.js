@@ -5,21 +5,75 @@ import Vuex from "vuex";
 
 Vue.use(Vuex);
 
-const store = new Vuex.Store({
+export default new Vuex.Store({
+
     state: {
-        count: 20
+      count: 0,
+      maproom: '',
+      speaker: {},
+      conferencename: 'Matchplay 2021',
+      docimage: 'https://res.cloudinary.com/dn3hzwewp/image/upload/v1573118127/matchplay/matchplay-new-logo-2020.png',
+      userInfo: "Logga in",
+      token: null,
+      user: null,
+      userId: null
+  
+    },
+    getters: {
+        isAuthenticated(state) {
+            return state.token !== null;
+          },
+        userId(state) {
+            return state.userId 
+        },
+        user(state) {
+            return state.user 
+        },
+
     },
     mutations: {
-        increment (state) {
-            state.count++
-        },
-        decrement (state) {
-            state.count--
-        }
+
+      SET_AUTHENTICATION: (state, { token, userId }) => {
+        state.token = token
+        state.userId = userId
+      },
+      SET_USER: (state, payload) => {
+        state.user = payload
+      },
+      DELETE_USER: (state) => {
+        state.user = null
+      },
+      DELETE_AUTH_DATA: (state) => {
+        state.token = null
+        state.userId = null
+      },
     },
     actions: {
-        increment (context) {
-            context.commit('increment')
+
+      deleteUserInfo: ({commit}) => {
+        commit('DELETE_USER')
+      },
+      deleteAuthData: ({commit}) => {
+        commit('DELETE_AUTH_DATA')
+      },
+      setAuthentication: ({commit}, {token, userId}) => {
+        commit('SET_AUTHENTICATION', {token, userId})
+      },
+      setUser: ({commit}, payload) => {
+        commit('SET_USER', payload)
+      },
+      tryAutoLogin: ({ commit }) => {
+        const token = localStorage.getItem("auth_token");
+        if (!token) {
+          return;
         }
+        const userId = localStorage.getItem("userId");
+        commit("SET_AUTHENTICATION", {
+          token,
+          userId
+        });
+      }
+  
     }
-})
+  })
+  

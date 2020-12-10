@@ -1256,26 +1256,6 @@ components: {
       }
     },
   mixins: [tagsMixin],
-
-  mounted: function () {
-       
-       /*
-        this.$store.dispatch('updateUserInfo');
-        this.getTopListClubsPlayed();
-        this.getBirdies();
-        this.getGamesInprogress('initial'); //in progress
-        localStorage.setItem('active_round',this.active_round);
-        */
-        
-        //this.getTeamsCount();
-        //this.getGamesPending(); //pending
-        //this.getGamesFinished('Omgång 2'); //finished
-
-
-
-
-
-  },
  
   methods: {
     search: function() { 

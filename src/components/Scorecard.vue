@@ -1289,7 +1289,6 @@
 					}
 				];	
 
-			this.$store.dispatch('updateUserInfo')
 			this.gameID = this.$route.query.id;
 		
 		

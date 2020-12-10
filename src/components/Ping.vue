@@ -102,7 +102,6 @@
       mounted: function () {
         //console.log("ROUTE", this.$route.query.resetpw)
 
-        this.$store.dispatch('updateUserInfo');
   },
     methods: {
       

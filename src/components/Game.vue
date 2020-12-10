@@ -1073,9 +1073,6 @@ if(timeFormat.test(this.gametime) == false)
       });
     }
 
-    //set username top
-    this.$store.dispatch("updateUserInfo");
-
     //get userinfo localstorage object json
     userinfo = JSON.parse(userinfo);
    // console.log(userinfo)

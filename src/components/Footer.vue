@@ -114,7 +114,7 @@ import VueCookieAcceptDecline from 'vue-cookie-accept-decline'
 import 'vue-cookie-accept-decline/dist/vue-cookie-accept-decline.css'
 
 export default {
-  name: "footer",
+  name: "footer1",
   //components: { CookieLaw },
   components: { VueCookieAcceptDecline },
   data() {
