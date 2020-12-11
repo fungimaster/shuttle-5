@@ -110,7 +110,7 @@
              </b-alert>
 
 
-          <app-grafic style="height: 20px" opacity="0.85"></app-grafic>
+          <app-grafic style="height: 220px" opacity="0.85"></app-grafic>
                        
            
           </b-col>
@@ -1096,11 +1096,11 @@ export default {
     AppGrafic,
   },
   data() {
-     return {
-        modalShow: false,
-        closed: false,
-        leader:'',
-        bindProps: {
+    return {
+      modalShow: false,
+      closed: false,
+      leader: "",
+      bindProps: {
         mode: "international",
         defaultCountry: "SE",
         disabledFetchingCountry: false,
@@ -1160,10 +1160,10 @@ export default {
         defeated: 0,
         total: 0,
       },
-      searchfield: '',
+      searchfield: "",
 
-      price1:'695',
-      price2:'2195',
+      price1: "695",
+      price2: "2195",
 
       showhelper: false, //contbutton1: 'Fortsätt till nästa steg',
       docontinue: true,
@@ -1239,87 +1239,79 @@ export default {
       if (this.form.email.length < 4) {
         return;
       }
+    },
+    validateEmail() {
+      if (this.form.email.length < 4) {
+        return;
+      }
 
-       
-
-
-      },      
-      validateEmail() {
-         
-         if (this.form.email.length < 4) {
-           return;
-         }
-
-         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-         return re.test(String(this.form.email).toLowerCase());
-         
-      },
-      validatePassword1() {
-         if (this.form.password.length === 0) {         
-          return;
-        }
-         return this.form.password.length > 7;
-      },
-      validatePassword2() {
-        if (this.form.password.length === 0) {
-          this.showpasswordsdontmatch = false;
-          return;
-        }
-         return this.form.password === this.form.password2;
-      }
-    },
-  mixins: [tagsMixin],
- 
-  methods: {
-    search: function() { 
-
-    let searchvalue = document.getElementById('searchfield').value.toLowerCase();
-    console.log('inne',searchvalue)
-    console.log(this.games)
-     this.games = this.games.filter(function(game) {
-       //console.log(searchvalue,game.hometeamname.includes(searchvalue.toLowerCase()))
-      console.log(searchvalue)
-	    return game.hometeamname.toLowerCase().includes(searchvalue.toLowerCase()) || game.awayteamname.toLowerCase().includes(searchvalue.toLowerCase())
-     });
-     //this.gamescount = this.games.length
+      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(String(this.form.email).toLowerCase());
+    },
+    validatePassword1() {
+      if (this.form.password.length === 0) {
+        return;
+      }
+      return this.form.password.length > 7;
+    },
+    validatePassword2() {
+      if (this.form.password.length === 0) {
+        this.showpasswordsdontmatch = false;
+        return;
+      }
+      return this.form.password === this.form.password2;
+    },
   },
-  cancelsearch: function() {
-    let searchvalue = document.getElementById('searchfield');
-    searchvalue.value = '';
-    this.games = this.gamesOrg;
-    this.gamescount = this.games.length
-  },
-   compareValues(key, order = 'asc') {
-  return function innerSort(a, b) {
-    if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
-      // property doesn't exist on either object
-      return 0;
-    }
+  mixins: [tagsMixin],
 
-    const varA = (typeof a[key] === 'string')
-      ? a[key].toUpperCase() : a[key];
-    const varB = (typeof b[key] === 'string')
-      ? b[key].toUpperCase() : b[key];
+  methods: {
+    search: function () {
+      let searchvalue = document
+        .getElementById("searchfield")
+        .value.toLowerCase();
+      console.log("inne", searchvalue);
+      console.log(this.games);
+      this.games = this.games.filter(function (game) {
+        //console.log(searchvalue,game.hometeamname.includes(searchvalue.toLowerCase()))
+        console.log(searchvalue);
+        return (
+          game.hometeamname.toLowerCase().includes(searchvalue.toLowerCase()) ||
+          game.awayteamname.toLowerCase().includes(searchvalue.toLowerCase())
+        );
+      });
+      //this.gamescount = this.games.length
+    },
+    cancelsearch: function () {
+      let searchvalue = document.getElementById("searchfield");
+      searchvalue.value = "";
+      this.games = this.gamesOrg;
+      this.gamescount = this.games.length;
+    },
+    compareValues(key, order = "asc") {
+      return function innerSort(a, b) {
+        if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
+          // property doesn't exist on either object
+          return 0;
+        }
 
-    let comparison = 0;
-    if (varA > varB) {
-      comparison = 1;
-    } else if (varA < varB) {
-      comparison = -1;
-    }
-    return (
-      (order === 'desc') ? (comparison * -1) : comparison
-    );
-  };
-},
-  getScore(result,status) {
+        const varA = typeof a[key] === "string" ? a[key].toUpperCase() : a[key];
+        const varB = typeof b[key] === "string" ? b[key].toUpperCase() : b[key];
 
-    this.leader = '';
-   
-    
-    if (result === 'W/O') {
-      return "W/O";
-    }
+        let comparison = 0;
+        if (varA > varB) {
+          comparison = 1;
+        } else if (varA < varB) {
+          comparison = -1;
+        }
+        return order === "desc" ? comparison * -1 : comparison;
+      };
+    },
+    getScore(result, status) {
+      this.leader = "";
+
+      if (result === "W/O") {
+        return "W/O";
+      }
 
       if ((result === "0&0" || result === "0") && status != "In progress") {
         //särspelat
@@ -1441,242 +1433,221 @@ export default {
                           this.updating1 = false;                   
                           this.getGamesInprogress('not-initial'); //in progress                          
                         }, 60000);   */
-                        }
-                        
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          setTimeout(() => {
+            this.updating1 = false;
+            this.getGamesInprogress("not-initial"); //in progress
+          }, 30000);
+          this.updating1 = false;
+          this.loadinggames = false;
+        });
+    },
+    getGamesPending(type) {
+      //loading
 
-                    })
-                    .catch(error => {
-                        console.log(error);
-                         setTimeout(() => {                        
-                          this.updating1 = false;                   
-                          this.getGamesInprogress('not-initial'); //in progress                          
-                        }, 30000);  
-                        this.updating1 = false;
-                        this.loadinggames = false;
-                    });
-      },
-      getGamesPending(type) {
+      //this.gamescount = 0;
+      this.updating2 = true;
 
-                //loading
-               
-                //this.gamescount = 0;                
-                this.updating2 = true;
+      const today = moment().format("YYYY-MM-DD");
+      //const today_h = moment().format("HH:mm");
+      const today_h = moment().subtract(25, "minutes").format("HH:mm"); //add a few minutes so it will keep as pending before moving to in progress
 
-                  const today = moment().format("YYYY-MM-DD");
-                  //const today_h = moment().format("HH:mm");
-                  const today_h = moment().subtract(25, 'minutes').format("HH:mm"); //add a few minutes so it will keep as pending before moving to in progress
+      this.axios
+        .post(globalState.admin_url + "getGamesAdvanced", {
+          competition: "sFAc3dvrn2P9pXHAz",
+          status: "Pending",
+          from: today + " " + today_h,
+          //"to": today + " 23:59",
+          //"limit": 20
+        })
 
-                  this.axios.post(globalState.admin_url + 'getGamesAdvanced', {                       
-                        "competition":"sFAc3dvrn2P9pXHAz",                        
-                        "status":"Pending",                       
-                        "from": today + " " + today_h
-                        //"to": today + " 23:59",
-                        //"limit": 20
-                   
-                    })                
-               
-                    .then(response => {
-                        //console.log(response.data)                                                
-                        this.games2 = response.data;                  
-                        this.gamescount2 = this.games2.length;
-                        
-                        this.loadinggames2 = false;
-                        this.updating2 = false;
+        .then((response) => {
+          //console.log(response.data)
+          this.games2 = response.data;
+          this.gamescount2 = this.games2.length;
 
-                        //get next game in line
-                        if (this.gamescount2 > 0) {
-                          this.hasnextgame = true;
-                          this.nextgame = this.games2[0];                          
-                        } else {
-                          this.hasnextgame = false;
-                        }
-                        
+          this.loadinggames2 = false;
+          this.updating2 = false;
 
-                         //LOAD FINISHED
-                         if (type==='initial') {
-                          this.updating3 = true;                         
-                          this.getGamesFinished('loader',this.active_round);
-                         }
-                        
+          //get next game in line
+          if (this.gamescount2 > 0) {
+            this.hasnextgame = true;
+            this.nextgame = this.games2[0];
+          } else {
+            this.hasnextgame = false;
+          }
 
-                    })
-                    .catch(error => {
-                        console.log(error);
-                        this.loadinggames2 = false;
-                    });
-      },
-      updategames() {
-          this.updating1 = false;                   
-          this.getGamesFinished('loader',this.active_round);
-      },
-        getGamesFinished(origin,round) {
-          
-                //loading
-               
-                this.updating3 = true;     
-              
-                if (origin === 'loader') {
-                  //if (localStorage.getItem('active_round') !== null) {                    
-                  if (localStorage.hasOwnProperty('active_round'))  {                                        
-                    this.active_round = localStorage.getItem('active_round');
-                  }
-                }
-               
-                if (origin === 'button') {
-                  //set saved filter 
-                  localStorage.setItem('active_round',round);
-                  this.active_round = round;
-                }
-          
-                //this.classoptions = localStorage.getItem('active_round');
-                //console.log(this.classoptions)
-                //if (this.classoptions === 'null' || this.classoptions === null) {      
-                //  delete options['roundname'];                
-                //} else {
-                 // options["roundname"] = this.classoptions;
-                //}                       
-                      
-                options["competition"] = 'sFAc3dvrn2P9pXHAz';    
-                options["status"] = 'Finished';
-                
-                if (round === 'all') {      
-                  delete options['roundname'];              
-                } else {
-                  options["roundname"] = round;
-                }
-                
-                
-                  const today = moment().format("YYYY-MM-DD");
-                  const today_h = moment().format("HH:mm");
+          //LOAD FINISHED
+          if (type === "initial") {
+            this.updating3 = true;
+            this.getGamesFinished("loader", this.active_round);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          this.loadinggames2 = false;
+        });
+    },
+    updategames() {
+      this.updating1 = false;
+      this.getGamesFinished("loader", this.active_round);
+    },
+    getGamesFinished(origin, round) {
+      //loading
 
-                  this.axios.post(globalState.admin_url + 'getGamesAdvanced', options)                
-               
-                    .then(response => {
-                        let finishedgames = response.data;
-                        this.games3 = finishedgames.sort(this.compareValues('finishedAt','desc'));                      
-                        this.gamescount3 = this.games3.length;
-                        this.loadinggames3 = false;
-                        this.updating3 = false;
+      this.updating3 = true;
 
-                        
-                          //RELOAD IN PROGRESS (INITATOR)
-                         setTimeout(() => {
-                          this.updating1 = false;                   
-                          this.getGamesInprogress('not-initial'); //in progress                          
-                        }, 60000);  
-                        
+      if (origin === "loader") {
+        //if (localStorage.getItem('active_round') !== null) {
+        if (localStorage.hasOwnProperty("active_round")) {
+          this.active_round = localStorage.getItem("active_round");
+        }
+      }
 
-                    })
-                    .catch(error => {
-                        console.log(error);
-                        this.loadinggames3 = false;
-                    });
-      },
-      getGames() {
+      if (origin === "button") {
+        //set saved filter
+        localStorage.setItem("active_round", round);
+        this.active_round = round;
+      } //this.classoptions = localStorage.getItem('active_round'); //console.log(this.classoptions) //if (this.classoptions === 'null' || this.classoptions === null) { //  delete options['roundname']; //} else { // options["roundname"] = this.classoptions; //}
 
-                //loading
-               
-                this.gamescount3 = 0;
+      options["competition"] = "sFAc3dvrn2P9pXHAz";
+      options["status"] = "Finished";
+      if (round === "all") {
+        delete options["roundname"];
+      } else {
+        options["roundname"] = round;
+      }
 
-                  const today = moment().format("YYYY-MM-DD");
-                  const today_h = moment().format("HH:mm");
+      const today = moment().format("YYYY-MM-DD");
+      const today_h = moment().format("HH:mm");
 
-                  this.axios.post(globalState.admin_url + 'getGamesAdvanced', {                       
-                        "competition":"sFAc3dvrn2P9pXHAz",                        
-                        "status":"Finished",                       
-                        //"from": today + " " + today_h,
-                        //"to": today + " 23:59",
-                        //"limit": 10
-                   
-                    })                
-               
-                    .then(response => {
-                        //console.log(response.data)                                                
-                        this.games = response.data;                  
-                        this.gamescount = this.games.length;
+      this.axios
+        .post(globalState.admin_url + "getGamesAdvanced", options)
 
-                        //Get finished games
-                        let finishedgames = [];
-                        this.axios.post(globalState.admin_url + 'getGamesAdvanced', {                       
-                        "competition":"sFAc3dvrn2P9pXHAz",
-                        "status":"Finished",
-                        //"from": today + " " + today_h,
-                        //"to": today + " 23:59",
-                        "limit": 15                      
-                   
-                        })                
-                  
-                        .then(response => {
-                            //console.log(response.data)
-                            finishedgames = response.data;
+        .then((response) => {
+          let finishedgames = response.data;
+          this.games3 = finishedgames.sort(
+            this.compareValues("finishedAt", "desc")
+          );
+          this.gamescount3 = this.games3.length;
+          this.loadinggames3 = false;
+          this.updating3 = false;
 
-                            finishedgames = finishedgames.sort(this.compareValues('gamedate','desc'))
-                          
-                            this.games = this.games.concat(finishedgames);         
-                            this.gamescount = this.games.length;
+          //RELOAD IN PROGRESS (INITATOR)
+          setTimeout(() => {
+            this.updating1 = false;
+            this.getGamesInprogress("not-initial"); //in progress
+          }, 60000);
+        })
+        .catch((error) => {
+          console.log(error);
+          this.loadinggames3 = false;
+        });
+    },
+    getGames() {
+      //loading
 
-                            //GET UPCOMING GAMES                           
-                              let upcominggames = [];
-                              this.axios.post(globalState.admin_url + 'getGamesAdvanced', {                       
-                              "competition":"sFAc3dvrn2P9pXHAz",
-                              "status":"Pending",
-                              "from": today + " " + today_h,
-                              "to": today + " 23:59"
-                              //"limit": 10
-                        
-                              })                
-                        
-                              .then(response => {
-                                  //console.log(response.data)
-                                  upcominggames = response.data;
-                                
-                                  this.games = this.games.concat(upcominggames);          
-                                  this.gamescount = this.games.length;
-                                  this.loadinggames = false;
-                              })
-                              .catch(error => {
-                                  console.log(error);
-                                  this.loadinggames = false;
-                              });
+      this.gamescount3 = 0;
 
-                            this.loadinggames = false;
-                        })
-                        .catch(error => {
-                            console.log(error);
-                            this.loadinggames = false;
-                        });
+      const today = moment().format("YYYY-MM-DD");
+      const today_h = moment().format("HH:mm");
 
+      this.axios
+        .post(globalState.admin_url + "getGamesAdvanced", {
+          competition: "sFAc3dvrn2P9pXHAz",
+          status: "Finished",
+          //"from": today + " " + today_h,
+          //"to": today + " 23:59",
+          //"limit": 10
+        })
 
-                        
+        .then((response) => {
+          //console.log(response.data)
+          this.games = response.data;
+          this.gamescount = this.games.length;
 
+          //Get finished games
+          let finishedgames = [];
+          this.axios
+            .post(globalState.admin_url + "getGamesAdvanced", {
+              competition: "sFAc3dvrn2P9pXHAz",
+              status: "Finished",
+              //"from": today + " " + today_h,
+              //"to": today + " 23:59",
+              limit: 15,
+            })
 
-                    })
-                    .catch(error => {
-                        console.log(error);
-                        this.loadinggames = false;
-                    });
-      },
-         getTeamsCount() {
+            .then((response) => {
+              //console.log(response.data)
+              finishedgames = response.data;
 
-                //loading                
-                
-                this.axios.post('https://matchplay.meteorapp.com/methods/' + 'getTeamsCount', {    //getclubstoplist                   
-                        "competition":"sFAc3dvrn2P9pXHAz"
-                    })
-                    .then(response => {
-                        //console.log(response.data)                        
-                        this.team.total = response.data.total;
-                        this.team.defeated = response.data.defeated;
-                        this.team.secondchance = response.data.secondchance;
-                        this.team.winner = response.data.winner;
-                        //this.clubs = response.data;   
+              finishedgames = finishedgames.sort(
+                this.compareValues("gamedate", "desc")
+              );
 
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    });
-      },
-/*    getTopListClubs() {
+              this.games = this.games.concat(finishedgames);
+              this.gamescount = this.games.length;
+
+              //GET UPCOMING GAMES
+              let upcominggames = [];
+              this.axios
+                .post(globalState.admin_url + "getGamesAdvanced", {
+                  competition: "sFAc3dvrn2P9pXHAz",
+                  status: "Pending",
+                  from: today + " " + today_h,
+                  to: today + " 23:59",
+                  //"limit": 10
+                })
+
+                .then((response) => {
+                  //console.log(response.data)
+                  upcominggames = response.data;
+
+                  this.games = this.games.concat(upcominggames);
+                  this.gamescount = this.games.length;
+                  this.loadinggames = false;
+                })
+                .catch((error) => {
+                  console.log(error);
+                  this.loadinggames = false;
+                });
+
+              this.loadinggames = false;
+            })
+            .catch((error) => {
+              console.log(error);
+              this.loadinggames = false;
+            });
+        })
+        .catch((error) => {
+          console.log(error);
+          this.loadinggames = false;
+        });
+    },
+    getTeamsCount() {
+      //loading
+
+      this.axios
+        .post("https://matchplay.meteorapp.com/methods/" + "getTeamsCount", {
+          //getclubstoplist
+          competition: "sFAc3dvrn2P9pXHAz",
+        })
+        .then((response) => {
+          //console.log(response.data)
+          this.team.total = response.data.total;
+          this.team.defeated = response.data.defeated;
+          this.team.secondchance = response.data.secondchance;
+          this.team.winner = response.data.winner;
+          //this.clubs = response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    /*    getTopListClubs() {
 
           //LOAD FINISHED
           if (type === "initial") {
