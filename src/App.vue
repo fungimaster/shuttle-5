@@ -24,7 +24,6 @@ export default {
                 }      
                 this.getPlayerData(sim_id)
                 this.tabIndex = Number(localStorage.getItem('active_tab'));
-                this.setuserinfoform();
 
             } else {
                 this.showlogin = true;
