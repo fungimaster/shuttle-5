@@ -666,8 +666,8 @@
 							 <h5> <span class="lowerCase timeUpdated">Uppdaterad: {{updatedAt}}</span> <span v-if="updating"><b-spinner small type="grow" class="hidden ml-2 mr-1 mb-1 red"> </b-spinner></span></h5>
 						</b-col>						
 
-						<b-col cols="3" v-if="!authorized" v-for="{name}, index in players">
-							<div class="displayNamesNoAuth">
+						<b-col cols="3" v-for="({name}, index) in players" :key="name.index">
+							<div class="displayNamesNoAuth" v-if="!authorized">
 								<p>{{name}} </p>	
 								<p>SHCP: {{slopedHcpPlayers[index]}} </p>	
 							</div>
