@@ -110,6 +110,7 @@
              </b-alert>
 
 
+          <app-grafic style="height: 20px" opacity="0.85"></app-grafic>
                        
            
           </b-col>
@@ -931,7 +932,7 @@
 </p>
 
 
-            <app-grafic style="height: 300px"  textColor="text-dark"></app-grafic>
+      <app-grafic style="height: 300px" linecolor="#808080" opacity="1"></app-grafic>
 
 
                 <b-container class="mt-5 mb-4">
@@ -1675,7 +1676,7 @@ export default {
                         console.log(error);
                     });
       },
-   getTopListClubs() {
+/*    getTopListClubs() {
 
           //LOAD FINISHED
           if (type === "initial") {
@@ -1687,7 +1688,7 @@ export default {
           console.log(error);
           this.loadinggames2 = false;
         });
-    },
+    }, */
     updategames() {
       this.updating1 = false;
       this.getGamesFinished("loader", this.active_round);
