@@ -1138,9 +1138,8 @@ export default {
       //TABS
       tabIndex: 0,
       price1: globalState.price1,
-
-      active_round: "Sverigefinal",
       price2: globalState.price2,
+      active_round: "Sverigefinal",     
       //PENDING GAMES
       loadinggames2: true,
       updating2: true,
@@ -1164,9 +1163,6 @@ export default {
         total: 0,
       },
       searchfield: "",
-
-      price1:'695',
-      price2:'2195',
 
       showhelper: false,
       //contbutton1: 'Fortsätt till nästa steg',
