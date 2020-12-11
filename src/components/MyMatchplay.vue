@@ -2617,7 +2617,7 @@ export default {
                 parentVue.loading = false;
 
                 parentVue.makeToast('Du är nu utloggad.', 'primary');
-                this.$username = 'Logga in';
+                // this.$username = 'Logga in';
 
                 window.scrollTo(0, 0);
 
