@@ -35,7 +35,7 @@ export const globalState = new Vue({
   data: {
     admin_url: 'https://admin.matchplay.se/methods/',
     compid: 'sFAc3dvrn2P9pXHAz',
-    closed: true
+    closed: false
   }
 })
 

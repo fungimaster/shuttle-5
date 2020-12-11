@@ -234,11 +234,11 @@
                         <div class="testimonial">
                           <b-row>
                           <b-col class="col-3 pt-3">
-                            <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_100,c_fill,ar_1:1,g_auto,r_max/v1487143678/tumblr_mw5qi37cnW1sjeb1ro1_r4_500_v0vzjg.png">
+                            <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_100,c_fill,ar_1:1,g_auto,r_max/v1607593347/matchplay/ambassador/545144_1080.jpg">
                           </b-col>                          
                             <b-col class="col-9">                              
-                              <p>"Jag och min kompis Sven deltog i Matchplay 2020 och det var överraskande roligt att tävla! Jag brukar inte tävla men det var så kul att mäta sig mot andra och vi hade jättetrevliga motståndare. Vi förlorade tyvärr första matchen men fick ju en ny chans i andra chansen."</p>
-                              - Arne Thorildsson
+                              <p>"Som ny inom golfen så var det kul att addera tävlingsmomentet och få känna hur proffsen har det när de puttar för miljonerna. Utöver det så är det ett ypperligt tillfälle att skapa sig nya bekantskaper och prova på nya banor."</p>
+                              - Rasmus Franke / Lydinge GK
                             </b-col>                                                        
                           </b-row>
                         </div>

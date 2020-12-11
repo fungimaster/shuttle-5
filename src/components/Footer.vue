@@ -120,11 +120,21 @@ export default {
   data() {
     return {
       email2: "",
-      reg: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/
+	  reg: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/,
+	   status: null
     };
   },
   methods: {
-    isEmailValid: function() {
+    cookieStatus (status) {
+      this.status = status
+    },
+    cookieClickedAccept () {
+      this.status = 'accept'
+    },
+    cookieClickedDecline () {
+      this.status = 'decline'
+    },
+	isEmailValid: function() {
       return this.email2 == ""
         ? ""
         : this.reg.test(this.email2)
@@ -132,9 +142,13 @@ export default {
         : "has-error";
     }
   },
-  updated: function() {},
-  mounted: function() {},
-  beforeMount: function() {}
+  computed: {
+      statusText () {
+        return this.status || 'No cookie set'
+      }
+    
+  },
+
 };
 </script>
 

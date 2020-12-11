@@ -1401,7 +1401,7 @@ export default {
                 let url = globalState.admin_url + 'updateTeam'              
                 
                 this.axios.post(url, {
-                        "competition": "sFAc3dvrn2P9pXHAz",                        
+                        "competition": globalState.compid,                        
                         "_id": this.team._id,                       
                         "teamreserveemail": this.team.teamreserveemail,                       
                         "teamreservegolfid": this.team.teamreservegolfid                       
@@ -1460,7 +1460,7 @@ export default {
         sendResetPw() {
             //console.log(this.sendformreset.email);
             this.showsendreseterror = false;
-            let url = 'https://matchplay.meteorapp.com/methods/resetPw'
+            let url = globalState.admin_url + 'resetPw'
             //let url = 'http://localhost:3000/methods/resetPw'
             this.axios.post(url, {
                     "email": this.sendformreset.email
@@ -1490,7 +1490,7 @@ export default {
             this.showsreseterror = false;
             const r = confirm('Är du säker på att du vill byta lösenord?');
             if (r == true) {
-                let url = 'https://matchplay.meteorapp.com/methods/resetPw'
+                let url = globalState.admin_url + 'resetPw'
                 //let url = 'http://localhost:3000/methods/resetPw'
                 this.axios.post(url, {
                         "token": this.$route.query.resetpw,
@@ -1520,7 +1520,7 @@ export default {
         removeTeam(team) {
             const r = confirm('Är du säker på att du vill radera ditt lag?');
             if (r == true) {
-                let url = 'https://matchplay.meteorapp.com/methods/removeTeam'
+                let url = globalState.admin_url + 'removeTeam'
                 this.axios.post(url, {
                         "id": team._id,
                     })
@@ -1613,9 +1613,9 @@ export default {
 
         },
         checkTeamNameUnique(name) {
-            let url = 'https://matchplay.meteorapp.com/methods/checkTeamNameUnique'
+            let url = globalState.admin_url + 'checkTeamNameUnique'
             this.axios.post(url, {
-                    "competition": "sFAc3dvrn2P9pXHAz",
+                    "competition": globalState.compid,
                     "teamnamecompany": name
                 })
                 .then(response => {
@@ -1767,15 +1767,15 @@ export default {
                 let action = '';
 
                 if (this.team._id === '') { //addteam
-                    url = 'https://matchplay.meteorapp.com/methods/addTeam';
+                    url = globalState.admin_url + 'addTeam';
                     action = 'add'
                 } else {
-                    url = 'https://matchplay.meteorapp.com/methods/updateTeam'
+                    url = globalState.admin_url + 'updateTeam'
                     action = 'update'
                 }
 
                 this.axios.post(url, {
-                        "competition": "sFAc3dvrn2P9pXHAz",
+                        "competition": globalState.compid,
                         "course": this.team.clubid,
                         "_id": this.team._id,
                         "type": this.team.type,
@@ -1825,9 +1825,9 @@ export default {
                         return;
                     }
                 }
-                let url = 'https://matchplay.meteorapp.com/methods/updateTeam'
+                let url = globalState.admin_url + 'updateTeam'
                 this.axios.post(url, {
-                        "competition": "sFAc3dvrn2P9pXHAz",
+                        "competition": globalState.compid,
                         "_id": this.team._id,
                         "teammembergolfid": this.team.teammembergolfid,
                         "teammemberemail": this.team.teammemberemail,
@@ -1899,11 +1899,11 @@ export default {
                 let url = '';
                 let action = '';
 
-                url = 'https://matchplay.meteorapp.com/methods/updateTeam'
+                url = globalState.admin_url + 'updateTeam'
                 action = 'update'
 
                 this.axios.post(url, {
-                        "competition": "sFAc3dvrn2P9pXHAz",
+                        "competition": globalState.compid,
                         "_id": this.team._id,
                         "sponsormerch": true,
                         "item01": this.team.shirtPicker.player1.shirt,
@@ -1970,8 +1970,8 @@ export default {
 
             this.showloginspinner = true;
 
-            this.axios.post('https://matchplay.meteorapp.com/methods/updateTeam', {
-                    "competition": "sFAc3dvrn2P9pXHAz",
+            this.axios.post(globalState.admin_url + 'updateTeam', {
+                    "competition": globalState.compid,
                     "_id": this.team._id,
                     "sponsormerch": true,
                     "item01": this.team.shirtPicker.player1.shirt,
@@ -2008,7 +2008,7 @@ export default {
             if (!id) {
                 id = this.userinfo._id;
             }
-            this.axios.post('https://matchplay.meteorapp.com/methods/getPlayerData', {
+            this.axios.post(globalState.admin_url + 'getPlayerData', {
                     "id": id
                 })
                 .then(response => {
@@ -2031,7 +2031,7 @@ export default {
 
         },
         getSwishStatus: function (team) {
-            this.axios.post('https://matchplay.meteorapp.com/methods/getSwishStatus', {
+            this.axios.post(globalState.admin_url + 'getSwishStatus', {
                     "id": team,
                 })
                 .then(response => {
@@ -2066,8 +2066,8 @@ export default {
         payVoucher: function () {
             this.showspinner_voucher = true;
             let voucher = this.team.voucher;
-            this.axios.post('https://matchplay.meteorapp.com/methods/payVoucher', {
-                    "competition": "sFAc3dvrn2P9pXHAz",
+            this.axios.post(globalState.admin_url + 'payVoucher', {
+                    "competition": globalState.compid,
                     "team": this.team._id,
                     "code": voucher
                 })
@@ -2096,9 +2096,9 @@ export default {
         },
         payInvoice: function () {
             this.showspinner_invoice = true;
-            this.axios.post('https://matchplay.meteorapp.com/methods/payInvoice', {
+            this.axios.post(globalState.admin_url + 'payInvoice', {
                     //this.axios.post('http://localhost:3000/methods/payInvoice', {
-                    "competition": "sFAc3dvrn2P9pXHAz",
+                    "competition": globalState.compid,
                     //"competition": "YmweRj2PeatWfHEdM",
                     "team": this.team._id,
                     //"team": 'ns3ezQPncvt53cTmS',
@@ -2145,8 +2145,8 @@ export default {
                 amount = this.team.price_company;
             }
 
-            this.axios.post('https://matchplay.meteorapp.com/methods/swish', {
-                    "competition": "sFAc3dvrn2P9pXHAz",
+            this.axios.post(globalState.admin_url + 'swish', {
+                    "competition": globalState.compid,
                     "team": this.team._id,
                     "amount": amount,
                     "payer": mobile
@@ -2199,7 +2199,7 @@ export default {
         getGolfClubs: function () {
             this.axios
                 .post(
-                    "https://matchplay.meteorapp.com/methods/getGolfclubs"
+                    globalState.admin_url + "getGolfclubs"
                 )
                 .then(response => {
                     this.clubs = response.data;
@@ -2324,8 +2324,8 @@ export default {
             let userinfo = localStorage.getItem('userinfo');
             userinfo = JSON.parse(userinfo);
 
-            this.axios.post('https://matchplay.meteorapp.com/methods/addTeam', {
-                    "competition": "sFAc3dvrn2P9pXHAz",
+            this.axios.post(globalState.admin_url + 'addTeam', {
+                    "competition": globalState.compid,
                     "course": this.team.clubid,
                     "type": this.team.type,
                     "paid": false,
@@ -2363,8 +2363,8 @@ export default {
             let userinfo = localStorage.getItem('userinfo');
             userinfo = JSON.parse(userinfo);
 
-            this.axios.post('https://matchplay.meteorapp.com/methods/addTeam', {
-                    "competition": "sFAc3dvrn2P9pXHAz",
+            this.axios.post(globalState.admin_url + 'addTeam', {
+                    "competition": globalState.compid,
                     "course": this.team.clubid,
                     "type": this.team.type,
                     "paid": false,
@@ -2480,7 +2480,7 @@ export default {
 
             this.axios
                 .post(
-                    "https://matchplay.meteorapp.com/methods/getPlayerByGolfid",
+                    globalState.admin_url + "getPlayerByGolfid",
                     //"https://colburn-chat-buxom-tamale.eu-gb.mybluemix.net/get_golfid?golfid=" + golfid,
                     //"http://localhost:3000/get_golfid?golfid=" + golfid1 + '-' + golfid2,
                     {
