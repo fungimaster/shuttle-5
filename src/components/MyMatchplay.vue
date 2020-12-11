@@ -1357,11 +1357,11 @@ export default {
         validate_marketingpackage() {
             return this.team.invoice.marketingpackage !== '';
         },
-
+        isAuthenticated() {
+            return this.$store.getters.isAuthenticated
+        }
     },
-    created() {
-       
-    },
+  
     mixins: [tagsMixin],
     methods: {
              showHelpReserve: function(){
@@ -2004,9 +2004,10 @@ export default {
                     console.log(error);
                 });
         },
-        getPlayerData(id) {
-            const server = new simpleDDP(opts, [simpleDDPLogin]);
-            id = this.userinfo._id;
+        getPlayerData(id) { 
+            if (!id) {
+                id = this.userinfo._id;
+            }
             this.axios.post(globalState.admin_url + 'getPlayerData', {
                     "id": id
                 })
@@ -2015,14 +2016,13 @@ export default {
                         console.log("error")
                         return;
                     }
-
                     let userinfo = response.data;
                     this.userinfo = userinfo;
                     this.teams = this.userinfo.teams;
                     this.teamscount = this.teams.length;
                     //console.log(this.userinfo);
                     localStorage.setItem('userinfo', JSON.stringify(userinfo));
-                    
+                    this.$store.dispatch('setUser', userinfo)
                     return;
                 })
                 .catch(error => {
@@ -2394,10 +2394,6 @@ export default {
             evt.preventDefault();
             this.showloginspinner = true;
 
-            //DDP LOGIN
-            //const simpleDDP = require("simpleddp");
-            //const simpleDDPLogin = require("simpleddp-plugin-login").simpleDDPLogin;
-
             const server = new simpleDDP(opts, [simpleDDPLogin]);
 
             let password = this.form.pwd;
@@ -2407,43 +2403,22 @@ export default {
             // doAsyncOperation1() returns a promise.
             trylogin()
                 .then(() => {
-                    //console.log('logged in with creds', server.token);
                     parentVue.showerror = false;
                     localStorage.setItem('auth_token', server.token);
-                    parentVue.showlogin = false;
+                    localStorage.setItem('userId', server.userId);
                     parentVue.showloginspinner = false;
                     parentVue.doctitle = 'My matchplay';
-                    //Set params for user
-                    this.axios.post(globalState.admin_url + 'getPlayerData', {
-                            "id": server.userId
-                        })
-                        .then(response => {
-                            if (response.data.hasOwnProperty('error')) {
-                                console.log("error")
-                                return;
-                            }
-
-                            let userinfo = response.data;
-                            localStorage.setItem('userinfo', JSON.stringify(userinfo));
-                            parentVue.setuserinfoform();
-
-                            this.$store.dispatch('updateUserInfo')
-
-
-                            return;
-                        })
-                        .catch(error => {
-                            console.log(error);
-                        });
-
+                    
+                    this.$store.dispatch('setAuthentication', {token: server.token, userId: server.userId})
+                    this.getPlayerData(server.userId)
                 })
                 .then((output) => {
-
+                    this.setuserinfoform();
                 })
-                .catch((err) => {
-                    console.log(err)
-                    console.log('NOT logged in with creds, show error on form');
-
+                .then(() => {
+                    this.showlogin = false;
+                })
+                .catch(() => {
                     parentVue.showerror = true;
                     parentVue.showloginspinner = false;
                 });
@@ -2632,6 +2607,7 @@ export default {
 
             localStorage.setItem('auth_token', '');
             localStorage.setItem('userinfo', '');
+            localStorage.setItem('userId', '');
 
             async function trylogout() { // (1)
                 let response = await server.logout(); // (2)
@@ -2653,7 +2629,8 @@ export default {
                 console.log('User logged out');
             });
 
-            this.$store.dispatch('updateUserInfo')
+            this.$store.dispatch('deleteUserInfo')
+            this.$store.dispatch('deleteAuthData')
 
         },
         setuserinfoform: function () {
@@ -2751,77 +2728,23 @@ export default {
           //scroll to top
         //window.scrollTo(0, 0);
     },
+    created() {
+       this.$store.dispatch("tryAutoLogin").then(() => {
+            if (this.isAuthenticated) {
+                var sim_id;
+                sim_id = localStorage.getItem('userId') 
+                if (this.$route.query.sim_id) {
+                    sim_id = this.$route.query.sim_id;   
+                }      
+                this.getPlayerData(sim_id)
+                this.tabIndex = Number(localStorage.getItem('active_tab'));
+                this.setuserinfoform();
 
-    mounted: function () {
-        //console.log("ROUTE", this.$route.query.resetpw)
-
-       
-        const server = new simpleDDP(opts, [simpleDDPLogin]);
-        let parentVue = this;
-
-        let auth_token = localStorage.getItem('auth_token');
-
-        if (auth_token) {
-            trylogin()
-                .then(() => {
-                    //console.log('logged in with token in local storage',server.token);      
-                    parentVue.doctitle = 'My matchplay';
-
-                        var sim_id;
-                        sim_id = server.userId; 
-                        if (this.$route.query.sim_id) {
-                            sim_id = this.$route.query.sim_id;   
-                        }                          
-
-                    this.axios.post(globalState.admin_url + 'getPlayerData', {
-                             "id": sim_id
-                        })
-                        .then(response => {
-                            // console.log('mounted',response.data)
-
-                            if (response.data.hasOwnProperty('error')) {
-                                console.log("error")
-                                return;
-                            }
-
-                            let userinfo = response.data;
-                            this.userinfo = userinfo;
-                            localStorage.setItem('userinfo', JSON.stringify(userinfo));
-                            parentVue.setuserinfoform();
-
-                            this.$store.dispatch('updateUserInfo');
-                            //set active tab                          
-                            this.tabIndex = Number(localStorage.getItem('active_tab'));
-                            
-                            
-                    
-                            
-                            return;
-                        })
-                        .catch(error => {
-                            console.log(error);
-                        });
-
-                })
-                .then((output) => {
-
-                })
-                .catch((err) => {
-                    this.showlogin = true;
-                });
-        } else {
-            this.showlogin = true;
-            this.loading = false;
-        }
-
-        // doAsyncOperation1() returns a promise.
-
-        async function trylogin() { // (1)
-            let response = await server.login({
-                resume: auth_token
-            }); // (2)  
-        }
-
+            } else {
+                this.showlogin = true;
+                this.loading = false;
+            }
+       })
     }
 
 }
