@@ -43,12 +43,39 @@
 		</b-container>
 
 		<footer class="text-center">
-			<cookie-law theme="matchplay" buttonText="OKEJ" buttonClass="Cookie--matchplay">
-				<div slot="message">
-					Denna site använder cookies för att förbättra din användarupplevelse.
-					<router-link to="cookies">Läs mer om cookies här.</router-link>
-				</div>
-			</cookie-law>
+				<vue-cookie-accept-decline
+    :ref="'myPanel1'"
+    :elementId="'myPanel1'"
+    :debug="false"
+    :position="'bottom-right'"
+    :type="'floating'"
+    :disableDecline="true"
+    :transitionName="'slideFromBottom'"
+    :showPostponeButton="false"
+    @status="cookieStatus"
+    @clicked-accept="cookieClickedAccept"
+    @clicked-decline="cookieClickedDecline">
+ 
+    <!-- Optional -->
+    <div slot="postponeContent">
+        &times;
+    </div>
+ 
+    <!-- Optional -->
+    <div slot="message">
+        Vi använder cookies för att förbättra din användarupplevelse! <router-link to="cookies">Läs mer...</router-link>
+    </div>
+ 
+    <!-- Optional -->
+    <div slot="declineContent">
+       OPT OUT
+    </div>
+ 
+    <!-- Optional -->
+    <div slot="acceptContent">
+       HELT OK!
+    </div>
+</vue-cookie-accept-decline>
 			<b-container fluid class="theme-description">
 				<b-row>
 					<b-col xl="2" class="left"></b-col>
@@ -64,7 +91,7 @@
 									<p>Ängelholm</p>
 									<p>Telefon: 010 - 522 00 07</p>
 									<p class="links mb-5">
-										<router-link to="/ping" class>PING</router-link>&nbsp;|
+										<router-link hidden to="/ping" class>PING</router-link>&nbsp;
 										<router-link to="/info" class>Om tävlingen</router-link>&nbsp;|
 										<router-link to="/cookies" class>Cookies/Data</router-link>
 									</p>
@@ -82,18 +109,32 @@
 </template>
 
 <script>
-import CookieLaw from "vue-cookie-law";
+//import CookieLaw from "vue-cookie-law";
+import VueCookieAcceptDecline from 'vue-cookie-accept-decline'
+import 'vue-cookie-accept-decline/dist/vue-cookie-accept-decline.css'
+
 export default {
-  name: "footer",
-  components: { CookieLaw },
+  name: "footer1",
+  //components: { CookieLaw },
+  components: { VueCookieAcceptDecline },
   data() {
     return {
       email2: "",
-      reg: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/
+	  reg: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/,
+	   status: null
     };
   },
   methods: {
-    isEmailValid: function() {
+    cookieStatus (status) {
+      this.status = status
+    },
+    cookieClickedAccept () {
+      this.status = 'accept'
+    },
+    cookieClickedDecline () {
+      this.status = 'decline'
+    },
+	isEmailValid: function() {
       return this.email2 == ""
         ? ""
         : this.reg.test(this.email2)
@@ -101,15 +142,19 @@ export default {
         : "has-error";
     }
   },
-  updated: function() {},
-  mounted: function() {},
-  beforeMount: function() {}
+  computed: {
+      statusText () {
+        return this.status || 'No cookie set'
+      }
+    
+  },
+
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-	@import "../styles/variables.scss";
+	@import "../styles/variables.scss";	
 	.sponsors {
 		margin-top: 6rem;
 		margin-bottom: 6rem;

@@ -2,14 +2,35 @@
   <b-container class="d-flex">
        <b-row class="justify-content-center" align-h="center">
                          
-    <b-col md="8" id="register" ref="register" class="mt-4 mt-md-0">
+    <b-col md="8" id="register" ref="register" class="mt-4 mt-md-5">
             <h2 class="teaser-header orange">Anmäl dig som spelare</h2>
-              <b-alert show variant="warning small form-text text-muted">
+              <b-alert hidden variant="warning small form-text text-muted">
                       Denna efterhandsregistrering är bara till för spelare som redan är med som lagmedlem i ett lag men som inte har kopplats till ett lag. Efter din registrering kommer du kopplas till rätt lag (baserat på ditt golf-id).
                     </b-alert>
+
+              
+
             <h2 class="hidden teaser-header orange">Det är klart du vill vara med i golftävlingen, registrera dig här!</h2>
+
+<b-row class="mb-3 mt-3">
+  <b-col v-if="this.player==='player1'">
+    <p>Registreringen innehåller 4 enkla steg:</p>    
+    <div v-bind:class="{ stepsuccess: step == 'step1' }">1. Kontroll av Golf-ID</div>
+    <div v-bind:class="{ stepsuccess: step == 'step2' }">2. Registrera dig som spelare</div>
+    <div v-bind:class="{ stepsuccess: step == 'step3' }">3. Skapa ditt lag och välj medspelare</div>
+    <div v-bind:class="{ stepsuccess: step == 'step4' }">4. Betala ditt lag (swish/faktura/voucher)</div>    
+    <hr>
+  </b-col>
+
+  <b-col v-if="this.player==='player2'">
+    <p>Din kompis <span v-if="captain" style="font-weight:bold;color:green;">{{captain}}</span> har skapat ett lag i tävlingen och för att <strong>göra laget komplett</strong> behöver du registrera dig som spelare här på matchplay! Följ instruktionerna nedan.</p>    
+    <hr>
+  </b-col>
+</b-row>
+
             <b-row class="mb-3 mt-3">
               <b-col md="12" class="teaser-content" ref="success" id="success">
+
                   <h3 v-if="showqualified" class="mt-3 mb-4">
                     Grattis, du kan vara med i tävlingen <i class="material-icons">tag_faces</i>
                   </h3>
@@ -27,9 +48,9 @@
                   </h3>
 
                 <div class="form-group" v-if="showform1">                  
-                       <b-row class="mt-2 mb-2">
-                    <b-col xs="12" sm="12" class="mt-1">
-                      <h4>Skriv in ditt Golf-ID</h4>
+                       <b-row class="">
+                    <b-col xs="12" sm="12" class="">
+                      <h4>1. Kontroll av Golf-ID</h4>
                       <p>Börja med att ange ditt Golf-ID så hämtar vi en del av informationen automatiskt från Svenska Golfförbundet.</p>
                     <b-alert hidden show variant="danger">
                       Vi har just nu problem med kopplingen till GIT men jobbar på en lösning, prova igen lite senare!
@@ -47,7 +68,7 @@
                     class="form-control mr-1"
                     id="golfid"
                     placeholder="xxxxxx-xxx"
-                    value                             
+                    value                            
                   />                              
                   
                   <b-input hidden v-model="golfid2"
@@ -79,7 +100,8 @@
       variant="warning"
      
     >
-      <p>Du finns redan med i Matchplay som en registrerad spelare.</p>
+    <p v-if="this.player==='player1'">Du finns redan med i Matchplay som en registrerad spelare. Logga in på knappen nedan för att skapa ett lag för Matchplay 2021!</p>
+      <p v-if="this.player==='player2'">Du finns redan med i Matchplay som en registrerad spelare. Logga in på knappen nedan för att ansluta till ett skapat lag!</p>
        <a href="/mymatchplay" class="btn blue-bg text-white mb-3">Logga in</a>
     </b-alert>   
                
@@ -98,15 +120,10 @@
         height="4px"
       ></b-progress>
     </b-alert>                
-                   <b-alert  show class="mt-4 small form-text text-muted">Saknar du ditt Golf-ID ber vi dig kontakta din hemmaklubb för hjälp.</b-alert>                  
+                   <b-alert show class="mt-4 small form-text text-muted" v-if="this.player==='player1'">Inget förbinder dig att skapa ett lag genom att fortsätta till nästa steg. Betalningen sker först när ett lag skapas.
+                     Anmälningskostnad per lag är <strong>{{price1}} kr</strong> för privatpersoner och <strong>{{price2}} kr</strong> (exkl. moms) för företag.
+                     </b-alert>                  
                    
-                    
-
-                    <div class="col-12 d-block d-md-none justify-content-center align-self-center p-5">           
-            <a href="#charity">
-            <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1576503821/matchplay/badge4.png" alt=""></b-img>            
-            </a>
-          </div>
 
                 </div>
 
@@ -349,7 +366,12 @@ components: {
           showDialCode: false
         }
       },
-     
+      price1:'695',
+      price2:'2195',
+      captain:'',
+      invitegolfid:'',
+      player: 'player1',
+      step: 'step1',
       showhelper: false,
       //contbutton1: 'Fortsätt till nästa steg',
       docontinue: true,
@@ -438,6 +460,21 @@ components: {
     },
   mixins: [tagsMixin],
   mounted: function () {
+              if (this.$route.query.player) {
+                if (this.$route.query.player === 'player2') {
+                  this.player = this.$route.query.player;
+                }
+              }
+
+              if (this.$route.query.captain) {                
+                  this.captain = this.$route.query.captain;                
+              }
+
+              if (this.$route.query.golfid) {                
+                  this.golfid = this.$route.query.golfid;
+
+              }
+
               
   },
  
@@ -460,7 +497,7 @@ components: {
       //var golfid1 = document.getElementById("golfid1").value;
       //var golfid2 = document.getElementById("golfid2").value;
       if (this.golfid === '') return;
-      this.contbutton1 = 'Hämtar data från SGF';    
+      this.contbutton1 = 'Vänta';    
       this.dismissCountDown2 = false; //hide you exist alert
       this.showloadgolfid = true;
       this.axios      
@@ -515,6 +552,7 @@ components: {
 //console.log(this.form.hcp)
           if (this.form.hcp < 28.1) {
               this.showqualified = true;
+              this.step = 'step2';
               this.docontinue = true;
           } else if (this.form.hcp > 28 && this.form.hcp < 36.1 ) {
               this.showqualified32 = true;
@@ -680,6 +718,10 @@ trylogin()
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
+
+.stepsuccess {
+  background:$green-light;
+}
 
 img {
   max-width: 100%;

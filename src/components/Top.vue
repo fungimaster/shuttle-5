@@ -1,5 +1,5 @@
 <template>
-  <b-navbar toggleable="lg" sticky="true" ref="top">
+  <b-navbar toggleable="lg" :sticky="true" ref="top">
     <b-navbar-brand>
       <router-link class to="/">
         <img
@@ -16,17 +16,28 @@
     <b-collapse id="nav-collapse" is-nav class="text-center">
       <div class="d-lg-none mt-5 mb-2">
         <h1 class="hidden theme">Psyched</h1>
-        <p class="hidden text-uppercase">Matchplay 2020</p>
+        <p class="hidden text-uppercase">Matchplay 2021</p>
       </div>
       <b-navbar-nav class="ml-auto">
         <!-- <b-nav-item :to="{path: '/line-up', query: {tags:$route.query.tags, day:$route.query.day}}">Line-up</b-nav-item> -->
+        <b-nav-item to="/register">Anmälan</b-nav-item>
+
         <b-nav-item to="/info">Om tävlingen</b-nav-item>
 
-        <b-nav-item to="/ping">PING</b-nav-item>
+        <b-nav-item hidden to="/ping">PING</b-nav-item>
         <!--a class="nav-item nav-link text-dark show-search-button nav-link" href="#search" data-toggle="collapse" aria-expanded="false" aria-controls="search"><i class="material-icons mobile-search">search</i></a-->
-        <b-nav-item show title="login" to="/mymatchplay">
+        <b-nav-item show title="login" to="/mymatchplay" v-if="isAuthenticated">
           <i class="material-icons mr-1" style="vertical-align:bottom;">supervised_user_circle</i>
-          {{userName}}
+          <span v-if="!user">   
+            <b-spinner small variant="primary" label="Small Spinner" type="grow"></b-spinner>
+            <b-spinner small variant="primary"  label="Small Spinner" type="grow"></b-spinner>
+            <b-spinner small variant="primary"  label="Small Spinner" type="grow"></b-spinner>
+          </span> 
+          <span v-if="user">{{user.firstname}} </span> 
+        </b-nav-item>
+        <b-nav-item show title="login" to="/mymatchplay" v-if="!isAuthenticated">
+          <i class="material-icons mr-1" style="vertical-align:bottom;">supervised_user_circle</i>
+          Logga in
         </b-nav-item>
       </b-navbar-nav>
     </b-collapse>
@@ -34,6 +45,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "top",
   components: {},
@@ -41,13 +54,12 @@ export default {
     return {};
   },
   methods: {},
-  computed: {
-    test() {
-      return this.$store.dispatch("incrementAsync");
-    },
-    userName() {
-      return this.$store.state.userInfo;
-    }
+ 
+   computed: {
+    ...mapGetters([
+      "user",
+      "isAuthenticated",
+    ]),
   },
   updated: function() {}
 };

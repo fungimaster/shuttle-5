@@ -14,12 +14,53 @@ import Footer from "./components/Footer";
 
 export default {
   name: "app",
+  created() {
+     this.$store.dispatch("tryAutoLogin").then(() => {
+            if (this.isAuthenticated) {
+                var sim_id;
+                sim_id = localStorage.getItem('userId') 
+                if (this.$route.query.sim_id) {
+                    sim_id = this.$route.query.sim_id;   
+                }      
+                this.getPlayerData(sim_id)
+                this.tabIndex = Number(localStorage.getItem('active_tab'));
+
+            } else {
+                this.showlogin = true;
+                this.loading = false;
+            }
+       })
+    },
   components: {
     Top: Top,
     Footer: Footer
   },
-  methods: {},
-  computed: {}
+  methods: {
+    getPlayerData(id) { 
+      this.axios.post('https://matchplay.meteorapp.com/methods/getPlayerData', {
+              "id": id
+          })
+          .then(response => {
+              if (response.data.hasOwnProperty('error')) {
+                  console.log("error")
+                  return;
+              }
+              let userinfo = response.data;
+              localStorage.setItem('userinfo', JSON.stringify(userinfo));
+              this.$store.dispatch('setUser', userinfo)
+              return;
+          })
+          .catch(error => {
+              console.log(error);
+          });
+    },
+  },
+  computed: {
+
+      isAuthenticated() {
+            return this.$store.getters.isAuthenticated
+        }
+  }
 };
 </script>
 

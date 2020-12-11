@@ -4,13 +4,13 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import BootstrapVue from "bootstrap-vue";
 import vueHeadful from 'vue-headful';
+import store from './store/index'
 
 
 //global variable
 Vue.prototype.$username = 'Logga in'
 
 import App from './App';
-//import store from "./store";
 import axios from "axios";
 
 window.$ = require('jquery')
@@ -35,41 +35,10 @@ export const globalState = new Vue({
   data: {
     admin_url: 'https://admin.matchplay.se/methods/',
     compid: 'sFAc3dvrn2P9pXHAz',
-    closed: true
+    closed: false
   }
 })
 
-const store = new Vuex.Store({
-  state: {
-    count: 0,
-    maproom: '',
-    speaker: {},
-    conferencename: 'Matchplay 2020',
-    docimage: 'https://res.cloudinary.com/dn3hzwewp/image/upload/v1573118127/matchplay/matchplay-new-logo-2020.png',
-    userInfo: "Logga in"
-
-  },
-  getters: {
-    //total: state => state.count
-  },
-  mutations: {
-    updateUserInfo: state => {
-      let userinfo = localStorage.getItem('userinfo');
-      if (userinfo) {
-        userinfo = JSON.parse(userinfo);
-        state.userInfo = userinfo.firstname;
-      } else {
-        state.userInfo = "Logga in"
-      }
-    },
-  },
-  actions: {
-    updateUserInfo: (context) => {
-      context.commit('updateUserInfo')
-    }
-
-  }
-})
 
 /* eslint-disable no-new */
 import { mapState, mapMutations } from 'vuex';
