@@ -1541,7 +1541,6 @@ components: {
                   this.axios.post(globalState.admin_url + 'getGamesAdvanced', options)                
                
                     .then(response => {
-                        //console.log(response.data)                                                
                         let finishedgames = response.data;
                         this.games3 = finishedgames.sort(this.compareValues('finishedAt','desc'));                      
                         this.gamescount3 = this.games3.length;
