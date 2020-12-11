@@ -8,66 +8,21 @@
           <h1>Uträkning av potentiella intäkter</h1>
           <p
             class="mt-3"
-          >Använd vårt verktyg nedan för att se hur antal lag som använder er klubb som hemmabana påverkar era eventuella intäkter till klubben.</p>
-        </b-col>
-      </b-row>
-
-      <b-row hidden>
-        <b-col class="col-6 col-md-3 text-center">
-          <h4 class>LAG</h4>
-          <div class="circle">
-            <div class="circle__inner">
-              <div class="circle__wrapper">
-                <div class="circle__content">{{teams}}</div>
-              </div>
-            </div>
-          </div>
-        </b-col>
-        <b-col class="col-6 col-md-3 text-center">
-          <h4 class>GÄSTER</h4>
-          <div class="circle">
-            <div class="circle__inner">
-              <div class="circle__wrapper">
-                <div class="circle__content">{{players}}</div>
-              </div>
-            </div>
-          </div>
-        </b-col>
-        <b-col class="col-6 col-md-3 text-center">
-          <h4 class>MATCHER</h4>
-          <div class="circle">
-            <div class="circle__inner">
-              <div class="circle__wrapper">
-                <div class="circle__content">{{games}}</div>
-              </div>
-            </div>
-          </div>
-        </b-col>
-        <b-col class="col-6 col-md-3 text-center">
-          <h4 class>INTÄKTER</h4>
-          <div class="circle" v-on:change="foo">
-            <div class="circle__inner">
-              <div class="circle__wrapper">
-                <div class="circle__content profit">{{calcprofit}}</div>
-              </div>
-            </div>
-          </div>
+          >Använd vårt verktyg nedan för att se hur antal lag som använder er klubb som hemmabana påverkar era eventuella intäkter till klubben. Beräknad intäkt är vad vi tror att Matchplays greenfeegäster hos er kommer bidra till.</p>
         </b-col>
       </b-row>
 
       <b-row>
         <b-col class="col-12 col-md-6">
-          <VueSimpleRangeSlider
-            :min="1"
-            :max="100"
-            barColor="#fd9b37"
-            activeBarColor="#000"
-            v-model="teams"
-          />
-          <h4 class>LAG: {{teams}}</h4>
-          <h4 class>GÄSTER: {{players}}</h4>
-          <h4 class>MATCHER: {{games}}</h4>
-          <h4 class>LAGBILJETT 2022*: {{tickets}}</h4>
+          <span class="d-block">Antal lag ({{teams}})</span>
+          <custom-slider min="1" max="100" v-model="teams" hideLabel="true" />
+          <span class="d-block">Genomsnittlig greenfee maj-sep ({{price}})</span>
+          <custom-slider min="300" max="1200" v-model="price" step="50" hideLabel="true" />
+          <h5 hidden class>LAG: {{teams}}</h5>
+          <h5 hidden class>GREENFEE SNITT: {{price}}</h5>
+          <h5 class>GÄSTER: {{players}} | MATCHER: {{games}}</h5>
+          <h5 hidden class>MATCHER:</h5>
+          <h5 class>LAGBILJETT 2022*: {{tickets}}</h5>
           <small>*För var 10:e lag som väljer er klubb som hemmabana erhåller ni 1 lagbiljett till Matchplay 2022 som ni tex. kan använda till era prisbord under tävlingar under 2021.</small>
         </b-col>
         <b-col class="col-12 col-md-6 text-center mt-md-0 mt-3">
@@ -79,17 +34,18 @@
             <span class="profit">{{calckickback}}:-</span>
             <span
               class="small mt-3 d-block text-left"
-            >För att erhålla kickback (50:-/lag) för anmälda lag till er klubb vill vi att ni publicerar ungefär 1 inlägg per vecka fram till anmälningsstoppet i slutet av april. Ni får bild och text från oss.</span>
+            >*För att erhålla kickback (50:-/lag) för anmälda lag till er klubb vill vi att ni publicerar ungefär 1 inlägg per vecka i era sociala medier fram till anmälningsstoppet i slutet av april. Ni får bild och text från oss.</span>
           </div>
         </b-col>
       </b-row>
 
       <b-row>
-        <b-col class="col-12 col-md-6 mt-5 mb-3">
-          <h4>Grunddata</h4>
+        <b-col class="col-12 col-md-12 mt-4 mb-3">
+          <h4 hidden>Grunddata</h4>
 
-          <span class>Snittpris greenfee (maj-september):</span>
+          <span hidden class>Snittpris greenfee (maj-september):</span>
           <b-form-input
+            hidden
             style="width:25%;"
             v-model="price"
             @keypress="isNumber($event)"
@@ -102,9 +58,9 @@
             class="mt-3 small"
           >Om ni får {{teams}} lag att välja er klubb som hemmaklubb i Matchplay 2021 beräknar vi att ni kommer få {{players}} nya gäster som besöker er anläggning. Vi beräknar att ca {{games}} matcher kommer spelas på er anläggning och att er snittgreenfee i perioden maj-september är {{price}} kr.</b-alert>
         </b-col>
-        <b-col class="col-md-1"></b-col>
-        <b-col class="col-12 col-md-5 mt-5 mb-3">
-          <div class="extra">
+
+        <b-col hidden class="col-12 col-md-5 mt-5 mb-3">
+          <div hidden class="extra">
             <h4>Extra</h4>
             <b-form-checkbox
               class="mt-3"
@@ -175,19 +131,19 @@
 
 <script>
 
-import VueSimpleRangeSlider from 'vue-simple-range-slider';
-import 'vue-simple-range-slider/dist/vueSimpleRangeSlider.css'
-
+import CustomSlider from "vue-custom-range-slider";
+  // import the styling, css or scss
+  import "vue-custom-range-slider/dist/vue-custom-range-slider.css";
   export default {
     name: 'club',
    components: {
-     VueSimpleRangeSlider
+     CustomSlider
   },
     data () {
       return {
           text:'',
           players:20,
-          teams: 1,
+          teams: 10,
           inspel_count: 0,
           lunch_count: 0,
           games:0,
@@ -261,17 +217,27 @@ import 'vue-simple-range-slider/dist/vueSimpleRangeSlider.css'
             return sum + inspel_value + lunch_value + range_value + golfbil_value + shop_value + kiosk_value;
         }
     },
-    methods: {
-      foo: function() {
-          console.log('hej')
-      }
+    methods: {     
     } 
   }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
+<style lang="scss">
 @import "../styles/variables.scss";
+
+// override variables like this:
+$label-color: #000;
+$slider-track-background: $orange;
+$slider-track-height: 8px;
+$thumb-background: #000 !default;
+
+// import the styling,
+@import "vue-custom-range-slider/dist/vue-custom-range-slider.scss";
+
+.slider {
+  margin-top: 10px !important;
+}
 
 .circle {
   position: relative;
@@ -343,7 +309,7 @@ import 'vue-simple-range-slider/dist/vueSimpleRangeSlider.css'
   }
 
   .profit {
-    font-size: 1em !important;
+    font-size: 1.4em !important;
   }
 }
 
