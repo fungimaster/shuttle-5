@@ -9,7 +9,7 @@ import MyMatchplay from '@/components/MyMatchplay'
 import Faq from '@/components/Faq'
 import Cookies from '@/components/Cookies'
 import Committee from '@/components/Committee'
-import Ping from '@/components/Ping'
+import Club from '@/components/Club'
 import Partnership from '@/components/Partnership'
 import Privacy from '@/components/Privacy'
 import ConvinceBoss from '@/components/ConvinceBoss'
@@ -99,6 +99,12 @@ export default new Router({
       name: 'Game',
       component: Game
     },
+
+    {
+      path: '/club',
+      name: 'Club',
+      component: Club
+    },
     /*
     {
       path: '/my-schedule',
@@ -125,12 +131,7 @@ export default new Router({
       path: '/committee',
       name: 'Committee',
       component: Committee
-    },
-    {
-      path: '/ping',
-      name: 'Ping',
-      component: Ping
-    },
+    },    
     {
       path: '/partnership',
       name: 'Partnership',

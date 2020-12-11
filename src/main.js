@@ -35,7 +35,9 @@ export const globalState = new Vue({
   data: {
     admin_url: 'https://admin.matchplay.se/methods/',
     compid: 'sFAc3dvrn2P9pXHAz',
-    closed: false
+    closed: false,
+    price1: 695,
+    price2: 2195
   }
 })
 
@@ -46,9 +48,7 @@ import { mapState, mapMutations } from 'vuex';
 new Vue({
   el: '#app',
   store,
-  router,
-  data: {
-  },
+  router,  
   computed: mapState(['count']),
   methods: {
     increment() {

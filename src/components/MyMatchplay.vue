@@ -215,12 +215,13 @@
                         <b-card class="mb-2 team header">
                             <b-card-title>
                                 <span v-if="team.type === 'Company'" class="pr-2">{{team.teamname}}</span>
-                                <img v-if="team.type === 'Company'" class="pt-3 pb-3" :src="`https://res.cloudinary.com/dn3hzwewp/image/upload/w_400,c_scale//matchplay/logos/${team.logourl}.png`"></span>
+                                <img v-if="team.type === 'Company'" class="pt-3 pb-3" :src="`${team.logourl}`">
 
-                                <span v-else class="pr-2">Ditt lag</span>
+                                <span v-else class="pr-2">Ditt lag</span>                                
                                 
                             </b-card-title>
                             <b-card-text class="mt-0">
+                             
                                 <div class="pt-0 pb-3">
                                     <span :id="'tooltip-teamleader-' + idx">
                                         <i class="material-icons mr-2">person_pin</i>{{team.teamleadername}} (c)
@@ -249,7 +250,8 @@
                                 <div v-if="!team.teammembername && !team.teammembergolfid" class="pt-0 pb-3">
                                 <div v-if="!team.teammemberemail && !team.teammembergolfid && !closed">
                                      <i class="material-icons mr-0 red">error</i>
-                                    <b-button size="sm" v-if="!team.invoice" @click="goToStep(team, 2)" variant="success" class="ml-0">Bjud in lagkamrat</b-button>
+                                    <b-button hidden size="sm" v-if="!team.invoice" @click="goToStep(team, 2)" variant="success" class="ml-0">Bjud in lagkamrat</b-button>
+                                    <span v-if="!team.invoice" @click="goToStep(team, 2)" class="invitemember">Bjud in lagkamrat</span>
                                 </div>
                                 </div>
 
@@ -263,7 +265,12 @@
                                       <a @click="showHelpReserve()" class="btn btn-secondary btn-sm text-white mr-md-2 pl-0 pr-0"><i class="fas fa-question ml-1 mr-1 mb-1"></i></a>  
                                 </div>
 
-                                
+                                 <div v-if="!team.teamreservegolfid" class="pt-0 pb-3">                                    
+                                     <b-button hidden size="sm" variant="success" @click="showModal(team._id)">Välj reservspelare</b-button>
+                                      <i class="material-icons">person_pin</i>
+                                     <span class="invitemember" @click="showModal(team._id)">Välj reservspelare</span>
+                                     <a @click="showHelpReserve()" class="btn btn-secondary btn-sm text-white mr-md-2 pl-0 pr-0"><i class="fas fa-question ml-1 mr-1 mb-1"></i></a>                                     
+                                </div>
 
                                 <div class="pt-0 pb-3">
                                     <span :id="'tooltip-course-' + idx">
@@ -274,10 +281,13 @@
                                     </span>
                                 </div>
 
-                                  <div v-if="!team.teamreservegolfid" class="pt-0 pb-3">                                    
-                                     <b-button size="sm" variant="success" @click="showModal(team._id)" class="">Välj reservspelare</b-button>
-                                     <a @click="showHelpReserve()" class="btn btn-secondary btn-sm text-white mr-md-2 pl-0 pr-0"><i class="fas fa-question ml-1 mr-1 mb-1"></i></a>                                     
+                                <div class="pt-0 pb-3" v-if="!team.paid">
+                                    <span>
+                                        <i class="material-icons">create</i>
+                                        <span class="invitemember" @click="goToStep(team, 1)">Redigera laget</span>
+                                    </span>
                                 </div>
+                                
 
                                   <b-alert v-if="showhelpreserve" show class="small text-center mt-1" variant="info">
                                             Om ditt lag har en reserv tillgänglig för spel kan hemmalaget, när ni träffas innan spel, välja denna person i samband med att tee väljs innan matchen startar.
@@ -333,11 +343,11 @@
 
                 <!-- STEP 1 -->
                 <div v-if="team.step > 0">
-                    <b-container class="mb-5">
+                    <b-container class="mb-4 mb-md-5">
                         <b-row align-h="center">
                             <b-col md="6">
 
-                                <b-card class="mt-1 mb-1" no-body>
+                                <b-card class="mt-1 mb-1 pt-0" no-body>
                                     <b-card-header>
                                         Ditt lag<span v-if="team.name != ''">: {{team.name}}</span>
                                         
@@ -354,19 +364,19 @@
                                                 </span>
                                             </div>
 
-                                            <div v-if="team.type" class="pt-0 pb-3">
+                                            <div v-if="team.type" class="pt-0 pb-1">
                                                 <span id="tooltip-team-type">
                                                     <i class="material-icons mr-2">label</i>
                                                     <span v-if="team.type === 'Private'">Privat</span>
                                                     <span v-if="team.type === 'Company'">Företag</span>
-                                                    <span v-if="team.company != ''">: {{team.company}}</span>
+                                                    <span v-if="team.type === 'Company' && team.company != ''">: {{team.company}}</span>
                                                     <b-tooltip target="tooltip-team-type" triggers="hover" placement="top">
                                                         Lagtyp
                                                     </b-tooltip>
                                                 </span>
                                             </div>
 
-                                            <div v-if="team.course" class="pt-0 pb-3">
+                                            <div v-if="team.course" class="pt-0 pb-0">
                                                 <span id="tooltip-course">
                                                     <i class="material-icons mr-2">golf_course</i> {{team.course}}
                                                     <b-tooltip target="tooltip-course" triggers="hover" placement="top">
@@ -440,13 +450,13 @@
                                     </b-form-invalid-feedback>
                                 </b-form-group>
 
-                                <b-form-group class="mb-5">
+                                <b-form-group class="mb-3">
                                     <label for="name">Företagslogga</label>
                                     <b-form-file @input="uploadCloudinary(this)" style="font-size:0.9em;" v-model="team.file" :state="Boolean(team.file)" placeholder="Ladda upp din företagslogga" drop-placeholder="Drop file here..." accept="image/jpeg, image/png, image/gif"></b-form-file>
                                     <b-form-input hidden id="input-logo" v-model="team.logo"></b-form-input>
                                 </b-form-group>
                                 <b-form-group class="text-center">
-                                    <img class="mt-2" v-bind:src="team.logo" v-if="team.type === 'Company'" />
+                                    <img class="mb-3" v-bind:src="team.logo" v-if="team.type === 'Company'" />
                                 </b-form-group>
                             </b-col>
                         </b-row>
@@ -470,10 +480,13 @@
 
                         <!-- NEXT STATE -->
                         <b-row align-h="center">
-                            <b-col md="6">
+                            <b-col md="6">                                
                                 <b-button @click.prevent="cancel_team()" variant="light"><i class="material-icons">arrow_back_ios</i>Tillbaka</b-button>
-                                <b-button :disabled="team.clubid === ''" class="mt-0 mt-sm-0 float-right" @click.prevent="next()" variant="success">
+                                <b-button v-if="!team.teammembergolfid" :disabled="team.clubid === ''" class="mt-0 mt-sm-0 float-right" @click.prevent="next()" variant="success">
                                     <b-spinner v-if="showloginspinner" small type="grow" class="mr-2"></b-spinner>Välj lagkamrat<i class="ml-2 material-icons">arrow_forward_ios</i>
+                                </b-button>
+                                 <b-button v-if="team.teammembergolfid" class="mt-0 mt-sm-0 float-right" @click.prevent="update_team()" variant="success">
+                                    <b-spinner v-if="showloginspinner" small type="grow" class="mr-2"></b-spinner>Spara<i class="ml-2 material-icons">save</i>
                                 </b-button>
                             </b-col>
                         </b-row>
@@ -497,9 +510,9 @@
                             </b-col>
                         </b-row>
 
-                        <b-row v-if="team.type != null" align-h="center">
+                        <b-row v-if="team.type != null" align-h="center">                           
                             <b-col md="6">
-                                <b-form-group>
+                                <b-form-group>                                    
                                     <label for="name">Lagkamrat:</label>
                                     <b-form-input :state="validation_teammembername" v-model="team.teammembername" inputmode="numeric" pattern="[- +()0-9]+" id="teammembername" placeholder="Golf id (xxxxxx-xxx)" required>
                                     </b-form-input>
@@ -584,7 +597,7 @@
                     <b-container>
                         <b-row align-h="center">
                             <b-col md="6">
-                                <b-form-group class="mb-5" v-if="team.type != null && !team.is_readonly">
+                                <b-form-group class="mb-2" v-if="team.type != null && !team.is_readonly">
                                     <h4>Betalningsalternativ</h4>
 
                                     <b-form-radio v-if="team.type === 'Private'" v-model="team.payment" name="some-radios" value="A">Swish</b-form-radio>
@@ -899,7 +912,7 @@
     <b-container v-if="!showlogin">
      <b-row align-h="center">
                             <b-col class="text-right mt-5">
-                    <b-button @click="logoutPrompt" variant="warning" class="mt-5 btn-sm">Logga ut</b-button>
+                    <b-button @click="logoutPrompt" variant="warning" class="mt-5 mb-5 btn-sm">Logga ut</b-button>
                             </b-col>
                         </b-row>
     </b-container>
@@ -1024,7 +1037,7 @@ export default {
             showsreseterror: false,
             showsendreset: false,
             showsendreseterror: false,
-            showsendresetsuccess: false,
+            showsendresetsuccess: false,           
             //END    
             //GAMEDETAILS
             gamedetails: {},
@@ -1184,7 +1197,7 @@ export default {
                             text: '48'
                         }
                     ],
-                },
+                },               
                 _id: '',
                 price_private: 695,
                 price_company: 2195,
@@ -1545,21 +1558,23 @@ export default {
             }
 
         },
-        setTeamProperties(team) {
+        setTeamProperties(team) {                  
+            this.getGolfClubs();
             this.team.completemode = true;
             this.team._id = team._id;
             this.showcreateteam = true;
             this.team.is_readonly = false;
+            this.team.company = team.company;
+            this.team.file = team.file;
             this.team.type = team.type;
             this.team.name = team.teamname;
             this.team.player_2_name = team.teammembername;
+            this.team.teammembergolfid = team.teammembergolfid;          
             this.team.course = team.coursename;
-            if (this.team.sponsmerch) {
-                this.team.shirtPicker.player1.shirt = team.sponsmerch.item01;
-                this.team.shirtPicker.player2.shirt = team.sponsmerch.item02;
-                this.team.shirtPicker.player1.size = team.sponsmerch.property01;
-                this.team.shirtPicker.player2.size = team.sponsmerch.property02;
-            }
+            this.team.logo = team.logourl;
+            this.query = team.coursename;
+            this.team.clubid = team.course;
+     
 
         },
         resetTeamProperties(team) {
@@ -1720,6 +1735,7 @@ export default {
                 this.team.shirtPicker.player2.shirt = shirt;
             }
         },
+       
         prev() {
 
             this.team.step--;
@@ -1787,7 +1803,8 @@ export default {
                         "teamreservegolfid": this.team.teamreservegolfid,
                         "company": this.team.company,
                         "teamnamecompany": this.team.name,
-                        "uistep": this.team.step
+                        "uistep": this.team.step,
+                        "logourl": this.team.logo
                     })
                     .then(response => {
                         if (response.data.status === 'error') {
@@ -2357,6 +2374,35 @@ export default {
         save_state2(evt) {
             this.team.state = 3;
         },
+        update_team() {
+
+                var url = globalState.admin_url + 'updateTeam'
+                this.axios.post(url, {
+                        "competition": globalState.compid,
+                        "course": this.team.clubid,
+                        "_id": this.team._id,
+                        "type": this.team.type,
+                        "company": this.team.company,
+                        "teamnamecompany": this.team.name,
+                        "uistep": this.team.step,
+                        "logourl": this.team.logo
+                    })
+                    .then(response => {
+                        if (response.data.status === 'error') {
+                            return;
+                        }
+
+                        if (response.data.status === 'ok') {
+                            console.log('Team saved', response.data);
+                            this.showloginspinner = false;                           
+                            this.cancel_team();
+                        }
+
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+        },
         save_team(evt) {
             //alert(JSON.stringify(this.team));
 
@@ -2755,6 +2801,15 @@ export default {
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
 
+.card-body {
+    padding: 0.7rem 1.25rem;
+}
+
+.invitemember {
+    text-decoration:underline;
+    cursor:pointer;
+}
+
 .green {
     color:green !important;
 }
@@ -2806,8 +2861,7 @@ img {
     min-height: 50px;
 }
 
-.team {
-    cursor: pointer;
+.team {    
     font-size: 1em;
 }
 
