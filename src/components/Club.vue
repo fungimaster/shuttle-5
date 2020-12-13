@@ -230,10 +230,17 @@ import CustomSlider from "vue-custom-range-slider";
 $label-color: #000;
 $slider-track-background: $orange;
 $slider-track-height: 8px;
-$thumb-background: #000 !default;
 
 // import the styling,
 @import "vue-custom-range-slider/dist/vue-custom-range-slider.scss";
+
+.slider__track {
+  background: $orange !important;
+}
+
+.slider__input::-webkit-slider-thumb {
+  background: #000;
+}
 
 .slider {
   margin-top: 10px !important;
