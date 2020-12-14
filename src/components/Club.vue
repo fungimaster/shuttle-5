@@ -20,10 +20,12 @@
           <custom-slider min="300" max="1200" v-model="price" step="50" hideLabel="true" />
           <h5 hidden class>LAG: {{teams}}</h5>
           <h5 hidden class>GREENFEE SNITT: {{price}}</h5>
-          <h5 class>GÄSTER: {{players}} | MATCHER: {{games}}</h5>
-          <h5 hidden class>MATCHER:</h5>
-          <h5 class>LAGBILJETT 2022*: {{tickets}}</h5>
-          <small>*För var 10:e lag som väljer er klubb som hemmabana erhåller ni 1 lagbiljett till Matchplay 2022 som ni tex. kan använda till era prisbord under tävlingar under 2021.</small>
+          <h5 class>GÄSTER: {{players}}</h5>
+          <h5 class>MATCHER: {{games}}</h5>
+          <h5 class>LAGBILJETT 2022: {{tickets}}</h5>
+          <small
+            hidden
+          >*För var 10:e lag som väljer er klubb som hemmabana erhåller ni 1 lagbiljett till Matchplay 2022 som ni tex. kan använda till era prisbord under tävlingar under 2021.</small>
         </b-col>
         <b-col class="col-12 col-md-6 text-center mt-md-0 mt-3">
           <div class="databox">
@@ -34,7 +36,7 @@
             <span class="profit">{{calckickback}}:-</span>
             <span
               class="small mt-3 d-block text-left"
-            >*För att erhålla kickback (50:-/lag) för anmälda lag till er klubb vill vi att ni publicerar ungefär 1 inlägg per vecka i era sociala medier fram till anmälningsstoppet i slutet av april. Ni får bild och text från oss.</span>
+            >*För att erhålla kickback (50:-/lag) och lagbiljetter för 2022 vill vi att ni publicerar ungefär 1 inlägg per vecka i era sociala medier fram till anmälningsstoppet i slutet av april. Ni får bild och text från oss.</span>
           </div>
         </b-col>
       </b-row>
@@ -56,7 +58,7 @@
             show
             variant="warning"
             class="mt-3 small"
-          >Om ni får {{teams}} lag att välja er klubb som hemmaklubb i Matchplay 2021 beräknar vi att ni kommer få {{players}} nya gäster som besöker er anläggning. Vi beräknar att ca {{games}} matcher kommer spelas på er anläggning och att er snittgreenfee i perioden maj-september är {{price}} kr.</b-alert>
+          >Om ni får {{teams}} lag att välja er klubb som hemmaklubb i Matchplay 2021 beräknar vi att ni kommer få {{players}} nya gäster som besöker er anläggning. Vi beräknar att ca {{games}} matcher kommer spelas på er anläggning och att er snittgreenfee i perioden maj-september är {{price}} kr. Med {{teams}} lag tjänar ni ungefär {{calcprofit}}:- på greenfee samt erhåller {{calckickback}}:- om ni delar våra budskap om tävlingen i era sociala medier.</b-alert>
         </b-col>
 
         <b-col hidden class="col-12 col-md-5 mt-5 mb-3">
@@ -151,10 +153,10 @@ import CustomSlider from "vue-custom-range-slider";
           price: 500,
           calc:0,
           calckickback:0,
-          inspel:0,
+          inspel:1,
           lunch:1,
-          golfbil:0,
-          shop: 0,
+          golfbil:1,
+          shop: 1,
           range: 1,
           kiosk:1,
           circle_size:0,
@@ -226,20 +228,16 @@ import CustomSlider from "vue-custom-range-slider";
 <style lang="scss">
 @import "../styles/variables.scss";
 
-// override variables like this:
-$label-color: #000;
-$slider-track-background: $orange;
-$slider-track-height: 8px;
-
 // import the styling,
 @import "vue-custom-range-slider/dist/vue-custom-range-slider.scss";
 
 .slider__track {
   background: $orange !important;
+  height: 8px;
 }
 
 .slider__input::-webkit-slider-thumb {
-  background: #000;
+  background: #000 !important;
 }
 
 .slider {
