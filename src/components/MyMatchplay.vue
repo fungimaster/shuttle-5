@@ -2027,7 +2027,8 @@ export default {
                 id = this.userinfo._id;
             }
             this.axios.post(globalState.admin_url + 'getPlayerData', {
-                    "id": id
+                    "id": id,
+                    "competition": globalState.compid
                 })
                 .then(response => {
                     if (response.data.hasOwnProperty('error')) {
