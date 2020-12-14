@@ -9,7 +9,7 @@
       <!-- Text-diven har en height på 10% så att den alltid står för sig själv -->
       <div class="h-10">
         <!-- Window width under 700px -->
-        <p class="text-center" v-if="windowWidth < 700">
+        <p class="text-center" v-if="windowWidth < 1000">
           {{ index === numberOfRounds - 1 ? "FR" : `R${index + 1}` }}
         </p>
         <!-- Window width över 700px -->
