@@ -22,21 +22,19 @@
           <h5 hidden class>GREENFEE SNITT: {{price}}</h5>
           <h5 class>GÄSTER: {{players}}</h5>
           <h5 class>MATCHER: {{games}}</h5>
-          <h5 class>LAGBILJETT 2022: {{tickets}}</h5>
-          <small
-            hidden
-          >*För var 10:e lag som väljer er klubb som hemmabana erhåller ni 1 lagbiljett till Matchplay 2022 som ni tex. kan använda till era prisbord under tävlingar under 2021.</small>
+          <h5 class>LAGBILJETT 2022*: {{tickets}}</h5>
+          <small>*För var 10:e lag som väljer er klubb som hemmabana erhåller ni 1 lagbiljett till Matchplay 2022 som ni tex. kan använda till era prisbord 2021.</small>
         </b-col>
         <b-col class="col-12 col-md-6 text-center mt-md-0 mt-3">
           <div class="databox">
-            <h4 class>BERÄKNAD INTÄKT</h4>
+            <h4 class>BERÄKNAD INTÄKT TILL KLUBBEN</h4>
             <span class="profit">{{calcprofit}}:-</span>
             <hr />
-            <h4 class>KICKBACK*</h4>
+            <h4 class>KICKBACK**</h4>
             <span class="profit">{{calckickback}}:-</span>
             <span
               class="small mt-3 d-block text-left"
-            >*För att erhålla kickback (50:-/lag) och lagbiljetter för 2022 vill vi att ni publicerar ungefär 1 inlägg per vecka i era sociala medier fram till anmälningsstoppet i slutet av april. Ni får bild och text från oss.</span>
+            >**När anmälan har stängt har ni som klubb rätt att fakturera Matchplay 50:- per anmälda lag som har angett er klubb som hemmabana. Fakturan måste vara oss tillhands senast 31 oktober 2021.</span>
           </div>
         </b-col>
       </b-row>
@@ -123,6 +121,22 @@
             <li>Lägg ut en länk till tävlingen på er hemsida</li>
             <li>Dela anmälningsstart i era sociala kanaler</li>
           </ul>
+        </b-col>
+
+        <b-col class="col-12 mt-3">
+          <hr class="mb-5" />
+          <h3>Fakturauppgifter</h3>
+          <p>Använd nedan information för att skapa fakturan till oss för er kickback.</p>
+          <p>På vår startsida kan ni tydligt se hur många som anmält sig till tävlignen och valt er klubb som hemmabana. Ta siffran och multiplicera med 50kr. Summan fakturerar ni oss är bal bala</p>
+          <p>
+            <strong>Skicka gärna fakturan per e-post!</strong>
+          </p>
+          <b-alert variant="info" show>
+            Matchplay Sweden
+            <br />info@matchplay.se
+            <br />Org nr.559196-7236
+            <br />NEDRE VÄSTERSJÖVÄGEN 263 | 266 93 Munka-Ljungby
+          </b-alert>
         </b-col>
 
         <b-col xl="1"></b-col>
@@ -295,12 +309,8 @@ import CustomSlider from "vue-custom-range-slider";
 .databox {
   border-radius: 0.25em;
   padding: 1em;
-  background: rgb(246, 246, 246);
-  background: linear-gradient(
-    342deg,
-    rgba(246, 246, 246, 1) 21%,
-    rgba(125, 125, 125, 0.8211659663865546) 100%
-  );
+  border: 2px dotted #666;
+  background: #e1e1e1;
 }
 
 @media only screen and (max-width: 768px) {

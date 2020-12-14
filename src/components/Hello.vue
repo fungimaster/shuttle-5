@@ -15,11 +15,12 @@
     <div class="hero">      
       <b-container class="d-flex">
        
-            
-
         <b-row>
           <b-col class="col-12 col-md-12 mt-4">            
             <h2>VÄLKOMMEN TILL MATCHPLAY 2021, GOLFTÄVLINGEN FÖR BÅDE PRIVATPERSONER OCH FÖRETAG</h2>
+          </b-col>
+
+          <b-col class="col-12 col-md-8">
             <p class="mt-3 mt-md-0">Matchplay är en matchspelstävling för par med officiellt handikapp. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.</p>
             <p v-if="!closed">Ta chansen att ta dig till Sverigefinalen och sedan vidare utomlands!</p>
             <p hidden v-if="!closed">2020 spelades 358 matcher på nästan 100 golfklubbar.</p>
@@ -31,7 +32,7 @@
               <a hidden href="/register" class="btn btn-warning btn-md text-white mt-2">Efterhandsregistrera spelare</a>
             </div>
 
-            <b-alert show class="mt-4 smaller" variant="warning">
+            <b-alert hidden class="mt-4 smaller" variant="warning">
                 Tävlingen startar den 3:e maj 2021 men anmäl ditt lag redan nu!                
                 För mer uppdaterad information håll koll på <a href="https://www.facebook.com/matchplaysweden/" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplay_sweden/" target="_blank">Instagram</a>.
              </b-alert>
@@ -90,7 +91,7 @@
              </b-alert>
 
               <b-alert v-if="closed" show class="mt-4 small" variant="warning">
-                <p><h4>LAGEN TILL FINALEN I SPANIEN ÄR KLARA</h4>Efter 358 spelade matcher på nästan 100 golfklubbar runtom i Sverige har vi nu korat vinnarna till Spanienfinalen!<br>Grattis till Joel Carnor/Emma Wedin samt Kim Christiansson/Martin Nileskär! Se mer info längre ner om vinnarna och finalresan.</p>
+                <h4>LAGEN TILL FINALEN I SPANIEN ÄR KLARA</h4>Efter 358 spelade matcher på nästan 100 golfklubbar runtom i Sverige har vi nu korat vinnarna till Spanienfinalen!<br>Grattis till Joel Carnor/Emma Wedin samt Kim Christiansson/Martin Nileskär! Se mer info längre ner om vinnarna och finalresan.
                 <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
              </b-alert>
 
@@ -109,18 +110,24 @@
                 Håll koll via <a href="https://www.facebook.com/matchplaysweden/" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplay_sweden/" target="_blank">Instagram</a>.
              </b-alert>
 
-
-             <app-rounds-grafic style="height: 220px" opacity="0.85"></app-rounds-grafic>
-                       
+      
            
           </b-col>
-          <b-col class="col-md-3 d-none d-md-block pl-2 justify-content-center align-self-center">           
+
+           <b-col class="col-12 d-block d-md-none pl-2 justify-content-center align-self-center p-5">           
           
-            <b-img hidden src="https://res.cloudinary.com/dn3hzwewp/image/upload/e_colorize,co_rgb:fff/v1573118127/matchplay/matchplay-new-logo-2020.png" alt=""></b-img>
+            <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/e_colorize,co_rgb:fff/v1573118127/matchplay/matchplay-new-logo-2020.png" alt=""></b-img>
+          </b-col>
+       
+       
+          <b-col class="col-md-4 d-none d-md-block pl-2 justify-content-center align-self-center p-3">           
+          
+            <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/e_colorize,co_rgb:fff/v1573118127/matchplay/matchplay-new-logo-2020.png" alt=""></b-img>
           </b-col>
          
 
         </b-row>
+       
 
    
      
@@ -130,14 +137,23 @@
     </div>
 <!-- TEMP HIDDEN -->   
     <div class="teaser-container">
-      <b-container>       
-        <b-row>      
+      <b-container> 
+         <b-row hidden>
+          <b-col class="col-12 mt-4 mb-4">
+
+             <app-rounds-grafic style="height: 220px" opacity="0.85"></app-rounds-grafic>
+                 
+          </b-col>
+        </b-row>       
+        <b-row>    
+
+           
             
           <b-col id="register" ref="register">
             <h3 v-if="!closed" class="teaser-header orange">Anmäl ditt lag till Matchplay 2021</h3>
             <p>Hela tävlingen är numera digitaliserad där vi kontrollerar Golf-ID, hcp, slope mm för att kunna applicera våra hcputräkningar inför varje match. Ni använder vårt digitala scorekort för att föra score och vänner/familj kan följa matcherna live!</p>
             <p>Anmälningskostnad per lag är <strong>{{price1}} kr</strong> för privatpersoner och <strong>{{price2}} kr</strong> (exkl. moms) för företag.</p>
-            <a v-if="!closed" href="/register" class="btn blue-bg btn-md text-white mt-3 mr-2"><i class="pb-1 mr-2 material-icons">thumb_up</i>Steg 1 - Kontroll av Golf-ID</a>
+            <a v-if="!closed" href="/register" class="btn blue-bg btn-md text-white mt-2 mb-3 mr-2"><i class="pb-1 mr-2 material-icons">thumb_up</i>Steg 1 - Kontroll av Golf-ID</a>
             <h2 hidden class="teaser-header orange">Det är klart du vill vara med i golftävlingen, registrera dig här!</h2>
             
             
@@ -260,11 +276,11 @@
                         <div class="testimonial">
                           <b-row>
                           <b-col class="col-3 pt-3">
-                            <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_100,c_fill,ar_1:1,g_auto,r_max/v1487749682/tone_cxgmpj.png">
+                            <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_100,c_fill,ar_1:1,g_auto,r_max/v1607953704/matchplay/ambassador/Karl.png">
                           </b-col>                          
                             <b-col class="col-9">                              
                               <p>"Jag rekommenderar verkligen att vara med i tävlingen, det är så kul att träffa andra golfare som delar passionen till sporten. Det digitala scorekortet är superenkelt, man ser direkt vilket lag som vinner hålet och hur det står i matchen. Kul att vänner kan följa matchen direkt på sajten."</p>
-                              - Ida Svensson
+                              - Karl Stjerna / Ljunghusen GK
                             </b-col>                                                        
                           </b-row>
                         </div>
@@ -274,7 +290,8 @@
 
                   <b-row class="mt-0 mb-4">
                                       
-                     <b-col class="col-12 mt-5">
+                     <b-col class="col-12 mt-3">
+                        <hr class="mb-5">
                        <h3>Finalparen från Matchplay 2020 klara för Spanien</h3>
                        <p>Vi säger stort grattis till våra finalpar som är klara för den stora Matchplayfinalen på Los Naranjos i Spanien mellan den 7-11 februari 2021.<br>
                        </p>
@@ -932,7 +949,7 @@
                 </p>
 
 
-                 <app-rounds-grafic style="height: 300px" linecolor="#808080" opacity="1"></app-rounds-grafic>
+                 <app-rounds-grafic hidden class="mt-5" style="height: 300px" linecolor="#808080" opacity="1"></app-rounds-grafic>
 
 
     <b-container class="mt-5 mb-4">
@@ -1922,9 +1939,6 @@ export default {
 
 p.inactive-round {
   text-decoration: line-through;
-}
-
-p.active-round {
 }
 
 .smaller {
