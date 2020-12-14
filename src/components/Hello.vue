@@ -28,7 +28,7 @@
             
              <div class="buttons text-left" id="games" ref="games">
               <a v-if="!closed" href="/register" class="btn blue-bg btn-md text-white mt-2 mr-2">Anmälan</a>
-              <a href="/mymatchplay" class="btn blue-bg btn-md text-white mt-2">Lag- och matchhantering</a>
+              <a v-if="isAuthenticated" href="/mymatchplay" class="btn blue-bg btn-md text-white mt-2">Lag- och matchhantering</a>
               <a hidden href="/register" class="btn btn-warning btn-md text-white mt-2">Efterhandsregistrera spelare</a>
             </div>
 
@@ -258,35 +258,10 @@
                 <div class="form-group" v-if="showform1">
                 <hr>
 
-                  <b-row class="mt-0 mb-4">
-                    <b-col class="col-12 col-md-6 mt-3">
-                        <div class="testimonial">
-                          <b-row>
-                          <b-col class="col-3 pt-3">
-                            <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_100,c_fill,ar_1:1,g_auto,r_max/v1607593347/matchplay/ambassador/545144_1080.jpg">
-                          </b-col>                          
-                            <b-col class="col-9">                              
-                              <p>"Som ny inom golfen så var det kul att addera tävlingsmomentet och få känna hur proffsen har det när de puttar för miljonerna. Utöver det så är det ett ypperligt tillfälle att skapa sig nya bekantskaper och prova på nya banor."</p>
-                              - Rasmus Franke / Lydinge GK
-                            </b-col>                                                        
-                          </b-row>
-                        </div>
-                    </b-col>
-                    <b-col class="col-12 col-md-6 mt-3">
-                        <div class="testimonial">
-                          <b-row>
-                          <b-col class="col-3 pt-3">
-                            <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_100,c_fill,ar_1:1,g_auto,r_max/v1607953704/matchplay/ambassador/Karl.png">
-                          </b-col>                          
-                            <b-col class="col-9">                              
-                              <p>"Jag rekommenderar verkligen att vara med i tävlingen, det är så kul att träffa andra golfare som delar passionen till sporten. Det digitala scorekortet är superenkelt, man ser direkt vilket lag som vinner hålet och hur det står i matchen. Kul att vänner kan följa matchen direkt på sajten."</p>
-                              - Karl Stjerna / Ljunghusen GK
-                            </b-col>                                                        
-                          </b-row>
-                        </div>
-                    </b-col>
-                  </b-row>
-
+             
+                    
+ <testimonials number=4></testimonials>
+                
 
                   <b-row class="mt-0 mb-4">
                                       
@@ -938,8 +913,8 @@
 
             <b-row class="mb-5 mt-0">
               <b-col md="12" class="teaser-content">
-                
-                <h3 class="orange mb-3">SÅ HÄR FUNGERAR DET</h3>
+                <hr />
+                <h3 class="orange mb-3 mt-5">SÅ HÄR FUNGERAR DET</h3>
 
                 <p>Matchplay spelas 2021 i hela Sverige och är en tävling för 2-mannalag (herr, dam eller mixed). Officiellt HCP krävs för att delta. Tävlingsformen är 4-boll, Match/Bästboll. Beroende på antal anmälda lag kommer det bli 6-7 omgångar fram till Sverigefinalen. Varje omgång spelas inom 2 veckor där det vinnande laget går vidare i tävlingen.</p>
                 <p>Ta er till Sverigefinalen och upplev en magisk helg med Matchplay! Sverigefinalen görs upp på en golfklubb som ligger geografiskt bra till för de kvarvarande fyra lagen. Hotell, frukost, all golf samt en bankett på kvällen ingår. De 2 bästa lagen i Sverigefinalen åker med Matchplay till Spanska solkusten för att göra upp om titeln. Flyg, hotell och allt spel ingår för de bägge lagen.
@@ -1059,12 +1034,14 @@
 
 
 <script>
+import { mapGetters } from "vuex";
 import { tagsMixin } from "../mixins/tagsMixin";
 /*import VuePhoneNumberInput from 'vue-phone-number-input';
 import 'vue-phone-number-input/dist/vue-phone-number-input.css';*/
 import { VueTelInput } from "vue-tel-input";
 import FlipCountdown from "./FlipCountdown";
 import AppRoundsGrafic from "./RoundsGrafic";
+import Testimonials from "./Testimonials";
 
 import moment from "moment";
 import VueMoment from "vue-moment";
@@ -1111,7 +1088,7 @@ export default {
     // 'phone':VueTelInput,
     VueTelInput,
     appCountdown: FlipCountdown,
-    AppRoundsGrafic,
+    AppRoundsGrafic, Testimonials
   },
   data() {
     return {
@@ -1220,6 +1197,10 @@ export default {
   },
 
   computed: {
+        ...mapGetters([
+      "user",
+      "isAuthenticated",
+    ]),
     validation() {
       let validated = false;
 
@@ -1925,14 +1906,6 @@ export default {
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
 
-.testimonial {
-  font-size: 0.9em;
-}
-
-.testimonial img {
-  width: 100%;
-}
-
 .no1 {
   background-color: $gold;
 }
@@ -2102,7 +2075,7 @@ img {
 }
 
 .hero {
-  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:20,co_rgb:000000/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg);
+  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg);
 
   background-repeat: no-repeat;
   /*background-position: bottom 30% right 0;*/
@@ -2115,7 +2088,7 @@ img {
     /*background-position: bottom 10% right 0;*/
   }
   @media (min-width: 480px) {
-    padding: 3rem 0 8rem 0;
+    padding: 4rem 0 4rem 0;
     /*background-position: bottom 0% right 0;*/
   }
   @media (min-width: 768px) {

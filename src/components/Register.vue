@@ -122,8 +122,9 @@
     </b-alert>                
                    <b-alert show class="mt-4 small form-text text-muted" v-if="this.player==='player1'">Inget förbinder dig att skapa ett lag genom att fortsätta till nästa steg. Betalningen sker först när ett lag skapas.
                      Anmälningskostnad per lag är <strong>{{price1}} kr</strong> för privatpersoner och <strong>{{price2}} kr</strong> (exkl. moms) för företag.
-                     </b-alert>                  
-                   
+                     </b-alert>     
+
+                     <testimonials number=1></testimonials>             
 
                 </div>
 
@@ -326,8 +327,8 @@ import { tagsMixin } from "../mixins/tagsMixin";
 /*import VuePhoneNumberInput from 'vue-phone-number-input';
 import 'vue-phone-number-input/dist/vue-phone-number-input.css';*/
 import { VueTelInput } from 'vue-tel-input'
-import FlipCountdown from "./FlipCountdown";
 import { globalState } from "../main.js";
+import Testimonials from "./Testimonials";
 
 
 export default {
@@ -335,10 +336,8 @@ export default {
 components: {   
       //'phone':VuePhoneNumberInput,
      // 'phone':VueTelInput,
-      VueTelInput,
-      appCountdown: FlipCountdown
-
-    },
+      VueTelInput,Testimonials
+      },
   data() {
     return {
 
