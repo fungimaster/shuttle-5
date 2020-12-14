@@ -110,7 +110,7 @@
              </b-alert>
 
 
-          <app-grafic style="height: 220px" opacity="0.85"></app-grafic>
+             <app-rounds-grafic style="height: 220px" opacity="0.85"></app-rounds-grafic>
                        
            
           </b-col>
@@ -924,18 +924,18 @@
                 
                 <h3 class="orange mb-3">SÅ HÄR FUNGERAR DET</h3>
 
-<p>Matchplay spelas 2021 i hela Sverige och är en tävling för 2-mannalag (herr, dam eller mixed). Officiellt HCP krävs för att delta. Tävlingsformen är 4-boll, Match/Bästboll. Beroende på antal anmälda lag kommer det bli 6-7 omgångar fram till Sverigefinalen. Varje omgång spelas inom 2 veckor där det vinnande laget går vidare i tävlingen.</p>
-<p>Ta er till Sverigefinalen och upplev en magisk helg med Matchplay! Sverigefinalen görs upp på en golfklubb som ligger geografiskt bra till för de kvarvarande fyra lagen. Hotell, frukost, all golf samt en bankett på kvällen ingår. De 2 bästa lagen i Sverigefinalen åker med Matchplay till Spanska solkusten för att göra upp om titeln. Flyg, hotell och allt spel ingår för de bägge lagen.
-</p>
-  <p>
-  Priset för deltagande i tävlingen är {{price1}}:-/lag för privatpersoner och {{price2}}:-/lag (exkl. moms) för företag. Varje lag är garanterat minst 2 matcher.
-</p>
+                <p>Matchplay spelas 2021 i hela Sverige och är en tävling för 2-mannalag (herr, dam eller mixed). Officiellt HCP krävs för att delta. Tävlingsformen är 4-boll, Match/Bästboll. Beroende på antal anmälda lag kommer det bli 6-7 omgångar fram till Sverigefinalen. Varje omgång spelas inom 2 veckor där det vinnande laget går vidare i tävlingen.</p>
+                <p>Ta er till Sverigefinalen och upplev en magisk helg med Matchplay! Sverigefinalen görs upp på en golfklubb som ligger geografiskt bra till för de kvarvarande fyra lagen. Hotell, frukost, all golf samt en bankett på kvällen ingår. De 2 bästa lagen i Sverigefinalen åker med Matchplay till Spanska solkusten för att göra upp om titeln. Flyg, hotell och allt spel ingår för de bägge lagen.
+                </p>
+                <p>
+                  Priset för deltagande i tävlingen är {{price1}}:-/lag för privatpersoner och {{price2}}:-/lag (exkl. moms) för företag. Varje lag är garanterat minst 2 matcher.
+                </p>
 
 
-      <app-grafic style="height: 300px" linecolor="#808080" opacity="1"></app-grafic>
+                 <app-rounds-grafic style="height: 300px" linecolor="#808080" opacity="1"></app-rounds-grafic>
 
 
-                <b-container class="mt-5 mb-4">
+    <b-container class="mt-5 mb-4">
       <b-row>
           <b-col class="col-12 col-md-4 p-2">            
             <div class="step">
@@ -1047,7 +1047,7 @@ import { tagsMixin } from "../mixins/tagsMixin";
 import 'vue-phone-number-input/dist/vue-phone-number-input.css';*/
 import { VueTelInput } from "vue-tel-input";
 import FlipCountdown from "./FlipCountdown";
-import AppGrafic from "./Grafic";
+import AppRoundsGrafic from "./RoundsGrafic";
 
 import moment from "moment";
 import VueMoment from "vue-moment";
@@ -1094,7 +1094,7 @@ export default {
     // 'phone':VueTelInput,
     VueTelInput,
     appCountdown: FlipCountdown,
-    AppGrafic,
+    AppRoundsGrafic,
   },
   data() {
     return {
