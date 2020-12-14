@@ -50,7 +50,7 @@ export default {
   created() {
     this.axios
       .post(globalState.admin_url + "getCompetition", {
-        id: "nY27A4xfsuLpcNbDA",
+        id: globalState.compid,
       })
       .then((response) => {
         this.numberOfRounds = response.data.numberofrounds;
