@@ -327,6 +327,7 @@ import { tagsMixin } from "../mixins/tagsMixin";
 import 'vue-phone-number-input/dist/vue-phone-number-input.css';*/
 import { VueTelInput } from 'vue-tel-input'
 import FlipCountdown from "./FlipCountdown";
+import { globalState } from "../main.js";
 
 
 export default {
@@ -340,6 +341,10 @@ components: {
     },
   data() {
     return {
+
+      //PRICE
+      price1: globalState.price1,
+      price2: globalState.price2,
    
    bindProps: {
         mode: "international",
@@ -365,9 +370,7 @@ components: {
         inputOptions: {
           showDialCode: false
         }
-      },
-      price1:'695',
-      price2:'2195',
+      },  
       captain:'',
       invitegolfid:'',
       player: 'player1',

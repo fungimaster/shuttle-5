@@ -985,8 +985,9 @@
             </div>
           </b-col>
 
-         <b-col class="col-12 mt-4">
-                     <a href="/info" class="btn blue-bg btn-md text-white mb-3">Läs mer här</a>          
+         <b-col class="col-12 mt-4">                     
+                     <a v-if="!closed" href="/register" class="btn blue-bg btn-md text-white mr-2">Anmälan</a>        
+                     <a href="/info" class="btn blue-bg btn-md text-white">Läs mer här</a>
          </b-col>
 
       </b-row>
@@ -1136,8 +1137,9 @@ export default {
 
       //TABS
       tabIndex: 0,
-      active_round: "Sverigefinal",
-
+      price1: globalState.price1,
+      price2: globalState.price2,
+      active_round: "Sverigefinal",     
       //PENDING GAMES
       loadinggames2: true,
       updating2: true,
@@ -1162,10 +1164,8 @@ export default {
       },
       searchfield: "",
 
-      price1: "695",
-      price2: "2195",
-
-      showhelper: false, //contbutton1: 'Fortsätt till nästa steg',
+      showhelper: false,
+      //contbutton1: 'Fortsätt till nästa steg',
       docontinue: true,
       contbutton1: "Fortsätt",
       showpasswordsdontmatch: false,

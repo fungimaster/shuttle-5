@@ -35,7 +35,10 @@ export const globalState = new Vue({
   data: {
     admin_url: 'https://admin.matchplay.se/methods/',
     compid: 'sFAc3dvrn2P9pXHAz',
-    closed: false
+    closed: false,
+    price1: 750,
+    price2: 2250,
+    price3: 5900
   }
 })
 
@@ -47,8 +50,6 @@ new Vue({
   el: '#app',
   store,
   router,
-  data: {
-  },
   computed: mapState(['count']),
   methods: {
     increment() {

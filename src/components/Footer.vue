@@ -51,10 +51,11 @@
     :type="'floating'"
     :disableDecline="true"
     :transitionName="'slideFromBottom'"
-    :showPostponeButton="false"
-    @status="cookieStatus"
+    :showPostponeButton="false"    
     @clicked-accept="cookieClickedAccept"
     @clicked-decline="cookieClickedDecline">
+
+	<!-- remove @status="cookieStatus" from above -->
  
     <!-- Optional -->
     <div slot="postponeContent">
@@ -119,6 +120,9 @@ export default {
   components: { VueCookieAcceptDecline },
   data() {
     return {
+		cookieStatus:'',
+    cookieClickedAccept:'',
+    cookieClickedDecline:'',
       email2: "",
 	  reg: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/,
 	   status: null

@@ -1,5 +1,5 @@
 <template>
-  <b-navbar toggleable="lg" :sticky="true" ref="top">
+  <b-navbar toggleable="lg" sticky ref="top">
     <b-navbar-brand>
       <router-link class to="/">
         <img
