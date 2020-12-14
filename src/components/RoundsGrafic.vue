@@ -44,19 +44,23 @@
 </template>
 
 <script>
+import { globalState } from "../main.js";
+
 export default {
   created() {
-    this.numberOfRounds = 10;
-    this.currentRound = 6;
-    /*   this.axios
-      .post("http://localhost:3000/methods/" + "getCompetition", {
+    this.axios
+      .post(globalState.admin_url + "getCompetition", {
         id: "nY27A4xfsuLpcNbDA",
       })
       .then((response) => {
         this.numberOfRounds = response.data.numberofrounds;
         this.currentRound = response.data.currentround;
+      })
+      .catch((error) => {
+        console.log(error);
+        this.numberOfRounds = false;
       });
- */
+
     window.addEventListener("resize", this.handleResize);
     this.handleResize();
   },
