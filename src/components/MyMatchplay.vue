@@ -2039,6 +2039,7 @@ export default {
                     this.userinfo = userinfo;
                     this.teams = this.userinfo.teams;
                     this.teamscount = this.teams.length;
+                    if (!this.teams) this.teamscount = 0;
                     //console.log(this.userinfo);
                     localStorage.setItem('userinfo', JSON.stringify(userinfo));
                     this.$store.dispatch('setUser', userinfo)

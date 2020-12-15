@@ -267,7 +267,7 @@
                                       
                      <b-col class="col-12 mt-3">
                         <hr class="mb-5">
-                       <h3>Finalparen från Matchplay 2020 klara för Spanien</h3>
+                       <h3 class="teaser-header orange">Finalparen från Matchplay 2020 klara för Spanien</h3>
                        <p>Vi säger stort grattis till våra finalpar som är klara för den stora Matchplayfinalen på Los Naranjos i Spanien mellan den 7-11 februari 2021.<br>
                        </p>
                        <b-row>
@@ -949,7 +949,7 @@
            <div class="step">
             <i class="material-icons">ballot</i>
             <h5>Lottning</h5>
-            <p>I slutet av maj görs lottningen för den första omgången och där det tas hänsyn till att alla lag ska få så kort resa som möjligt. Du kommer få information via mail samt på matchplay.se när lottningen är klar och du kan då se vilket lag ni kommer möta.</p>
+            <p>Under maj görs lottningen för den första omgången och där det tas hänsyn till att alla lag ska få så kort resa som möjligt. Du kommer få information via mail samt på matchplay.se när lottningen är klar och du kan då se vilket lag ni kommer möta.</p>
             </div>
           </b-col>
 
@@ -965,7 +965,7 @@
             <div class="step">
               <i class="material-icons">golf_course</i>
             <h5>Sverigefinal</h5>
-            <p>Fyra lag tävlar i Sverigefinalen och denna kommer äga rum på en golfklubb som ligger geografiskt bra till för de tävlande 4 lagen. Hotell, frukost, all golf samt en bankett på kvällen ingår.</p>
+            <p>Åtta lag går till Sverigefinalen och denna kommer äga rum på Allerum Golfklubb, strax utanför Helsingborg. Hotell, frukost, all golf samt en bankett på kvällen ingår.</p>
             </div>
           </b-col>
 

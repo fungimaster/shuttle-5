@@ -1,322 +1,349 @@
 <template>
-  <b-container class="d-flex">
-       <b-row class="justify-content-center" align-h="center">
-                         
-    <b-col md="8" id="register" ref="register" class="mt-4 mt-md-5">
-            <h2 class="teaser-header orange">Anmäl dig som spelare</h2>
-              <b-alert hidden variant="warning small form-text text-muted">
-                      Denna efterhandsregistrering är bara till för spelare som redan är med som lagmedlem i ett lag men som inte har kopplats till ett lag. Efter din registrering kommer du kopplas till rätt lag (baserat på ditt golf-id).
-                    </b-alert>
+  <b-container class ref="register">
+    <b-row class="justify-content-center" align-h="center">
+      <b-col md="8" id="register" class="mt-4 mt-md-5">
+        <h2 class="teaser-header orange">Anmäl dig som spelare</h2>
+        <b-alert
+          hidden
+          variant="warning small form-text text-muted"
+        >Denna efterhandsregistrering är bara till för spelare som redan är med som lagmedlem i ett lag men som inte har kopplats till ett lag. Efter din registrering kommer du kopplas till rätt lag (baserat på ditt golf-id).</b-alert>
 
-              
+        <h2
+          class="hidden teaser-header orange"
+        >Det är klart du vill vara med i golftävlingen, registrera dig här!</h2>
 
-            <h2 class="hidden teaser-header orange">Det är klart du vill vara med i golftävlingen, registrera dig här!</h2>
+        <b-row class="mb-3 mt-3">
+          <b-col v-if="this.player==='player1'">
+            <p>Registreringen består av 4 enkla steg:</p>
+            <div v-bind:class="{ stepsuccess: step == 'step1' }">1. Kontroll av Golf-ID</div>
+            <div v-bind:class="{ stepsuccess: step == 'step2' }">2. Registrera dig som spelare</div>
+            <div
+              v-bind:class="{ stepsuccess: step == 'step3' }"
+            >3. Skapa ditt lag och välj medspelare</div>
+            <div
+              v-bind:class="{ stepsuccess: step == 'step4' }"
+            >4. Betala ditt lag (swish/faktura/voucher)</div>
+            <hr />
+          </b-col>
 
-<b-row class="mb-3 mt-3">
-  <b-col v-if="this.player==='player1'">
-    <p>Registreringen innehåller 4 enkla steg:</p>    
-    <div v-bind:class="{ stepsuccess: step == 'step1' }">1. Kontroll av Golf-ID</div>
-    <div v-bind:class="{ stepsuccess: step == 'step2' }">2. Registrera dig som spelare</div>
-    <div v-bind:class="{ stepsuccess: step == 'step3' }">3. Skapa ditt lag och välj medspelare</div>
-    <div v-bind:class="{ stepsuccess: step == 'step4' }">4. Betala ditt lag (swish/faktura/voucher)</div>    
-    <hr>
-  </b-col>
+          <b-col v-if="this.player==='player2'">
+            <p>
+              Din kompis
+              <span v-if="captain" style="font-weight:bold;color:green;">{{captain}}</span> har skapat ett lag i tävlingen och för att
+              <strong>göra laget komplett</strong> behöver du registrera dig som spelare här på matchplay! Följ instruktionerna nedan.
+            </p>
+            <hr />
+          </b-col>
+        </b-row>
 
-  <b-col v-if="this.player==='player2'">
-    <p>Din kompis <span v-if="captain" style="font-weight:bold;color:green;">{{captain}}</span> har skapat ett lag i tävlingen och för att <strong>göra laget komplett</strong> behöver du registrera dig som spelare här på matchplay! Följ instruktionerna nedan.</p>    
-    <hr>
-  </b-col>
-</b-row>
+        <b-row class="mb-3 mt-3">
+          <b-col md="12" class="teaser-content" ref="success" id="success">
+            <h3 v-if="showqualified" class="mt-3 mb-4">
+              Grattis, du kan vara med i tävlingen
+              <i class="material-icons">tag_faces</i>
+            </h3>
 
-            <b-row class="mb-3 mt-3">
-              <b-col md="12" class="teaser-content" ref="success" id="success">
+            <h3 v-if="showqualified32" class="mt-3 mb-4">
+              Grattis, du kan vara med i tävlingen men ditt handicap kommer räknas som 28 i matchspelet.
+              <i
+                class="material-icons"
+              >tag_faces</i>
+            </h3>
 
-                  <h3 v-if="showqualified" class="mt-3 mb-4">
-                    Grattis, du kan vara med i tävlingen <i class="material-icons">tag_faces</i>
-                  </h3>
+            <h3
+              v-if="showqualifiedNOT"
+              class="mt-3 mb-4"
+            >Tyvärr kan du inte vara med i tävlingen, man måste ha 36 eller lägre...</h3>
 
-                   <h3 v-if="showqualified32" class="mt-3 mb-4">
-                    Grattis, du kan vara med i tävlingen men ditt handicap kommer räknas som 28 i matchspelet. <i class="material-icons">tag_faces</i>
-                  </h3>
+            <h3
+              v-if="showqualifiedNOCLUB"
+              class="mt-3 mb-4"
+            >Du verkar inte ha någon klubbtillhörighet, kontakta oss gärna om det inte stämmer!</h3>
 
-                  <h3 v-if="showqualifiedNOT" class="mt-3 mb-4">
-                    Tyvärr kan du inte vara med i tävlingen, man måste ha 36 eller lägre...
-                  </h3>
+            <div class="form-group" v-if="showform1">
+              <b-row class>
+                <b-col xs="12" sm="12" class>
+                  <h4>1. Kontroll av Golf-ID</h4>
+                  <p>Börja med att ange ditt Golf-ID så hämtar vi en del av informationen automatiskt från Svenska Golfförbundet.</p>
+                  <b-alert
+                    hidden
+                    show
+                    variant="danger"
+                  >Vi har just nu problem med kopplingen till GIT men jobbar på en lösning, prova igen lite senare!</b-alert>
+                </b-col>
+              </b-row>
 
-                   <h3 v-if="showqualifiedNOCLUB" class="mt-3 mb-4">
-                    Du verkar inte ha någon klubbtillhörighet, kontakta oss gärna om det inte stämmer!
-                  </h3>
+              <b-form
+                inline
+                @submit.stop.prevent
+                @submit="getGolfId"
+                @reset="onReset"
+                v-if="showform1"
+              >
+                <b-input
+                  :state="validation"
+                  v-model="golfid"
+                  inputmode="numeric"
+                  pattern="[- +()0-9]+"
+                  type="text"
+                  size="lg"
+                  style="width:200px;"
+                  class="form-control mr-1"
+                  id="golfid"
+                  placeholder="xxxxxx-xxx"
+                ></b-input>
 
-                <div class="form-group" v-if="showform1">                  
-                       <b-row class="">
-                    <b-col xs="12" sm="12" class="">
-                      <h4>1. Kontroll av Golf-ID</h4>
-                      <p>Börja med att ange ditt Golf-ID så hämtar vi en del av informationen automatiskt från Svenska Golfförbundet.</p>
-                    <b-alert hidden show variant="danger">
-                      Vi har just nu problem med kopplingen till GIT men jobbar på en lösning, prova igen lite senare!
-                    </b-alert>
-                    </b-col>
-                  </b-row>
+                <b-button
+                  type="submit"
+                  size="md"
+                  variant="primary"
+                  class="btn blue-bg btn-special ml-0 mt-1 ml-sm-2 mt-sm-0"
+                >
+                  <b-spinner v-if="showloadgolfid" small type="grow" class="mr-2"></b-spinner>
+                  {{ contbutton1 }}
+                </b-button>
 
-               <b-form  inline @submit.stop.prevent @submit="getGolfId" @reset="onReset" v-if="showform1">
-                  <b-input :state="validation" v-model="golfid"
-                    inputmode="numeric"
-                    pattern="[- +()0-9]+"
-                    type="text"
-                    size="lg"
-                    style="width:200px;"
-                    class="form-control mr-1"
+                <b-form-invalid-feedback
+                  :state="validation"
+                  v-if="showhelper"
+                >Ange ditt Golf-ID med de 6 första siffrorna i ditt personnummer och sedan 3 siffror efter bindestrecket.</b-form-invalid-feedback>
+                <b-form-valid-feedback :state="validation" v-if="showhelper">Ser bra ut!</b-form-valid-feedback>
+                <button
+                  type="submit"
+                  v-on:click="getGolfId()"
+                  class="hidden btn blue-bg mt-1"
+                >{{ contbutton1 }}</button>
+              </b-form>
+
+              <b-alert
+                class="mt-4 small form-text text-muted"
+                :show="dismissCountDown2"
+                variant="warning"
+              >
+                <p
+                  v-if="this.player==='player1'"
+                >Du finns redan med i Matchplay som en registrerad spelare. Logga in på knappen nedan för att skapa ett lag för Matchplay 2021!</p>
+                <p
+                  v-if="this.player==='player2'"
+                >Du finns redan med i Matchplay som en registrerad spelare. Logga in på knappen nedan för att ansluta till ett skapat lag!</p>
+                <a href="/mymatchplay" class="btn blue-bg text-white mb-3">Logga in</a>
+              </b-alert>
+
+              <b-alert
+                class="mt-4 small form-text text-muted"
+                :show="dismissCountDown"
+                dismissible
+                variant="warning"
+                @dismissed="dismissCountDown=0"
+                @dismiss-count-down="countDownChanged"
+              >
+                <p>Vi kunde tyvärr inte hitta ditt Golf-ID hos Svenska Golfförbundet, var vänlig försök igen.</p>
+                <b-progress
+                  variant="warning"
+                  :max="dismissSecs"
+                  :value="dismissCountDown"
+                  height="4px"
+                ></b-progress>
+              </b-alert>
+              <b-alert show class="mt-4 small form-text text-muted" v-if="this.player==='player1'">
+                Inget förbinder dig att skapa ett lag genom att fortsätta till nästa steg. Betalningen sker först när ett lag skapas.
+                Anmälningskostnad per lag är
+                <strong>{{price1}} kr</strong> för privatpersoner och
+                <strong>{{price2}} kr</strong> (exkl. moms) för företag.
+              </b-alert>
+
+              <testimonials number="1"></testimonials>
+            </div>
+
+            <div>
+              <b-form @submit="onSubmit" @reset="onReset" v-if="showform2">
+                <b-form-group
+                  id="input-group-1"
+                  label="Ditt Golf-ID"
+                  label-for="input-1"
+                  label-cols="4"
+                  label-cols-lg="2"
+                  label-size="sm"
+                >
+                  <b-form-input
                     id="golfid"
-                    placeholder="xxxxxx-xxx"
-                    value                            
-                  />                              
-                  
-                  <b-input hidden v-model="golfid2"
-                    ref="golfid2"
-                    inputmode="numeric"
-                    pattern="[0-9]*"
+                    v-model="form.golfid"
                     type="text"
-                    style="width:100px;"
-                    class="form-control ml-1"                
-                    id="golfid2"
-                    placeholder="xxx"
-                    value
-                  />                  
-                  <b-button type="submit" size="md" variant="primary" class="btn blue-bg btn-special ml-0 mt-1 ml-sm-2 mt-sm-0"><b-spinner v-if="showloadgolfid" small type="grow" class="mr-2"></b-spinner>{{ contbutton1 }}
-                    
-                  </b-button>
-                  
-                   <b-form-invalid-feedback :state="validation" v-if="showhelper">
-        Ange ditt Golf-ID med de 6 första siffrorna i ditt personnummer och sedan 3 siffror efter bindestrecket.
-      </b-form-invalid-feedback>      
-       <b-form-valid-feedback :state="validation" v-if="showhelper">
-        Ser bra ut!
-      </b-form-valid-feedback>
-                  <button type="submit" v-on:click="getGolfId()" class="hidden btn blue-bg mt-1">{{ contbutton1 }}</button>
-                </b-form> 
-               
-               <b-alert class="mt-4 small form-text text-muted"
-      :show="dismissCountDown2"
-      variant="warning"
-     
-    >
-    <p v-if="this.player==='player1'">Du finns redan med i Matchplay som en registrerad spelare. Logga in på knappen nedan för att skapa ett lag för Matchplay 2021!</p>
-      <p v-if="this.player==='player2'">Du finns redan med i Matchplay som en registrerad spelare. Logga in på knappen nedan för att ansluta till ett skapat lag!</p>
-       <a href="/mymatchplay" class="btn blue-bg text-white mb-3">Logga in</a>
-    </b-alert>   
-               
-                <b-alert class="mt-4 small form-text text-muted"
-      :show="dismissCountDown"
-      dismissible
-      variant="warning"
-      @dismissed="dismissCountDown=0"
-      @dismiss-count-down="countDownChanged"
-    >
-      <p>Vi kunde tyvärr inte hitta ditt Golf-ID hos Svenska Golfförbundet, var vänlig försök igen.</p>
-      <b-progress
-        variant="warning"
-        :max="dismissSecs"
-        :value="dismissCountDown"
-        height="4px"
-      ></b-progress>
-    </b-alert>                
-                   <b-alert show class="mt-4 small form-text text-muted" v-if="this.player==='player1'">Inget förbinder dig att skapa ett lag genom att fortsätta till nästa steg. Betalningen sker först när ett lag skapas.
-                     Anmälningskostnad per lag är <strong>{{price1}} kr</strong> för privatpersoner och <strong>{{price2}} kr</strong> (exkl. moms) för företag.
-                     </b-alert>     
+                    label="Enter your name"
+                    required
+                    readonly
+                  ></b-form-input>
+                </b-form-group>
+                <b-form-group
+                  id="input-group-1"
+                  label="Förnamn"
+                  label-for="input-1"
+                  label-cols="4"
+                  label-cols-lg="2"
+                  label-size="sm"
+                >
+                  <b-form-input
+                    id="firstname"
+                    v-model="form.firstname"
+                    type="text"
+                    required
+                    readonly
+                  ></b-form-input>
+                </b-form-group>
+                <b-form-group
+                  id="input-group-1"
+                  label="Efternamn"
+                  label-for="input-1"
+                  label-cols="4"
+                  label-cols-lg="2"
+                  label-size="sm"
+                >
+                  <b-form-input id="lastname" v-model="form.lastname" type="text" required readonly></b-form-input>
+                </b-form-group>
+                <b-form-group
+                  id="input-group-1"
+                  label="Medlemsklubb"
+                  label-for="input-1"
+                  label-cols="4"
+                  label-cols-lg="2"
+                  label-size="sm"
+                >
+                  <b-form-input id="club" v-model="form.club" type="text" required readonly></b-form-input>
+                </b-form-group>
+                <b-form-group
+                  id="input-group-1"
+                  label="Ditt HCP"
+                  label-for="input-1"
+                  label-cols="4"
+                  label-cols-lg="2"
+                  label-size="sm"
+                >
+                  <b-form-input id="hcp" v-model="form.hcp" type="text" required readonly></b-form-input>
+                </b-form-group>
 
-                     <testimonials number=1></testimonials>             
-
-                </div>
-
-                <div>
-                  <b-form @submit="onSubmit" @reset="onReset" v-if="showform2">
+                <b-row v-if="docontinue">
+                  <b-col lg="12">
+                    <b-alert
+                      hidden
+                      v-if="docontinue"
+                      show
+                      class="mt-4 small"
+                      variant="primary"
+                    >När registreringen är genomförd väljer du att skapa ett lag eller så blir du ihopkopplad med ett befintligt lag där du har blivit vald som lagmedlem.</b-alert>
+                    <b-alert
+                      hidden
+                      show
+                      class="mt-4 mb-4 small"
+                      variant="primary"
+                    >Vi behöver veta lite mer om dig innan du kan gå vidare med registrerigen, vänligen fyll i informationen nedan.</b-alert>
+                  </b-col>
+                  <b-col class="col-12 col-md-8">
                     <b-form-group
-                      id="input-group-1"
-                      label="Ditt Golf-ID"
-                      label-for="input-1"
-                      label-cols="4"
-                      label-cols-lg="2"
-                      label-size="sm"
-                    >
-                      <b-form-input
-                        id="golfid"
-                        v-model="form.golfid"
-                        type="text"
-                        label="Enter your name"
-                        required
-                        readonly
-                      ></b-form-input>
-                    </b-form-group>
-                    <b-form-group
-                      id="input-group-1"
-                      label="Förnamn"
-                      label-for="input-1"
-                      label-cols="4"
-                      label-cols-lg="2"
-                      label-size="sm"
-                    >
-                      <b-form-input
-                        id="firstname"
-                        v-model="form.firstname"
-                        type="text"
-                        required
-                        readonly
-                      ></b-form-input>
-                    </b-form-group>
-                    <b-form-group
-                      id="input-group-1"
-                      label="Efternamn"
-                      label-for="input-1"
-                      label-cols="4"
-                      label-cols-lg="2"
-                      label-size="sm"
-                    >
-                      <b-form-input
-                        id="lastname"
-                        v-model="form.lastname"
-                        type="text"
-                        required
-                        readonly
-                      ></b-form-input>
-                    </b-form-group>
-                    <b-form-group
-                      id="input-group-1"
-                      label="Medlemsklubb"
-                      label-for="input-1"
-                      label-cols="4"
-                      label-cols-lg="2"
-                      label-size="sm"
-                    >
-                      <b-form-input id="club" v-model="form.club" type="text" required readonly></b-form-input>
-                    </b-form-group>
-                    <b-form-group
-                      id="input-group-1"
-                      label="Ditt HCP"
-                      label-for="input-1"
-                      label-cols="4"
-                      label-cols-lg="2"
-                      label-size="sm"
-                    >
-                      <b-form-input id="hcp" v-model="form.hcp" type="text" required readonly></b-form-input>
-                    </b-form-group> 
-
-                  <b-row v-if="docontinue">
-                    <b-col lg="12">
-                       <b-alert hidden v-if="docontinue" show class="mt-4 small" variant="primary">
-                    När registreringen är genomförd väljer du att skapa ett lag eller så blir du ihopkopplad med ett befintligt lag där du har blivit vald som lagmedlem.
-                  </b-alert>
-                       <b-alert hidden show class="mt-4 mb-4 small" variant="primary">
-                    Vi behöver veta lite mer om dig innan du kan gå vidare med registrerigen, vänligen fyll i informationen nedan.
-                  </b-alert>
-                    </b-col>
-                    <b-col lg="8">
-                       <b-form-group
                       id="input-group-mobile"
                       label="Mobilnr"
                       label-for="input-1-mobile"
-                      size='lg'
-                      >
-                      <vue-tel-input v-model="form.mobile" v-bind="bindProps"
-                      ></vue-tel-input>
-                      
-                      </b-form-group>
-                      <b-form-group
-                      id="input-group-1"
-                      label="E-post"
-                      label-for="input-1"
-                      >
+                      size="lg"
+                    >
+                      <vue-tel-input v-model="form.mobile" v-bind="bindProps"></vue-tel-input>
+                    </b-form-group>
+                    <b-form-group id="input-group-1" label="E-post" label-for="input-1">
                       <b-form-input
-                      id="input-1"
-                      v-model="form.email"
-                      :state="validateEmail"
-                      type="email"
-                      required
-                      placeholder="Skriv din e-postadress"
-                      >
-                      </b-form-input>
-                      
-                      </b-form-group>
-                        <b-form-group
-                      id="input-group-2"
-                      label="Ditt nya lösenord"
-                      label-for="input-1"
-                      >
+                        id="input-1"
+                        v-model="form.email"
+                        :state="validateEmail"
+                        type="email"
+                        required
+                        placeholder="Skriv din e-postadress"
+                      ></b-form-input>
+                    </b-form-group>
+                    <b-form-group id="input-group-2" label="Ditt nya lösenord" label-for="input-1">
                       <b-form-input
-                     :state="validatePassword1"
-                      v-model="form.password"
-                      type="password"
-                      required
-                      placeholder="Skapa ett lösenord"
-                      >
-                      </b-form-input>
-                      <b-form-invalid-feedback :state="validatePassword1">
-                        Krav på minst 8 tecken
-                      </b-form-invalid-feedback>
-                      </b-form-group>
-                           <b-form-group
+                        :state="validatePassword1"
+                        v-model="form.password"
+                        type="password"
+                        required
+                        placeholder="Skapa ett lösenord"
+                      ></b-form-input>
+                      <b-form-invalid-feedback :state="validatePassword1">Krav på minst 8 tecken</b-form-invalid-feedback>
+                    </b-form-group>
+                    <b-form-group
                       id="input-group-3"
                       label="Skriv ditt lösenord en gång till"
                       label-for="input-1"
-                      >
+                    >
                       <b-form-input
-                     :state="validatePassword2"
-                      v-model="form.password2"
-                      type="password"
-                      required
-                      placeholder="Återupprepa lösenordet"
-                      >
-                      </b-form-input>
-                      <b-form-invalid-feedback :state="validatePassword2">
-                        Lösenorden stämmer inte...
-                      </b-form-invalid-feedback>
-                      </b-form-group>
-                      
-                    </b-col>
-                    <b-col lg="4" class="d-none d-md-block">
-                      <b-card img-src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_300/v1573661281/matchplay/henke-granen.png"
+                        :state="validatePassword2"
+                        v-model="form.password2"
+                        type="password"
+                        required
+                        placeholder="Återupprepa lösenordet"
+                      ></b-form-input>
+                      <b-form-invalid-feedback :state="validatePassword2">Lösenorden stämmer inte...</b-form-invalid-feedback>
+                    </b-form-group>
+                  </b-col>
+                  <b-col class="col-md-4 d-none d-md-block">
+                    <b-card
+                      img-src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_300/v1573661281/matchplay/henke-granen.png"
                       img-top
                       tag="article"
-                      
                       class="mt-2 mb-2"
-                      >
+                    >
                       <b-card-text>
-                        Kul att du vill vara med i golftävlingen, hoppas vi ses!<br><i>Henke & Granen</i></b-card-text>
-                      </b-card>
-                    </b-col>
-                  </b-row>
-                  <b-row>
-                    <b-col>
-                  <b-alert show v-if="showerror" class="mt-4 small"  variant="danger">Det finns redan en användare med denna e-post ({{emailexist}}), om du redan är registrerad kan du logga in uppe till höger, där kan du också få ett nytt lösenord om du har glömt ditt befintliga.</b-alert>
-                    <b-button v-if="docontinue" :disabled="showspinnerregisteruser" type="submit" variant="primary" class="btn blue-bg ml-1"><b-spinner v-if="showspinnerregisteruser" small type="grow" class="mr-2"></b-spinner>Registrera dig</b-button>
+                        Kul att du vill vara med i golftävlingen, hoppas vi ses!
+                        <br />
+                        <i>Henke & Granen</i>
+                      </b-card-text>
+                    </b-card>
+                  </b-col>
+                </b-row>
+                <b-row>
+                  <b-col>
+                    <b-alert
+                      show
+                      v-if="showerror"
+                      class="mt-4 small"
+                      variant="danger"
+                    >Det finns redan en användare med denna e-post ({{emailexist}}), om du redan är registrerad kan du logga in uppe till höger, där kan du också få ett nytt lösenord om du har glömt ditt befintliga.</b-alert>
+                    <b-button
+                      v-if="docontinue"
+                      :disabled="showspinnerregisteruser"
+                      type="submit"
+                      variant="primary"
+                      class="btn blue-bg ml-1"
+                    >
+                      <b-spinner v-if="showspinnerregisteruser" small type="grow" class="mr-2"></b-spinner>Registrera dig
+                    </b-button>
                     <b-button type="reset" variant="danger">Avbryt</b-button>
-                    </b-col>
-                  </b-row>
-                  <b-row>
-                    <b-col class="d-block d-md-none">
-                      <b-card img-src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_300/v1573661281/matchplay/henke-granen.png"
+                  </b-col>
+                </b-row>
+                <b-row>
+                  <b-col class="d-block d-md-none">
+                    <b-card
+                      img-src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_300/v1573661281/matchplay/henke-granen.png"
                       img-top
                       tag="article"
-                      
                       class="mt-3 mb-2"
-                      >
+                    >
                       <b-card-text>
-                        Kul att du vill vara med i golftävlingen, hoppas vi ses!<br><i>Henke & Granen</i></b-card-text>
-                      </b-card>
-                    </b-col>
-                  </b-row>
-                  </b-form>
-                  
-                  <b-card class="mt-3 hidden" header="Form Data Result">
-                    <pre class="m-0">{{ form }}</pre>
-                  </b-card>
-                </div>
+                        Kul att du vill vara med i golftävlingen, hoppas vi ses!
+                        <br />
+                        <i>Henke & Granen</i>
+                      </b-card-text>
+                    </b-card>
+                  </b-col>
+                </b-row>
+              </b-form>
 
-                <div class="hidden" id="golfid_result" style="margin-top:20px;"></div>
-              </b-col>
-            </b-row>
+              <b-card class="mt-3 hidden" header="Form Data Result">
+                <pre class="m-0">{{ form }}</pre>
+              </b-card>
+            </div>
 
-          </b-col>    
-       </b-row>
+            <div class="hidden" id="golfid_result" style="margin-top:20px;"></div>
+          </b-col>
+        </b-row>
+      </b-col>
+    </b-row>
   </b-container>
 </template>
 
@@ -706,9 +733,9 @@ trylogin()
       });
 
       //scroll to correct place on page      p
-      //var element = this.$refs["register"];
-      //var top = element.offsetTop;
-      //window.scrollTo(0, top);
+      var element = this.$refs["register"];
+      var top = element.offsetTop;
+      window.scrollTo(0, top);
       
 
     }
@@ -722,32 +749,28 @@ trylogin()
 @import "../styles/variables.scss";
 
 .stepsuccess {
-  background:$green-light;
+  background: $green-light;
 }
 
 img {
   max-width: 100%;
 }
 
-@media (max-width: 576px){
+@media (max-width: 576px) {
+  h2 {
+    font-size: 1.2em !important;
+  }
 
-    h2 {
-        font-size: 1.2em !important;
-    }
+  h3 {
+    font-size: 1.4rem !important;
+  }
 
-h3 {
-  font-size: 1.4rem !important;
-}
-
-h4 {
+  h4 {
     font-size: 1.3rem !important;
-}
+  }
 
-h5 {
+  h5 {
     font-size: 1.1rem !important;
+  }
 }
-}
-
-
-
 </style>
