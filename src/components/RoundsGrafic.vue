@@ -10,11 +10,25 @@
       <div class="h-10">
         <!-- Window width under 700px -->
         <p class="text-center" v-if="windowWidth < 1000">
-          {{ index === numberOfRounds - 1 ? "FR" : `R${index + 1}` }}
+          {{
+            index === numberOfRounds - 2
+              ? "SF"
+              : index === numberOfRounds - 1
+              ? "F"
+              : `R${index + 1}`
+          }}
         </p>
         <!-- Window width över 700px -->
         <p class="text-center" v-else>
-          {{ index === numberOfRounds - 1 ? "FINAL" : `RUNDA ${index + 1}` }}
+          {{
+            index === numberOfRounds - 2
+              ? "SVERIGE-"
+              : index === numberOfRounds - 1
+              ? "FINAL"
+              : `R${index + 1}`
+          }}
+          <br />
+          {{ index === numberOfRounds - 2 ? "FINAL" : null }}
         </p>
       </div>
       <div :style="{ height: `${height(index) / 2}%` }"></div>
@@ -49,9 +63,13 @@ import { globalState } from "../main.js";
 export default {
   created() {
     this.axios
-      .post(globalState.admin_url + "getCompetition", {
+      /*  .post(globalState.admin_url + "getCompetition", {
         id: globalState.compid,
+      }) */
+      .post("http://localhost:3000/methods/" + "getCompetition", {
+        id: "S9bdZgCXiMvqYdnes",
       })
+
       .then((response) => {
         this.numberOfRounds = response.data.numberofrounds;
         this.currentRound = response.data.currentround;
