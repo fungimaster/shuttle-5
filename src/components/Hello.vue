@@ -185,6 +185,32 @@
    </b-container>
   </b-jumbotron>
 
+  <b-modal ref="earlyBirdie" id="earlyBirdie" title="Early Birdie?" ok-only ok-variant="secondary" ok-title="Cancel">
+    <p>
+      Ta chansen och vinn 2 dussin bollar från TaylorMade! De första 50 registrerade (och betalda) lagen har chansen att vinna.</p><p>Det vinnande laget meddelas per mail samt på våra sociala konton.
+    </p>
+    <p class="text-center d-block d-md-none">      
+      <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/h_150/v1608120643/matchplay/tp5.jpg" />
+    </p>   
+    <p class="text-center d-none d-md-block">      
+      <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/h_300/v1608120643/matchplay/tp5.jpg" />
+    </p>
+     <b-button class="mt-3" block @click="$bvModal.hide('earlyBirdie')">Tack för infon!</b-button>
+     <template #modal-footer="{ ok, cancel, hide }">      
+      <!-- Emulate built in modal footer ok and cancel button actions -->
+      <b-button hidden size="sm" variant="success" @click="ok()">
+        OK
+      </b-button>
+      <b-button hidden size="sm" variant="danger" @click="cancel()">
+        Cancel
+      </b-button>
+      <!-- Button with custom close trigger value -->
+      <b-button hidden size="sm" variant="outline-secondary" @click="hide('forget')">
+        Forget it
+      </b-button>
+    </template>
+  </b-modal>
+
 
     <div class="teaser-container">
       <b-container> 
@@ -196,20 +222,6 @@
           </b-col>
         </b-row>       
         <b-row>    
-
-           <div>
-    <b-modal ref="earlyBirdie" id="earlyBirdie" title="Early Birdie?" ok-only>
-    <p>
-      Ta chansen och vinn 2 dussin bollar från TaylorMade! De första 50 registrerade (och betalda) lagen har chansen att vinna.</p><p>Det vinnande laget meddelas per mail samt på våra sociala konton.
-    </p>
-    <p class="text-center d-block d-md-none">      
-      <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/h_150/v1608120643/matchplay/tp5.jpg" />
-    </p>   
-    <p class="text-center d-none d-md-block">      
-      <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/h_300/v1608120643/matchplay/tp5.jpg" />
-    </p>  
-  </b-modal>
-</div>
             
           <b-col id="register" ref="register">
             
@@ -1226,13 +1238,14 @@ export default {
   mixins: [tagsMixin],
   
   methods: {
-     showModal() {
-       
+     showModal() {       
         if (localStorage.getItem('earlyBirdie2021') !== '1') 
           this.$refs['earlyBirdie'].show();
           localStorage.setItem('earlyBirdie2021', '1');
-          
-        
+                  
+      },
+      hideModal() {
+        this.$refs['earlyBirdie'].hide()
       },
     search: function () {
       let searchvalue = document
