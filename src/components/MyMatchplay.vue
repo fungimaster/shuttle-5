@@ -1199,8 +1199,9 @@ export default {
                     ],
                 },               
                 _id: '',
-                price_private: 695,
-                price_company: 2195,
+                price_private: globalState.price1,
+                price_company: globalState.price2,
+                price_company2: globalState.price3,
                 checkgolfidvariant2: 'primary',
                 checkgolfidvariant3: 'primary',
                 showplayer1: false,
@@ -2026,7 +2027,8 @@ export default {
                 id = this.userinfo._id;
             }
             this.axios.post(globalState.admin_url + 'getPlayerData', {
-                    "id": id
+                    "id": id,
+                    "competition": globalState.compid
                 })
                 .then(response => {
                     if (response.data.hasOwnProperty('error')) {
@@ -2037,6 +2039,7 @@ export default {
                     this.userinfo = userinfo;
                     this.teams = this.userinfo.teams;
                     this.teamscount = this.teams.length;
+                    if (!this.teams) this.teamscount = 0;
                     //console.log(this.userinfo);
                     localStorage.setItem('userinfo', JSON.stringify(userinfo));
                     this.$store.dispatch('setUser', userinfo)

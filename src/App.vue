@@ -36,9 +36,11 @@ export default {
   },
   methods: {
     getPlayerData(id) {
+      console.log("inne");
       this.axios
         .post("https://matchplay.meteorapp.com/methods/getPlayerData", {
           id: id,
+          competition: "8dmNL5K5ypaHbTbEM",
         })
         .then((response) => {
           if (response.data.hasOwnProperty("error")) {
@@ -51,7 +53,6 @@ export default {
           return;
         })
         .catch((error) => {
-          this.$store.dispatch("setUser", { firstname: "Min sida" });
           console.log(error);
         });
     },
