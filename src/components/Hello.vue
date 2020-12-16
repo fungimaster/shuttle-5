@@ -7,11 +7,8 @@
       </div>
     </div>
 
-    <!-- Modal för att öppna matcher/scorekort -->
-    <b-modal ref="scorecard" v-model="modalShow" ok-only size="lg">
-         <router-view> </router-view>
-    </b-modal>
-
+    
+    
     <b-modal size="lg" ref="earlyBirdie" id="earlyBirdie" title="Early Birdie?" ok-only>
     <p>
       Ta chansen och <strong>vinn 2 dussin bollar</strong> från TaylorMade! De första 50 registrerade (och betalda) lagen har chansen att vinna.</p><p>Det vinnande laget meddelas per mail samt på våra sociala konton.
@@ -1871,7 +1868,7 @@ export default {
     },
   },
   mounted() {
-    this.showModal();
+    this.showModal();   
     //this.getTopListClubs();
   }
 };
