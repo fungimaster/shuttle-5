@@ -5,6 +5,8 @@ import Vuex from 'vuex';
 import BootstrapVue from "bootstrap-vue";
 import vueHeadful from 'vue-headful';
 import store from './store/index'
+import NProgress from 'vue-nprogress'
+
 
 
 //global variable
@@ -28,6 +30,9 @@ Vue.prototype.$http = axios;
 Vue.prototype.axios = axios;
 
 Vue.use(Vuex);
+Vue.use(NProgress)
+ 
+const nprogress = new NProgress()
 
 Vue.component('vue-headful', vueHeadful);
 
@@ -50,20 +55,8 @@ new Vue({
   el: '#app',
   store,
   router,
+  nprogress,
   computed: mapState(['count']),
-  methods: {
-    increment() {
-      this.$store.dispatch('incrementAsync');
-    },
-    decrement() {
-      this.$store.commit('decrement');
-    },
-    testAction() {
-      this.$store.dispatch('actionA').then(() => {
-
-      })
-    }
-  },
   template: '<App/>',
   components: { App }
 })
