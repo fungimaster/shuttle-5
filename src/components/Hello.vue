@@ -12,7 +12,7 @@
          <router-view> </router-view>
     </b-modal>
 
-    <b-modal size="lg" ref="earlyBirdie" id="earlyBirdie" title="Early Birdie?" ok-only ok-variant="secondary" ok-title="Cancel">
+    <b-modal size="lg" ref="earlyBirdie" id="earlyBirdie" title="Early Birdie?" ok-only>
     <p>
       Ta chansen och <strong>vinn 2 dussin bollar</strong> från TaylorMade! De första 50 registrerade (och betalda) lagen har chansen att vinna.</p><p>Det vinnande laget meddelas per mail samt på våra sociala konton.
     </p>
@@ -21,21 +21,7 @@
     </p>   
     <p class="text-center d-none d-md-block">      
       <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/h_300/v1608120643/matchplay/tp5.jpg" />
-    </p>
-     <b-button class="mt-3" block v-on:click.stop="hideModal()">Tack för infon!</b-button>
-     <template #modal-footer="{ ok, cancel, hide }">      
-      <!-- Emulate built in modal footer ok and cancel button actions -->
-      <b-button hidden size="sm" variant="success" @click="ok()">
-        OK
-      </b-button>
-      <b-button hidden size="sm" variant="danger" @click="cancel()">
-        Cancel
-      </b-button>
-      <!-- Button with custom close trigger value -->
-      <b-button hidden size="sm" variant="outline-secondary" @click="hide('forget')">
-        Forget it
-      </b-button>
-    </template>
+    </p>     
   </b-modal>
 
     <div class="hero">      
