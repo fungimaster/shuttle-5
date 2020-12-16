@@ -650,7 +650,7 @@
 
                                     <b-form-radio v-if="team.type === 'Private'" v-model="team.payment" name="some-radios" value="A">Swish</b-form-radio>
                                     <b-form-radio v-if="team.type === 'Company'" v-model="team.payment" name="some-radios" value="B">Faktura</b-form-radio>
-                                    <b-form-radio v-model="team.payment" name="some-radios" value="C">Voucher/Kod</b-form-radio>
+                                    <b-form-radio v-if="team.type === 'Private'" v-model="team.payment" name="some-radios" value="C">Voucher/Kod</b-form-radio>
                                 </b-form-group>
 
                                 <b-form-group fluid class="mb-3" v-if="team.payment === 'A'">
@@ -717,7 +717,7 @@
                                 </b-container>
                                 <b-container v-if="!team.completemode">
                                     <b-row align-h="center">
-                                        <b-col md="12" class="text-center">
+                                        <b-col md="12" class="text-center mt-3">
                                             <b-button @click.prevent="cancel_team()" variant="success">
                                                 Jag vill betala senare<i class="ml-2 material-icons mr-2">arrow_forward_ios</i>
                                             </b-button>

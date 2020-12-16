@@ -7,10 +7,36 @@
       </div>
     </div>
 
-    <!-- Modal för att öppa matcher/scorekort -->
-    <b-modal v-model="modalShow" ok-only size="lg">
+    <!-- Modal för att öppna matcher/scorekort -->
+    <b-modal ref="scorecard" v-model="modalShow" ok-only size="lg">
          <router-view> </router-view>
     </b-modal>
+
+    <b-modal size="lg" ref="earlyBirdie" id="earlyBirdie" title="Early Birdie?" ok-only ok-variant="secondary" ok-title="Cancel">
+    <p>
+      Ta chansen och <strong>vinn 2 dussin bollar</strong> från TaylorMade! De första 50 registrerade (och betalda) lagen har chansen att vinna.</p><p>Det vinnande laget meddelas per mail samt på våra sociala konton.
+    </p>
+    <p class="text-center d-block d-md-none">      
+      <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/h_150/v1608120643/matchplay/tp5.jpg" />
+    </p>   
+    <p class="text-center d-none d-md-block">      
+      <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/h_300/v1608120643/matchplay/tp5.jpg" />
+    </p>
+     <b-button class="mt-3" block @click="hideModal()">Tack för infon!</b-button>
+     <template #modal-footer="{ ok, cancel, hide }">      
+      <!-- Emulate built in modal footer ok and cancel button actions -->
+      <b-button hidden size="sm" variant="success" @click="ok()">
+        OK
+      </b-button>
+      <b-button hidden size="sm" variant="danger" @click="cancel()">
+        Cancel
+      </b-button>
+      <!-- Button with custom close trigger value -->
+      <b-button hidden size="sm" variant="outline-secondary" @click="hide('forget')">
+        Forget it
+      </b-button>
+    </template>
+  </b-modal>
 
     <div class="hero">      
       <b-container class="d-flex">
@@ -185,31 +211,7 @@
    </b-container>
   </b-jumbotron>
 
-  <b-modal ref="earlyBirdie" id="earlyBirdie" title="Early Birdie?" ok-only ok-variant="secondary" ok-title="Cancel">
-    <p>
-      Ta chansen och vinn 2 dussin bollar från TaylorMade! De första 50 registrerade (och betalda) lagen har chansen att vinna.</p><p>Det vinnande laget meddelas per mail samt på våra sociala konton.
-    </p>
-    <p class="text-center d-block d-md-none">      
-      <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/h_150/v1608120643/matchplay/tp5.jpg" />
-    </p>   
-    <p class="text-center d-none d-md-block">      
-      <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/h_300/v1608120643/matchplay/tp5.jpg" />
-    </p>
-     <b-button class="mt-3" block @click="$bvModal.hide('earlyBirdie')">Tack för infon!</b-button>
-     <template #modal-footer="{ ok, cancel, hide }">      
-      <!-- Emulate built in modal footer ok and cancel button actions -->
-      <b-button hidden size="sm" variant="success" @click="ok()">
-        OK
-      </b-button>
-      <b-button hidden size="sm" variant="danger" @click="cancel()">
-        Cancel
-      </b-button>
-      <!-- Button with custom close trigger value -->
-      <b-button hidden size="sm" variant="outline-secondary" @click="hide('forget')">
-        Forget it
-      </b-button>
-    </template>
-  </b-modal>
+  
 
 
     <div class="teaser-container">
@@ -1241,7 +1243,7 @@ export default {
      showModal() {       
         if (localStorage.getItem('earlyBirdie2021') !== '1') 
           this.$refs['earlyBirdie'].show();
-          localStorage.setItem('earlyBirdie2021', '1');
+          //localStorage.setItem('earlyBirdie2021', '1');
                   
       },
       hideModal() {
