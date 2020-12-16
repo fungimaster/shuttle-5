@@ -7,10 +7,22 @@
       </div>
     </div>
 
-    <!-- Modal för att öppa matcher/scorekort -->
-    <b-modal v-model="modalShow" ok-only size="lg">
+    <!-- Modal för att öppna matcher/scorekort -->
+    <b-modal ref="scorecard" v-model="modalShow" ok-only size="lg">
          <router-view> </router-view>
     </b-modal>
+
+    <b-modal size="lg" ref="earlyBirdie" id="earlyBirdie" title="Early Birdie?" ok-only>
+    <p>
+      Ta chansen och <strong>vinn 2 dussin bollar</strong> från TaylorMade! De första 50 registrerade (och betalda) lagen har chansen att vinna.</p><p>Det vinnande laget meddelas per mail samt på våra sociala konton.
+    </p>
+    <p class="text-center d-block d-md-none">      
+      <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/h_150/v1608120643/matchplay/tp5.jpg" />
+    </p>   
+    <p class="text-center d-none d-md-block">      
+      <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/h_300/v1608120643/matchplay/tp5.jpg" />
+    </p>     
+  </b-modal>
 
     <div class="hero">      
       <b-container class="d-flex">
@@ -22,13 +34,16 @@
       
           <b-col class="col-12 col-md-8">
             <p class="mt-3 mt-md-0">Matchplay är en matchspelstävling för par med officiellt handikapp. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.</p>
-            <p v-if="!closed">Ta chansen att ta dig till Sverigefinalen och sedan vidare utomlands!</p>
+            <p v-if="!closed">Tävlingen spelas maj-september i olika omgångar fram till Sverigefinalen och sedan vidare utomlands!</p>
             <p hidden v-if="!closed">2020 spelades 358 matcher på nästan 100 golfklubbar.</p>
              <p hidden v-if="closed">I helgen (30-31 maj) lottas första omgången. Den 1 juni startar tävlingen!</p>
             
-             <div class="buttons text-left" id="games" ref="games">
-              <a v-if="!closed" href="/register" class="btn blue-bg btn-md text-white mt-2 mr-2">Anmälan</a>
-              <a v-if="isAuthenticated" href="/mymatchplay" class="btn blue-bg btn-md text-white mt-2">Lag- och matchhantering</a>
+             <div class="buttons text-left">
+                <router-link class="btn blue-bg btn-md text-white mt-2 mr-2" to="/register">Anmälan</router-link>
+              <a hidden v-if="!closed" href="/register" class="btn blue-bg btn-md text-white mt-2 mr-2">Anmälan</a>
+              <a v-if="!isAuthenticated" href="#more" class="btn blue-bg btn-md text-white mt-2 mr-2">Vill du veta mer?</a>
+              <router-link v-if="isAuthenticated" class="btn blue-bg btn-md text-white mt-2 mr-2" to="/mymatchplay">Lag- och matchhantering</router-link>
+              <a hidden v-if="isAuthenticated" href="/mymatchplay" class="btn blue-bg btn-md text-white mt-2">Lag- och matchhantering</a>
               <a hidden href="/register" class="btn btn-warning btn-md text-white mt-2">Efterhandsregistrera spelare</a>
             </div>
             
@@ -141,7 +156,56 @@
 
       </b-container>
     </div>
-<!-- TEMP HIDDEN -->   
+<!-- TEMP HIDDEN -->  
+
+<b-jumbotron container-fluid class="white">    
+      <b-container class="d-flex">
+<div v-if="!isAuthenticated">
+            <h3 v-if="!closed" class="teaser-header orange mb-3">Anmäl ditt lag till Matchplay 2021</h3>
+            <p>Hela tävlingen är numera digitaliserad där vi kontrollerar Golf-ID, hcp, slope mm för att kunna applicera våra hcputräkningar inför varje match. Ni använder vårt digitala scorekort för att föra score och vänner/familj kan följa matcherna live!</p>
+            <p>Anmälningskostnad per lag är <strong>{{price1}} kr</strong> för privatpersoner och <strong>{{price2}} kr</strong> (exkl. moms) för företag.</p>
+            <a hidden v-if="!closed" href="/register" class="btn blue-bg btn-md text-white mt-2 mb-3 mr-2"><i class="pb-1 mr-2 material-icons">thumb_up</i>Steg 1 - Kontroll av Golf-ID</a>
+             <router-link class="btn blue-bg btn-md text-white mt-2 mr-2" to="/register"><i class="pb-1 mr-2 material-icons">thumb_up</i>Steg 1 - Kontroll av Golf-ID</router-link>
+            </div>
+
+            <div v-if="isAuthenticated && user">
+            <h3 class="teaser-header orange mb-3">Hej {{user.firstname}}!</h3>
+            <p v-if="user.teams">Du har redan skapat ett lag och kan hantera det <a href="/mymatchplay">här</a>. Lycka till i tävlingen!</p>
+            <p v-if="!user.teams">Du har ännu inget lag i Sveriges roligaste golftävling, skapa ett på knappen nedan.</p>
+            <p>Anmälningskostnad per lag är <strong>{{price1}} kr</strong> för privatpersoner och <strong>{{price2}} kr</strong> (exkl. moms) för företag.</p>
+            <a hidden href="/mymatchplay" class="btn blue-bg btn-md text-white mt-2 mb-3 mr-2">Skapa ett lag</a>            
+             <router-link class="btn blue-bg btn-md text-white mt-2 mr-2" to="/mymatchplay">Skapa ett lag</router-link>
+            </div>
+      </b-container>
+</b-jumbotron>
+
+ <b-jumbotron container-fluid>
+   <b-container>
+     <h3 class="teaser-header orange mb-3">Dubbelt så stor Sverigefinal</h3>
+               <b-row>
+                 <b-col class="col-12 col-md-8">
+              <p>Dubbelt så stor FINALHELG! Åtta lag går till Sverigefinalen som spelas i september på Allerum Golfklubb, strax utanför Helsingborg. Hotell inklusive frukost, inspel, semifinal och förhoppningsvis final. Bankett på lördagkvällen ingår också.</p>
+                 </b-col>
+                 <b-col class="col-12 col-md-4 text-center mt-3 mt-md-0">
+                   <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/h_200/v1599032379/matchplay/logo.png" />
+                 </b-col>
+               </b-row>
+   </b-container>
+  </b-jumbotron>
+
+  <b-jumbotron container-fluid class="white">
+   <b-container>    
+               <b-row>
+                 <b-col class="col-12">
+               <testimonials number=3></testimonials>
+                 </b-col>
+               </b-row>
+   </b-container>
+  </b-jumbotron>
+
+  
+
+
     <div class="teaser-container">
       <b-container> 
          <b-row hidden>
@@ -152,127 +216,24 @@
           </b-col>
         </b-row>       
         <b-row>    
-
-           
             
           <b-col id="register" ref="register">
-            <h3 v-if="!closed" class="teaser-header orange">Anmäl ditt lag till Matchplay 2021</h3>
-            <p>Hela tävlingen är numera digitaliserad där vi kontrollerar Golf-ID, hcp, slope mm för att kunna applicera våra hcputräkningar inför varje match. Ni använder vårt digitala scorekort för att föra score och vänner/familj kan följa matcherna live!</p>
-            <p>Anmälningskostnad per lag är <strong>{{price1}} kr</strong> för privatpersoner och <strong>{{price2}} kr</strong> (exkl. moms) för företag.</p>
-            <a v-if="!closed" href="/register" class="btn blue-bg btn-md text-white mt-2 mb-3 mr-2"><i class="pb-1 mr-2 material-icons">thumb_up</i>Steg 1 - Kontroll av Golf-ID</a>
-            <h2 hidden class="teaser-header orange">Det är klart du vill vara med i golftävlingen, registrera dig här!</h2>
             
-            
+<hr hidden class="mt-3 mt-md-5" />
+
+
+
             
             <b-row class="mb-3 mt-1">
 
- <b-col hidden xs="12" sm="12" class="mt-2">
-                      <h4 hidden>Skriv in ditt Golf-ID</h4>
-                      <p>Börja med att ange ditt Golf-ID så hämtar vi en del av informationen automatiskt från Svenska Golfförbundet.</p>
-                     <b-alert show class="small" variant="primary">Anmälan innehåller 4 steg. 1. Kontrollera om du kan vara med i tävlingen</b-alert>
-                    <b-alert hidden show variant="danger">
-                      Vi har just nu problem med kopplingen till GIT men jobbar på en lösning, prova igen lite senare!
-                    </b-alert>
-                    </b-col>
-
-                  <b-col class="col-12">
-
-               <b-form hidden inline @submit.stop.prevent @submit="getGolfId" @reset="onReset" v-if="showform1 && !closed">
-                  <b-input :state="validation" v-model="golfid"
-                    inputmode="numeric"
-                    pattern="[- +()0-9]+"
-                    type="text"
-                    size="lg"
-                    style="width:200px;"
-                    class="form-control mr-1"
-                    id="golfid"
-                    placeholder="xxxxxx-xxx"
-                    value                             
-                  />                              
-                  
-                  <b-input hidden v-model="golfid2"
-                    ref="golfid2"
-                    inputmode="numeric"
-                    pattern="[0-9]*"
-                    type="text"
-                    style="width:100px;"
-                    class="form-control ml-1"                
-                    id="golfid2"
-                    placeholder="xxx"
-                    value
-                  />                  
-                  <b-button type="submit" size="md" variant="primary" class="btn blue-bg btn-special ml-0 mt-1 ml-sm-2 mt-sm-0"><b-spinner v-if="showloadgolfid" small type="grow" class="mr-2"></b-spinner>{{ contbutton1 }}
-                    
-                  </b-button>
-                  
-                   <b-form-invalid-feedback :state="validation" v-if="showhelper">
-        Ange ditt Golf-ID med de 6 första siffrorna i ditt personnummer och sedan 3 siffror efter bindestrecket.
-      </b-form-invalid-feedback>      
-       <b-form-valid-feedback :state="validation" v-if="showhelper">
-        Ser bra ut!
-      </b-form-valid-feedback>
-                  <button type="submit" v-on:click="getGolfId()" class="hidden btn blue-bg mt-1">{{ contbutton1 }}</button>
-                </b-form> 
-               
-               <b-alert class="mt-4 small form-text text-muted"
-      :show="dismissCountDown2"
-      variant="warning"
-     
-    >
-      <p>Du finns redan med i Matchplay som en registrerad spelare.</p>
-       <a href="/mymatchplay" class="btn blue-bg text-white mb-3">Logga in</a>
-    </b-alert>   
-               
-                <b-alert class="mt-4 small form-text text-muted"
-      :show="dismissCountDown"
-      dismissible
-      variant="warning"
-      @dismissed="dismissCountDown=0"
-      @dismiss-count-down="countDownChanged"
-    >
-      <p>Vi kunde tyvärr inte hitta ditt Golf-ID hos Svenska Golfförbundet, var vänlig försök igen.</p>
-      <b-progress
-        variant="warning"
-        :max="dismissSecs"
-        :value="dismissCountDown"
-        height="4px"
-      ></b-progress>
-    </b-alert>                
-                   <b-alert hidden v-if="!closed" show class="mt-4 small form-text text-muted">Saknar du ditt Golf-ID ber vi dig kontakta din hemmaklubb för hjälp.</b-alert>                  
-                  
-                  </b-col>
-
-
-
-              <b-col md="12" class="teaser-content" ref="success" id="success">
-                  <h3 v-if="showqualified" class="mt-3 mb-4">
-                    Grattis, du kan vara med i tävlingen <i class="material-icons">tag_faces</i>
-                  </h3>
-
-                   <h3 v-if="showqualified32" class="mt-3 mb-4">
-                    Grattis, du kan vara med i tävlingen men ditt handicap kan komma att sänkas enligt våra tävlingsregler. Max hcp i ett lag sänks till 28 för rättvisa matcher. <i class="material-icons">tag_faces</i>
-                  </h3>
-
-                  <h3 v-if="showqualifiedNOT" class="mt-3 mb-4">
-                    Tyvärr kan du inte vara med i tävlingen, man måste ha 36 eller lägre...
-                  </h3>
-
-                   <h3 v-if="showqualifiedNOCLUB" class="mt-3 mb-4">
-                    Du verkar inte ha någon klubbtillhörighet, kontakta oss gärna om det inte stämmer!
-                  </h3>
-
-                <div class="form-group" v-if="showform1">
-                <hr>
-
-             
-                    
- <testimonials number=4></testimonials>
-                
+              <b-col md="12" class="teaser-content">
+                 
+                <div class="form-group">
+              
 
                   <b-row class="mt-0 mb-4">
                                       
-                     <b-col class="col-12 mt-3">
-                        <hr class="mb-5">
+                     <b-col class="col-12 mt-3">                        
                        <h3 class="teaser-header orange">Finalparen från Matchplay 2020 klara för Spanien</h3>
                        <p>Vi säger stort grattis till våra finalpar som är klara för den stora Matchplayfinalen på Los Naranjos i Spanien mellan den 7-11 februari 2021.<br>
                        </p>
@@ -917,13 +878,13 @@
               </b-col>
             </b-row>
 
-            <b-row class="mb-5 mt-0">
+            <b-row class="mb-5 mt-0" id="more" ref="more">
               <b-col md="12" class="teaser-content">
                 <hr />
                 <h3 class="orange mb-3 mt-5">SÅ HÄR FUNGERAR DET</h3>
 
                 <p>Matchplay spelas 2021 i hela Sverige och är en tävling för 2-mannalag (herr, dam eller mixed). Officiellt HCP krävs för att delta. Tävlingsformen är 4-boll, Match/Bästboll. Beroende på antal anmälda lag kommer det bli 6-7 omgångar fram till Sverigefinalen. Varje omgång spelas inom 2 veckor där det vinnande laget går vidare i tävlingen.</p>
-                <p>Ta er till Sverigefinalen och upplev en magisk helg med Matchplay! Sverigefinalen görs upp på en golfklubb som ligger geografiskt bra till för de kvarvarande fyra lagen. Hotell, frukost, all golf samt en bankett på kvällen ingår. De 2 bästa lagen i Sverigefinalen åker med Matchplay till Spanska solkusten för att göra upp om titeln. Flyg, hotell och allt spel ingår för de bägge lagen.
+                <p>Ta er till Sverigefinalen och upplev en magisk helg med Matchplay! Sverigefinalen görs upp mellan de åtta bästa lagen på Allerum Golfklubb strax utanför Helsingborg. Hotell, frukost, all golf samt en bankett på kvällen ingår. De 2 bästa lagen i Sverigefinalen åker med Matchplay till Spanska solkusten för att göra upp om titeln. Flyg, hotell och allt spel ingår för de bägge lagen.
                 </p>
                 <p>
                   Priset för deltagande i tävlingen är {{price1}}:-/lag för privatpersoner och {{price2}}:-/lag (exkl. moms) för företag. Varje lag är garanterat minst 2 matcher.
@@ -971,7 +932,7 @@
             <div class="step">
               <i class="material-icons">golf_course</i>
             <h5>Sverigefinal</h5>
-            <p>Åtta lag går till Sverigefinalen och denna kommer äga rum på Allerum Golfklubb, strax utanför Helsingborg. Hotell, frukost, all golf samt en bankett på kvällen ingår.</p>
+            <p>2021 gör vi Sverigefinalen dubbelt så stor med åtta lag som spelas i september på Allerum Golfklubb, strax utanför Helsingborg. Hotell, frukost, all golf samt en bankett på kvällen ingår.</p>
             </div>
           </b-col>
 
@@ -983,9 +944,11 @@
             </div>
           </b-col>
 
-         <b-col class="col-12 mt-4">                     
-                     <a v-if="!closed" href="/register" class="btn blue-bg btn-md text-white mr-2">Anmälan</a>        
-                     <a href="/info" class="btn blue-bg btn-md text-white">Läs mer här</a>
+         <b-col class="col-12 mt-4">
+           <router-link class="btn blue-bg btn-md text-white mt-2 mr-2" to="/register">Anmälan</router-link>
+           <router-link class="btn blue-bg btn-md text-white mt-2 mr-2" to="/info">Läs mer här</router-link>
+                     <a hidden v-if="!closed" href="/register" class="btn blue-bg btn-md text-white mr-2">Anmälan</a>        
+                     <a hidden href="/info" class="btn blue-bg btn-md text-white">Läs mer här</a>
          </b-col>
 
       </b-row>
@@ -1281,8 +1244,17 @@ export default {
     },
   },
   mixins: [tagsMixin],
-
+  
   methods: {
+     showModal() {       
+        if (localStorage.getItem('earlyBirdie2021') !== '1') 
+          this.$refs['earlyBirdie'].show();
+          //localStorage.setItem('earlyBirdie2021', '1');
+                  
+      },
+      hideModal() {
+        this.$refs['earlyBirdie'].hide()
+      },
     search: function () {
       let searchvalue = document
         .getElementById("searchfield")
@@ -1673,7 +1645,7 @@ export default {
         .post("https://matchplay.meteorapp.com/methods/" + "getTopClubs", {
           //getclubstoplist
           competition: "sFAc3dvrn2P9pXHAz",
-          no: 10,
+          no: 40,
         })
         .then((response) => {
           //console.log(response.data)
@@ -1918,6 +1890,10 @@ export default {
       window.scrollTo(0, top);
     },
   },
+  mounted() {
+    this.showModal();
+    //this.getTopListClubs();
+  }
 };
 </script>
 
@@ -1925,6 +1901,10 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
+
+.jumbotron.white {
+  background-color:#fff;
+}
 
 .no1 {
   background-color: $gold;
@@ -2095,8 +2075,11 @@ img {
 }
 
 .hero {
-  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg);
-
+  //background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg);
+  //background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1608122032/matchplay/MPI-1825.jpg);
+  //background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1608122246/matchplay/22092018-MGZ_1827.jpg);
+  //background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:50,co_rgb:000000/v1608122447/matchplay/IMG_1527.jpg);
+  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:50,co_rgb:000000/v1608122570/matchplay/IMG_1232.jpg);
   background-repeat: no-repeat;
   /*background-position: bottom 30% right 0;*/
   background-size: cover;

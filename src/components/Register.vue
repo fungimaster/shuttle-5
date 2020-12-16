@@ -20,10 +20,19 @@
             <div
               v-bind:class="{ stepsuccess: step == 'step3' }"
             >3. Skapa ditt lag och välj medspelare</div>
-            <div
-              v-bind:class="{ stepsuccess: step == 'step4' }"
-            >4. Betala ditt lag (swish/faktura/voucher)</div>
+            <div v-bind:class="{ stepsuccess: step == 'step4' }">4. Betala (swish/faktura/voucher)</div>
             <hr />
+
+            <b-alert v-if="isAuthenticated" show class="mt-4 small" variant="warning">
+              <p>
+                Du är redan inloggad och behöver inte skapa ett nytt konto,
+                <a
+                  v-if="isAuthenticated"
+                  href="/mymatchplay"
+                  class
+                >Klicka här</a> för att hantera ditt lag eller skapa ett nytt.
+              </p>
+            </b-alert>
           </b-col>
 
           <b-col v-if="this.player==='player2'">
@@ -350,6 +359,7 @@
 
 
 <script>
+import { mapGetters } from "vuex";
 import { tagsMixin } from "../mixins/tagsMixin";
 /*import VuePhoneNumberInput from 'vue-phone-number-input';
 import 'vue-phone-number-input/dist/vue-phone-number-input.css';*/
@@ -439,6 +449,9 @@ components: {
   },
    
   computed: {
+    ...mapGetters([      
+      "isAuthenticated"
+      ]),
       validation() {
 
       let validated = false;
@@ -728,6 +741,7 @@ trylogin()
       this.form.password2 = "";      
       // Trick to reset/clear native browser form validation state
       this.show = false;
+      this.step = 'step1';
       this.$nextTick(() => {
         this.show = true;
       });
