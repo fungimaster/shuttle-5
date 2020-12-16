@@ -7,20 +7,10 @@
       </div>
     </div>
 
-    
-    
-    <b-modal size="lg" ref="earlyBirdie" id="earlyBirdie" title="Early Birdie?" ok-only>
-    <p>
-      Ta chansen och <strong>vinn 2 dussin bollar</strong> från TaylorMade! De första 50 registrerade (och betalda) lagen har chansen att vinna.</p><p>Det vinnande laget meddelas per mail samt på våra sociala konton.
-    </p>
-    <p class="text-center d-block d-md-none">      
-      <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/h_150/v1608120643/matchplay/tp5.jpg" />
-    </p>   
-    <p class="text-center d-none d-md-block">      
-      <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/h_300/v1608120643/matchplay/tp5.jpg" />
-    </p>     
-  </b-modal>
-
+    <b-modal ref="scorecard" v-model="modalShow" ok-only size="lg">
+      <router-view> </router-view>
+    </b-modal>
+   
     <div class="hero">      
       <b-container class="d-flex">
        
@@ -1895,7 +1885,7 @@ export default {
     },
   },
   mounted() {
-    this.showModal();   
+    //this.showModal();   
     //this.getTopListClubs();
   }
 };
