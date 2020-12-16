@@ -1040,9 +1040,15 @@ moment.updateLocale("sv", {
 
 export default {
   created() {
+  if (!globalState.compid) {
+    return     
+    
     this.axios
         .post(globalState.admin_url + "getCompetition", globalState.compid)
         .then((response) => {
+          if (!response.data.competitionmessages.length) {
+            return
+          }
           this.messages = response.data.competitionmessages
             .sort((a, b) => new Date(a.sortorder) - new Date(b.sortorder))
             .filter((message) => message.active === true )
@@ -1050,7 +1056,8 @@ export default {
         })
         .catch((error) => {
           console.log(error);
-        });   
+        }); 
+   }  
   },
   watch: {
     $route(newVal, oldVal) {
