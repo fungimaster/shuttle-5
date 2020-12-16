@@ -22,7 +22,7 @@
     <p class="text-center d-none d-md-block">      
       <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/h_300/v1608120643/matchplay/tp5.jpg" />
     </p>
-     <b-button class="mt-3" block @click="hideModal()">Tack för infon!</b-button>
+     <b-button class="mt-3" block v-on:click.stop="hideModal()">Tack för infon!</b-button>
      <template #modal-footer="{ ok, cancel, hide }">      
       <!-- Emulate built in modal footer ok and cancel button actions -->
       <b-button hidden size="sm" variant="success" @click="ok()">
