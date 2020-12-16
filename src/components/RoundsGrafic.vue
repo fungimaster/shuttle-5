@@ -62,12 +62,6 @@ export default {
       .post(globalState.admin_url + "getCompetition", {
         id: globalState.compid,
       })
-      /*
-      .post("http://localhost:3000/methods/" + "getCompetition", {
-        id: "S9bdZgCXiMvqYdnes",
-      })
-      */
-
       .then((response) => {
         this.numberOfRounds = response.data.numberofrounds;
         this.currentRound = response.data.currentround;
