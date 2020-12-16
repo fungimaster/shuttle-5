@@ -56,26 +56,25 @@ export default {
     AppSpinnerRouting,
   },
   methods: {
-    getPlayerData(id) {
-      console.log("inne");
-      this.axios
-        .post("https://matchplay.meteorapp.com/methods/getPlayerData", {
-          id: id,
-          competition: "8dmNL5K5ypaHbTbEM",
-        })
-        .then((response) => {
-          if (response.data.hasOwnProperty("error")) {
-            console.log("error");
-            return;
-          }
-          let userinfo = response.data;
-          localStorage.setItem("userinfo", JSON.stringify(userinfo));
-          this.$store.dispatch("setUser", userinfo);
-          return;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+    getPlayerData(id) { 
+      //console.log('inne');
+      this.axios.post('https://matchplay.meteorapp.com/methods/getPlayerData', {
+              "id": id,
+              "competition": '8dmNL5K5ypaHbTbEM'
+          })
+          .then(response => {
+              if (response.data.hasOwnProperty('error')) {
+                  console.log("error")
+                  return;
+              }
+              let userinfo = response.data;
+              localStorage.setItem('userinfo', JSON.stringify(userinfo));
+              this.$store.dispatch('setUser', userinfo)
+              return;
+          })
+          .catch(error => {
+              console.log(error);
+          });
     },
   },
   computed: {
@@ -233,7 +232,7 @@ h5 {
     font-size: 1rem !important;
   }
   @media (max-width: 576px) {
-    font-size: 0.9rem !important;
+    font-size: 1.1rem !important;
   }
 }
 p,

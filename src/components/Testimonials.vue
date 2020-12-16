@@ -1,6 +1,6 @@
 <template>
   <b-container>
-    <b-row class="mt-5 mb-4">
+    <b-row class="">
       <b-col
         class="col-12 mt-3"
         v-bind:class="{ 'col-md-6': number>1 }"
@@ -17,7 +17,7 @@
               - {{item.author}}
             </b-col>
           </b-row>
-          <hr class="d-block d-md-none" v-if="index===0 && number>1" />
+          <hr class="d-block d-md-none" v-if="index<number-1 && number>1" />
         </div>
       </b-col>
     </b-row>
@@ -33,11 +33,16 @@ export default {
     return {
       testimonials: [
       { message: 'Som ny inom golfen så var det kul att addera tävlingsmomentet och få känna hur proffsen har det när de puttar för miljonerna. Utöver det så är det ett ypperligt tillfälle att skapa sig nya bekantskaper och prova på nya banor.',
-       image: 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_200,c_fill,ar_1:1,g_auto,r_max/v1607593347/matchplay/ambassador/545144_1080.jpg',
+       image: 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_200,c_fill,ar_1:1,g_auto,r_max/v1607593347/matchplay/ambassador/545144_1080.png',
        author: 'Rasmus Franke / Lydinge GK'},
       { message: 'Jag rekommenderar verkligen att vara med i tävlingen, det är så kul att träffa andra golfare som delar passionen till sporten. Det digitala scorekortet är superenkelt, man ser direkt vilket lag som vinner hålet och hur det står i matchen. Kul att vänner kan följa matchen direkt på sajten.',
        image: 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_200,c_fill,ar_1:1,g_auto,r_max/v1607953704/matchplay/ambassador/Karl.png',
        author: 'Karl Stjerna / Ljunghusen GK'},
+       {
+         message: 'Formatet i Matchplay är ett vinnande koncept. Det är få tävlingsformer som är så roliga som bästboll match, där man får spela ihop med en polare och träffa trevliga motståndare! Att komma iväg och spela andra banor än sin egen är också en riktig höjdare och adderar ännu en nivå till matchspelet.',
+         image: 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_200,c_fill,ar_1:1,g_auto,r_max/v1608111888/matchplay/ambassador/IMG_1696.png',
+         author: 'Carl Fredrik Klintner / Båstad GK'
+       }
     
     ]
     };

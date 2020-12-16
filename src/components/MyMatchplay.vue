@@ -203,8 +203,7 @@
                         <b-button variant="primary" class="blue-bg mt-3 mb-3 pulse-button btn-lg" v-on:click="create_team('new')"><i class="material-icons">sports_golf</i> Skapa ditt lag</b-button>
                     </b-col>
             </b-row>
-</b-container>
-
+</b-container>              
             <b-container v-if="showteamslist && team.step === 0" class="">
                 <b-row align-h="center">
                     <b-col sm="6" lg="6" class="team pl-2 pr-2 pb-2" v-for="(team,idx) in teams" :key="idx">
@@ -213,11 +212,11 @@
                             Radera det här laget
                         </b-tooltip>
                         <b-card class="mb-2 team header">
-                            <b-card-title>
+                            <b-card-title class="mt-2">
                                 <span v-if="team.type === 'Company'" class="pr-2">{{team.teamname}}</span>
-                                <img v-if="team.type === 'Company'" class="pt-3 pb-3" :src="`${team.logourl}`">
+                                <img v-if="team.type === 'Company'" class="mt-2 pt-3 pb-3 mb-4 d-block" :src="`${team.logourl}`">
 
-                                <span v-else class="pr-2">Ditt lag</span>                                
+                                <span v-else class="pr-2 mt-2">Ditt lag</span>                                
                                 
                             </b-card-title>
                             <b-card-text class="mt-0">
@@ -251,7 +250,7 @@
                                 <div v-if="!team.teammemberemail && !team.teammembergolfid && !closed">
                                      <i class="material-icons mr-0 red">error</i>
                                     <b-button hidden size="sm" v-if="!team.invoice" @click="goToStep(team, 2)" variant="success" class="ml-0">Bjud in lagkamrat</b-button>
-                                    <span v-if="!team.invoice" @click="goToStep(team, 2)" class="invitemember">Bjud in lagkamrat</span>
+                                    <span @click="goToStep(team, 2)" class="invitemember">Bjud in lagkamrat</span>
                                 </div>
                                 </div>
 
@@ -281,7 +280,7 @@
                                     </span>
                                 </div>
 
-                                <div class="pt-0 pb-3" v-if="!team.paid">
+                                <div class="pt-0 pb-3" v-if="!team.paid && !team.invoice">
                                     <span>
                                         <i class="material-icons">create</i>
                                         <span class="invitemember" @click="goToStep(team, 1)">Redigera laget</span>
@@ -290,7 +289,7 @@
                                 
 
                                   <b-alert v-if="showhelpreserve" show class="small text-center mt-1" variant="info">
-                                            Om ditt lag har en reserv tillgänglig för spel kan hemmalaget, när ni träffas innan spel, välja denna person i samband med att tee väljs innan matchen startar.
+                                            Om ditt lag har en reserv tillgänglig för spel kan hemmalaget, när ni träffas innan spel, välja denna person i samband med att tee väljs innan matchen startar. En reserv måste bara väljas <strong>om någon av de ord. lagmedlemmarna</strong> får förhinder.
                                   </b-alert>
 
                                 <div class="pt-0 pb-0" hidden>
@@ -328,9 +327,11 @@
                                     <i class="material-icons mr-2">attach_money</i>{{text.paidteam}}
                                 </p>
                                 <p class="mb-0" style="color:red;" v-if="!team.paid">
-                                    <i class="material-icons mr-2">money_off</i>{{text.not_paidteam}}
+                                    <i class="material-icons mr-2">money_off</i>{{text.not_paidteam}}                                    
+                                    <span style="color:black;" class="small d-block" v-if="team.invoice">
+                                        <i class="material-icons mr-2">help_outline</i>(Vi bearbetar din faktura)</span>
                                     <b-button v-if="!team.invoice && !closed" @click="goToStep(team, 3)" variant="success" class="btn-sm float-right">Betala</b-button>
-                                </p>
+                                </p>                                
                             </template>
                             <b-button hidden variant="primary" class="blue-bg">Redigera lag</b-button>
                         </b-card>
@@ -425,12 +426,59 @@
                     <b-container>
                         <b-row align-h="center">
                             <b-col md="6">
-                                <b-form-group class="mb-5">
+                                <b-form-group class="mb-3">
                                     <p v-if="!team.type">Vill du anmäla ett Privatlag eller Företagslag?</p>
                                     <label for="type">Välj lagtyp:</label>
                                     <b-form-select v-bind:disabled="team.is_readonly" id="type" v-model="team.type" :options="teamoptions" :state="validation_type" required>
                                     </b-form-select>
                                 </b-form-group>
+                                <b-alert show v-if="team.type==='Company'" variant="warning" class="small">                                   
+                                <p>I vårt <strong>grundpaket</strong> ({{team.price_company}}:-) för företag ingår:</p>
+                                <ol>
+                                    <li>
+                                        Ett lag i tävlingen
+                                    </li>
+                                    <li>
+                                        Synlighet på resultatsidan med er logo
+                                    </li>
+                                </ol>
+                                <p hidden>Pris: {{team.price_company}}:- (exkl. moms)</p>
+                                 <p>I vårt <strong>företagspaket PLUS</strong> ({{team.price_company2}}:-) erbjuder vi följande utöver grundpaketet:</p>
+                                 <ol>
+                                    <li>
+                                        Synlighet på matchplay.se som företagssponsor
+                                    </li>
+                                    <li>
+                                        Nätverksträff i slutet av augusti på en golfklubb (bestäms inom kort) inkl. golfspel, bankett och övernattning för dig och din lagkamrat
+                                    </li>                                     
+                                </ol>
+                                <p hidden>Pris: {{team.price_company2}}:- (exkl. moms)</p>
+                                 <b-form-checkbox
+      id="checkbox-1"
+      v-model="team.company_big"
+      name="checkbox-1"
+     
+    >
+      Välj PLUS
+    </b-form-checkbox>
+           
+     <p class="pt-3"><strong>Faktureras: </strong><span v-if="team.company_big">{{team.price_company2}}:- (exkl. moms)</span>
+     <span v-else>{{team.price_company}}:- (exkl. moms)</span>
+     </p>
+                                </b-alert>
+                                         
+                                <b-alert show v-if="team.type==='Company_big'" variant="warning" class="small">
+                                <p>I vårt STORA företagspaket erbjuder vi följande utöver vårt vanliga företagspaket:</p>
+                                 <ol>
+                                    <li>
+                                        Synlighet på matchplay.se som företagssponsor
+                                    </li>
+                                    <li>
+                                        Nätverksträff i slutet av augusti på en golfklubb (bestäms inom kort) inkl. golfspel, bankett och övernattning
+                                    </li>                                     
+                                </ol>
+                                <p>Pris:{{team.price_company2}}:- (exkl. moms)</p>
+                                </b-alert>
                             </b-col>
                         </b-row>
                         <!-- Team name -->
@@ -624,7 +672,19 @@
                                 <!-- Invoice -->
                                 <b-form-group v-if="team.payment === 'B'">
                                     <label for="name">Fakturauppgifter</label>
-                                    <span v-if="team.type==='Company'">{{team.price_company}} SEK (exkl. moms)</span>
+                                    <span v-if="team.type==='Company' && !team.company_big">{{team.price_company}} SEK (exkl. moms)</span>
+                                    <span v-if="team.type==='Company' && team.company_big">{{team.price_company2}} SEK (exkl. moms)</span>
+                                    <b-alert show v-if="!team.company_big" variant="warning" class="small">
+                                        Är du säker på att du inte vill ha vårt pluspaket för {{team.price_company2}}:- där nätverksträff ingår i slutet av augusti med golf, bankett och övernattning för 2 personer?
+                                        <b-form-checkbox
+      id="checkbox-2"
+      v-model="team.company_big"
+      name="checkbox-2"
+     
+    >
+      Klart jag vill ha PLUS!
+    </b-form-checkbox>
+                                        </b-alert>
 
                                     <b-form-input class="mb-2" id="invoicename" name="invoicename" v-model="invoicename" required placeholder="Skriv in ditt namn" :state="validate_invoicename"></b-form-input>
                                     <b-form-input inputmode="numeric" class="mb-2" id="invoiceorgno" name="invoiceorgno" v-model="team.invoice.invoiceorgno" required placeholder="Skriv in organisationsnummer" :state="validate_invoiceorgno"></b-form-input>
@@ -1066,6 +1126,7 @@ export default {
             showspinner_3: false,
             showspinner_swish: false,
             showspinner_voucher: false,
+            showspinner_invoice: false,
             teamoptions: [{
                     value: null,
                     text: 'Vänligen välj ett alternativ'
@@ -1073,12 +1134,12 @@ export default {
                 {
                     value: 'Company',
                     text: 'Företag'
-                },
+                },               
                 {
                     value: 'Private',
                     text: 'Privat'
                 }
-            ],
+            ],            
             team: {
                 step: 0,
                 completemode: false,
@@ -1202,6 +1263,7 @@ export default {
                 price_private: globalState.price1,
                 price_company: globalState.price2,
                 price_company2: globalState.price3,
+                company_big: false,
                 checkgolfidvariant2: 'primary',
                 checkgolfidvariant3: 'primary',
                 showplayer1: false,
@@ -1572,7 +1634,7 @@ export default {
             this.team.player_2_name = team.teammembername;
             this.team.teammembergolfid = team.teammembergolfid;          
             this.team.course = team.coursename;
-            this.team.logo = team.logourl;
+            this.team.logo = team.logourl;            
             this.query = team.coursename;
             this.team.clubid = team.course;
      
@@ -2039,8 +2101,15 @@ export default {
                     this.userinfo = userinfo;
                     this.teams = this.userinfo.teams;
                     this.teamscount = this.teams.length;
-                    if (!this.teams) this.teamscount = 0;
-                    //console.log(this.userinfo);
+                    
+                    //console.log(this.teamscount,this.userinfo);
+                    if (this.teamcount || this.teams) {
+                        this.showteamslist = true;                        
+                    } else {
+                        this.teamscount = 0;
+                    }
+                    
+
                     localStorage.setItem('userinfo', JSON.stringify(userinfo));
                     this.$store.dispatch('setUser', userinfo)
                     return;
@@ -2115,6 +2184,12 @@ export default {
                 });
         },
         payInvoice: function () {
+
+            var invprice = this.team.price_company;
+            if (this.team.company_big) {
+                invprice = this.team.price_company2;
+            }
+
             this.showspinner_invoice = true;
             this.axios.post(globalState.admin_url + 'payInvoice', {
                     //this.axios.post('http://localhost:3000/methods/payInvoice', {
@@ -2126,6 +2201,8 @@ export default {
                     "invoicename": this.team.invoice.invoicename,
                     "invoiceorgno": this.team.invoice.invoiceorgno,
                     "invoiceemail": this.team.invoice.invoiceemail,
+                    "invoiceamount": invprice,
+                    "packageplus": this.team.company_big, 
                     "marketingpackage": this.team.invoice.marketingpackage
                 })
                 .then(response => {
@@ -2333,8 +2410,8 @@ export default {
         cancel_team() {
             this.resetTeamProperties();
             this.getPlayerData();
-            //this.showcreateteam = false;
-            this.showteamslist = true;
+            this.showcreateteam = false;
+            //this.showteamslist = true;
             this.team.step = 0;
             this.team.completemode = false;
             window.scrollTo(0, 0);
@@ -2716,7 +2793,7 @@ export default {
                         
                         for (i = 0; i < this.teams.length; i++) {
                            if (this.teams[i].games) {   
-                                                 
+                                                                                
                             for (b = 0; b < this.teams[i].games.length; b++) {
                                 this.games.push(this.teams[i].games[b])
                             }
@@ -2803,6 +2880,13 @@ export default {
 
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
+
+.team img {
+    border:1px solid grey;
+    background:#FFF;
+    padding:0.5em;
+    height:100px;
+}
 
 .card-body {
     padding: 0.7rem 1.25rem;

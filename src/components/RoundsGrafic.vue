@@ -45,11 +45,7 @@
         class="stage-fill stage p-2 d-flex justify-content-center align-items-center"
         :style="{ height: `${100 - height(index) - 10}%` }"
       >
-        <i
-          v-if="index === numberOfRounds - 1"
-          class="material-icons icons-size-final"
-          >golf_course</i
-        >
+        <i v-if="index === numberOfRounds - 1" class="material-icons icons-size-final">golf_course</i>
 
         <i v-else class="material-icons icons-size invisible">check_circle</i>
       </div>
@@ -63,12 +59,14 @@ import { globalState } from "../main.js";
 export default {
   created() {
     this.axios
-      /*  .post(globalState.admin_url + "getCompetition", {
+      .post(globalState.admin_url + "getCompetition", {
         id: globalState.compid,
-      }) */
+      })
+      /*
       .post("http://localhost:3000/methods/" + "getCompetition", {
         id: "S9bdZgCXiMvqYdnes",
       })
+      */
 
       .then((response) => {
         this.numberOfRounds = response.data.numberofrounds;
