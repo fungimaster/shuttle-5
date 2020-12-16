@@ -28,7 +28,7 @@
           <b-col class="col-12 col-md-12 mt-4">            
             <h2>VÄLKOMMEN TILL MATCHPLAY 2021, GOLFTÄVLINGEN FÖR BÅDE PRIVATPERSONER OCH FÖRETAG</h2>
           </b-col>
-
+      
           <b-col class="col-12 col-md-8">
             <p class="mt-3 mt-md-0">Matchplay är en matchspelstävling för par med officiellt handikapp. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.</p>
             <p v-if="!closed">Tävlingen spelas maj-september i olika omgångar fram till Sverigefinalen och sedan vidare utomlands!</p>
@@ -43,8 +43,13 @@
               <a hidden v-if="isAuthenticated" href="/mymatchplay" class="btn blue-bg btn-md text-white mt-2">Lag- och matchhantering</a>
               <a hidden href="/register" class="btn btn-warning btn-md text-white mt-2">Efterhandsregistrera spelare</a>
             </div>
+            
+            <!-- ALERTS FRÅN BACKEND -->
+            <b-alert class="mt-4 smaller" :variant=message.variant show v-for="message in messages" :key=message.index> <h6>{{message.title}} </h6>  <span v-html="message.message"></span></b-alert>
 
-            <b-alert hidden class="mt-4 smaller" variant="warning">
+
+
+            <b-alert  class="mt-4 smaller" variant="warning">
                 Tävlingen startar den 3:e maj 2021 men anmäl ditt lag redan nu!                
                 För mer uppdaterad information håll koll på <a href="https://www.facebook.com/matchplaysweden/" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplay_sweden/" target="_blank">Instagram</a>.
              </b-alert>
@@ -106,6 +111,7 @@
                 <h4>LAGEN TILL FINALEN I SPANIEN ÄR KLARA</h4>Efter 358 spelade matcher på nästan 100 golfklubbar runtom i Sverige har vi nu korat vinnarna till Spanienfinalen!<br>Grattis till Joel Carnor/Emma Wedin samt Kim Christiansson/Martin Nileskär! Se mer info längre ner om vinnarna och finalresan.
                 <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
              </b-alert>
+            
 
              <div hidden v-if="!closed" class="mt-4">
             <h3 class="mb-3 text-center">Anmälan stänger om</h3>
@@ -1030,6 +1036,26 @@ moment.updateLocale("sv", {
 });
 
 export default {
+  created() {
+  if (!globalState.compid) {
+    return     
+    
+    this.axios
+        .post(globalState.admin_url + "getCompetition", globalState.compid)
+        .then((response) => {
+          if (!response.data.competitionmessages.length) {
+            return
+          }
+          this.messages = response.data.competitionmessages
+            .sort((a, b) => new Date(a.sortorder) - new Date(b.sortorder))
+            .filter((message) => message.active === true )
+
+        })
+        .catch((error) => {
+          console.log(error);
+        }); 
+   }  
+  },
   watch: {
     $route(newVal, oldVal) {
       immediate: true, (this.modalShow = newVal.meta && newVal.meta.modalShow);
@@ -1052,6 +1078,7 @@ export default {
   },
   data() {
     return {
+      messages: null, 
       modalShow: false,
       closed: false,
       leader: "",
