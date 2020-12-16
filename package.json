@@ -12,11 +12,12 @@
   "dependencies": {
     "axios": "^0.19.2",
     "bootstrap": "^4.5.0",
-    "bootstrap-vue": "^2.15.0",
+    "bootstrap-vue": "^2.21.0",
     "isomorphic-ws": "^4.0.1",
     "jquery": "^3.5.1",
     "moment": "^2.25.3",
     "popper.js": "^1.16.1",
+    "portal-vue": "^2.1.7",
     "prerender-spa-plugin": "^3.4.0",
     "simpleddp": "^2.2.4",
     "simpleddp-plugin-login": "^4.0.2",
