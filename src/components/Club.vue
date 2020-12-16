@@ -23,7 +23,7 @@
           <h5 class>GÄSTER: {{players}}</h5>
           <h5 class>MATCHER: {{games}}</h5>
           <h5 class>LAGBILJETT 2022*: {{tickets}}</h5>
-          <small>*För var 10:e lag som väljer er klubb som hemmabana erhåller ni 1 lagbiljett till Matchplay 2022 som ni tex. kan använda till era prisbord 2021.</small>
+          <small>*För var 5:e lag som väljer er klubb som hemmabana erhåller ni 1 lagbiljett till Matchplay 2022 som ni tex. kan använda till era prisbord 2021.</small>
         </b-col>
         <b-col class="col-12 col-md-6 text-center mt-md-0 mt-3">
           <div class="databox">
@@ -34,7 +34,7 @@
             <span class="profit">{{calckickback}}:-</span>
             <span
               class="small mt-3 d-block text-left"
-            >**När anmälan har stängt har ni som klubb rätt att fakturera Matchplay 50:- per anmälda lag som har angett er klubb som hemmabana. Fakturan måste vara oss tillhands senast 31 oktober 2021.</span>
+            >**När anmälan har stängt har ni som klubb rätt att fakturera Matchplay 50:- per anmälda lag som har angett er klubb som hemmabana. Fakturan måste vara oss tillhanda senast 31 oktober 2021.</span>
           </div>
         </b-col>
       </b-row>
@@ -127,7 +127,7 @@
           <hr class="mb-5" />
           <h3>Fakturauppgifter</h3>
           <p>Använd nedan information för att skapa fakturan till oss för er kickback.</p>
-          <p>På vår startsida kan ni tydligt se hur många som anmält sig till tävlignen och valt er klubb som hemmabana. Ta siffran och multiplicera med 50kr. Summan fakturerar ni oss är bal bala</p>
+          <p>På vår startsida kan ni tydligt se hur många som anmält sig till tävlignen och valt er klubb som hemmabana. Ta siffran och multiplicera med 50kr. Momssats 6% (deltagaravgifter). Fakturan måste vara oss tillhanda senast 31 oktober 2021.</p>
           <p>
             <strong>Skicka gärna fakturan per e-post!</strong>
           </p>
@@ -196,7 +196,7 @@ import CustomSlider from "vue-custom-range-slider";
             this.games = parseInt((this.teams / 2) * 2.5);
             this.calckickback = this.teams * 50; //50 = peng per lag
 
-            this.tickets = parseInt(this.teams/10);
+            this.tickets = parseInt(this.teams/5);
 
             var basevalue = this.players * (this.price);
             var round2 = basevalue * 1;

@@ -469,13 +469,13 @@
                                          
                                 <b-alert show v-if="team.type==='Company_big'" variant="warning" class="small">
                                 <p>I vårt STORA företagspaket erbjuder vi följande utöver vårt vanliga företagspaket:</p>
-                                 <ol>
-                                    <li>
-                                        Synlighet på matchplay.se som företagssponsor
-                                    </li>
+                                 <ol>                                    
                                     <li>
                                         Nätverksträff i slutet av augusti på en golfklubb (bestäms inom kort) inkl. golfspel, bankett och övernattning
                                     </li>                                     
+                                    <li>
+                                        Synlighet på matchplay.se som företagssponsor
+                                    </li>
                                 </ol>
                                 <p>Pris:{{team.price_company2}}:- (exkl. moms)</p>
                                 </b-alert>

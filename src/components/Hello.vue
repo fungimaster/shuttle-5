@@ -11,6 +11,27 @@
       <router-view> </router-view>
     </b-modal>
    
+   <b-jumbotron hidden container-fluid class="white">  
+      <b-container>
+  <b-carousel
+    id="carousel-fade"
+    style="text-shadow: 0px 0px 2px #000"
+    fade    
+  >
+    <b-carousel-slide     
+      img-src="https://picsum.photos/1024/480/?image=10"
+    ></b-carousel-slide>
+    <b-carousel-slide     
+      img-src="https://picsum.photos/1024/480/?image=12"
+    ></b-carousel-slide>
+    <b-carousel-slide    
+      img-src="https://picsum.photos/1024/480/?image=22"
+    ></b-carousel-slide>
+  </b-carousel>
+      </b-container>
+   </b-jumbotron>
+
+
     <div class="hero">      
       <b-container class="d-flex">
        
@@ -1240,15 +1261,20 @@ export default {
   mixins: [tagsMixin],
   
   methods: {
-     showModal() {       
-        if (localStorage.getItem('earlyBirdie2021') !== '1') 
-          this.$refs['earlyBirdie'].show();
-          //localStorage.setItem('earlyBirdie2021', '1');
-                  
-      },
-      hideModal() {
-        this.$refs['earlyBirdie'].hide()
-      },
+     toast(toaster, append = false) {
+       
+       if (localStorage.getItem('earlyBirdie2021') !== '1')
+        this.$bvToast.toast(`De första 50 anmälda och betalda lagen är med i en utlottning av 2 golfpaket inkl. greenfee, mat och övernattning till Ringenäs eller Öijared! Vinnarna meddelas per mail och i våra sociala kanaler.`, {
+          title: `Early Birdie`,
+          toaster: toaster,
+          autoHideDelay: 10000,
+          solid: true,         
+          appendToast: append
+        })
+
+        localStorage.setItem('earlyBirdie2021','1')
+
+        },
     search: function () {
       let searchvalue = document
         .getElementById("searchfield")
@@ -1887,6 +1913,7 @@ export default {
   mounted() {
     //this.showModal();   
     //this.getTopListClubs();
+    this.toast('b-toaster-top-right');
   }
 };
 </script>
@@ -1895,6 +1922,10 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
+
+.jumbotron {
+  border-radius:0;
+}
 
 .jumbotron.white {
   background-color:#fff;
@@ -2085,7 +2116,7 @@ img {
     /*background-position: bottom 10% right 0;*/
   }
   @media (min-width: 480px) {
-    padding: 4rem 0 4rem 0;
+    padding: 6rem 0 6rem 0;
     /*background-position: bottom 0% right 0;*/
   }
   @media (min-width: 768px) {
