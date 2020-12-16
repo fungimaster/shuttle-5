@@ -1262,7 +1262,8 @@ export default {
   
   methods: {
      toast(toaster, append = false) {
-       
+       console.log("kallas", localStorage.getItem('earlyBirdie2021'))
+
        if (localStorage.getItem('earlyBirdie2021') !== '1')
         this.$bvToast.toast(`De första 50 anmälda och betalda lagen är med i en utlottning av 2 golfpaket inkl. greenfee, mat och övernattning till Ringenäs eller Öijared! Vinnarna meddelas per mail och i våra sociala kanaler.`, {
           title: `Early Birdie`,
@@ -1271,6 +1272,8 @@ export default {
           solid: true,         
           appendToast: append
         })
+
+         console.log("innan den sätts", localStorage.getItem('earlyBirdie2021'))
 
         localStorage.setItem('earlyBirdie2021','1')
 
@@ -1913,6 +1916,8 @@ export default {
   mounted() {
     //this.showModal();   
     //this.getTopListClubs();
+           console.log("mounted", localStorage.getItem('earlyBirdie2021'))
+
     this.toast('b-toaster-top-right');
   }
 };
