@@ -1,19 +1,33 @@
 <template>
   <div id="app">
-    <Top></Top>
-    <div class="content">
-      <router-view></router-view>
+    <nprogress-container></nprogress-container>
+    <div v-if="loadPage" class="spinnerRouting">
+      <app-spinner-routing></app-spinner-routing>
     </div>
-    <Footer></Footer>
+    <div v-else>
+      <Top></Top>
+      <div class="content">
+        <router-view></router-view>
+      </div>
+      <Footer></Footer>
+    </div>
   </div>
 </template>
 
 <script>
 import Top from "./components/Top";
 import Footer from "./components/Footer";
+import AppSpinnerRouting from "./components/spinner/SpinnerRouting";
+
+import NprogressContainer from "vue-nprogress/src/NprogressContainer";
 
 export default {
   name: "app",
+  data() {
+    return {
+      loadPage: true,
+    };
+  },
   created() {
     this.$store.dispatch("tryAutoLogin").then(() => {
       if (this.isAuthenticated) {
@@ -30,9 +44,16 @@ export default {
       }
     });
   },
+  mounted() {
+    setTimeout(() => {
+      this.loadPage = false;
+    }, 500);
+  },
   components: {
     Top: Top,
     Footer: Footer,
+    NprogressContainer,
+    AppSpinnerRouting,
   },
   methods: {
     getPlayerData(id) {

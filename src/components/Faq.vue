@@ -261,7 +261,7 @@ Vid omstart hål 1 (alt. Hål 10) så gäller det att det finns plats såklart. 
     name: 'faq',
     data () {
       return {
-	  plosed:false,
+	  closed:false,
 	  price1: globalState.price1,
 	  price2: globalState.price2,
 	  price3: globalState.price3,
