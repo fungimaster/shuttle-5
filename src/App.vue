@@ -1,16 +1,18 @@
 <template>
   <div id="app">
-    <nprogress-container></nprogress-container>
+    
+    <!-- <nprogress-container></nprogress-container>
     <div v-if="loadPage" class="spinnerRouting">
       <app-spinner-routing></app-spinner-routing>
     </div>
-    <div v-else>
+    <div v-else> -->
       <Top></Top>
       <div class="content">
         <router-view></router-view>
       </div>
       <Footer></Footer>
-    </div>
+    <!-- </div> -->
+  
   </div>
 </template>
 
