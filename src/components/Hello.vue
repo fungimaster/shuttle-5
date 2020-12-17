@@ -1033,7 +1033,7 @@ export default {
    //BG CHANGE       
   var bg_change = setInterval(this.changeBg, 8000);
 
-  this.toast('b-toaster-top-right');
+  //this.toast('b-toaster-top-right');
 
   if (!globalState.compid) {
     return  
