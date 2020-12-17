@@ -1035,7 +1035,7 @@ export default {
     return     
     
     this.axios
-        .post(globalState.admin_url + "getCompetition", "globalState.compid")
+        .post(globalState.admin_url + "getCompetition", globalState.compid)
         .then((response) => {
           if (!response.data.competitionmessages.length) {
             return
