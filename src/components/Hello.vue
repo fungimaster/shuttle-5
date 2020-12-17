@@ -1032,24 +1032,23 @@ export default {
   this.toast('b-toaster-top-right');
 
   if (!globalState.compid) {
-    return     
-    
+    return  
+  } else {
     this.axios
-        .post(globalState.admin_url + "getCompetition", {id: globalState.compid})
-        .then((response) => {
-          if (!response.data.competitionmessages.length) {
-            return
-          }
-          console.log(response)
-          this.messages = response.data.competitionmessages
-            .sort((a, b) => new Date(a.sortorder) - new Date(b.sortorder))
-            .filter((message) => message.active === true )
-
-        })
-        .catch((error) => {
-          console.log(error);
-        }); 
-   }  
+      .post(globalState.admin_url + "getCompetition", {id: globalState.compid})
+      .then((response) => {
+        if (!response.data.competitionmessages.length) {
+          return
+        }
+        this.messages = response.data.competitionmessages
+          .sort((a, b) => new Date(a.sortorder) - new Date(b.sortorder))
+          .filter((message) => message.active === true )
+      })
+      .catch((error) => {
+        console.log(error);
+      }); 
+  }     
+    
   },
   watch: {
     $route(newVal, oldVal) {
