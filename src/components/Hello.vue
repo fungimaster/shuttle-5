@@ -133,14 +133,7 @@
             <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/e_colorize,co_rgb:fff/v1573118127/matchplay/matchplay-new-logo-2020.png" alt=""></b-img>
           </b-col>
          
-         <b-col class="col-12 mt-5">
-            
-              <p>                
-                <i class="pb-1 mr-1 material-icons" animation="cylon">verified</i>
-             De första 50 anmälda och betalda lagen är med i en utlottning av 1 golfpaket inkl. greenfee, mat och övernattning till Ringenäs eller Öijared!
-             </p>
-            
-          </b-col>
+        
 
         </b-row>
        
@@ -1252,16 +1245,19 @@ export default {
   mixins: [tagsMixin],
   
   methods: { 
-    showModal() {
-      //console.log('inne')
-      if (localStorage.getItem('earlyBirdie2021') !== '1') 
-      this.$refs['earlyBirdie'].show();
-      localStorage.setItem('earlyBirdie2021', '1');
-    },
-    hideModal() {
-        var element = document.getElementById('earlyBirdie___BV_modal_outer_');
-        element.parentNode.removeChild(element);
-        document.body.className = document.body.className.replace("modal-open","");
+     toast(toaster, append = false) {
+    
+    if (localStorage.getItem('earlyBirdie2021') !== '1')
+    this.$bvToast.toast(`De första 50 anmälda och betalda lagen är med i en utlottning av 2 golfpaket inkl. greenfee, mat och övernattning till Ringenäs eller Öijared! Vinnarna meddelas per mail och i våra sociala kanaler.`, {
+      title: `Early Birdie`,
+      toaster: toaster,
+      autoHideDelay: 10000,
+      solid: true,         
+      appendToast: append
+    })
+
+    localStorage.setItem('earlyBirdie2021','1')
+
     },
     search: function () {
       let searchvalue = document
@@ -1914,26 +1910,9 @@ export default {
     },
     
   },
-  mounted() {
-      //modal early birdie
-      /*
-      setTimeout(() => {       
-                          this.showModal()                        
-                        }, 2000);
-                        */
-     
-  },
   created() {
-    //this.showModal();   
-    //this.getTopListClubs();
-    //this.toast('b-toaster-top-right');
 
-    //BG CHANGE       
-     var bg_change = setInterval(this.changeBg, 8000);
-
-     
-   
-
+    this.toast('b-toaster-top-right');
   }
 };
 </script>
