@@ -267,8 +267,6 @@ export default {
 
   },
   beforeMount() {
-    //Uppdatera username i meny
-    this.$store.dispatch("updateUserInfo");
 
     //Skapa en array med dummy data som vi sen fyller på med riktigt data
 

@@ -1,25 +1,89 @@
 <template>
   <div id="app">
-    <Top></Top>
-    <div class="content">
-      <router-view></router-view>
+    
+    <!-- <nprogress-container></nprogress-container>
+    <div v-if="loadPage" class="spinnerRouting">
+      <app-spinner-routing></app-spinner-routing>
     </div>
-    <Footer></Footer>
+    <div v-else> -->
+      <Top></Top>
+      <div class="content">
+        <router-view></router-view>
+      </div>
+      <Footer></Footer>
+    <!-- </div> -->
+  
   </div>
 </template>
 
 <script>
 import Top from "./components/Top";
 import Footer from "./components/Footer";
+import AppSpinnerRouting from "./components/spinner/SpinnerRouting";
+
+import NprogressContainer from "vue-nprogress/src/NprogressContainer";
 
 export default {
   name: "app",
+  data() {
+    return {
+      loadPage: true,
+    };
+  },
+  created() {
+    this.$store.dispatch("tryAutoLogin").then(() => {
+      if (this.isAuthenticated) {
+        var sim_id;
+        sim_id = localStorage.getItem("userId");
+        if (this.$route.query.sim_id) {
+          sim_id = this.$route.query.sim_id;
+        }
+        this.getPlayerData(sim_id);
+        this.tabIndex = Number(localStorage.getItem("active_tab"));
+      } else {
+        this.showlogin = true;
+        this.loading = false;
+      }
+    });
+  },
+  mounted() {
+    setTimeout(() => {
+      this.loadPage = false;
+    }, 500);
+  },
   components: {
     Top: Top,
-    Footer: Footer
+    Footer: Footer,
+    NprogressContainer,
+    AppSpinnerRouting,
   },
-  methods: {},
-  computed: {}
+  methods: {
+    getPlayerData(id) { 
+      //console.log('inne');
+      this.axios.post('https://matchplay.meteorapp.com/methods/getPlayerData', {
+              "id": id,
+              "competition": '8dmNL5K5ypaHbTbEM'
+          })
+          .then(response => {
+              if (response.data.hasOwnProperty('error')) {
+                  console.log("error")
+                  return;
+              }
+              let userinfo = response.data;
+              localStorage.setItem('userinfo', JSON.stringify(userinfo));
+              this.$store.dispatch('setUser', userinfo)
+              return;
+          })
+          .catch(error => {
+              console.log(error);
+          });
+    },
+  },
+  computed: {
+    isAuthenticated() {
+      return this.$store.getters.isAuthenticated;
+    },
+  },
 };
 </script>
 
@@ -170,7 +234,7 @@ h5 {
     font-size: 1rem !important;
   }
   @media (max-width: 576px) {
-    font-size: 0.9rem !important;
+    font-size: 1.1rem !important;
   }
 }
 p,

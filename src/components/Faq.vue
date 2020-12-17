@@ -23,7 +23,7 @@
 						href="mailto:info@matchplay.se"
 					>info@matchplay.se</a>.
 				</b-col>
-				<b-col class="mt-5 col-12">
+				<b-col hidden class="mt-5 col-12">
 					<h3 class="red">FAQ</h3>
 					<p class="red">Vi får ofta frågor om reserver. För att välja en reserv till ditt lag går du till din lagsida och där finns en grön knapp man trycker på som heter "Välj reservspelare". Skriv in golfid till din reserv och denna kan sedan väljas som ersättare av lagkapten eller lagspelare <strong>när det är dags för match</strong> och tee mm ska väljas. Hemmalaget är ansvariga för att starta det digitala scorekortet samt välja in ev. reserv när det är dags för spel.
 					</p>
@@ -68,7 +68,7 @@
 					
 
 					<div class="section first" id="1">
-						<h3>1. REGIONER MATCHPLAY 2020</h3>
+						<h3>1. REGIONER MATCHPLAY 2021</h3>
 						<p>Matchplay spelas i hela Sverige. Längre resväg kan förekomma vid få registrerade lag i vissa regioner av Sverige. Värt att poängtera är att lottningen alltid sker med geografiskt utgångsläge som prioritering för minimera reslängd.</p>
 					</div>
 
@@ -77,13 +77,13 @@
 						<p v-if="closed">Anmälan till årets tävling är stängd!</p>
 						<p v-if="!closed">
 							Ni anmäler er enkelt via hemsidan.
-							<a href="/#register">Klicka här</a> för att komma dit direkt.
+							<router-link class="" to="/register">Klicka här</router-link> för att komma dit direkt.
 						</p>
 					</div>
 
 					<div class="section" id="3">
 						<h3 class="pt-5">3. BETALNING</h3>
-						<p>Privatlag betalar via Swish medans företagslag betalar via faktura som skickas till angiven mailadress. Priset per lag är 900:- för privatpersoner och 2400:- (exkl. moms) för företag.</p>
+						<p>Privatlag betalar via Swish medans företagslag betalar via faktura som skickas till angiven mailadress. Priset per lag är {{price1}}:- för privatpersoner och {{price2}}:- (exkl. moms) för företag.</p>
 					</div>
 
 					<div class="section" id="4">
@@ -98,12 +98,12 @@
 
 					<div class="section" id="6">
 						<h3 class="pt-5">6. HANDICAPGRÄNS</h3>
-						<p>Officellt handicap (36.0) krävs för deltagande. Högsta HCP i matchspel är 28.0 och har laget tillsammans högre än 28.0 i hcp kommer spelarna i laget dela på reduceringen. Tex: Om spelare A har 16 i hcp och spelare B har 19 i hcp blir detta 35 sammanlagt, vilket innebär att spelare A och B får 3.5 slag färre och kommer få nytt exakt hcp på 12.5 och 15.5 som sedan slope och matchspeluträkningar baseras på. Detta görs för att få så rättvisa matcher som möjligt mellan lagen. När en match påbörjas räknas allt ut automatiskt och information om uträkningen finns tillgänglig i scorekortet.</p>
+						<p>Officellt handicap (36.0) krävs för deltagande. Högsta HCP i matchspel är 28.0 och har laget tillsammans högre än 28.0 i hcp kommer spelarna i laget dela på reduceringen. Tex: Om spelare A har 16 i hcp och spelare B har 19 i hcp blir detta 35 sammanlagt, vilket innebär att spelare A och B får 3.5 slag färre och kommer få nytt exakt hcp på 12.5 och 15.5 som sedan slope och matchspeluträkningar baseras på. När en match påbörjas räknas allt ut automatiskt och information om uträkningen finns tillgänglig i scorekortet.</p>
 					</div>
 
 					<div class="section" id="7">
-						<h3 class="pt-5">7. TÄVLINGSKLASSER 2020</h3>
-						<p>Matchplay spelas i en klass (OBS! Om det blir ett stort antal företagslag anmälda, kan dessa skapa en egen klass fram mot regionfinalerna! Företag möter då företag i så stor utsträckning som möjligt och privatlag möter då privatlag i så stor utsträckning som möjligt) Alla lag meddelas direkt efter lottningen den 27 april om klasser skapats.</p>
+						<h3 class="pt-5">7. TÄVLINGSKLASSER 2021</h3>
+						<p>Matchplay spelas i en klass.</p>
 					</div>
 
 					<div class="section" id="8">
@@ -136,25 +136,25 @@ Laget med lägst HCP inom laget utses till vinnare
 						</p>
 						<p>
 							Vid omstart hål 18 (alt hål 9) så är detta om bakomvarande spel tillåter detta. Lagen ska vänta i maximalt 30 minuter efter avslutat spel för att sedan sikta på punkt 2.
-Vid omstart hål 1 (alt. Hål 10) så gäller det att det finns plats såklart. Lagen ska vänta i maximalt 30 minuter för spel annars siktar man på punkt 3.
+Vid omstart hål 1 (alt. Hål 10) så gäller det att det finns plats såklart. Lagen ska vänta i maximalt 30 minuter för spel annars infaller punkt 3.
 						</p>
 					</div>
 
 					<div class="section" id="9">
 						<h3 class="pt-5">9. ANDRA CHANSEN</h3>
-						<p>Alla lag i Matchplay garanteras minst två omgångar genom att förlorarna i första omgången hamnar i ”Andra chansen”. Från "Andra chansen" kommer lag som tar sig vidare, fortfarande ha chansen att ta sig till först Sverigefinalen och sedan till huvudfinalen ute i världen. Dock är det färre lag och en längre väg att gå. Vid omgång 5-7 kommer kvarvarande lag i Andra Chansen att samlas för en gemensam tävlingsdag där 1-4 lag tar sig vidare in i Huvudtävlingen igen. Antalet avgörs av hur många deltagare tävlingen har vid anmälningsstoppet den 27 maj och den aktuella spelplatsen avgörs av majoriteten av kvarvarande lags geografiska placering. Tävlingsformen här kommer att vara poängbaserad.</p>
+						<p>Alla lag i Matchplay garanteras minst två matcher. Vid förlust i första omgången hamnar man i Andra Chansen. Här har man fortfarande chansen att nå både final i Sverige och utomlands, men vägen är lite svårare. Vid omgång 5-6 (beroende på antalet anmälda lag totalt) kommer en gemensam tävling anordnas för kvarvarande lag i Andra Chansen, där de två bästa lagen tar sig till Sverigefinalen och in i huvudtävlingen igen. Tävlingsformen under denna dag kommer att vara poängbaserad.</p>
 						<p>OBS! Om en match vinns eller förloras genom walk over eller lottning, så räknas även detta som spelad match.</p>
 
 						<div class="section" id="10">
 							<h3 class="pt-5">10. LOTTNING SPELSCHEMA</h3>
-							<p>Lottning kommer att ske efter den 27 april 2020. Matchplay har prioriteringar i lottningen som gäller geografisk tillhörighet. Detta ger kortast möjliga resor under hela tävlingen fram mot Sverigefinalen.</p>
-							<p class="hidden">För spelschema 2020 - klicka här.</p>
+							<p>Lottning kommer att ske efter att registreringen stängs. Matchplay har prioriteringar i lottningen som gäller geografisk tillhörighet. Detta ger kortast möjliga resor under hela tävlingen fram mot Sverigefinalen. Dock kommer lag från samma klubb i största utsträckning som möjligt att inte ställas mot varandra.</p>
+							<p class="hidden">För spelschema 2021 - klicka här.</p>
 						</div>
 
 						<div class="section" id="11">
 							<h3 class="pt-5">11. SPELDAGAR</h3>
 							<p>
-								Från omgång ett ända fram till finalen finns tidsramar för respektive omgång. Det är av största vikt att Ni som deltagare utgår från att kunna avsätta minst en runda golf inom de veckor som omgången gäller. Ni kommer via vårt system få mail skickade till er med all nödvändig info kring kontakten med era motståndare. Oavsett om ni är hemma- eller bortalag så ansvarar bägge lagen för att kontakt skapas och tid bokas. Kan inte lagen komma överens om lämplig tidpunkt eller bana skall lagkaptenen i det lag som har fördel av hemmabana kontakta tävlingsledningen. Ha även med er att ni kan använda er av en reserv för att lösa er match.</p><p>Reserv anmäler ni under LAGFLIKEN på din sida. Klicka på knappen "välj reserv" och följ instruktionerna. Reserven behöver anmälas INNAN matchen och scorekortet startas. Om reserv finns väljs denna in i samband med att matchen startas (görs av hemmalaget).</p>
+								Från omgång ett ända fram till finalen finns tidsramar för respektive omgång. Det är av största vikt att Ni som deltagare utgår från att kunna avsätta minst en runda golf inom de veckor som omgången gäller. Ni kommer genom vårt system få all nödvändig info kring kontakten med era motståndare. Oavsett om ni är hemma- eller bortalag så ansvarar bägge lagen för att kontakt skapas och tid bokas. Kan inte lagen komma överens om lämplig tidpunkt eller bana skall lagkaptenen i det lag som har fördel av hemmabana kontakta tävlingsledningen. Ha även med er att ni kan använda er av en reserv för att lösa er match.</p><p>Reserv anmäler ni under LAGFLIKEN på din sida. Klicka på knappen "välj reserv" och följ instruktionerna. Reserven behöver anmälas INNAN matchen och scorekortet startas. Om reserv finns väljs denna in i samband med att matchen startas (görs av hemmalaget).</p>
 								<p>Har man bestämt tid för spel (datum och klockslag) och något lag sedan, oberoende av orsak, vill byta tid (inom deadline för omgången) är det upp till motståndarlaget att gå med på detta. Blir man ej överens om ny tid och matchen ej spelas, vinner det lag som är berett på spel på den ursprungliga tiden - på WO.
 							</p>
 						</div>
@@ -164,7 +164,7 @@ Vid omstart hål 1 (alt. Hål 10) så gäller det att det finns plats såklart. 
 							<p>Vårt lottningssystem är utformat för att ge en så rättvis fördelning som möjligt sett till spelplats. De lag som hamnar överst i spelarträdet har fördel av hemmabana. Detta innebär att man kan välja sin hemmabana men kan också komma överens med motståndarna om annan bana. Lagkaptenerna i respektive lag ansvarar för att föra score för alla spelare. Eventuell greenfee under kvalomgångarna innan semifinal och final betalas av respektive lag.</p>
 							<p>
 								Matchen avgörs över 18 hål med ev. särspel. OBS! Endast klubbar med 18 hål kan och ska användas under spelet. Om ett (eller flera) hål på banan är avstängt hoppar man över detta hål och matchen avgörs då över de hål som är spelbara.
-								Sverigefinalen spelas runt september 2020 på plats som meddelas när vi vet var de kvarvarande lagen finns geografiskt. Majoriteten av kvarvarande lag avgör plats. Spelformen är samma under Sverigefinalen som i grundomgången. Alla deltagare i Sverigefinalen har redan kvalificerat sig för spel nästkommande år utan kostnad. Vinnarna går vidare till finalspelet som sker utomlands (oktober 2020), på plats som meddelas januari 2020. Förutom det stora vandringspriset, tävlar man om ett prisbord sammansatt av sponsorer.
+								Sverigefinalen spelas runt september 2021 på Allerum Golfklubb strax utanför Helsingborg. Spelformen är samma under Sverigefinalen som i grundomgången. Alla deltagare i Sverigefinalen har redan kvalificerat sig för spel nästkommande år utan kostnad. Vinnarna går vidare till finalspelet som sker utomlands (oktober 2021), på plats som meddelas januari 2021.
 							</p>
 						</div>
 
@@ -180,6 +180,7 @@ Vid omstart hål 1 (alt. Hål 10) så gäller det att det finns plats såklart. 
 						<div class="section" id="14">
 							<h3 class="pt-5">14. MATCHRAPPORTERING</h3>
 							<p>Det är obligatoriskt att använda vårt digitala scorekort för att rapportera matchresultat. Hemmalag (kapten eller medspelare) väljer klubb/slinga/tee när matchen ska starta, rätt slope räknas ut och matchplays regler för hcp räknas ut automatiskt. Ni rapporterar in hål för hål enkelt och ser vilket lag som vinner/förlorar/delar resp. hål. Resultatet laddas kontinuerligt upp direkt till hemsidan och matchen ligger live (för andra att följa). När matchen är avgjord visas detta i det digitala scorekortet och ni skickar in resultatet. Vinnarna får meddelande när nästa lottning är gjord (ev. förlorarna också i andra chansen).</p>
+							<p>Herrar spelar på vald klubbs herr tee och damer spelar på vald klubbs dam tee.</p>
 						</div>
 
 						<div class="section" id="15">
@@ -189,12 +190,13 @@ Vid omstart hål 1 (alt. Hål 10) så gäller det att det finns plats såklart. 
 
 						<div class="section" id="16">
 							<h3 class="pt-5">16. MINIMIANTAL</h3>
-							<p>Vi utgår från att vi blir fullt tillräckligt med antal företags- och privatlag lag under 2020, men reserverar oss för händelser helt utanför vår kontroll, som kan innebära att deltagarantalet blir alldeles för litet för att genomföra tävlingen. Om detta skulle ske återbetalas hela beloppet till respektive lag samma dag beslutet tas.</p>
+							<p>Vi utgår från att vi blir fullt tillräckligt med antal företags- och privatlag lag under 2021, men reserverar oss för händelser helt utanför vår kontroll, som kan innebära att deltagarantalet blir alldeles för litet för att genomföra tävlingen. Om detta skulle ske <strong>återbetalas</strong> hela beloppet till respektive lag samma dag beslutet tas.</p>
+							<p>Då vi står helt ovetandes inför alla beslut som tas gällande <strong>Corona</strong>, så vill vi här betona garantin att om tävlingen av olika anledningar inte skulle gå eller få spelas, så <strong>återbetalas</strong> alla deltagaravgifter till 100%.</p>
 						</div>
 
 						<div class="section" id="17">
 							<h3 class="pt-5">17. HANDICAP</h3>
-							<p>För att spela matcher från 1 juli 2020 krävs att deltagande spelare ska ha minst 3 HCP-ronder korrekt registrerade under innevarande år i GIT innan match i tävlingen spelas. Detta gäller även reserverna. Spelare med ett HCP på 4,4 eller mindre behöver ej beakta detta och behöver således ej ha några HCP-ronder registrerade. (Vi reserverar oss för eventuella ändringar i detta stycke efter att det nya HCP systemet implementerats i Sverige 2020) Vårt system är uppkopplat mot GIT och ni kommer att bli påminda om ej registrerade ronder om ni skulle logga in för spel och ej uppfyllt dessa kriterier. Man kan alltså inte starta spelet och logga in om detta inte efterföljs. Laget kan spela med en spelare eller ta in reserv som uppfyller kraven. Deltager spelare trots allt i matchen (använder pappers scorekort) blir laget diskvalificerat. För lag som går till semifinal gäller att minst 4 HCP-ronder ska vara korrekt registrerade i GIT. Vi vill påpeka att det är varje spelares skyldighet att se till att spela på det HCP som visar spelarens normala spelstandard. Oavsett om inga handicapgrundande ronder är noterade är man som spelare skyldig att revidera sitt handicap med sin klubbs hcp-kommitté. Klubbarnas HCP-kommittéer är utredande/dömande part i ett eventuellt HCP-ärende. Matchplay följer alltid dom från berörd HCP-kommitté. Spel på ett för högt HCP innebär att laget diskvalificeras från tävlingen.</p>
+							<p>För att spela matcher från 1 juli 2021 krävs att deltagande spelare ska ha minst 3 HCP-ronder korrekt registrerade under innevarande år i GIT innan match i tävlingen spelas. Detta gäller även reserverna. Vårt system är uppkopplat mot GIT och ni kommer att bli påminda om ej registrerade ronder om ni skulle logga in för spel och ej uppfyllt dessa kriterier. Man kan alltså inte starta spelet och logga in om detta inte efterföljs. Laget kan spela med en spelare eller ta in reserv som uppfyller kraven. Deltager spelare trots allt i matchen (använder pappers scorekort) blir laget diskvalificerat. För lag som går till Sverigefinal gäller att minst 4 HCP-ronder ska vara korrekt registrerade i GIT. Vi vill påpeka att det är varje spelares skyldighet att se till att spela på det HCP som visar spelarens normala spelstandard. Oavsett om inga handicapgrundande ronder är noterade är man som spelare skyldig att revidera sitt handicap med sin klubbs hcp-kommitté. Klubbarnas HCP-kommittéer är utredande/dömande part i ett eventuellt HCP-ärende. Matchplay följer alltid dom från berörd HCP-kommitté. Spel på ett för högt HCP innebär att laget diskvalificeras från tävlingen.</p>
 						</div>
 
 						<div class="section" id="18">
@@ -253,20 +255,20 @@ Vid omstart hål 1 (alt. Hål 10) så gäller det att det finns plats såklart. 
 
 <script>
   import {tagsMixin} from '../mixins/tagsMixin';
+  import { globalState } from "../main.js";
 
   export default {
     name: 'faq',
     data () {
       return {
-		  closed:true,
+	  closed:false,
+	  price1: globalState.price1,
+	  price2: globalState.price2,
+	  price3: globalState.price3,
       doctitle: 'Info - ' + this.$store.state.conferencename
       }
     },
-      mounted: function () {
-        //console.log("ROUTE", this.$route.query.resetpw)
-
-        this.$store.dispatch('updateUserInfo');
-  },
+ 
     //mixins: [tagsMixin]
   }
 </script>
