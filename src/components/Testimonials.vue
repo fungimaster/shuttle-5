@@ -2,17 +2,17 @@
   <b-container>
     <b-row class="">
       <b-col
-        class="col-12 mt-3"
+        class="col-12 mt-5"
         v-bind:class="{ 'col-md-6': number>1 }"
         v-for="(item, index) in testLimited"
         :key="item.message"
       >
-        <div class="testimonial">
-          <b-row>
-            <b-col class="col-3 pt-3">
+        <div class="testimonial justify-content-center">
+          <b-row align-h="center">
+            <b-col class="col-8 col-md-4 pt-0 mb-3 mb-md-0">
               <img :src="item.image" />
             </b-col>
-            <b-col class="col-9">
+            <b-col class="col-12 col-md-8 pl-4 pr-4">
               <p>"{{item.message}}"</p>
               - {{item.author}}
             </b-col>
@@ -42,6 +42,11 @@ export default {
          message: 'Formatet i Matchplay är ett vinnande koncept. Det är få tävlingsformer som är så roliga som bästboll match, där man får spela ihop med en polare och träffa trevliga motståndare! Att komma iväg och spela andra banor än sin egen är också en riktig höjdare och adderar ännu en nivå till matchspelet.',
          image: 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_200,c_fill,ar_1:1,g_auto,r_max/v1608111888/matchplay/ambassador/IMG_1696.png',
          author: 'Carl Fredrik Klintner / Båstad GK'
+       },
+       {
+         message: 'En tävling som verkligen är värd att deltaga i. Du kommer ut till nya banor och träffar nya människor. Gillar konceptet med bästboll, det är en riktigt rolig spelform, man får en bra lagkänsla! Det digitala scorekortet är ett stort plus, enkelt att använda, resultat direkt och andra kan följa matchen live. Vi spelar gärna i tävlingen igen!',
+         author: 'Evelina Losell',
+         image: 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_200,c_fill,ar_1:1,g_auto,r_max/v1608219732/matchplay/ambassador/losell.png'
        }
     
     ]

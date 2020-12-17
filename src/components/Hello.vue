@@ -22,7 +22,7 @@
       
           <b-col class="col-12 col-md-8">
             <p class="mt-3 mt-md-0">Matchplay är en matchspelstävling för par med officiellt handikapp. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.</p>
-            <p v-if="!closed">Tävlingen spelas maj-september i olika omgångar fram till Sverigefinalen och sedan vidare utomlands!</p>
+            <p v-if="!closed">Tävlingen spelas mellan maj-september i olika omgångar fram till Sverigefinalen och sedan vidare utomlands!</p>
             <p hidden v-if="!closed">2020 spelades 358 matcher på nästan 100 golfklubbar.</p>
              <p hidden v-if="closed">I helgen (30-31 maj) lottas första omgången. Den 1 juni startar tävlingen!</p>
             
@@ -173,7 +173,7 @@
      <h3 class="teaser-header orange mb-3">Dubbelt så stor Sverigefinal</h3>
                <b-row>
                  <b-col class="col-12 col-md-8">
-              <p>Åtta lag går till Sverigefinalen som spelas 3-5 september på Allerum Golfklubb, strax utanför Helsingborg. Hotell inklusive frukost, inspel, semifinal och för de fyra vinnande lagen blir det final på söndagen. Bankett på lördagkvällen för de 8 deltagande lagen. De två lagen som vinner respektive match på söndagen blir bjudna på den stora finalen på Los Naranjos i Spanien.</p>
+              <p>Åtta lag går till Sverigefinalen som spelas 3-5 september på Allerum Golfklubb, strax utanför Helsingborg. Hotell inklusive frukost, inspel, semifinal och för de fyra vinnande lagen blir det final på söndagen. Bankett på lördagskvällen för de 8 deltagande lagen. De två lagen som vinner respektive match på söndagen blir bjudna på den stora finalen på Los Naranjos i Spanien.</p>
                  </b-col>
                  <b-col class="col-12 col-md-4 text-center mt-3 mt-md-0">
                    <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/h_200/v1599032379/matchplay/logo.png" />
@@ -186,7 +186,7 @@
    <b-container>    
                <b-row>
                  <b-col class="col-12">
-               <testimonials number=3></testimonials>
+               <testimonials number=4></testimonials>
                  </b-col>
                </b-row>
    </b-container>
@@ -873,7 +873,7 @@
                 <h3 class="orange mb-3 mt-5">SÅ HÄR FUNGERAR DET</h3>
 
                 <p>Matchplay spelas 2021 i hela Sverige och är en tävling för 2-mannalag (herr, dam eller mixed). Officiellt HCP krävs för att delta. Tävlingsformen är 4-boll, Match/Bästboll. Beroende på antal anmälda lag kommer det bli 6-7 omgångar fram till Sverigefinalen. Varje omgång spelas inom 2 veckor där det vinnande laget går vidare i tävlingen.</p>
-                <p>Ta er till Sverigefinalen och upplev en magisk helg med Matchplay! Sverigefinalen görs upp mellan de åtta bästa lagen på Allerum Golfklubb strax utanför Helsingborg. Hotell, frukost, all golf samt en bankett på kvällen ingår. De 2 bästa lagen i Sverigefinalen åker med Matchplay till Spanska solkusten för att göra upp om titeln. Flyg, hotell och allt spel ingår för de bägge lagen.
+                <p>Ta er till Sverigefinalen och upplev en magisk helg med Matchplay 3-5 september 2021! Sverigefinalen görs upp mellan de åtta bästa lagen på Allerum Golfklubb strax utanför Helsingborg. Hotell, frukost, all golf samt en bankett på kvällen ingår. De 2 bästa lagen i Sverigefinalen åker med Matchplay till Spanska solkusten för att göra upp om titeln. Flyg, hotell och allt spel ingår för de bägge lagen.
                 </p>
                 <p>
                   Priset för deltagande i tävlingen är {{price1}}:-/lag för privatpersoner och {{price2}}:-/lag (exkl. moms) för företag. Varje lag är garanterat minst 2 matcher.
@@ -921,7 +921,7 @@
             <div class="step">
               <i class="material-icons">golf_course</i>
             <h5>Sverigefinal</h5>
-            <p>2021 gör vi Sverigefinalen dubbelt så stor med åtta lag som spelas i september på Allerum Golfklubb, strax utanför Helsingborg. Hotell, frukost, all golf samt en bankett på kvällen ingår.</p>
+            <p>2021 gör vi Sverigefinalen dubbelt så stor med åtta lag som spelas den 3-5 september på Allerum Golfklubb, strax utanför Helsingborg. Hotell, frukost, all golf samt en bankett på kvällen ingår.</p>
             </div>
           </b-col>
 
@@ -1029,6 +1029,10 @@ moment.updateLocale("sv", {
 
 export default {
   created() {
+
+   //BG CHANGE       
+  var bg_change = setInterval(this.changeBg, 8000);
+
   this.toast('b-toaster-top-right');
 
   if (!globalState.compid) {
@@ -1246,7 +1250,7 @@ export default {
   methods: { 
      toast(toaster, append = false) {
     
-    if (localStorage.getItem('earlyBirdie2021') !== '1')
+    if (localStorage.getItem('earlyBirdie2021_1') !== '1')
     this.$bvToast.toast(`De första 50 anmälda och betalda lagen är med i en utlottning av 2 golfpaket inkl. greenfee, mat och övernattning till Ringenäs eller Öijared! Vinnarna meddelas per mail och i våra sociala kanaler.`, {
       title: `Early Birdie`,
       toaster: toaster,
@@ -1255,7 +1259,7 @@ export default {
       appendToast: append
     })
 
-    localStorage.setItem('earlyBirdie2021','1')
+    localStorage.setItem('earlyBirdie2021_1','1')
 
     },
     search: function () {
@@ -1896,7 +1900,8 @@ export default {
      
             var images=['https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:50,co_rgb:000000/v1608122447/matchplay/IMG_1527.jpg',
             'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1608122032/matchplay/MPI-1825.jpg',
-            'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg'
+            'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg',
+            'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:40,co_rgb:000000/v1608219772/matchplay/bg_matchplay.jpg'
             ];
 
           var elem = this.$refs["slider"];

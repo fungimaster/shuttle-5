@@ -77,7 +77,7 @@
 						<p v-if="closed">Anmälan till årets tävling är stängd!</p>
 						<p v-if="!closed">
 							Ni anmäler er enkelt via hemsidan.
-							<a href="/#register">Klicka här</a> för att komma dit direkt.
+							<router-link class="" to="/register">Klicka här</router-link> för att komma dit direkt.
 						</p>
 					</div>
 
