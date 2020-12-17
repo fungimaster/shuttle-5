@@ -1040,6 +1040,7 @@ export default {
           if (!response.data.competitionmessages.length) {
             return
           }
+          console.log(response)
           this.messages = response.data.competitionmessages
             .sort((a, b) => new Date(a.sortorder) - new Date(b.sortorder))
             .filter((message) => message.active === true )
