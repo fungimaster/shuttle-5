@@ -31,10 +31,9 @@
       </b-container>
    </b-jumbotron>
 
-
     <div class="hero">      
       <b-container class="d-flex">
-       
+ 
         <b-row>
           <b-col class="col-12 col-md-12 mt-4">            
             <h2>VÄLKOMMEN TILL MATCHPLAY 2021, GOLFTÄVLINGEN FÖR BÅDE PRIVATPERSONER OCH FÖRETAG</h2>
@@ -1048,6 +1047,15 @@ moment.updateLocale("sv", {
 
 export default {
   created() {
+       if (localStorage.getItem('earlyBirdie2021') !== '1')
+        this.$bvToast.toast(`De första 50 anmälda och betalda lagen är med i en utlottning av 2 golfpaket inkl. greenfee, mat och övernattning till Ringenäs eller Öijared! Vinnarna meddelas per mail och i våra sociala kanaler.`, {
+          title: `Early Birdie`,
+          autoHideDelay: 10000,
+          solid: true,         
+          appendToast: false
+        })
+        localStorage.setItem('earlyBirdie2021','1')
+
   if (!globalState.compid) {
     return     
     
@@ -1916,9 +1924,8 @@ export default {
   mounted() {
     //this.showModal();   
     //this.getTopListClubs();
-           console.log("mounted", localStorage.getItem('earlyBirdie2021'))
 
-    this.toast('b-toaster-top-right');
+    // this.toast('b-toaster-top-right');
   }
 };
 </script>
