@@ -8,38 +8,7 @@
       </div>
     </div>
 
-    <b-modal ref="earlyBirdie" id="earlyBirdie" title="Early Birdie?" ok-only ok-variant="secondary" ok-title="Cancel" hide-header-close>
-    <p hidden>
-      Ta chansen och vinn 2 dussin bollar från TaylorMade! De första 50 registrerade (och betalda) lagen har chansen att vinna.</p>
-    <p>
-      De första 50 anmälda och betalda lagen är med i en utlottning av 1 golfpaket inkl. greenfee, mat och övernattning till Ringenäs eller Öijared!
-    </p>
-    <p>Det vinnande laget meddelas per mail samt på våra sociala konton.
-    </p>
-    <p hidden class="text-center d-block d-md-none">      
-      <img hidden src="https://res.cloudinary.com/dn3hzwewp/image/upload/h_150/v1608120643/matchplay/tp5.jpg" />
-    </p>   
-    <p hidden class="text-center d-none d-md-block">      
-      <img hidden src="https://res.cloudinary.com/dn3hzwewp/image/upload/h_300/v1608120643/matchplay/tp5.jpg" />
-    </p>
-     <b-button hidden class="mt-3" block @click="$bvModal.hide('earlyBirdie')">Tack för infon!</b-button>
-     <b-button class="mt-3" block @click="hideModal();">Tack för infon!</b-button>
-     <template #modal-footer="{ ok, cancel, hide }">      
-      <!-- Emulate built in modal footer ok and cancel button actions -->
-      <b-button hidden size="sm" variant="success" @click="ok()">
-        OK
-      </b-button>
-      <b-button hidden size="sm" variant="danger" @click="cancel()">
-        Cancel
-      </b-button>
-      <!-- Button with custom close trigger value -->
-      <b-button hidden size="sm" variant="outline-secondary" @click="hide('forget')">
-        Forget it
-      </b-button>
-    </template>
-  </b-modal>
-
-    <b-modal ref="scorecard" v-model="modalShow" ok-only size="lg">
+     <b-modal ref="scorecard" v-model="modalShow" ok-only size="lg">
       <router-view> </router-view>
     </b-modal>
    
@@ -133,8 +102,7 @@
                 <h4>LAGEN TILL FINALEN I SPANIEN ÄR KLARA</h4>Efter 358 spelade matcher på nästan 100 golfklubbar runtom i Sverige har vi nu korat vinnarna till Spanienfinalen!<br>Grattis till Joel Carnor/Emma Wedin samt Kim Christiansson/Martin Nileskär! Se mer info längre ner om vinnarna och finalresan.
                 <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
              </b-alert>
-            
-
+           
              <div hidden v-if="!closed" class="mt-4">
             <h3 class="mb-3 text-center">Anmälan stänger om</h3>
             <appCountdown deadline="2021-04-30 23:59:00"></appCountdown>
@@ -165,8 +133,17 @@
             <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/e_colorize,co_rgb:fff/v1573118127/matchplay/matchplay-new-logo-2020.png" alt=""></b-img>
           </b-col>
          
+         <b-col class="col-12 mt-5">
+            
+              <p>                
+                <i class="pb-1 mr-1 material-icons" animation="cylon">verified</i>
+             De första 50 anmälda och betalda lagen är med i en utlottning av 1 golfpaket inkl. greenfee, mat och övernattning till Ringenäs eller Öijared!
+             </p>
+            
+          </b-col>
 
         </b-row>
+       
        
 
    
@@ -203,7 +180,7 @@
      <h3 class="teaser-header orange mb-3">Dubbelt så stor Sverigefinal</h3>
                <b-row>
                  <b-col class="col-12 col-md-8">
-              <p>Dubbelt så stor FINALHELG! Åtta lag går till Sverigefinalen som spelas i september på Allerum Golfklubb, strax utanför Helsingborg. Hotell inklusive frukost, inspel, semifinal och förhoppningsvis final. Bankett på lördagkvällen ingår också.</p>
+              <p>Åtta lag går till Sverigefinalen som spelas 3-5 september på Allerum Golfklubb, strax utanför Helsingborg. Hotell inklusive frukost, inspel, semifinal och för de fyra vinnande lagen blir det final på söndagen. Bankett på lördagkvällen för de 8 deltagande lagen. De två lagen som vinner respektive match på söndagen blir bjudna på den stora finalen på Los Naranjos i Spanien.</p>
                  </b-col>
                  <b-col class="col-12 col-md-4 text-center mt-3 mt-md-0">
                    <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/h_200/v1599032379/matchplay/logo.png" />
@@ -1939,9 +1916,11 @@ export default {
   },
   mounted() {
       //modal early birdie
+      /*
       setTimeout(() => {       
                           this.showModal()                        
                         }, 2000);
+                        */
      
   },
   created() {
@@ -2189,7 +2168,7 @@ img {
   }
 
 
-transition: all 1s ease-in-out;
+transition: all 1s linear;
 
 }
 
