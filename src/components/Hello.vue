@@ -1,17 +1,6 @@
-<template>
+<template>  
+    <div>       
 
-  <div>
-        <b-alert
-      show
-      class="position-fixed fixed-bottom m-0 rounded-0"
-      style="z-index: 2000;"
-      variant="secondary"
-      dismissible
-    >
-          <h4 class="alert-heading">Well done!</h4>
-
-      Fixed position (bottom) alert!
-    </b-alert>
     <vue-headful :title="doctitle" />
     <div class="hidden theme text-center">
       <div class="container">
@@ -19,31 +8,42 @@
       </div>
     </div>
 
+    <b-modal ref="earlyBirdie" id="earlyBirdie" title="Early Birdie?" ok-only ok-variant="secondary" ok-title="Cancel" hide-header-close>
+    <p hidden>
+      Ta chansen och vinn 2 dussin bollar från TaylorMade! De första 50 registrerade (och betalda) lagen har chansen att vinna.</p>
+    <p>
+      De första 50 anmälda och betalda lagen är med i en utlottning av 1 golfpaket inkl. greenfee, mat och övernattning till Ringenäs eller Öijared!
+    </p>
+    <p>Det vinnande laget meddelas per mail samt på våra sociala konton.
+    </p>
+    <p hidden class="text-center d-block d-md-none">      
+      <img hidden src="https://res.cloudinary.com/dn3hzwewp/image/upload/h_150/v1608120643/matchplay/tp5.jpg" />
+    </p>   
+    <p hidden class="text-center d-none d-md-block">      
+      <img hidden src="https://res.cloudinary.com/dn3hzwewp/image/upload/h_300/v1608120643/matchplay/tp5.jpg" />
+    </p>
+     <b-button hidden class="mt-3" block @click="$bvModal.hide('earlyBirdie')">Tack för infon!</b-button>
+     <b-button class="mt-3" block @click="hideModal();">Tack för infon!</b-button>
+     <template #modal-footer="{ ok, cancel, hide }">      
+      <!-- Emulate built in modal footer ok and cancel button actions -->
+      <b-button hidden size="sm" variant="success" @click="ok()">
+        OK
+      </b-button>
+      <b-button hidden size="sm" variant="danger" @click="cancel()">
+        Cancel
+      </b-button>
+      <!-- Button with custom close trigger value -->
+      <b-button hidden size="sm" variant="outline-secondary" @click="hide('forget')">
+        Forget it
+      </b-button>
+    </template>
+  </b-modal>
+
     <b-modal ref="scorecard" v-model="modalShow" ok-only size="lg">
       <router-view> </router-view>
     </b-modal>
    
-   <b-jumbotron hidden container-fluid class="white">  
-      <b-container>
-  <b-carousel
-    id="carousel-fade"
-    style="text-shadow: 0px 0px 2px #000"
-    fade    
-  >
-    <b-carousel-slide     
-      img-src="https://picsum.photos/1024/480/?image=10"
-    ></b-carousel-slide>
-    <b-carousel-slide     
-      img-src="https://picsum.photos/1024/480/?image=12"
-    ></b-carousel-slide>
-    <b-carousel-slide    
-      img-src="https://picsum.photos/1024/480/?image=22"
-    ></b-carousel-slide>
-  </b-carousel>
-      </b-container>
-   </b-jumbotron>
-
-    <div class="hero">      
+    <div class="hero" ref="slider">      
       <b-container class="d-flex">
  
         <b-row>
@@ -1059,14 +1059,8 @@ moment.updateLocale("sv", {
 
 export default {
   created() {
-       if (localStorage.getItem('earlyBirdie2021') !== '1')
-        this.$bvToast.toast(`De första 50 anmälda och betalda lagen är med i en utlottning av 2 golfpaket inkl. greenfee, mat och övernattning till Ringenäs eller Öijared! Vinnarna meddelas per mail och i våra sociala kanaler.`, {
-          title: `Early Birdie`,
-          autoHideDelay: 10000,
-          solid: true,         
-          appendToast: false
-        })
-        localStorage.setItem('earlyBirdie2021','1')
+
+
 
   if (!globalState.compid) {
     return     
@@ -1280,24 +1274,18 @@ export default {
   },
   mixins: [tagsMixin],
   
-  methods: {
-     toast(toaster, append = false) {
-       console.log("kallas", localStorage.getItem('earlyBirdie2021'))
-
-       if (localStorage.getItem('earlyBirdie2021') !== '1')
-        this.$bvToast.toast(`De första 50 anmälda och betalda lagen är med i en utlottning av 2 golfpaket inkl. greenfee, mat och övernattning till Ringenäs eller Öijared! Vinnarna meddelas per mail och i våra sociala kanaler.`, {
-          title: `Early Birdie`,
-          toaster: toaster,
-          autoHideDelay: 10000,
-          solid: true,         
-          appendToast: append
-        })
-
-         console.log("innan den sätts", localStorage.getItem('earlyBirdie2021'))
-
-        localStorage.setItem('earlyBirdie2021','1')
-
-        },
+  methods: { 
+    showModal() {
+      //console.log('inne')
+      if (localStorage.getItem('earlyBirdie2021') !== '1') 
+      this.$refs['earlyBirdie'].show();
+      localStorage.setItem('earlyBirdie2021', '1');
+    },
+    hideModal() {
+        var element = document.getElementById('earlyBirdie___BV_modal_outer_');
+        element.parentNode.removeChild(element);
+        document.body.className = document.body.className.replace("modal-open","");
+    },
     search: function () {
       let searchvalue = document
         .getElementById("searchfield")
@@ -1932,12 +1920,41 @@ export default {
       var top = element.offsetTop;
       window.scrollTo(0, top);
     },
+    changeBg() {
+     
+            var images=['https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:50,co_rgb:000000/v1608122447/matchplay/IMG_1527.jpg',
+            'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1608122032/matchplay/MPI-1825.jpg',
+            'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg'
+            ];
+
+          var elem = this.$refs["slider"];
+
+            var randomNumber = Math.floor(Math.random() * images.length);
+            var bgImg = 'url(' + images[randomNumber] + ')';
+           
+            elem.style.backgroundImage = bgImg;
+
+    },
+    
   },
   mounted() {
+      //modal early birdie
+      setTimeout(() => {       
+                          this.showModal()                        
+                        }, 2000);
+     
+  },
+  created() {
     //this.showModal();   
     //this.getTopListClubs();
+    //this.toast('b-toaster-top-right');
 
-    // this.toast('b-toaster-top-right');
+    //BG CHANGE       
+     var bg_change = setInterval(this.changeBg, 8000);
+
+     
+   
+
   }
 };
 </script>
@@ -2123,7 +2140,68 @@ img {
   margin-top: 0 !important;
 }
 
+.bg1, .bg2 {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: right 0px top 50%;
+  height:200px;
+  width:100%;
+}
+
+.bg1 {
+  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg);
+}
+
+.bg2 {
+  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1608122032/matchplay/MPI-1825.jpg);
+}
+
 .hero {
+  //background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg);
+  //background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1608122032/matchplay/MPI-1825.jpg);
+  //background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1608122246/matchplay/22092018-MGZ_1827.jpg);
+  //background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:50,co_rgb:000000/v1608122447/matchplay/IMG_1527.jpg);
+  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:50,co_rgb:000000/v1608122570/matchplay/IMG_1232.jpg);
+  background-repeat: no-repeat;
+  /*background-position: bottom 30% right 0;*/
+  background-size: cover;
+  color: #fff;
+  padding: 180px 0 180px 0;
+  background-position: right 0px top 50%;
+  @media (min-width: 320px) {
+    padding: 2rem 0 5rem 0;
+    /*background-position: bottom 10% right 0;*/
+  }
+  @media (min-width: 480px) {
+    padding: 6rem 0 6rem 0;
+    /*background-position: bottom 0% right 0;*/
+  }
+  @media (min-width: 768px) {
+    /*background-position: bottom 32% right 0;*/
+  }
+
+  @media (min-width: 992px) {
+    /*background-position: bottom 51% right 0;*/
+  }
+
+  @media (min-width: 1200px) {
+    /*background-position: bottom 55% right 0;*/
+  }
+
+
+transition: all 1s ease-in-out;
+
+}
+
+@keyframes sliding0 {
+  0% { left: 0; }
+  30% { left: 0; }
+  100% { left: -33vw; }
+}
+
+
+
+.hero2 {
   //background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg);
   //background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1608122032/matchplay/MPI-1825.jpg);
   //background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1608122246/matchplay/22092018-MGZ_1827.jpg);
