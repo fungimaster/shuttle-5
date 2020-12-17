@@ -1,5 +1,17 @@
 <template>
+
   <div>
+        <b-alert
+      show
+      class="position-fixed fixed-bottom m-0 rounded-0"
+      style="z-index: 2000;"
+      variant="secondary"
+      dismissible
+    >
+          <h4 class="alert-heading">Well done!</h4>
+
+      Fixed position (bottom) alert!
+    </b-alert>
     <vue-headful :title="doctitle" />
     <div class="hidden theme text-center">
       <div class="container">
