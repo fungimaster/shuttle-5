@@ -204,7 +204,7 @@ import CustomSlider from "vue-custom-range-slider";
             var sum = basevalue;
             
             if (this.inspel == 1) {
-                sum = sum * 1.2; //20% spelar inspel
+                //sum = sum * 1.2; //20% spelar inspel
                 this.inspel_count = sum;
             }
 
@@ -229,7 +229,8 @@ import CustomSlider from "vue-custom-range-slider";
             }
 
 
-            return sum + inspel_value + lunch_value + range_value + golfbil_value + shop_value + kiosk_value;
+            //return sum + inspel_value + lunch_value + range_value + golfbil_value + shop_value + kiosk_value;
+            return sum;
         }
     },
     methods: {     
