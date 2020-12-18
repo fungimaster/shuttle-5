@@ -8,6 +8,33 @@
       </div>
     </div>
 
+    <b-modal ref="earlyBirdie" id="earlyBirdie" title="Early Birdie?" size="md" ok-only ok-variant="secondary" ok-title="Cancel">
+    <p>
+      Bland de första 50 registrerade och betalda lagen lottar vi ut en golfweekend till Lydinge Resort (Skåne) med 3-rätters middag, övernattning och greenfee för 2 personer.</p><p>Det vinnande laget meddelas per mail samt på våra sociala konton.
+    </p>
+    <p class="text-center d-block d-md-none">      
+      <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/h_200/v1608315326/matchplay/Early_Birdie_2021_mobil.jpg" />
+    </p>   
+    <p class="text-center d-none d-md-block">      
+      <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/h_300/v1608315326/matchplay/Early_Birdie_2021_mobil.jpg" />
+    </p>
+     <b-button class="mt-3" block @click="$bvModal.hide('earlyBirdie')">Tack för infon!</b-button>
+     <template #modal-footer="{ ok, cancel, hide }">      
+      <!-- Emulate built in modal footer ok and cancel button actions -->
+      <b-button hidden size="sm" variant="success" @click="ok()">
+        OK
+      </b-button>
+      <b-button hidden size="sm" variant="danger" @click="cancel()">
+        Tack för infon!
+      </b-button>
+      <!-- Button with custom close trigger value -->
+      <b-button hidden size="sm" variant="outline-secondary" @click="hide('forget')">
+        Forget it
+      </b-button>
+    </template>
+  </b-modal>
+
+
      <b-modal ref="scorecard" v-model="modalShow" ok-only size="lg">
       <router-view> </router-view>
     </b-modal>
@@ -1027,6 +1054,11 @@ moment.updateLocale("sv", {
 export default {
   created() {
 
+    setTimeout(() => {
+    this.showModal();                        
+  }, 2000);
+
+
    //BG CHANGE 
    var bg_change = setInterval(this.changeBg, 10000);
 
@@ -1245,6 +1277,11 @@ export default {
   mixins: [tagsMixin],
   
   methods: { 
+    showModal() {
+      if (localStorage.getItem('earlyBirdie2021') !== '2')
+      this.$refs['earlyBirdie'].show();
+      localStorage.setItem('earlyBirdie2021', '2');
+    },
      toast(toaster, append = false) {
     
     if (localStorage.getItem('earlyBirdie2021_1') !== '1')
