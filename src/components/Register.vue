@@ -26,11 +26,8 @@
             <b-alert v-if="isAuthenticated" show class="mt-4 small" variant="warning">
               <p>
                 Du är redan inloggad och behöver inte skapa ett nytt konto,
-                <a
-                  v-if="isAuthenticated"
-                  href="/mymatchplay"
-                  class
-                >Klicka här</a> för att hantera ditt lag eller skapa ett nytt.
+               <router-link v-if="isAuthenticated" to="/mymatchplay">                
+                Klicka här</router-link> för att hantera ditt lag eller skapa ett nytt.
               </p>
             </b-alert>
           </b-col>
@@ -160,7 +157,7 @@
                 <strong>{{price1}} kr</strong> för privatpersoner och
                 <strong>{{price2}} kr</strong> (exkl. moms) för företag.
               </b-alert>
-
+<hr class="mt-5" />
               <testimonials number="1"></testimonials>
             </div>
 
