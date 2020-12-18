@@ -116,7 +116,7 @@
           <h3>Tips på att få fler lag från er golfklubb</h3>
           <p>Det finns flera sätt som ni kan nyttja för att få fler spelare från er klubb att välja att vara med i tävlingen, nedan listar vi några av de vanligaste:</p>
           <ul>
-            <li><a href="https://res.cloudinary.com/dn3hzwewp/image/upload/v1608136502/matchplay/Matchplay_2021_flyer.pdf" target="_blank">Skriv ut vår pdf</a> med information om tävlingen att sätta i receptionen</li>
+            <li><a href="https://res.cloudinary.com/dn3hzwewp/image/upload/v1608284620/matchplay/Matchplay_2021_flyer_new.pdf" target="_blank">Skriv ut vår pdf</a> med information om tävlingen att sätta i receptionen</li>
             <li>Lägg ut en länk till tävlingen på er hemsida</li>
             <li>Dela anmälningsstart i era sociala kanaler</li>
           </ul>
