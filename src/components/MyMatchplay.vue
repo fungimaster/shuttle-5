@@ -8,6 +8,7 @@
                  <b-spinner big type="grow" class="m-3" style="width: 5rem; height: 5rem;"></b-spinner>
                  <p class="text-center mb-3"><i class="far fa-robot fa-4x"></i></p>
                  <p>Hämtar lag och matcher...</p>
+                 <p hidden class="small">Testa att <a href="/mymatchplay">ladda om sidan</a> om denna sidan fastnar längre än 10 sekunder</p>
                   </b-col>
         </b-row>
         </b-container>
@@ -187,9 +188,8 @@
 
                                    
         </b-container>        
-      
-      <b-button class="mt-3" variant="outline-danger" block @click="hideModal">Stäng</b-button>      
-    </b-modal>
+      <b-button class="mt-3" variant="outline-danger" block @click="hideModal">Stäng</b-button>
+</b-modal>
 
 
 <b-container class="mt-3 mt-md-5" v-if="team.step === 0">        
@@ -486,7 +486,7 @@
                             <b-col md="6">
                                 <b-form-group class="mb-5">
                                     <label for="name">Företagsnamn</label>
-                                    <b-form-input id="companyname" v-model="team.company" required placeholder="Skriv in företagsnamnet" :state="validation_companyname" required>
+                                    <b-form-input id="companyname" v-model="team.company" required placeholder="Skriv in företagsnamnet" :state="validation_companyname">
                                     </b-form-input>
                                 </b-form-group>
                                 <b-form-group class="mb-5">
@@ -779,7 +779,7 @@
                     </b-container>                    
                 </div>
             </b-form>
-             </b-tab>
+            </b-tab>
              <b-tab title-link-class="ml-2" @click="saveTabIndex(1)">
       <template v-slot:title>
        <i class="far fa-golf-club mr-2"></i>Matcher ({{gamescount}})
@@ -2085,6 +2085,7 @@ export default {
                 });
         },
         getPlayerData(id) { 
+            
             if (!id) {
                 id = this.userinfo._id;
             }
@@ -2109,9 +2110,9 @@ export default {
                         this.teamscount = 0;
                     }
                     
-
                     localStorage.setItem('userinfo', JSON.stringify(userinfo));
-                    this.$store.dispatch('setUser', userinfo)
+                    this.$store.dispatch('setUser', userinfo);
+                    this.setuserinfoform();
                     return;
                 })
                 .catch(error => {
@@ -2759,12 +2760,11 @@ export default {
             this.$store.dispatch('deleteAuthData')
 
         },
-        setuserinfoform: function () {
-
+        setuserinfoform: function () {          
             let userinfo = localStorage.getItem('userinfo');
             if (userinfo) {
                 try {
-                    //SET KEYS in form        
+                    //SET KEYS in form                   
                     userinfo = JSON.parse(userinfo);
                    
                     this.userinfo = userinfo;
@@ -2819,6 +2819,10 @@ export default {
                     //something went wrong, maybe the token is too old or not valid
                 }
             } else {
+                                
+               
+                //this.loading = false;
+
                 this.showlogin = true;
             }
 
@@ -2855,6 +2859,7 @@ export default {
         //window.scrollTo(0, 0);
     },
     created() {
+
        this.$store.dispatch("tryAutoLogin").then(() => {
             if (this.isAuthenticated) {
                 var sim_id;
@@ -2863,8 +2868,12 @@ export default {
                     sim_id = this.$route.query.sim_id;   
                 }      
                 this.getPlayerData(sim_id)
-                this.tabIndex = Number(localStorage.getItem('active_tab'));
-                this.setuserinfoform();
+                this.tabIndex = Number(localStorage.getItem('active_tab'));                
+                /*
+                setTimeout(() => {
+                                
+                            }, 2000);*/
+                
 
             } else {
                 this.showlogin = true;

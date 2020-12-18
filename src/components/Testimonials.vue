@@ -1,23 +1,23 @@
 <template>
-  <b-container>
-    <b-row class="">
+  <b-container class="justify-content-center">
+    <b-row class="" align-h="center">
       <b-col
         class="col-12 mt-5"
-        v-bind:class="{ 'col-md-6': number>1 }"
+        v-bind:class="{ 'col-md-10': number>1 }"
         v-for="(item, index) in testLimited"
         :key="item.message"
       >
         <div class="testimonial justify-content-center">
           <b-row align-h="center">
-            <b-col class="col-8 col-md-4 pt-0 mb-3 mb-md-0">
+            <b-col class="col-8 col-md-3 pt-0 mb-3 mb-md-0 text-center">
               <img :src="item.image" />
             </b-col>
-            <b-col class="col-12 col-md-8 pl-4 pr-4">
+            <b-col class="col-12 col-md-9 pl-4 pr-4">
               <p>"{{item.message}}"</p>
               - {{item.author}}
             </b-col>
           </b-row>
-          <hr class="d-block d-md-none" v-if="index<number-1 && number>1" />
+          <hr class="d-block d-md-none mt-5" v-if="index<number-1 && number>1" />
         </div>
       </b-col>
     </b-row>
@@ -45,7 +45,7 @@ export default {
        },
        {
          message: 'En tävling som verkligen är värd att deltaga i. Du kommer ut till nya banor och träffar nya människor. Gillar konceptet med bästboll, det är en riktigt rolig spelform, man får en bra lagkänsla! Det digitala scorekortet är ett stort plus, enkelt att använda, resultat direkt och andra kan följa matchen live. Vi spelar gärna i tävlingen igen!',
-         author: 'Evelina Losell',
+         author: 'Evelina Losell / Ljungbyhed GK',
          image: 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_200,c_fill,ar_1:1,g_auto,r_max/v1608219732/matchplay/ambassador/losell.png'
        }
     
@@ -78,14 +78,14 @@ export default {
 }
 
 .testimonial img {
-  width: 100%;
+  height: 80%;
 }
 
 .testimonial hr {
   border-top: 10px dotted rgba(0, 0, 0, 0.1);
-  width: 10%;
-  padding-top: 0em;
+  width: 15%;
+  /*padding-top: 0em;
   padding-bottom: 0em;
-  margin-top: 1.7em;
+  margin-top: 1.7em;*/
 }
 </style>

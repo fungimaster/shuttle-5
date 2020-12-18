@@ -13,7 +13,7 @@
     </b-modal>
    
     <div class="hero" ref="slider">      
-      <b-container class="d-flex">
+      <b-container class="d-flex pl-4 pr-4">
  
         <b-row>
           <b-col class="col-12 col-md-12 mt-4">            
@@ -27,8 +27,8 @@
              <p hidden v-if="closed">I helgen (30-31 maj) lottas första omgången. Den 1 juni startar tävlingen!</p>
             
              <div class="buttons text-left">
-                <router-link class="btn blue-bg btn-md text-white mt-2 mr-2" to="/register">Anmälan</router-link>
-              <a hidden v-if="!closed" href="/register" class="btn blue-bg btn-md text-white mt-2 mr-2">Anmälan</a>
+                <router-link v-if="!closed && !isAuthenticated" class="btn blue-bg btn-md text-white mt-2 mr-2" to="/register">Anmälan</router-link>
+              <a hidden v-if="!isAuthenticated" href="/register" class="btn blue-bg btn-md text-white mt-2 mr-2">Anmälan</a>
               <a v-if="!isAuthenticated" href="#more" class="btn blue-bg btn-md text-white mt-2 mr-2">Vill du veta mer?</a>
               <router-link v-if="isAuthenticated" class="btn blue-bg btn-md text-white mt-2 mr-2" to="/mymatchplay">Lag- och matchhantering</router-link>
               <a hidden v-if="isAuthenticated" href="/mymatchplay" class="btn blue-bg btn-md text-white mt-2">Lag- och matchhantering</a>
@@ -159,11 +159,11 @@
 
             <div v-if="isAuthenticated && user">
             <h3 class="teaser-header orange mb-3">Hej {{user.firstname}}!</h3>
-            <p v-if="user.teams">Du har redan skapat ett lag och kan hantera det <a href="/mymatchplay">här</a>. Lycka till i tävlingen!</p>
+            <p v-if="user.teams">Du har redan skapat ett lag och kan hantera det  <router-link to="/mymatchplay">här</router-link>. Lycka till i tävlingen!</p>
             <p v-if="!user.teams">Du har ännu inget lag i Sveriges roligaste golftävling, skapa ett på knappen nedan.</p>
             <p>Anmälningskostnad per lag är <strong>{{price1}} kr</strong> för privatpersoner och <strong>{{price2}} kr</strong> (exkl. moms) för företag.</p>
             <a hidden href="/mymatchplay" class="btn blue-bg btn-md text-white mt-2 mb-3 mr-2">Skapa ett lag</a>            
-             <router-link class="btn blue-bg btn-md text-white mt-2 mr-2" to="/mymatchplay">Skapa ett lag</router-link>
+             <router-link v-if="!user.teams" class="btn blue-bg btn-md text-white mt-2 mr-2" to="/mymatchplay">Skapa ett lag</router-link>
             </div>
       </b-container>
 </b-jumbotron>
@@ -206,19 +206,16 @@
         </b-row>       
         <b-row>    
             
-          <b-col id="register" ref="register">
+          <b-col>
             
-<hr hidden class="mt-3 mt-md-5" />
-
-
-
+<hr class="mb-5" />
             
             <b-row class="mb-3 mt-1">
 
               <b-col md="12" class="teaser-content">
                  
                 <div class="form-group">
-              
+           
 
                   <b-row class="mt-0 mb-4">
                                       
@@ -1030,8 +1027,8 @@ moment.updateLocale("sv", {
 export default {
   created() {
 
-   //BG CHANGE       
-  var bg_change = setInterval(this.changeBg, 8000);
+   //BG CHANGE 
+   var bg_change = setInterval(this.changeBg, 2000);
 
   //this.toast('b-toaster-top-right');
 
@@ -1904,12 +1901,13 @@ export default {
             'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:40,co_rgb:000000/v1608219772/matchplay/bg_matchplay.jpg'
             ];
 
-          var elem = this.$refs["slider"];
-
+            var elem = this.$refs["slider"];
+            if (elem) {
             var randomNumber = Math.floor(Math.random() * images.length);
             var bgImg = 'url(' + images[randomNumber] + ')';
-           
+            //elem.style.opacity = 100;
             elem.style.backgroundImage = bgImg;
+            }
 
     },
     
@@ -2126,14 +2124,14 @@ img {
   background-size: cover;
   color: #fff;
   padding: 180px 0 180px 0;
-  background-position: right 0px top 50%;
+  background-position: center center;
   @media (min-width: 320px) {
     padding: 2rem 0 5rem 0;
     /*background-position: bottom 10% right 0;*/
   }
   @media (min-width: 480px) {
     padding: 6rem 0 6rem 0;
-    /*background-position: bottom 0% right 0;*/
+    /*background-position: bottom 0% left 0;*/
   }
   @media (min-width: 768px) {
     /*background-position: bottom 32% right 0;*/
@@ -2146,17 +2144,16 @@ img {
   @media (min-width: 1200px) {
     /*background-position: bottom 55% right 0;*/
   }
-
-
-transition: all 1s linear;
+  
+  -webkit-transition: all 1.5s ease-in-out;
+  -moz-transition: all 1.5s ease-in-out;
+  -ms-transition: all 1.5s ease-in-out;
+  -o-transition: all 1.5s ease-in-out;
+  transition: all 1.5s ease-in-out;
 
 }
 
-@keyframes sliding0 {
-  0% { left: 0; }
-  30% { left: 0; }
-  100% { left: -33vw; }
-}
+
 
 
 
