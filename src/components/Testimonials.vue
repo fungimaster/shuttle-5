@@ -9,10 +9,10 @@
       >
         <div class="testimonial justify-content-center">
           <b-row align-h="center">
-            <b-col class="col-8 col-md-3 pt-0 mb-3 mb-md-0 text-center">
+            <b-col class="col-8 col-sm-8 col-md-3 pt-0 mb-3 mb-md-0 text-center">
               <img :src="item.image" />
             </b-col>
-            <b-col class="col-12 col-md-9 pl-4 pr-4">
+            <b-col class="col-12 col-sm-12 col-md-9 pl-4 pr-4">
               <p>"{{item.message}}"</p>
               - {{item.author}}
             </b-col>
@@ -79,6 +79,7 @@ export default {
 
 .testimonial img {
   height: 80%;
+  width:auto;
 }
 
 .testimonial hr {
