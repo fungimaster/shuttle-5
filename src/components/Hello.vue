@@ -1278,9 +1278,9 @@ export default {
   
   methods: { 
     showModal() {
-      if (localStorage.getItem('earlyBirdie2021') !== '2')
+      //if (localStorage.getItem('earlyBirdie2021') !== '2')
       this.$refs['earlyBirdie'].show();
-      localStorage.setItem('earlyBirdie2021', '2');
+      //localStorage.setItem('earlyBirdie2021', '2');
     },
      toast(toaster, append = false) {
     
