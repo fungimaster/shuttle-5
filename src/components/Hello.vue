@@ -1054,6 +1054,8 @@ moment.updateLocale("sv", {
 export default {
   created() {
 
+    //this.getTopListClubs();
+
     setTimeout(() => {
     this.showModal();                        
   }, 2000);
@@ -1685,7 +1687,7 @@ export default {
       this.axios
         .post("https://matchplay.meteorapp.com/methods/" + "getTopClubs", {
           //getclubstoplist
-          competition: "sFAc3dvrn2P9pXHAz",
+          competition: globalState.compid,
           no: 40,
         })
         .then((response) => {
