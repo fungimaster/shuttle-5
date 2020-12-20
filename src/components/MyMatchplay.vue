@@ -206,7 +206,7 @@
 </b-container>              
             <b-container v-if="showteamslist && team.step === 0" class="">
                 <b-row align-h="center">
-                    <b-col sm="6" lg="6" class="team pl-2 pr-2 pb-2" v-for="(team,idx) in teams" :key="idx">
+                    <b-col sm="10" lg="6" class="team pl-2 pr-2 pb-2" v-for="(team,idx) in teams" :key="idx">
                         <b-button :id="'delete-team-' + idx" v-if="team.teamleader && !team.paid" @click="removeTeam(team)" variant="" class="btn-sm delete-team"><i class="material-icons">delete</i></b-button>
                         <b-tooltip :target="'delete-team-' + idx" triggers="hover" placement="top">
                             Radera det här laget
