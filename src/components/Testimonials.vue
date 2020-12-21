@@ -24,13 +24,17 @@
 </template>
 
 <script>
-import { globalState } from "../main.js";
 
 export default {
   props: ["number"],
   data() {
     return {
       testimonials: [
+         {
+         message: 'En tävling som verkligen är värd att deltaga i. Du kommer ut till nya banor och träffar nya människor. Gillar konceptet med bästboll, det är en riktigt rolig spelform, man får en bra lagkänsla! Det digitala scorekortet är ett stort plus, enkelt att använda, resultat direkt och andra kan följa matchen live. Vi spelar gärna i tävlingen igen!',
+         author: 'Evelina Losell / Ljungbyhed GK',
+         image: 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_200,c_fill,ar_1:1,g_auto,r_max/v1608219732/matchplay/ambassador/losell.png'
+       },
       { message: 'Som ny inom golfen så var det kul att addera tävlingsmomentet och få känna hur proffsen har det när de puttar för miljonerna. Utöver det så är det ett ypperligt tillfälle att skapa sig nya bekantskaper och prova på nya banor.',
        image: 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_200,c_fill,ar_1:1,g_auto,r_max/v1607593347/matchplay/ambassador/545144_1080.png',
        author: 'Rasmus Franke / Lydinge GK'},
@@ -41,11 +45,11 @@ export default {
          message: 'Formatet i Matchplay är ett vinnande koncept. Det är få tävlingsformer som är så roliga som bästboll match, där man får spela ihop med en polare och träffa trevliga motståndare! Att komma iväg och spela andra banor än sin egen är också en riktig höjdare och adderar ännu en nivå till matchspelet.',
          image: 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_200,c_fill,ar_1:1,g_auto,r_max/v1608111888/matchplay/ambassador/IMG_1696.png',
          author: 'Carl Fredrik Klintner / Båstad GK'
-       },
+       },      
        {
-         message: 'En tävling som verkligen är värd att deltaga i. Du kommer ut till nya banor och träffar nya människor. Gillar konceptet med bästboll, det är en riktigt rolig spelform, man får en bra lagkänsla! Det digitala scorekortet är ett stort plus, enkelt att använda, resultat direkt och andra kan följa matchen live. Vi spelar gärna i tävlingen igen!',
-         author: 'Evelina Losell / Ljungbyhed GK',
-         image: 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_200,c_fill,ar_1:1,g_auto,r_max/v1608219732/matchplay/ambassador/losell.png'
+         message: 'Golf är en så pass individuell sport på många sätt, så det är himla kul att få möjlighet att spela med en kompis! Jag kan verkligen rekommendera Matchplay som tävling för alla.',
+         author: 'Philip Widmark / Båstad GK',
+         image: 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_200,c_fill,ar_1:1,g_auto,r_max/v1608533894/matchplay/ambassador/philip.jpg'
        }
     
     ]
