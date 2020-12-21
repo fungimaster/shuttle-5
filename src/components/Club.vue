@@ -15,9 +15,9 @@
       <b-row>
         <b-col class="col-12 col-md-6">
           <span class="d-block">Antal lag ({{teams}})</span>
-          <custom-slider min="1" max="100" v-model="teams" hideLabel="true" />
+          <custom-slider min="1" max="100" v-model="teams" hideLabel />
           <span class="d-block">Genomsnittlig greenfee maj-sep ({{price}})</span>
-          <custom-slider min="300" max="1200" v-model="price" step="50" hideLabel="true" />
+          <custom-slider min="300" max="1200" v-model="price" step="50" hideLabel />
           <h5 hidden class>LAG: {{teams}}</h5>
           <h5 hidden class>GREENFEE SNITT: {{price}}</h5>
           <h5 class>GÄSTER: {{players}}</h5>
@@ -58,6 +58,11 @@
             class="mt-3 small"
           >Om ni får {{teams}} lag att välja er klubb som hemmaklubb i Matchplay 2021 beräknar vi att ni kommer få {{players}} nya gäster som besöker er anläggning. Vi beräknar att ca {{games}} matcher kommer spelas på er anläggning och att er snittgreenfee i perioden maj-september är {{price}} kr. Med {{teams}} lag tjänar ni ungefär {{calcprofit}}:- på greenfee samt erhåller {{calckickback}}:- om ni delar våra budskap om tävlingen i era sociala medier.</b-alert>
         </b-col>
+  <b-col hidden class="col-12 mt-3 mb-3">
+     <hr class="mb-5" />
+      <h3 class="mb-4">Topplista anmälda lag per klubb</h3>
+        <podium></podium>
+  </b-col>
 
         <b-col hidden class="col-12 col-md-5 mt-5 mb-3">
           <div hidden class="extra">
@@ -118,7 +123,7 @@
           <ul>
             <li><a href="https://res.cloudinary.com/dn3hzwewp/image/upload/v1608284620/matchplay/Matchplay_2021_flyer_new.pdf" target="_blank">Skriv ut vår pdf</a> med information om tävlingen att sätta i receptionen</li>
             <li>Lägg ut en länk till tävlingen på er hemsida</li>
-            <li>Dela anmälningsstart i era sociala kanaler</li>
+            <li>Dela matchplay.se i era sociala kanaler</li>
           </ul>
         </b-col>
 
@@ -147,23 +152,24 @@
 <script>
 
 import CustomSlider from "vue-custom-range-slider";
-  // import the styling, css or scss
-  import "vue-custom-range-slider/dist/vue-custom-range-slider.css";
+import "vue-custom-range-slider/dist/vue-custom-range-slider.css";
+import Podium from "./Podium";
+
   export default {
     name: 'club',
    components: {
-     CustomSlider
+     CustomSlider,Podium
   },
     data () {
       return {
           text:'',
           players:20,
-          teams: 10,
+          teams: '10',
           inspel_count: 0,
           lunch_count: 0,
           games:0,
           tickets: 1,
-          price: 500,
+          price: '500',
           calc:0,
           calckickback:0,
           inspel:1,
@@ -179,7 +185,7 @@ import CustomSlider from "vue-custom-range-slider";
       mounted: function () {
         //console.log("ROUTE", this.$route.query.resetpw)
 
-        this.$store.dispatch('updateUserInfo');
+        //this.$store.dispatch('updateUserInfo');
   },
     computed: {
         calcprofit() {

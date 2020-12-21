@@ -38,7 +38,7 @@
      <b-modal ref="scorecard" v-model="modalShow" ok-only size="lg">
       <router-view> </router-view>
     </b-modal>
-   
+       
     <div class="hero" ref="slider">      
       <b-container class="d-flex pl-4 pr-4">
  
@@ -213,29 +213,31 @@
    <b-container>    
                <b-row>
                  <b-col class="col-12">
-               <testimonials number=4></testimonials>
+               <testimonials number=5></testimonials>
                  </b-col>
                </b-row>
    </b-container>
   </b-jumbotron>
 
-  
+  <b-jumbotron hidden container-fluid >
+   <b-container>    
+               <b-row>
+                 <b-col class="col-12">
+                    <h3 class="teaser-header orange mb-4">Anmälda lag per klubb</h3>
+               <podium></podium>
+                 </b-col>
+               </b-row>
+   </b-container>
+  </b-jumbotron>
 
 
     <div class="teaser-container">
-      <b-container> 
-         <b-row hidden>
-          <b-col class="col-12 mt-4 mb-4">
-
-             <app-rounds-grafic style="height: 220px" opacity="0.85"></app-rounds-grafic>
-                 
-          </b-col>
-        </b-row>       
+      <b-container>         
         <b-row>    
             
           <b-col>
             
-<hr class="mb-5" />
+<hr hidden class="mb-5" />
             
             <b-row class="mb-3 mt-1">
 
@@ -1024,6 +1026,7 @@ import { VueTelInput } from "vue-tel-input";
 import FlipCountdown from "./FlipCountdown";
 import AppRoundsGrafic from "./RoundsGrafic";
 import Testimonials from "./Testimonials";
+import Podium from "./Podium";
 
 import moment from "moment";
 import VueMoment from "vue-moment";
@@ -1056,15 +1059,18 @@ export default {
 
     //this.getTopListClubs();
 
-    setTimeout(() => {
+    /* setTimeout(() => {
     this.showModal();                        
-  }, 2000);
-
+  }, 2000); */
+  var i;
+  for (i = 0; i < this.images.length; i++) {
+  this.preloadImage(this.images[i])
+  }
 
    //BG CHANGE 
-   var bg_change = setInterval(this.changeBg, 10000);
+   var bg_change = setInterval(this.changeBg, 7000);
 
-  //this.toast('b-toaster-top-right');
+  this.toast('b-toaster-top-right');
 
   if (!globalState.compid) {
     return  
@@ -1103,7 +1109,7 @@ export default {
     // 'phone':VueTelInput,
     VueTelInput,
     appCountdown: FlipCountdown,
-    AppRoundsGrafic, Testimonials
+    AppRoundsGrafic, Testimonials, Podium
   },
   data() {
     return {
@@ -1136,6 +1142,14 @@ export default {
           showDialCode: false,
         },
       },
+      //IMAGES
+      images: [
+            'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1608122032/matchplay/MPI-1825.jpg',
+            'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg',
+            'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:40,co_rgb:000000/v1608219772/matchplay/bg_matchplay.jpg',
+            'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:50,co_rgb:000000/v1608122570/matchplay/IMG_1232.jpg'
+            ],
+
       clubs: 0,
       birdies: 0,
       //IN PROGRESS GAMES
@@ -1278,19 +1292,23 @@ export default {
   },
   mixins: [tagsMixin],
   
-  methods: { 
+  methods: {  
+    preloadImage(url)
+    {
+      var img=new Image();
+      img.src=url;
+    },
     showModal() {
       //if (localStorage.getItem('earlyBirdie2021') !== '2')
       this.$refs['earlyBirdie'].show();
       //localStorage.setItem('earlyBirdie2021', '2');
     },
-     toast(toaster, append = false) {
+     toast(toaster, append = false) {    
     
-    if (localStorage.getItem('earlyBirdie2021_1') !== '1')
-    this.$bvToast.toast(`De första 50 anmälda och betalda lagen är med i en utlottning av 2 golfpaket inkl. greenfee, mat och övernattning till Ringenäs eller Öijared! Vinnarna meddelas per mail och i våra sociala kanaler.`, {
+    this.$bvToast.toast(`Early Birdie är över, vinnarna av en golfweekend meddelas per mail samt på Facebook/Instagram. Följ oss där för fler tävlingar och utlottningar fram till tävlingsstart i maj!`, {
       title: `Early Birdie`,
       toaster: toaster,
-      autoHideDelay: 10000,
+      autoHideDelay: 12000,
       solid: true,         
       appendToast: append
     })
@@ -1934,16 +1952,19 @@ export default {
     },
     changeBg() {
      
-            var images=['https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:50,co_rgb:000000/v1608122447/matchplay/IMG_1527.jpg',
-            'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1608122032/matchplay/MPI-1825.jpg',
+     //'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:50,co_rgb:000000/v1608122447/matchplay/IMG_1527.jpg',
+
+            var images2=['https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1608122032/matchplay/MPI-1825.jpg',
             'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg',
-            'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:40,co_rgb:000000/v1608219772/matchplay/bg_matchplay.jpg'
+            'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:40,co_rgb:000000/v1608219772/matchplay/bg_matchplay.jpg',
+            'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:50,co_rgb:000000/v1608122570/matchplay/IMG_1232.jpg'
+
             ];
 
             var elem = this.$refs["slider"];
             if (elem) {
-            var randomNumber = Math.floor(Math.random() * images.length);
-            var bgImg = 'url(' + images[randomNumber] + ')';
+            var randomNumber = Math.floor(Math.random() * this.images.length);
+            var bgImg = 'url(' + this.images[randomNumber] + ')';
             //elem.style.opacity = 100;
             elem.style.backgroundImage = bgImg;
             }
