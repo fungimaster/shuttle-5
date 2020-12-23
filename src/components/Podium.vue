@@ -4,7 +4,7 @@
         <b-col class="col-12 col-md-12 pl-0 pr-0">
 
               <b-container class="justify-content-center">
-                <b-row v-for="(club,idx) in clubs" :key="idx" class="" align-h="center">
+                <b-row v-for="(club,idx) in clubsLimited" :key="idx" class="" align-h="center">
                 <b-col
                     class="col-12 col-md-5 pl-0 pr-0"
                 >
@@ -17,10 +17,7 @@
                 
                 </b-col>
                 </b-row>
-              </b-container>
-
-            
-
+              </b-container>        
 
             <b-container hidden class="justify-content-center">
                 <b-row class="" align-h="center" align-v="end">
@@ -39,7 +36,7 @@
                 </b-row>
             </b-container>
         </b-col>
-        <b-col class="col-12 pl-0 pt-3">
+        <b-col v-if="!number" class="col-12 pl-0 pt-3">
              <b-button size="sm" v-on:click="getTopListClubs(clubcount+5)" variant="primary">Se fler klubbar<b-spinner v-if="loadingclubs" small type="grow" class="ml-1 pl-0"></b-spinner></b-button>
              <b-button size="sm" v-if="clubcount > 10" v-on:click="getTopListClubs(10)" variant="warning">Nollställ</b-button>
         </b-col>
@@ -55,7 +52,8 @@ export default {
   props: ["number"],
   data() {
     return {
-        clubs: 0,
+        clubs: [],
+        clubno: 0,
         topclub: 0,
         clubcount: 10,
         loadingclubs: true
@@ -100,15 +98,8 @@ export default {
   },
 
   computed: {
-    testLimited() {
-        return this.testimonials.slice(0, this.number)
-    },
-    setCol() {
-        if (this.number === 1) {
-           return "col-12"
-        } else {
-            return "col-6"
-        }
+    clubsLimited() {
+        return this.clubs.slice(0, this.number)
     }
 }
 };

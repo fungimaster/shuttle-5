@@ -43,7 +43,8 @@ export const globalState = new Vue({
     closed: false,
     price1: 750,
     price2: 2250,
-    price3: 5450
+    price3: 5450,
+    showTopClubs: false
   }
 })
 

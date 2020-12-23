@@ -40,7 +40,7 @@
     </b-modal>
        
     <div class="hero" ref="slider">      
-      <b-container class="d-flex pl-4 pr-4">
+      <b-container class="pl-4 pr-4">
  
         <b-row>
           <b-col class="col-12 col-md-12 mt-4">            
@@ -64,8 +64,6 @@
             
             <!-- ALERTS FRÅN BACKEND -->
             <b-alert class="mt-4 smaller" :variant=message.variant show v-for="message in messages" :key=message.index> <h6>{{message.title}} </h6>  <span v-html="message.message"></span></b-alert>
-
-
 
             <b-alert  class="mt-4 smaller" variant="warning">
                 Tävlingen startar den 3:e maj 2021 men anmäl ditt lag redan nu!                
@@ -163,8 +161,12 @@
         
 
         </b-row>
-       
-       
+       <b-row v-if="showTopClubs">
+         <b-col class="col-12 mt-3">
+            <h3 class="white mb-3">Topp 3 anmälda lag</h3>
+            <podium number=3></podium>
+         </b-col>
+       </b-row>      
 
    
      
@@ -236,7 +238,7 @@
    </b-container>
   </b-jumbotron>
 
-  <b-jumbotron hidden container-fluid >
+  <b-jumbotron v-if="showTopClubs" container-fluid class="white">
    <b-container>    
                <b-row>
                  <b-col class="col-12">
@@ -422,7 +424,8 @@ export default {
   },
   data() {
     return {
-      messages: null, 
+      messages: null,
+      showTopClubs: globalState.showTopClubs,
       modalShow: false,
       closed: false,
       leader: "",

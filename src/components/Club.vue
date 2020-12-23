@@ -58,7 +58,7 @@
             class="mt-3 small"
           >Om ni får {{teams}} lag att välja er klubb som hemmaklubb i Matchplay 2021 beräknar vi att ni kommer få {{players}} nya gäster som besöker er anläggning. Vi beräknar att ca {{games}} matcher kommer spelas på er anläggning och att er snittgreenfee i perioden maj-september är {{price}} kr. Med {{teams}} lag tjänar ni ungefär {{calcprofit}}:- på greenfee samt erhåller {{calckickback}}:- om ni delar våra budskap om tävlingen i era sociala medier.</b-alert>
         </b-col>
-  <b-col hidden class="col-12 mt-3 mb-3">
+  <b-col v-if="showTopClubs" class="col-12 mt-3 mb-3">
      <hr class="mb-5" />
       <h3 class="mb-4">Topplista anmälda lag per klubb</h3>
         <podium></podium>
@@ -131,7 +131,7 @@
           <hr class="mb-5" />
           <h3>Fakturauppgifter</h3>
           <p>Använd nedan information för att skapa fakturan till oss för er kickback.</p>
-          <p>På vår startsida kan ni tydligt se hur många som anmält sig till tävlignen och valt er klubb som hemmabana. Ta siffran och multiplicera med 50kr. Momssats 6% (deltagaravgifter). Fakturan måste vara oss tillhanda senast 31 oktober 2021.</p>
+          <p>På vår startsida kan ni (i april) tydligt se hur många som anmält sig till tävlingen och valt er klubb som hemmabana. Ta siffran och multiplicera med 50kr. Momssats 6% (deltagaravgifter). Fakturan måste vara oss tillhanda senast 31 oktober 2021.</p>
           <p>
             <strong>Skicka gärna fakturan per e-post!</strong>
           </p>
@@ -139,7 +139,7 @@
             Matchplay Sweden
             <br />info@matchplay.se
             <br />Org nr.559196-7236
-            <br />NEDRE VÄSTERSJÖVÄGEN 263 | 266 93 Munka-Ljungby
+            <br />Nedre västersjövägen 263 | 266 93 Munka-Ljungby
           </b-alert>
         </b-col>
 
@@ -154,6 +154,7 @@
 import CustomSlider from "vue-custom-range-slider";
 import "vue-custom-range-slider/dist/vue-custom-range-slider.css";
 import Podium from "./Podium";
+import { globalState } from "../main.js";
 
   export default {
     name: 'club',
@@ -162,6 +163,7 @@ import Podium from "./Podium";
   },
     data () {
       return {
+          showTopClubs: globalState.showTopClubs,
           text:'',
           players:20,
           teams: '10',
