@@ -782,16 +782,26 @@
             </b-tab>
              <b-tab title-link-class="ml-2" @click="saveTabIndex(1)">
       <template v-slot:title>
-       <i class="far fa-golf-club mr-2"></i>Matcher ({{gamescount}})
+       <i hidden class="far fa-golf-club mr-2"></i>Matcher ({{gamescount}})
       </template>
 
   <b-container>                           
             <b-row v-if="games.length === 0 || !games.length" align-h="center">
                 <b-col>
-                    <p class="text-center mt-2 mb-3"><i class="far fa-robot fa-4x"></i></p>
-                    <p class="text-center">
-                    Så fort lottningen är klar kommer din nästa match listas här! Endast betalda lag kommer lottas.
-                    </p>
+
+                    <p class="text-center mt-2 mb-3"><i class="far fa-robot fa-3x"></i></p>                             
+                       <div v-if="teamscount>0">
+                        <p v-if="team.paid"  class="text-center">
+                            Så fort lottningen är klar kommer din nästa match listas här!                            
+                        </p>                    
+                        <p v-if="!team.paid" class="text-center red">
+                            Ditt lag kommer <strong>inte</strong> vara med i lottningen om du inte betalar det...
+                        </p>
+                       </div>
+                       <div v-else>
+                           <p>Så fort du skapat ett lag och betalat det kommer ditt lags kommande matcher visas här.</p>
+                       </div>                   
+                                
                 </b-col>
             </b-row>
 
@@ -962,7 +972,37 @@
 
   </b-container>
 
-            </b-tab>    
+            </b-tab>
+             <b-tab title-link-class="ml-2">
+                <template v-slot:title>
+                <i class="far fa-question"></i>
+                </template>
+
+                <b-container>                           
+                    <b-row>
+                        <b-col>
+                           <b-card class="mb-2 team">                           
+                            <b-card-text class="mt-0 pt-0 small">
+                                <h3>Tips 1 (Speltid och plats)</h3>
+                                När din match i varje omgång är lottad syns den på denna sidan och är ni lottade som hemmalag, ta så fort som möjligt kontakt med era motståndare för att bestämma spelplats och tid. Det är viktigt att hemmalaget lägger upp tid och plats för matchen så att det blir rätt på resultsidorna på matchplay.se.
+                            </b-card-text>
+                      </b-card>
+                      <b-card class="mb-2 team">                            
+                            <b-card-text class="mt-2 pt-0 small">
+                                 <h3>Tips 2 (Reserv)</h3>
+                                Man ska alltid spela med sitt tänkta lag i första hand. Reserv tas in om någon av de ordinarie medlemmarna blir skadad eller sjuk. Ni behöver bara välj en reserv (från lagsidan) när behov uppstår och golfid väljs in innan matchen startar. Då kan hemmalaget välja denna reserv när matchen startas och hcp-uträkningarna blir rätt.
+                            </b-card-text>
+                      </b-card>    
+                      <b-card class="mb-2 team">                            
+                            <b-card-text class="mt-2 pt-0 small">
+                                 <h3>Tips 3 (Ha kul!)</h3>
+                                Matchspel är en otroligt rolig spelform och med hjälp av vårt digitala scorekort blir det busenkelt att se vilka som vinner resp. hål och leder matchen. Släkt och vänner kan följa matchen från resultatsidan som läggs upp direkt när omgång 1 har lottats. Njut av rundan och må bästa lag vinna!                               
+                            </b-card-text>
+                      </b-card>      
+                        </b-col>
+                    </b-row>
+                </b-container>
+             </b-tab>
   </b-tabs>
                     </b-col>
                 </b-row>
@@ -2101,7 +2141,7 @@ export default {
                     let userinfo = response.data;
                     this.userinfo = userinfo;
                     this.teams = this.userinfo.teams;
-                    this.teamscount = this.teams.length;
+                    this.teamscount = this.teams.length;                    
                     
                     //console.log(this.teamscount,this.userinfo);
                     if (this.teamcount || this.teams) {
@@ -2787,6 +2827,10 @@ export default {
                         this.teams = this.userinfo.teams;
                         this.teamscount = this.teams.length;
 
+                        if (this.teamscount > 0) {
+                            this.team.paid = this.teams[0].paid;
+                        }
+
                         //loop teams and get games if any
                         var i;
                         var b;
@@ -2899,6 +2943,10 @@ export default {
 
 .card-body {
     padding: 0.7rem 1.25rem;
+}
+
+.card {
+    border: 1px solid rgba(0,0,0,.4);
 }
 
 .invitemember {

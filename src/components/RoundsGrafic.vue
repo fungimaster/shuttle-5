@@ -45,9 +45,14 @@
         class="stage-fill stage p-2 d-flex justify-content-center align-items-center"
         :style="{ height: `${100 - height(index) - 10}%` }"
       >
-        <i v-if="index === numberOfRounds - 1" class="material-icons icons-size-final">golf_course</i>
+
+        <i v-if="index === numberOfRounds - 1" class="material-icons icons-size-final">flight_takeoff</i>
+        <i v-else-if="index === numberOfRounds - 2" class="material-icons icons-size-final">golf_course</i>        
 
         <i v-else class="material-icons icons-size invisible">check_circle</i>
+      </div>
+      <div hidden class="h-10 text-center teams-number">
+        {{numberOfTeams(index)}}     
       </div>
     </div>
   </div>
@@ -93,10 +98,22 @@ export default {
       numberOfRounds: null,
       currentRound: null,
       windowWidth: window.innerWidth,
+      teams: 512
     };
   },
   methods: {
-    height(index) {
+     numberOfTeams(index) {
+       if (index === 0) return this.teams;
+       if (index === 1) return this.teams/2;
+       if (index === 2) return this.teams/4;
+       if (index === 3) return this.teams/8;
+       if (index === 4) return this.teams/16;
+       if (index === 5) return this.teams/32;
+       if (index === 6) return 8;
+       if (index === 7) return 2;
+       
+    },
+    height(index) {      
       //om index 0, retunera halva index 1 längd.
       if (index === 0) {
         return this.height(1) / 2;
@@ -107,6 +124,7 @@ export default {
       let shrinkBy = 0.6;
       let tempHeight = this.numberOfRounds - onepart * (index + 1);
       let height = Math.abs(tempHeight) * shrinkBy;
+      height = height * 1.42; //new to decrease the "loss" of teams on the way to the final
       return height;
     },
     handleResize() {
@@ -115,6 +133,7 @@ export default {
   },
 
   computed: {
+   
     roundCompleted() {
       return { backgroundColor: `rgba(255, 166, 0, ${this.opacity}` };
     },
@@ -129,9 +148,14 @@ export default {
 
 
 <style scoped>
-.stage {
-  border-top-right-radius: 94% 4%;
-  border-bottom-right-radius: 94% 4%;
+
+.teams-number {
+  font-size:0.7em;
+}
+
+.stage {  
+  border-top-right-radius: 10% 6%;
+  border-bottom-right-radius: 10% 6%;
 }
 
 .background {

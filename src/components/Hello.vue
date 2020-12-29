@@ -161,17 +161,7 @@
         
 
         </b-row>
-       <b-row v-if="showTopClubs">
-         <b-col class="col-12 mt-3">
-            <h3 class="white mb-3">Topp 3 anmälda lag</h3>
-            <podium number=3></podium>
-         </b-col>
-       </b-row>      
-
-   
      
-    
-
       </b-container>
     </div>
 <!-- TEMP HIDDEN -->  
@@ -192,7 +182,9 @@
             <h3 class="teaser-header orange mb-3">Hej {{user.firstname}}!</h3>
             <p v-if="user.teams">Du har redan skapat ett lag och kan hantera det  <router-link to="/mymatchplay">här</router-link>. Lycka till i tävlingen!</p>
             <p v-if="!user.teams">Du har ännu inget lag i Sveriges roligaste golftävling, skapa ett på knappen nedan.</p>            
+            <div v-if="user.teams">
             <p v-if="!user.teams[0].paid">Anmälningskostnad per lag är <strong>{{price1}} kr</strong> för privatpersoner och <strong>{{price2}} kr</strong> (exkl. moms) för företag.</p>           
+            </div>
             <router-link v-if="!user.teams" class="btn blue-bg btn-md text-white mt-2 mr-2" to="/mymatchplay">Skapa ett lag</router-link>
           </b-col>
         </b-row>
@@ -200,13 +192,21 @@
         <b-row>
           <b-col class="col-12 mt-3">
             <hr />    
-            <p class="mt-4">Se till att följa oss på våra <strong>sociala medier</strong> för nyheter och tävlingar kring tävlingen!</p>
+            <p class="mt-4">Se till att följa oss på våra <strong>sociala medier</strong> för nyheter och tävlingar!</p>
           </b-col>
           <b-col class="col-12">
             <a class="btn orange-bg btn-md text-white mt-2 mr-md-2" href="https://www.facebook.com/matchplaysweden/" target="_blank"><i class="material-icons mr-2">facebook</i>Facebook</a>
             <a class="btn orange-bg btn-md text-white mt-2" href="https://www.instagram.com/matchplay_sweden/" target="_blank"><i class="material-icons mr-2">camera_alt</i>Instagram</a>
           </b-col>
         </b-row>
+
+          <b-row v-if="showTopClubs">
+         <b-col class="col-12 mt-3">
+            <hr />  
+            <h3 class="white mb-3 mt-4 pt-2">Topp 3 anmälda lag</h3>
+            <podium number=3></podium>
+         </b-col>
+       </b-row>      
 
 
 
@@ -285,7 +285,7 @@
 
 
                  <app-rounds-grafic hidden class="mt-5" style="height: 300px" linecolor="#808080" opacity="1"></app-rounds-grafic>
-
+                <p class="mt-3 small" style="font-style:italic;">Denna visualisering kommer visa aktuell rond fram till finalen. Efter varje rond halveras antal lag då förlorarna blir utslagna. Förlorande lag i omgång 1 går till andra chansen.</p>
                  </b-col>
                </b-row>
                  <b-row class="mt-5">
@@ -380,7 +380,7 @@ export default {
   }
 
    //BG CHANGE 
-   var bg_change = setInterval(this.changeBg, 7000);
+   var bg_change = setInterval(this.changeBg, 8000);
 
   //this.toast('b-toaster-top-right');
 
@@ -436,7 +436,7 @@ export default {
             'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:40,co_rgb:000000/v1608219772/matchplay/bg_matchplay.jpg',
             'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:50,co_rgb:000000/v1608122570/matchplay/IMG_1232.jpg'
             ],
-
+      bgImageCount: 0,
       clubs: 0,
       birdies: 0,    
       showhelper: false,  
@@ -486,20 +486,28 @@ export default {
     changeBg() {
      
      //'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:50,co_rgb:000000/v1608122447/matchplay/IMG_1527.jpg',
+            
+            //console.log(this.bgImageCount,this.images.length);
 
-            var images2=['https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1608122032/matchplay/MPI-1825.jpg',
-            'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg',
-            'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:40,co_rgb:000000/v1608219772/matchplay/bg_matchplay.jpg',
-            'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:50,co_rgb:000000/v1608122570/matchplay/IMG_1232.jpg'
-
-            ];
-
+            if (this.bgImageCount === this.images.length) {
+              this.bgImageCount = 0;
+            }
             var elem = this.$refs["slider"];
             if (elem) {
-            var randomNumber = Math.floor(Math.random() * this.images.length);
-            var bgImg = 'url(' + this.images[randomNumber] + ')';
-            //elem.style.opacity = 100;
+            //var randomNumber = Math.floor(Math.random() * this.images.length);            
+            //var bgImg = 'url(' + this.images[randomNumber] + ')';
+            var bgImg = 'url(' + this.images[this.bgImageCount] + ')';
+            
+            if (this.bgImageCount === 3) {
+              elem.style.backgroundPosition = 'right center';
+            } else {
+               elem.style.backgroundPosition = 'center center';
+            }
+
+           
             elem.style.backgroundImage = bgImg;
+            this.bgImageCount += 1;
+
             }
 
     },
@@ -717,7 +725,7 @@ img {
   background-size: cover;
   color: #fff;
   padding: 180px 0 180px 0;
-  background-position: center center;
+  background-position: right center;
   @media (min-width: 320px) {
     padding: 2rem 0 5rem 0;
     /*background-position: bottom 10% right 0;*/
@@ -738,11 +746,11 @@ img {
     /*background-position: bottom 55% right 0;*/
   }
   
-  -webkit-transition: all 1.5s ease-in-out;
-  -moz-transition: all 1.5s ease-in-out;
-  -ms-transition: all 1.5s ease-in-out;
-  -o-transition: all 1.5s ease-in-out;
-  transition: all 1.5s ease-in-out;
+  -webkit-transition: all 2s ease-in-out;
+  -moz-transition: all 2s ease-in-out;
+  -ms-transition: all 2s ease-in-out;
+  -o-transition: all 2s ease-in-out;
+  transition: all 2s ease-in-out;
 
 }
 
