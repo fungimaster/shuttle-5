@@ -4,11 +4,13 @@
         <b-col class="col-12 col-md-12 pl-0 pr-0">
 
               <b-container class="justify-content-center">
-                <b-row v-for="(club,idx) in clubsLimited" :key="idx" class="" align-h="center">
+                <b-row v-for="(club,idx) in clubsLimited" :key="idx" align-h="center" class="justify-content-center align-self-center">
                 <b-col
-                    class="col-12 col-md-5 pl-0 pr-0"
+                    class="col-12 col-md-5 pl-0 pr-0 align-self-center"
                 >
-                {{club.club}}
+               <b-img v-if="club.logourl" class="mr-2 mb-2 pt-1" :src="getClubImage(club.logourl)"></b-img>
+               {{club.club}}
+
                 </b-col>
                  <b-col
                     class="col-12 col-md-7 pl-0 pr-0 pb-4 pb-md-3"                    
@@ -68,6 +70,9 @@ export default {
     },
   },
   methods: {
+     getClubImage(logourl) {
+            return 'https://res.cloudinary.com/dn3hzwewp/image/upload/h_40,c_scale,q_80/' + logourl;
+        },
       progress(count) {        
         return count/this.topclub;
     },
