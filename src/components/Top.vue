@@ -1,4 +1,10 @@
 <template>
+<div
+v-if="
+      ['Scorecard', 'Receipt'].indexOf(
+        $route.name
+      ) === -1
+    ">
   <b-navbar toggleable="lg" sticky ref="top">
     <b-navbar-brand>
       <router-link class to="/">
@@ -42,6 +48,7 @@
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
+</div>
 </template>
 
 <script>

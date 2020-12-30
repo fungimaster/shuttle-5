@@ -324,7 +324,8 @@
                             </b-card-text>
                             <template v-slot:footer>
                                 <p class="mb-0" style="color:green;" v-if="team.paid">
-                                    <i class="material-icons mr-2">attach_money</i>{{text.paidteam}}
+                                    <i class="material-icons mr-1 mb-1">attach_money</i>{{text.paidteam}}
+                                    <b-button v-if="team.paidamount>0" @click="getReceipt(team)" variant="success" class="btn-sm float-right"><i class="material-icons mr-1 mb-1">receipt</i>Kvitto</b-button>                                    
                                 </p>
                                 <p class="mb-0" style="color:red;" v-if="!team.paid">
                                     <i class="material-icons mr-2">money_off</i>{{text.not_paidteam}}                                    
@@ -1480,6 +1481,18 @@ export default {
   
     mixins: [tagsMixin],
     methods: {
+        getReceipt: function(team) {
+                    //console.log(team);
+                  
+                   let vat = parseInt(team.paidamount * 0.06)
+                
+                   this.$router.push(
+                        {name: 'Receipt',
+                        params: { user:team.teamleadername,amount:team.paidamount,vat:vat,comp:team.competitionname }
+                        }
+                    );
+                        
+                },
              showHelpReserve: function(){
                 if (this.showhelpreserve) {
           this.showhelpreserve = false;         

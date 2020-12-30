@@ -19,6 +19,7 @@ import Archive from '@/components/Archive'
 import NotFound from '@/components/NotFound'
 import CreateGame from '@/components/Creategame'
 import Scorecard from '@/components/Scorecard'
+import Receipt from '@/components/Receipt'
 import Game from '@/components/Game'
 import Register from '@/components/Register'
 
@@ -93,7 +94,12 @@ export default new Router({
       name: 'Scorecard',
       component: Scorecard,
     },
-   
+    {
+      path: '/receipt',
+      name: 'Receipt',
+      component: Receipt,
+      props: true
+    },
     {
       path: '/game',
       name: 'Game',
