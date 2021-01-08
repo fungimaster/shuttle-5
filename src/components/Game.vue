@@ -127,6 +127,7 @@
                     <b-alert
                       v-if="isteamleader && status != 'Finished'"
                       show
+                      dismissible
                      class="mt-1 small"
                       variant="info"
                     >
@@ -152,6 +153,7 @@
                       <b-alert
                         v-if="status != 'Finished'"
                         show
+                        dismissible
                         class="mt-3 mb-0 small"
                         variant="info"
                       >
@@ -334,6 +336,7 @@
                           <b-alert
                             v-if="status !== 'Finished'"
                             show
+                            dismissible
                             class="mt-1 small"
                             variant="info"
                           >
@@ -346,6 +349,7 @@
                           <b-alert
                             v-if="isteammember && status != 'Finished'"
                             show
+                            dismissible
                             class="mt-1 mb-0 small"
                             variant="warning"
                           >
@@ -356,6 +360,7 @@
                           <b-alert
                             v-if="isteamleader && status != 'Finished'"
                             show
+                            dismissible
                             class="mt-1 mb-0 small"
                             variant="warning"
                           >
@@ -393,13 +398,14 @@
                               >play_circle_filled</i
                             >Visa scorekortet</b-button
                           >
-                           <b-alert show class="small text-center mt-3" variant="info">
+                           <b-alert show dismissible class="small mt-3" variant="info">
                               <h5>Information om reserver</h5>
                                            Om laget har en reserv tillgänglig för spel kan hemmalaget, när ni träffas innan spel, välja denna person i samband med att tee väljs innan matchen startar.
                                  </b-alert>
                            <b-alert
                             v-if="(isteamleader || isteammember) && status != 'Finished'"
                             show
+                            dismissible
                             class="mt-3 mb-0 small"
                             variant="danger"
                           >
@@ -706,7 +712,7 @@
                       </b-row>
                       <b-row>
                         <b-col>
-                            <b-alert show class="small text-center mt-3" variant="info">
+                            <b-alert show dismissible class="small mt-3" variant="info">
                               <h5>Information om reserver</h5>
                                            Om laget har en reserv tillgänglig för spel kan hemmalaget, när ni träffas innan spel, välja denna person i samband med att tee väljs innan matchen startar.
                                  </b-alert>

@@ -171,16 +171,16 @@ Vid omstart hål 1 (alt. Hål 10) så gäller det att det finns plats såklart. 
 						<div class="section" id="13">
 							<h3 class="pt-5">13. ERSÄTTARE/RESERV</h3>
 							<p>
-								I Matchplay är det okej att använda sig av en reserv.
+								I Matchplay är det okej att använda sig av en reserv.</p>
 								<p>Reserv anmäler ni under LAGFLIKEN på din sida. Klicka på knappen "välj reserv" och följ instruktionerna. Reserven behöver anmälas INNAN matchen och scorekortet startas. Om reserv finns väljs denna in i samband med att matchen startas (görs av hemmalaget).</p>
-							    Är inte reserv anmäld i systemet och laget spelar med reserv kan laget bli diskvalificerat. Reservinträde skall också meddelas motståndarna innan spel, när reserv deltager i tävlingen. Man får bara använda sig av en reserv (samma person). Denna reserv kan komplettera laget vid behov under hela tävlingen. Observera att reserv inte får spela i annat deltagande lag som fortfarande är med i tävlingen. Har man åkt ur tävlingen kan och får man gå in som reserv i annat lag.
+							    <p>Är inte reserv anmäld i systemet och laget spelar med reserv kan laget bli diskvalificerat. Reservinträde skall också meddelas motståndarna innan spel, när reserv deltager i tävlingen. Man får bara använda sig av en reserv (samma person). Denna reserv kan komplettera laget vid behov under hela tävlingen. Observera att reserv inte får spela i annat deltagande lag som fortfarande är med i tävlingen. Har man åkt ur tävlingen kan och får man gå in som reserv i annat lag.
 							</p>
 						</div>
 
 						<div class="section" id="14">
 							<h3 class="pt-5">14. MATCHRAPPORTERING</h3>
 							<p>Det är obligatoriskt att använda vårt digitala scorekort för att rapportera matchresultat. Hemmalag (kapten eller medspelare) väljer klubb/slinga/tee när matchen ska starta, rätt slope räknas ut och matchplays regler för hcp räknas ut automatiskt. Ni rapporterar in hål för hål enkelt och ser vilket lag som vinner/förlorar/delar resp. hål. Resultatet laddas kontinuerligt upp direkt till hemsidan och matchen ligger live (för andra att följa). När matchen är avgjord visas detta i det digitala scorekortet och ni skickar in resultatet. Vinnarna får meddelande när nästa lottning är gjord (ev. förlorarna också i andra chansen).</p>
-							<p>Herrar spelar på vald klubbs herr tee och damer spelar på vald klubbs dam tee.</p>
+							<p>Herrar spelar på vald klubbs herrtee och damer spelar på vald klubbs damtee.</p>
 						</div>
 
 						<div class="section" id="15">

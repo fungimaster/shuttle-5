@@ -64,14 +64,18 @@
             <transition name="fade" mode="out-in" class="inputField">
               <div v-if="form.slinga">
                 <div class="col-12 m-0 p-0 mb-3">
-                  <b-alert v-if="form.slinga" show class="mt-3 mb-0 small" variant="info">
+                  <b-alert dismissible v-if="form.slinga" show class="mt-3 mb-0 small" variant="info">
                     Era handicap kommer räknas ut exakt med slope mm efter val
                     av tee tillsammans med matchplays regler för hcp-uträkning.
                     Era nya hcp samt slag per hål ser ni i nästa steg.
                   </b-alert>
+                    <b-alert dismissible v-if="form.slinga" show class="mt-3 mb-0 small" variant="danger">
+                    Ny regel 2021: Herrar spelar på klubbens rekommenderade tee för herrar och damer spelar på klubbens rekommenderade tee för damer.
+                  </b-alert>
                   <b-alert
                     v-if="form.slinga && max28"
                     show
+                    dismissible
                     class="mt-3 mb-0 small"
                     variant="warning"
                   >OBS! Ett lag får max ha 28 tillsammans. Spelarna i laget får sitt hcp reducerat i nästa steg när scorekortet skapas.</b-alert>

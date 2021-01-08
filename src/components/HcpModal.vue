@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<b-modal id="modal-1" title="Handicaps" ok-only ref="my-modal" @hide="hide">
+		<b-modal id="modal-1" title="Uträkningshjälp" ok-only ref="my-modal" @hide="hide">
 			<b-tabs content-class="mt-3" v-model="tabIndex" no-key-nav>
 				<b-tab title-link-class="ml-2">
 					<template v-slot:title>Beräkning</template>

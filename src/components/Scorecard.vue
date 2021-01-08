@@ -115,10 +115,10 @@
 								<p>
 									Resultat inskickat
 									<i class="material-icons pb-1 pr-1">send</i>
-								</br>
+								<br />
 									Match avslutad
 									<i class="material-icons pb-1 pr-1">done</i>
-								</br>
+								<br />
 									<span class="nameOfWinner">Vinnare: {{winningTeam}}
 									<i class="material-icons pb-1 pr-1">emoji_events</i> </span>
 								</p>
@@ -484,7 +484,7 @@
 						<td v-for="hole in course.slice(0, 9)" :key="hole.index">{{ hole.par }}</td>
 					</tr>
 					<tr>
-						<th>Index:</th>
+						<th>Ind:</th>
 						<td v-for="hole in course.slice(0, 9)" :key="hole.index">{{ hole.index }}</td>
 					</tr>
 
@@ -563,7 +563,7 @@
 						
 					</tr>
 					<tr>
-						<th>Index:</th>
+						<th>Ind:</th>
 						<td v-for="hole in course.slice(9, 18)" :key="hole.index">{{ hole.index }}</td>
 					</tr>
 
@@ -1994,7 +1994,8 @@
 
 	th,
 	td {
-		border: 1px solid #999;
+		border: 1px solid #ccc;
+		padding:3px;
 	}
 
 	.emptyRow {

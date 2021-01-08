@@ -221,7 +221,7 @@
               <p>Åtta lag går till Sverigefinalen som spelas 3-5 september på Allerum Golfklubb, strax utanför Helsingborg. Hotell inklusive frukost, inspel, semifinal och för de fyra vinnande lagen blir det final på söndagen. Bankett på lördagskvällen för de 8 deltagande lagen. De två lagen som vinner respektive match på söndagen blir bjudna på den stora finalen på Los Naranjos i Spanien.</p>
                  </b-col>
                  <b-col class="col-12 col-md-4 text-center mt-3 mt-md-0">
-                   <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/h_200/v1599032379/matchplay/logo.png" />
+                   <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_150/v1599032379/matchplay/logo.png" />
                  </b-col>
                </b-row>
    </b-container>
@@ -746,11 +746,11 @@ img {
     /*background-position: bottom 55% right 0;*/
   }
   
-  -webkit-transition: all 2s ease-in-out;
-  -moz-transition: all 2s ease-in-out;
-  -ms-transition: all 2s ease-in-out;
-  -o-transition: all 2s ease-in-out;
-  transition: all 2s ease-in-out;
+  -webkit-transition: all 1s linear;
+  -moz-transition: all 1s linear;
+  -ms-transition: all 1s linear;
+  -o-transition: all 1s linear;
+  transition: all 1s linear;
 
 }
 
