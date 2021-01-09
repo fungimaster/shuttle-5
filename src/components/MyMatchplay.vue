@@ -417,7 +417,7 @@
                                 </div>
                                 
 
-                                  <b-alert v-if="showhelpreserve" show class="small text-center mt-1" variant="info">
+                                  <b-alert v-if="showhelpreserve" show class="small text-left mt-1" variant="info">
                                             Om ditt lag har en reserv tillgänglig för spel kan hemmalaget, när ni träffas innan spel, välja denna person i samband med att tee väljs innan matchen startar. En reserv måste bara väljas <strong>om någon av de ord. lagmedlemmarna</strong> får förhinder.
                                   </b-alert>
 
@@ -937,15 +937,11 @@
 
 <b-row v-if="games.length > 0 || games.length" align-h="center">
 
-        <b-col sm="6" lg="6" class="team pl-2 pr-2 pb-2 mt-2" v-for="(game,idx2) in this.games" :key="idx2">
+        <b-col sm="6" lg="6" class="team pl-2 pr-2 pb-2 mt-2 mt-md-4 pt-0 pt-md-3" v-for="(game,idx2) in this.games" :key="idx2">
                 
              <b-card class="mb-4 team header">                            
-                            <b-card-text class="mt-0">
-                                <div class="float-right">
-                                      <a :href="`/game?id=${game._id}`" class="btn btn-success btn-sm small text-white mt-0">Visa match</a>
-                                    </div>
-                                 <h2 class="mt-2 mb-0 pb-0 pt-1">{{game.roundname}}</h2>
-                                 <hr />
+                            <b-card-text class="mt-0">                               
+                                 <h2 class="mt-1 mb-3 pb-0 pt-1">{{game.roundname}}</h2>                                 
                                   <div class="pt-0 pb-2 mt-0">                                               
                                         <span hidden>
                                             <i class="fas fa-home-alt mr-1 mb-1"></i>                                            
@@ -1082,20 +1078,32 @@
                                             
                                         </span>                                        
                                    </div>
-                                    <div class="pt-0 pb-0 mt-0">                                        
-                                        <a :href="`/game?id=${game._id}`" class="btn btn-success btn-sm text-white mt-3 mr-md-2">Visa match</a>
-                                        <a hidden :href="`/livegame?id=${game._id}`" class="btn btn-info btn-sm text-white mt-3 mr-md-2">Följ match</a>
-                                        <a v-if="game.status !== 'Finished'" @click="showHelpGame()" class="btn btn-secondary btn-sm text-white mt-3 mr-md-2"><i class="fas fa-question ml-1 mr-1 mb-1"></i></a>                                         
-                                   </div>
-                                   <div class="pt-0 pb-0 mt-0" v-if="game.status !== 'Finished'">   
-                                        <b-alert v-if="showhelpgame" show class="small text-center mt-4" variant="info">
-                                            Klicka på visa match för att se kontaktuppgifter till lagkaptenen i laget ni ska möta. Bestäm datum och tid för matchen (hemmalaget bestämmer bana) och boka tid genom t.ex Min Golf Bokning.
-                                        </b-alert>
-                                    </div>
+                                   
 
                                     
                                    
                             </b-card-text>
+                             <template v-slot:footer> 
+                                 <b-container class="m-0 p-0">
+                                     <b-row>
+                                         <b-col class="col-6 text-left">
+                                              <a :href="`/game?id=${game._id}`" class="btn btn-success btn-sm text-white mr-md-2">Visa match</a>
+                                        <a hidden :href="`/livegame?id=${game._id}`" class="btn btn-info btn-sm text-white mr-md-2">Följ match</a>                                        
+                                         </b-col>                                                            
+                                         <b-col v-if="game.status !== 'Finished'" class="col-6 text-right">
+                                             <a @click="showHelpGame()" class="btn btn-secondary btn-sm text-white"><i class="fas fa-question mb-1"></i></a>
+                                         </b-col>
+                                     </b-row>
+                                     <b-row v-if="showhelpgame">
+                                         <b-col>
+                                             <b-alert show class="small text-left mt-4" variant="info">
+                                            Klicka på visa match för att se kontaktuppgifter till lagkaptenen i laget ni ska möta. Bestäm datum och tid för matchen (hemmalaget bestämmer bana) och boka tid genom t.ex Min Golf Bokning.
+                                        </b-alert>
+                                         </b-col>
+                                     </b-row>
+                                 </b-container>                      
+                                  
+                            </template>
              </b-card>
 
             

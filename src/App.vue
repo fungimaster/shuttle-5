@@ -506,12 +506,15 @@ a.router-link-active {
   padding-top: 10px;
 }
 
+.alert-dismissible {
+    padding-right: 2.5rem;
+}
+
 .session .fold-icons,
 .session .session-title {
   display: inline-block;
 }
-.session .fold-icons {
-  float: left;
+.session .fold-icons { 
   display: inline-block;
   width: 3%;
   @media (max-width: 1199px) {

@@ -332,19 +332,7 @@
 
                     <b-container class="mt-3">
                       <b-row class="justify-content-center" align-h="center">
-                        <b-col class="col-12 text-left">
-                          <b-alert
-                            v-if="status !== 'Finished'"
-                            show
-                            dismissible
-                            class="mt-1 small"
-                            variant="info"
-                          >
-                            Hemmalaget ansvarar för att föra score för matchen
-                            via vårt system! Rätt hcp-regler används och vi
-                            hämtar aktuella hcp/slope/tee från Svenska
-                            Golfförbundet.
-                          </b-alert>
+                        <b-col class="col-12 text-left">                         
 
                           <b-alert
                             v-if="isteammember && status != 'Finished'"
@@ -398,6 +386,18 @@
                               >play_circle_filled</i
                             >Visa scorekortet</b-button
                           >
+                           <b-alert
+                            v-if="status !== 'Finished'"
+                            show
+                            dismissible
+                            class="mt-3 small"
+                            variant="info"
+                          >
+                            Hemmalaget ansvarar för att föra score för matchen
+                            via vårt system! Rätt hcp-regler används och vi
+                            hämtar aktuella hcp/slope/tee från Svenska
+                            Golfförbundet.
+                          </b-alert>
                            <b-alert show dismissible class="small mt-3" variant="info">
                               <h5>Information om reserver</h5>
                                            Om laget har en reserv tillgänglig för spel kan hemmalaget, när ni träffas innan spel, välja denna person i samband med att tee väljs innan matchen startar.
@@ -414,7 +414,7 @@
                             2. Dra av 10% (tex hcp 14 får -1.4 = 12.6)<br>
                             3. Nolla den lägsta hcp oavsett lag och dra av (eller lägg på för +hcp) skillnaden från övrigas hcp<br>
                             4. Avrunda till närmsta heltal<br>
-                            5. Spela matchen och rapportera in resultatet till oss<br><br>
+                            5. Spela matchen och rapportera in resultatet till oss på info@matchplay.se<br><br>
                             OBS! Ett lag får max ha 28 (innan slope) tillsammans. Tex: Om spelare A har 16 i hcp och spelare B har 19 i hcp blir detta 35 sammanlagt, vilket innebär att spelare A och B får 3.5 slag färre och kommer få nytt exakt hcp på 12.5 och 15.5 som sedan slope och matchspeluträkningar baseras på. Detta görs för att få så rättvisa matcher som möjligt mellan lagen.
                           </b-alert>
                         </b-col>
@@ -712,7 +712,7 @@
                       </b-row>
                       <b-row>
                         <b-col>
-                            <b-alert show dismissible class="small mt-3" variant="info">
+                            <b-alert show dismissible class="text-left small mt-3" variant="info">
                               <h5>Information om reserver</h5>
                                            Om laget har en reserv tillgänglig för spel kan hemmalaget, när ni träffas innan spel, välja denna person i samband med att tee väljs innan matchen startar.
                                  </b-alert>
