@@ -407,7 +407,10 @@
                                             Hemmaklubb för matcher
                                         </b-tooltip>
                                         <b-alert show variant="info" v-if="clubcount > 0" class="small mt-3">
-                                            <strong>{{clubcount}}</strong> lag har redan anmält sig från {{team.coursename}}, välkommen till gänget!
+                                            <strong>{{clubcount}}</strong> lag har anmält sig från {{team.coursename}}, välkommen till gänget!
+                                        </b-alert>
+                                         <b-alert show variant="info" v-if="clubcount === 0" class="small mt-3">
+                                            Du är först ut med ett lag från denna klubb, sprid gärna budskapet om tävlingen!
                                         </b-alert>
                                     </span>
                                 </div>
@@ -656,8 +659,11 @@
                                     <b-form-input hidden id="clubid" v-model="team.clubid" readonly placeholder="Id på klubben">
                                     </b-form-input>
                                     <b-alert show variant="info" v-if="query !== '' && clubcount > 0" class="small mt-3">
-                                        <strong>{{clubcount}}</strong> lag har redan anmält sig från {{query}}, välkommen till gänget!
+                                        <strong>{{clubcount}}</strong> lag har anmält sig från {{query}}, välkommen till gänget!
                                     </b-alert>
+                                     <b-alert show variant="info" v-if="query !== '' && clubcount === 0" class="small mt-3">
+                                        Du är först ut med ett lag från denna klubb, sprid gärna budskapet om tävlingen!
+                                     </b-alert>
                                 </b-form-group>
                             </b-col>
                         </b-row>
@@ -2967,6 +2973,7 @@ export default {
                     this.userdetails.golfid = userinfo.golfid;
                     this.userdetails.email = userinfo.email;
                     this.userdetails.mobile = userinfo.mobile;
+                    this.team.swish.mobile = userinfo.mobile;
                     if (userinfo.hasOwnProperty('isambassador')) {
                         this.userdetails.isambassador = userinfo.isambassador;
                     } else {
