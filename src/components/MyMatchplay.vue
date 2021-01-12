@@ -277,6 +277,37 @@
       Lag
       </template>    
 
+      <b-modal ref="poll1" id="poll1" title="Undersökning" size="md" hide-header-close no-close-on-backdrop ok-only ok-variant="secondary" ok-title="Cancel">
+    <p>Vi blir jätteglada om du skulle vilja svara på denna fråga! <i class="pb-0 mr-2 material-icons red">favorite</i></p>
+    <p>
+      <strong>{{poll.question}}</strong>
+    </p>     
+        <b-form-group v-slot="{ ariaDescribedby }">
+      <b-form-radio-group
+        id="poll_1"
+        v-model="poll.poll"
+        :options="poll.pollOptions"
+        :aria-describedby="ariaDescribedby"
+        name="poll_1"
+        stacked
+      ></b-form-radio-group>
+    </b-form-group>         
+     <b-button :disabled="hasPoll" class="mt-3" variant="success" block @click="postPoll">Skicka in!</b-button>
+     <template #modal-footer="{ ok, cancel, hide }">      
+      <!-- Emulate built in modal footer ok and cancel button actions -->
+      <b-button hidden size="sm" variant="success" @click="ok()">
+        OK
+      </b-button>
+      <b-button hidden size="sm" variant="danger" @click="cancel()">
+        Tack för infon!
+      </b-button>
+      <!-- Button with custom close trigger value -->
+      <b-button hidden size="sm" variant="outline-secondary" @click="hide('forget')">
+        Forget it
+      </b-button>
+    </template>
+  </b-modal>
+
 <b-modal ref="my-modal" hide-footer="">
     <b-container class="p-1">
      <b-row>
@@ -406,13 +437,13 @@
                                         <b-tooltip :target="'tooltip-course-' + idx" triggers="hover" placement="top">
                                             Hemmaklubb för matcher
                                         </b-tooltip>
-                                        <b-alert show variant="info" v-if="clubcount > 0" class="small mt-3">
+                                    </span>
+                                    <b-alert show variant="info" v-if="clubcount > 0" class="small mt-3">
                                             <strong>{{clubcount}}</strong> lag har anmält sig från {{team.coursename}}, välkommen till gänget!
                                         </b-alert>
                                          <b-alert show variant="info" v-if="clubcount === 0" class="small mt-3">
                                             Du är först ut med ett lag från denna klubb, sprid gärna budskapet om tävlingen!
                                         </b-alert>
-                                    </span>
                                 </div>
 
                                 <div class="pt-0 pb-3" v-if="!team.paid && !team.invoice">
@@ -949,7 +980,7 @@
 
 <b-row v-if="games.length > 0 || games.length" align-h="center">
 
-        <b-col sm="6" lg="6" class="team pl-2 pr-2 pb-2 mt-2 mt-md-4 pt-0 pt-md-3" v-for="(game,idx2) in this.games" :key="idx2">
+        <b-col sm="10" lg="6" class="team pl-2 pr-2 pb-2 mt-2 mt-md-4 pt-0 pt-md-3" v-for="(game,idx2) in this.games" :key="idx2">
                 
              <b-card class="mb-4 team header">                            
                             <b-card-text class="mt-0">                               
@@ -1188,6 +1219,13 @@ export default {
             gamescount:0,
             showhelpgame: false,
             showhelpreserve: false,
+             //POLL
+            poll: {
+                pollid: '',
+                question: '',
+                poll: [],
+                pollOptions: []
+            },
             bindProps: {
                 mode: "international",
                 defaultCountry: "SE",
@@ -1282,7 +1320,7 @@ export default {
             showspinner_swish: false,
             showspinner_voucher: false,
             showspinner_invoice: false,
-            clubcount: 0,
+            clubcount: null,
             teamoptions: [{
                     value: null,
                     text: 'Vänligen välj ett alternativ'
@@ -1485,7 +1523,10 @@ export default {
         }
     },
     computed: {
-        
+         hasPoll() {            
+            if (this.poll == '') return true;
+            else return false;
+        },
         validateResetEmail() {
 
             if (this.sendformreset.email.length < 4) {
@@ -1600,8 +1641,113 @@ export default {
   
     mixins: [tagsMixin],
     methods: {
+                compareValues(key, order = 'asc') {
+  return function innerSort(a, b) {
+    if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
+      // property doesn't exist on either object
+      return 0;
+    }
+
+    const varA = (typeof a[key] === 'string')
+      ? a[key].toUpperCase() : a[key];
+    const varB = (typeof b[key] === 'string')
+      ? b[key].toUpperCase() : b[key];
+
+    let comparison = 0;
+    if (varA > varB) {
+      comparison = 1;
+    } else if (varA < varB) {
+      comparison = -1;
+    }
+    return (
+      (order === 'desc') ? (comparison * -1) : comparison
+    );
+  };
+},
+         showPoll() {
+            
+           
+         let url = globalState.admin_url + 'getPoll'              
+                
+                this.axios.post(url, {
+                                         
+                        "userid": this.userinfo._id //localStorage.getItem('userId')                    
+                                       
+                    })
+                    .then(response => {
+                        
+                        if (!response.data.status) {
+                            if (response.data.status === false) return;
+                            this.poll.question = response.data.question;
+                            this.poll.pollid = response.data._id;
+                            let i;
+                            let opt;
+                            //console.log(response.data.options)
+                            //new sort for options
+                            let newoptions = response.data.options.sort(this.compareValues('sortorder', 'asc'));    
+                            //console.log(newoptions)              
+
+
+                              for (i = 0; i < response.data.options.length; i++) {
+                                opt = {};
+                                opt.text = response.data.options[i].option;
+                                opt.value = response.data.options[i].id;
+                                this.poll.pollOptions.push(opt)
+                             }
+
+                             //console.log(this.poll.pollOptions)
+        
+                            this.$refs['poll1'].show();
+                        } else {
+                            return; //no active poll
+                        }
+
+                     
+
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });  
+            
+            
+           
+        },
+       postPoll() {
+
+           let url = globalState.admin_url + 'postPoll';
+           if (this.poll.pollid == '') return;          
+                
+                //console.log('vidare');
+                
+
+                this.axios.post(url, {
+                        "voteid": this.poll.pollid,                 
+                        "optionsid": this.poll.poll,      
+                        "userid": this.userinfo._id               
+                    })
+                    .then(response => {
+                        this.$refs['poll1'].hide();
+                        if (response.data.status === 'error') {                           
+                            return;
+                        }
+
+                        if (response.data.status === 'success') {
+                           //console.log('success')                        
+                           this.$refs['poll1'].hide();
+
+                        }
+
+                    })
+                    .catch(error => {
+                        this.$refs['poll1'].hide();
+                        console.log(error);
+                    });
+            
+            
+
+       },
     getTopListClubs(course) {
-      this.clubcount = 0;
+      //this.clubcount = 0;
       this.axios
         .post("https://matchplay.meteorapp.com/methods/" + "getTopClubs", {
           //getclubstoplist
@@ -3000,9 +3146,9 @@ export default {
                             this.team.paid = this.teams[0].paid;
                             
                             //if not paid, show how many teams for chosen club 
-                            if (!this.teams[0].paid) {          
+                            //if (!this.teams[0].paid) {          
                                 this.getTopListClubs(this.teams[0].course);
-                            }
+                            //}
 
                         }
 
@@ -3100,7 +3246,12 @@ export default {
                 }
                 
                 this.getPlayerData(sim_id);
-                this.tabIndex = Number(localStorage.getItem('active_tab'));           
+                this.tabIndex = Number(localStorage.getItem('active_tab'));     
+                
+                //INITIATE POLL
+                setTimeout(() => {
+                    this.showPoll();                        
+                }, 1000);
              
 
             } else {
