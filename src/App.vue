@@ -59,7 +59,7 @@ export default {
   },
   methods: {
     getPlayerData(id) { 
-      //console.log('inne');
+     
       this.axios.post('https://matchplay.meteorapp.com/methods/getPlayerData', {
               "id": id,
               "competition": '8dmNL5K5ypaHbTbEM'

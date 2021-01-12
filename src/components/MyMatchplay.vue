@@ -194,8 +194,8 @@
                                     Deltagit med {{userdetails.numberofteams}} lag i tävlingen.
                                 </b-tooltip>    
 
-                                 <!-- Ambassador-->
-                                 <i hidden id="ambassador" v-if="userdetails.ambassador" class="fas fa-award gold"></i>
+                                 <!-- Ambassador-->                                 
+                                 <i id="ambassador" v-if="userdetails.isambassador" class="fas fa-award gold"></i>
                                  <b-tooltip target="ambassador" triggers="hover" placement="top">
                                     Du är en ambassadör för tävlingen! Tack :)
                                 </b-tooltip>    
@@ -406,6 +406,9 @@
                                         <b-tooltip :target="'tooltip-course-' + idx" triggers="hover" placement="top">
                                             Hemmaklubb för matcher
                                         </b-tooltip>
+                                        <b-alert show variant="info" v-if="clubcount > 0" class="small mt-3">
+                                            <strong>{{clubcount}}</strong> lag har redan anmält sig från {{team.coursename}}, välkommen till gänget!
+                                        </b-alert>
                                     </span>
                                 </div>
 
@@ -652,6 +655,9 @@
                                     </suggestions>
                                     <b-form-input hidden id="clubid" v-model="team.clubid" readonly placeholder="Id på klubben">
                                     </b-form-input>
+                                    <b-alert show variant="info" v-if="query !== '' && clubcount > 0" class="small mt-3">
+                                        <strong>{{clubcount}}</strong> lag har redan anmält sig från {{query}}, välkommen till gänget!
+                                    </b-alert>
                                 </b-form-group>
                             </b-col>
                         </b-row>
@@ -1270,6 +1276,7 @@ export default {
             showspinner_swish: false,
             showspinner_voucher: false,
             showspinner_invoice: false,
+            clubcount: 0,
             teamoptions: [{
                     value: null,
                     text: 'Vänligen välj ett alternativ'
@@ -1455,7 +1462,7 @@ export default {
                 email: '',
                 numberofteams: 0,
                 golfid: '',
-                ambassador: false
+                isambassador: false
             },
             form: {
                 email: '',
@@ -1472,6 +1479,7 @@ export default {
         }
     },
     computed: {
+        
         validateResetEmail() {
 
             if (this.sendformreset.email.length < 4) {
@@ -1586,6 +1594,26 @@ export default {
   
     mixins: [tagsMixin],
     methods: {
+    getTopListClubs(course) {
+      this.clubcount = 0;
+      this.axios
+        .post("https://matchplay.meteorapp.com/methods/" + "getTopClubs", {
+          //getclubstoplist
+          competition: globalState.compid,
+          course: course       
+        })
+        .then((response) => {
+          if (response.data.length > 0) { 
+            this.clubcount = response.data[0].count;         
+          } else {
+              this.clubcount = 0;
+          }
+         
+        })
+        .catch((error) => {
+          console.log(error);          
+        });
+    },
         getReceipt: function(team) {
                     //console.log(team);
                   
@@ -2242,11 +2270,13 @@ export default {
                     console.log(error);
                 });
         },
-        getPlayerData(id) { 
+        getPlayerData(id) {
+            
             
             if (!id) {
                 id = this.userinfo._id;
             }
+            
             this.axios.post(globalState.admin_url + 'getPlayerData', {
                     "id": id,
                     "competition": globalState.compid
@@ -2495,6 +2525,10 @@ export default {
                 x[i].classList.add("is-valid");
                 x[i].classList.remove("is-invalid");
             }
+            
+            if (this.team.clubid !== '') {
+                this.getTopListClubs(this.team.clubid);
+            }
 
         },
 
@@ -2694,7 +2728,7 @@ export default {
                     parentVue.showloginspinner = false;
                     parentVue.doctitle = 'My matchplay';
                     
-                    this.$store.dispatch('setAuthentication', {token: server.token, userId: server.userId})
+                    this.$store.dispatch('setAuthentication', {token: server.token, userId: server.userId})                    
                     this.getPlayerData(server.userId)
                 })
                 .then((output) => {
@@ -2933,7 +2967,12 @@ export default {
                     this.userdetails.golfid = userinfo.golfid;
                     this.userdetails.email = userinfo.email;
                     this.userdetails.mobile = userinfo.mobile;
-                    this.userdetails.ambassador = true;//userinfo.ambassador;
+                    if (userinfo.hasOwnProperty('isambassador')) {
+                        this.userdetails.isambassador = userinfo.isambassador;
+                    } else {
+                        this.userdetails.isambassador = false;
+                    }
+
                     this.games = [];
                     let games = [];
 
@@ -2952,7 +2991,15 @@ export default {
 
                         if (this.teamscount > 0) {
                             this.team.paid = this.teams[0].paid;
+                            
+                            //if not paid, show how many teams for chosen club 
+                            if (!this.teams[0].paid) {          
+                                this.getTopListClubs(this.teams[0].course);
+                            }
+
                         }
+
+
 
                         //loop teams and get games if any
                         var i;
@@ -3027,26 +3074,34 @@ export default {
     },
     created() {
 
+
+      
        this.$store.dispatch("tryAutoLogin").then(() => {
             if (this.isAuthenticated) {
                 var sim_id;
-                sim_id = localStorage.getItem('userId') 
+                sim_id = localStorage.getItem('userId');
+                
+                if (!sim_id || sim_id === 'undefined' || sim_id === '') {
+                    sim_id = localStorage.setItem('auth_token','');
+                    this.showlogin = true;
+                    this.loading = false;
+                    return;
+                }
+                
                 if (this.$route.query.sim_id) {
                     sim_id = this.$route.query.sim_id;   
-                }      
-                this.getPlayerData(sim_id)
-                this.tabIndex = Number(localStorage.getItem('active_tab'));                
-                /*
-                setTimeout(() => {
-                                
-                            }, 2000);*/
+                }
                 
+                this.getPlayerData(sim_id);
+                this.tabIndex = Number(localStorage.getItem('active_tab'));           
+             
 
             } else {
                 this.showlogin = true;
                 this.loading = false;
             }
        })
+       
     }
 
 }

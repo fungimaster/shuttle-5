@@ -689,9 +689,10 @@ components: {
     // doAsyncOperation1() returns a promise.
 trylogin()
 .then(() => { 
-   console.log('logged in with creds',server.token);      
+   console.log('logged in with creds',server.token);
    //parentVue.showerror = false;
    localStorage.setItem('auth_token',server.token);
+   localStorage.setItem('userId',server.userId);
    //parentVue.showlogin = false;
    //parentVue.showloginspinner = false;
    //parentVue.doctitle = 'Inloggad';
