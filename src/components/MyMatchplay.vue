@@ -440,7 +440,7 @@
                                     </span>
                                     <b-alert show variant="info" v-if="clubcount > 0" class="small mt-3">                                        
                                          <b-img v-if="clublogo" class="mr-3 mb-2 pb-1 float-left" :src="getClubImage(clublogo)"></b-img>
-                                            <p><strong>{{clubcount}}</strong> lag har anmält sig från {{team.coursename}}, välkommen till gänget!</p>
+                                            <p class="mb-0"><strong>{{clubcount}}</strong> lag har anmält sig från {{team.coursename}}, välkommen till gänget!</p>
                                         </b-alert>
                                          <b-alert show variant="info" v-if="clubcount === 0" class="small mt-3">
                                             {{clubinfo_first}}
@@ -691,8 +691,8 @@
                                     <b-form-input hidden id="clubid" v-model="team.clubid" readonly placeholder="Id på klubben">
                                     </b-form-input>
                                     <b-alert show variant="info" v-if="query !== '' && clubcount > 0" class="small mt-3">                                        
-                                         <b-img v-if="clublogo" class="mr-3 mb-2 pb-1 float-left" :src="getClubImage(clublogo)"></b-img>
-                                        <p><strong>{{clubcount}}</strong> lag har anmält sig från {{query}}, välkommen till gänget!</p>
+                                         <b-img v-if="clublogo" class="mr-3 mb-0 pb-0 float-left" :src="getClubImage(clublogo)"></b-img>
+                                        <p class="mb-0"><strong>{{clubcount}}</strong> lag har anmält sig från {{query}}, välkommen till gänget!</p>
                                     </b-alert>
                                      <b-alert show variant="info" v-if="query !== '' && clubcount === 0" class="small mt-3">
                                         {{clubinfo_first}}
