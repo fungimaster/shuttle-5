@@ -13,7 +13,7 @@
 
                 </b-col>
                  <b-col
-                    class="col-12 col-md-7 pl-0 pr-0 pb-4 pb-md-3"                    
+                    class="col-12 col-md-7 pl-0 pr-0 pb-4 pb-md-3 mt-md-3 mt-0"                    
                 >                
                 <b-progress height="1.4rem" :value="club.count" :max="topclub" show-value animated variant="success"></b-progress>
                 
@@ -71,7 +71,7 @@ export default {
   },
   methods: {
      getClubImage(logourl) {
-            return 'https://res.cloudinary.com/dn3hzwewp/image/upload/h_40,c_scale,q_80/' + logourl;
+            return 'https://res.cloudinary.com/dn3hzwewp/image/upload/h_40,q_100,c_fill,ar_1:1,g_auto/' + logourl;
         },
       progress(count) {        
         return count/this.topclub;

@@ -374,7 +374,7 @@
                         <b-card class="mb-2 team header">
                             <b-card-title class="mt-2">
                                 <span v-if="team.type === 'Company'" class="pr-2">{{team.teamname}}</span>
-                                <img v-if="team.type === 'Company'" class="mt-2 pt-3 pb-3 mb-4 d-block" :src="`${team.logourl}`">
+                                <img v-if="team.type === 'Company'" class="mt-2 pt-3 pb-3 mb-4 d-block teamimage" :src="`${team.logourl}`">
 
                                 <span v-else class="pr-2 mt-2">Ditt lag</span>                                
                                 
@@ -438,11 +438,12 @@
                                             Hemmaklubb för matcher
                                         </b-tooltip>
                                     </span>
-                                    <b-alert show variant="info" v-if="clubcount > 0" class="small mt-3">
-                                            <strong>{{clubcount}}</strong> lag har anmält sig från {{team.coursename}}, välkommen till gänget!
+                                    <b-alert show variant="info" v-if="clubcount > 0" class="small mt-3">                                        
+                                         <b-img v-if="clublogo" class="mr-3 mb-2 pb-1 float-left" :src="getClubImage(clublogo)"></b-img>
+                                            <p><strong>{{clubcount}}</strong> lag har anmält sig från {{team.coursename}}, välkommen till gänget!</p>
                                         </b-alert>
                                          <b-alert show variant="info" v-if="clubcount === 0" class="small mt-3">
-                                            Du är först ut med ett lag från denna klubb, sprid gärna budskapet om tävlingen!
+                                            {{clubinfo_first}}
                                         </b-alert>
                                 </div>
 
@@ -689,11 +690,12 @@
                                     </suggestions>
                                     <b-form-input hidden id="clubid" v-model="team.clubid" readonly placeholder="Id på klubben">
                                     </b-form-input>
-                                    <b-alert show variant="info" v-if="query !== '' && clubcount > 0" class="small mt-3">
-                                        <strong>{{clubcount}}</strong> lag har anmält sig från {{query}}, välkommen till gänget!
+                                    <b-alert show variant="info" v-if="query !== '' && clubcount > 0" class="small mt-3">                                        
+                                         <b-img v-if="clublogo" class="mr-3 mb-2 pb-1 float-left" :src="getClubImage(clublogo)"></b-img>
+                                        <p><strong>{{clubcount}}</strong> lag har anmält sig från {{query}}, välkommen till gänget!</p>
                                     </b-alert>
                                      <b-alert show variant="info" v-if="query !== '' && clubcount === 0" class="small mt-3">
-                                        Du är först ut med ett lag från denna klubb, sprid gärna budskapet om tävlingen!
+                                        {{clubinfo_first}}
                                      </b-alert>
                                 </b-form-group>
                             </b-col>
@@ -1211,6 +1213,7 @@ export default {
         let clubs = [];
         let countries = ['Afghanistan', 'Åland Islands', 'Albania', 'Algeria', 'American Samoa', 'AndorrA', 'Angola', 'Anguilla', 'Antarctica', 'Antigua and Barbuda', 'Argentina', 'Armenia', 'Aruba', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bermuda', 'Bhutan', 'Bolivia', 'Bosnia and Herzegovina', 'Botswana', 'Bouvet Island', 'Brazil', 'British Indian Ocean Territory', 'Brunei Darussalam', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Cape Verde', 'Cayman Islands', 'Central African Republic', 'Chad', 'Chile', 'China', 'Christmas Island', 'Cocos (Keeling) Islands', 'Colombia', 'Comoros', 'Congo', 'Congo, The Democratic Republic of the', 'Cook Islands', 'Costa Rica', 'Cote D\'Ivoire', 'Croatia', 'Cuba', 'Cyprus', 'Czech Republic', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic', 'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Eritrea', 'Estonia', 'Ethiopia', 'Falkland Islands (Malvinas)', 'Faroe Islands', 'Fiji', 'Finland', 'France', 'French Guiana', 'French Polynesia', 'French Southern Territories', 'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana', 'Gibraltar', 'Greece', 'Greenland', 'Grenada', 'Guadeloupe', 'Guam', 'Guatemala', 'Guernsey', 'Guinea', 'Guinea-Bissau', 'Guyana', 'Haiti', 'Heard Island and Mcdonald Islands', 'Holy See (Vatican City State)', 'Honduras', 'Hong Kong', 'Hungary', 'Iceland', 'India'];
         return {    
+            clubinfo_first: 'Du är först ut med ett lag från denna klubb, sprid gärna budskapet om tävlingen på din klubb! Lottning sker mot lag från andra klubbar nära vald klubb för att minimera avstånden.',
             choosereserve: false,
             closed: false,       
             tabIndex: 0,
@@ -1321,6 +1324,7 @@ export default {
             showspinner_voucher: false,
             showspinner_invoice: false,
             clubcount: null,
+            clublogo: null,
             teamoptions: [{
                     value: null,
                     text: 'Vänligen välj ett alternativ'
@@ -1641,6 +1645,9 @@ export default {
   
     mixins: [tagsMixin],
     methods: {
+           getClubImage(logourl) {      
+            return 'https://res.cloudinary.com/dn3hzwewp/image/upload/h_40,q_100,c_scale/' + logourl;
+        },
                 compareValues(key, order = 'asc') {
   return function innerSort(a, b) {
     if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
@@ -1756,9 +1763,14 @@ export default {
         })
         .then((response) => {
           if (response.data.length > 0) { 
-            this.clubcount = response.data[0].count;         
+            this.clubcount = response.data[0].count;
+            if (response.data[0].hasOwnProperty('logourl')) {                
+                this.clublogo = response.data[0].logourl; 
+            }
+            
           } else {
               this.clubcount = 0;
+              this.clublogo = null;
           }
          
         })
@@ -3311,7 +3323,7 @@ h2.teaser-header {
     font-size:1.4em !important;
 }
 
-.team img {
+.teamimage {
     border:1px solid grey;
     background:#FFF;
     padding:0.5em;
