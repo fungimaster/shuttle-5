@@ -12,10 +12,10 @@
           class="hidden teaser-header orange"
         >Det är klart du vill vara med i golftävlingen, registrera dig här!</h2>
 
-        <b-row class="mb-3 mt-3">
+        <b-row class="mb-2 mt-3">
           <b-col v-if="this.player==='player1'">
             <p>Registreringen består av 4 enkla steg:</p>
-            <div v-bind:class="{ stepsuccess: step == 'step1' }">1. Kontroll av Golf-ID</div>
+            <div v-bind:class="{ stepsuccess: step == 'step1' }">1. Skriv in ditt Golf-ID</div>
             <div v-bind:class="{ stepsuccess: step == 'step2' }">2. Registrera dig som spelare</div>
             <div
               v-bind:class="{ stepsuccess: step == 'step3' }"
@@ -42,14 +42,14 @@
           </b-col>
         </b-row>
 
-        <b-row class="mb-3 mt-3">
+        <b-row class="mb-3 mt-0">
           <b-col md="12" class="teaser-content" ref="success" id="success">
-            <h3 v-if="showqualified" class="mt-3 mb-4">
+            <h3 v-if="showqualified" class="mt-0 mb-4">
               Grattis, du kan vara med i tävlingen
               <i class="material-icons">tag_faces</i>
             </h3>
 
-            <h3 v-if="showqualified32" class="mt-3 mb-4">
+            <h3 v-if="showqualified32" class="mt-1 mb-4">
               Grattis, du kan vara med i tävlingen men ditt handicap kommer räknas som 28 i matchspelet.
               <i
                 class="material-icons"
@@ -69,8 +69,8 @@
             <div class="form-group" v-if="showform1">
               <b-row class>
                 <b-col xs="12" sm="12" class>
-                  <h4>1. Kontroll av Golf-ID</h4>
-                  <p>Börja med att ange ditt Golf-ID så hämtar vi en del av informationen automatiskt från Svenska Golfförbundet.</p>
+                  <h4>1. Skriv in ditt Golf-ID</h4>
+                  <p>Börja med att ange ditt Golf-ID så kontrollerar vi det mot Svenska Golfförbundet.</p>
                   <b-alert
                     hidden
                     show
@@ -206,7 +206,7 @@
                 >
                   <b-form-input id="lastname" v-model="form.lastname" type="text" required readonly></b-form-input>
                 </b-form-group>
-                <b-form-group
+                <b-form-group hidden
                   id="input-group-1"
                   label="Medlemsklubb"
                   label-for="input-1"
@@ -217,6 +217,7 @@
                   <b-form-input id="club" v-model="form.club" type="text" required readonly></b-form-input>
                 </b-form-group>
                 <b-form-group
+                  hidden
                   id="input-group-1"
                   label="Ditt HCP"
                   label-for="input-1"
@@ -429,7 +430,9 @@ components: {
         golfid: "",
         mobile: "",
         firstname: "",
+        firstname_hidden: "",
         lastname: "",
+        lastname_hidden: "",
         hcp: "",
         club: "",
         email:"",
@@ -573,8 +576,23 @@ components: {
           this.showform1 = false;
           this.showform2 = true;
           this.form.golfid = this.golfid;
-          this.form.firstname = response.data.firstname;
-          this.form.lastname = response.data.lastname;
+
+          var xlen = '*';         
+          for (var i = 0; i < response.data.firstname.length-3; i++) {
+            xlen += '*'
+          }
+
+          this.form.firstname = response.data.firstname.substring(0, 2) + xlen;
+
+          xlen = '*';         
+          for (var i = 0; i < response.data.lastname.length-3; i++) {
+            xlen += '*'
+          }
+          
+          
+          this.form.lastname = response.data.lastname.substring(0, 2) + xlen;
+          this.form.firstname_hidden = response.data.firstname;
+          this.form.lastname_hidden = response.data.lastname;
           this.form.club = response.data.club;
           //this.form.hcp = response.data.hcp;
           this.form.hcp = response.data.hcp.replace(/,/g, '.')
@@ -635,8 +653,8 @@ components: {
                   }
               ],
               "password": this.form.password,
-              "firstname": this.form.firstname,
-              "lastname": this.form.lastname,                              
+              "firstname": this.form.firstname_hidden,
+              "lastname": this.form.lastname_hidden,                              
               "golfid": this.form.golfid,
               "mobile": this.form.mobile
             }
