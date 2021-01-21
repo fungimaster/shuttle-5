@@ -438,10 +438,14 @@
                                             Hemmaklubb för matcher
                                         </b-tooltip>
                                     </span>
-                                    <b-alert show variant="info" v-if="clubcount > 0" class="small mt-3 mb-0">                                        
-                                         <b-img v-if="clublogo" class="mr-3 mb-2 pb-1 float-left" :src="getClubImage(clublogo)"></b-img>
-                                           <p class="mb-0"><strong>{{clubcount}}</strong> lag har anmält sig från {{team.coursename}}, välkommen till gänget!</p>
-                                        </b-alert>
+                                    <div show variant="info" v-if="clubcount > 0" class="small mt-3 mb-0 p-2 m-0">
+                                        <hr class="pt-0 mt-0" />                                        
+                                         <b-img v-if="clublogo" class="mt-1 mt-md-0 mr-3 mb-2 pb-1 float-left" :src="getClubImage(clublogo)"></b-img>
+                                           <p class="mb-0 d-table-cell">{{team.coursename}} representeras just nu av <strong>{{clubcount}}</strong> lag.
+                                           <span v-if="team.paid"> Välkommen till gänget!</span>
+                                           <span v-if="!team.paid">({{clubcount+1}} när ert lag är betalt).</span>
+                                           </p>
+                                        </div>
                                          <b-alert show variant="info" v-if="clubcount === 0" class="small mt-3">                                           
                                              {{clubinfo_first}}
                                         </b-alert>
@@ -689,10 +693,13 @@
                                     </suggestions>
                                     <b-form-input hidden id="clubid" v-model="team.clubid" readonly placeholder="Id på klubben">
                                     </b-form-input>
-                                    <b-alert show variant="info" v-if="query !== '' && clubcount > 0" class="small mt-3 mb-0">                                        
-                                         <b-img v-if="clublogo" class="mr-3 mb-2 pb-0 float-left" :src="getClubImage(clublogo)"></b-img>
-                                        <p class="mb-0"><strong>{{clubcount}}</strong> lag har anmält sig från {{query}}, välkommen till gänget!</p>
-                                    </b-alert>
+                                    <div show variant="info" v-if="query !== '' && clubcount > 0" class="small mt-3 mb-0 m-0 p-3">
+                                                                           
+                                         <b-img v-if="clublogo" class="mt-1 mr-3 mb-2 pb-0 float-left" :src="getClubImage(clublogo)"></b-img>
+                                        <p class="mb-0 d-table-cell">{{query}} representeras just nu av <strong>{{clubcount}}</strong> lag.
+                                         ({{clubcount+1}} när ert lag är betalt).
+                                        </p>
+                                    </div>
                                      <b-alert show variant="info" v-if="query !== '' && clubcount === 0" class="small mt-3">                                                                                 
                                         {{clubinfo_first}}
                                      </b-alert>
@@ -1236,7 +1243,7 @@ export default {
         let clubs = [];
         let countries = ['Afghanistan', 'Åland Islands', 'Albania', 'Algeria', 'American Samoa', 'AndorrA', 'Angola', 'Anguilla', 'Antarctica', 'Antigua and Barbuda', 'Argentina', 'Armenia', 'Aruba', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bermuda', 'Bhutan', 'Bolivia', 'Bosnia and Herzegovina', 'Botswana', 'Bouvet Island', 'Brazil', 'British Indian Ocean Territory', 'Brunei Darussalam', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Cape Verde', 'Cayman Islands', 'Central African Republic', 'Chad', 'Chile', 'China', 'Christmas Island', 'Cocos (Keeling) Islands', 'Colombia', 'Comoros', 'Congo', 'Congo, The Democratic Republic of the', 'Cook Islands', 'Costa Rica', 'Cote D\'Ivoire', 'Croatia', 'Cuba', 'Cyprus', 'Czech Republic', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic', 'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Eritrea', 'Estonia', 'Ethiopia', 'Falkland Islands (Malvinas)', 'Faroe Islands', 'Fiji', 'Finland', 'France', 'French Guiana', 'French Polynesia', 'French Southern Territories', 'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana', 'Gibraltar', 'Greece', 'Greenland', 'Grenada', 'Guadeloupe', 'Guam', 'Guatemala', 'Guernsey', 'Guinea', 'Guinea-Bissau', 'Guyana', 'Haiti', 'Heard Island and Mcdonald Islands', 'Holy See (Vatican City State)', 'Honduras', 'Hong Kong', 'Hungary', 'Iceland', 'India'];
         return {    
-            clubinfo_first: 'Du är först ut med ett lag från denna klubb, sprid gärna budskapet om tävlingen på din klubb! Lottning sker mot lag från andra klubbar nära vald klubb för att minimera avstånden.',
+            clubinfo_first: 'Du är först ut med ett lag från denna klubb, sprid gärna budskapet om tävlingen på din klubb! Lottning sker mot lag från andra klubbar nära vald klubb för att minimera avstånden och ge er nya golfupplevelser.',
             choosereserve: false,
             closed: false,       
             tabIndex: 0,
@@ -1669,7 +1676,7 @@ export default {
     mixins: [tagsMixin],
     methods: {
            getClubImage(logourl) {      
-            return 'https://res.cloudinary.com/dn3hzwewp/image/upload/h_40,q_100,c_scale/' + logourl;
+            return 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_60,q_100,c_scale/' + logourl;
         },
                 compareValues(key, order = 'asc') {
   return function innerSort(a, b) {
