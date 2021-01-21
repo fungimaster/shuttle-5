@@ -438,12 +438,12 @@
                                             Hemmaklubb för matcher
                                         </b-tooltip>
                                     </span>
-                                    <b-alert show variant="info" v-if="clubcount > 0" class="small mt-3">                                        
+                                    <b-alert show variant="info" v-if="clubcount > 0" class="small mt-3 mb-0">                                        
                                          <b-img v-if="clublogo" class="mr-3 mb-2 pb-1 float-left" :src="getClubImage(clublogo)"></b-img>
-                                            <p class="mb-0"><strong>{{clubcount}}</strong> lag har anmält sig från {{team.coursename}}, välkommen till gänget!</p>
+                                           <p class="mb-0"><strong>{{clubcount}}</strong> lag har anmält sig från {{team.coursename}}, välkommen till gänget!</p>
                                         </b-alert>
-                                         <b-alert show variant="info" v-if="clubcount === 0" class="small mt-3">
-                                            {{clubinfo_first}}
+                                         <b-alert show variant="info" v-if="clubcount === 0" class="small mt-3">                                           
+                                             {{clubinfo_first}}
                                         </b-alert>
                                 </div>
 
@@ -512,18 +512,17 @@
 
                 <!-- STEP 1 -->
                 <div v-if="team.step > 0">
-                    <b-container class="mb-4 mb-md-5">
+                    <b-container class="mb-3 mb-md-5">
                         <b-row align-h="center">
                             <b-col md="6">
 
-                                <b-card class="mt-1 mb-1 pt-0" no-body>
+                                <b-card class="mt-0 mb-1 pt-0" no-body>
                                     <b-card-header>
-                                        Ditt lag<span v-if="team.name != ''">: {{team.name}}</span>
-                                        
+                                        Ditt lag<span v-if="team.name != ''">: {{team.name}}</span>                                        
                                         <img class="overview-logo" v-bind:src="team.logo" v-if="team.type === 'Company'" />
                                     </b-card-header>
                                     <b-card-body>
-                                        <b-card-text class="mt-3">
+                                        <b-card-text class="mt-1">
                                             <div hidden class="pt-0 pb-3">
                                                 <span id="tooltip-teamleader">
                                                     <i class="material-icons mr-2">supervised_user_circle</i> {{userdetails.firstname}} {{userdetails.lastname}}<span v-if="team.player_2_name"> & {{team.player_2_name}}</span>
@@ -681,7 +680,7 @@
                         <!-- Course -->
                         <b-row align-h="center">
                             <b-col md="6">
-                                <b-form-group class="mb-5" v-if="team.type != null && !team.is_readonly">
+                                <b-form-group class="mb-1" v-if="team.type != null && !team.is_readonly">
                                     <label for="query">Välj hemmaklubb för matcher<i v-b-popover.hover.top="'Välj klubben du är medlem i eller som ligger nära där du bor eller tänkt spela dina matcher på.'" title="Hjälp" class="help material-icons mr-2">help_outline</i></label>
                                     <suggestions v-model="query" id="query" :options="options" :onInputChange="onCountryInputChange" required :onItemSelected="onSearchItemSelected" style="width:100%;">
                                         <div slot="item" slot-scope="props" class="single-item">
@@ -690,11 +689,11 @@
                                     </suggestions>
                                     <b-form-input hidden id="clubid" v-model="team.clubid" readonly placeholder="Id på klubben">
                                     </b-form-input>
-                                    <b-alert show variant="info" v-if="query !== '' && clubcount > 0" class="small mt-3">                                        
-                                         <b-img v-if="clublogo" class="mr-3 mb-0 pb-0 float-left" :src="getClubImage(clublogo)"></b-img>
+                                    <b-alert show variant="info" v-if="query !== '' && clubcount > 0" class="small mt-3 mb-0">                                        
+                                         <b-img v-if="clublogo" class="mr-3 mb-2 pb-0 float-left" :src="getClubImage(clublogo)"></b-img>
                                         <p class="mb-0"><strong>{{clubcount}}</strong> lag har anmält sig från {{query}}, välkommen till gänget!</p>
                                     </b-alert>
-                                     <b-alert show variant="info" v-if="query !== '' && clubcount === 0" class="small mt-3">
+                                     <b-alert show variant="info" v-if="query !== '' && clubcount === 0" class="small mt-3">                                                                                 
                                         {{clubinfo_first}}
                                      </b-alert>
                                 </b-form-group>
@@ -703,12 +702,12 @@
 
                         <!-- NEXT STATE -->
                         <b-row align-h="center">
-                            <b-col md="6">                                
-                                <b-button @click.prevent="cancel_team()" variant="light"><i class="material-icons">arrow_back_ios</i>Tillbaka</b-button>
-                                <b-button v-if="!team.teammembergolfid" :disabled="team.clubid === ''" class="mt-0 mt-sm-0 float-right" @click.prevent="next()" variant="success">
-                                    <b-spinner v-if="showloginspinner" small type="grow" class="mr-2"></b-spinner>Välj lagkamrat<i class="ml-2 material-icons">arrow_forward_ios</i>
+                            <b-col md="6" class="mb-4 mt-3">                                
+                                <b-button @click.prevent="cancel_team()" size="sm" variant="light"><i class="material-icons">arrow_back_ios</i>Tillbaka</b-button>
+                                <b-button v-if="!team.teammembergolfid" :disabled="team.clubid === ''" size="sm" class="mt-0 mt-sm-0 float-right" @click.prevent="next()" variant="success">
+                                    <b-spinner v-if="showloginspinner" size="sm" small type="grow" class="mr-2"></b-spinner>Välj lagkamrat<i class="ml-2 material-icons">arrow_forward_ios</i>
                                 </b-button>
-                                 <b-button v-if="team.teammembergolfid" class="mt-0 mt-sm-0 float-right" @click.prevent="update_team()" variant="success">
+                                 <b-button v-if="team.teammembergolfid" size="sm" class="mt-0 mt-sm-0 float-right" @click.prevent="update_team()" variant="success">
                                     <b-spinner v-if="showloginspinner" small type="grow" class="mr-2"></b-spinner>Spara<i class="ml-2 material-icons">save</i>
                                 </b-button>
                             </b-col>
@@ -727,7 +726,7 @@
 
                         <b-row v-if="!team.completemode" align-h="center">
                             <b-col md="6" class="text-center mb-3">
-                                <b-button @click.prevent="skipStep()" variant="success">
+                                <b-button @click.prevent="skipStep()" variant="success" size="sm">
                                     Jag vill bjuda in en lagkamrat senare<i class="ml-2 material-icons mr-2">arrow_forward_ios</i>
                                 </b-button>
                             </b-col>
@@ -850,7 +849,7 @@
                                     <span v-if="team.type==='Company' && !team.company_big">{{team.price_company}} SEK (exkl. moms)</span>
                                     <span v-if="team.type==='Company' && team.company_big">{{team.price_company2}} SEK (exkl. moms)</span>
                                     <b-alert show v-if="!team.company_big" variant="warning" class="small">
-                                        Är du säker på att du inte vill ha vårt pluspaket för {{team.price_company2}}:- där nätverksträff ingår i slutet av augusti med golf, bankett och övernattning för 2 personer?
+                                        Är du säker på att du inte vill ha vårt pluspaket för {{team.price_company2}}:- (totalpris) där nätverksträff ingår i slutet av augusti med golf, bankett och övernattning för 2 personer?
                                         <b-form-checkbox
       id="checkbox-2"
       v-model="team.company_big"
@@ -975,7 +974,31 @@
                        </div>
                        <div v-else>
                            <p>Så fort du skapat ett lag och betalat det kommer ditt lags kommande matcher visas här.</p>
-                       </div>                   
+                       </div>  
+
+<hr />
+                       <div>
+                           <h3 class="mt-4 mb-3">Nyttig information</h3>
+                           <p>I väntan på tävlingsstart har vi samlat lite nyttig information för att göra tävlingen ännu enklare och roligare.</p>
+                            <b-card class="mb-2 team">                           
+                            <b-card-text class="mt-0 pt-0 small">
+                                <h3>Tips 1 (Speltid och plats)</h3>
+                                När din match i varje omgång är lottad syns den på denna sidan och är ni lottade som hemmalag, ta så fort som möjligt kontakt med era motståndare för att bestämma spelplats och tid. Det är viktigt att hemmalaget lägger upp tid och plats för matchen så att det blir rätt på resultsidorna på matchplay.se.
+                            </b-card-text>
+                      </b-card>
+                      <b-card class="mb-2 team">                            
+                            <b-card-text class="mt-2 pt-0 small">
+                                 <h3>Tips 2 (Reserv)</h3>
+                                Man ska alltid spela med sitt tänkta lag i första hand. Reserv tas in om någon av de ordinarie medlemmarna blir skadad eller sjuk. Ni behöver bara välj en reserv (från lagsidan) när behov uppstår och golfid väljs in innan matchen startar. Då kan hemmalaget välja denna reserv när matchen startas och hcp-uträkningarna blir rätt.
+                            </b-card-text>
+                      </b-card>    
+                      <b-card class="mb-2 team">                            
+                            <b-card-text class="mt-2 pt-0 small">
+                                 <h3>Tips 3 (Ha kul!)</h3>
+                                Matchspel är en otroligt rolig spelform och med hjälp av vårt digitala scorekort blir det busenkelt att se vilka som vinner resp. hål och leder matchen. Släkt och vänner kan följa matchen från resultatsidan som läggs upp direkt när omgång 1 har lottats. Njut av rundan och må bästa lag vinna!                               
+                            </b-card-text>
+                      </b-card>  
+                       </div>                 
                                 
                 </b-col>
             </b-row>
