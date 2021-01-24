@@ -446,7 +446,7 @@
                                            <span v-if="!team.paid">({{clubcount+1}} när ert lag är betalt).</span>
                                            </p>
                                         </div>
-                                         <b-alert show variant="info" v-if="clubcount === 0" class="small mt-3">                                           
+                                         <b-alert hidden variant="info" v-if="clubcount === 0" class="small mt-3">                                           
                                              {{clubinfo_first}}
                                         </b-alert>
                                 </div>
@@ -700,7 +700,7 @@
                                          ({{clubcount+1}} när ert lag är betalt).
                                         </p>
                                     </div>
-                                     <b-alert show variant="info" v-if="query !== '' && clubcount === 0" class="small mt-3">                                                                                 
+                                     <b-alert hidden variant="info" v-if="query !== '' && clubcount === 0" class="small mt-3">                                                                                 
                                         {{clubinfo_first}}
                                      </b-alert>
                                 </b-form-group>
