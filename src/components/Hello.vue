@@ -362,6 +362,27 @@ import Testimonials from "./Testimonials";
 import Podium from "./Podium";
 import { globalState } from "../main.js";
 
+import moment from "moment";
+import VueMoment from "vue-moment";
+moment.locale("sv");
+moment.updateLocale("sv", {
+  relativeTime: {
+    future: "om %s",
+    past: "%s",
+    ss: "%d sek",
+    m: "1 minut",
+    mm: "%d min",
+    h: "en timme",
+    hh: "%d timmar",
+    d: "en dag",
+    dd: "%d dagar",
+    M: "en månad",
+    MM: "%d mån",
+    y: "ett år",
+    yy: "%d år",
+  },
+});
+
 let options = {};
 
 
@@ -390,6 +411,7 @@ export default {
     this.axios
       .post(globalState.admin_url + "getCompetition", {id: globalState.compid})
       .then((response) => {
+        
         if (!response.data.competitionmessages.length) {
           return
         }
@@ -401,6 +423,36 @@ export default {
         console.log(error);
       }); 
   }     
+
+  //Show latest team toast
+
+  let latestTeam = localStorage.getItem('latestTeam');
+    
+   this.axios
+      .post(globalState.admin_url + "getLatestPaidTeam")
+      .then((response) => {
+      
+        
+          
+        if (response.data) {
+          let test = moment().diff(response.data.paidAt, 'hours');       
+          if (test < 23)
+            if (response.data.paidAt !== latestTeam) {
+                setTimeout(() => {
+                  this.toast('b-toaster-top-center',response.data);                      
+                }, 1500); 
+              
+              localStorage.setItem('latestTeam',response.data.paidAt);
+            }
+        }
+        
+       
+        
+      })
+      .catch((error) => {
+        console.log(error);
+      }); 
+  
     
   },
   watch: {
@@ -465,17 +517,16 @@ export default {
       this.$refs['earlyBirdie'].show();
       //localStorage.setItem('earlyBirdie2021', '2');
     },
-    toast(toaster, append = false) {    
-    
-    this.$bvToast.toast(`Early Birdie är över, vinnarna av en golfweekend meddelas per mail samt på Facebook/Instagram. Följ oss där för fler tävlingar och utlottningar fram till tävlingsstart i maj!`, {
-      title: `Early Birdie`,
+    toast(toaster,data, append = false) {    
+    //set delay 2-3 sekunder...
+    let regDate = moment(data.paidAt, "YYYY-MM-DD hh:mm").fromNow();
+    this.$bvToast.toast('Ett lag från ' + data.coursename + ' anmäldes för ' + regDate + ' sedan av ' + data.teamleadername + '.', {
+      title: `Nyanmälda lag till Matchplay 2021`,
       toaster: toaster,
-      autoHideDelay: 12000,
+      autoHideDelay: 6000,
       solid: true,         
       appendToast: append
     })
-
-    localStorage.setItem('earlyBirdie2021_1','1')
 
     },
 
