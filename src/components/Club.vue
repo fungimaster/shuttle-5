@@ -58,7 +58,7 @@
             class="mt-3 small"
           >Om ni får {{teams}} lag att välja er klubb som hemmaklubb i Matchplay 2021 beräknar vi att ni kommer få {{players}} nya gäster som besöker er anläggning. Vi beräknar att ca {{games}} matcher kommer spelas på er anläggning och att er snittgreenfee i perioden maj-september är {{price}} kr. Med {{teams}} lag tjänar ni ungefär {{calcprofit}}:- på greenfee samt erhåller {{calckickback}}:- om ni delar våra budskap om tävlingen i era sociala medier.</b-alert>
         </b-col>
-  <b-col v-if="showTopClubs" class="col-12 mt-3 mb-3">
+  <b-col v-if="showTopClubs" class="col-12 mt-3 mb-3" id="podium2">
      <hr class="mb-5" />
       <h3 class="mb-4">Topplista anmälda lag per klubb</h3>
         <podium></podium>

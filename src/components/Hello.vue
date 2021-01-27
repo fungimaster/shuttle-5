@@ -238,7 +238,7 @@
    </b-container>
   </b-jumbotron>
 
-  <b-jumbotron v-if="showTopClubs" container-fluid class="white">
+  <b-jumbotron v-if="showTopClubs" container-fluid class="white" id="podium2">
    <b-container>    
                <b-row>
                  <b-col class="col-12">
@@ -435,14 +435,17 @@ export default {
         
           
         if (response.data) {
-          let test = moment().diff(response.data.paidAt, 'hours');       
+          
+          let paidAt = moment(response.data.paidAt).add(0, 'hour').format()          
+          let test = moment().diff(paidAt, 'hours');
+         
           if (test < 23)
-            if (response.data.paidAt !== latestTeam) {
+            if (paidAt !== latestTeam) {
                 setTimeout(() => {
-                  this.toast('b-toaster-top-center',response.data);                      
+                  this.toast('b-toaster-top-center',response.data, paidAt);                      
                 }, 1500); 
               
-              localStorage.setItem('latestTeam',response.data.paidAt);
+              localStorage.setItem('latestTeam',paidAt);
             }
         }
         
@@ -517,9 +520,9 @@ export default {
       this.$refs['earlyBirdie'].show();
       //localStorage.setItem('earlyBirdie2021', '2');
     },
-    toast(toaster,data, append = false) {    
+    toast(toaster,data, paidAt, append = false) {    
     //set delay 2-3 sekunder...
-    let regDate = moment(data.paidAt, "YYYY-MM-DD hh:mm").fromNow();
+    let regDate = moment(paidAt, "YYYY-MM-DD hh:mm").fromNow();
     this.$bvToast.toast('Ett lag från ' + data.coursename + ' anmäldes för ' + regDate + ' sedan av ' + data.teamleadername + '.', {
       title: `Nyanmälda lag till Matchplay 2021`,
       toaster: toaster,
