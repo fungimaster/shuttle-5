@@ -10,7 +10,7 @@ import Faq from '@/components/Faq'
 import Cookies from '@/components/Cookies'
 import Committee from '@/components/Committee'
 import Club from '@/components/Club'
-import Clubs from '@/components/Clubs'
+import Klubbar from '@/components/Klubbar'
 import Partnership from '@/components/Partnership'
 import Privacy from '@/components/Privacy'
 import ConvinceBoss from '@/components/ConvinceBoss'
@@ -113,9 +113,9 @@ export default new Router({
       component: Club
     },
     {
-      path: '/clubs',
-      name: 'Clubs',
-      component: Clubs
+      path: '/klubbar',
+      name: 'klubbar',
+      component: Klubbar
     },
     /*
     {

@@ -39,7 +39,7 @@
 import { globalState } from "../main.js";
 
   export default {
-    name: 'clubs',
+    name: 'Klubbar',
     data () {
       return {       
         doctitle: 'Klubbar med deltagande lag',
@@ -61,8 +61,7 @@ import { globalState } from "../main.js";
        getClubImage(logourl) {
             return 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_300,q_80,c_scale/' + logourl;
         },    
-       getTopListClubs() {
-        
+       getTopListClubs() {        
       this.loadingclubs = true;       
       this.axios
         .post("https://matchplay.meteorapp.com/methods/" + "getTopClubs", {
