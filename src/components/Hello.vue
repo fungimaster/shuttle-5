@@ -442,10 +442,11 @@ export default {
           if (test < 23)
             if (paidAt !== latestTeam) {
                 setTimeout(() => {
-                  this.toast('b-toaster-top-center',response.data, paidAt);                      
+                  this.toast('b-toaster-top-center',response.data, paidAt);
+                  localStorage.setItem('latestTeam',paidAt);                  
                 }, 1500); 
               
-              localStorage.setItem('latestTeam',paidAt);
+              
             }
         }
         

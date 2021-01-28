@@ -1,11 +1,16 @@
-<template>
+<template> 
   <div
     v-if="
       ['Scorecard', 'CreateGame', 'Game', 'MyMatchplay', 'Receipt'].indexOf(
         $route.name
-      ) === -1
-    "
-  >
+      ) === -1">
+  
+  <ScrollTopComponent>
+  <b-button pill class="btn btn-circle blue-bg btn-md">
+    <i class="far fa-angle-double-up fa-2x"></i>
+  </b-button>
+  </ScrollTopComponent>
+
     <b-container class="sponsors">
       <hr class="mb-5" />
 
@@ -120,11 +125,12 @@
 //import CookieLaw from "vue-cookie-law";
 import VueCookieAcceptDecline from "vue-cookie-accept-decline";
 import "vue-cookie-accept-decline/dist/vue-cookie-accept-decline.css";
+import ScrollTopComponent from "./ScrollTopComponent";
 
 export default {
   name: "footer1",
   //components: { CookieLaw },
-  components: { VueCookieAcceptDecline },
+  components: { VueCookieAcceptDecline,ScrollTopComponent },
   data() {
     return {
       email2: "",
