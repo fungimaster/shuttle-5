@@ -2,19 +2,44 @@
   <div>
     <vue-headful :title="doctitle" />
     <b-container class="mt-5">
-        <b-row>
+        <b-row v-if="!loadingclubs">
             <b-col class="col-12">
-                <h1>Repr. golfklubbar 2021</h1>
-                <h5>Följande 
+                <h1>Golfklubbar 2021</h1>
+                <h5 class="mt-4">Följande 
                     <span v-if="loadingclubs">
                         <b-spinner type="grow" small class="ml-0 pl-0 mr-1 mb-1"></b-spinner>                        
                         </span>
                         <span v-else>
                             <strong>{{clubno}}</strong>
                         </span> 
-                         golfklubbar finns representerade med deltagande lag i årets tävling!</h5>
+                         golfklubbar finns <strong>HITTILLS</strong> representerade med deltagande lag i årets tävling</h5>
+                         <b-alert dismissible="" class="mt-3 small" v-if="!loadingclubs && latestTeam" show variant="warning">{{latestTeam}}</b-alert>
             </b-col>
-        </b-row>
+            <b-col class="col-12 mt-1">
+              <b-form
+                @submit.stop.prevent
+                @submit="searchClub"                
+              >
+              <b-form-input hidden  @click="searchClub()" v-model="search" placeholder="Sök efter klubb"></b-form-input>            
+               <div class="mt-2">
+               <span class="abc">
+               <b-button v-for="(name,idy) in abc" :key="idy" @click="searchClub(search=name)" class="mb-1 mr-1 btn blue-bg btn-sm" variant="info">
+               {{name}}
+              </b-button>
+              <transition fade>
+               <b-button v-if="search!==''" @click="searchClub(search='')" class="ml-0 mb-1 btn btn-sm special" variant="warning">
+               Återställ
+              </b-button>
+              </transition>
+               </span>            
+               </div>
+              </b-form>
+              
+              <p v-if="this.clubs.length === 0" class="mt-3"> Vi hittade ingen klubb på din sökning "{{search}}".</p>
+
+            </b-col>            
+        </b-row>        
+       
         <b-row v-if="loadingclubs">
             <b-col class="col-12 text-center mt-5 mb-5">
                 <b-spinner type="grow" class="spinner-big ml-0 pl-0 mr-1 mb-1"></b-spinner>
@@ -23,10 +48,10 @@
         </b-row>
        <b-row v-if="!loadingclubs" align-h="center" class="justify-content-center align-self-center mt-4">
                 <b-col v-for="(club,idx) in clubs" :key="idx"
-                    class="col-4 col-md-3 pl-0 pr-0 align-self-center text-center"
+                    class="club col-4 col-md-3 pl-0 pr-0 align-self-center text-center"
                 >
                <b-img v-if="club.logourl" class="p-3 p-md-5" :src="getClubImage(club.logourl)"></b-img>
-               <span v-if="!club.logourl">{{club.club}}</span>
+               <span v-if="!club.logourl">{{club.club}}</span>              
                 </b-col>
                 
                 </b-row>
@@ -37,20 +62,45 @@
 <script>
 
 import { globalState } from "../main.js";
+import moment from "moment";
+import VueMoment from "vue-moment";
+moment.locale("sv");
+moment.updateLocale("sv", {
+  relativeTime: {
+    future: "om %s",
+    past: "%s",
+    ss: "%d sek",
+    m: "1 minut",
+    mm: "%d min",
+    h: "en timme",
+    hh: "%d timmar",
+    d: "en dag",
+    dd: "%d dagar",
+    M: "en månad",
+    MM: "%d mån",
+    y: "ett år",
+    yy: "%d år",
+  },
+});
 
   export default {
     name: 'Klubbar',
     data () {
       return {       
         doctitle: 'Klubbar med deltagande lag',
+        search: '',
         clubs: [],
+        clubsAll: [],
         clubno: 0,
         topclub: 0,
         clubcount: 450,        
-        loadingclubs: true  
+        loadingclubs: true,
+        latestTeam: null,
+        abc: []
       }
     },
      created() {
+    this.getLatestTeam();
     this.getTopListClubs(this.clubcount,false);
   },
       mounted: function () {
@@ -58,9 +108,60 @@ import { globalState } from "../main.js";
 
   },
     methods: {
+      searchClub() {
+        
+        if (this.search !== '') {
+          this.clubs = this.clubsAll;   
+ 
+            var strToMatch = this.search;
+
+            var filtered = this.clubs.filter(function(p) {
+              var clubArray = p.club.split('');
+              var clubToMatch = [];
+              for(var i = 0; i < strToMatch.length; i++) {
+                clubToMatch.push(clubArray[i]);
+              }
+              return strToMatch.toLowerCase() == clubToMatch.join('').toLowerCase()
+            })
+
+            this.clubs = filtered;
+
+          } else {
+            this.clubs = this.clubsAll
+          }
+      },
+      getLatestTeam() {
+
+   this.axios
+      .post(globalState.admin_url + "getLatestPaidTeam")
+      .then((response) => {
+      
+        
+          
+        if (response.data) {
+          
+          let paidAt = moment(response.data.paidAt).add(0, 'hour').format()                   
+          let regDate = moment(paidAt, "YYYY-MM-DD hh:mm").fromNow();
+          let testDate = moment().diff(paidAt, 'hours');
+         
+          if (testDate < 23) {
+            this.latestTeam = 'Ett lag från ' + response.data.coursename + ' anmäldes för ' + regDate + ' sedan av ' + response.data.teamleadername + '.';
+          }
+          
+                      
+        }
+        
+       
+        
+      })
+      .catch((error) => {
+        console.log(error);
+      }); 
+  
+      },
        getClubImage(logourl) {
             return 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_300,q_80,c_scale/' + logourl;
-        },    
+        },  
        getTopListClubs() {        
       this.loadingclubs = true;       
       this.axios
@@ -70,9 +171,17 @@ import { globalState } from "../main.js";
           no: 500,
         })
         .then((response) => {
-          this.clubs = response.data;
           this.clubno = response.data.length;
-          this.clubs = this.clubs.sort(this.compareValues("club", "asc"));          
+          this.clubs = response.data;
+          this.clubs = this.clubs.sort(this.compareValues("club", "asc"));
+          this.clubsAll = this.clubs;
+          //GET ABC
+           for(var i = 0; i < this.clubs.length; i++) {
+             this.abc.push(this.clubs[i].club.charAt(0));
+           }
+           const distinctAbc = [...new Set(this.abc)];
+           this.abc = distinctAbc;
+
           this.loadingclubs = false;         
         })
         .catch((error) => {
@@ -105,12 +214,22 @@ import { globalState } from "../main.js";
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+
 img {
-    max-width:80%;
+    max-width:85%;
 }
 
 .spinner-big {
     width:4em;
     height:4em;
+}
+
+.abc .btn {
+  min-width: 45px;
+}
+
+.special {
+  margin-left: -0.25em !important;
 }
 </style>
