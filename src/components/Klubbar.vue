@@ -26,11 +26,11 @@
                <b-button v-for="(name,idy) in abc" :key="idy" @click="searchClub(search=name)" class="mb-1 mr-1 btn blue-bg btn-sm" variant="info">
                {{name}}
               </b-button>
-              <transition fade>
-               <b-button v-if="search!==''" @click="searchClub(search='')" class="ml-0 mb-1 btn btn-sm special" variant="warning">
+               
+               <b-button v-if="search!==''" @click="searchClub(search='')" class="d-block ml-0 mb-1 btn btn-sm" variant="warning">
                Återställ
               </b-button>
-              </transition>
+              
                </span>            
                </div>
               </b-form>
@@ -230,6 +230,6 @@ img {
 }
 
 .special {
-  margin-left: -0.25em !important;
+  margin-left: -5px !important;
 }
 </style>
