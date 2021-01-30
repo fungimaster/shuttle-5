@@ -144,15 +144,15 @@
                 <template v-slot:title>
                 PROFIL
                 </template>
-
+                    
                 <b-container class="mt-4 mt-md-5">                           
                     <b-row hidden>
                         <b-col>
                          <h2 class="teaser-header mt-3">Hej {{userdetails.firstname}}</h2>
                         </b-col>
                     </b-row>                   
-                    <b-row>
-                        <b-col>
+                    <b-row align-h="center">
+                        <b-col sm="10" lg="6" class="mt-3">
                             <h4><strong>Användaruppgifter</strong></h4>
                             <div class="mt-3">
                             <label>Namn:</label>
@@ -177,8 +177,8 @@
                             <b-button variant="primary" class="blue-bg mt-3" @click="create_team('new')">Skapa ett lag</b-button>
                         </b-col>
                     </b-row>
-                     <b-row>
-                        <b-col class="mt-4">
+                     <b-row align-h="center">
+                        <b-col sm="10" lg="6" class="mt-4">
                               <h4><strong>Utmärkelser & Statistik</strong></h4>
                             <div id="badges" class="badges pt-2 mt-3">
                                  
@@ -247,29 +247,7 @@
                                  <h4 hidden><strong>Funktioner</strong></h4>
                     <b-button @click="logoutPrompt" variant="warning" class="btn-sm mt-3">Logga ut</b-button>
                             </b-col>
-                        </b-row>
-                    <b-row hidden>
-                        <b-col>
-                            <b-card class="mb-2 team">                           
-                            <b-card-text class="mt-0 pt-0 small">
-                                <h3>Tips 1 (Speltid och plats)</h3>
-                                När din match i varje omgång är lottad syns den på denna sidan och är ni lottade som hemmalag, ta så fort som möjligt kontakt med era motståndare för att bestämma spelplats och tid. Det är viktigt att hemmalaget lägger upp tid och plats för matchen så att det blir rätt på resultsidorna på matchplay.se.
-                            </b-card-text>
-                      </b-card>
-                      <b-card class="mb-2 team">                            
-                            <b-card-text class="mt-2 pt-0 small">
-                                 <h3>Tips 2 (Reserv)</h3>
-                                Man ska alltid spela med sitt tänkta lag i första hand. Reserv tas in om någon av de ordinarie medlemmarna blir skadad eller sjuk. Ni behöver bara välj en reserv (från lagsidan) när behov uppstår och golfid väljs in innan matchen startar. Då kan hemmalaget välja denna reserv när matchen startas och hcp-uträkningarna blir rätt.
-                            </b-card-text>
-                      </b-card>    
-                      <b-card class="mb-2 team">                            
-                            <b-card-text class="mt-2 pt-0 small">
-                                 <h3>Tips 3 (Ha kul!)</h3>
-                                Matchspel är en otroligt rolig spelform och med hjälp av vårt digitala scorekort blir det busenkelt att se vilka som vinner resp. hål och leder matchen. Släkt och vänner kan följa matchen från resultatsidan som läggs upp direkt när omgång 1 har lottats. Njut av rundan och må bästa lag vinna!                               
-                            </b-card-text>
-                      </b-card>  
-                        </b-col>
-                    </b-row>
+                        </b-row>                    
                 </b-container>
              </b-tab>
     <b-tab title-link-class="ml-2" @click="saveTabIndex(1)">
@@ -306,6 +284,19 @@
         Forget it
       </b-button>
     </template>
+  </b-modal>
+
+<b-modal ref="my-modal-reminder" hide-footer="">
+    <b-container class="p-1">
+     <b-row>
+       <b-col>       
+             <h2><strong>Påminn din lagkamrat</strong></h2>
+
+
+        </b-col>
+     </b-row>
+    </b-container>
+    <b-button class="mt-3" variant="outline-danger" block @click="hideModal('my-modal-reminder')">Stäng</b-button>
   </b-modal>
 
 <b-modal ref="my-modal" hide-footer="">
@@ -348,7 +339,7 @@
         </b-col>
      </b-row>
     </b-container>
-    <b-button class="mt-3" variant="outline-danger" block @click="hideModal">Stäng</b-button>
+    <b-button class="mt-3" variant="outline-danger" block @click="hideModal('my-modal')">Stäng</b-button>
   </b-modal>
 
 
@@ -400,10 +391,15 @@
                                 <div v-if="!team.teammembername && team.teammembergolfid" class="pt-0 pb-3">
                                     <span :id="'tooltip-teammember2-' + idx">
                                         <i class="material-icons mr-2 red">error</i><span v-if="!team.teammembername && team.teammembergolfid">{{team.teammembergolfid}}</span>
-                                        <b-tooltip :target="'tooltip-teammember2-' + idx" triggers="hover" placement="top">
+                                        <a @click="showHelpReminder()" class="btn btn-secondary btn-sm text-white mr-md-2 pl-0 pr-0"><i class="fas fa-question ml-1 mr-1 mb-1"></i></a>                                                                            
+                                        <b-tooltip hidden :target="'tooltip-teammember2-' + idx" triggers="hover" placement="top">
                                             Vi väntar på att din lagkamrat ska registera sig på matchplay.se
                                         </b-tooltip>
                                     </span>
+                                     <b-alert v-if="showhelpreminder" show class="small text-left mt-1" variant="info">
+                                            Din medspelare ska ha fått ett mail om att registrera ett konto på matchplay.se för att bli kopplad till detta lag. Har medspelaren av olika anledningar inte fått mailet kan du skicka denna <a target="_blank" :href="`https://www.matchplay.se/register?player=player2&golfid=${team.teammembergolfid}&captain=${team.teamleadername}`">länk</a> som påminnelse.
+                                    </b-alert>
+
                                 </div>
 
                                 <div v-if="!team.teammembername && !team.teammembergolfid" class="pt-0 pb-3">
@@ -431,6 +427,10 @@
                                      <a @click="showHelpReserve()" class="btn btn-secondary btn-sm text-white mr-md-2 pl-0 pr-0"><i class="fas fa-question ml-1 mr-1 mb-1"></i></a>                                     
                                 </div>
 
+                                   <b-alert v-if="showhelpreserve" show class="small text-left" variant="info">
+                                            Om ditt lag har en reserv tillgänglig för spel kan hemmalaget, när ni träffas innan spel, välja denna person i samband med att tee väljs innan matchen startar. En reserv måste bara väljas <strong>om någon av de ord. lagmedlemmarna</strong> får förhinder.
+                                  </b-alert>
+
                                 <div class="pt-0 pb-3">
                                     <span :id="'tooltip-course-' + idx">
                                         <i class="material-icons mr-2">golf_course</i>{{team.coursename}}
@@ -457,11 +457,7 @@
                                         <span class="invitemember" @click="goToStep(team, 1)">Redigera laget</span>
                                     </span>
                                 </div>
-                                
-
-                                  <b-alert v-if="showhelpreserve" show class="small text-left mt-1" variant="info">
-                                            Om ditt lag har en reserv tillgänglig för spel kan hemmalaget, när ni träffas innan spel, välja denna person i samband med att tee väljs innan matchen startar. En reserv måste bara väljas <strong>om någon av de ord. lagmedlemmarna</strong> får förhinder.
-                                  </b-alert>
+                               
 
                                 <div class="pt-0 pb-0" hidden>
                                     <span :id="'tooltip-nextgame-' + idx">
@@ -968,7 +964,7 @@
 
   <b-container>                           
             <b-row v-if="games.length === 0 || !games.length" align-h="center">
-                <b-col>
+                <b-col sm="10" lg="6">
 
                     <p class="text-center mt-2 mb-3"><i class="far fa-robot fa-3x"></i></p>                             
                        <div v-if="teamscount>0">
@@ -984,27 +980,21 @@
                        </div>  
 
 <hr />
-                       <div>
-                           <h3 class="mt-4 mb-3">Nyttig information</h3>
+                       <div class="mb-5">
+                           <h2 class="mt-4 mb-3">Nyttig information</h2>
                            <p>I väntan på tävlingsstart har vi samlat lite nyttig information för att göra tävlingen ännu enklare och roligare.</p>
-                            <b-card class="mb-2 team">                           
-                            <b-card-text class="mt-0 pt-0 small">
-                                <h3>Tips 1 (Speltid och plats)</h3>
+                            
+                                <h3 class="mt-4">Tips 1 (Speltid och plats)</h3>
                                 När din match i varje omgång är lottad syns den på denna sidan och är ni lottade som hemmalag, ta så fort som möjligt kontakt med era motståndare för att bestämma spelplats och tid. Det är viktigt att hemmalaget lägger upp tid och plats för matchen så att det blir rätt på resultsidorna på matchplay.se.
-                            </b-card-text>
-                      </b-card>
-                      <b-card class="mb-2 team">                            
-                            <b-card-text class="mt-2 pt-0 small">
-                                 <h3>Tips 2 (Reserv)</h3>
+                            
+                     
+                                 <h3 class="mt-4">Tips 2 (Reserv)</h3>
                                 Man ska alltid spela med sitt tänkta lag i första hand. Reserv tas in om någon av de ordinarie medlemmarna blir skadad eller sjuk. Ni behöver bara välj en reserv (från lagsidan) när behov uppstår och golfid väljs in innan matchen startar. Då kan hemmalaget välja denna reserv när matchen startas och hcp-uträkningarna blir rätt.
-                            </b-card-text>
-                      </b-card>    
-                      <b-card class="mb-2 team">                            
-                            <b-card-text class="mt-2 pt-0 small">
-                                 <h3>Tips 3 (Ha kul!)</h3>
+                           
+                      
+                                 <h3 class="mt-4">Tips 3 (Ha kul!)</h3>
                                 Matchspel är en otroligt rolig spelform och med hjälp av vårt digitala scorekort blir det busenkelt att se vilka som vinner resp. hål och leder matchen. Släkt och vänner kan följa matchen från resultatsidan som läggs upp direkt när omgång 1 har lottats. Njut av rundan och må bästa lag vinna!                               
-                            </b-card-text>
-                      </b-card>  
+                          
                        </div>                 
                                 
                 </b-col>
@@ -1252,6 +1242,7 @@ export default {
             gamescount:0,
             showhelpgame: false,
             showhelpreserve: false,
+            showhelpreminder: false,
              //POLL
             poll: {
                 pollid: '',
@@ -1825,7 +1816,11 @@ export default {
           this.showhelpreserve = false;         
         } else this.showhelpreserve = true;
         },
-
+ showHelpReminder: function(){
+                if (this.showhelpreminder) {
+          this.showhelpreminder = false;         
+        } else this.showhelpreminder = true;
+        },
           showHelpGame: function(){
                 if (this.showhelpgame) {
           this.showhelpgame = false;         
@@ -1869,7 +1864,7 @@ export default {
 
                         if (response.data.status === 'ok') {
                            //console.log('success')                        
-                           this.hideModal();
+                           this.hideModal('my-modal');
                            location.reload();
 
                         }
@@ -1881,6 +1876,10 @@ export default {
 
             
          },
+            showModalReminder() {
+        
+        this.$refs['my-modal-reminder'].show()
+      },
          showModal(id) {
           // console.log(id)
             this.team._id = id;
@@ -1897,8 +1896,8 @@ export default {
         this.$refs['my-modal'].show()
       },
 
-          hideModal() {
-        this.$refs['my-modal'].hide()
+          hideModal(ref) {
+        this.$refs[ref].hide()
       },
         getFirstname: function(name) {
             if (!name) return;       

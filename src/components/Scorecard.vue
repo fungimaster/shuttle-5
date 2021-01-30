@@ -466,14 +466,14 @@
 				</b-row>
 
 				<!--  TABELL CLUBNAME AND LOOP (EGEN TABELL FÖR ATT KUNNA SÄTTA TEXT-OVERFLOW: ELLIPSIS--> 
-				<table class="tableClubAndLoop">
+				<table class="tableClubAndLoop mt-3">
 					<tr >	
-						<td colspan="2" class="tableClubAndLoopTd"> {{ clubname }}: {{ loop }}</td>
+						<td colspan="2" class="tableClubAndLoopTd pt-1"> {{ clubname }}: {{ loop }}</td>
 					</tr>
 				</table>
 
 				<!--  TABELL HÅL 1-9 --> 
-				<table class="table9">
+				<table class="table9" v-if="showfront9">
 					
 					<tr>
 						<th>Hål:</th>
@@ -489,69 +489,97 @@
 					</tr>
 
 					<!--  SPELARE 1 -->
-					<tr v-for="player in players.slice(0, 1)" :key="player.index">
+					<tr class="scorecard-row" v-for="player in players.slice(0, 1)" :key="player.index">
 						<th v-initials class="initialsTeam1">{{ player.name }}</th>
-						<td
+						<td class="align-top" @click="showMatch(index+1)"
 							:class="[{'showWinnerOverviewTeam1' : isInWinningHoleTeam(0)[index]}, holes.strokes === valueOfLowestScoreOnHole(index) ? 'showLowestScore' : null]"
 							v-for="(holes, index) in player.holes.slice(0, 9)"
 							:key="holes.index"
 							v-changeNanAndZero:arguments="{
                 score: holes.strokes
               }"
-					>{{ holes.strokes === 0 ? null : holes.strokes }}  <span :class="[{ hideSlag: slagTable(0, index) === 0 ? true : false }, 'slagInTable']" >{{slagTable(0, index)}}</span></td>						
+					><span :class="{eagle: holes.strokes === holes.par-2 ,birdie: holes.strokes === holes.par-1,bogey: holes.strokes === holes.par+1, doubleBogey: holes.strokes >= holes.par+2   }">{{ holes.strokes === 0 ? null : holes.strokes }}</span>
+					<span hidden :class="[{ hideSlag: slagTable(0, index) === 0 ? true : false }, 'slagInTable']">
+						{{slagTable(0, index)}}
+					</span>	
+					<div class="mt-1 mb-0 pb-0" :class="[{ hideSlag: slagTable(0, index) === 0 ? true : false }, 'slagInTable']">
+						<i v-for="dot in slagTable(0, index)" :key="dot.index" class="fas fa-circle dots"></i>
+					</div>	
+					</td>						
 					</tr>
 
 					<!-- SPELARE 2 -->
-					<tr v-for="player in players.slice(1, 2)" :key="player.index">
+					<tr class="scorecard-row" v-for="player in players.slice(1, 2)" :key="player.index">
 						<th v-initials class="initialsTeam1">{{ player.name }}</th>
-						<td
+						<td class="align-top" @click="showMatch(index+1)"
 							:class="[{'showWinnerOverviewTeam1' : isInWinningHoleTeam(1)[index]}, holes.strokes === valueOfLowestScoreOnHole(index) ? 'showLowestScore' : null]"
 							v-for="(holes, index) in player.holes.slice(0, 9)"
 							:key="holes.index"
 							v-changeNanAndZero:arguments="{
                 score: holes.strokes
               }"
-						>{{ holes.strokes === 0 ? null : holes.strokes }}  <span :class="[{ hideSlag: slagTable(1, index) === 0 ? true : false }, 'slagInTable']" >{{slagTable(1, index)}}</span></td>
+						><span :class="{eagle: holes.strokes === holes.par-2 ,birdie: holes.strokes === holes.par-1,bogey: holes.strokes === holes.par+1, doubleBogey: holes.strokes >= holes.par+2   }">{{ holes.strokes === 0 ? null : holes.strokes }}</span>
+						<span hidden :class="[{ hideSlag: slagTable(1, index) === 0 ? true : false }, 'slagInTable']">
+						{{slagTable(1, index)}}
+					</span>	
+					<div class="mt-1 mb-0 pb-0" :class="[{ hideSlag: slagTable(1, index) === 0 ? true : false }, 'slagInTable']">
+						<i v-for="dot in slagTable(1, index)" :key="dot.index" class="fas fa-circle dots"></i>
+					</div>	
+						</td>
 						
 					</tr>
 
 					<tr class="emptyRow">
-						<td>
+						<td class="emptyRow">
 							<p></p>
 						</td>
 					</tr>
 
 					<!-- SPELARE 3 -->
-					<tr v-for="player in players.slice(2, 3)" :key="player.index">
+					<tr class="scorecard-row" v-for="player in players.slice(2, 3)" :key="player.index">
 						<th v-initials class="initialsTeam2">{{ player.name }}</th>
-						<td
+						<td class="align-top" @click="showMatch(index+1)"
 							:class="[{'showWinnerOverviewTeam2' : isInWinningHoleTeam(2)[index]}, holes.strokes === valueOfLowestScoreOnHole(index) ? 'showLowestScore' : null]"
 							v-for="(holes, index) in player.holes.slice(0, 9)"
 							:key="holes.index"
 							v-changeNanAndZero:arguments="{
                 score: holes.strokes
               }"
-						>{{ holes.strokes === 0 ? null : holes.strokes }}  <span :class="[{ hideSlag: slagTable(2, index) === 0 ? true : false }, 'slagInTable']" >{{slagTable(2, index)}}</span></td>
+						><span :class="{eagle: holes.strokes === holes.par-2 ,birdie: holes.strokes === holes.par-1,bogey: holes.strokes === holes.par+1, doubleBogey: holes.strokes >= holes.par+2   }">{{ holes.strokes === 0 ? null : holes.strokes }}</span>
+						<span hidden :class="[{ hideSlag: slagTable(2, index) === 0 ? true : false }, 'slagInTable']">
+						{{slagTable(2, index)}}
+					</span>	
+					<div class="mt-1 mb-0 pb-0" :class="[{ hideSlag: slagTable(2, index) === 0 ? true : false }, 'slagInTable']">
+						<i v-for="dot in slagTable(2, index)" :key="dot.index" class="fas fa-circle dots"></i>
+					</div>	
+						</td>
 					
 					</tr>
 
 					<!-- SPELARE 4 -->
-					<tr v-for="player in players.slice(3, 4)" :key="player.index">
+					<tr class="scorecard-row" v-for="player in players.slice(3, 4)" :key="player.index">
 						<th v-initials class="initialsTeam2">{{ player.name }}</th>
-						<td
+						<td class="align-top" @click="showMatch(index+1)"
 							:class="[{'showWinnerOverviewTeam2' : isInWinningHoleTeam(3)[index]}, holes.strokes === valueOfLowestScoreOnHole(index) ? 'showLowestScore' : null]"
 							v-for="(holes, index) in player.holes.slice(0, 9)"
 							:key="holes.index"
 							v-changeNanAndZero:arguments="{
                 score: holes.strokes
               }"
-						>{{ holes.strokes === 0 ? null : holes.strokes }}  <span :class="[{ hideSlag: slagTable(3, index ) === 0 ? true : false }, 'slagInTable']" >{{slagTable(3, index)}}</span></td>
+						><span :class="{eagle: holes.strokes === holes.par-2 ,birdie: holes.strokes === holes.par-1,bogey: holes.strokes === holes.par+1, doubleBogey: holes.strokes >= holes.par+2   }">{{ holes.strokes === 0 ? null : holes.strokes }}</span>
+						<span hidden :class="[{ hideSlag: slagTable(3, index) === 0 ? true : false }, 'slagInTable']">
+						{{slagTable(3, index)}}
+					</span>	
+					<div class="mt-1 mb-0 pb-0" :class="[{ hideSlag: slagTable(3, index) === 0 ? true : false }, 'slagInTable']">
+						<i v-for="dot in slagTable(3, index)" :key="dot.index" class="fas fa-circle dots"></i>
+					</div>	
+						</td>
 						
 					</tr>
 				</table>
 
 				<!--  TABELL HÅL 10-18 -->
-				<table class="table18">
+				<table class="table18" v-if="showback9">
 					<tr>
 						<th>Hål:</th>
 						<td v-for="hole in course.slice(9, 18)" :key="hole.index">{{ hole.hole }}</td>
@@ -568,67 +596,94 @@
 					</tr>
 
 					<!-- SPELARE 1 -->
-					<tr v-for="player in players.slice(0, 1)" :key="player.index">
+					<tr class="scorecard-row" v-for="player in players.slice(0, 1)" :key="player.index">
 						<th v-initials class="initialsTeam1">{{ player.name }}</th>
-						<td
+						<td class="align-top" @click="showMatch(index+10)"
 							:class="[{'showWinnerOverviewTeam1' : isInWinningHoleTeam(0)[index + 9]}, holes.strokes === valueOfLowestScoreOnHole(index) ? 'showLowestScore' : null]"
 							v-for="(holes, index) in player.holes.slice(9, 18)"
 							:key="holes.index"
 							v-changeNanAndZero:arguments="{
                 score: holes.strokes
               }"
-						>{{ holes.strokes === 0 ? null : holes.strokes }}  <span :class="[{ hideSlag: slagTable(0, index + 9) === 0 ? true : false }, 'slagInTable']" >{{slagTable(0, index +9)}}</span></td>
+						><span :class="{eagle: holes.strokes === holes.par-2 ,birdie: holes.strokes === holes.par-1,bogey: holes.strokes === holes.par+1, doubleBogey: holes.strokes >= holes.par+2   }">{{ holes.strokes === 0 ? null : holes.strokes }}</span>
+						<span hidden :class="[{ hideSlag: slagTable(0, index + 9) === 0 ? true : false }, 'slagInTable']" >{{slagTable(0, index +9)}}</span>
+						<div class="mt-1 mb-0 pb-0" :class="[{ hideSlag: slagTable(0, index + 9) === 0 ? true : false }, 'slagInTable']">
+						<i v-for="dot in slagTable(0, index + 9)" :key="dot.index" class="fas fa-circle dots"></i>
+						</div>
+						</td>
 					</tr>
 
 					<!-- SPELARE 2 -->
-					<tr v-for="player in players.slice(1, 2)" :key="player.index">
+					<tr class="scorecard-row" v-for="player in players.slice(1, 2)" :key="player.index">
 						<th v-initials class="initialsTeam1">{{ player.name }}</th>
-						<td
+						<td class="align-top" @click="showMatch(index+10)"
 							:class="[{'showWinnerOverviewTeam1' : isInWinningHoleTeam(1)[index + 9]}, holes.strokes === valueOfLowestScoreOnHole(index) ? 'showLowestScore' : null]"
 							v-for="(holes, index) in player.holes.slice(9, 18)"
 							:key="holes.index"
 							v-changeNanAndZero:arguments="{
                 score: holes.strokes
               }"
-						>{{ holes.strokes === 0 ? null : holes.strokes }}  <span :class="[{ hideSlag: slagTable(1, index + 9) === 0 ? true : false }, 'slagInTable']" >{{slagTable(1, index +9)}}</span></td>		
+						><span :class="{eagle: holes.strokes === holes.par-2 ,birdie: holes.strokes === holes.par-1,bogey: holes.strokes === holes.par+1, doubleBogey: holes.strokes >= holes.par+2   }">{{ holes.strokes === 0 ? null : holes.strokes }}</span>
+						<span hidden :class="[{ hideSlag: slagTable(1, index + 9) === 0 ? true : false }, 'slagInTable']" >{{slagTable(1, index +9)}}</span>
+						<div class="mt-1 mb-0 pb-0" :class="[{ hideSlag: slagTable(1, index + 9) === 0 ? true : false }, 'slagInTable']">
+						<i v-for="dot in slagTable(1, index + 9)" :key="dot.index" class="fas fa-circle dots"></i>
+						</div>
+						</td>		
 					</tr>
 
 					<tr class="emptyRow">
-						<td>
+						<td class="emptyRow">
 							<p></p>
 						</td>
 					</tr>
 					<!-- SPELARE 3 -->
-					<tr v-for="player in players.slice(2, 3)" :key="player.index">
+					<tr class="scorecard-row" v-for="player in players.slice(2, 3)" :key="player.index">
 						<th v-initials class="initialsTeam2">{{ player.name }}</th>
-						<td
+						<td class="align-top" @click="showMatch(index+10)"
 							:class="[{'showWinnerOverviewTeam2' : isInWinningHoleTeam(2)[index + 9]}, holes.strokes === valueOfLowestScoreOnHole(index) ? 'showLowestScore' : null]"
 							v-for="(holes, index) in player.holes.slice(9, 18)"
 							:key="holes.index"
 							v-changeNanAndZero:arguments="{
                 score: holes.strokes
               }"
-						>{{ holes.strokes === 0 ? null : holes.strokes }}  <span :class="[{ hideSlag: slagTable(2, index + 9) === 0 ? true : false }, 'slagInTable']" >{{slagTable(2, index +9)}}</span></td>	
+						><span :class="{eagle: holes.strokes === holes.par-2 ,birdie: holes.strokes === holes.par-1,bogey: holes.strokes >= holes.par+1, doubleBogey: holes.strokes === holes.par+2   }">{{ holes.strokes === 0 ? null : holes.strokes }}</span>
+						<span hidden :class="[{ hideSlag: slagTable(2, index + 9) === 0 ? true : false }, 'slagInTable']" >{{slagTable(2, index +9)}}</span>
+						<div class="mt-1 mb-0 pb-0" :class="[{ hideSlag: slagTable(2, index + 9) === 0 ? true : false }, 'slagInTable']">
+						<i v-for="dot in slagTable(2, index + 9)" :key="dot.index" class="fas fa-circle dots"></i>
+						</div>
+						</td>	
 					</tr>
 
 					<!-- SPELARE 4 -->
-					<tr v-for="player in players.slice(3, 4)" :key="player.index">
+					<tr class="scorecard-row" v-for="player in players.slice(3, 4)" :key="player.index">
 						<th v-initials class="initialsTeam2">{{ player.name }}</th>
-						<td
+						<td class="align-top" @click="showMatch(index+10)"
 							:class="[{'showWinnerOverviewTeam2' : isInWinningHoleTeam(3)[index + 9]}, holes.strokes === valueOfLowestScoreOnHole(index) ? 'showLowestScore' : null]"
 							v-for="(holes, index) in player.holes.slice(9, 18)"
 							:key="holes.index"
 							v-changeNanAndZero:arguments="{
                 score: holes.strokes
               }"
-						>{{ holes.strokes === 0 ? null : holes.strokes }}  <span :class="[{ hideSlag: slagTable(3, index + 9) === 0 ? true : false }, 'slagInTable']" >{{slagTable(3, index +9)}}</span></td>
+						><span :class="{eagle: holes.strokes === holes.par-2 ,birdie: holes.strokes === holes.par-1,bogey: holes.strokes >= holes.par+1, doubleBogey: holes.strokes === holes.par+2   }">{{ holes.strokes === 0 ? null : holes.strokes }}</span> 
+						<span hidden :class="[{ hideSlag: slagTable(3, index + 9) === 0 ? true : false }, 'slagInTable']" >{{slagTable(3, index +9)}}</span>
+						<div class="mt-1 mb-0 pb-0" :class="[{ hideSlag: slagTable(3, index + 9) === 0 ? true : false }, 'slagInTable']">
+						<i v-for="dot in slagTable(3, index + 9)" :key="dot.index" class="fas fa-circle dots"></i>
+						</div>
+						</td>
 					</tr>
 				</table>
+
+				<!-- LEGEND -->
+				<b-row class="mt-4">
+					<b-col class="col-12 small text-right">
+						Legend:
+					</b-col>
+				</b-row>
 
 				<!-- BUTTON FÖR MATCH VY -->
 				<b-row class="mt-4">
 					<b-col class="col-5">
-						<button class="btn btn-primary" @click="overview = !overview" v-if="authorized">
+						<button class="btn btn-primary btn-sm" @click="showMatch(null)" v-if="authorized">
 							<span class="material-icons">create</span>
 							Match
 						</button>
@@ -653,7 +708,7 @@
 						<b-col class="col-5">
 						
 						</b-col>
-						<b-col class="col-7 text-right">
+						<b-col class="col-7 text-right mb-3">
 							<button v-if="authorized && (status !== 'Finished')" class="btn btn-primary" @click="resetGame">
 								<span class="material-icons">warning</span>
 								Börja om
@@ -667,7 +722,7 @@
 						</b-col>						
 
 						<b-col cols="3" v-for="({name}, index) in players" :key="name.index">
-							<div class="displayNamesNoAuth" v-if="!authorized">
+							<div class="displayNamesNoAuth mb-4" v-if="!authorized">
 								<p>{{name}} </p>	
 								<p>SHCP: {{slopedHcpPlayers[index]}} </p>	
 							</div>
@@ -780,6 +835,8 @@
 		},
 		data() {
 			return {
+				showfront9: true,
+				showback9:true,
 				active: true,
 				players: [],
 				activeHole: 1,
@@ -1359,6 +1416,15 @@
 			
 		},
 		methods: {
+			showMatch(hole) {
+				if (!this.authorized) return;
+				window.scroll(0, 0)
+				if (hole) {
+					this.activeHole = hole;
+				}
+				
+				this.overview = !overview;
+			},
 			refreshGame2() {
 				this.getGameData();				
 			},
@@ -1804,6 +1870,53 @@
 
 	@import "../styles/variables.scss";
 
+	/* Scorecard figures */
+
+	.dots {
+		color:#333;
+	}
+
+	.scorecard-row td {
+		font-size:1em;
+		padding-top:0.9em;
+		padding-bottom:0.7em;
+		padding-left: 0px;
+    	padding-right: 0px;
+    	margin-left: 0px;
+    	margin-right: 0px;
+		position:relative;
+	}
+
+	.eagle {		
+		border: 3px double #333;
+		border-radius: 50%;
+	}
+
+	.birdie {
+		border: 1px solid #333;
+		border-radius: 50%;
+	}
+
+	.bogey {		
+		border: 1px solid #333;
+	}
+
+	.doubleBogey {		
+		border: 3px double #333;
+	}
+
+	.eagle, .birdie, .bogey, .doubleBogey {				
+		border-color: #333;
+		padding-top: 0.5em !important;
+		padding-left: 0.5em;
+		padding-right: 0.5em;
+		padding-bottom: 0.25em;
+	}
+
+
+	
+
+
 	/*  Särspel och vinnargrejor */
 	.winnerJumbotron {
 		border-radius: 10px;
@@ -1838,7 +1951,7 @@
 
 	.container {
 		/* fix for no padding on scorecard phone */
-		padding-top: 0px;
+		padding-top: 0px;	
 	}
 
 	.disable-dbl-tap-zoom {
@@ -1972,7 +2085,7 @@
 		margin-bottom: 0;
 		text-align: left;
 		table-layout: fixed;
-		font-size: 12px;
+		font-size: 0.8em;
 		width: 100%;
 	}
 	.tableClubAndLoopTd {
@@ -1987,7 +2100,7 @@
 		table-layout: fixed;
 		text-align: left;
 		width: 100%;
-		margin: 25px auto;
+		margin: 10px auto;
 		/* border-collapse: inherit; */
 		font-size: 12px;
 	}
@@ -2020,19 +2133,30 @@
 	}
 
 	.showWinnerOverviewTeam1 {
-		background-color: #fd9b37;
-		color: white;
+		//background-color: #fd9b37;	
+		//background: repeating-linear-gradient(0deg, #fd9b37, #fd9b37 20px, #fff 20px, #fff 40px);
+		//background: #fd9b37;
+		background: repeating-linear-gradient(45deg, #ecf5ec, #ecf5ec 10px, #fff 10px, #fff 20px)
+	}
+
+	.showWinnerOverviewTeam1 > span {
+		//border-color: #fd9b37
+	}
+
+	.showWinnerOverviewTeam2 > span {
+		//border-color: #69b3fe;		
 	}
 
 	.showWinnerOverviewTeam2 {
-		background-color: #69b3fe;
-		color: white;
+		background: repeating-linear-gradient(45deg, #ecf5ec, #ecf5ec 10px, #fff 10px, #fff 20px);
+		
 	}
 	.slagInTable {
 		vertical-align: text-top;
-		font-size: 6px;
-		line-height: 6px;
-		margin-left: -2px;
+		font-size: 0.5em;
+		position: absolute;
+   		bottom: 0px;
+		right:2px;
 	}
 
 
@@ -2084,7 +2208,7 @@
 	}
 
 	.hideSlag {
-		visibility: hidden;
+		display: none;
 	}
 	.classDisplayNone {
 		display: none;

@@ -9,7 +9,9 @@
 						:class="{'pressedButton':display && activeButton === 'btn1'}"
 						class="pb-2 btn btn-warning"
 						@click="holes.hole === activehole ? (holes.strokes = 1) : null, buttonActions(activehole, player, 'btn1')"
-					>1</button>
+					>
+					1
+					</button>
 
 					<!-- 2 -->
 					<button
@@ -19,6 +21,7 @@
 						@click="holes.hole === activehole ? (holes.strokes = 2) : null, buttonActions(activehole, player, 'btn2')"
 					>
 						{{ par - 1 === 2 ? "Birdie" : null }}
+						{{ par - 2 === 2 ? "Eagle" : null }}
 						2
 					</button>
 
@@ -30,6 +33,7 @@
 						@click="holes.hole === activehole ? (holes.strokes = 3) : null, buttonActions(activehole, player, 'btn3')"
 					>
 						{{ par === 3 ? "Par" : null }}
+						{{ par - 2 === 3 ? "Eagle" : null }}
 						{{ par - 1 === 3 ? "Birdie" : null }}
 						{{ par + 1 === 3 ? "Bogey" : null }}
 						3
