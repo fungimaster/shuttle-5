@@ -492,13 +492,14 @@
 					<tr class="scorecard-row" v-for="player in players.slice(0, 1)" :key="player.index">
 						<th v-initials class="initialsTeam1">{{ player.name }}</th>
 						<td class="align-top" @click="showMatch(index+1)"
-							:class="[{'showWinnerOverviewTeam1' : isInWinningHoleTeam(0)[index]}, holes.strokes === valueOfLowestScoreOnHole(index) ? 'showLowestScore' : null]"
+							:class="[{'showWinnerOverviewTeam1' : isInWinningHoleTeam(0)[index] && valueOfLowestScoreInTeam(index,0) }]"
 							v-for="(holes, index) in player.holes.slice(0, 9)"
 							:key="holes.index"
 							v-changeNanAndZero:arguments="{
                 score: holes.strokes
               }"
-					><span :class="{eagle: holes.strokes === holes.par-2 ,birdie: holes.strokes === holes.par-1,bogey: holes.strokes === holes.par+1, doubleBogey: holes.strokes >= holes.par+2   }">{{ holes.strokes === 0 ? null : holes.strokes }}</span>
+					>					
+					<span :class="{eagle: holes.strokes === holes.par-2 ,birdie: holes.strokes === holes.par-1,bogey: holes.strokes === holes.par+1, doubleBogey: holes.strokes >= holes.par+2   }">{{ holes.strokes === 0 ? null : holes.strokes }}</span>
 					<span hidden :class="[{ hideSlag: slagTable(0, index) === 0 ? true : false }, 'slagInTable']">
 						{{slagTable(0, index)}}
 					</span>	
@@ -512,13 +513,14 @@
 					<tr class="scorecard-row" v-for="player in players.slice(1, 2)" :key="player.index">
 						<th v-initials class="initialsTeam1">{{ player.name }}</th>
 						<td class="align-top" @click="showMatch(index+1)"
-							:class="[{'showWinnerOverviewTeam1' : isInWinningHoleTeam(1)[index]}, holes.strokes === valueOfLowestScoreOnHole(index) ? 'showLowestScore' : null]"
+							:class="[{'showWinnerOverviewTeam1' : isInWinningHoleTeam(1)[index] && valueOfLowestScoreInTeam(index,1)}]"
 							v-for="(holes, index) in player.holes.slice(0, 9)"
 							:key="holes.index"
 							v-changeNanAndZero:arguments="{
                 score: holes.strokes
               }"
-						><span :class="{eagle: holes.strokes === holes.par-2 ,birdie: holes.strokes === holes.par-1,bogey: holes.strokes === holes.par+1, doubleBogey: holes.strokes >= holes.par+2   }">{{ holes.strokes === 0 ? null : holes.strokes }}</span>
+						>
+						<span :class="{eagle: holes.strokes === holes.par-2 ,birdie: holes.strokes === holes.par-1,bogey: holes.strokes === holes.par+1, doubleBogey: holes.strokes >= holes.par+2   }">{{ holes.strokes === 0 ? null : holes.strokes }}</span>
 						<span hidden :class="[{ hideSlag: slagTable(1, index) === 0 ? true : false }, 'slagInTable']">
 						{{slagTable(1, index)}}
 					</span>	
@@ -539,13 +541,15 @@
 					<tr class="scorecard-row" v-for="player in players.slice(2, 3)" :key="player.index">
 						<th v-initials class="initialsTeam2">{{ player.name }}</th>
 						<td class="align-top" @click="showMatch(index+1)"
-							:class="[{'showWinnerOverviewTeam2' : isInWinningHoleTeam(2)[index]}, holes.strokes === valueOfLowestScoreOnHole(index) ? 'showLowestScore' : null]"
+							:class="[{'showWinnerOverviewTeam2' : isInWinningHoleTeam(2)[index] && valueOfLowestScoreInTeam(index,2)}]"
 							v-for="(holes, index) in player.holes.slice(0, 9)"
 							:key="holes.index"
 							v-changeNanAndZero:arguments="{
                 score: holes.strokes
               }"
-						><span :class="{eagle: holes.strokes === holes.par-2 ,birdie: holes.strokes === holes.par-1,bogey: holes.strokes === holes.par+1, doubleBogey: holes.strokes >= holes.par+2   }">{{ holes.strokes === 0 ? null : holes.strokes }}</span>
+						>
+						
+						<span :class="{eagle: holes.strokes === holes.par-2 ,birdie: holes.strokes === holes.par-1,bogey: holes.strokes === holes.par+1, doubleBogey: holes.strokes >= holes.par+2   }">{{ holes.strokes === 0 ? null : holes.strokes }}</span>
 						<span hidden :class="[{ hideSlag: slagTable(2, index) === 0 ? true : false }, 'slagInTable']">
 						{{slagTable(2, index)}}
 					</span>	
@@ -560,13 +564,15 @@
 					<tr class="scorecard-row" v-for="player in players.slice(3, 4)" :key="player.index">
 						<th v-initials class="initialsTeam2">{{ player.name }}</th>
 						<td class="align-top" @click="showMatch(index+1)"
-							:class="[{'showWinnerOverviewTeam2' : isInWinningHoleTeam(3)[index]}, holes.strokes === valueOfLowestScoreOnHole(index) ? 'showLowestScore' : null]"
+							:class="[{'showWinnerOverviewTeam2' : isInWinningHoleTeam(3)[index] && valueOfLowestScoreInTeam(index,3)}]"
 							v-for="(holes, index) in player.holes.slice(0, 9)"
 							:key="holes.index"
 							v-changeNanAndZero:arguments="{
                 score: holes.strokes
               }"
-						><span :class="{eagle: holes.strokes === holes.par-2 ,birdie: holes.strokes === holes.par-1,bogey: holes.strokes === holes.par+1, doubleBogey: holes.strokes >= holes.par+2   }">{{ holes.strokes === 0 ? null : holes.strokes }}</span>
+						>
+						
+						<span :class="{eagle: holes.strokes === holes.par-2 ,birdie: holes.strokes === holes.par-1,bogey: holes.strokes === holes.par+1, doubleBogey: holes.strokes >= holes.par+2   }">{{ holes.strokes === 0 ? null : holes.strokes }}</span>
 						<span hidden :class="[{ hideSlag: slagTable(3, index) === 0 ? true : false }, 'slagInTable']">
 						{{slagTable(3, index)}}
 					</span>	
@@ -599,7 +605,7 @@
 					<tr class="scorecard-row" v-for="player in players.slice(0, 1)" :key="player.index">
 						<th v-initials class="initialsTeam1">{{ player.name }}</th>
 						<td class="align-top" @click="showMatch(index+10)"
-							:class="[{'showWinnerOverviewTeam1' : isInWinningHoleTeam(0)[index + 9]}, holes.strokes === valueOfLowestScoreOnHole(index) ? 'showLowestScore' : null]"
+							:class="[{'showWinnerOverviewTeam1' : isInWinningHoleTeam(0)[index + 9] && valueOfLowestScoreInTeam(index + 9,0)}]"
 							v-for="(holes, index) in player.holes.slice(9, 18)"
 							:key="holes.index"
 							v-changeNanAndZero:arguments="{
@@ -617,7 +623,7 @@
 					<tr class="scorecard-row" v-for="player in players.slice(1, 2)" :key="player.index">
 						<th v-initials class="initialsTeam1">{{ player.name }}</th>
 						<td class="align-top" @click="showMatch(index+10)"
-							:class="[{'showWinnerOverviewTeam1' : isInWinningHoleTeam(1)[index + 9]}, holes.strokes === valueOfLowestScoreOnHole(index) ? 'showLowestScore' : null]"
+							:class="[{'showWinnerOverviewTeam1' : isInWinningHoleTeam(1)[index + 9] && valueOfLowestScoreInTeam(index + 9,1)}]"
 							v-for="(holes, index) in player.holes.slice(9, 18)"
 							:key="holes.index"
 							v-changeNanAndZero:arguments="{
@@ -640,7 +646,7 @@
 					<tr class="scorecard-row" v-for="player in players.slice(2, 3)" :key="player.index">
 						<th v-initials class="initialsTeam2">{{ player.name }}</th>
 						<td class="align-top" @click="showMatch(index+10)"
-							:class="[{'showWinnerOverviewTeam2' : isInWinningHoleTeam(2)[index + 9]}, holes.strokes === valueOfLowestScoreOnHole(index) ? 'showLowestScore' : null]"
+							:class="[{'showWinnerOverviewTeam2' : isInWinningHoleTeam(2)[index + 9] && valueOfLowestScoreInTeam(index + 9,2)}]"
 							v-for="(holes, index) in player.holes.slice(9, 18)"
 							:key="holes.index"
 							v-changeNanAndZero:arguments="{
@@ -658,7 +664,7 @@
 					<tr class="scorecard-row" v-for="player in players.slice(3, 4)" :key="player.index">
 						<th v-initials class="initialsTeam2">{{ player.name }}</th>
 						<td class="align-top" @click="showMatch(index+10)"
-							:class="[{'showWinnerOverviewTeam2' : isInWinningHoleTeam(3)[index + 9]}, holes.strokes === valueOfLowestScoreOnHole(index) ? 'showLowestScore' : null]"
+							:class="[{'showWinnerOverviewTeam2' : isInWinningHoleTeam(3)[index + 9] && valueOfLowestScoreInTeam(index + 9,3)}]"
 							v-for="(holes, index) in player.holes.slice(9, 18)"
 							:key="holes.index"
 							v-changeNanAndZero:arguments="{
@@ -674,21 +680,21 @@
 				</table>
 
 				<!-- LEGEND -->
-				<b-row class="mt-4">
+				<b-row hidden class="mt-4">
 					<b-col class="col-12 small text-right">
 						Legend:
 					</b-col>
 				</b-row>
 
 				<!-- BUTTON FÖR MATCH VY -->
-				<b-row class="mt-4">
-					<b-col class="col-5">
+				<b-row class="mt-3 mb-2">
+					<b-col class="col-4 text-left">
 						<button class="btn btn-primary btn-sm" @click="showMatch(null)" v-if="authorized">
 							<span class="material-icons">create</span>
 							Match
 						</button>
 					</b-col>
-					<b-col class="col-7 text-right" >
+					<b-col class="col-4 text-center">
 						<app-hcp-modal
 							:course-rating="courseRating"
 							:slope-rating="slopeRating"
@@ -702,18 +708,19 @@
 							@hidingModalInComponent="hideOverview"
 						></app-hcp-modal>
 					</b-col>
+					<b-col class="col-4 text-right">
+							<button v-if="authorized && (status !== 'Finished')" class="btn btn-primary btn-sm" @click="resetGame">
+								<span class="material-icons">warning</span>
+								Reset
+							</button>
+						</b-col>
 					</b-row>
 					
-					<b-row class="mt-2">
+					<b-row hidden class="mt-2">
 						<b-col class="col-5">
 						
 						</b-col>
-						<b-col class="col-7 text-right mb-3">
-							<button v-if="authorized && (status !== 'Finished')" class="btn btn-primary" @click="resetGame">
-								<span class="material-icons">warning</span>
-								Börja om
-							</button>
-						</b-col>
+						
 					</b-row>
 					<b-row align-v="center" no-gutters>
 						<b-col v-if="!authorized && status !== 'Finished'" cols="12">
@@ -1670,6 +1677,40 @@
 				
 
 			},
+			valueOfLowestScoreInTeam(holeIndex,player) { //tex hål 2 och spelare 0 (1)
+								
+				let player_score = this.lowestSingleScoreOnHole[player][holeIndex] - this.slagTable(player, holeIndex);
+												
+				if (player===0) { //compare against player 2(1)					
+					let compare_score = this.lowestSingleScoreOnHole[1][holeIndex] - this.slagTable(1, holeIndex);					
+					if (player_score === compare_score) return true;
+					if (player_score < compare_score) return true;
+					if (player_score > compare_score) return false;
+				}
+
+				if (player===1) { //compare against player 1(0)					
+					let compare_score = this.lowestSingleScoreOnHole[0][holeIndex] - this.slagTable(0, holeIndex);					
+					if (player_score === compare_score) return true;
+					if (player_score < compare_score) return true;
+					if (player_score > compare_score) return false;
+				}
+
+				if (player===2) { //compare against player 4(3)					
+					let compare_score = this.lowestSingleScoreOnHole[3][holeIndex] - this.slagTable(3, holeIndex);					
+					if (player_score === compare_score) return true;
+					if (player_score < compare_score) return true;
+					if (player_score > compare_score) return false;
+				}
+
+				if (player===3) { //compare against player 3(2)					
+					let compare_score = this.lowestSingleScoreOnHole[2][holeIndex] - this.slagTable(2, holeIndex);					
+					if (player_score === compare_score) return true;
+					if (player_score < compare_score) return true;
+					if (player_score > compare_score) return false;
+				}
+				
+				
+			},
 			valueOfLowestScoreOnHole(holeIndex) {
 				//Om delat hål --> return
 				if (this.holeWinner[holeIndex] === 0) {
@@ -2085,7 +2126,7 @@
 		margin-bottom: 0;
 		text-align: left;
 		table-layout: fixed;
-		font-size: 0.8em;
+		font-size: 0.75em;
 		width: 100%;
 	}
 	.tableClubAndLoopTd {
@@ -2132,30 +2173,18 @@
 		text-align: center;
 	}
 
-	.showWinnerOverviewTeam1 {
+	.showWinnerOverviewTeam1, .showWinnerOverviewTeam2 {
 		//background-color: #fd9b37;	
 		//background: repeating-linear-gradient(0deg, #fd9b37, #fd9b37 20px, #fff 20px, #fff 40px);
-		//background: #fd9b37;
-		background: repeating-linear-gradient(45deg, #ecf5ec, #ecf5ec 10px, #fff 10px, #fff 20px)
+		background: #c8e3c8;
+		//background: repeating-linear-gradient(45deg, #c8e3c8, #c8e3c8 10px, #fff 10px, #fff 20px)
 	}
 
-	.showWinnerOverviewTeam1 > span {
-		//border-color: #fd9b37
-	}
-
-	.showWinnerOverviewTeam2 > span {
-		//border-color: #69b3fe;		
-	}
-
-	.showWinnerOverviewTeam2 {
-		background: repeating-linear-gradient(45deg, #ecf5ec, #ecf5ec 10px, #fff 10px, #fff 20px);
-		
-	}
 	.slagInTable {
 		vertical-align: text-top;
 		font-size: 0.5em;
 		position: absolute;
-   		bottom: 0px;
+   		bottom: 2px;
 		right:2px;
 	}
 
@@ -2490,7 +2519,8 @@
 	}
 
 	#landscape {
-		height: calc(100vh + 100%);
+		//height: calc(100vh + 100%);
+		height: calc(100vh);
 		min-height: calc(100vh);
 	}
 
