@@ -172,8 +172,8 @@
 
 			<b-container hidden class="container"></b-container>
 		</b-modal>
-		<button v-if="authorized" v-b-modal.modal-1 class="btn btn-primary btn-sm" >
-			<span class="material-icons">help</span> HCP
+		<button v-if="authorized" v-b-modal.modal-1 class="btn btn-primary btn-md" >
+			<span style="font-size:2em;" class="material-icons mr-0">help</span>
 		</button>
 	</div>
 </template>
@@ -279,6 +279,10 @@
 		margin-bottom: 6px;
 	}
 
+	.btn-primary span {
+		margin-top:3px;
+	}
+
 	.playerData {
 		background-color: #d77c27;
 		color: white;
@@ -370,5 +374,6 @@
 		.longTeeName {
 			font-size: 9px;
 		}
+		
 	}
 </style>

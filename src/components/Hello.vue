@@ -35,9 +35,9 @@
   </b-modal>
 
 
-     <b-modal ref="scorecard" v-model="modalShow" ok-only size="lg">
+ <!--     <b-modal ref="scorecard" v-model="modalShow" ok-only size="lg">
       <router-view> </router-view>
-    </b-modal>
+    </b-modal> -->
        
     <div class="hero" ref="slider">      
       <b-container class="pl-4 pr-4">
@@ -810,10 +810,6 @@ img {
 
 }
 
-
-
-
-
 .hero2 {
   //background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg);
   //background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1608122032/matchplay/MPI-1825.jpg);
@@ -847,169 +843,11 @@ img {
   }
 }
 
-.come {
-  /*background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_2390/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg);*/
-  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/v1573316365/matchplay/Henke.png);
-
-  background-repeat: no-repeat;
-  /*background-position: bottom 30% right 0;*/
-  background-size: contain;
-  color: #fff;
-  padding: 180px 0 180px 0;
-  background-position: right 0px bottom;
-  @media (min-width: 320px) {
-    padding: 15rem 0 5rem 0;
-    /*background-position: bottom 10% right 0;*/
-  }
-  @media (min-width: 480px) {
-    padding: 12rem 0 5rem 0;
-    /*background-position: bottom 0% right 0;*/
-  }
-  @media (min-width: 768px) {
-    /*background-position: bottom 32% right 0;*/
-  }
-
-  @media (min-width: 992px) {
-    /*background-position: bottom 51% right 0;*/
-  }
-
-  @media (min-width: 1200px) {
-    /*background-position: bottom 55% right 0;*/
-  }
-}
 .hero h2 {
   color: #fff;
   font-family: "Eurostile LT Std Demi", Arial, sans-serif;
   font-weight: normal;
   font-style: normal;
-}
-
-.come h2,
-.come a {
-  text-transform: uppercase;
-}
-.come button,
-.come a {
-  padding: 20px;
-  margin: 0 10px;
-}
-
-.come .buttons {
-  margin: 40px 0 0 0;
-}
-.ticket h2 {
-  text-transform: uppercase;
-  display: inline-block;
-  color: $pink;
-}
-.ticket img {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-.ticket .top {
-  background: url(https://res.cloudinary.com/oredev/image/upload/f_auto,q_65/v1556786227/2019/html/background-1_lower.jpg);
-  background-repeat: no-repeat;
-  background-position: bottom center;
-  background-size: cover;
-  width: 100%;
-  height: 300px;
-  @media (max-width: 767px) {
-    height: 5rem;
-  }
-}
-.ticket .bottom {
-  background: url(https://res.cloudinary.com/oredev/image/upload/v1556786227/2019/html/backround-1-top.jpg);
-  background-repeat: no-repeat;
-  background-position: top center;
-  background-size: cover;
-  width: 100%;
-  height: 300px;
-  @media (max-width: 767px) {
-    height: 5rem;
-  }
-}
-.personas {
-  max-width: 2650px;
-}
-.personas .start-persona img,
-.personas .first h2,
-.personas .last h2 {
-  border: 1px solid #fff;
-}
-.personas .start-persona {
-  cursor: pointer;
-}
-.personas .first h2,
-.personas .last h2 {
-  width: 100%;
-  height: 100%;
-  padding: 40px;
-  text-transform: uppercase;
-  font-size: 3.2rem;
-  @media (max-width: 1700px) {
-    font-size: 2.1rem;
-  }
-  @media (max-width: 1200px) {
-    font-size: 1.5rem;
-  }
-}
-.personas .last h2 {
-  font-size: 2.7rem;
-  @media (max-width: 1700px) {
-    font-size: 1.8rem;
-  }
-  @media (max-width: 1200px) {
-    font-size: 1.2rem;
-  }
-}
-.personas img {
-  max-width: 100%;
-}
-.personas span {
-  border-left: 1px solid #fff;
-  border-top: 1px solid #fff;
-  position: absolute;
-  padding: 15px;
-  text-transform: uppercase;
-}
-.teaser-container {
-  padding: 3rem 0 0 0;
-  @media (max-width: 767px) {
-    padding: 3rem 0;
-  }
-  @media (max-width: 575px) {
-    padding: 2rem 0;
-  }
-}
-.theme-description {
-  margin: 200px 0;
-  @media (max-width: 767px) {
-    margin: 0;
-  }
-}
-.theme-description .stars img {
-  @media (max-width: 767px) {
-    width: 50px;
-  }
-}
-.theme-description h2 {
-  color: $pink;
-}
-.theme-description .middle {
-  padding: 4rem 0;
-}
-.theme-description .left {
-  background: url(https://res.cloudinary.com/oredev/image/upload/q_65/2019/html/left);
-  background-repeat: no-repeat;
-  background-position: right center;
-  background-size: cover;
-}
-.theme-description .right {
-  background: url(https://res.cloudinary.com/oredev/image/upload/q_65/2019/html/right);
-  background-repeat: no-repeat;
-  background-position: left center;
-  background-size: cover;
 }
 
 .step {

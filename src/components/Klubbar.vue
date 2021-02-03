@@ -13,15 +13,19 @@
                             <strong>{{clubno}}</strong>
                         </span> 
                          golfklubbar finns <strong>HITTILLS</strong> representerade med deltagande lag i årets tävling</h5>
-                         <b-alert dismissible="" class="mt-3 small" v-if="!loadingclubs && latestTeam" show variant="warning">{{latestTeam}}</b-alert>
+                    <b-col v-if="clubno>111" class="col-12 pl-0 pr-0 mt-3">
+              <b-progress height="1.4rem" :value="clubno" :max="448" show-value animated variant="success"></b-progress>
+                <p class="mt-1" style="font-size:0.8em;">Just nu har vi deltagande lag från ca {{clubnopercent}}% av Sveriges 448 golfklubbar.</p>
             </b-col>
+                         <b-alert dismissible="" class="mt-3 small" v-if="!loadingclubs && latestTeam" show variant="warning">{{latestTeam}}</b-alert>
+            </b-col>            
             <b-col class="col-12 mt-1">
               <b-form
                 @submit.stop.prevent
                 @submit="searchClub"                
               >
               <b-form-input hidden  @click="searchClub()" v-model="search" placeholder="Sök efter klubb"></b-form-input>            
-               <div class="mt-2">
+               <div class="mt-1">
                <span class="abc">
                <b-button v-for="(name,idy) in abc" :key="idy" @click="searchClub(search=name)" class="mb-1 mr-1 btn blue-bg btn-sm" variant="info">
                {{name}}
@@ -96,6 +100,7 @@ moment.updateLocale("sv", {
         clubs: [],
         clubsAll: [],
         clubno: 0,
+        clubnopercent: 0,
         topclub: 0,
         clubcount: 450,        
         loadingclubs: true,
@@ -185,6 +190,7 @@ moment.updateLocale("sv", {
            }
            const distinctAbc = [...new Set(this.abc)];
            this.abc = distinctAbc;
+           this.clubnopercent = Math.round((this.clubno/448)*100);
 
           this.loadingclubs = false;         
         })

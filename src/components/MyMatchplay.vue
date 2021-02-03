@@ -1152,11 +1152,11 @@
                                  <b-container class="m-0 p-0">
                                      <b-row>
                                          <b-col class="col-6 text-left">
-                                              <a :href="`/game?id=${game._id}`" class="btn btn-success btn-sm text-white mr-md-2">Visa match</a>
-                                        <a hidden :href="`/livegame?id=${game._id}`" class="btn btn-info btn-sm text-white mr-md-2">Följ match</a>                                        
+                                              <a :href="`/game?id=${game._id}`" class="btn btn-success btn-md text-white mr-md-2">Visa match</a>
+                                        <a hidden :href="`/livegame?id=${game._id}`" class="btn btn-info btn-md text-white mr-md-2">Följ match</a>                                        
                                          </b-col>                                                            
                                          <b-col v-if="game.status !== 'Finished'" class="col-6 text-right">
-                                             <a @click="showHelpGame()" class="btn btn-secondary btn-sm text-white"><i class="fas fa-question mb-1"></i></a>
+                                             <a @click="showHelpGame()" class="btn btn-secondary btn-md text-white"><i class="fas fa-question mb-1"></i></a>
                                          </b-col>
                                      </b-row>
                                      <b-row v-if="showhelpgame">
