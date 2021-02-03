@@ -2684,8 +2684,8 @@
 
 	#landscape {
 		//height: calc(100vh + 100%);
-		height: calc(100vh);
-		min-height: calc(100vh);
+		//height: calc(100vh);
+		//min-height: calc(100vh);
 	}
 
 	.extraheight {
