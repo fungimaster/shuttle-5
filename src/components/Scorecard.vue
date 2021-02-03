@@ -44,7 +44,7 @@
 		
 			<b-row class="justify-content-center" align-h="center">
 				<b-col md="6" class="p-0">
-					<b-container class v-if="!overview" id="landscape">
+					<b-container class v-if="!overview" id="landscape" :class="{extraheight: winnerSent && !gameClosed}">
 						<!--  HEADER  -->
 						<b-row class="holeRow pt-4">
 							<b-col class="col-2 pr-0 text-left">
@@ -2686,6 +2686,10 @@
 		//height: calc(100vh + 100%);
 		height: calc(100vh);
 		min-height: calc(100vh);
+	}
+
+	.extraheight {
+		height: calc(200vh) !important;
 	}
 
 
