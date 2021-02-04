@@ -180,7 +180,31 @@
         <b-row v-if="isAuthenticated && user">
           <b-col class="col-12">
             <h3 class="teaser-header orange mb-3">Hej {{user.firstname}}!</h3>
+            
             <p v-if="user.teams">Du har redan skapat ett lag och kan hantera det  <router-link to="/mymatchplay">här</router-link>. Lycka till i tävlingen!</p>
+            <div v-if="user.teams">
+              <div v-if="user.teams.length>0">
+                <!-- kommande match -->
+                <div v-if="user.teams[0].games.length>0">
+                  <div v-if="user.teams[0].games[0].status === 'Pending'">                    
+                    <p>Din nästa match: {{user.teams[0].games[0].gamedate}} {{user.teams[0].games[0].gametime}}
+                    <span v-if="user.teams[0].games[0].clubname"> på {{user.teams[0].games[0].clubname}}.</span>
+                    <span v-else>.</span>
+                    </p>
+                  </div>
+                </div>
+                <!-- pågående match -->
+                <div v-if="user.teams[0].games.length>0">
+                  <div v-if="user.teams[0].games[0].status === 'In progress'">                    
+                    <p>Du har en pågående match!
+                      <b-button @click="getScorecard(user.teams[0].games[0]._id)" show variant="primary">
+                        Visa scorekortet
+                      </b-button>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
             <p v-if="!user.teams">Du har ännu inget lag i Sveriges roligaste golftävling, skapa ett på knappen nedan.</p>            
             <div v-if="user.teams">
             <p v-if="!user.teams[0].paid">Anmälningskostnad per lag är <strong>{{price1}} kr</strong> för privatpersoner och <strong>{{price2}} kr</strong> (exkl. moms) för företag.</p>           
@@ -412,6 +436,43 @@ export default {
     this.axios
       .post(globalState.admin_url + "getCompetition", {id: globalState.compid})
       .then((response) => {
+
+        //show modal if gamedate is today
+/* 
+        if (this.isAuthenticated && this.user) {
+            if (this.user.teams) {
+              if (this.user.teams[0].games) {
+                for (var i = 0; i < this.user.teams[0].games.length; i++) {
+                  if (this.user.teams[0].games[i].status==='Pending' || this.user.teams[0].games[i].status==='In progress') {
+                      if (this.user.teams[0].games[i].hasOwnProperty('gamedate') && this.user.teams[0].games[i].hasOwnProperty('gametime')) {                        
+                        var gamedate2 = '"' + this.user.teams[0].games[i].gamedate + '"' + " " + this.user.teams[0].games[i].gametime;
+                        //let gametime = this.getgamedate2(this.user.teams[0].games[i].gamedate,this.user.teams[0].games[i].gametime);
+                        var utcStart = new moment(gamedate2, "YYYY-MM-DDTHH:mm").utc();
+                        //console.log(utcStart)
+                        let test = moment().diff(utcStart, 'hours');
+                        console.log(test);
+         
+                        if (test > -24 && test < 0) {
+                          //this.showModal();
+                          console.log('kommande match');
+                          return;
+                        }
+                        if (test >= 0 && this.user.teams[0].games[i].status==='In progress') {
+                          //this.showModal();
+                          console.log('pågående match');
+                          return;
+                        }  
+                        
+                      }
+                  }
+                }
+                
+               
+              }
+            }
+        } */
+        
+        //end
         
         if (!response.data.competitionmessages.length) {
           return
@@ -439,7 +500,7 @@ export default {
           
           let paidAt = moment(response.data.paidAt).add(0, 'hour').format()          
           let test = moment().diff(paidAt, 'hours');
-         
+          //this.toast('b-toaster-top-center',response.data, paidAt);
           if (test < 23)
             if (paidAt !== latestTeam) {
                 setTimeout(() => {
@@ -511,7 +572,18 @@ export default {
   },
   mixins: [tagsMixin],
   
-  methods: {  
+  methods: {
+     getScorecard(id) {
+      location.href = "scorecard?id=" + id;
+    },
+    getgamedate2: function (gamedate, gametime) {
+      var gamedate2 = '"' + gamedate + '"' + " " + gametime;
+      //var newdate = moment(gamedate2, "YYYY-MM-DD hh:mm").fromNow();
+      var utcStart = new moment(gamedate2, "YYYY-MM-DDTHH:mm").utc();
+      //console.log(utcStart)
+      //console.log(moment(utcStart, "YYYY-MM-DD hh:mm").fromNow())
+      return moment(utcStart, "YYYY-MM-DD hh:mm").fromNow();
+    },
     preloadImage(url)
     {
       var img=new Image();
@@ -525,7 +597,25 @@ export default {
     toast(toaster,data, paidAt, append = false) {    
     //set delay 2-3 sekunder...
     let regDate = moment(paidAt, "YYYY-MM-DD hh:mm").fromNow();
-    this.$bvToast.toast('Ett lag från ' + data.coursename + ' anmäldes för ' + regDate + ' sedan av ' + data.teamleadername + '.', {
+
+    let logourl;
+    if (!data.logourl) {
+      logourl = 'v1573118127/matchplay/matchplay-new-logo-2020.png'; //failover matchplay logo
+    } else {
+      logourl = data.logourl;
+    }
+
+    const h = this.$createElement;
+     const vNodesMsg = h(
+          'p',
+          { class: ['text-center', 'mb-0'] },
+          [
+            h('b-img', { class: ['text-center','d-block','toast-image', 'mb-3'], props: { src: 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_300,q_80,c_scale/'+logourl } }),
+            'Ett lag från ' + data.coursename + ' anmäldes för ' + regDate + ' sedan av ' + data.teamleadername + '.'
+          ]
+        )
+//'Ett lag från ' + data.coursename + ' anmäldes för ' + regDate + ' sedan av ' + data.teamleadername + '.'
+    this.$bvToast.toast([vNodesMsg], {
       title: `Nyanmälda lag till Matchplay 2021`,
       toaster: toaster,
       autoHideDelay: 6000,
@@ -577,6 +667,11 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
+
+.toast-image {
+  max-width:100px;
+  margin:0 auto;
+}
 
 .jumbotron {
   border-radius:0;

@@ -17,7 +17,12 @@
               <b-progress height="1.4rem" :value="clubno" :max="448" show-value animated variant="success"></b-progress>
                 <p class="mt-1" style="font-size:0.8em;">Just nu har vi deltagande lag från ca {{clubnopercent}}% av Sveriges 448 golfklubbar.</p>
             </b-col>
-                         <b-alert dismissible="" class="mt-3 small" v-if="!loadingclubs && latestTeam" show variant="warning">{{latestTeam}}</b-alert>
+                          <hr v-if="!loadingclubs && latestTeam" class="pb-0 mb-0" />
+                         <p class="latestClubLogo mt-3 mb-3 mb-md-5 small" v-if="!loadingclubs && latestTeam">                           
+                           <b-img class="mt-1 mr-3 mb-2 float-left" :src="getClubImage2(latestTeamLogo)"></b-img>
+                           {{latestTeam}}
+                           </p>
+                           <hr v-if="!loadingclubs && latestTeam" class="mt-1" />
             </b-col>            
             <b-col class="col-12 mt-1">
               <b-form
@@ -105,6 +110,7 @@ moment.updateLocale("sv", {
         clubcount: 450,        
         loadingclubs: true,
         latestTeam: null,
+        latestTeamLogo: null,
         abc: []
       }
     },
@@ -152,6 +158,13 @@ moment.updateLocale("sv", {
           let paidAt = moment(response.data.paidAt).add(0, 'hour').format()                   
           let regDate = moment(paidAt, "YYYY-MM-DD hh:mm").fromNow();
           let testDate = moment().diff(paidAt, 'hours');
+
+            
+            if (!response.data.logourl) {
+              this.latestTeamLogo = 'v1573118127/matchplay/matchplay-new-logo-2020.png'; //failover matchplay logo
+            } else {
+              this.latestTeamLogo = response.data.logourl;
+            }
          
           if (testDate < 23) {
             this.latestTeam = 'Ett lag från ' + response.data.coursename + ' anmäldes för ' + regDate + ' sedan av ' + response.data.teamleadername + '.';
@@ -171,6 +184,9 @@ moment.updateLocale("sv", {
        getClubImage(logourl) {
             return 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_300,q_80,c_scale/' + logourl;
         },  
+           getClubImage2(logourl) {
+            return 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_100,q_80,c_scale/' + logourl;
+        }, 
        getTopListClubs() {        
       this.loadingclubs = true;       
       this.axios
@@ -225,6 +241,10 @@ moment.updateLocale("sv", {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
+
+.alert-light {
+  border:1px solid grey;
+}
 
 img {
     max-width:85%;
