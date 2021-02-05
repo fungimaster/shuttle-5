@@ -365,7 +365,7 @@
                         <b-card class="mb-2 team header">
                             <b-card-title class="mt-2">
                                 <span v-if="team.type === 'Company'" class="pr-2">{{team.teamname}}</span>
-                                <img v-if="team.type === 'Company'" class="mt-2 pt-3 pb-3 mb-4 d-block teamimage" :src="`${team.logourl}`">
+                                <img v-if="team.type === 'Company'" class="mt-2 pt-3 pb-3 mb-4 d-block teamimage" :src="getTeamLogo(team.logourl)">
 
                                 <span v-else class="pr-2 mt-2">Ditt lag</span>                                
                                 
@@ -451,7 +451,7 @@
                                         </b-alert>
                                 </div>
 
-                                <div class="pt-0 pb-3" v-if="!team.paid && !team.invoice">
+                                <div class="pt-0 pb-0" v-if="!team.paid && !team.invoice">
                                     <span>
                                         <i class="material-icons">create</i>
                                         <span class="invitemember" @click="goToStep(team, 1)">Redigera laget</span>
@@ -833,6 +833,7 @@
                                 <b-form-group fluid class="mb-3" v-if="team.payment === 'A'">
                                     <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_150/v1575278258/matchplay/swish.png" alt="swish"></b-img>
                                     <span v-if="team.type==='Private'">{{team.price_private}} SEK</span>
+                                    <span class="d-block small mb-1 text-right red" v-if="team.pricereduc > 0">Du har fått {{team.pricereduc}} kr rabatt!</span>
 
                                     <vue-tel-input v-model="team.swish.mobile" v-bind="bindProps"></vue-tel-input>
 
@@ -1005,7 +1006,7 @@
         <b-col sm="10" lg="6" class="team pl-2 pr-2 pb-2 mt-2 mt-md-4 pt-0 pt-md-3" v-for="(game,idx2) in this.games" :key="idx2">
                 
              <b-card class="mb-4 team header">                            
-                            <b-card-text class="mt-0">                               
+                            <b-card-text class="mt-0 card-text-team">                               
                                  <h2 class="mt-1 mb-3 pb-0 pt-1">{{game.roundname}}</h2>                                 
                                   <div class="pt-0 pb-2 mt-0">                                               
                                         <span hidden>
@@ -1030,7 +1031,7 @@
                                            
                                         </span>
 
-                                        <div class="mt-2 mb-0 text-right" :class="{ 'winner': game.winner && game.awayteam === game.winner, 'loser': game.winner && game.hometeam === game.winner}">
+                                        <div class="mt-0 mb-0 text-right" :class="{ 'winner': game.winner && game.awayteam === game.winner, 'loser': game.winner && game.hometeam === game.winner}">
                                            <strong>BORTALAG</strong><br>
                                            <span>{{game.awayteamleadername}}</span> & <span>{{game.awayteammembername}}</span><br>                                        
                                              <span v-if="game.awayteamcoursename">{{game.awayteamcoursename}}</span>
@@ -1118,7 +1119,7 @@
 
                                    
 
-                                    <div class="pt-0 pb-3 mt-0" v-if="game.status !== 'Finished' && game.gamedate">                                               
+                                    <div class="pt-0 pb-0 mt-0" v-if="game.status !== 'Finished' && game.gamedate">                                               
                                         <span >
                                             <div>
                                             <i class="fas fa-calendar-week mr-1 mb-1" style="float:left;"></i>
@@ -1479,7 +1480,8 @@ export default {
                     ],
                 },               
                 _id: '',
-                price_private: globalState.price1,
+                price_private: globalState.price1, 
+                pricereduc: 0,               
                 price_company: globalState.price2,
                 price_company2: globalState.price3,
                 company_big: false,
@@ -1667,7 +1669,11 @@ export default {
     mixins: [tagsMixin],
     methods: {
            getClubImage(logourl) {      
-            return 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_60,q_100,c_scale/' + logourl;
+            return 'https://res.cloudinary.com/dn3hzwewp/image/upload/h_50,q_100,c_scale/' + logourl;
+        },
+        getTeamLogo(logourl) {
+            var first_url = logourl.split("/upload/").pop();           
+            return 'https://res.cloudinary.com/dn3hzwewp/image/upload/h_40,q_80,c_scale/' + first_url;  
         },
                 compareValues(key, order = 'asc') {
   return function innerSort(a, b) {
@@ -3267,8 +3273,15 @@ export default {
         //window.scrollTo(0, 0);
     },
     created() {
-
-
+                
+        if (localStorage.getItem('sponsor')) {
+            if (localStorage.getItem('sponsor') === 'gm') {
+                this.team.pricereduc = 50;            
+            } else {
+                this.team.pricereduc = 0;
+            }
+            this.team.price_private =  this.team.price_private-this.team.pricereduc;
+        }
       
        this.$store.dispatch("tryAutoLogin").then(() => {
             if (this.isAuthenticated) {
@@ -3310,6 +3323,10 @@ export default {
 
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
+
+.card-text-team {
+    font-size:0.90em;
+}
 
 .stats {
      background: lighten($blue, 5%);
@@ -3355,8 +3372,7 @@ h2.teaser-header {
 .teamimage {
     border:1px solid grey;
     background:#FFF;
-    padding:0.5em;
-    height:100px;
+    padding:0.5em;    
 }
 
 .card-body {

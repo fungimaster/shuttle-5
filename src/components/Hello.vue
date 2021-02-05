@@ -284,11 +284,11 @@
                </b-row>
                <b-row>
                  <b-col class="col-12 col-md-6">                         
-                          <img class="" :src="`https://res.cloudinary.com/dn3hzwewp/image/upload/v1603714880/matchplay/matchplay_final1.png`">
+                          <img class="" :src="`https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_600,q_65/v1603714880/matchplay/matchplay_final1.png`">
                           <p class="mt-1">Joel Carnor & Emma Wedin</p><a target="_blank"  class="btn blue-bg btn-md text-white mt-0" href="https://fb.watch/1mv7rhBfNC/">länk till segerintervju</a>
                        </b-col>
                          <b-col class="col-12 col-md-6 pt-3 pt-md-0">                         
-                          <img class="" :src="`https://res.cloudinary.com/dn3hzwewp/image/upload/v1603714880/matchplay/matchplay_final2.png`">
+                          <img class="" :src="`https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_600,q_65/v1603714880/matchplay/matchplay_final2.png`">
                          <p class="mt-1">Kim Christiansson & Martin Nileskär</p><a target="_blank" class="btn blue-bg btn-md text-white mt-0" href="https://fb.watch/1mveFbmDox/">länk till segerintervju</a>
                        </b-col>
                </b-row>
@@ -414,6 +414,11 @@ let options = {};
 
 export default {
   created() {
+
+    if (this.$route.query.sponsor === 'gm') {
+      localStorage.setItem('sponsor','gm');     
+    }
+     
 
     //this.getTopListClubs();
 
@@ -549,10 +554,10 @@ export default {
       leader: "",
        //IMAGES
       images: [
-            'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1608122032/matchplay/MPI-1825.jpg',
-            'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg',
-            'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:40,co_rgb:000000/v1608219772/matchplay/bg_matchplay.jpg',
-            'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:50,co_rgb:000000/v1608122570/matchplay/IMG_1232.jpg'
+            'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_65,e_colorize:10,co_rgb:000000/v1608122032/matchplay/MPI-1825.jpg',
+            'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_65,e_colorize:10,co_rgb:000000/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg',
+            'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_65,e_colorize:40,co_rgb:000000/v1608219772/matchplay/bg_matchplay.jpg',
+            'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_65,e_colorize:50,co_rgb:000000/v1608122570/matchplay/IMG_1232.jpg'
             ],
       bgImageCount: 0,
       clubs: 0,
@@ -858,11 +863,11 @@ img {
 }
 
 .bg1 {
-  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg);
+  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_70,e_colorize:10,co_rgb:000000/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg);
 }
 
 .bg2 {
-  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1608122032/matchplay/MPI-1825.jpg);
+  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_70,e_colorize:10,co_rgb:000000/v1608122032/matchplay/MPI-1825.jpg);
 }
 
 .hero {
@@ -870,7 +875,7 @@ img {
   //background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1608122032/matchplay/MPI-1825.jpg);
   //background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1608122246/matchplay/22092018-MGZ_1827.jpg);
   //background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:50,co_rgb:000000/v1608122447/matchplay/IMG_1527.jpg);
-  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:50,co_rgb:000000/v1608122570/matchplay/IMG_1232.jpg);
+  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_70,e_colorize:50,co_rgb:000000/v1608122570/matchplay/IMG_1232.jpg);
   background-repeat: no-repeat;
   /*background-position: bottom 30% right 0;*/
   background-size: cover;
@@ -910,7 +915,7 @@ img {
   //background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1608122032/matchplay/MPI-1825.jpg);
   //background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1608122246/matchplay/22092018-MGZ_1827.jpg);
   //background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:50,co_rgb:000000/v1608122447/matchplay/IMG_1527.jpg);
-  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:50,co_rgb:000000/v1608122570/matchplay/IMG_1232.jpg);
+  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_70,e_colorize:50,co_rgb:000000/v1608122570/matchplay/IMG_1232.jpg);
   background-repeat: no-repeat;
   /*background-position: bottom 30% right 0;*/
   background-size: cover;

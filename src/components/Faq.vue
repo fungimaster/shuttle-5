@@ -31,31 +31,38 @@
 				<b-col class="mt-5 col-12">
 					<div class="mt-3 icons-container text-center">
 						<a href="#2" class>
-							<i class="material-icons">assignment_turned_in</i>
+							<i hidden class="material-icons">assignment_turned_in</i>
+							<i class="fa fa-clipboard-check"></i>
 							<p>Anmälan</p>
 						</a>
 						<a href="#3" class>
-							<i class="material-icons">attach_money</i>
+							<i hidden class="material-icons">attach_money</i>
+							<i class="fa fa-dollar-sign"></i>
 							<p>BETALNING</p>
 						</a>
 						<a href="#4" class>
-							<i class="material-icons">people_alt</i>
+							<i hidden class="material-icons">people_alt</i>
+							<i class="fa fa-user-friends"></i>
 							<p>LAG</p>
 						</a>
 						<a href="#5" class>
-							<i class="material-icons">child_care</i>
+							<i hidden class="material-icons">child_care</i>
+							<i class="fa fa-baby"></i>
 							<p>ÅLDERSGRÄNS</p>
 						</a>
 						<a href="#6" class>
-							<i class="material-icons">sports_golf</i>
+							<i hidden class="material-icons">sports_golf</i>
+							<i class="fa fa-golf-ball"></i>
 							<p>HANDICAP</p>
 						</a>
 						<a href="#10" class>
-							<i class="material-icons">ballot</i>
+							<i hidden class="material-icons">ballot</i>
+							<i class="fa fa-ballot"></i>
 							<p>Lottning</p>
 						</a>
 						<a href="#19" class>
-							<i class="material-icons">accessible</i>
+							<i hidden class="material-icons">accessible</i>
+							<i class="fa fa-wheelchair"></i>
 							<p>HJÄLPMEDEL</p>
 						</a>
 					</div>
@@ -353,7 +360,7 @@ Vid omstart hål 1 (alt. Hål 10) så gäller det att det finns plats såklart. 
 		font-size: 0.7rem !important;
 		padding-top: 10px;
 	}
-	.icons-container i.material-icons {
+	.icons-container i.material-icons, .icons-container i.fa {
 		font-size: 35px;
 		color: white;
 		position: relative;
