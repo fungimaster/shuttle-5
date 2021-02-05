@@ -13,17 +13,44 @@
                             <strong>{{clubno}}</strong>
                         </span> 
                          golfklubbar finns <strong>HITTILLS</strong> representerade med deltagande lag i årets tävling</h5>
-                    <b-col v-if="clubno>111" class="col-12 pl-0 pr-0 mt-3">
-              <b-progress height="1.4rem" :value="clubno" :max="448" show-value animated variant="success"></b-progress>
-                <p class="mt-1" style="font-size:0.8em;">Just nu har vi deltagande lag från ca {{clubnopercent}}% av Sveriges 448 golfklubbar.</p>
-            </b-col>
-                          <hr v-if="!loadingclubs && latestTeam" class="pb-0 mb-0" />
-                         <p class="latestClubLogo mt-3 mb-3 mb-md-5 small" v-if="!loadingclubs && latestTeam">                           
-                           <b-img class="mt-1 mr-3 mb-2 float-left" :src="getClubImage2(latestTeamLogo)"></b-img>
-                           {{latestTeam}}
-                           </p>
-                           <hr v-if="!loadingclubs && latestTeam" class="mt-1" />
-            </b-col>            
+                   
+             </b-col>              
+                    </b-row>
+                    
+                    <b-row v-if="clubno>111">
+                      <b-col>
+                        <hr />
+                      </b-col>
+                       <b-col class="col-12 mt-2">
+                    <b-progress height="1.4rem" :value="clubno" :max="448" show-value animated variant="success"></b-progress>
+                    <p class="mt-1" style="font-size:0.8em;">Just nu har vi deltagande lag från ca {{clubnopercent}}% av Sveriges 448 golfklubbar.</p>
+                    </b-col>
+                    </b-row>
+
+                   
+                      <b-row v-if="!loadingclubs && latestTeam">
+                          <b-col>
+                            <hr class="mt-2" />
+                          </b-col>
+                      </b-row>
+                        <b-row v-if="!loadingclubs && latestTeam" class="align-items-center h-100">
+                            <b-col class="col-3 col-md-2 mx-auto text-center pl-0 pr-0">                              
+                                  <b-img class="" :src="getClubImage2(latestTeamLogo)"></b-img> 
+                            </b-col>
+                             <b-col class="col-7 col-md-10 mx-auto small pl-0 pr-0 text-left">
+                                {{latestTeam}}
+                             </b-col>
+                        </b-row>
+                         <b-row v-if="!loadingclubs && latestTeam">
+                          <b-col>
+                            <hr />
+                          </b-col>
+                      </b-row>
+                    
+
+                  
+
+                  <b-row>
             <b-col class="col-12 mt-1">
               <b-form
                 @submit.stop.prevent
@@ -43,9 +70,7 @@
                </span>            
                </div>
               </b-form>
-              
-              <p v-if="this.clubs.length === 0" class="mt-3"> Vi hittade ingen klubb på din sökning "{{search}}".</p>
-
+                            
             </b-col>            
         </b-row>        
        
@@ -241,10 +266,10 @@ moment.updateLocale("sv", {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-
-.alert-light {
-  border:1px solid grey;
-}
+.jumbotron-1 {
+  border:5px solid #e9ecef;
+  background: #FFF;
+ }
 
 img {
     max-width:85%;
