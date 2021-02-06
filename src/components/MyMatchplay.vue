@@ -172,8 +172,8 @@
                             </div>
                         </b-col>
                     </b-row>
-                    <b-row v-if="teams.length === 0 || !teams.length && !closed">
-                        <b-col>                            
+                    <b-row align-h="center" v-if="teams.length === 0 || !teams.length && !closed">
+                          <b-col sm="10" lg="6" class="mt-3">                        
                             <b-button variant="primary" class="blue-bg mt-3" @click="create_team('new')">Skapa ett lag</b-button>
                         </b-col>
                     </b-row>
@@ -3323,6 +3323,10 @@ export default {
 
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
+
+.card-body {
+    padding-bottom:0px !important;
+}
 
 .card-text-team {
     font-size:0.90em;

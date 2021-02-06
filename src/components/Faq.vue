@@ -188,6 +188,10 @@ Vid omstart hål 1 (alt. Hål 10) så gäller det att det finns plats såklart. 
 							<h3 class="pt-5">14. MATCHRAPPORTERING</h3>
 							<p>Det är obligatoriskt att använda vårt digitala scorekort för att rapportera matchresultat. Hemmalag (kapten eller medspelare) väljer klubb/slinga/tee när matchen ska starta, rätt slope räknas ut och matchplays regler för hcp räknas ut automatiskt. Ni rapporterar in hål för hål enkelt och ser vilket lag som vinner/förlorar/delar resp. hål. Resultatet laddas kontinuerligt upp direkt till hemsidan och matchen ligger live (för andra att följa). När matchen är avgjord visas detta i det digitala scorekortet och ni skickar in resultatet. Vinnarna får meddelande när nästa lottning är gjord (ev. förlorarna också i andra chansen).</p>
 							<p>Herrar spelar på vald klubbs herrtee och damer spelar på vald klubbs damtee.</p>
+							<p class="text-center mt-4">
+							<b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1612601969/matchplay/scorekort2.png"></b-img>
+							<b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload//v1612601969/matchplay/scorekort1.png"></b-img>
+							</p>
 						</div>
 
 						<div class="section" id="15">
