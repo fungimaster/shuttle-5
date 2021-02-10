@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div ref="scorecardTest">
 		<div v-if="loadingSpinner"  class="text-center min-vh-100">
 	 		<b-spinner big type="grow" class="align-items-center m-5" style="width: 5rem; height: 5rem;"></b-spinner>
 		</div>
@@ -15,39 +15,32 @@
 					<span class="showWinnerOverviewTeam1 p-1">&nbsp;x&nbsp;</span> = Vinnande score
 				</b-col>
 				<b-col class="col-6 small mb-3">
-					<span class="eagle">x</span> = eagle
+					<span class="eagle">x</span> = Eagle
 				</b-col>
 				<b-col class="col-6 small mb-3">
-					<span class="birdie">x</span> = birdie
+					<span class="birdie">x</span> = Birdie
 				</b-col>
 				<b-col class="col-6 small">
-					<span class="bogey">x</span> = bogey
+					<span class="bogey">x</span> = Bogey
 				</b-col>
 				<b-col class="col-6 small">
-					<span class="doubleBogey">x</span> = dubbelbogey (eller mer)
+					<span class="doubleBogey">x</span> = Dubbelbogey (eller mer)
 				</b-col>
 			
 			</b-row>
 						Lycka till!
 
-							
-							
-							
-							
-													
-							
-			
 		</b-modal>
 
-		<b-container class  v-if="!loadingSpinner">
+		<b-container class v-if="!loadingSpinner">
 			<div id="saveprogress" v-if="saveprogress && !overview" class="p-1"><b-spinner small type="grow" class=""></b-spinner></div>
 		
 			<b-row class="justify-content-center" align-h="center">
 				<b-col md="6" class="p-0">
-					<b-container class v-if="!overview" id="landscape" :class="{extraheight: winnerSent && !gameClosed}">
+					<b-container class v-if="!overview && authorized" id="landscape" :class="{extraheight: (winnerSent && !gameClosed) || setTieBreak || gameClosed }">
 						<!--  HEADER  -->
 						<b-row class="holeRow pt-4">
-							<b-col class="col-2 pr-0 text-left">
+							<b-col class="col-2 pr-0 text-left">								
 								<button
 									@click="activeHole--, saveData(), currentStrokes(activeHole)"
 									class="holeButtons disable-dbl-tap-zoom"
@@ -94,44 +87,37 @@
 
 
 						<!-- AVSLUTA MATCH OCH SÄRSPEL -->
-						<app-tie-break-modal v-if="setTieBreak && !gameClosed"></app-tie-break-modal>
+						<app-tie-break-modal v-if="(setTieBreak && !gameClosed) && !winnerSent"></app-tie-break-modal>
 
 						<b-row align-v="center" align-h="center">
-							<b-col cols="6" class="text-center">
+							<b-col cols="12" class="text-center small">								
 								<button
 									@click="sendTiebreakWinner(homeTeamId)"
 									v-if="setTieBreak && !gameClosed"
 									class="btn btn-danger disable-dbl-tap-zoom"
-								>
-									VINNARE:
-									<br />
-									<span v-initials>{{this.players[0].name}}</span> &
+									:class="{'pulse-button2': !winnerSent && !gameClosed}"
+								>Vinnare: <span v-initials>{{this.players[0].name}}</span> &
 									<span v-initials>{{this.players[1].name}}</span>
-									<br />Skicka
-									<i class="material-icons pb-1 pr-1">send</i>
 								</button>
-							</b-col>
 
-							<b-col cols="6" class="text-center">
 								<button
 									@click="sendTiebreakWinner(awayTeamId)"
 									v-if="setTieBreak && !gameClosed"
 									class="btn btn-danger disable-dbl-tap-zoom"
+									:class="{'pulse-button2': !winnerSent && !gameClosed}"
 								>
-									VINNARE:
-									<br />
-									<span v-initials>{{this.players[2].name}}</span> & <span v-initials>{{this.players[3].name}}</span>
-									<br />Skicka
-									<i class="material-icons pb-1 pr-1">send</i>
+									Vinnare:								
+									<span v-initials>{{this.players[2].name}}</span> & <span v-initials>{{this.players[3].name}}</span>																	
 								</button>
-							</b-col>
+
+							</b-col>							
 
 							<!-- TIE_BREAK: Avslutad ej stängd -->
 						</b-row>
 
 						<b-row align-h="center" v-if="winnerSent && !gameClosed">
-							<b-col cols="11 text-center p-2" class="winnerJumbotron">
-								<p>
+							<b-col cols="11" class="winnerJumbotron text-center p-2">
+								<p hidden>
 									Resultat inskickat
 									<i class="material-icons pb-1 pr-1">send</i>
 								</p>
@@ -140,13 +126,13 @@
 									<i class="material-icons pb-1 pr-1">emoji_events</i>
 								</p>
 
-								<h5 >Avsluta matchen för att låsa för redigering</h5>
+								<p>Avsluta matchen för att låsa för redigering</p>
 							</b-col>
 						</b-row>
 
 						<!-- TIE_BREAK: Avslutad och stängd -->
 						<b-row align-h="center" v-if="winnerSent && gameClosed">
-							<b-col cols="11 text-center p-2" class="winnerJumbotron">
+							<b-col cols="11" class="winnerJumbotron text-center p-2">
 								<p>
 									Resultat inskickat
 									<i class="material-icons pb-1 pr-1">send</i>
@@ -158,22 +144,23 @@
 									<i class="material-icons pb-1 pr-1">emoji_events</i> </span>
 								</p>
 							</b-col>
-							<b-col cols="6" class="p-2 text-center">
+							<b-col cols="12" class="p-2 text-center">
 						 		<router-link to="/mymatchplay" v-if="winnerSent && gameClosed">
-									<button class="btn btn-warning disable-dbl-tap-zoom ">
-										MATCHER <i class="far fa-golf-club mr-2"></i> 
+									<button class="btn btn-warning btn-sm disable-dbl-tap-zoom ">
+										Tillbaka till din sida
 									</button>
 								 </router-link> 
 							</b-col>
 						</b-row>
 
 						<b-row align-v="center" align-h="center">
-							<b-col class="col-12 pt-0 mt-0 text-center">
+							<b-col class="col-12 pt-0 mt-0 text-center mb-2">
 							<button
 								:disabled="winnerSent === false"
 								v-if="setTieBreak && !gameClosed"
 								@click="sendWinner('Finished'), closeGame()"
 								class="btn btn-danger disable-dbl-tap-zoom"
+								:class="{'pulse-button2': winnerSent && !gameClosed}"
 							>Avsluta matchen</button>
 
 							<!--  STÄNGA MATCH EJ SÄRSPEL  -->
@@ -351,13 +338,14 @@
 									v-if="activeHole < 18"
 									id="nextHole"
 									class="btn-md pl-3 pr-3 bottombuttons"
-									:class="{bottombuttonsModal: viewedInModal}"
+									:class="{bottombuttonsModal: viewedInModal, 'pulse-button': allScores(activeHole)}"
 									variant="primary"
-									@click="currentStrokes(activeHole),activeHole++, saveData(), sendInProgress(), makeToast('success')"
+									@click="currentStrokes(activeHole),activeHole++, saveData(), sendInProgress(), makeToast('danger')"
 								>
 									Nästa hål
 									<span class="material-icons" v-if="!viewedInModal">arrow_forward_ios</span>
-								</b-button>
+								</b-button>	
+																								
 							</b-col>
 						</b-row>
 
@@ -393,7 +381,7 @@
 								</b-col>
 								<!-- score -->
 								<b-col
-									class="col-4 text-center score"
+									class="col-4 text-center score pl-0 pr-0"
 									:class="{ leaderRight: leader && !tie, leaderLeft: !leader && !tie, tie: tie, winnerdeclared: winnerDeclared}"
 								>
 									<span v-if="tie" id="tie">A/S</span>
@@ -433,12 +421,24 @@
 		<!--  LEADER BOARD -->
 		<div  v-if="!loadingSpinner">
 			<b-container id="overview" v-if="overview">
+
 			
-			<b-row v-if="!authorized">
-					<b-col class="text-center mt-3">
+			<div v-if="!authorized">
+			<b-row>
+					<b-col class="text-center mt-2">
 						<b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_150,c_scale/v1573118127/matchplay/matchplay-new-logo-2020.png" alt=""></b-img>        
 					</b-col>
-				</b-row>
+
+						<b-col v-if="!authorized && status !== 'Finished'" cols="12" class="mt-4">
+							 <h5><b-spinner small type="grow" class="mr-2 mb-1 red"></b-spinner>Match pågår (start {{gametime}})</h5>
+							 <b-button id="refresh_button" class="float-right btn-sm" @click="refreshGame3()" variant="warning" show><b-spinner v-if="updating" small type="grow" class="mr-1 red"></b-spinner>Uppdatera</b-button>
+							 <h5><span class="lowerCase timeUpdated">Uppdaterad: {{updatedAt}}</span></h5>
+							 
+						</b-col>
+			
+			</b-row>							
+				
+			</div>
 
 				<b-row class="pt-3" align-v="center" align-h="center">
 					<!-- HOME TEAM -->
@@ -758,29 +758,36 @@
 						</b-col>
 						
 					</b-row>
-					<b-row align-v="center" no-gutters>
-						<b-col v-if="!authorized" cols="12" class="text-right legend">
+					<b-row align-v="center" no-gutters v-if="!authorized">
+						<b-col cols="12" class="text-right legend">
 							<p class="small">
-							<i style="font-size:0.5em;" class="fas fa-circle dots"></i> = Antal extraslag - 
-							<span class="eagle">x</span> = eagle - 
-							<span class="birdie">x</span> = birdie - 
-							<span class="bogey">x</span> = bogey - 
-							<span class="doubleBogey">x</span> = dubbelbogey (eller mer) - 							
+							<i style="font-size:0.3em;" class="fas fa-circle dots"></i> = Antal extraslag - 
+							<span class="eagle">x</span> = Eagle - 
+							<span class="birdie">x</span> = Birdie - 
+							<span class="bogey">x</span> = Bogey - 
+							<span class="doubleBogey">x</span> = Dubbelbogey (eller mer) - 							
 							<span class="showWinnerOverviewTeam1 p-1">x</span> = Vinnande score 
 							</p>
 						</b-col>
-						<b-col v-if="!authorized && status !== 'Finished'" cols="12" class="mt-4">
-							 <h5><b-spinner small type="grow" class="mr-2 mb-1 red"></b-spinner>Match pågår (startade {{gametime}})</h5>
-							 <h5> <span class="lowerCase timeUpdated">Uppdaterad: {{updatedAt}}</span> <span v-if="updating"><b-spinner small type="grow" class="hidden ml-2 mr-1 mb-1 red"> </b-spinner></span></h5>
-						</b-col>						
-
-						<b-col cols="3" v-for="({name}, index) in players" :key="name.index">
-							<div class="displayNamesNoAuth mb-4" v-if="!authorized">
+						<b-col class="col-12 p-0 m-0 mt-3">
+							<b-container>
+								<b-row>
+									<b-col class="m-0 p-0 ml-1">
+										<h4>Spelare</h4>
+									</b-col>
+								</b-row>
+								<b-row>									
+							 <b-col class="col-6 p-1" v-for="({name}, index) in players" :key="name.index">
+							<div class="displayNamesNoAuth mb-2 p-2" :class="{team1ScoreCard: index<2, team2ScoreCard: index>1}">
 								<p>{{name}} </p>	
-								<p>SHCP: {{slopedHcpPlayers[index]}} </p>
+								<p>HCP (match): {{slopedHcpPlayers[index]}} </p>
 								<p>HCP: <span v-negativeToPostive>{{ hcpUnmutated[index] }}</span></p>
 							</div>
 						</b-col>
+								</b-row>
+							</b-container>
+						</b-col>
+
 					</b-row>
 
 			</b-container>
@@ -915,6 +922,7 @@
 		},
 		data() {
 			return {
+				holes:null,
 				showfront9: true,
 				showback9:true,
 				active: true,
@@ -974,7 +982,7 @@
 				status: "", 
 				viewedInModal: false, 
 				loadingSpinner: true, 
-				updating: true, 
+				updating: false,
 				updatedAt: null,		
 				gametime: '',		
 
@@ -1497,6 +1505,105 @@
 			
 		},
 		methods: {
+			b_mount() {
+	
+			//this.gameID = this.$route.query.id;
+				
+			//fixar team-namn
+			//this.team1 = "lag 1"; //data.gameData[0].team;
+			//this.team2 = "lag 2";																																																																																																																											
+			
+			 (async () => {
+				//shcp nedan och loopen behöver datan som skapas med getGameData. Där av async/await. 
+				await this.getGameData()
+				//kallar på shcp-metoden. 
+				this.shcp();
+
+				//uppdaterar nameCount med namn som spelaren har poäng/score inrapporterat redan på hålet. 
+				let counter = -1
+				this.players.forEach(player => {
+					counter++
+						player.holes.forEach( (hole, index) => {	
+							//gör om null till NaN
+							if (hole.strokes === null ){
+							 	this.players[counter].holes[index].strokes = NaN
+							 }
+							//lägger till namn i NamnCount i scores eller streck finns
+							if (hole.strokes > 0 || hole.strokes !== hole.strokes) {
+								 this.nameCount[index].push(this.players[counter].name)								
+							 }
+						});
+					});	
+				//kallar på CurrentStrokes för att makeToast ska uppdatera så att vinnar-klass sätts korrekt på teamrutorna. 
+				//this.currentStrokes(1)	
+
+				//lägger till par på this.player.holes för att komma åt par under översikten
+				this.players.forEach(player => {
+					player.holes.forEach((hole, index) => {
+						hole.par = this.course[index].par;
+					});
+				});
+				//this.loadingSpinner = false
+				//gör så att hcpmodal visas en gång när sidan hämtas men inte varje gång översiken hämtas. 
+										
+					this.overview = false;							
+				  	setTimeout(() => {
+						this.overview = true;
+						this.updating = false;					
+					 }, 0);					 
+					return;
+				
+
+			 })()
+			
+			},
+			refreshGame3() {	
+				this.updating = true;
+				this.b_mount();
+				this.updatedAt = moment().format('LTS');				
+										
+/* 
+
+ (async () => {
+		await this.b_mount();
+				
+				this.shcp();
+				
+				console.log(this.players[0])
+			
+				//test1
+				
+				
+				//end
+
+				this.updatedAt = moment().format('LTS');
+				//console.log(this.players)
+ })() */
+
+				
+			},
+			allScores(hole) {
+				if (!hole) return false;
+				let current_hole = hole-1;
+				let scores = 0;
+				//check if all players has score for activehole			
+				for (let i = 0; i < this.players.length; i++) {				
+					//console.log('player ' + [i+1] + '=' + this.players[i].holes[current_hole].strokes);
+					if (this.players[i].holes[current_hole].strokes !== 0) {
+						scores++;
+					}
+				}
+				//console.log('hole=' + hole + ', ' + scores);
+				if (scores === 4) { //all players has scores
+					this.displayToast = false;				
+					return true;
+				} else {
+					this.displayToast = true;
+					return false;
+				}
+				
+					
+			},		
 			showMatch(hole) {
 				if (!this.authorized) return;
 				window.scroll(0, 0)
@@ -1505,25 +1612,17 @@
 				}
 				
 				this.overview = !overview;
-			},
-			refreshGame2() {
-				this.getGameData();				
-			},
+			},		
 			refreshGame() {
 								
 				this.updatedAt = moment().format('LTS');
-				console.log('start auto update x seconds');
+				//console.log('start auto update x seconds');
 
-
-/* 				setTimeout(() => {
-					if (this.status === "Finished") {
-					return
-					}
-					if(this.authorized) {
-						return
-					}
-					location.reload();
-				}, 120000); */
+/*
+				setInterval(() => {
+					this.refreshGame3();
+				}, 5000); 
+				*/
 				
 			},
 			setDormyClass (dormy) {
@@ -1593,6 +1692,7 @@
 			},
 
 			async getGameData() {
+				
 				const url = "https://admin.matchplay.se/methods/getGameData";
 				const gameID = {
 					id: this.gameID
@@ -2005,14 +2105,28 @@
 }
 
 .pulse-button {
-
     position: relative;
     /*width: 100px;
   height: 100px;*/
 	overflow:hidden;
-    border: none;
+    //border: none;
     box-shadow: 0 0 0 0 rgba(25, 90, 58, 1);
     background-color: #195a3a !important;   
+    background-size: cover;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    -webkit-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+    -moz-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+    -ms-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+    animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+}
+
+.pulse-button2 {
+    position: relative;  
+	overflow:hidden;
+    border: none;
+    box-shadow: 0 0 0 0 rgba(220, 53, 69, 1);
+    background-color: #dc3545 !important;   
     background-size: cover;
     background-repeat: no-repeat;
     cursor: pointer;
@@ -2205,26 +2319,22 @@
 	}
 
 	/* leader board */
-	.displayNamesNoAuth {
-		background-color: $masters-green;
-		color: white; 
-		padding: 5px; 
-		padding-bottom: 0;
-		margin-left: 1px; 
-		margin-right: 1px; 
+	.displayNamesNoAuth {		
+		background-color: #e1e1e1;
+		color: #000; 						
 		border-radius: 5px;
-		font-size: 14px;
-		min-height: 48px;
+		//min-height: 48px;
 		font-size: clamp(
-			14px,      /*min */
+			1.1em,      /*min */
 			2vw,      /*value */
-			20px   /*max */
+			1.5em   /*max */
 		);
 	
 	}
 	.displayNamesNoAuth, p {
 		margin-bottom: 3px; 
 	}
+
 	.lowerCase {
 		text-transform: none;
 	}
@@ -2551,7 +2661,7 @@
 	}
 	/* LEADER SECTION  */
 	.dormy {
-		font-size: 1em;
+		font-size: 0.8em;
 		overflow: hidden;
 	}
 

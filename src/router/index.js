@@ -1,9 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Hello from '@/components/Hello'
-import Tickets from '@/components/Tickets'
-import Lineup from '@/components/Lineup'
-import Sessions from '@/components/Sessions'
 import Search from '@/components/Search'
 import MyMatchplay from '@/components/MyMatchplay'
 import Faq from '@/components/Faq'
@@ -23,6 +20,7 @@ import Scorecard from '@/components/Scorecard'
 import Receipt from '@/components/Receipt'
 import Game from '@/components/Game'
 import Register from '@/components/Register'
+import Results from '@/components/Results'
 
 Vue.use(Router)
 
@@ -32,7 +30,12 @@ export default new Router({
     {
       path: '/',
       name: 'Start',
-      component: Hello,
+      component: Hello
+    },   
+    {
+      path: '/results',
+      name: 'Results',
+      component: Results,
       children: [
         {
           path: '/viewer',
@@ -44,32 +47,7 @@ export default new Router({
             }
         },
       ]
-    },
-    {
-      path: '/tickets',
-      name: 'Tickets',
-      component: Tickets
-    },
-    {
-      path: '/line-up',
-      name: 'Lineup',
-      component: Lineup
-    },
-    {
-      path: '/line-up/:name',
-      name: 'Lineup-single',
-      component: Lineup
-    },
-    {
-      path: '/sessions',
-      name: 'Sessions',
-      component: Sessions
-    },
-    {
-      path: '/sessions/:name',
-      name: 'session-single',
-      component: Sessions
-    },
+    },       
     {
       path: '/search/:query',
       name: 'Search',

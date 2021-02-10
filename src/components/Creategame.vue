@@ -864,6 +864,7 @@ export default {
           clubname: this.form.course,
           loop: this.form.loop,
           loopname: this.form.loopname,
+          winner: null
         })
         .then((response) => {
           //console.log(response.data);

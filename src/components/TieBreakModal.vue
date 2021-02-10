@@ -19,8 +19,14 @@
 		</b-modal>
 		<b-container>
 			<b-row align-h="center">
-				<b-col cols="8">
-					<b-button @click="showModal" class="btn btn-warning">Regler för särspel</b-button>
+				<b-col class="col-8 small">
+					<p>Matchen måste gå till särspel för att utse en vinnare, se regler på knappen brevid.</p>
+				</b-col>
+				<b-col class="col-4 text-right">
+					<b-button @click="showModal" class="btn btn-warning btn-sm">Regler</b-button>
+				</b-col>
+				<b-col class="col-12">
+					<hr class="mt-0 mb-2" />
 				</b-col>
 			</b-row>
 		</b-container>

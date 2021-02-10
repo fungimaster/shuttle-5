@@ -49,7 +49,7 @@ export default {
        {
          message: 'Golf är en så pass individuell sport på många sätt, så det är himla kul att få möjlighet att spela med en kompis! Jag kan verkligen rekommendera Matchplay som tävling för alla.',
          author: 'Philip Widmark / Båstad GK',
-         image: 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_200,c_fill,ar_1:1,g_auto,r_max/v1608533894/matchplay/ambassador/philip.jpg'
+         image: 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_200,c_fill,ar_1:1,g_auto,r_max/v1608533894/matchplay/ambassador/philip.png'
        }
     
     ]

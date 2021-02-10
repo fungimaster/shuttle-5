@@ -1,6 +1,5 @@
-<template>  
-    <div>       
-
+<template>
+  <div>
     <vue-headful :title="doctitle" />
     <div class="hidden theme text-center">
       <div class="container">
@@ -8,371 +7,525 @@
       </div>
     </div>
 
-    <b-modal ref="earlyBirdie" id="earlyBirdie" title="Early Birdie?" size="md" ok-only ok-variant="secondary" ok-title="Cancel">
-    <p>
-      Bland de första 50 registrerade och betalda lagen lottar vi ut en golfweekend till Lydinge Resort (Skåne) med 3-rätters middag, övernattning och greenfee för 2 personer.</p><p>Det vinnande laget meddelas per mail samt på våra sociala konton.
-    </p>
-    <p class="text-center d-block d-md-none">      
-      <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/h_200/v1608315326/matchplay/Early_Birdie_2021_mobil.jpg" />
-    </p>   
-    <p class="text-center d-none d-md-block">      
-      <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/h_300/v1608315326/matchplay/Early_Birdie_2021_mobil.jpg" />
-    </p>
-     <b-button class="mt-3" block @click="$bvModal.hide('earlyBirdie')">Tack för infon!</b-button>
-     <template #modal-footer="{ ok, cancel, hide }">      
-      <!-- Emulate built in modal footer ok and cancel button actions -->
-      <b-button hidden size="sm" variant="success" @click="ok()">
-        OK
-      </b-button>
-      <b-button hidden size="sm" variant="danger" @click="cancel()">
-        Tack för infon!
-      </b-button>
-      <!-- Button with custom close trigger value -->
-      <b-button hidden size="sm" variant="outline-secondary" @click="hide('forget')">
-        Forget it
-      </b-button>
-    </template>
-  </b-modal>
+    <b-modal
+      ref="earlyBirdie"
+      id="earlyBirdie"
+      title="Early Birdie?"
+      size="md"
+      ok-only
+      ok-variant="secondary"
+      ok-title="Cancel"
+    >
+      <p>Bland de första 50 registrerade och betalda lagen lottar vi ut en golfweekend till Lydinge Resort (Skåne) med 3-rätters middag, övernattning och greenfee för 2 personer.</p>
+      <p>Det vinnande laget meddelas per mail samt på våra sociala konton.</p>
+      <p class="text-center d-block d-md-none">
+        <img
+          src="https://res.cloudinary.com/dn3hzwewp/image/upload/h_200/v1608315326/matchplay/Early_Birdie_2021_mobil.jpg"
+        />
+      </p>
+      <p class="text-center d-none d-md-block">
+        <img
+          src="https://res.cloudinary.com/dn3hzwewp/image/upload/h_300/v1608315326/matchplay/Early_Birdie_2021_mobil.jpg"
+        />
+      </p>
+      <b-button class="mt-3" block @click="$bvModal.hide('earlyBirdie')">Tack för infon!</b-button>
+      <template #modal-footer="{ ok, cancel, hide }">
+        <!-- Emulate built in modal footer ok and cancel button actions -->
+        <b-button hidden size="sm" variant="success" @click="ok()">OK</b-button>
+        <b-button hidden size="sm" variant="danger" @click="cancel()">Tack för infon!</b-button>
+        <!-- Button with custom close trigger value -->
+        <b-button hidden size="sm" variant="outline-secondary" @click="hide('forget')">Forget it</b-button>
+      </template>
+    </b-modal>
 
-
- <!--     <b-modal ref="scorecard" v-model="modalShow" ok-only size="lg">
+    <!--     <b-modal ref="scorecard" v-model="modalShow" ok-only size="lg">
       <router-view> </router-view>
-    </b-modal> -->
-       
-    <div class="hero" ref="slider">      
+    </b-modal>-->
+
+    <div class="hero" ref="slider">
       <b-container class="pl-4 pr-4">
- 
         <b-row>
-          <b-col class="col-12 col-md-12 mt-4">            
+          <b-col class="col-12 col-md-12 mt-4">
             <h2>VÄLKOMMEN TILL MATCHPLAY 2021, GOLFTÄVLINGEN FÖR BÅDE PRIVATPERSONER OCH FÖRETAG</h2>
           </b-col>
-      
-          <b-col class="col-12 col-md-8">
-            <p class="mt-3 mt-md-0">Matchplay är en matchspelstävling för par med officiellt handikapp. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.</p>
-            <p v-if="!closed">Tävlingen spelas mellan maj-september i olika omgångar fram till Sverigefinalen och sedan vidare utomlands!</p>
-            <p hidden v-if="!closed">2020 spelades 358 matcher på nästan 100 golfklubbar.</p>
-             <p hidden v-if="closed">I helgen (30-31 maj) lottas första omgången. Den 1 juni startar tävlingen!</p>
-            
-             <div class="buttons text-left">
-                <router-link v-if="!closed && !isAuthenticated" class="btn blue-bg btn-md text-white mt-2 mr-2" to="/register">Anmälan</router-link>
-              <a hidden v-if="!isAuthenticated" href="/register" class="btn blue-bg btn-md text-white mt-2 mr-2">Anmälan</a>
-              <a v-if="!isAuthenticated" href="#more" class="btn blue-bg btn-md text-white mt-2 mr-2">Vill du veta mer?</a>
-              <router-link v-if="isAuthenticated" class="btn blue-bg btn-md text-white mt-2 mr-2" to="/mymatchplay">Lag- och matchhantering</router-link>
-              <a hidden v-if="isAuthenticated" href="/mymatchplay" class="btn blue-bg btn-md text-white mt-2">Lag- och matchhantering</a>
-              <a hidden href="/register" class="btn btn-warning btn-md text-white mt-2">Efterhandsregistrera spelare</a>
-            </div>
-            
-            <!-- ALERTS FRÅN BACKEND -->
-            <b-alert class="mt-4 smaller" :variant=message.variant show v-for="message in messages" :key=message.index> <h6>{{message.title}} </h6>  <span v-html="message.message"></span></b-alert>
 
-            <b-alert  class="mt-4 smaller" variant="warning">
-                Tävlingen startar den 3:e maj 2021 men anmäl ditt lag redan nu!                
-                För mer uppdaterad information håll koll på <a href="https://www.facebook.com/matchplaysweden/" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplay_sweden/" target="_blank">Instagram</a>.
-             </b-alert>
+          <b-col class="col-12 col-md-8">
+            <p
+              class="mt-3 mt-md-0"
+            >Matchplay är en matchspelstävling för par med officiellt handikapp. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.</p>
+            <p
+              v-if="!closed"
+            >Tävlingen spelas mellan maj-september i olika omgångar fram till Sverigefinalen och sedan vidare utomlands!</p>
+            <p hidden v-if="!closed">2020 spelades 358 matcher på nästan 100 golfklubbar.</p>
+            <p
+              hidden
+              v-if="closed"
+            >I helgen (30-31 maj) lottas första omgången. Den 1 juni startar tävlingen!</p>
+
+            <div class="buttons text-left">
+              <router-link
+                v-if="!closed && !isAuthenticated"
+                class="btn blue-bg btn-md text-white mt-2 mr-2"
+                to="/register"
+              >Anmälan</router-link>
+              <a
+                hidden
+                v-if="!isAuthenticated"
+                href="/register"
+                class="btn blue-bg btn-md text-white mt-2 mr-2"
+              >Anmälan</a>
+              <a
+                v-if="!isAuthenticated"
+                href="#more"
+                class="btn blue-bg btn-md text-white mt-2 mr-2"
+              >Vill du veta mer?</a>
+              <router-link
+                v-if="isAuthenticated"
+                class="btn blue-bg btn-md text-white mt-2 mr-2"
+                to="/mymatchplay"
+              >Lag- och matchhantering</router-link>
+              <a
+                hidden
+                v-if="isAuthenticated"
+                href="/mymatchplay"
+                class="btn blue-bg btn-md text-white mt-2"
+              >Lag- och matchhantering</a>
+              <a
+                hidden
+                href="/register"
+                class="btn btn-warning btn-md text-white mt-2"
+              >Efterhandsregistrera spelare</a>
+            </div>
+
+            <!-- ALERTS FRÅN BACKEND -->
+            <b-alert
+              class="mt-4 smaller"
+              :variant="message.variant"
+              show
+              v-for="message in messages"
+              :key="message.index"
+            >
+              <h6>{{message.title}}</h6>
+              <span v-html="message.message"></span>
+            </b-alert>
+
+            <b-alert class="mt-4 smaller" variant="warning">
+              Tävlingen startar den 3:e maj 2021 men anmäl ditt lag redan nu!
+              För mer uppdaterad information håll koll på
+              <a href="https://www.facebook.com/matchplaysweden/" target="_blank">Facebook</a> och
+              <a href="https://www.instagram.com/matchplay_sweden/" target="_blank">Instagram</a>.
+            </b-alert>
 
             <b-alert v-if="closed" hidden class="mt-4 small" variant="warning">
-                Alla matcher är lottade och omgång 1 spelas mellan 1-14 juni!  <a href="#games">Se matcher längre ner!</a>
-                <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
-             </b-alert>
+              Alla matcher är lottade och omgång 1 spelas mellan 1-14 juni!
+              <a href="#games">Se matcher längre ner!</a>
+              <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
+            </b-alert>
 
-              <b-alert v-if="closed" hidden class="mt-4 small" variant="warning">
-                Omgång 2 lottas under måndagen den 15 juni, håll utkik här på hemsidan eller på <a href="https://www.facebook.com/matchplaysweden/">facebook</a> för uppdateringar om nya matcher och speldatum för nästa omgång!
-                <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
-             </b-alert>
+            <b-alert v-if="closed" hidden class="mt-4 small" variant="warning">
+              Omgång 2 lottas under måndagen den 15 juni, håll utkik här på hemsidan eller på
+              <a href="https://www.facebook.com/matchplaysweden/">facebook</a> för uppdateringar om nya matcher och speldatum för nästa omgång!
+              <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
+            </b-alert>
 
+            <b-alert v-if="closed" hidden class="mt-4 small" variant="warning">
+              Omgång 3 lottas under måndagen den 6 juli, håll utkik här på hemsidan eller på
+              <a href="https://www.facebook.com/matchplaysweden/">facebook</a> för uppdateringar om nya matcher och speldatum för nästa omgång!
+              <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
+            </b-alert>
 
-              <b-alert v-if="closed" hidden class="mt-4 small" variant="warning">
-                Omgång 3 lottas under måndagen den 6 juli, håll utkik här på hemsidan eller på <a href="https://www.facebook.com/matchplaysweden/">facebook</a> för uppdateringar om nya matcher och speldatum för nästa omgång!
-                <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
-             </b-alert>
+            <b-alert v-if="closed" hidden class="mt-4 small" variant="warning">
+              Omgång 3 (huvudtävlingen och andra chansen) spelas mellan 6/7 - 19/7.
+              <a href="#games">Se matcher längre ner!</a>
+              Nyheter och aktuell info om tävlingen ses bäst på vår
+              <a href="https://www.facebook.com/matchplaysweden/">facebooksida</a>.
+              <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
+            </b-alert>
 
-             <b-alert v-if="closed" hidden class="mt-4 small" variant="warning">
-                Omgång 3 (huvudtävlingen och andra chansen) spelas mellan 6/7 - 19/7. <a href="#games">Se matcher längre ner!</a>
-                Nyheter och aktuell info om tävlingen ses bäst på vår <a href="https://www.facebook.com/matchplaysweden/">facebooksida</a>.
-                <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
-             </b-alert>
+            <b-alert v-if="closed" hidden class="mt-4 small" variant="warning">
+              Omgång 4 (huvudtävlingen och andra chansen) spelas mellan 20/7 - 3/8.
+              <a href="#games">Se matcher längre ner!</a>
+              Nyheter och aktuell info om tävlingen ses bäst på vår
+              <a href="https://www.facebook.com/matchplaysweden/">facebooksida</a>.
+              <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
+            </b-alert>
 
-              <b-alert v-if="closed" hidden class="mt-4 small" variant="warning">
-                Omgång 4 (huvudtävlingen och andra chansen) spelas mellan 20/7 - 3/8. <a href="#games">Se matcher längre ner!</a>
-                Nyheter och aktuell info om tävlingen ses bäst på vår <a href="https://www.facebook.com/matchplaysweden/">facebooksida</a>.
-                <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
-             </b-alert>
+            <b-alert v-if="closed" hidden class="mt-4 small" variant="warning">
+              Omgång 5 (huvudtävlingen och andra chansen) spelas mellan 4/8 - 18/8.
+              <a href="#games">Se matcher längre ner!</a>
+              Nyheter och aktuell info om tävlingen ses bäst på vår
+              <a href="https://www.facebook.com/matchplaysweden/">facebooksida</a>.
+              <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
+            </b-alert>
 
-              <b-alert v-if="closed" hidden class="mt-4 small" variant="warning">
-                Omgång 5 (huvudtävlingen och andra chansen) spelas mellan 4/8 - 18/8. <a href="#games">Se matcher längre ner!</a>
-                Nyheter och aktuell info om tävlingen ses bäst på vår <a href="https://www.facebook.com/matchplaysweden/">facebooksida</a>.
-                <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
-             </b-alert>
+            <b-alert v-if="closed" hidden class="mt-4 small" variant="warning">
+              <strong>8 lag</strong> återstår nu i resp spår av tävlingen (HT och AC). Omgång 6 (huvudtävlingen och andra chansen) spelas mellan 19/8 - 2/9.
+              <a href="#games">Se matcher längre ner!</a>
+              Nyheter och aktuell info om tävlingen ses bäst på vår
+              <a href="https://www.facebook.com/matchplaysweden/">facebooksida</a>.
+              <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
+            </b-alert>
 
-              <b-alert v-if="closed" hidden class="mt-4 small" variant="warning">
-                <strong>8 lag</strong> återstår nu i resp spår av tävlingen (HT och AC). Omgång 6 (huvudtävlingen och andra chansen) spelas mellan 19/8 - 2/9. <a href="#games">Se matcher längre ner!</a>
-                Nyheter och aktuell info om tävlingen ses bäst på vår <a href="https://www.facebook.com/matchplaysweden/">facebooksida</a>.
-                <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
-             </b-alert>
+            <b-alert v-if="closed" hidden class="mt-4 small" variant="warning">
+              <strong>4 lag</strong> återstår nu i resp spår av tävlingen (HT och AC). Omgång 7 (huvudtävlingen och andra chansen) spelas mellan 1/9 - 15/9.
+              <a href="#games">Se matcher längre ner!</a>
+              <br />
+              <br />Omgång 8 (Sverigefinalen) spelas på Allerum GK 23-24 oktober. Se mer info längre ner.
+              Nyheter och aktuell info om tävlingen ses bäst på vår
+              <a href="https://www.facebook.com/matchplaysweden/">facebooksida</a>.
+              <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
+            </b-alert>
 
-              <b-alert v-if="closed" hidden class="mt-4 small" variant="warning">
-                <strong>4 lag</strong> återstår nu i resp spår av tävlingen (HT och AC). Omgång 7 (huvudtävlingen och andra chansen) spelas mellan 1/9 - 15/9. <a href="#games">Se matcher längre ner!</a>
-                <br><br>Omgång 8 (Sverigefinalen) spelas på Allerum GK 23-24 oktober. Se mer info längre ner.
-                Nyheter och aktuell info om tävlingen ses bäst på vår <a href="https://www.facebook.com/matchplaysweden/">facebooksida</a>.
-                <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
-             </b-alert>
+            <b-alert v-if="closed" hidden class="mt-4 small" variant="warning">
+              <p>
+                <strong>Lagen som är vidare till Sverigefinalen är nu utsedda!</strong>
+              </p>
+              <p>I huvudtävlingen är CARNOR/WEDIN och IDLING/ANDERSSON vidare. I andra chansen är CHRISTIANSSON/NILESKÄR och THURESON/DAHL vidare.</p>Se mer info om Sverigefinalen längre ner. Nyheter och aktuell info om tävlingen ses bäst på vår
+              <a href="https://www.facebook.com/matchplaysweden/">facebooksida</a>.
+              <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
+            </b-alert>
 
-              <b-alert v-if="closed" hidden class="mt-4 small" variant="warning">
-                <p><strong>Lagen som är vidare till Sverigefinalen är nu utsedda!</strong></p><p> I huvudtävlingen är CARNOR/WEDIN och IDLING/ANDERSSON vidare. I andra chansen är CHRISTIANSSON/NILESKÄR och THURESON/DAHL vidare.</p>
-                Se mer info om Sverigefinalen längre ner. Nyheter och aktuell info om tävlingen ses bäst på vår <a href="https://www.facebook.com/matchplaysweden/">facebooksida</a>.
-                <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
-             </b-alert>
+            <b-alert v-if="closed" show class="mt-4 small" variant="warning">
+              <h4>LAGEN TILL FINALEN I SPANIEN ÄR KLARA</h4>Efter 358 spelade matcher på nästan 100 golfklubbar runtom i Sverige har vi nu korat vinnarna till Spanienfinalen!
+              <br />Grattis till Joel Carnor/Emma Wedin samt Kim Christiansson/Martin Nileskär! Se mer info längre ner om vinnarna och finalresan.
+              <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
+            </b-alert>
 
-              <b-alert v-if="closed" show class="mt-4 small" variant="warning">
-                <h4>LAGEN TILL FINALEN I SPANIEN ÄR KLARA</h4>Efter 358 spelade matcher på nästan 100 golfklubbar runtom i Sverige har vi nu korat vinnarna till Spanienfinalen!<br>Grattis till Joel Carnor/Emma Wedin samt Kim Christiansson/Martin Nileskär! Se mer info längre ner om vinnarna och finalresan.
-                <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
-             </b-alert>
-           
-             <div hidden v-if="!closed" class="mt-4">
-            <h3 class="mb-3 text-center">Anmälan stänger om</h3>
-            <appCountdown deadline="2021-04-30 23:59:00"></appCountdown>
-             </div>
+            <div hidden v-if="!closed" class="mt-4">
+              <h3 class="mb-3 text-center">Anmälan stänger om</h3>
+              <appCountdown deadline="2021-04-30 23:59:00"></appCountdown>
+            </div>
 
-             <b-alert v-if="!closed" hidden class="mt-4 small" variant="warning">
-                Start för tävlingen och sista anmälningsdag är ändrad! Tävlingen startar 1 juni och sista dagen för anmälan är 27:e maj. <a href="https://www.facebook.com/pg/matchplaysweden/posts/?ref=page_internal">Läs mer här</a>
-                <span hidden><strong>OBS!</strong> Alla anmälda lag får tröjor från PING men vill man vara säker på att ha dom till matchstart i början av maj så måste man anmäla laget innan 1 april.</span>               
-                <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
-             </b-alert>
-             <b-alert hidden class="mt-4 small" variant="danger">
-                Utvecklarna har kollat på Presidents cup hela natten så releasen blir lite senare under kvällen idag eller eventuellt imorgon förmiddag.
-                Håll koll via <a href="https://www.facebook.com/matchplaysweden/" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplay_sweden/" target="_blank">Instagram</a>.
-             </b-alert>
-
-      
-           
+            <b-alert v-if="!closed" hidden class="mt-4 small" variant="warning">
+              Start för tävlingen och sista anmälningsdag är ändrad! Tävlingen startar 1 juni och sista dagen för anmälan är 27:e maj.
+              <a
+                href="https://www.facebook.com/pg/matchplaysweden/posts/?ref=page_internal"
+              >Läs mer här</a>
+              <span hidden>
+                <strong>OBS!</strong> Alla anmälda lag får tröjor från PING men vill man vara säker på att ha dom till matchstart i början av maj så måste man anmäla laget innan 1 april.
+              </span>
+              <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
+            </b-alert>
+            <b-alert hidden class="mt-4 small" variant="danger">
+              Utvecklarna har kollat på Presidents cup hela natten så releasen blir lite senare under kvällen idag eller eventuellt imorgon förmiddag.
+              Håll koll via
+              <a href="https://www.facebook.com/matchplaysweden/" target="_blank">Facebook</a> och
+              <a href="https://www.instagram.com/matchplay_sweden/" target="_blank">Instagram</a>.
+            </b-alert>
           </b-col>
 
-           <b-col class="col-12 d-block d-md-none pl-2 justify-content-center align-self-center p-5">           
-          
-            <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/e_colorize,co_rgb:fff/v1573118127/matchplay/matchplay-new-logo-2020.png" alt=""></b-img>
+          <b-col class="col-12 d-block d-md-none pl-2 justify-content-center align-self-center p-5">
+            <b-img
+              src="https://res.cloudinary.com/dn3hzwewp/image/upload/e_colorize,co_rgb:fff/v1573118127/matchplay/matchplay-new-logo-2020.png"
+              alt
+            ></b-img>
           </b-col>
-       
-       
-          <b-col class="col-md-4 d-none d-md-block pl-2 justify-content-center align-self-center p-3">           
-          
-            <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/e_colorize,co_rgb:fff/v1573118127/matchplay/matchplay-new-logo-2020.png" alt=""></b-img>
-          </b-col>
-         
-        
 
+          <b-col
+            class="col-md-4 d-none d-md-block pl-2 justify-content-center align-self-center p-3"
+          >
+            <b-img
+              src="https://res.cloudinary.com/dn3hzwewp/image/upload/e_colorize,co_rgb:fff/v1573118127/matchplay/matchplay-new-logo-2020.png"
+              alt
+            ></b-img>
+          </b-col>
         </b-row>
-     
       </b-container>
     </div>
-<!-- TEMP HIDDEN -->  
+    <!-- TEMP HIDDEN -->
 
-<b-jumbotron container-fluid class="white">    
-      <b-container >
+    <b-jumbotron container-fluid class="white">
+      <b-container>
         <b-row v-if="!isAuthenticated">
-          <b-col class="col-12">        
+          <b-col class="col-12">
             <h3 v-if="!closed" class="teaser-header orange mb-3">Anmäl ditt lag till Matchplay 2021</h3>
             <p>Hela tävlingen är numera digitaliserad där vi kontrollerar Golf-ID, hcp, slope mm för att kunna applicera våra hcputräkningar inför varje match. Ni använder vårt digitala scorekort för att föra score och vänner/familj kan följa matcherna live!</p>
-            <p>Anmälningskostnad per lag är <strong>{{price1}} kr</strong> för privatpersoner och <strong>{{price2}} kr</strong> (exkl. moms) för företag.</p>
-            <router-link class="btn blue-bg btn-md text-white mt-2 mr-2" to="/register"><i class="pb-1 mr-2 material-icons">thumb_up</i>Steg 1 - Skriv in ditt Golf-ID</router-link>
+            <p>
+              Anmälningskostnad per lag är
+              <strong>{{price1}} kr</strong> för privatpersoner och
+              <strong>{{price2}} kr</strong> (exkl. moms) för företag.
+            </p>
+            <router-link class="btn blue-bg btn-md text-white mt-2 mr-2" to="/register">
+              <i class="pb-1 mr-2 material-icons">thumb_up</i>Steg 1 - Skriv in ditt Golf-ID
+            </router-link>
           </b-col>
         </b-row>
 
         <b-row v-if="isAuthenticated && user">
           <b-col class="col-12">
             <h3 class="teaser-header orange mb-3">Hej {{user.firstname}}!</h3>
-            
-            <p v-if="user.teams">Du har redan skapat ett lag och kan hantera det  <router-link to="/mymatchplay">här</router-link>. Lycka till i tävlingen!</p>
+
+            <p v-if="user.teams">
+              Du har redan skapat ett lag och kan hantera det
+              <router-link to="/mymatchplay">här</router-link>. Lycka till i tävlingen!
+            </p>
             <div v-if="user.teams">
               <div v-if="user.teams.length>0">
                 <!-- kommande match -->
                 <div v-if="user.teams[0].games.length>0">
-                  <div v-if="user.teams[0].games[0].status === 'Pending'">                    
-                    <p>Din nästa match: {{user.teams[0].games[0].gamedate}} {{user.teams[0].games[0].gametime}}
-                    <span v-if="user.teams[0].games[0].clubname"> på {{user.teams[0].games[0].clubname}}.</span>
-                    <span v-else>.</span>
+                  <div v-if="user.teams[0].games[0].status === 'Pending'">
+                    <p>
+                      Din nästa match: {{user.teams[0].games[0].gamedate}} {{user.teams[0].games[0].gametime}}
+                      <span
+                        v-if="user.teams[0].games[0].clubname"
+                      >på {{user.teams[0].games[0].clubname}}.</span>
+                      <span v-else>.</span>
                     </p>
                   </div>
                 </div>
                 <!-- pågående match -->
                 <div v-if="user.teams[0].games.length>0">
-                  <div v-if="user.teams[0].games[0].status === 'In progress'">                    
-                    <p>Du har en pågående match!
-                      <b-button @click="getScorecard(user.teams[0].games[0]._id)" show variant="primary">
-                        Visa scorekortet
-                      </b-button>
+                  <div v-if="user.teams[0].games[0].status === 'In progress'">
+                    <p>
+                      Du har en pågående match!
+                      <b-button
+                        @click="getScorecard(user.teams[0].games[0]._id)"
+                        show
+                        variant="primary"
+                      >Visa scorekortet</b-button>
                     </p>
                   </div>
                 </div>
               </div>
             </div>
-            <p v-if="!user.teams">Du har ännu inget lag i Sveriges roligaste golftävling, skapa ett på knappen nedan.</p>            
+            <p
+              v-if="!user.teams"
+            >Du har ännu inget lag i Sveriges roligaste golftävling, skapa ett på knappen nedan.</p>
             <div v-if="user.teams">
-            <p v-if="!user.teams[0].paid">Anmälningskostnad per lag är <strong>{{price1}} kr</strong> för privatpersoner och <strong>{{price2}} kr</strong> (exkl. moms) för företag.</p>           
+              <p v-if="!user.teams[0].paid">
+                Anmälningskostnad per lag är
+                <strong>{{price1}} kr</strong> för privatpersoner och
+                <strong>{{price2}} kr</strong> (exkl. moms) för företag.
+              </p>
             </div>
-            <router-link v-if="!user.teams" class="btn blue-bg btn-md text-white mt-2 mr-2" to="/mymatchplay">Skapa ett lag</router-link>
+            <router-link
+              v-if="!user.teams"
+              class="btn blue-bg btn-md text-white mt-2 mr-2"
+              to="/mymatchplay"
+            >Skapa ett lag</router-link>
           </b-col>
         </b-row>
 
         <b-row>
           <b-col class="col-12 mt-3">
-            <hr />    
-            <p class="mt-4">Se till att följa oss på våra <strong>sociala medier</strong> för nyheter och tävlingar!</p>
+            <hr />
+            <p class="mt-4">
+              Se till att följa oss på våra
+              <strong>sociala medier</strong> för nyheter och tävlingar!
+            </p>
           </b-col>
           <b-col class="col-12">
-            <a class="btn orange-bg btn-md text-white mt-2 mr-md-2" href="https://www.facebook.com/matchplaysweden/" target="_blank"><i class="material-icons mr-2">facebook</i>Facebook</a>
-            <a class="btn orange-bg btn-md text-white mt-2" href="https://www.instagram.com/matchplay_sweden/" target="_blank"><i class="material-icons mr-2">camera_alt</i>Instagram</a>
+            <a
+              class="btn orange-bg btn-md text-white mt-2 mr-md-2"
+              href="https://www.facebook.com/matchplaysweden/"
+              target="_blank"
+            >
+              <i class="material-icons mr-2">facebook</i>Facebook
+            </a>
+            <a
+              class="btn orange-bg btn-md text-white mt-2"
+              href="https://www.instagram.com/matchplay_sweden/"
+              target="_blank"
+            >
+              <i class="material-icons mr-2">camera_alt</i>Instagram
+            </a>
           </b-col>
         </b-row>
 
-          <b-row v-if="showTopClubs">
-         <b-col class="col-12 mt-3">
-            <hr />  
+        <b-row v-if="showTopClubs">
+          <b-col class="col-12 mt-3">
+            <hr />
             <h3 class="white mb-3 mt-4 pt-2">Topp 3 anmälda lag</h3>
-            <podium number=3></podium>
-         </b-col>
-       </b-row>      
+            <podium number="3"></podium>
+          </b-col>
+        </b-row>
+      </b-container>
+    </b-jumbotron>
 
 
-
+     <b-jumbotron container-fluid class="gradient d-block d-md-block mt-4 mb-0" v-if="!isAuthenticated || !user">
+      <b-container>
+        <b-row>
+                <div class="col-12 text-left text-md-center">
+                   <h1 class="text-white">Så här fungerar det</h1>
+                  <b-carousel ref="explainer" id="explainer" v-model="slide" :interval="500000">
+                    <div class="carousel-inner text-left">
+                      <div
+                        class="carousel-item"
+                        v-for="(explain, index) in explainer"
+                        :key="explain.message"
+                      >
+                        <b-row :id="'slide_'+index" align-h="center">
+                          <b-col class="col-12 col-md-10 col-lg-8 mb-3 mt-4 mt-md-5">
+                            <div class="card card-explainer">
+                              <img hidden
+                                class="img-fluid"
+                                alt="100%x280"
+                                src="https://images.unsplash.com/photo-1532781914607-2031eca2f00d?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=1080&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjMyMDc0fQ&amp;s=7c625ea379640da3ef2e24f20df7ce8d"
+                              />
+                              <div class="card-body p-0">
+                                <h3 class="card-title text-left">{{index+1}}. {{explain.title}}</h3>
+                                <p
+                                  v-html="explain.message"
+                                  class="card-text mt-3"
+                                ></p>
+                                <p hidden v-if="explain.icon" class="text-center"><i :class="'fa fa-'+explain.icon"></i></p>
+                              </div>
+                            </div>
+                          </b-col>
+                        </b-row>
+                      </div>
+                    </div>
+                  </b-carousel>
+                </div>
+                  <div class="col-12 text-center mb-2">
+                  <b-button variant="primary" @click="prev()">
+                    <i class="fa fa-arrow-left"></i>
+                  </b-button>
+                  <b-button variant="primary" @click="next()">
+                    <i class="fa fa-arrow-right"></i>
+                  </b-button>
+                  <b-button variant="primary" class="text-white" to="/register">
+                  Anmälan
+                  </b-button>
+                </div>
+             
+            
+        
+        </b-row>
       </b-container>
 </b-jumbotron>
 
- <b-jumbotron container-fluid>
-   <b-container>
-     <h3 class="teaser-header orange mb-3">Dubbelt så stor Sverigefinal</h3>
-               <b-row>
-                 <b-col class="col-12 col-md-8">
-              <p>Åtta lag går till Sverigefinalen som spelas 3-5 september på Allerum Golfklubb, strax utanför Helsingborg. Hotell inklusive frukost, inspel, semifinal och för de fyra vinnande lagen blir det final på söndagen. Bankett på lördagskvällen för de 8 deltagande lagen. De två lagen som vinner respektive match på söndagen blir bjudna på den stora finalen på Los Naranjos i Spanien.</p>
-                 </b-col>
-                 <b-col class="col-12 col-md-4 text-center mt-3 mt-md-0">
-                   <img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_150/v1599032379/matchplay/logo.png" />
-                 </b-col>
-               </b-row>
-   </b-container>
-  </b-jumbotron>
+    <b-jumbotron container-fluid class="white">
+      <b-container>
+        <b-row>
+          <b-col class="col-12">
+            <h3 class="orange">Varför tycker du om att tävla med Matchplay?</h3>
+            <testimonials number="5"></testimonials>
+          </b-col>
+        </b-row>
+      </b-container>
+    </b-jumbotron>
 
-  <b-jumbotron container-fluid class="white">
-   <b-container>    
-               <b-row>
-                 <b-col class="col-12">
-                   <h3 class="orange">Varför tycker du om att tävla med Matchplay?</h3>
-               <testimonials number=5></testimonials>
-                 </b-col>
-               </b-row>
-   </b-container>
-  </b-jumbotron>
+    <b-jumbotron container-fluid class="">
+      <b-container>
+        <h3 class="teaser-header orange mb-3">Dubbelt så stor Sverigefinal</h3>
+        <b-row>
+          <b-col class="col-12 col-md-8">
+            <p>Åtta lag går till Sverigefinalen som spelas 3-5 september på Allerum Golfklubb, strax utanför Helsingborg. Hotell inklusive frukost, inspel, semifinal och för de fyra vinnande lagen blir det final på söndagen. Bankett på lördagskvällen för de 8 deltagande lagen. De två lagen som vinner respektive match på söndagen blir bjudna på den stora finalen på Los Naranjos i Spanien.</p>
+          </b-col>
+          <b-col class="col-12 col-md-4 text-center mt-3 mt-md-0">
+            <img
+              src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_150/v1599032379/matchplay/logo.png"
+            />
+          </b-col>
+        </b-row>
+      </b-container>
+    </b-jumbotron>
 
-  <b-jumbotron v-if="showTopClubs" container-fluid class="white" id="podium2">
-   <b-container>    
-               <b-row>
-                 <b-col class="col-12">
-                    <h3 class="teaser-header orange mb-4">Anmälda lag per klubb</h3>
-               <podium></podium>
-                 </b-col>
-               </b-row>
-   </b-container>
-  </b-jumbotron>
+    <b-jumbotron v-if="showTopClubs" container-fluid class="white" id="podium2">
+      <b-container>
+        <b-row>
+          <b-col class="col-12">
+            <h3 class="teaser-header orange mb-4">Anmälda lag per klubb</h3>
+            <podium></podium>
+          </b-col>
+        </b-row>
+      </b-container>
+    </b-jumbotron>
 
-  <b-jumbotron container-fluid >
-   <b-container>    
-               <b-row>
-                 <b-col class="col-12">
-                    <h3 class="teaser-header orange">Finalparen från Matchplay 2020 klara för Spanien</h3>
-                       <p>Vi säger stort grattis till våra finalpar som är klara för den stora Matchplayfinalen på Los Naranjos i Spanien mellan den 7-11 februari 2021.<br>
-                       </p>                       
-                 </b-col>
-               </b-row>
-               <b-row>
-                 <b-col class="col-12 col-md-6">                         
-                          <img class="" :src="`https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_600,q_65/v1603714880/matchplay/matchplay_final1.png`">
-                          <p class="mt-1">Joel Carnor & Emma Wedin</p><a target="_blank"  class="btn blue-bg btn-md text-white mt-0" href="https://fb.watch/1mv7rhBfNC/">länk till segerintervju</a>
-                       </b-col>
-                         <b-col class="col-12 col-md-6 pt-3 pt-md-0">                         
-                          <img class="" :src="`https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_600,q_65/v1603714880/matchplay/matchplay_final2.png`">
-                         <p class="mt-1">Kim Christiansson & Martin Nileskär</p><a target="_blank" class="btn blue-bg btn-md text-white mt-0" href="https://fb.watch/1mveFbmDox/">länk till segerintervju</a>
-                       </b-col>
-               </b-row>
-   </b-container>
-  </b-jumbotron>
+    <b-jumbotron container-fluid class="white">
+      <b-container>
+        <b-row>
+          <b-col class="col-12">
+            <h3 class="teaser-header orange">Finalparen från Matchplay 2020 klara för Spanien</h3>
+            <p>
+              Vi säger stort grattis till våra finalpar som är klara för den stora Matchplayfinalen på Los Naranjos i Spanien mellan den 7-11 februari 2021.
+              <span
+                class="red"
+              >Pga av Corona och inställda flyg kommer finalen spelas senare i vår!</span>
+            </p>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col class="col-12 col-md-6">
+            <img
+              class
+              :src="`https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_600,q_65/v1603714880/matchplay/matchplay_final1.png`"
+            />
+            <p class="mt-1">Joel Carnor & Emma Wedin</p>
+            <a
+              target="_blank"
+              class="btn blue-bg btn-md text-white mt-0"
+              href="https://fb.watch/1mv7rhBfNC/"
+            >länk till segerintervju</a>
+          </b-col>
+          <b-col class="col-12 col-md-6 pt-3 pt-md-0">
+            <img
+              class
+              :src="`https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_600,q_65/v1603714880/matchplay/matchplay_final2.png`"
+            />
+            <p class="mt-1">Kim Christiansson & Martin Nileskär</p>
+            <a
+              target="_blank"
+              class="btn blue-bg btn-md text-white mt-0"
+              href="https://fb.watch/1mveFbmDox/"
+            >länk till segerintervju</a>
+          </b-col>
+        </b-row>
+      </b-container>
+    </b-jumbotron>
 
-  <b-jumbotron container-fluid class="white" id="more">
-   <b-container>    
-               <b-row>
-                 <b-col class="col-12">
-                    <h3 class="orange">SÅ HÄR FUNGERAR DET</h3>
-              <p>Matchplay spelas 2021 i hela Sverige och är en tävling för 2-mannalag (herr, dam eller mixed). Officiellt HCP krävs för att delta. Tävlingsformen är 4-boll, Match/Bästboll. Beroende på antal anmälda lag kommer det bli 6-7 omgångar fram till Sverigefinalen. Varje omgång spelas inom 2 veckor där det vinnande laget går vidare i tävlingen.</p>
-                <p>Matcherna lottas med hänsyn till geografiskt läge och i de inledande omgångarna kan ni räkna med att få möta lag från närliggande golfklubbar. Ju längre man kommer i tävlingen (ungefär från omgång 4), och beroende på var man bor i Sverige, kan resorna bli lite längre. Hemmalaget bokar golftid och lagen står själva för ev. greenfee fram till Sverigefinalen.</p>
-                <p>Sverigefinalen görs upp 3-5 september mellan de åtta bästa lagen på Allerum Golfklubb strax utanför Helsingborg. Hotell, frukost, all golf samt en bankett på kvällen ingår. De 2 bästa lagen i Sverigefinalen åker med Matchplay till Spanska solkusten för att göra upp om titeln. Flyg, hotell och allt spel ingår för de bägge lagen.
-                </p>
-                <p>
-                  Priset för deltagande i tävlingen är {{price1}}:-/lag för privatpersoner och {{price2}}:-/lag (exkl. moms) för företag. Varje lag är garanterat minst 2 matcher.
-                </p>
+    <b-jumbotron container-fluid class="" id="more">
+      <b-container>
+        <b-row>
+          <b-col class="col-12">
+            <h3 class="orange">SÅ HÄR FUNGERAR DET</h3>
+            <p>Matchplay spelas 2021 i hela Sverige och är en tävling för 2-mannalag (herr, dam eller mixed). Officiellt HCP krävs för att delta. Tävlingsformen är 4-boll, Match/Bästboll. Beroende på antal anmälda lag kommer det bli 6-7 omgångar fram till Sverigefinalen. Varje omgång spelas inom 2 veckor där det vinnande laget går vidare i tävlingen.</p>
+            <p>Matcherna lottas med hänsyn till geografiskt läge och i de inledande omgångarna kan ni räkna med att få möta lag från närliggande golfklubbar. Ju längre man kommer i tävlingen (ungefär från omgång 4), och beroende på var man bor i Sverige, kan resorna bli lite längre. Hemmalaget bokar golftid och lagen står själva för ev. greenfee fram till Sverigefinalen.</p>
+            <p>Sverigefinalen görs upp 3-5 september mellan de åtta bästa lagen på Allerum Golfklubb strax utanför Helsingborg. Hotell, frukost, all golf samt en bankett på kvällen ingår. De 2 bästa lagen i Sverigefinalen åker med Matchplay till Spanska solkusten för att göra upp om titeln. Flyg, hotell och allt spel ingår för de bägge lagen.</p>
+            <p>Priset för deltagande i tävlingen är {{price1}}:-/lag för privatpersoner och {{price2}}:-/lag (exkl. moms) för företag. Varje lag är garanterat minst 2 matcher.</p>
 
-
-                 <app-rounds-grafic hidden class="mt-5" style="height: 300px" linecolor="#808080" opacity="1"></app-rounds-grafic>
-                <p class="mt-3 small" style="font-style:italic;">Denna visualisering kommer visa aktuell rond fram till finalen. Efter varje rond halveras antal lag då förlorarna blir utslagna. Förlorande lag i omgång 1 går till andra chansen.</p>
-                 </b-col>
-               </b-row>
-                 <b-row class="mt-5">
-          <b-col class="col-12 col-md-4 p-2">            
-            <div class="step">
-            <i class="material-icons">assignment_turned_in</i>
-            <h5>Registrering</h5>
-            <p>Börja med att skriva in ditt Golf-ID på matchplay.se där du direkt får besked om du är kvalificerad. Ha din lagkamrats Golf-ID tillhands. Du blir sedan direkt inloggad för att påbörja ditt lagbygge.</p>            
+            <app-rounds-grafic
+              hidden
+              class="mt-5"
+              style="height: 300px"
+              linecolor="#808080"
+              opacity="1"
+            ></app-rounds-grafic>
+            <p
+              class="mt-3 small"
+              style="font-style:italic;"
+            >Denna visualisering kommer visa aktuell rond fram till finalen. Efter varje rond halveras antal lag då förlorarna blir utslagna. Förlorande lag i omgång 1 går till andra chansen.</p>
+          </b-col>
+        </b-row>
+        <b-row class="mt-5 d-none d-md-flex">
+          <b-col  v-for="(explain, index) in explainer" :key="explain.message" class="col-12 col-md-4 p-2">
+            <div class="step" :id="'step_'+index+1">
+              <i v-if="explain.icon" :class="'fa fa-'+explain.icon"></i>
+              <h5>{{explain.title}}</h5>
+              <p v-html="explain.message">                
+              </p>
             </div>
           </b-col>
 
-          <b-col class="col-12 col-md-4 p-2"> 
-            <div class="step">
-            <i class="material-icons">supervised_user_circle</i>
-            <h5>Laganmälan</h5>
-            <p>Nu ska du som lagkapten skapa ditt lag och väljer typ av lag (privat/företag) och lagmedlem. Laget blir inte aktivt förrens du har betalat med swish (privatpersoner), voucher eller faktura (företag).</p>
-            </div>
+          
+
+
+          <b-col class="col-12 mt-4">
+            <router-link class="btn blue-bg btn-md text-white mt-2 mr-2" to="/register">Anmälan</router-link>
+            <router-link class="btn blue-bg btn-md text-white mt-2 mr-2" to="/info">Läs mer här</router-link>
+            <a
+              hidden
+              v-if="!closed"
+              href="/register"
+              class="btn blue-bg btn-md text-white mr-2"
+            >Anmälan</a>
+            <a hidden href="/info" class="btn blue-bg btn-md text-white">Läs mer här</a>
           </b-col>
-
-         <b-col class="col-12 col-md-4 p-2">
-           <div class="step">
-            <i class="material-icons">ballot</i>
-            <h5>Lottning</h5>
-            <p>Under maj görs lottningen för den första omgången och där det tas hänsyn till att alla lag ska få så kort resa som möjligt. Du kommer få information via mail samt på matchplay.se när lottningen är klar och du kan då se vilket lag ni kommer möta.</p>
-            </div>
-          </b-col>
-
-          <b-col class="col-12 col-md-4 p-2">
-            <div class="step">
-              <i class="material-icons">sports_golf</i>
-            <h5>Spela matcher</h5>
-            <p>Varje match måste spelas inom den period som anges för den lottande omgången. På matchplay.se kommer du kunna se vilket lag ni ska möta samt kontaktuppgifter. När tid och plats är avgjord spelas matchen inom den tidsram som sätts. Använd vårt digitala scorekort där all information räknas ut automatiskt som HCP mm.</p>
-            </div>
-          </b-col>
-
-          <b-col class="col-12 col-md-4 p-2">
-            <div class="step">
-              <i class="material-icons">golf_course</i>
-            <h5>Sverigefinal</h5>
-            <p>2021 gör vi Sverigefinalen dubbelt så stor med åtta lag som spelas den 3-5 september på Allerum Golfklubb, strax utanför Helsingborg. Hotell, frukost, all golf samt en bankett på kvällen ingår.</p>
-            </div>
-          </b-col>
-
-          <b-col class="col-12 col-md-4 p-2">
-            <div class="step">
-              <i class="material-icons">flight_takeoff</i>
-            <h5>Finalen</h5>
-            <p>De 2 vinnande lagen i Sverigefinalen åker med Matchplay till Spanska solkusten för att göra upp om titeln. Flyg, hotell och allt spel ingår för de bägge lagen.</p>
-            </div>
-          </b-col>
-
-         <b-col class="col-12 mt-4">
-           <router-link class="btn blue-bg btn-md text-white mt-2 mr-2" to="/register">Anmälan</router-link>
-           <router-link class="btn blue-bg btn-md text-white mt-2 mr-2" to="/info">Läs mer här</router-link>
-                     <a hidden v-if="!closed" href="/register" class="btn blue-bg btn-md text-white mr-2">Anmälan</a>        
-                     <a hidden href="/info" class="btn blue-bg btn-md text-white">Läs mer här</a>
-         </b-col>
-
-      </b-row>
-   </b-container>
-  </b-jumbotron>
-
+        </b-row>
+      </b-container>
+    </b-jumbotron>
   </div>
 </template>
 
@@ -547,11 +700,25 @@ export default {
   },
   data() {
     return {
+      slide: 0,
+      sliding: null,
       messages: null,
       showTopClubs: globalState.showTopClubs,
       modalShow: false,
       closed: false,
       leader: "",
+      //explainer
+       dynamicContent: 'This is a dynamic link',
+        dynamicTo: '/register',
+      explainer: [      
+        { icon: 'clipboard-check',title:'Anmälan', message: "Steg 1 är att anmäla dig som spelare under 'Anmälan' där du direkt får besked om du är kvalificerad. Du blir sedan inloggad för att påbörja ditt lagbygge. <strong>Inget</strong> förbinder dig att betala för ditt lag i detta läge. Anmälan stänger i slutet av april." },
+        { icon: 'user-friends', title: 'Skapa ditt lag', message: "Nu ska du som lagkapten skapa ditt lag och väljer typ av lag (privat/företag) och lagmedlem. Du måste veta din lagkamrats golfid för att kunna välja lagkamrat. I sista steget betalar du med swish (privatpersoner), voucher eller faktura (företag)." },
+        { icon: 'dice', title: 'Lottning', message: "Under maj görs lottningen för den första omgången och där det tas hänsyn till att alla lag ska få så kort resa som möjligt. Du kommer få information via mail samt på matchplay.se när lottningen är klar och du kan då se vilket lag ni kommer möta." },
+        { icon: 'golf-ball', title: 'Spela matcher', message: "Varje match måste spelas inom den period som anges för den lottande omgången. På matchplay.se kommer du kunna se vilket lag ni ska möta samt kontaktuppgifter. Fram till Sverigefinalen betalar ni själva ev. greenfee. All score förs med vårt digitala scorekort." },
+        { icon: 'trophy', title: 'Sverigefinal', message: "2021 gör vi Sverigefinalen dubbelt så stor med åtta lag som spelas den 3-5 september på Allerum Golfklubb, strax utanför Helsingborg. Hotell, frukost, all golf samt en bankett på kvällen ingår." },
+        { icon: 'plane-departure', title: 'Finalen', message: "De 2 vinnande lagen i Sverigefinalen åker med Matchplay till Spanska solkusten för att göra upp om titeln. Flyg, hotell och allt spel ingår för de bägge lagen." }
+        //{ icon: 'calendar-exclamation', title: 'Sista anmälningsdag', message: "Anmälan och betalning stänger i slutet av april." },
+      ],
        //IMAGES
       images: [
             'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_65,e_colorize:10,co_rgb:000000/v1608122032/matchplay/MPI-1825.jpg',
@@ -578,6 +745,12 @@ export default {
   mixins: [tagsMixin],
   
   methods: {
+    prev() {
+        this.$refs.explainer.prev()
+      },
+      next() {
+        this.$refs.explainer.next()
+      },
      getScorecard(id) {
       location.href = "scorecard?id=" + id;
     },
@@ -673,17 +846,40 @@ export default {
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
 
+.card-explainer {
+  min-height:230px;
+  font-size:0.9em;
+  color:#333;
+  border:none;
+  color:#FFF;  
+}
+
+.card {
+  background:transparent;
+}
+
+.card-explainer .fa {
+  font-size:4em;
+}
+
 .toast-image {
-  max-width:100px;
-  margin:0 auto;
+  max-width: 100px;
+  margin: 0 auto;
 }
 
 .jumbotron {
-  border-radius:0;
+  border-radius: 0;
+  background: #F5F5F5;
+}
+
+.jumbotron.gradient {
+  color:#FFF;
+background: rgb(51,116,182);
+background: linear-gradient(49deg, rgba(51,116,182,1) 0%, rgba(47,47,47,1) 100%);  
 }
 
 .jumbotron.white {
-  background-color:#fff;
+  background-color: #fff;
 }
 
 .no1 {
@@ -854,12 +1050,13 @@ img {
   margin-top: 0 !important;
 }
 
-.bg1, .bg2 {
+.bg1,
+.bg2 {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: right 0px top 50%;
-  height:200px;
-  width:100%;
+  height: 200px;
+  width: 100%;
 }
 
 .bg1 {
@@ -901,13 +1098,12 @@ img {
   @media (min-width: 1200px) {
     /*background-position: bottom 55% right 0;*/
   }
-  
+
   -webkit-transition: all 1s linear;
   -moz-transition: all 1s linear;
   -ms-transition: all 1s linear;
   -o-transition: all 1s linear;
   transition: all 1s linear;
-
 }
 
 .hero2 {
@@ -977,7 +1173,7 @@ img {
 
 @media (max-width: 576px) {
   h3 {
-    font-size: 1.4rem !important;
+    font-size: 1.3rem !important;
   }
 
   h4 {

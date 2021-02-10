@@ -215,7 +215,7 @@ h2 {
 }
 h3 {
   @media (max-width: 767px) {
-    font-size: 1.2rem !important;
+    font-size: 1.3rem !important;
   }
   @media (max-width: 576px) {
     font-size: 1.1rem !important;
