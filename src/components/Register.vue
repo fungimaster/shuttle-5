@@ -158,7 +158,7 @@
                 <strong>{{price2}} kr</strong> (exkl. moms) för företag.
               </b-alert>
 <hr class="mt-5" />
-              <testimonials number="1"></testimonials>
+              <testimonials :number=5 :register=false></testimonials>
             </div>
 
             <div>

@@ -14,9 +14,11 @@
 			</b-container>
 		</div>
 
+
+
 		<b-container>
 			<b-row>
-				<b-col xl="1"></b-col>
+				
 				<b-col class="mt-5 col-12">
 					Nedan finner du all information om tävlingen samt ett antal snabblänkar till de viktigaste punkterna. Hittar du inte vad du söker efter så kontakta oss på
 					<a
@@ -66,6 +68,17 @@
 							<p>HJÄLPMEDEL</p>
 						</a>
 					</div>
+				</b-col>
+			</b-row>
+		</b-container>
+
+<howitworks></howitworks>
+
+<b-container>
+<b-row>
+				
+				<b-col class="mt-3 col-12">
+					
 
 <div class="section first" id="1">
 						<h3>LÖPANDE INFO</h3>
@@ -258,7 +271,7 @@ Vid omstart hål 1 (alt. Hål 10) så gäller det att det finns plats såklart. 
 						</div>
 					</div>
 				</b-col>
-				<b-col xl="1"></b-col>
+				
 			</b-row>
 		</b-container>
 	</div>
@@ -267,9 +280,13 @@ Vid omstart hål 1 (alt. Hål 10) så gäller det att det finns plats såklart. 
 <script>
   import {tagsMixin} from '../mixins/tagsMixin';
   import { globalState } from "../main.js";
+  import Howitworks from "./Howitworks";
 
   export default {
-    name: 'faq',
+	name: 'faq',
+	  components: {
+   Howitworks
+  },
     data () {
       return {
 	  closed:false,
@@ -289,7 +306,7 @@ Vid omstart hål 1 (alt. Hål 10) så gäller det att det finns plats såklart. 
 	@import "../styles/variables.scss";
 
 	.hero {
-		background: url("https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_2390/v1572963227/matchplay/matchplay_bg.jpg");
+		background: url("https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70/v1572963227/matchplay/matchplay_bg.jpg");
 
 		background-repeat: no-repeat;
 		/*background-position: bottom 30% right 0;*/

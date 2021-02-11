@@ -32,16 +32,18 @@
         </p>
       </div>
       <div :style="{ height: `${height(index) / 2}%` }"></div>
-      <!-- Den gula diven får en height på en andel av tot. antal rundor - 10%  -->
+      <!-- Den gula diven får en height på en andel av tot. antal rundor - 10%  -->      
       <div
         v-if="currentRound >= index + 1"
-        class="stage-fill stage p-2 d-flex justify-content-center align-items-center"
+        :class="{'stage-fill-white': stagefill ==='white'}"
+        class="stage-fill stage p-2 d-flex justify-content-center align-items-center"       
         :style="[roundCompleted, { height: `${100 - height(index) - 10}%` }]"
       >
         <i class="material-icons icons-size">check_circle</i>
       </div>
       <div
         v-else
+        :class="{'stage-fill-white': stagefill ==='white'}"
         class="stage-fill stage p-2 d-flex justify-content-center align-items-center"
         :style="{ height: `${100 - height(index) - 10}%` }"
       >
@@ -83,7 +85,7 @@ export default {
     window.removeEventListener("resize", this.handleResize);
   },
 
-  props: ["opacity", "linecolor"],
+  props: ["opacity", "linecolor","stagefill"],
   data() {
     return {
       round1: true,
@@ -137,7 +139,7 @@ export default {
     roundCompleted() {
       return { backgroundColor: `rgba(255, 166, 0, ${this.opacity}` };
     },
-    stageBorder() {
+     stageBorder() {
       return `border-right: 1px dashed ${
         this.linecolor ? this.linecolor : "#dee2e6"
       }!important`;
@@ -161,16 +163,23 @@ export default {
 .background {
   background-color: #ffffff45;
 }
+
 .stage-fill {
   background-color: rgba(255, 166, 0, 0.5);
 }
+
+.stage-fill-white {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
 
 p {
   font-size: 1rem;
 }
 i {
   font-size: 2rem;
-  color: #fff;
+  /*color: #fff;*/
+  color:#333;
 }
 .icons-size-final {
   font-size: 2rem;

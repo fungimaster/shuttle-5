@@ -234,11 +234,11 @@
     </div>
     <!-- TEMP HIDDEN -->
 
-    <b-jumbotron container-fluid class="white">
+    <b-jumbotron container-fluid class="white mb-0">
       <b-container>
         <b-row v-if="!isAuthenticated">
           <b-col class="col-12">
-            <h3 v-if="!closed" class="teaser-header orange mb-3">Anmäl ditt lag till Matchplay 2021</h3>
+            <h1 v-if="!closed" class="teaser-header orange mb-3 text-left text-md-center">Anmäl ditt lag till Matchplay 2021</h1>
             <p>Hela tävlingen är numera digitaliserad där vi kontrollerar Golf-ID, hcp, slope mm för att kunna applicera våra hcputräkningar inför varje match. Ni använder vårt digitala scorekort för att föra score och vänner/familj kan följa matcherna live!</p>
             <p>
               Anmälningskostnad per lag är
@@ -282,6 +282,7 @@
                         @click="getScorecard(user.teams[0].games[0]._id)"
                         show
                         variant="primary"
+                        class="pulse-button"
                       >Visa scorekortet</b-button>
                     </p>
                   </div>
@@ -342,81 +343,29 @@
       </b-container>
     </b-jumbotron>
 
-
-     <b-jumbotron container-fluid class="gradient d-block d-md-block mt-4 mb-0" v-if="!isAuthenticated || !user">
+     <howitworks v-if="!isAuthenticated || !user"></howitworks>
+    
+    <b-jumbotron container-fluid class="white mb-0">
       <b-container>
         <b-row>
-                <div class="col-12 text-left text-md-center">
-                   <h1 class="text-white">Så här fungerar det</h1>
-                  <b-carousel ref="explainer" id="explainer" v-model="slide" :interval="500000">
-                    <div class="carousel-inner text-left">
-                      <div
-                        class="carousel-item"
-                        v-for="(explain, index) in explainer"
-                        :key="explain.message"
-                      >
-                        <b-row :id="'slide_'+index" align-h="center">
-                          <b-col class="col-12 col-md-10 col-lg-8 mb-3 mt-4 mt-md-5">
-                            <div class="card card-explainer">
-                              <img hidden
-                                class="img-fluid"
-                                alt="100%x280"
-                                src="https://images.unsplash.com/photo-1532781914607-2031eca2f00d?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=1080&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjMyMDc0fQ&amp;s=7c625ea379640da3ef2e24f20df7ce8d"
-                              />
-                              <div class="card-body p-0">
-                                <h3 class="card-title text-left">{{index+1}}. {{explain.title}}</h3>
-                                <p
-                                  v-html="explain.message"
-                                  class="card-text mt-3"
-                                ></p>
-                                <p hidden v-if="explain.icon" class="text-center"><i :class="'fa fa-'+explain.icon"></i></p>
-                              </div>
-                            </div>
-                          </b-col>
-                        </b-row>
-                      </div>
-                    </div>
-                  </b-carousel>
-                </div>
-                  <div class="col-12 text-center mb-2">
-                  <b-button variant="primary" @click="prev()">
-                    <i class="fa fa-arrow-left"></i>
-                  </b-button>
-                  <b-button variant="primary" @click="next()">
-                    <i class="fa fa-arrow-right"></i>
-                  </b-button>
-                  <b-button variant="primary" class="text-white" to="/register">
-                  Anmälan
-                  </b-button>
-                </div>
-             
-            
-        
-        </b-row>
-      </b-container>
-</b-jumbotron>
-
-    <b-jumbotron container-fluid class="white">
-      <b-container>
-        <b-row>
-          <b-col class="col-12">
-            <h3 class="orange">Varför tycker du om att tävla med Matchplay?</h3>
-            <testimonials number="5"></testimonials>
+          <b-col class="col-12 text-left text-md-center">
+            <h1 class="orange">Deltagarröster från 2020</h1>
+            <testimonials :number=5 :register=true></testimonials>
           </b-col>
         </b-row>
       </b-container>
     </b-jumbotron>
 
-    <b-jumbotron container-fluid class="">
+    <b-jumbotron container-fluid class="gradient mb-3">
       <b-container>
-        <h3 class="teaser-header orange mb-3">Dubbelt så stor Sverigefinal</h3>
+        <h1 class="mb-4 text-white text-left text-md-center">Dubbelt så stor Sverigefinal</h1>
         <b-row>
           <b-col class="col-12 col-md-8">
             <p>Åtta lag går till Sverigefinalen som spelas 3-5 september på Allerum Golfklubb, strax utanför Helsingborg. Hotell inklusive frukost, inspel, semifinal och för de fyra vinnande lagen blir det final på söndagen. Bankett på lördagskvällen för de 8 deltagande lagen. De två lagen som vinner respektive match på söndagen blir bjudna på den stora finalen på Los Naranjos i Spanien.</p>
           </b-col>
           <b-col class="col-12 col-md-4 text-center mt-3 mt-md-0">
             <img
-              src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_150/v1599032379/matchplay/logo.png"
+              src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_150,e_colorize:100,co_rgb:FFFFFF/v1599032379/matchplay/logo.png"
             />
           </b-col>
         </b-row>
@@ -434,11 +383,11 @@
       </b-container>
     </b-jumbotron>
 
-    <b-jumbotron container-fluid class="white">
+    <b-jumbotron container-fluid class="white mb-3">
       <b-container>
         <b-row>
           <b-col class="col-12">
-            <h3 class="teaser-header orange">Finalparen från Matchplay 2020 klara för Spanien</h3>
+            <h1 class="mb-4 teaser-header orange text-left text-md-center">Finalparen från Matchplay 2020 klara för Spanien</h1>
             <p>
               Vi säger stort grattis till våra finalpar som är klara för den stora Matchplayfinalen på Los Naranjos i Spanien mellan den 7-11 februari 2021.
               <span
@@ -476,11 +425,11 @@
       </b-container>
     </b-jumbotron>
 
-    <b-jumbotron container-fluid class="" id="more">
+    <b-jumbotron container-fluid class="gradient mb-0" id="more">
       <b-container>
         <b-row>
           <b-col class="col-12">
-            <h3 class="orange">SÅ HÄR FUNGERAR DET</h3>
+            <h1 class="mb-4 text-white text-left text-md-center">Matchplay 2021</h1>
             <p>Matchplay spelas 2021 i hela Sverige och är en tävling för 2-mannalag (herr, dam eller mixed). Officiellt HCP krävs för att delta. Tävlingsformen är 4-boll, Match/Bästboll. Beroende på antal anmälda lag kommer det bli 6-7 omgångar fram till Sverigefinalen. Varje omgång spelas inom 2 veckor där det vinnande laget går vidare i tävlingen.</p>
             <p>Matcherna lottas med hänsyn till geografiskt läge och i de inledande omgångarna kan ni räkna med att få möta lag från närliggande golfklubbar. Ju längre man kommer i tävlingen (ungefär från omgång 4), och beroende på var man bor i Sverige, kan resorna bli lite längre. Hemmalaget bokar golftid och lagen står själva för ev. greenfee fram till Sverigefinalen.</p>
             <p>Sverigefinalen görs upp 3-5 september mellan de åtta bästa lagen på Allerum Golfklubb strax utanför Helsingborg. Hotell, frukost, all golf samt en bankett på kvällen ingår. De 2 bästa lagen i Sverigefinalen åker med Matchplay till Spanska solkusten för att göra upp om titeln. Flyg, hotell och allt spel ingår för de bägge lagen.</p>
@@ -492,6 +441,7 @@
               style="height: 300px"
               linecolor="#808080"
               opacity="1"
+              stagefill="white"
             ></app-rounds-grafic>
             <p
               class="mt-3 small"
@@ -499,33 +449,18 @@
             >Denna visualisering kommer visa aktuell rond fram till finalen. Efter varje rond halveras antal lag då förlorarna blir utslagna. Förlorande lag i omgång 1 går till andra chansen.</p>
           </b-col>
         </b-row>
-        <b-row class="mt-5 d-none d-md-flex">
-          <b-col  v-for="(explain, index) in explainer" :key="explain.message" class="col-12 col-md-4 p-2">
-            <div class="step" :id="'step_'+index+1">
-              <i v-if="explain.icon" :class="'fa fa-'+explain.icon"></i>
-              <h5>{{explain.title}}</h5>
-              <p v-html="explain.message">                
-              </p>
-            </div>
-          </b-col>
-
-          
-
-
-          <b-col class="col-12 mt-4">
-            <router-link class="btn blue-bg btn-md text-white mt-2 mr-2" to="/register">Anmälan</router-link>
-            <router-link class="btn blue-bg btn-md text-white mt-2 mr-2" to="/info">Läs mer här</router-link>
-            <a
-              hidden
-              v-if="!closed"
-              href="/register"
-              class="btn blue-bg btn-md text-white mr-2"
-            >Anmälan</a>
-            <a hidden href="/info" class="btn blue-bg btn-md text-white">Läs mer här</a>
+        <b-row>
+          <b-col class="col-12">
+            <b-button variant="primary" class="text-white" to="/register">
+                  Anmälan
+                  </b-button>
           </b-col>
         </b-row>
+     
       </b-container>
     </b-jumbotron>
+     
+
   </div>
 </template>
 
@@ -537,6 +472,7 @@ import { tagsMixin } from "../mixins/tagsMixin";
 import FlipCountdown from "./FlipCountdown";
 import AppRoundsGrafic from "./RoundsGrafic";
 import Testimonials from "./Testimonials";
+import Howitworks from "./Howitworks";
 import Podium from "./Podium";
 import { globalState } from "../main.js";
 
@@ -696,7 +632,7 @@ export default {
     //'phone':VuePhoneNumberInput,
     // 'phone':VueTelInput,    ,
     appCountdown: FlipCountdown,
-    AppRoundsGrafic, Testimonials, Podium
+    AppRoundsGrafic, Testimonials, Podium, Howitworks
   },
   data() {
     return {
@@ -706,19 +642,7 @@ export default {
       showTopClubs: globalState.showTopClubs,
       modalShow: false,
       closed: false,
-      leader: "",
-      //explainer
-       dynamicContent: 'This is a dynamic link',
-        dynamicTo: '/register',
-      explainer: [      
-        { icon: 'clipboard-check',title:'Anmälan', message: "Steg 1 är att anmäla dig som spelare under 'Anmälan' där du direkt får besked om du är kvalificerad. Du blir sedan inloggad för att påbörja ditt lagbygge. <strong>Inget</strong> förbinder dig att betala för ditt lag i detta läge. Anmälan stänger i slutet av april." },
-        { icon: 'user-friends', title: 'Skapa ditt lag', message: "Nu ska du som lagkapten skapa ditt lag och väljer typ av lag (privat/företag) och lagmedlem. Du måste veta din lagkamrats golfid för att kunna välja lagkamrat. I sista steget betalar du med swish (privatpersoner), voucher eller faktura (företag)." },
-        { icon: 'dice', title: 'Lottning', message: "Under maj görs lottningen för den första omgången och där det tas hänsyn till att alla lag ska få så kort resa som möjligt. Du kommer få information via mail samt på matchplay.se när lottningen är klar och du kan då se vilket lag ni kommer möta." },
-        { icon: 'golf-ball', title: 'Spela matcher', message: "Varje match måste spelas inom den period som anges för den lottande omgången. På matchplay.se kommer du kunna se vilket lag ni ska möta samt kontaktuppgifter. Fram till Sverigefinalen betalar ni själva ev. greenfee. All score förs med vårt digitala scorekort." },
-        { icon: 'trophy', title: 'Sverigefinal', message: "2021 gör vi Sverigefinalen dubbelt så stor med åtta lag som spelas den 3-5 september på Allerum Golfklubb, strax utanför Helsingborg. Hotell, frukost, all golf samt en bankett på kvällen ingår." },
-        { icon: 'plane-departure', title: 'Finalen', message: "De 2 vinnande lagen i Sverigefinalen åker med Matchplay till Spanska solkusten för att göra upp om titeln. Flyg, hotell och allt spel ingår för de bägge lagen." }
-        //{ icon: 'calendar-exclamation', title: 'Sista anmälningsdag', message: "Anmälan och betalning stänger i slutet av april." },
-      ],
+      leader: "",     
        //IMAGES
       images: [
             'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_65,e_colorize:10,co_rgb:000000/v1608122032/matchplay/MPI-1825.jpg',
@@ -745,12 +669,7 @@ export default {
   mixins: [tagsMixin],
   
   methods: {
-    prev() {
-        this.$refs.explainer.prev()
-      },
-      next() {
-        this.$refs.explainer.next()
-      },
+   
      getScorecard(id) {
       location.href = "scorecard?id=" + id;
     },
@@ -846,40 +765,11 @@ export default {
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
 
-.card-explainer {
-  min-height:230px;
-  font-size:0.9em;
-  color:#333;
-  border:none;
-  color:#FFF;  
-}
 
-.card {
-  background:transparent;
-}
-
-.card-explainer .fa {
-  font-size:4em;
-}
 
 .toast-image {
   max-width: 100px;
   margin: 0 auto;
-}
-
-.jumbotron {
-  border-radius: 0;
-  background: #F5F5F5;
-}
-
-.jumbotron.gradient {
-  color:#FFF;
-background: rgb(51,116,182);
-background: linear-gradient(49deg, rgba(51,116,182,1) 0%, rgba(47,47,47,1) 100%);  
-}
-
-.jumbotron.white {
-  background-color: #fff;
 }
 
 .no1 {

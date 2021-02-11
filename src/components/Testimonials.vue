@@ -1,6 +1,43 @@
 <template>
-  <b-container class="justify-content-center">
-    <b-row class="" align-h="center">
+  <b-container class="justify-content-center p-0 m-0">
+
+    <div class="col-12 text-left text-md-left testimonial p-0 m-0">                   
+                  <b-carousel ref="testimonals" id="testimonials" v-model="testimonials_slide" :interval="500000" indicators="">
+                    <div class="carousel-inner text-left">
+                      <div
+                        class="carousel-item"
+                        v-for="(item, index) in testLimited"
+                        :key="item.message"
+                      >
+                        <b-row :id="'slide_'+index" align-h="center">
+                          <b-col class="col-12 col-md-10 col-lg-8 mr-0 ml-0 mb-3 mt-4 mt-md-5">
+                            <div class="card card-testimonial">
+                             <img :src="item.image" class="mb-4" style="margin:0 auto;" />
+                              <div class="card-body p-0">
+                               <p>"{{item.message}}"</p>
+                                - {{item.author}}
+                              </div>
+                            </div>
+                          </b-col>
+                        </b-row>
+                      </div>
+                    </div>
+                  </b-carousel>
+                </div>
+                  <div class="col-12 text-center mb-2">
+                  <b-button variant="primary" @click="prev()">
+                    <i class="fa fa-arrow-left"></i>
+                  </b-button>
+                  <b-button variant="primary" @click="next()">
+                    <i class="fa fa-arrow-right"></i>
+                  </b-button>
+                   <b-button v-if="register" variant="primary" class="text-white" to="/register">
+                  Anmälan
+                  </b-button>
+                </div>
+
+
+    <b-row hidden class="" align-h="center">
       <b-col
         class="col-12 mt-5"
         v-for="(item, index) in testLimited"
@@ -26,9 +63,13 @@
 <script>
 
 export default {
-  props: ["number"],
+  props: {
+    number:  Number,   
+    register: Boolean
+  },
   data() {
     return {
+       testimonials_slide: 0,
       testimonials: [
          {
          message: 'En tävling som verkligen är värd att deltaga i. Du kommer ut till nya banor och träffar nya människor. Gillar konceptet med bästboll, det är en riktigt rolig spelform, man får en bra lagkänsla! Det digitala scorekortet är ett stort plus, enkelt att använda, resultat direkt och andra kan följa matchen live. Vi spelar gärna i tävlingen igen!',
@@ -56,7 +97,12 @@ export default {
     };
   },
   methods: {
-   
+   prev() {
+        this.$refs.testimonals.prev()
+      },
+      next() {
+        this.$refs.testimonals.next()
+      },
   },
 
   computed: {
@@ -75,14 +121,24 @@ export default {
 </script>
 
 
-<style scoped>
+<style lang="scss">
 .testimonial {
-  font-size: 0.9em;
+  font-size: 0.9em; 
+}
+
+.carousel-indicators li {
+  background-color:#999;
 }
 
 .testimonial img {
-  width: 80%;
+  width: 20%;
   height:auto;
+   @media (max-width: 991px) {
+     width: 40%;
+  }
+  @media (max-width: 576px) {
+    width: 60%;
+  }
 }
 
 .testimonial hr {
@@ -92,4 +148,20 @@ export default {
   padding-bottom: 0em;
   margin-top: 1.7em;*/
 }
+
+.card-testimonial {
+  min-height:450px;
+  font-size:0.9em;
+  color:#333;
+  border:none; 
+}
+
+.card {
+  background:transparent;
+}
+
+.card-explainer .fa {
+  font-size:4em;
+}
+
 </style>

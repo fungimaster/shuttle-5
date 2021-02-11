@@ -22,7 +22,7 @@
                         <hr />
                       </b-col>
                        <b-col class="col-12 mt-2">
-                    <b-progress height="1.4rem" :value="clubno" :max="448" show-value animated variant="success"></b-progress>
+                    <b-progress height="1.8rem" :value="clubno" :max="448" show-value animated variant="success"></b-progress>
                     <p class="mt-1" style="font-size:0.8em;">Just nu har vi deltagande lag från ca {{clubnopercent}}% av Sveriges 448 golfklubbar.</p>
                     </b-col>
                     </b-row>

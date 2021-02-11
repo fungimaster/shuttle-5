@@ -426,7 +426,12 @@
 			<div v-if="!authorized">
 			<b-row>
 					<b-col class="text-center mt-2">
+						<router-link class="" to="/" v-if="!viewedInModal">
 						<b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_150,c_scale/v1573118127/matchplay/matchplay-new-logo-2020.png" alt=""></b-img>        
+						</router-link>
+						
+						<b-img v-if="viewedInModal" src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_150,c_scale/v1573118127/matchplay/matchplay-new-logo-2020.png" alt=""></b-img>        
+						
 					</b-col>
 
 						<b-col v-if="!authorized && status !== 'Finished'" cols="12" class="mt-4">
@@ -2104,22 +2109,6 @@
     color: white;
 }
 
-.pulse-button {
-    position: relative;
-    /*width: 100px;
-  height: 100px;*/
-	overflow:hidden;
-    //border: none;
-    box-shadow: 0 0 0 0 rgba(25, 90, 58, 1);
-    background-color: #195a3a !important;   
-    background-size: cover;
-    background-repeat: no-repeat;
-    cursor: pointer;
-    -webkit-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
-    -moz-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
-    -ms-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
-    animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
-}
 
 .pulse-button2 {
     position: relative;  
@@ -2136,36 +2125,11 @@
     animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
 }
 
-.pulse-button:hover {
-    -webkit-animation: none;
-    -moz-animation: none;
-    -ms-animation: none;
-    animation: none;
-}
 
-@-webkit-keyframes pulse {
-    to {
-        box-shadow: 0 0 0 15px rgba(232, 76, 61, 0);
-    }
-}
-
-@-moz-keyframes pulse {
-    to {
-        box-shadow: 0 0 0 15px rgba(232, 76, 61, 0);
-    }
-}
-
-@-ms-keyframes pulse {
-    to {
-        box-shadow: 0 0 0 15px rgba(232, 76, 61, 0);
-    }
-}
-
-@keyframes pulse {
-    to {
-        box-shadow: 0 0 0 15px rgba(232, 76, 61, 0);
-    }
-}
+.pulse-button {  
+	 box-shadow: 0 0 0 0 rgba(25, 90, 58, 1);
+    background-color: #195a3a !important;   
+  }
 
 	/* Scorecard figures */
 
