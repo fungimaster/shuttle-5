@@ -149,6 +149,10 @@ export default {
   margin-top: 1.7em;*/
 }
 
+.card {
+  border:none !important;
+}
+
 .card-testimonial {
   min-height:450px;
   font-size:0.9em;
