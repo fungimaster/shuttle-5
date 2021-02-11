@@ -2,7 +2,7 @@
   <b-jumbotron id="howitworks" container-fluid class="gradient d-block d-md-block mb-0">
       <b-container>
         <b-row>
-          <div class="show-swipe d-flex d-md-block" v-if="swipe_visible">
+          <div class="show-swipe d-flex d-md-none" v-if="swipe_visible">
             <div class="swipe">
     <i class="fa fa-long-arrow-left"></i>
     <i class="fa fa-hand-pointer"></i>
