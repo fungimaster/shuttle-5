@@ -154,12 +154,14 @@ strong {
 }
 
 .jumbotron.gradient {
+    border-radius: 0;
   color:#FFF;
 background: rgb(51,116,182);
 background: linear-gradient(49deg, rgba(51,116,182,1) 0%, rgba(47,47,47,1) 100%);  
 }
 
 .jumbotron.white {
+    border-radius: 0;
   background-color: #fff;
 }
 
