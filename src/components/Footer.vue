@@ -12,7 +12,7 @@
   </ScrollTopComponent>
 
     <b-container class="sponsors">
-      <hr class="mb-5" />
+      <hr hidden class="mb-5" />
 
       <b-row>
         <b-col>

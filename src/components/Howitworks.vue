@@ -10,7 +10,7 @@
   </div> 
           </div>
                 <div class="col-12 text-left text-md-center">
-                   <h1 class="text-white">Så här fungerar det</h1>
+                   <h1 class="text-white">HUR GÅR DET TILL?</h1>
                   <b-carousel ref="explainer" id="explainer" v-model="slide" :interval="500000" indicators="">
                     <div class="carousel-inner text-left">
                       <div
@@ -119,8 +119,7 @@ export default {
 
         
         } else {
-          this.swipe_visible = false;
-          console.log('set hidden')       
+          this.swipe_visible = false;           
           
         }
       });

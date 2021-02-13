@@ -219,7 +219,8 @@
               src="https://res.cloudinary.com/dn3hzwewp/image/upload/e_colorize,co_rgb:fff/v1573118127/matchplay/matchplay-new-logo-2020.png"
               alt
             ></b-img>
-          </b-col>
+          </b-col>        
+
 
           <b-col
             class="col-md-4 d-none d-md-block pl-2 justify-content-center align-self-center p-3"
@@ -228,7 +229,7 @@
               src="https://res.cloudinary.com/dn3hzwewp/image/upload/e_colorize,co_rgb:fff/v1573118127/matchplay/matchplay-new-logo-2020.png"
               alt
             ></b-img>
-          </b-col>
+          </b-col> 
         </b-row>
       </b-container>
     </div>
@@ -250,7 +251,7 @@
             </router-link>
           </b-col>
         </b-row>
-
+                     
         <b-row v-if="isAuthenticated && user">
           <b-col class="col-12">
             <h3 class="teaser-header orange mb-3">Hej {{user.firstname}}!</h3>
@@ -282,7 +283,7 @@
                         @click="getScorecard(user.teams[0].games[0]._id)"
                         show
                         variant="primary"
-                        class="pulse-button"
+                        class="pulse-button mt-2 mt-md-0"
                       >Visa scorekortet</b-button>
                     </p>
                   </div>
@@ -307,14 +308,20 @@
           </b-col>
         </b-row>
 
-        <b-row>
-          <b-col class="col-12 mt-3">
-            <hr />
-            <p class="mt-4">
-              Se till att följa oss på våra
-              <strong>sociala medier</strong> för nyheter och tävlingar!
-            </p>
+        <hr class="mt-4 mb-4 mt-md-5 mb-md-4" />
+        <b-row align-h="center">
+          <b-col v-if="latestTeam" class="col-12 col-md-6">
+            <b-row align-h="center" class="align-items-center h-100">
+                             <b-col class="col-3 mx-auto text-center text-md-right pl-0 pr-0">                              
+                                  <b-img class="" :src="getClubImage2(latestTeamLogo)"></b-img> 
+                            </b-col>
+                             <b-col class="col-7 small mx-auto pl-0 pr-0 text-left">
+                                {{latestTeam}} <router-link to="/klubbar">Se alla repr. klubbar hittills</router-link>.
+                             </b-col>
+                            </b-row>
+                            <hr class="d-block d-md-none" /> 
           </b-col>
+          <b-col class="col-12 col-md-6 p-0 mt-5 mt-md-0">           
           <b-col class="col-12">
             <a
               class="btn orange-bg btn-md text-white mt-2 mr-md-2"
@@ -331,6 +338,14 @@
               <i class="material-icons mr-2">camera_alt</i>Instagram
             </a>
           </b-col>
+           <b-col class="col-12 mt-2">           
+            <p class="mt-4 small">
+              Se till att följa oss på våra
+              <strong>sociala medier</strong> för nyheter och tävlingar!
+            </p>
+          </b-col>
+          </b-col>
+
         </b-row>
 
         <b-row v-if="showTopClubs">
@@ -357,9 +372,15 @@
     </b-jumbotron>
 
     <b-jumbotron container-fluid class="gradient mb-3">
-      <b-container>
-        <h1 class="mb-4 text-white text-left text-md-center">Dubbelt så stor Sverigefinal</h1>
-        <b-row>
+      <b-container class="mb-4 mt-4">      
+        <b-row align-h="center">
+          <b-col class="col-12 col-md-10 col-lg-10">
+            <b-row align-h="center">
+          <b-col class="col-12 col-md-12">
+            <h1 class="mb-5 text-white text-left text-md-center">Dubbelt så stor Sverigefinal</h1>            
+          </b-col>
+            </b-row>
+            <b-row align-h="center">
           <b-col class="col-12 col-md-8">
             <p>Åtta lag går till Sverigefinalen som spelas 3-5 september på Allerum Golfklubb, strax utanför Helsingborg. Hotell inklusive frukost, inspel, semifinal och för de fyra vinnande lagen blir det final på söndagen. Bankett på lördagskvällen för de 8 deltagande lagen. De två lagen som vinner respektive match på söndagen blir bjudna på den stora finalen på Los Naranjos i Spanien.</p>
           </b-col>
@@ -368,6 +389,8 @@
               src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_150,e_colorize:100,co_rgb:FFFFFF/v1599032379/matchplay/logo.png"
             />
           </b-col>
+            </b-row>
+        </b-col>
         </b-row>
       </b-container>
     </b-jumbotron>
@@ -428,8 +451,8 @@
     <b-jumbotron container-fluid class="gradient mb-0" id="more">
       <b-container>
         <b-row>
-          <b-col class="col-12">
-            <h1 class="mb-4 text-white text-left text-md-center">Matchplay 2021</h1>
+          <b-col class="col-12 mt-4">
+            <h1 class="mb-5 text-white text-left text-md-center">Matchplay 2021</h1>
             <p>Matchplay spelas 2021 i hela Sverige och är en tävling för 2-mannalag (herr, dam eller mixed). Officiellt HCP krävs för att delta. Tävlingsformen är 4-boll, Match/Bästboll. Beroende på antal anmälda lag kommer det bli 6-7 omgångar fram till Sverigefinalen. Varje omgång spelas inom 2 veckor där det vinnande laget går vidare i tävlingen.</p>
             <p>Matcherna lottas med hänsyn till geografiskt läge och i de inledande omgångarna kan ni räkna med att få möta lag från närliggande golfklubbar. Ju längre man kommer i tävlingen (ungefär från omgång 4), och beroende på var man bor i Sverige, kan resorna bli lite längre. Hemmalaget bokar golftid och lagen står själva för ev. greenfee fram till Sverigefinalen.</p>
             <p>Sverigefinalen görs upp 3-5 september mellan de åtta bästa lagen på Allerum Golfklubb strax utanför Helsingborg. Hotell, frukost, all golf samt en bankett på kvällen ingår. De 2 bästa lagen i Sverigefinalen åker med Matchplay till Spanska solkusten för att göra upp om titeln. Flyg, hotell och allt spel ingår för de bägge lagen.</p>
@@ -450,13 +473,27 @@
           </b-col>
         </b-row>
         <b-row>
-          <b-col class="col-12">
+          <b-col class="col-12 mt-3">
             <b-button variant="primary" class="text-white" to="/register">
                   Anmälan
+                  </b-button>
+                  <b-button variant="primary" class="text-white" to="/info">
+                  FAQ
                   </b-button>
           </b-col>
         </b-row>
      
+      </b-container>
+    </b-jumbotron>
+
+     <b-jumbotron container-fluid class="white mb-0">
+      <b-container>
+        <b-row>
+          <b-col class="col-12 text-left text-md-center mt-4 mb-4">
+            <h1 class="orange">Vårt digitala scorekort</h1>
+            <ScorecardExplainer ></ScorecardExplainer>
+          </b-col>
+        </b-row>
       </b-container>
     </b-jumbotron>
      
@@ -473,6 +510,7 @@ import FlipCountdown from "./FlipCountdown";
 import AppRoundsGrafic from "./RoundsGrafic";
 import Testimonials from "./Testimonials";
 import Howitworks from "./Howitworks";
+import ScorecardExplainer from "./ScorecardExplainer";
 import Podium from "./Podium";
 import { globalState } from "../main.js";
 
@@ -582,28 +620,44 @@ export default {
 
   //Show latest team toast
 
-  let latestTeam = localStorage.getItem('latestTeam');
+  //let latestTeam = localStorage.getItem('latestTeam');
+  this.latestTeam = null;
     
    this.axios
       .post(globalState.admin_url + "getLatestPaidTeam")
       .then((response) => {
-      
-        
           
         if (response.data) {
           
           let paidAt = moment(response.data.paidAt).add(0, 'hour').format()          
           let test = moment().diff(paidAt, 'hours');
+          let regDate = moment(paidAt, "YYYY-MM-DD hh:mm").fromNow();
           //this.toast('b-toaster-top-center',response.data, paidAt);
-          if (test < 23)
-            if (paidAt !== latestTeam) {
-                setTimeout(() => {
+          
+          if (test < 23) {
+         
+            //if (paidAt !== latestTeam) {
+
+            if (!response.data.logourl) {
+              this.latestTeamLogo = 'v1573118127/matchplay/matchplay-new-logo-2020.png'; //failover matchplay logo
+            } else {
+              this.latestTeamLogo = response.data.logourl;
+            }
+
+            this.latestTeam = 'Ett lag från ' + response.data.coursename + ' anmäldes för ' + regDate + ' sedan av ' + response.data.teamleadername + '.';
+            } else {            
+              this.latestTeam = null;
+            }
+            //localStorage.setItem('latestTeam',paidAt);  
+
+                //OLD TOAST, MOVED TO HERO
+                /* setTimeout(() => {
                   this.toast('b-toaster-top-center',response.data, paidAt);
                   localStorage.setItem('latestTeam',paidAt);                  
-                }, 1500); 
+                }, 1500);  */
               
               
-            }
+            //}
         }
         
        
@@ -632,10 +686,12 @@ export default {
     //'phone':VuePhoneNumberInput,
     // 'phone':VueTelInput,    ,
     appCountdown: FlipCountdown,
-    AppRoundsGrafic, Testimonials, Podium, Howitworks
+    AppRoundsGrafic, Testimonials, Podium, Howitworks, ScorecardExplainer
   },
   data() {
     return {
+      latestTeam: null,
+      latestTeamLogo: null,
       slide: 0,
       sliding: null,
       messages: null,
@@ -669,7 +725,9 @@ export default {
   mixins: [tagsMixin],
   
   methods: {
-   
+    getClubImage2(logourl) {
+            return 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_100,q_80,c_scale/' + logourl;
+      }, 
      getScorecard(id) {
       location.href = "scorecard?id=" + id;
     },
@@ -970,7 +1028,7 @@ img {
   padding: 180px 0 180px 0;
   background-position: right center;
   @media (min-width: 320px) {
-    padding: 2rem 0 5rem 0;
+    padding: 2rem 0 2rem 0;
     /*background-position: bottom 10% right 0;*/
   }
   @media (min-width: 480px) {

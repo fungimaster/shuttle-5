@@ -361,27 +361,27 @@
                           <b-button
                             v-if="isteamleader && status === 'Pending'"
                             :disabled="status === 'Finished'"
-                            @click="startGame()"
+                            :to="`/creategame?id=${game_id}`"
                             variant="success"
-                            class="mr-1 mt-3"
+                            class="mr-1 mt-3 text-white"
                             ><i class="material-icons mr-2"
                               >play_circle_filled</i
                             >Starta match</b-button
                           >
                           <b-button
                             v-if="isteamleader && status === 'In progress'"
-                            @click="getScorecard()"
+                           :to="`/scorecard?id=${game_id}`"
                             variant="success"
-                            class="mr-1 mt-3"
+                            class="mr-1 mt-3 text-white"
                             ><i class="material-icons mr-2"
                               >play_circle_filled</i
                             >Öppna scorekortet</b-button
                           >
                           <b-button
                             v-if="status === 'Finished'"
-                            @click="getScorecard()"
+                            :to="`/scorecard?id=${game_id}`"
                             variant="success"
-                            class="mr-1 mt-3"
+                            class="mr-1 mt-3 text-white"
                             ><i class="material-icons mr-2"
                               >play_circle_filled</i
                             >Visa scorekortet</b-button

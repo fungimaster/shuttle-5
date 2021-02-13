@@ -216,10 +216,10 @@ h5,
 h1 {
   color: $orange;
   @media (max-width: 767px) {
-    font-size: 1.6rem !important;
+    font-size: 1.65rem !important;
   }
   @media (max-width: 576px) {
-    font-size: 1.4rem !important;
+    font-size: 1.45rem !important;
   }
 }
 h2 {

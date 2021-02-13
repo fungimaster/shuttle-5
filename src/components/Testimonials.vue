@@ -6,7 +6,7 @@
                     <div class="carousel-inner text-left">
                       <div
                         class="carousel-item"
-                        v-for="(item, index) in testLimited"
+                        v-for="(item, index) in testRandom"
                         :key="item.message"
                       >
                         <b-row :id="'slide_'+index" align-h="center">
@@ -36,27 +36,6 @@
                   </b-button>
                 </div>
 
-
-    <b-row hidden class="" align-h="center">
-      <b-col
-        class="col-12 mt-5"
-        v-for="(item, index) in testLimited"
-        :key="item.message"
-      >
-        <div class="testimonial justify-content-center">
-          <b-row align-h="center">
-            <b-col class="col-8 col-md-3 pt-0 mb-3 mb-md-0 text-center">
-              <img :src="item.image" />
-            </b-col>
-            <b-col class="col-12 col-md-8 pt-4">
-              <p>"{{item.message}}"</p>
-              - {{item.author}}
-            </b-col>
-          </b-row>
-          <hr class="d-block d-md-none mt-5" v-if="index<number-1 && number>1" />
-        </div>
-      </b-col>
-    </b-row>
   </b-container>
 </template>
 
@@ -103,11 +82,18 @@ export default {
       next() {
         this.$refs.testimonals.next()
       },
+      shuffle(o) {
+        for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+        return o;
+      },
   },
 
   computed: {
     testLimited() {
         return this.testimonials.slice(0, this.number)
+    },
+    testRandom() {
+        return this.shuffle(this.testimonials)
     },
     setCol() {
         if (this.number === 1) {
@@ -131,13 +117,13 @@ export default {
 }
 
 .testimonial img {
-  width: 20%;
+  width: 30%;
   height:auto;
    @media (max-width: 991px) {
-     width: 40%;
+     width: 25%;
   }
   @media (max-width: 576px) {
-    width: 60%;
+    width: 50%;
   }
 }
 
@@ -154,10 +140,16 @@ export default {
 }
 
 .card-testimonial {
-  min-height:450px;
+  min-height:400px;
   font-size:0.9em;
   color:#333;
   border:none; 
+   @media (max-width: 991px) {
+          min-height:400px;
+  }
+  @media (max-width: 576px) {   
+    min-height:450px;
+  }
 }
 
 .card {

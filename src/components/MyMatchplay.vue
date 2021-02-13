@@ -37,7 +37,10 @@
                             <b-alert v-if="showerror" variant="warning" show class="mt-4 small form-text text-muted">Din e-post eller lösenord stämmer inte, försök igen eller återställ ditt lösenord.</b-alert>
                         </b-form>
                         <div class="mt-4">
-                            <small><a href="#" v-on:click="showsendreset = true">Glömt ditt lösenord?</a></small> | <small><a href="/#register">Anmäl dig</a></small>
+                            <small><a href="#" v-on:click="showsendreset = true">Glömt ditt lösenord?</a></small> | <small><router-link
+                v-if="!closed"
+                to="/register"
+              >Anmäl dig</router-link></small>
                         </div>
                     </b-col>
                 </b-row>
@@ -179,7 +182,7 @@
                     </b-row>
                      <b-row align-h="center">
                         <b-col sm="10" lg="6" class="mt-4">
-                              <h4><strong>Utmärkelser & Statistik</strong></h4>
+                              <h4><strong>Troféer & Statistik</strong></h4>
                             <div id="badges" class="badges pt-2 mt-3">
                                  
                                 <!-- Registrerat sig -->
@@ -1119,7 +1122,7 @@
 
                                    
 
-                                    <div class="pt-0 pb-0 mt-0" v-if="game.status !== 'Finished' && game.gamedate">                                               
+                                    <div class="pt-0 pb-0 mt-0 mb-2" v-if="game.status !== 'Finished' && game.gamedate">                                               
                                         <span >
                                             <div>
                                             <i class="fas fa-calendar-week mr-1 mb-1" style="float:left;"></i>
@@ -1152,12 +1155,19 @@
                              <template v-slot:footer> 
                                  <b-container class="m-0 p-0">
                                      <b-row>
-                                         <b-col class="col-6 text-left">
-                                              <a :href="`/game?id=${game._id}`" class="btn btn-success btn-md text-white mr-md-2">Visa match</a>
+                                         <b-col class="col-8 text-left">
+                                              <a hidden :href="`/game?id=${game._id}`" class="btn btn-success btn-md text-white mr-md-2">Visa match</a>
+                                              <router-link class="btn btn-success btn-md text-white mr-md-2" v-bind:to="`/game?id=${game._id}`">Visa match</router-link>
                                         <a hidden :href="`/livegame?id=${game._id}`" class="btn btn-info btn-md text-white mr-md-2">Följ match</a>                                        
                                          </b-col>                                                            
-                                         <b-col v-if="game.status !== 'Finished'" class="col-6 text-right">
-                                             <a @click="showHelpGame()" class="btn btn-secondary btn-md text-white"><i class="fas fa-question mb-1"></i></a>
+                                         <b-col v-if="game.status !== 'Finished'" class="col-4 text-right">
+                                             <a hidden @click="showHelpGame()" class="btn btn-secondary btn-md text-white"><i class="fas fa-question mb-1"></i></a>
+                                           
+                                             <b-button id="popover-help-game" href="#" tabindex="0" class="btn btn-secondary btn-md text-white"><i class="fas fa-question mb-1"></i></b-button>
+                                             <b-popover target="popover-help-game" variant="light" triggers="focus" placement="topleft">
+                                                <template #title>Information</template>
+                                                 Klicka på visa match för att se kontaktuppgifter till lagkaptenen i laget ni ska möta. Bestäm datum och tid för matchen (hemmalaget bestämmer bana) och boka tid genom t.ex Min Golf Bokning.
+                                            </b-popover>
                                          </b-col>
                                      </b-row>
                                      <b-row v-if="showhelpgame">
