@@ -10,7 +10,7 @@
 
 
     <div class="col-12 text-left text-md-left scorecardExplainer p-0 m-0">                   
-                  <b-carousel ref="scorecardExplainer" id="scorecardExplainer" v-model="scorecard_slide" :interval="500000" indicators="">
+                  <b-carousel ref="scorecardExplainer" id="scorecardExplainer" v-model="scorecard_slide" :interval="500000" indicators="" controls="">
                     <div class="carousel-inner text-left">
                       <div
                         class="carousel-item"
@@ -20,7 +20,7 @@
                         <b-row :id="'slide_'+index" align-h="center">
                           <b-col class="col-12 col-md-10 col-lg-8 mr-0 ml-0 mb-3 mt-4 mt-md-5">
                             <div class="card card-testimonial">
-                             <img @click="scorecard_image=item.image,$bvModal.show('scorecardImage')" :src="item.image" class="mb-4" style="margin:0 auto;" />
+                             <img @click="scorecard_image=item.image,$bvModal.show('scorecardImage')" :src="item.image" class="mb-4" style="margin:0 auto;cursor:pointer;" />
                               <div class="card-body p-0">
                                <p>{{item.message}}</p>                               
                               </div>
@@ -99,6 +99,7 @@ export default {
 
 <style lang="scss" scoped>
 
+
 .scorecard-image {
     width: auto;
     height:80vh;
@@ -143,5 +144,6 @@ export default {
 .card {
   background:transparent;
 }
+
 
 </style>

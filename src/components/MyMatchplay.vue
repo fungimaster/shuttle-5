@@ -186,22 +186,27 @@
                             <div id="badges" class="badges pt-2 mt-3">
                                  
                                 <!-- Registrerat sig -->
-                                 <i id="registered" class="fas fa-sparkles orange"></i>
-                                 <b-tooltip target="registered" triggers="hover" placement="top">
-                                    Registrerat dig på matchplay.se
-                                </b-tooltip>
+                                 <i id="registered" href="#" tabindex="0" class="fas fa-sparkles orange"></i>
+                                             <b-popover target="registered" variant="success" triggers="focus" placement="topleft">
+                                                <template #title>Trophé</template>
+                                                  Registrerat dig på matchplay.se
+                                            </b-popover>
+                               
 
                                  <!-- Deltagande lag -->
-                                 <i id="numberofteams" v-if="userdetails.numberofteams > 0" class="fas fa-star" v-bind:class="{ gold: userdetails.numberofteams > 2, silver: userdetails.numberofteams === 2,bronze: userdetails.numberofteams === 1 }"></i>
-                                 <b-tooltip target="numberofteams" triggers="hover" placement="top">
-                                    Deltagit med {{userdetails.numberofteams}} lag i tävlingen.
-                                </b-tooltip>    
+                                 <i id="numberofteams" href="#" tabindex="0" v-if="userdetails.numberofteams > 0" class="fas fa-star" v-bind:class="{ gold: userdetails.numberofteams > 2, silver: userdetails.numberofteams === 2,bronze: userdetails.numberofteams === 1 }"></i>
+                                  <b-popover target="numberofteams" variant="success" triggers="focus" placement="topleft">
+                                                <template #title>Trophé</template>
+                                                 Deltagit med {{userdetails.numberofteams}} lag i tävlingen.
+                                            </b-popover>
 
                                  <!-- Ambassador-->                                 
-                                 <i id="ambassador" v-if="userdetails.isambassador" class="fas fa-award gold"></i>
-                                 <b-tooltip target="ambassador" triggers="hover" placement="top">
-                                    Du är en ambassadör för tävlingen! Tack :)
-                                </b-tooltip>    
+                                 <i id="ambassador" href="#" tabindex="0" v-if="userdetails.isambassador" class="fas fa-award gold"></i>
+                                  <b-popover target="ambassador" variant="success" triggers="focus" placement="topleft">
+                                                <template #title>Trophé</template>
+                                                 Du är en ambassadör för tävlingen! Tack :)
+                                            </b-popover>
+                                
 
                                 <b-container hidden class="mt-4">
                                     <b-row align-h="left">                                 
