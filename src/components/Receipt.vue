@@ -18,7 +18,8 @@
           <b-row align-h="center">
        <b-col sm="6">     
             <h1 class="mt-5 mb-4 strong">Kvitto Matchplay</h1>
-            <p class="mb-4"><strong>Anmälningsavgift {{ comp }}</strong></p>            
+            <h3 class="mb-4">Anmälningsavgift {{ comp }}</h3> 
+            <p small>Avgiften avser golftävling i Sverige.</p> <br>          
             <p>Lagkapten: {{ user }}</p>
             <p>Summa: {{ amount }} kr</p>
             <p>Varav moms (6%): {{ vat }} kr</p>

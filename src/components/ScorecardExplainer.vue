@@ -102,7 +102,7 @@ export default {
 
 .scorecard-image {
     width: auto;
-    height:80vh;
+    height:70vh;
 }
 
 .scorecardExplainer {

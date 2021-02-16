@@ -246,6 +246,7 @@
               <strong>{{price1}} kr</strong> för privatpersoner och
               <strong>{{price2}} kr</strong> (exkl. moms) för företag.
             </p>
+            <b-alert show variant="info" class="mt-3 mb-3 small">Glöm inte att anmälningsavgiften kan användas som <strong>friskvårdsbidrag</strong>. Golftävlingar är godkända som bidrag sedan 2020. <strong>Kvitto</strong> erhålls automatiskt efter betalning.</b-alert>
             <router-link class="btn blue-bg btn-md text-white mt-2 mr-2" to="/register">
               <i class="pb-1 mr-2 material-icons">thumb_up</i>Steg 1 - Skriv in ditt Golf-ID
             </router-link>
