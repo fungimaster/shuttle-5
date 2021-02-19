@@ -84,9 +84,9 @@
                 <b-col v-for="(club,idx) in clubs" :key="idx"
                     class="club col-4 col-md-3 pl-0 pr-0 align-self-center text-center"
                 >
-               <b-img :id="'tooltip-course-' + idx" v-if="club.logourl" class="p-3 p-md-5" :src="getClubImage(club.logourl)"></b-img>
+               <b-img :id="'tooltip-course-' + idx" v-if="club.logourl" class="p-3 p-md-5" :src="getClubImage(club.logourl)"></b-img>               
                 <b-tooltip :target="'tooltip-course-' + idx" triggers="hover" placement="top">
-                                            {{club.club}}
+                                            {{club.club}} - {{club.count}} lag
                                         </b-tooltip>
                <span v-if="!club.logourl">{{club.club}}</span> 
                              

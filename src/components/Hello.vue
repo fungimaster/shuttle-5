@@ -424,7 +424,7 @@
           <b-col class="col-12 col-md-6">
             <img
               class
-              :src="`https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_600,q_65/v1603714880/matchplay/matchplay_final1.png`"
+              :src="`https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_400,q_65/v1603714880/matchplay/matchplay_final1.jpg`"
             />
             <p class="mt-1">Joel Carnor & Emma Wedin</p>
             <a
@@ -436,7 +436,7 @@
           <b-col class="col-12 col-md-6 pt-3 pt-md-0">
             <img
               class
-              :src="`https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_600,q_65/v1603714880/matchplay/matchplay_final2.png`"
+              :src="`https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_400,q_65/v1603714880/matchplay/matchplay_final2.jpg`"
             />
             <p class="mt-1">Kim Christiansson & Martin Nileskär</p>
             <a
