@@ -165,6 +165,10 @@
                             <label>Golf ID:</label>
                          <span class="d-inline">{{userdetails.golfid}}</span>
                             </div>
+                            <div hidden>
+                            <label>HCP:</label>
+                         <span class="d-inline">{{userdetails.hcp}}</span>
+                            </div>
                             <div>
                             <label>Email:</label>
                          <span class="d-inline">{{userdetails.email}}</span>
@@ -182,7 +186,11 @@
                     </b-row>
                      <b-row align-h="center">
                         <b-col sm="10" lg="6" class="mt-4">
-                              <h4><strong>Troféer & Statistik</strong></h4>
+                              <h4><strong>Troféer & Statistik</strong><i id="stats_help" href="#" tabindex="0" class="fa fa-question-circle ml-2"></i></h4>
+                                <b-popover target="stats_help" variant="info" triggers="focus" placement="topright">
+                                                <template #title>Information</template>
+                                                  Statistik över spelade matcher mm gäller från och med 2020 och framåt.
+                                            </b-popover>
                             <div id="badges" class="badges pt-2 mt-3">
                                  
                                 <!-- Registrerat sig -->
@@ -1558,6 +1566,7 @@ export default {
                 numberofwins: 0,
                 numberofgames: 0,
                 golfid: '',
+                hcp: '',
                 isambassador: false,                
             },
             form: {
@@ -3196,6 +3205,7 @@ export default {
                     this.$username = this.userdetails.firstname;
                     this.userdetails.numberofteams = userinfo.numberofteams;
                     this.userdetails.golfid = userinfo.golfid;
+                    //this.userdetails.hcp = userinfo.hcp;
                     this.userdetails.email = userinfo.email;
                     this.userdetails.mobile = userinfo.mobile;
                     this.team.swish.mobile = userinfo.mobile;

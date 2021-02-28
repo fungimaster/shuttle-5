@@ -42,7 +42,7 @@
       <router-view> </router-view>
     </b-modal>-->
 
-    <div class="hero" ref="slider">
+    <div class="hero herobg0" ref="slider">
       <b-container class="pl-4 pr-4">
         <b-row>
           <b-col class="col-12 col-md-12 mt-4">
@@ -416,7 +416,7 @@
               Vi säger stort grattis till våra finalpar som är klara för den stora Matchplayfinalen på Los Naranjos i Spanien mellan den 7-11 februari 2021.
               <span
                 class="red"
-              >Pga av Corona och inställda flyg kommer finalen spelas senare i vår!</span>
+              >Pga av Corona och inställda flyg kommer finalen 2020 spelas samtidigt som finalen för 2021 avgörs (7-11 nov).</span>
             </p>
           </b-col>
         </b-row>
@@ -424,7 +424,7 @@
           <b-col class="col-12 col-md-6">
             <img
               class
-              :src="`https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_400,q_65/v1603714880/matchplay/matchplay_final1.jpg`"
+              :src="`https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_400,q_auto/v1603714880/matchplay/matchplay_final1.jpg`"
             />
             <p class="mt-1">Joel Carnor & Emma Wedin</p>
             <a
@@ -436,7 +436,7 @@
           <b-col class="col-12 col-md-6 pt-3 pt-md-0">
             <img
               class
-              :src="`https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_400,q_65/v1603714880/matchplay/matchplay_final2.jpg`"
+              :src="`https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_400,q_auto/v1603714880/matchplay/matchplay_final2.jpg`"
             />
             <p class="mt-1">Kim Christiansson & Martin Nileskär</p>
             <a
@@ -553,13 +553,13 @@ export default {
     /* setTimeout(() => {
     this.showModal();                        
   }, 2000); */
-  var i;
+ /*  var i;
   for (i = 0; i < this.images.length; i++) {
   this.preloadImage(this.images[i])
-  }
+  } */
 
    //BG CHANGE 
-   var bg_change = setInterval(this.changeBg, 8000);
+  var bg_change = setInterval(this.changeBg, 5000);
 
   //this.toast('b-toaster-top-right');
 
@@ -702,10 +702,10 @@ export default {
       leader: "",     
        //IMAGES
       images: [
-            'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_65,e_colorize:10,co_rgb:000000/v1608122032/matchplay/MPI-1825.jpg',
-            'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_65,e_colorize:10,co_rgb:000000/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg',
-            'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_65,e_colorize:40,co_rgb:000000/v1608219772/matchplay/bg_matchplay.jpg',
-            'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_65,e_colorize:50,co_rgb:000000/v1608122570/matchplay/IMG_1232.jpg'
+           // 'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_auto,q_auto,e_colorize:10,co_rgb:000000/v1608122032/matchplay/MPI-1825.jpg',
+            //'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_auto,q_auto,e_colorize:10,co_rgb:000000/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg',
+            //'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_auto,q_auto,e_colorize:40,co_rgb:000000/v1608219772/matchplay/bg_matchplay.jpg',
+            //'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_auto,q_auto,e_colorize:50,co_rgb:000000/v1608122570/matchplay/IMG_1232.jpg'
             ],
       bgImageCount: 0,
       clubs: 0,
@@ -786,7 +786,22 @@ export default {
     },      
     
     changeBg() {
-     
+      var element = this.$refs["slider"];
+
+      if (this.bgImageCount === 2) {
+        this.bgImageCount = -1;
+        element.classList.remove("herobg2");
+      } else {
+  element.classList.remove("herobg"+this.bgImageCount);
+      }
+    
+     this.bgImageCount += 1;
+      element.classList.add("herobg"+this.bgImageCount);
+      
+    
+      //console.log('count',this.bgImageCount);
+
+     return;
      //'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:50,co_rgb:000000/v1608122447/matchplay/IMG_1527.jpg',
             
             //console.log(this.bgImageCount,this.images.length);
@@ -1021,7 +1036,7 @@ img {
   //background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1608122032/matchplay/MPI-1825.jpg);
   //background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1608122246/matchplay/22092018-MGZ_1827.jpg);
   //background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:50,co_rgb:000000/v1608122447/matchplay/IMG_1527.jpg);
-  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_70,e_colorize:50,co_rgb:000000/v1608122570/matchplay/IMG_1232.jpg);
+  //background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_70,e_colorize:50,co_rgb:000000/v1608122570/matchplay/IMG_1232.jpg);
   background-repeat: no-repeat;
   /*background-position: bottom 30% right 0;*/
   background-size: cover;
@@ -1086,6 +1101,26 @@ img {
   @media (min-width: 1200px) {
     /*background-position: bottom 55% right 0;*/
   }
+}
+
+.herobg0, .herobg1, .herobg2 {
+  background-size: cover !important;
+   background-repeat: no-repeat !important;
+}
+
+.herobg0 {
+   background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_70,e_colorize:50,co_rgb:000000/v1608122570/matchplay/IMG_1232.jpg);
+   background-position: right center;
+}
+
+.herobg1 {
+  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_auto,e_colorize:40,co_rgb:000000/v1608219772/matchplay/bg_matchplay.jpg);
+   background-position: center center;
+}
+
+.herobg2 {
+  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_auto,e_colorize:10,co_rgb:000000/v1608122032/matchplay/MPI-1825.jpg);
+  background-position: center center;
 }
 
 .hero h2 {
