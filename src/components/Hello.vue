@@ -354,6 +354,10 @@
             <hr />
             <h3 class="white mb-3 mt-4 pt-2">Topp 3 anmälda lag</h3>
             <podium number="3"></podium>
+             <a                
+                href="#podium2"
+                class="btn blue-bg btn-sm text-white mt-4"
+              >Se fler klubbar</a>
           </b-col>
         </b-row>
       </b-container>
@@ -559,7 +563,7 @@ export default {
   } */
 
    //BG CHANGE 
-  var bg_change = setInterval(this.changeBg, 5000);
+  var bg_change = setInterval(this.changeBg, 8000);
 
   //this.toast('b-toaster-top-right');
 

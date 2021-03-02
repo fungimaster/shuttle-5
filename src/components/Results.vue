@@ -1,6 +1,6 @@
 <template>
 <b-container>
-
+ <vue-headful :title="doctitle" />
  <b-modal ref="scorecard" title="Scorekort - Match" v-model="modalShow" ok-only size="lg" style="padding-left:-1rem;">
       <router-view class="" style="margin-left:-1rem;margin-right:-1rem;"> </router-view>
     </b-modal>
@@ -402,6 +402,7 @@ moment.updateLocale("sv", {
 });
 
 export default {
+  name: 'Resultat',
   created() {
 
     if (!globalState.compid) {
@@ -434,13 +435,13 @@ export default {
         }
       },
     },
-  },
-  name: "hello",
+  },  
   components: {
     
   },
   data() {
     return {
+      doctitle: 'Resultat',
       currentRound: null,
       messages: null, 
       modalShow: false,
@@ -482,9 +483,7 @@ export default {
         total: 0,
       },
       searchfield: "",
-
-      showDismissibleAlert: false,  
-      doctitle: 'Resultat',
+      showDismissibleAlert: false      
      
     };
   },

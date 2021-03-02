@@ -165,9 +165,13 @@
                             <label>Golf ID:</label>
                          <span class="d-inline">{{userdetails.golfid}}</span>
                             </div>
-                            <div hidden>
+                            <div>
                             <label>HCP:</label>
-                         <span class="d-inline">{{userdetails.hcp}}</span>
+                         <span class="d-inline"><span v-negativeToPostive:arguments="{hcp: userdetails.hcp}">{{ userdetails.hcp }}</span><i id="hcp_help" href="#" tabindex="0" class="fa fa-question-circle ml-2"></i></span>
+                          <b-popover target="hcp_help" variant="info" triggers="focus" placement="topright">
+                                                <template #title>Information</template>
+                                                  Din aktuella hcp (inhämtad från GIT idag 05.00).
+                                            </b-popover>
                             </div>
                             <div>
                             <label>Email:</label>
@@ -1251,6 +1255,28 @@ export default {
         VueTelInput
         //'c-map':Map
     },
+     directives: {
+		 negativeToPostive: {
+        bind(el, bind) {
+          let number = parseFloat(bind.value.hcp);
+
+          if (number > 0) {
+            return;
+          }
+          el.innerHTML = "+" + number * -1;
+        },
+        update(el, bind) {
+          let number = parseFloat(bind.value.hcp);
+
+          if (number > 0) {
+            el.innerHTML = number;
+            return
+          }
+          el.innerHTML = "+" + number * -1;
+        },
+        unbind: function () {},
+      },
+		},
     watch: {
         '$route'(to, from) {
             if (to.path != from.path) {
@@ -3205,7 +3231,7 @@ export default {
                     this.$username = this.userdetails.firstname;
                     this.userdetails.numberofteams = userinfo.numberofteams;
                     this.userdetails.golfid = userinfo.golfid;
-                    //this.userdetails.hcp = userinfo.hcp;
+                    this.userdetails.hcp = userinfo.hcp;
                     this.userdetails.email = userinfo.email;
                     this.userdetails.mobile = userinfo.mobile;
                     this.team.swish.mobile = userinfo.mobile;
