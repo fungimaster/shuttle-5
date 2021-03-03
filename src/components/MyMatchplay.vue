@@ -477,7 +477,7 @@
                                         <i class="material-icons">create</i>
                                         <span class="invitemember" @click="goToStep(team, 1)">Redigera laget</span>                                        
                                     </span>
-                                    <b-alert show variant="info" class="small mt-3">
+                                    <b-alert v-if="team.type==='Private'" show variant="info" class="small mt-3">
                                         Glöm inte att du kan utnyttja tävlingsavgiften som friskvårdsbidrag mot din arbetsgivare. Sedan 2020 godkänns golftävlingar som friskvårdsbidrag. Kvitto erhålls efter betalning.
                                     </b-alert>
                                 </div>
@@ -1732,8 +1732,10 @@ export default {
             return 'https://res.cloudinary.com/dn3hzwewp/image/upload/h_50,q_100,c_scale/' + logourl;
         },
         getTeamLogo(logourl) {
-            var first_url = logourl.split("/upload/").pop();           
-            return 'https://res.cloudinary.com/dn3hzwewp/image/upload/h_40,q_80,c_scale/' + first_url;  
+            if (logourl) {
+                var first_url = logourl.split("/upload/").pop();        
+                return 'https://res.cloudinary.com/dn3hzwewp/image/upload/h_40,q_80,c_scale/' + first_url;  
+            }
         },
                 compareValues(key, order = 'asc') {
   return function innerSort(a, b) {
