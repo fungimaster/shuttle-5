@@ -48,6 +48,40 @@
               </a>
             </b-col>
           </b-row>
+          <b-row no-gutters>
+            <b-col md="3" class="silver p-5 text-center">
+              <a href="https://scandic.se/" target="_blank">
+                <img
+                  src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1614942462/matchplay/sponsors/scandic.png"
+                  alt
+                />
+              </a>
+            </b-col>
+            <b-col md="3" class="silver p-2 pt-5 text-center">
+              <a href="https://prosak.se" target="_blank">
+                <img
+                  src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1614942462/matchplay/sponsors/prosak_logo_2016.png"
+                  alt
+                />
+              </a>
+            </b-col>
+            <b-col md="3" class="silver p-5 mt-2 text-center">
+              <a href="https://elgiganten.se" target="_blank">
+                <b-img
+                  alt="elgiganten"
+                  src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1614942462/matchplay/sponsors/Vinn-Elgiganten-Phonehouse.png"
+                ></b-img>
+              </a>
+            </b-col>
+             <b-col md="3" class="silver p-5 mt-2 text-center">
+              <a href="https://easygreen.se" target="_blank">
+                <b-img
+                  alt="easygreen"
+                  src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1614942462/matchplay/sponsors/easygreen.png"
+                ></b-img>
+              </a>
+            </b-col>
+          </b-row>
         </b-col>
         <b-col xl="1"></b-col>
       </b-row>

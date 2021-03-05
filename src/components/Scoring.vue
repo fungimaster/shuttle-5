@@ -299,7 +299,11 @@
 				}
 
 				let array = el.innerText.split(" ");
+				if (array.length === 3) { //if extra space in name from GIT
+					array = el.innerText.split("  ");					
+				}
 				const intialsArray = array.map(e => e.slice(0, 1));
+
 				el.innerHTML = intialsArray[0] + "." + intialsArray[1];
 			},
 			changeNan(el, bind) {

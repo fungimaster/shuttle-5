@@ -29,6 +29,9 @@
                     <strong>{{ props.item.title }}</strong>
                   </div>
                 </suggestions>
+                 <b-alert small show v-if="ninehole" variant="danger" class="mt-3">
+                                Endast 18-hålsbanor kan användas i tävlingen!
+                              </b-alert>
               </b-form-group>
 
               <!--  VÄLJA SLINGA -->
@@ -456,6 +459,7 @@ export default {
  
   data() {
     return {
+      ninehole: false,
       max28: false,
       gameID: "",
       team1: "",
@@ -750,7 +754,7 @@ export default {
           this.parseCourse(response.data);
         })
         .catch((error) => {
-          this.errorMSG = "Something went wrong (No course found)";
+          //this.errorMSG = "Something went wrong (No course found)";          
           console.log(error);
         });
     },
@@ -759,15 +763,16 @@ export default {
     parseCourse: function (course) {
       let parsedLoop = [];
 
-      course.forEach((courseItem) => {
+      course.forEach((courseItem) => {       
         if (
           courseItem.IsNineHoleCourse == "false" ||
           courseItem.Name === "Björkhagens GK"
         ) {
-          courseItem.Loops.forEach((loop) => {
+          
+          courseItem.Loops.forEach((loop) => {            
             if (Array.isArray(loop)) {
               loop.forEach((item) => {
-                let loopItem = {};
+                let loopItem = {};                
                 loopItem.value = item.ID;
                 loopItem.text = item.Name;
                 loopItem.slopes = item.Slopes;
@@ -783,13 +788,24 @@ export default {
       });
 
       this.slingaOptions = parsedLoop;
+      console.log(parsedLoop)
+      
+      if (this.slingaOptions.length === 0) {
+        this.ninehole = true;
+        this.loadingCourse = false;
+        this.form.course = '';
+        return;
+      }
+      
+
+      this.ninehole = false;
+
       // Kolla om det finns en sparad slinga i getGameData
       if (this.savedLoopId) {
         this.form.slinga = this.savedLoopId;
         this.courseSelected(this.savedLoopId);
       } else {
         this.form.slinga = this.slingaOptions[0].value;
-
         this.courseSelected(this.slingaOptions[0].value);
       }
 

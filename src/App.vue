@@ -308,6 +308,18 @@ a.text-white {
     animation: none;
 }
 
+@keyframes spinner-grow {
+ 0% {
+      -webkit-transform: scale(0);
+      transform: scale(0);
+ }
+ 50% {
+     opacity: 1; 
+     -webkit-transform: scale(1);
+      transform: scale(1);
+ }
+}
+
 @-webkit-keyframes pulse {
     to {
         box-shadow: 0 0 0 15px rgba(232, 76, 61, 0);

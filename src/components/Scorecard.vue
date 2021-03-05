@@ -176,16 +176,18 @@
 						<!-- SÄRSPEL SLUT -->
 
 						<!-- TEAM 1 CONTAINER -->
+						<div v-if="activeHole===1" class="sponsor mb-3 text-center">
+							<b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,h_60,q_auto/v1614942462/matchplay/sponsors/easygreen.png"></b-img>
+						</div>
 						<div
 							class="team1ScoreCard pt-3 pb-3"
 							:class="[
             singleHoleWinner < 0 && displayToast === false ? 'holeWinner' : '',
             singleHoleWinner > 0 && displayToast === false ? 'holeLoser' : ''
           ]"
-						>
+						>						
 							<div v-for="(player, index) in players.slice(0, 2)" :key="player.index">
 								<!--  SLAG OCH HCP TEAM 1 -->
-
 								<b-row class="playerRow">
 									<div hidden class="teamColor1"></div>
 									<b-col class="col-7 playerNameContainer pr-0">
@@ -374,7 +376,7 @@
 								<!-- HOME TEAM -->
 								<b-col class="col-4 scoreTeam text-left pl-3 pr-0" :class="[{ scoreTeam1: leader && !tie }, {scoreTeamDormy: setDormyClass(dormy2) }]">
 									<span
-										style="float:left;"
+										style="float:left;"										
 									>{{getInitials(players[0].name)}} & {{getInitials(players[1].name)}}</span>
 									<i v-if="!tie && winnerDeclared && leader" class="material-icons pb-1 pl-1">emoji_events</i>
 									<span v-if="!tie && !winnerDeclared" class="dormy">{{dormy2}}</span>
@@ -449,8 +451,7 @@
 					<!-- HOME TEAM -->
 					<b-col class="col-4 scoreTeam text-left pl-3 pr-0" :class="[{ scoreTeam1: leader && !tie }, {scoreTeamDormy: setDormyClass(dormy2)},  {scoreTeamModal: viewedInModal}]">
 						<span
-							style="float:left;"
-						
+							style="float:left;"							
 						>{{ players.length !== 0 ? getInitials(players[0].name): ''}} & {{players.length !== 0 ? getInitials(players[1].name) : ''}}</span>
 						<i v-if="!tie && winnerDeclared && leader" class="material-icons pb-1 pl-1">emoji_events</i>
 						<span v-if="!tie && !winnerDeclared" class="dormy">{{dormy2}}</span>
@@ -544,7 +545,7 @@
 							v-changeNanAndZero:arguments="{
                 score: holes.strokes
               }"
-					>					
+					>				
 					<span :class="{eagle: holes.strokes === holes.par-2 ,birdie: holes.strokes === holes.par-1,bogey: holes.strokes === holes.par+1, doubleBogey: holes.strokes >= holes.par+2   }">{{ holes.strokes === 0 ? null : holes.strokes }}</span>
 					<span hidden :class="[{ hideSlag: slagTable(0, index) === 0 ? true : false }, 'slagInTable']">
 						{{slagTable(0, index)}}
@@ -911,7 +912,11 @@
 				}
 
 				let array = el.innerText.split(" ");
+				if (array.length === 3) { //if extra space in name from GIT
+					array = el.innerText.split("  ");					
+				}
 				const intialsArray = array.map(e => e.slice(0, 1));
+				
 				el.innerHTML = intialsArray[0] + "." + intialsArray[1];
 			},
 			bold(el) {
@@ -1456,7 +1461,7 @@
 
 				//uppdaterar nameCount med namn som spelaren har poäng/score inrapporterat redan på hålet. 
 				let counter = -1
-				this.players.forEach(player => {
+				this.players.forEach(player => {					
 					counter++
 						player.holes.forEach( (hole, index) => {	
 							//gör om null till NaN
@@ -1944,10 +1949,16 @@
 				return winner;
 			},
 
-			getInitials(name) {
+			getInitials(name) {				
+				let array = name.split(" ");
+				if (array.length === 3) { //if extra space in name from GIT
+					array = name.split("  ");					
+				}
+				const intialsArray = array.map(e => e.slice(0, 1));
 				
 				return (
-					name.split(" ")[0].substring(0, 1) + name.split(" ")[1].substring(0, 1)
+					//name.split(" ")[0].substring(0, 1) + name.split(" ")[1].substring(0, 1)
+					intialsArray[0] + "." + intialsArray[1]
 				);
 			},
 
