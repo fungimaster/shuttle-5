@@ -19,7 +19,7 @@
                         <p hidden>Inom kort kommer bokade matcher visas här samt annan information om lagen!</p>
                         <b-row v-if="loadinggames">
                           <b-col>
-                            <b-spinner small type="grow" class="mr-2"></b-spinner>Hämtar matcher...
+                            <b-spinner small type="grow" class="class mr-2"></b-spinner>Hämtar matcher...
                           </b-col>
                         </b-row>
                         <b-row v-if="gamescount === 0 && !loadinggames">
@@ -114,7 +114,7 @@
                       <b-col xs="12" sm="12" class="mt-4 mt-md-4">
 
                         <span class="float-right" style="cursor:pointer;" v-on:click="getGamesPending('not-initial')"><i class="far fa-sync-alt"></i></span>
-                       <h4>Kommande (bokade) <span v-if="updating2"><b-spinner small type="grow" class="ml-2 mr-1 mb-1 red"></b-spinner>...</span></h4>
+                       <h4>Kommande (bokade) <span v-if="updating2"><b-spinner small type="grow" class="blink ml-2 mr-1 mb-1 red"></b-spinner>...</span></h4>
                         <p hidden>Inom kort kommer bokade matcher visas här samt annan information om lagen!</p>
                         <b-row v-if="loadinggames2">
                           <b-col>
@@ -557,10 +557,10 @@ export default {
   methods: {
       getLogoImage(logourl) {      
             var first_url = logourl.split("/upload/").pop();           
-            return 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_200,q_80,c_scale/' + first_url;
+            return 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_200,q_auto,c_scale/' + first_url;
             },
             getClubLogo(logourl) {                     
-            return 'https://res.cloudinary.com/dn3hzwewp/image/upload/h_50,q_100,c_scale/' + logourl;
+            return 'https://res.cloudinary.com/dn3hzwewp/image/upload/h_50,q_auto,c_scale/' + logourl;
             },
             
     compareValues(key, order = "asc") {

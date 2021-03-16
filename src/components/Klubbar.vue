@@ -80,7 +80,7 @@
             </b-col>
         
         </b-row>
-       <b-row v-if="!loadingclubs" align-h="center" class="justify-content-center align-self-center mt-4">
+       <b-row id="clubs" v-if="!loadingclubs" align-h="center" class="justify-content-center align-self-center mt-4">
                 <b-col v-for="(club,idx) in clubs" :key="idx"
                     class="club col-4 col-md-3 pl-0 pr-0 align-self-center text-center"
                 >
@@ -165,6 +165,12 @@ moment.updateLocale("sv", {
             })
 
             this.clubs = filtered;
+            var elmnt = document.getElementById("clubs");
+            //elmnt.scrollIntoView();
+            const yOffset = -180;
+            const y = elmnt.getBoundingClientRect().top + window.pageYOffset + yOffset;
+
+            window.scrollTo({ top: y, behavior: "smooth" });
 
           } else {
             this.clubs = this.clubsAll
@@ -230,16 +236,20 @@ moment.updateLocale("sv", {
              this.abc.push(this.clubs[i].club.charAt(0));
            }
            const distinctAbc = [...new Set(this.abc)];
-           this.abc = distinctAbc;
+           this.abc = distinctAbc;           
            this.clubnopercent = Math.round((this.clubno/448)*100);
 
-          this.loadingclubs = false;         
+           //fix sorting
+           distinctAbc.sort( (a, b) => a.localeCompare(b, 'sv', {ignorePunctuation: true}));    
+
+           this.loadingclubs = false;         
         })
         .catch((error) => {
           console.log(error);
           this.loadingclubs = false;
         });
     },
+   
         compareValues(key, order = "asc") {
       return function innerSort(a, b) {
         if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {

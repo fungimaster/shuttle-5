@@ -788,7 +788,7 @@ export default {
       });
 
       this.slingaOptions = parsedLoop;
-      console.log(parsedLoop)
+      //console.log(parsedLoop)
       
       if (this.slingaOptions.length === 0) {
         this.ninehole = true;

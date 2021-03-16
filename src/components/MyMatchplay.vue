@@ -1012,7 +1012,11 @@
                            <h2 class="mt-4 mb-3">Nyttig information</h2>
                            <p>I väntan på tävlingsstart har vi samlat lite nyttig information för att göra tävlingen ännu enklare och roligare.</p>
                             
-                                <h3 class="mt-4">Tips 1 (Speltid och plats)</h3>
+                             <h3 class="orange">Vårt digitala scorekort</h3>
+            <ScorecardExplainer ></ScorecardExplainer>
+
+
+                                <h3 class="mt-5">Tips 1 (Speltid och plats)</h3>
                                 När din match i varje omgång är lottad syns den på denna sidan och är ni lottade som hemmalag, ta så fort som möjligt kontakt med era motståndare för att bestämma spelplats och tid. Det är viktigt att hemmalaget lägger upp tid och plats för matchen så att det blir rätt på resultsidorna på matchplay.se.
                             
                      
@@ -1044,8 +1048,10 @@
 
                                         <div class="mt-0 mb-0" :class="{ 'winner': game.winner && game.hometeam === game.winner, 'loser': game.winner && game.awayteam === game.winner}">
                                             <strong>HEMMALAG</strong><br>
-                                            <span>{{game.hometeamleadername}}</span> & <span>{{game.hometeammembername}}</span><br>                                      
-                                             <span v-if="game.hometeamcoursename">{{game.hometeamcoursename}}</span>
+                                            <span class="d-block">{{game.hometeamleadername}} <span v-negativeToPostive:arguments="{hcp: game.hometeamleaderhcp}">{{game.hometeamleaderhcp}}</span></span>
+                                            <span v-if="game.hometeammembername" class="d-block">{{game.hometeammembername}} <span v-negativeToPostive:arguments="{hcp: game.hometeammemberhcp}">{{game.hometeammemberhcp}}</span></span>                                     
+                                            <span class="d-block" v-else>Lagkamrat saknas</span>
+                                            <span v-if="game.hometeamcoursename"><i>{{game.hometeamcoursename}}</i></span>
                                             <span v-if="!game.hometeamcoursename">Hemmaklubb saknas</span><br>                                        
                                               
                                         </div>
@@ -1060,8 +1066,10 @@
 
                                         <div class="mt-0 mb-0 text-right" :class="{ 'winner': game.winner && game.awayteam === game.winner, 'loser': game.winner && game.hometeam === game.winner}">
                                            <strong>BORTALAG</strong><br>
-                                           <span>{{game.awayteamleadername}}</span> & <span>{{game.awayteammembername}}</span><br>                                        
-                                             <span v-if="game.awayteamcoursename">{{game.awayteamcoursename}}</span>
+                                           <span class="d-block">{{game.awayteamleadername}} <span v-negativeToPostive:arguments="{hcp: game.awayteamleaderhcp}">{{game.awayteamleaderhcp}}</span></span>
+                                           <span v-if="game.awayteammembername" class="d-block">{{game.awayteammembername}} <span v-negativeToPostive:arguments="{hcp: game.awayteammemberhcp}">{{game.awayteammemberhcp}}</span></span>                                       
+                                           <span class="d-block" v-else>Lagkamrat saknas</span>
+                                             <span v-if="game.awayteamcoursename"><i>{{game.awayteamcoursename}}</i></span>
                                               <span v-if="!game.awayteamcoursename">Hemmaklubb saknas</span><br>
                                               
                                         </div>
@@ -1085,7 +1093,7 @@
                                             <i hidden class="fas mr-1 mb-1"></i>
                                              <span v-if="game.status === 'In progress'">
                                                  <div class="ml-1" style="float:left;">
-                                                 <b-spinner small type="grow" class="red mr-3 mb-2"></b-spinner>
+                                                 <b-spinner small type="grow" class="blink red ml-1 mr-2 mb-2"></b-spinner>
                                                  </div>
                                                   <div style="display:flex;padding-left:6px;">
                                                 LIVE
@@ -1230,6 +1238,7 @@ import {
 } from '../mixins/tagsMixin';
 import Spinner from "./spinner/Spinner";
 import Suggestions from 'v-suggestions';
+import ScorecardExplainer from "./ScorecardExplainer";
 import 'v-suggestions/dist/v-suggestions.css';
 import moment from 'moment';
 import { globalState } from "../main.js";
@@ -1252,7 +1261,7 @@ export default {
     components: {
         'c-spinner': Spinner,
         'suggestions': Suggestions,
-        VueTelInput
+        VueTelInput,ScorecardExplainer
         //'c-map':Map
     },
      directives: {
@@ -3289,10 +3298,12 @@ export default {
                             for (b = 0; b < this.teams[i].games.length; b++) {
                                 this.games.push(this.teams[i].games[b])
                             }
-
+                            
                             //this.games.sort(this.compareValues('status', 'desc'));                               
                            }
                         }
+
+                        console.log(this.games)
 
                         this.gamescount = this.games.length;
 
