@@ -120,26 +120,6 @@
                       <span class="my-nav-item">Spelplats</span>
                     </template>
 
-<b-container class="mt-3">
-                      <b-row class="justify-content-center" align-h="center">
-                        <b-col class="col-12 text-left">
-
-                    <b-alert
-                      v-if="isteamleader && status != 'Finished'"
-                      show
-                      dismissible
-                     class="mt-1 small"
-                      variant="info"
-                    >
-                      Hemmalaget (ni) bokar bana och speltid i samråd med
-                      bortalaget. Se kontaktuppgifter under kontaktfliken. Boka
-                      först tid på banan och välj sedan bana nedan, datum och
-                      tid för matchen och meddela era motståndare!
-                    </b-alert>
-                        </b-col>
-                      </b-row>
-</b-container>
-
                     <div v-if="!isteamleader && status != 'Finished'">
                       <div v-if="gamedate">
                         {{ getgamedate() }} {{ gametime }}
@@ -208,7 +188,11 @@
                           </b-col>
                           <b-col class="col-12 text-left">
                             <b-form-group class="">
-                              <label for="query">Var spelas matchen?</label>
+                              <label for="query">Var spelas matchen?<i href="#" tabindex="0" id="game_info_1" class="fas fa-question-circle ml-1 mr-1 mb-1"></i></label>
+                               <b-popover target="game_info_1" variant="info" triggers="focus" placement="topleft">
+                                                <template #title>Information</template>
+                                                  Vi godkänner endast spel på 18-hålsbanor eller banor där olika 9-hålsslingor räknas som 18.
+                                            </b-popover>
                               <suggestions
                                 v-model="query"
                                 id="query"
@@ -235,6 +219,9 @@
                                 placeholder="Id på klubben"
                               >
                               </b-form-input>
+                              <b-alert small show v-if="ninehole" variant="danger" class="mt-3">
+                                Endast 18-hålsbanor kan användas i tävlingen!
+                              </b-alert>
                             </b-form-group>
 
                             <!--  VÄLJA SLINGA -->
@@ -319,10 +306,29 @@
                                 >Skicka sms med info</span
                               ></a
                             >
-                            <hr />
+                           
                           </b-col>
                         </b-row>
                       </b-container>
+                      <b-container class="mt-3">
+                      <b-row class="justify-content-center" align-h="center">
+                        <b-col class="col-12 text-left">
+
+                    <b-alert
+                      v-if="isteamleader && status != 'Finished'"
+                      show
+                      dismissible
+                     class="mt-1 small"
+                      variant="info"
+                    >
+                      Hemmalaget (ni) bokar bana och speltid i samråd med
+                      bortalaget. Se kontaktuppgifter under kontaktfliken. Boka
+                      först tid på banan och välj sedan bana nedan, datum och
+                      tid för matchen och meddela era motståndare!
+                    </b-alert>
+                        </b-col>
+                      </b-row>
+</b-container>
                     </div>
                   </b-tab>
                   <b-tab title-link-class="ml-1 p-2" v-if="isteamleader || isteammember">
@@ -361,27 +367,27 @@
                           <b-button
                             v-if="isteamleader && status === 'Pending'"
                             :disabled="status === 'Finished'"
-                            @click="startGame()"
+                            :to="`/creategame?id=${game_id}`"
                             variant="success"
-                            class="mr-1 mt-3"
+                            class="mr-1 mt-3 text-white"
                             ><i class="material-icons mr-2"
                               >play_circle_filled</i
                             >Starta match</b-button
                           >
                           <b-button
                             v-if="isteamleader && status === 'In progress'"
-                            @click="getScorecard()"
+                           :to="`/scorecard?id=${game_id}`"
                             variant="success"
-                            class="mr-1 mt-3"
+                            class="mr-1 mt-3 text-white"
                             ><i class="material-icons mr-2"
                               >play_circle_filled</i
                             >Öppna scorekortet</b-button
                           >
                           <b-button
                             v-if="status === 'Finished'"
-                            @click="getScorecard()"
+                            :to="`/scorecard?id=${game_id}`"
                             variant="success"
-                            class="mr-1 mt-3"
+                            class="mr-1 mt-3 text-white"
                             ><i class="material-icons mr-2"
                               >play_circle_filled</i
                             >Visa scorekortet</b-button
@@ -918,7 +924,10 @@
               align-h="center"
             >
               <b-col class="col-6 text-center p-0 m-0">
-                <a
+                <router-link               
+                to="/mymatchplay"
+              >Tillbaka</router-link>
+                <a hidden
                   :href="`/mymatchplay`"
                   class="btn btn-light btn-sm mt-3 mr-md-2"
                   >Tillbaka</a
@@ -963,6 +972,7 @@ export default {
     let clubs = [];
 
     return {
+      ninehole: false,
       tabIndex: 0,
       isSaving: false,
       //DATEPICKER
@@ -1372,7 +1382,14 @@ if(timeFormat.test(this.gametime) == false)
       });
 
       this.slingaOptions = parsedLoop;
-      //console.log(this.slingaOptions[0])
+      
+      if (this.slingaOptions.length === 0) {
+        this.ninehole = true;
+        this.loadingCourse = false;
+        this.query = '';
+        return;
+      }
+      this.ninehole = false;
       this.slinga = this.slingaOptions[0].value; //set default
       this.slinganame = this.slingaOptions[0].text; //set default
       //Dölj spinner och visa slingor

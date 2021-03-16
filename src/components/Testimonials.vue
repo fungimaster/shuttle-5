@@ -1,34 +1,54 @@
 <template>
-  <b-container class="justify-content-center">
-    <b-row class="" align-h="center">
-      <b-col
-        class="col-12 mt-5"
-        v-for="(item, index) in testLimited"
-        :key="item.message"
-      >
-        <div class="testimonial justify-content-center">
-          <b-row align-h="center">
-            <b-col class="col-8 col-md-3 pt-0 mb-3 mb-md-0 text-center">
-              <img :src="item.image" />
-            </b-col>
-            <b-col class="col-12 col-md-8 pt-4">
-              <p>"{{item.message}}"</p>
-              - {{item.author}}
-            </b-col>
-          </b-row>
-          <hr class="d-block d-md-none mt-5" v-if="index<number-1 && number>1" />
-        </div>
-      </b-col>
-    </b-row>
+  <b-container class="justify-content-center p-0 m-0">
+
+    <div class="col-12 text-left text-md-left testimonial p-0 m-0">                   
+                  <b-carousel ref="testimonals" id="testimonials" v-model="testimonials_slide" :interval="500000" indicators="">
+                    <div class="carousel-inner text-left">
+                      <div
+                        class="carousel-item"
+                        v-for="(item, index) in testRandom"
+                        :key="item.message"
+                      >
+                        <b-row :id="'slide_'+index" align-h="center">
+                          <b-col class="col-12 col-md-10 col-lg-8 mr-0 ml-0 mb-3 mt-4 mt-md-5">
+                            <div class="card card-testimonial">
+                             <img :src="item.image" class="mb-4" style="margin:0 auto;" />
+                              <div class="card-body p-0">
+                               <p>"{{item.message}}"</p>
+                                - {{item.author}}
+                              </div>
+                            </div>
+                          </b-col>
+                        </b-row>
+                      </div>
+                    </div>
+                  </b-carousel>
+                </div>
+                  <div class="col-12 text-center mb-2">
+                  <b-button variant="primary" @click="prev()">
+                    <i class="fa fa-arrow-left"></i>
+                  </b-button>
+                  <b-button variant="primary" @click="next()">
+                    <i class="fa fa-arrow-right"></i>
+                  </b-button>
+                   <b-button v-if="register" variant="primary" class="text-white" to="/register">
+                  Anmälan
+                  </b-button>
+                </div>
+
   </b-container>
 </template>
 
 <script>
 
 export default {
-  props: ["number"],
+  props: {
+    number:  Number,   
+    register: Boolean
+  },
   data() {
     return {
+       testimonials_slide: 0,
       testimonials: [
          {
          message: 'En tävling som verkligen är värd att deltaga i. Du kommer ut till nya banor och träffar nya människor. Gillar konceptet med bästboll, det är en riktigt rolig spelform, man får en bra lagkänsla! Det digitala scorekortet är ett stort plus, enkelt att använda, resultat direkt och andra kan följa matchen live. Vi spelar gärna i tävlingen igen!',
@@ -49,19 +69,31 @@ export default {
        {
          message: 'Golf är en så pass individuell sport på många sätt, så det är himla kul att få möjlighet att spela med en kompis! Jag kan verkligen rekommendera Matchplay som tävling för alla.',
          author: 'Philip Widmark / Båstad GK',
-         image: 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_200,c_fill,ar_1:1,g_auto,r_max/v1608533894/matchplay/ambassador/philip.jpg'
+         image: 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_200,c_fill,ar_1:1,g_auto,r_max/v1608533894/matchplay/ambassador/philip.png'
        }
     
     ]
     };
   },
   methods: {
-   
+   prev() {
+        this.$refs.testimonals.prev()
+      },
+      next() {
+        this.$refs.testimonals.next()
+      },
+      shuffle(o) {
+        for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+        return o;
+      },
   },
 
   computed: {
     testLimited() {
         return this.testimonials.slice(0, this.number)
+    },
+    testRandom() {
+        return this.shuffle(this.testimonials)
     },
     setCol() {
         if (this.number === 1) {
@@ -75,14 +107,24 @@ export default {
 </script>
 
 
-<style scoped>
+<style lang="scss">
 .testimonial {
-  font-size: 0.9em;
+  font-size: 0.9em; 
+}
+
+.carousel-indicators li {
+  background-color:#999;
 }
 
 .testimonial img {
-  width: 80%;
+  width: 30%;
   height:auto;
+   @media (max-width: 991px) {
+     width: 25%;
+  }
+  @media (max-width: 576px) {
+    width: 50%;
+  }
 }
 
 .testimonial hr {
@@ -92,4 +134,30 @@ export default {
   padding-bottom: 0em;
   margin-top: 1.7em;*/
 }
+
+.card {
+  border:none !important;
+}
+
+.card-testimonial {
+  min-height:400px;
+  font-size:0.9em;
+  color:#333;
+  border:none; 
+   @media (max-width: 991px) {
+          min-height:400px;
+  }
+  @media (max-width: 576px) {   
+    min-height:450px;
+  }
+}
+
+.card {
+  background:transparent;
+}
+
+.card-explainer .fa {
+  font-size:4em;
+}
+
 </style>

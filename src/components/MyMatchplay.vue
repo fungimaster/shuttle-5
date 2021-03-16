@@ -37,7 +37,10 @@
                             <b-alert v-if="showerror" variant="warning" show class="mt-4 small form-text text-muted">Din e-post eller lösenord stämmer inte, försök igen eller återställ ditt lösenord.</b-alert>
                         </b-form>
                         <div class="mt-4">
-                            <small><a href="#" v-on:click="showsendreset = true">Glömt ditt lösenord?</a></small> | <small><a href="/#register">Anmäl dig</a></small>
+                            <small><a href="#" v-on:click="showsendreset = true">Glömt ditt lösenord?</a></small> | <small><router-link
+                v-if="!closed"
+                to="/register"
+              >Anmäl dig</router-link></small>
                         </div>
                     </b-col>
                 </b-row>
@@ -109,7 +112,7 @@
             <b-container v-if="team.step === 0">
                 <b-row hidden align-h="center" v-if="teams.length === 0 || !teams.length">
                     <b-col md="12" class="text-right">
-                        <b-button hidden @click="logoutPrompt" variant="warning" class="mt-3 btn-sm">Logga ut</b-button>
+                        <b-button hidden @click="logoutPrompt" variant="warning" class="mt-3 btn-sm mb-5">Logga ut</b-button>
                     </b-col>
                     <b-col hidden md="12" class="mt-3">
                         <h2 class="teaser-header orange mt-3">Hej {{userdetails.firstname}}</h2>                          
@@ -144,15 +147,15 @@
                 <template v-slot:title>
                 PROFIL
                 </template>
-
+                    
                 <b-container class="mt-4 mt-md-5">                           
                     <b-row hidden>
                         <b-col>
                          <h2 class="teaser-header mt-3">Hej {{userdetails.firstname}}</h2>
                         </b-col>
                     </b-row>                   
-                    <b-row>
-                        <b-col>
+                    <b-row align-h="center">
+                        <b-col sm="10" lg="6" class="mt-3">
                             <h4><strong>Användaruppgifter</strong></h4>
                             <div class="mt-3">
                             <label>Namn:</label>
@@ -161,6 +164,14 @@
                             <div>
                             <label>Golf ID:</label>
                          <span class="d-inline">{{userdetails.golfid}}</span>
+                            </div>
+                            <div>
+                            <label>HCP:</label>
+                         <span class="d-inline"><span v-negativeToPostive:arguments="{hcp: userdetails.hcp}">{{ userdetails.hcp }}</span><i id="hcp_help" href="#" tabindex="0" class="fa fa-question-circle ml-2"></i></span>
+                          <b-popover target="hcp_help" variant="info" triggers="focus" placement="topright">
+                                                <template #title>Information</template>
+                                                  Din aktuella hcp (inhämtad från GIT idag 05.00).
+                                            </b-popover>
                             </div>
                             <div>
                             <label>Email:</label>
@@ -172,47 +183,56 @@
                             </div>
                         </b-col>
                     </b-row>
-                    <b-row v-if="teams.length === 0 || !teams.length && !closed">
-                        <b-col>                            
+                    <b-row align-h="center" v-if="teams.length === 0 || !teams.length && !closed">
+                          <b-col sm="10" lg="6" class="mt-3">                        
                             <b-button variant="primary" class="blue-bg mt-3" @click="create_team('new')">Skapa ett lag</b-button>
                         </b-col>
                     </b-row>
-                     <b-row>
-                        <b-col class="mt-4">
-                              <h4><strong>Utmärkelser & Statistik</strong></h4>
+                     <b-row align-h="center">
+                        <b-col sm="10" lg="6" class="mt-4">
+                              <h4><strong>Troféer & Statistik</strong><i id="stats_help" href="#" tabindex="0" class="fa fa-question-circle ml-2"></i></h4>
+                                <b-popover target="stats_help" variant="info" triggers="focus" placement="topright">
+                                                <template #title>Information</template>
+                                                  Statistik över spelade matcher mm gäller från och med 2020 och framåt.
+                                            </b-popover>
                             <div id="badges" class="badges pt-2 mt-3">
                                  
                                 <!-- Registrerat sig -->
-                                 <i id="registered" class="fas fa-sparkles orange"></i>
-                                 <b-tooltip target="registered" triggers="hover" placement="top">
-                                    Registrerat dig på matchplay.se
-                                </b-tooltip>
+                                 <i id="registered" href="#" tabindex="0" class="fas fa-sparkles orange"></i>
+                                             <b-popover target="registered" variant="success" triggers="focus" placement="topleft">
+                                                <template #title>Trophé</template>
+                                                  Registrerat dig på matchplay.se
+                                            </b-popover>
+                               
 
                                  <!-- Deltagande lag -->
-                                 <i id="numberofteams" v-if="userdetails.numberofteams > 0" class="fas fa-star" v-bind:class="{ gold: userdetails.numberofteams > 2, silver: userdetails.numberofteams === 2,bronze: userdetails.numberofteams === 1 }"></i>
-                                 <b-tooltip target="numberofteams" triggers="hover" placement="top">
-                                    Deltagit med {{userdetails.numberofteams}} lag i tävlingen.
-                                </b-tooltip>    
+                                 <i id="numberofteams" href="#" tabindex="0" v-if="userdetails.numberofteams > 0" class="fas fa-star" v-bind:class="{ gold: userdetails.numberofteams > 2, silver: userdetails.numberofteams === 2,bronze: userdetails.numberofteams === 1 }"></i>
+                                  <b-popover target="numberofteams" variant="success" triggers="focus" placement="topleft">
+                                                <template #title>Trophé</template>
+                                                 Deltagit med {{userdetails.numberofteams}} lag i tävlingen.
+                                            </b-popover>
 
                                  <!-- Ambassador-->                                 
-                                 <i id="ambassador" v-if="userdetails.isambassador" class="fas fa-award gold"></i>
-                                 <b-tooltip target="ambassador" triggers="hover" placement="top">
-                                    Du är en ambassadör för tävlingen! Tack :)
-                                </b-tooltip>    
+                                 <i id="ambassador" href="#" tabindex="0" v-if="userdetails.isambassador" class="fas fa-award gold"></i>
+                                  <b-popover target="ambassador" variant="success" triggers="focus" placement="topleft">
+                                                <template #title>Trophé</template>
+                                                 Du är en ambassadör för tävlingen! Tack :)
+                                            </b-popover>
+                                
 
-                                <b-container hidden class="mt-4">
+                                <b-container class="mt-4">
                                     <b-row align-h="left">                                 
-                                 <b-col class="col-6 col-md-3 text-center p-1">
-                                      <div class="stats p-2" variant="primary">
+                                 <b-col class="col-6 col-md-6 text-center p-1">
+                                      <div class="stats pt-2 pl-2 pr-2 pb-0" variant="primary">
                                         <label class="d-block">Spelade matcher</label>
-                                        <span class="d-inline">0</span>
+                                        <span class="d-inline">{{userdetails.numberofgames}}</span>
                                       </div>
                                  </b-col> 
 
-                                <b-col class="col-6 col-md-3 text-center p-1">
-                                      <div class="stats p-2">
+                                <b-col class="col-6 col-md-6 text-center p-1">
+                                      <div class="stats pt-2 pl-2 pr-2 pb-0">
                                         <label class="d-block">Vunna matcher</label>
-                                        <span class="d-inline">0</span>
+                                        <span class="d-inline">{{userdetails.numberofwins}}</span>
                                       </div>
                                 </b-col> 
                                     </b-row>
@@ -242,34 +262,12 @@
                             
                     
                     <b-row align-h="center" v-if="!showlogin">
-                            <b-col class="mt-4">
+                            <b-col sm="10" lg="6" class="mt-4 text-right">
                                 <hr />
                                  <h4 hidden><strong>Funktioner</strong></h4>
-                    <b-button @click="logoutPrompt" variant="warning" class="btn-sm mt-3">Logga ut</b-button>
+                    <b-button @click="logoutPrompt" variant="warning" class="btn-sm mt-3 mb-5">Logga ut</b-button>
                             </b-col>
-                        </b-row>
-                    <b-row hidden>
-                        <b-col>
-                            <b-card class="mb-2 team">                           
-                            <b-card-text class="mt-0 pt-0 small">
-                                <h3>Tips 1 (Speltid och plats)</h3>
-                                När din match i varje omgång är lottad syns den på denna sidan och är ni lottade som hemmalag, ta så fort som möjligt kontakt med era motståndare för att bestämma spelplats och tid. Det är viktigt att hemmalaget lägger upp tid och plats för matchen så att det blir rätt på resultsidorna på matchplay.se.
-                            </b-card-text>
-                      </b-card>
-                      <b-card class="mb-2 team">                            
-                            <b-card-text class="mt-2 pt-0 small">
-                                 <h3>Tips 2 (Reserv)</h3>
-                                Man ska alltid spela med sitt tänkta lag i första hand. Reserv tas in om någon av de ordinarie medlemmarna blir skadad eller sjuk. Ni behöver bara välj en reserv (från lagsidan) när behov uppstår och golfid väljs in innan matchen startar. Då kan hemmalaget välja denna reserv när matchen startas och hcp-uträkningarna blir rätt.
-                            </b-card-text>
-                      </b-card>    
-                      <b-card class="mb-2 team">                            
-                            <b-card-text class="mt-2 pt-0 small">
-                                 <h3>Tips 3 (Ha kul!)</h3>
-                                Matchspel är en otroligt rolig spelform och med hjälp av vårt digitala scorekort blir det busenkelt att se vilka som vinner resp. hål och leder matchen. Släkt och vänner kan följa matchen från resultatsidan som läggs upp direkt när omgång 1 har lottats. Njut av rundan och må bästa lag vinna!                               
-                            </b-card-text>
-                      </b-card>  
-                        </b-col>
-                    </b-row>
+                        </b-row>                    
                 </b-container>
              </b-tab>
     <b-tab title-link-class="ml-2" @click="saveTabIndex(1)">
@@ -306,6 +304,19 @@
         Forget it
       </b-button>
     </template>
+  </b-modal>
+
+<b-modal ref="my-modal-reminder" hide-footer="">
+    <b-container class="p-1">
+     <b-row>
+       <b-col>       
+             <h2><strong>Påminn din lagkamrat</strong></h2>
+
+
+        </b-col>
+     </b-row>
+    </b-container>
+    <b-button class="mt-3" variant="outline-danger" block @click="hideModal('my-modal-reminder')">Stäng</b-button>
   </b-modal>
 
 <b-modal ref="my-modal" hide-footer="">
@@ -348,7 +359,7 @@
         </b-col>
      </b-row>
     </b-container>
-    <b-button class="mt-3" variant="outline-danger" block @click="hideModal">Stäng</b-button>
+    <b-button class="mt-3" variant="outline-danger" block @click="hideModal('my-modal')">Stäng</b-button>
   </b-modal>
 
 
@@ -374,7 +385,7 @@
                         <b-card class="mb-2 team header">
                             <b-card-title class="mt-2">
                                 <span v-if="team.type === 'Company'" class="pr-2">{{team.teamname}}</span>
-                                <img v-if="team.type === 'Company'" class="mt-2 pt-3 pb-3 mb-4 d-block" :src="`${team.logourl}`">
+                                <img v-if="team.type === 'Company'" class="mt-2 pt-3 pb-3 mb-4 d-block teamimage" :src="getTeamLogo(team.logourl)">
 
                                 <span v-else class="pr-2 mt-2">Ditt lag</span>                                
                                 
@@ -400,10 +411,15 @@
                                 <div v-if="!team.teammembername && team.teammembergolfid" class="pt-0 pb-3">
                                     <span :id="'tooltip-teammember2-' + idx">
                                         <i class="material-icons mr-2 red">error</i><span v-if="!team.teammembername && team.teammembergolfid">{{team.teammembergolfid}}</span>
-                                        <b-tooltip :target="'tooltip-teammember2-' + idx" triggers="hover" placement="top">
+                                        <a @click="showHelpReminder()" class="btn btn-secondary btn-sm text-white mr-md-2 pl-0 pr-0"><i class="fas fa-question ml-1 mr-1 mb-1"></i></a>                                                                            
+                                        <b-tooltip hidden :target="'tooltip-teammember2-' + idx" triggers="hover" placement="top">
                                             Vi väntar på att din lagkamrat ska registera sig på matchplay.se
                                         </b-tooltip>
                                     </span>
+                                     <b-alert v-if="showhelpreminder" show class="small text-left mt-1" variant="info">
+                                            Din medspelare ska ha fått ett mail om att registrera ett konto på matchplay.se för att bli kopplad till detta lag. Har medspelaren av olika anledningar inte fått mailet kan du skicka denna <a target="_blank" :href="`https://www.matchplay.se/register?player=player2&golfid=${team.teammembergolfid}&captain=${team.teamleadername}`">länk</a> som påminnelse.
+                                    </b-alert>
+
                                 </div>
 
                                 <div v-if="!team.teammembername && !team.teammembergolfid" class="pt-0 pb-3">
@@ -431,6 +447,10 @@
                                      <a @click="showHelpReserve()" class="btn btn-secondary btn-sm text-white mr-md-2 pl-0 pr-0"><i class="fas fa-question ml-1 mr-1 mb-1"></i></a>                                     
                                 </div>
 
+                                   <b-alert v-if="showhelpreserve" show class="small text-left" variant="info">
+                                            Om ditt lag har en reserv tillgänglig för spel kan hemmalaget, när ni träffas innan spel, välja denna person i samband med att tee väljs innan matchen startar. En reserv måste bara väljas <strong>om någon av de ord. lagmedlemmarna</strong> får förhinder.
+                                  </b-alert>
+
                                 <div class="pt-0 pb-3">
                                     <span :id="'tooltip-course-' + idx">
                                         <i class="material-icons mr-2">golf_course</i>{{team.coursename}}
@@ -438,25 +458,30 @@
                                             Hemmaklubb för matcher
                                         </b-tooltip>
                                     </span>
-                                    <b-alert show variant="info" v-if="clubcount > 0" class="small mt-3">
-                                            <strong>{{clubcount}}</strong> lag har anmält sig från {{team.coursename}}, välkommen till gänget!
-                                        </b-alert>
-                                         <b-alert show variant="info" v-if="clubcount === 0" class="small mt-3">
-                                            Du är först ut med ett lag från denna klubb, sprid gärna budskapet om tävlingen!
+                                    <div show variant="info" v-if="clubcount > 0" class="small mt-3 mb-0 p-2 m-0">
+                                        <hr class="pt-0 mt-0" />                                        
+                                         <b-img v-if="clublogo" class="mt-1 mt-md-0 mr-3 mb-2 pb-1 float-left" :src="getClubImage(clublogo)"></b-img>
+                                           <p class="mb-0 d-table-cell">{{team.coursename}} representeras just nu av <strong>{{clubcount}}</strong> lag.
+                                           <span v-if="team.paid && clubcount > 1"> Välkommen till gänget!</span>
+                                           <span v-if="team.paid && clubcount < 2"> Sprid gärna budskapet om Matchplay på din klubb!</span>
+                                           <span v-if="!team.paid">({{clubcount+1}} när ert lag är betalt).</span>
+                                           </p>
+                                        </div>
+                                         <b-alert hidden variant="info" v-if="clubcount === 0" class="small mt-3">                                           
+                                             {{clubinfo_first}}
                                         </b-alert>
                                 </div>
 
-                                <div class="pt-0 pb-3" v-if="!team.paid && !team.invoice">
+                                <div class="pt-0 pb-0" v-if="!team.paid && !team.invoice">
                                     <span>
                                         <i class="material-icons">create</i>
-                                        <span class="invitemember" @click="goToStep(team, 1)">Redigera laget</span>
+                                        <span class="invitemember" @click="goToStep(team, 1)">Redigera laget</span>                                        
                                     </span>
+                                    <b-alert v-if="team.type==='Private'" show variant="info" class="small mt-3">
+                                        Glöm inte att du kan utnyttja tävlingsavgiften som friskvårdsbidrag mot din arbetsgivare. Sedan 2020 godkänns golftävlingar som friskvårdsbidrag. Kvitto erhålls efter betalning.
+                                    </b-alert>
                                 </div>
-                                
-
-                                  <b-alert v-if="showhelpreserve" show class="small text-left mt-1" variant="info">
-                                            Om ditt lag har en reserv tillgänglig för spel kan hemmalaget, när ni träffas innan spel, välja denna person i samband med att tee väljs innan matchen startar. En reserv måste bara väljas <strong>om någon av de ord. lagmedlemmarna</strong> får förhinder.
-                                  </b-alert>
+                               
 
                                 <div class="pt-0 pb-0" hidden>
                                     <span :id="'tooltip-nextgame-' + idx">
@@ -511,18 +536,17 @@
 
                 <!-- STEP 1 -->
                 <div v-if="team.step > 0">
-                    <b-container class="mb-4 mb-md-5">
+                    <b-container class="mb-3 mb-md-5">
                         <b-row align-h="center">
                             <b-col md="6">
 
-                                <b-card class="mt-1 mb-1 pt-0" no-body>
+                                <b-card class="mt-0 mb-1 pt-0" no-body>
                                     <b-card-header>
-                                        Ditt lag<span v-if="team.name != ''">: {{team.name}}</span>
-                                        
+                                        Ditt lag<span v-if="team.name != ''">: {{team.name}}</span>                                        
                                         <img class="overview-logo" v-bind:src="team.logo" v-if="team.type === 'Company'" />
                                     </b-card-header>
                                     <b-card-body>
-                                        <b-card-text class="mt-3">
+                                        <b-card-text class="mt-1">
                                             <div hidden class="pt-0 pb-3">
                                                 <span id="tooltip-teamleader">
                                                     <i class="material-icons mr-2">supervised_user_circle</i> {{userdetails.firstname}} {{userdetails.lastname}}<span v-if="team.player_2_name"> & {{team.player_2_name}}</span>
@@ -544,7 +568,7 @@
                                                 </span>
                                             </div>
 
-                                            <div v-if="team.course" class="pt-0 pb-0">
+                                            <div v-if="team.course" class="pt-0 pb-2">
                                                 <span id="tooltip-course">
                                                     <i class="material-icons mr-2">golf_course</i> {{team.course}}
                                                     <b-tooltip target="tooltip-course" triggers="hover" placement="top">
@@ -680,20 +704,27 @@
                         <!-- Course -->
                         <b-row align-h="center">
                             <b-col md="6">
-                                <b-form-group class="mb-5" v-if="team.type != null && !team.is_readonly">
-                                    <label for="query">Välj hemmaklubb för matcher<i v-b-popover.hover.top="'Välj klubben du är medlem i eller som ligger nära där du bor eller tänkt spela dina matcher på.'" title="Hjälp" class="help material-icons mr-2">help_outline</i></label>
+                                <b-form-group class="mb-1" v-if="team.type != null && !team.is_readonly">
+                                    <label for="query">Välj hemmaklubb för matcher<i v-b-popover.hover.top="'Välj klubben du är medlem i eller som ligger nära där du bor eller tänkt spela dina matcher på. OBS! 9-hålsbanor kan anges som hemmabana men endast 18-hålsbanor kan användas när tävlingen startar och matcher ska avgöras.'" title="Hjälp" class="help material-icons mr-2">help_outline</i></label>
                                     <suggestions v-model="query" id="query" :options="options" :onInputChange="onCountryInputChange" required :onItemSelected="onSearchItemSelected" style="width:100%;">
                                         <div slot="item" slot-scope="props" class="single-item">
                                             <span class="name">{{props.item.title}}</span>
                                         </div>
                                     </suggestions>
+                                     <b-alert small show v-if="ninehole" variant="danger" class="mt-3 small">
+                                        Denna klubb kan anges som din hemmaklubb men era hemmamatcher måste spelas på en 18-hålsbana! 2 varv på en 9-hålsbana är inte giltigt i tävlingen.
+                                     </b-alert>
                                     <b-form-input hidden id="clubid" v-model="team.clubid" readonly placeholder="Id på klubben">
                                     </b-form-input>
-                                    <b-alert show variant="info" v-if="query !== '' && clubcount > 0" class="small mt-3">
-                                        <strong>{{clubcount}}</strong> lag har anmält sig från {{query}}, välkommen till gänget!
-                                    </b-alert>
-                                     <b-alert show variant="info" v-if="query !== '' && clubcount === 0" class="small mt-3">
-                                        Du är först ut med ett lag från denna klubb, sprid gärna budskapet om tävlingen!
+                                    <div show variant="info" v-if="query !== '' && clubcount > 0" class="small mt-3 mb-0 m-0 p-3">
+                                                                           
+                                         <b-img v-if="clublogo" class="mt-1 mr-3 mb-2 pb-0 float-left" :src="getClubImage(clublogo)"></b-img>
+                                        <p class="mb-0 d-table-cell">{{query}} representeras just nu av <strong>{{clubcount}}</strong> lag.
+                                         ({{clubcount+1}} när ert lag är betalt).
+                                        </p>
+                                    </div>
+                                     <b-alert hidden variant="info" v-if="query !== '' && clubcount === 0" class="small mt-3">                                                                                 
+                                        {{clubinfo_first}}
                                      </b-alert>
                                 </b-form-group>
                             </b-col>
@@ -701,12 +732,12 @@
 
                         <!-- NEXT STATE -->
                         <b-row align-h="center">
-                            <b-col md="6">                                
-                                <b-button @click.prevent="cancel_team()" variant="light"><i class="material-icons">arrow_back_ios</i>Tillbaka</b-button>
-                                <b-button v-if="!team.teammembergolfid" :disabled="team.clubid === ''" class="mt-0 mt-sm-0 float-right" @click.prevent="next()" variant="success">
-                                    <b-spinner v-if="showloginspinner" small type="grow" class="mr-2"></b-spinner>Välj lagkamrat<i class="ml-2 material-icons">arrow_forward_ios</i>
+                            <b-col md="6" class="mb-4 mt-3">                                
+                                <b-button @click.prevent="cancel_team()" size="sm" variant="light"><i class="material-icons">arrow_back_ios</i>Tillbaka</b-button>
+                                <b-button v-if="!team.teammembergolfid" :disabled="team.clubid === ''" size="sm" class="mt-0 mt-sm-0 float-right" @click.prevent="next()" variant="success">
+                                    <b-spinner v-if="showloginspinner" size="sm" small type="grow" class="mr-2"></b-spinner>Välj lagkamrat<i class="ml-2 material-icons">arrow_forward_ios</i>
                                 </b-button>
-                                 <b-button v-if="team.teammembergolfid" class="mt-0 mt-sm-0 float-right" @click.prevent="update_team()" variant="success">
+                                 <b-button v-if="team.teammembergolfid" size="sm" class="mt-0 mt-sm-0 float-right" @click.prevent="update_team()" variant="success">
                                     <b-spinner v-if="showloginspinner" small type="grow" class="mr-2"></b-spinner>Spara<i class="ml-2 material-icons">save</i>
                                 </b-button>
                             </b-col>
@@ -725,7 +756,7 @@
 
                         <b-row v-if="!team.completemode" align-h="center">
                             <b-col md="6" class="text-center mb-3">
-                                <b-button @click.prevent="skipStep()" variant="success">
+                                <b-button @click.prevent="skipStep()" variant="success" size="sm">
                                     Jag vill bjuda in en lagkamrat senare<i class="ml-2 material-icons mr-2">arrow_forward_ios</i>
                                 </b-button>
                             </b-col>
@@ -829,6 +860,7 @@
                                 <b-form-group fluid class="mb-3" v-if="team.payment === 'A'">
                                     <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_150/v1575278258/matchplay/swish.png" alt="swish"></b-img>
                                     <span v-if="team.type==='Private'">{{team.price_private}} SEK</span>
+                                    <span class="d-block small mb-1 text-right red" v-if="team.pricereduc > 0">Du har fått {{team.pricereduc}} kr rabatt!</span>
 
                                     <vue-tel-input v-model="team.swish.mobile" v-bind="bindProps"></vue-tel-input>
 
@@ -848,7 +880,7 @@
                                     <span v-if="team.type==='Company' && !team.company_big">{{team.price_company}} SEK (exkl. moms)</span>
                                     <span v-if="team.type==='Company' && team.company_big">{{team.price_company2}} SEK (exkl. moms)</span>
                                     <b-alert show v-if="!team.company_big" variant="warning" class="small">
-                                        Är du säker på att du inte vill ha vårt pluspaket för {{team.price_company2}}:- där nätverksträff ingår i slutet av augusti med golf, bankett och övernattning för 2 personer?
+                                        Är du säker på att du inte vill ha vårt pluspaket för {{team.price_company2}}:- (totalpris) där nätverksträff ingår i slutet av augusti med golf, bankett och övernattning för 2 personer?
                                         <b-form-checkbox
       id="checkbox-2"
       v-model="team.company_big"
@@ -960,7 +992,7 @@
 
   <b-container>                           
             <b-row v-if="games.length === 0 || !games.length" align-h="center">
-                <b-col>
+                <b-col sm="10" lg="6">
 
                     <p class="text-center mt-2 mb-3"><i class="far fa-robot fa-3x"></i></p>                             
                        <div v-if="teamscount>0">
@@ -973,7 +1005,25 @@
                        </div>
                        <div v-else>
                            <p>Så fort du skapat ett lag och betalat det kommer ditt lags kommande matcher visas här.</p>
-                       </div>                   
+                       </div>  
+
+<hr />
+                       <div class="mb-5">
+                           <h2 class="mt-4 mb-3">Nyttig information</h2>
+                           <p>I väntan på tävlingsstart har vi samlat lite nyttig information för att göra tävlingen ännu enklare och roligare.</p>
+                            
+                                <h3 class="mt-4">Tips 1 (Speltid och plats)</h3>
+                                När din match i varje omgång är lottad syns den på denna sidan och är ni lottade som hemmalag, ta så fort som möjligt kontakt med era motståndare för att bestämma spelplats och tid. Det är viktigt att hemmalaget lägger upp tid och plats för matchen så att det blir rätt på resultsidorna på matchplay.se.
+                            
+                     
+                                 <h3 class="mt-4">Tips 2 (Reserv)</h3>
+                                Man ska alltid spela med sitt tänkta lag i första hand. Reserv tas in om någon av de ordinarie medlemmarna blir skadad eller sjuk. Ni behöver bara välj en reserv (från lagsidan) när behov uppstår och golfid väljs in innan matchen startar. Då kan hemmalaget välja denna reserv när matchen startas och hcp-uträkningarna blir rätt.
+                           
+                      
+                                 <h3 class="mt-4">Tips 3 (Ha kul!)</h3>
+                                Matchspel är en otroligt rolig spelform och med hjälp av vårt digitala scorekort blir det busenkelt att se vilka som vinner resp. hål och leder matchen. Släkt och vänner kan följa matchen från resultatsidan som läggs upp direkt när omgång 1 har lottats. Njut av rundan och må bästa lag vinna!                               
+                          
+                       </div>                 
                                 
                 </b-col>
             </b-row>
@@ -983,7 +1033,7 @@
         <b-col sm="10" lg="6" class="team pl-2 pr-2 pb-2 mt-2 mt-md-4 pt-0 pt-md-3" v-for="(game,idx2) in this.games" :key="idx2">
                 
              <b-card class="mb-4 team header">                            
-                            <b-card-text class="mt-0">                               
+                            <b-card-text class="mt-0 card-text-team">                               
                                  <h2 class="mt-1 mb-3 pb-0 pt-1">{{game.roundname}}</h2>                                 
                                   <div class="pt-0 pb-2 mt-0">                                               
                                         <span hidden>
@@ -1008,7 +1058,7 @@
                                            
                                         </span>
 
-                                        <div class="mt-2 mb-0 text-right" :class="{ 'winner': game.winner && game.awayteam === game.winner, 'loser': game.winner && game.hometeam === game.winner}">
+                                        <div class="mt-0 mb-0 text-right" :class="{ 'winner': game.winner && game.awayteam === game.winner, 'loser': game.winner && game.hometeam === game.winner}">
                                            <strong>BORTALAG</strong><br>
                                            <span>{{game.awayteamleadername}}</span> & <span>{{game.awayteammembername}}</span><br>                                        
                                              <span v-if="game.awayteamcoursename">{{game.awayteamcoursename}}</span>
@@ -1096,7 +1146,7 @@
 
                                    
 
-                                    <div class="pt-0 pb-3 mt-0" v-if="game.status !== 'Finished' && game.gamedate">                                               
+                                    <div class="pt-0 pb-0 mt-0 mb-2" v-if="game.status !== 'Finished' && game.gamedate">                                               
                                         <span >
                                             <div>
                                             <i class="fas fa-calendar-week mr-1 mb-1" style="float:left;"></i>
@@ -1129,12 +1179,19 @@
                              <template v-slot:footer> 
                                  <b-container class="m-0 p-0">
                                      <b-row>
-                                         <b-col class="col-6 text-left">
-                                              <a :href="`/game?id=${game._id}`" class="btn btn-success btn-sm text-white mr-md-2">Visa match</a>
-                                        <a hidden :href="`/livegame?id=${game._id}`" class="btn btn-info btn-sm text-white mr-md-2">Följ match</a>                                        
+                                         <b-col class="col-8 text-left">
+                                              <a hidden :href="`/game?id=${game._id}`" class="btn btn-success btn-md text-white mr-md-2">Visa match</a>
+                                              <router-link class="btn btn-success btn-md text-white mr-md-2" v-bind:to="`/game?id=${game._id}`">Visa match</router-link>
+                                        <a hidden :href="`/livegame?id=${game._id}`" class="btn btn-info btn-md text-white mr-md-2">Följ match</a>                                        
                                          </b-col>                                                            
-                                         <b-col v-if="game.status !== 'Finished'" class="col-6 text-right">
-                                             <a @click="showHelpGame()" class="btn btn-secondary btn-sm text-white"><i class="fas fa-question mb-1"></i></a>
+                                         <b-col v-if="game.status !== 'Finished'" class="col-4 text-right">
+                                             <a hidden @click="showHelpGame()" class="btn btn-secondary btn-md text-white"><i class="fas fa-question mb-1"></i></a>
+                                           
+                                             <b-button id="popover-help-game" href="#" tabindex="0" class="btn btn-secondary btn-md text-white"><i class="fas fa-question mb-1"></i></b-button>
+                                             <b-popover target="popover-help-game" variant="light" triggers="focus" placement="topleft">
+                                                <template #title>Information</template>
+                                                 Klicka på visa match för att se kontaktuppgifter till lagkaptenen i laget ni ska möta. Bestäm datum och tid för matchen (hemmalaget bestämmer bana) och boka tid genom t.ex Min Golf Bokning.
+                                            </b-popover>
                                          </b-col>
                                      </b-row>
                                      <b-row v-if="showhelpgame">
@@ -1198,6 +1255,28 @@ export default {
         VueTelInput
         //'c-map':Map
     },
+     directives: {
+		 negativeToPostive: {
+        bind(el, bind) {
+          let number = parseFloat(bind.value.hcp);
+
+          if (number > 0) {
+            return;
+          }
+          el.innerHTML = "+" + number * -1;
+        },
+        update(el, bind) {
+          let number = parseFloat(bind.value.hcp);
+
+          if (number > 0) {
+            el.innerHTML = number;
+            return
+          }
+          el.innerHTML = "+" + number * -1;
+        },
+        unbind: function () {},
+      },
+		},
     watch: {
         '$route'(to, from) {
             if (to.path != from.path) {
@@ -1211,6 +1290,8 @@ export default {
         let clubs = [];
         let countries = ['Afghanistan', 'Åland Islands', 'Albania', 'Algeria', 'American Samoa', 'AndorrA', 'Angola', 'Anguilla', 'Antarctica', 'Antigua and Barbuda', 'Argentina', 'Armenia', 'Aruba', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bermuda', 'Bhutan', 'Bolivia', 'Bosnia and Herzegovina', 'Botswana', 'Bouvet Island', 'Brazil', 'British Indian Ocean Territory', 'Brunei Darussalam', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Cape Verde', 'Cayman Islands', 'Central African Republic', 'Chad', 'Chile', 'China', 'Christmas Island', 'Cocos (Keeling) Islands', 'Colombia', 'Comoros', 'Congo', 'Congo, The Democratic Republic of the', 'Cook Islands', 'Costa Rica', 'Cote D\'Ivoire', 'Croatia', 'Cuba', 'Cyprus', 'Czech Republic', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic', 'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Eritrea', 'Estonia', 'Ethiopia', 'Falkland Islands (Malvinas)', 'Faroe Islands', 'Fiji', 'Finland', 'France', 'French Guiana', 'French Polynesia', 'French Southern Territories', 'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana', 'Gibraltar', 'Greece', 'Greenland', 'Grenada', 'Guadeloupe', 'Guam', 'Guatemala', 'Guernsey', 'Guinea', 'Guinea-Bissau', 'Guyana', 'Haiti', 'Heard Island and Mcdonald Islands', 'Holy See (Vatican City State)', 'Honduras', 'Hong Kong', 'Hungary', 'Iceland', 'India'];
         return {    
+            ninehole: false,
+            clubinfo_first: 'Du är först ut med ett lag från denna klubb, sprid gärna budskapet om tävlingen på din klubb! Lottning sker mot lag från andra klubbar nära vald klubb för att minimera avstånden och ge er nya golfupplevelser.',
             choosereserve: false,
             closed: false,       
             tabIndex: 0,
@@ -1219,6 +1300,7 @@ export default {
             gamescount:0,
             showhelpgame: false,
             showhelpreserve: false,
+            showhelpreminder: false,
              //POLL
             poll: {
                 pollid: '',
@@ -1321,6 +1403,7 @@ export default {
             showspinner_voucher: false,
             showspinner_invoice: false,
             clubcount: null,
+            clublogo: null,
             teamoptions: [{
                     value: null,
                     text: 'Vänligen välj ett alternativ'
@@ -1454,7 +1537,8 @@ export default {
                     ],
                 },               
                 _id: '',
-                price_private: globalState.price1,
+                price_private: globalState.price1, 
+                pricereduc: 0,               
                 price_company: globalState.price2,
                 price_company2: globalState.price3,
                 company_big: false,
@@ -1505,8 +1589,11 @@ export default {
                 mobile: '',
                 email: '',
                 numberofteams: 0,
+                numberofwins: 0,
+                numberofgames: 0,
                 golfid: '',
-                isambassador: false
+                hcp: '',
+                isambassador: false,                
             },
             form: {
                 email: '',
@@ -1641,6 +1728,15 @@ export default {
   
     mixins: [tagsMixin],
     methods: {
+           getClubImage(logourl) {      
+            return 'https://res.cloudinary.com/dn3hzwewp/image/upload/h_50,q_100,c_scale/' + logourl;
+        },
+        getTeamLogo(logourl) {
+            if (logourl) {
+                var first_url = logourl.split("/upload/").pop();        
+                return 'https://res.cloudinary.com/dn3hzwewp/image/upload/h_40,q_80,c_scale/' + first_url;  
+            }
+        },
                 compareValues(key, order = 'asc') {
   return function innerSort(a, b) {
     if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
@@ -1756,9 +1852,14 @@ export default {
         })
         .then((response) => {
           if (response.data.length > 0) { 
-            this.clubcount = response.data[0].count;         
+            this.clubcount = response.data[0].count;
+            if (response.data[0].hasOwnProperty('logourl')) {                
+                this.clublogo = response.data[0].logourl; 
+            }
+            
           } else {
               this.clubcount = 0;
+              this.clublogo = null;
           }
          
         })
@@ -1783,7 +1884,11 @@ export default {
           this.showhelpreserve = false;         
         } else this.showhelpreserve = true;
         },
-
+ showHelpReminder: function(){
+                if (this.showhelpreminder) {
+          this.showhelpreminder = false;         
+        } else this.showhelpreminder = true;
+        },
           showHelpGame: function(){
                 if (this.showhelpgame) {
           this.showhelpgame = false;         
@@ -1827,7 +1932,7 @@ export default {
 
                         if (response.data.status === 'ok') {
                            //console.log('success')                        
-                           this.hideModal();
+                           this.hideModal('my-modal');
                            location.reload();
 
                         }
@@ -1839,6 +1944,10 @@ export default {
 
             
          },
+            showModalReminder() {
+        
+        this.$refs['my-modal-reminder'].show()
+      },
          showModal(id) {
           // console.log(id)
             this.team._id = id;
@@ -1855,8 +1964,8 @@ export default {
         this.$refs['my-modal'].show()
       },
 
-          hideModal() {
-        this.$refs['my-modal'].hide()
+          hideModal(ref) {
+        this.$refs[ref].hide()
       },
         getFirstname: function(name) {
             if (!name) return;       
@@ -2666,10 +2775,17 @@ export default {
         },
         onSearchItemSelected(item) {
 
+            this.ninehole = false;
             this.selectedSearchItem = item.title;
             this.query = item.title;
             this.team.clubid = item._id;
             this.team.course = item.title;
+            if (item.hasOwnProperty('isnineholes')) {
+                if (item.isnineholes){
+                    this.ninehole = true;               
+                }                
+            }
+
 
             var x = document.getElementsByClassName("course");
             var i;
@@ -3117,6 +3233,7 @@ export default {
                     this.$username = this.userdetails.firstname;
                     this.userdetails.numberofteams = userinfo.numberofteams;
                     this.userdetails.golfid = userinfo.golfid;
+                    this.userdetails.hcp = userinfo.hcp;
                     this.userdetails.email = userinfo.email;
                     this.userdetails.mobile = userinfo.mobile;
                     this.team.swish.mobile = userinfo.mobile;
@@ -3125,6 +3242,14 @@ export default {
                     } else {
                         this.userdetails.isambassador = false;
                     }
+                   
+                    if (userinfo.hasOwnProperty('numberofgames')) {
+                        this.userdetails.numberofgames = userinfo.numberofgames;
+                    } 
+
+                    if (userinfo.hasOwnProperty('numberofwins')) {
+                        this.userdetails.numberofwins = userinfo.numberofwins;
+                    } 
 
                     this.games = [];
                     let games = [];
@@ -3226,8 +3351,15 @@ export default {
         //window.scrollTo(0, 0);
     },
     created() {
-
-
+                
+        if (localStorage.getItem('sponsor')) {
+            if (localStorage.getItem('sponsor') === 'gm') {
+                this.team.pricereduc = 50;            
+            } else {
+                this.team.pricereduc = 0;
+            }
+            this.team.price_private =  this.team.price_private-this.team.pricereduc;
+        }
       
        this.$store.dispatch("tryAutoLogin").then(() => {
             if (this.isAuthenticated) {
@@ -3270,11 +3402,19 @@ export default {
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
 
+.card-body {
+    padding-bottom:0px !important;
+}
+
+.card-text-team {
+    font-size:0.90em;
+}
+
 .stats {
-     background: lighten($blue, 5%);
+    // background: lighten($blue, 5%);
     border-radius:0.2em;
-    color:#FFF;
-    border: 1px solid darken($blue, 3%);
+    color:#333;
+    border: 1px solid darken(#999, 3%);
 }
 
 .stats label {
@@ -3294,6 +3434,7 @@ h2 {
 .badges i {
     font-size:2.3em;
     margin-right:0.1em;
+    outline: none;
 }
 .gold {
     color:#DAA520;
@@ -3311,11 +3452,10 @@ h2.teaser-header {
     font-size:1.4em !important;
 }
 
-.team img {
+.teamimage {
     border:1px solid grey;
     background:#FFF;
-    padding:0.5em;
-    height:100px;
+    padding:0.5em;    
 }
 
 .card-body {

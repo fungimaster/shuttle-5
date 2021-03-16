@@ -1,7 +1,10 @@
 <template>
 <b-container class="justify-content-center">
     <b-row align-h="center">
-        <b-col class="col-12 col-md-12 pl-0 pr-0">
+      <b-col v-if="podiumspinner" class="text-center col-12">
+        <b-spinner big type="grow" class="m-3" style="width: 5rem; height: 5rem;"></b-spinner>
+      </b-col>
+        <b-col class="col-12 col-md-12 pl-0 pr-0">          
 
               <b-container class="justify-content-center">
                 <b-row v-for="(club,idx) in clubsLimited" :key="idx" align-h="center" class="justify-content-center align-self-center">
@@ -13,7 +16,7 @@
 
                 </b-col>
                  <b-col
-                    class="col-12 col-md-7 pl-0 pr-0 pb-4 pb-md-3"                    
+                    class="col-12 col-md-7 pl-0 pr-0 pb-4 pb-md-3 mt-md-3 mt-0"                    
                 >                
                 <b-progress height="1.4rem" :value="club.count" :max="topclub" show-value animated variant="success"></b-progress>
                 
@@ -39,8 +42,8 @@
             </b-container>
         </b-col>
         <b-col v-if="!number" class="col-12 pl-0 pt-3">
-             <b-button size="sm" v-on:click="getTopListClubs(clubcount+5)" variant="primary">Se fler klubbar<b-spinner v-if="loadingclubs" small type="grow" class="ml-1 pl-0"></b-spinner></b-button>
-             <b-button size="sm" v-if="clubcount > 10" v-on:click="getTopListClubs(10)" variant="warning">Nollställ</b-button>
+             <b-button size="sm" v-on:click="getTopListClubs(clubcount+5,false)" variant="primary">Se fler klubbar<b-spinner v-if="loadingclubs" small type="grow" class="ml-1 pl-0"></b-spinner></b-button>
+             <b-button size="sm" v-if="clubcount > 10" v-on:click="getTopListClubs(10,true)" variant="warning">Nollställ</b-button>
         </b-col>
     </b-row>
 </b-container>
@@ -58,11 +61,12 @@ export default {
         clubno: 0,
         topclub: 0,
         clubcount: 10,
-        loadingclubs: true
+        loadingclubs: true,
+        podiumspinner: true
     };
   },
   created() {
-    this.getTopListClubs(this.clubcount);
+    this.getTopListClubs(this.clubcount,false);
   },
   computed: {
     progress1: function (count) {
@@ -71,7 +75,7 @@ export default {
   },
   methods: {
      getClubImage(logourl) {
-            return 'https://res.cloudinary.com/dn3hzwewp/image/upload/h_40,c_scale,q_80/' + logourl;
+            return 'https://res.cloudinary.com/dn3hzwewp/image/upload/h_40,q_100,c_fill,ar_1:1,g_auto/' + logourl;
         },
       progress(count) {        
         return count/this.topclub;
@@ -81,7 +85,13 @@ export default {
       if (club.length > len) return club.substring(0, len) + "...";
       else return club;
     },
-       getTopListClubs(number) {    
+       getTopListClubs(number,reset) {
+
+         if(reset) {
+            //var elmnt = this.$refs["podium2"];
+            var elmnt = document.getElementById("podium2");            
+            elmnt.scrollIntoView();
+         }
       this.loadingclubs = true;  
       this.clubcount = number;
       this.axios
@@ -94,6 +104,7 @@ export default {
           this.clubs = response.data;
           this.topclub = this.clubs[0].count;
           this.loadingclubs = false;
+          this.podiumspinner = false;
         })
         .catch((error) => {
           console.log(error);

@@ -148,6 +148,23 @@ strong {
   font-family: "Eurostile LT Std Bold";
 }
 
+.jumbotron {
+  border-radius: 0;
+  background: #F5F5F5;
+}
+
+.jumbotron.gradient {
+    border-radius: 0;
+  color:#FFF;
+background: rgb(51,116,182);
+background: linear-gradient(49deg, rgba(51,116,182,1) 0%, rgba(47,47,47,1) 100%);  
+}
+
+.jumbotron.white {
+    border-radius: 0;
+  background-color: #fff;
+}
+
 .pink {
   color: $pink !important;
 }
@@ -199,10 +216,10 @@ h5,
 h1 {
   color: $orange;
   @media (max-width: 767px) {
-    font-size: 1.6rem !important;
+    font-size: 1.65rem !important;
   }
   @media (max-width: 576px) {
-    font-size: 1.4rem !important;
+    font-size: 1.45rem !important;
   }
 }
 h2 {
@@ -215,7 +232,7 @@ h2 {
 }
 h3 {
   @media (max-width: 767px) {
-    font-size: 1.2rem !important;
+    font-size: 1.3rem !important;
   }
   @media (max-width: 576px) {
     font-size: 1.1rem !important;
@@ -266,6 +283,67 @@ a.text-white {
   padding: 20px;
 }
 
+
+.pulse-button {
+    position: relative;
+    /*width: 100px;
+  height: 100px;*/
+	overflow:hidden;
+    //border: none;
+    box-shadow: 0 0 0 0 rgba(0, 123, 255, 1);
+    background-color: $blue;
+    background-size: cover;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    -webkit-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+    -moz-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+    -ms-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+    animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+}
+
+.pulse-button:hover {
+    -webkit-animation: none;
+    -moz-animation: none;
+    -ms-animation: none;
+    animation: none;
+}
+
+@keyframes spinner-grow {
+ 0% {
+      -webkit-transform: scale(0);
+      transform: scale(0);
+ }
+ 50% {
+     opacity: 1; 
+     -webkit-transform: scale(1);
+      transform: scale(1);
+ }
+}
+
+@-webkit-keyframes pulse {
+    to {
+        box-shadow: 0 0 0 15px rgba(232, 76, 61, 0);
+    }
+}
+
+@-moz-keyframes pulse {
+    to {
+        box-shadow: 0 0 0 15px rgba(232, 76, 61, 0);
+    }
+}
+
+@-ms-keyframes pulse {
+    to {
+        box-shadow: 0 0 0 15px rgba(232, 76, 61, 0);
+    }
+}
+
+@keyframes pulse {
+    to {
+        box-shadow: 0 0 0 15px rgba(232, 76, 61, 0);
+    }
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   /* display: none; <- Crashes Chrome on hover */
@@ -305,9 +383,14 @@ a.nav-link {
 a.router-link-exact-active {
   fill: $blue !important;
 }
+
+a.btn.router-link-active {
+  color: #FFF !important;
+}
 a.router-link-active {
   color: $blue !important;
 }
+
 /*================ MENU END ===============*/
 /*================ TAGS ===============*/
 .tags-container .select {

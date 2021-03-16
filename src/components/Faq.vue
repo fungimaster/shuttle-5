@@ -14,9 +14,11 @@
 			</b-container>
 		</div>
 
+
+
 		<b-container>
 			<b-row>
-				<b-col xl="1"></b-col>
+				
 				<b-col class="mt-5 col-12">
 					Nedan finner du all information om tävlingen samt ett antal snabblänkar till de viktigaste punkterna. Hittar du inte vad du söker efter så kontakta oss på
 					<a
@@ -31,34 +33,52 @@
 				<b-col class="mt-5 col-12">
 					<div class="mt-3 icons-container text-center">
 						<a href="#2" class>
-							<i class="material-icons">assignment_turned_in</i>
+							<i hidden class="material-icons">assignment_turned_in</i>
+							<i class="fa fa-clipboard-check"></i>
 							<p>Anmälan</p>
 						</a>
 						<a href="#3" class>
-							<i class="material-icons">attach_money</i>
+							<i hidden class="material-icons">attach_money</i>
+							<i class="fa fa-dollar-sign"></i>
 							<p>BETALNING</p>
 						</a>
 						<a href="#4" class>
-							<i class="material-icons">people_alt</i>
+							<i hidden class="material-icons">people_alt</i>
+							<i class="fa fa-user-friends"></i>
 							<p>LAG</p>
 						</a>
 						<a href="#5" class>
-							<i class="material-icons">child_care</i>
+							<i hidden class="material-icons">child_care</i>
+							<i class="fa fa-baby"></i>
 							<p>ÅLDERSGRÄNS</p>
 						</a>
 						<a href="#6" class>
-							<i class="material-icons">sports_golf</i>
+							<i hidden class="material-icons">sports_golf</i>
+							<i class="fa fa-golf-ball"></i>
 							<p>HANDICAP</p>
 						</a>
 						<a href="#10" class>
-							<i class="material-icons">ballot</i>
+							<i hidden class="material-icons">ballot</i>
+							<i class="fa fa-ballot"></i>
 							<p>Lottning</p>
 						</a>
 						<a href="#19" class>
-							<i class="material-icons">accessible</i>
+							<i hidden class="material-icons">accessible</i>
+							<i class="fa fa-wheelchair"></i>
 							<p>HJÄLPMEDEL</p>
 						</a>
 					</div>
+				</b-col>
+			</b-row>
+		</b-container>
+
+<howitworks></howitworks>
+
+<b-container>
+<b-row>
+				
+				<b-col class="mt-3 col-12">
+					
 
 <div class="section first" id="1">
 						<h3>LÖPANDE INFO</h3>
@@ -181,6 +201,10 @@ Vid omstart hål 1 (alt. Hål 10) så gäller det att det finns plats såklart. 
 							<h3 class="pt-5">14. MATCHRAPPORTERING</h3>
 							<p>Det är obligatoriskt att använda vårt digitala scorekort för att rapportera matchresultat. Hemmalag (kapten eller medspelare) väljer klubb/slinga/tee när matchen ska starta, rätt slope räknas ut och matchplays regler för hcp räknas ut automatiskt. Ni rapporterar in hål för hål enkelt och ser vilket lag som vinner/förlorar/delar resp. hål. Resultatet laddas kontinuerligt upp direkt till hemsidan och matchen ligger live (för andra att följa). När matchen är avgjord visas detta i det digitala scorekortet och ni skickar in resultatet. Vinnarna får meddelande när nästa lottning är gjord (ev. förlorarna också i andra chansen).</p>
 							<p>Herrar spelar på vald klubbs herrtee och damer spelar på vald klubbs damtee.</p>
+							<p class="text-center mt-4">
+							<b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1612601969/matchplay/scorekort2.png"></b-img>
+							<b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload//v1612601969/matchplay/scorekort1.png"></b-img>
+							</p>
 						</div>
 
 						<div class="section" id="15">
@@ -247,7 +271,7 @@ Vid omstart hål 1 (alt. Hål 10) så gäller det att det finns plats såklart. 
 						</div>
 					</div>
 				</b-col>
-				<b-col xl="1"></b-col>
+				
 			</b-row>
 		</b-container>
 	</div>
@@ -256,9 +280,13 @@ Vid omstart hål 1 (alt. Hål 10) så gäller det att det finns plats såklart. 
 <script>
   import {tagsMixin} from '../mixins/tagsMixin';
   import { globalState } from "../main.js";
+  import Howitworks from "./Howitworks";
 
   export default {
-    name: 'faq',
+	name: 'faq',
+	  components: {
+   Howitworks
+  },
     data () {
       return {
 	  closed:false,
@@ -278,7 +306,7 @@ Vid omstart hål 1 (alt. Hål 10) så gäller det att det finns plats såklart. 
 	@import "../styles/variables.scss";
 
 	.hero {
-		background: url("https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_2390/v1572963227/matchplay/matchplay_bg.jpg");
+		background: url("https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70/v1572963227/matchplay/matchplay_bg.jpg");
 
 		background-repeat: no-repeat;
 		/*background-position: bottom 30% right 0;*/
@@ -353,7 +381,7 @@ Vid omstart hål 1 (alt. Hål 10) så gäller det att det finns plats såklart. 
 		font-size: 0.7rem !important;
 		padding-top: 10px;
 	}
-	.icons-container i.material-icons {
+	.icons-container i.material-icons, .icons-container i.fa {
 		font-size: 35px;
 		color: white;
 		position: relative;

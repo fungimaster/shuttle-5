@@ -13,7 +13,7 @@
 						</b-row>
 						<b-row>
 							<b-col cols="4" class="explanation">
-								<p>Exakt Hcp</p>
+								<p>Exakt hcp</p>
 							</b-col>
 							<b-col v-for="hcp in hcpUnmutated" :key="hcp.index" cols="2" class="playerData">
 								<p v-negativeToPostive>{{ hcp }}</p>
@@ -21,7 +21,7 @@
 						</b-row>
 						<b-row>
 							<b-col cols="4" class="explanation">
-								<p>Max 28 Hcp per team</p>
+								<p>Max 28 hcp per team</p>
 							</b-col>
 							<b-col v-for="player in players" :key="player.index" cols="2" class="playerData">
 								<p v-negativeToPostive>
@@ -46,7 +46,7 @@
 						</b-row>
 						<b-row>
 							<b-col cols="4" class="explanation">
-								<p>Slope Hcp</p>
+								<p>Slope hcp</p>
 							</b-col>
 							<b-col
 								v-for="hcpslope in slopeHandicapList"
@@ -59,7 +59,7 @@
 						</b-row>
 						<b-row>
 							<b-col cols="4" class="explanation">
-								<p>10% reducering</p>
+								<p>10% reduc.</p>
 							</b-col>
 							<b-col
 								v-for="hcpslope in slopeHandicapList"
@@ -74,11 +74,11 @@
 						<b-row>
 							<b-col cols="4" class="explanation">
 								<p v-if="slopeHandicapList[getIndexOfLowest] * 1.1 < 0">
-									Nolla lägsta hcp ({{(Math.round((slopeHandicapList[getIndexOfLowest] * 1.1)*10)/10)*-1}}), lägg till  {{(Math.round((slopeHandicapList[getIndexOfLowest] * 1.1)*10)/10) *-1}} på övriga 
-									  och avrunda till närmsta heltal
+									Nolla lägst hcp ({{(Math.round((slopeHandicapList[getIndexOfLowest] * 1.1)*10)/10)*-1}}), lägg till  {{(Math.round((slopeHandicapList[getIndexOfLowest] * 1.1)*10)/10) *-1}} på övriga 
+									  och avr. till heltal
 								</p>
 								<p v-else>
-									Nolla lägsta hcp ({{(Math.round((slopeHandicapList[getIndexOfLowest] * 0.9)*10)/10)}}), dra av  {{(Math.round((slopeHandicapList[getIndexOfLowest] * 0.9)*10)/10)}} på övriga och avrunda till närmsta heltal.
+									Nolla lägst hcp ({{(Math.round((slopeHandicapList[getIndexOfLowest] * 0.9)*10)/10)}}), dra av  {{(Math.round((slopeHandicapList[getIndexOfLowest] * 0.9)*10)/10)}} på övriga och avr. till heltal
 								</p>
 							</b-col>
 							<b-col v-for="singleSlope in slope" :key="singleSlope.index" cols="2" class="playerData">
@@ -87,7 +87,7 @@
 						</b-row>
 						<b-row>
 							<b-col cols="4" class="explanation">
-								<p>Nytt spel Hcp</p>
+								<p>Nytt spel hcp</p>
 							</b-col>
 							<b-col v-for="singleSlope in slope" :key="singleSlope.index" cols="2" class="playerData">
 								<p>{{ singleSlope }}</p>
@@ -172,8 +172,8 @@
 
 			<b-container hidden class="container"></b-container>
 		</b-modal>
-		<button v-if="authorized" v-b-modal.modal-1 class="btn btn-primary" >
-			<span class="material-icons">help</span> HCP Beräkning
+		<button v-if="authorized" v-b-modal.modal-1 class="btn btn-primary btn-md" >
+			<span style="font-size:2em;" class="material-icons mr-0">help</span>
 		</button>
 	</div>
 </template>
@@ -186,7 +186,11 @@
 				if (el.innerText.length === 3) {
 					return;
 				}
+				
 				let array = el.innerText.split(" ");
+				if (array.length === 3) { //if extra space in name from GIT
+					array = el.innerText.split("  ");					
+				}
 				const intialsArray = array.map(e => e.slice(0, 1));
 				el.innerHTML = intialsArray[0] + "." + intialsArray[1];
 			},
@@ -279,6 +283,10 @@
 		margin-bottom: 6px;
 	}
 
+	.btn-primary span {
+		margin-top:3px;
+	}
+
 	.playerData {
 		background-color: #d77c27;
 		color: white;
@@ -287,7 +295,11 @@
 
 	p,
 	h5 {
-		margin-top: 1em;
+		margin-top: 1em;		
+	}
+
+	h5 {
+		font-size:1.2em !important;
 	}
 
 	.btn.btn-primary,
@@ -295,14 +307,14 @@
 		background-color: #195a3a !important;
 		border-radius: 50px !important;
 		box-shadow: 0 !important;
-		border: 0 !important;
+		border-color: #195a3a !important;
 	}
 
 	.btn.btn-primary.active,
 	.btn.btn-primary:active {
 		background-color: #195a3a !important;
 		transform: scale(0.95) !important;
-		border: 0 !important;
+		border-color: #195a3a !important;
 	}
 
 	.nav-item {
@@ -366,5 +378,6 @@
 		.longTeeName {
 			font-size: 9px;
 		}
+		
 	}
 </style>

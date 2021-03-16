@@ -1,6 +1,12 @@
 <template>
-      <b-tabs content-class="mt-3" v-model="tabIndex" no-key-nav>
-                          <b-tab disabled title-link-class="ml-2">
+<b-container>
+ <vue-headful :title="doctitle" />
+ <b-modal ref="scorecard" title="Scorekort - Match" v-model="modalShow" ok-only size="lg" style="padding-left:-1rem;">
+      <router-view class="" style="margin-left:-1rem;margin-right:-1rem;"> </router-view>
+    </b-modal>
+
+      <b-tabs content-class="mt-3" v-model="tabIndex" no-key-nav class="mt-4">
+                          <b-tab title-link-class="ml-2">
                             <template v-slot:title>
                              <span class="d-none d-sm-block"><b-spinner v-if="gamescount > 0" small type="grow" class="ml-0 pl-0 mr-1 mb-1 red"></b-spinner>LIVE <span v-if="updating1"><b-spinner small class="ml-1 mr-1 mb-1"></b-spinner></span><span v-else>({{gamescount}})</span></span>
                              <span class="d-sm-none small-tabs"><i class="fal fa-heart-rate"></i> <span v-if="updating1"><b-spinner small class="ml-1 mr-1 mb-1"></b-spinner></span><span v-else>({{gamescount}})</span></span>
@@ -38,10 +44,12 @@
                          <b-row v-if="gamescount > 0" class="">
                           <b-col v-for="(game,idx1) in games" :key="idx1" xs="12" sm="12" class="pt-3 pb-3 pl-md-2 pr-md-2 game" v-bind:class="{ greybg: idx1 % 2 === 0 }">                            
                              <b-row>
-                                 <b-col class="gameheader col-12 text-center mb-4">                                                                                                                              
+                                 <b-col class="gameheader col-12 text-center mb-4">
+                                   <img v-if="game.logourl" class="" :src="getClubLogo(game.logourl)">                                                                                                                         
                                    <span v-if="game.clubname">{{game.clubname}}</span>
                                    <span v-if="!game.clubname">Golfklubb saknas</span>
                                     <span class="small d-block" v-if="game.roundname">{{game.roundname}}</span>
+                                    <hr class="mt-3 mb-1" />
                                  </b-col>
                              </b-row>
                              <b-row>                              
@@ -72,14 +80,14 @@
                                  </b-col>                                
                              </b-row>
                              <b-row>
-                               <b-col class="col-5 pr-0 text-right">
-                                <img v-if="game.hometeamtype === 'Company'" class="pt-3 pb-3" :src="`https://res.cloudinary.com/dn3hzwewp/image/upload/h_50,c_scale/matchplay/logos/${game.hometeamlogourl}.png`">
+                               <b-col class="col-5 pr-0 text-right">                                
+                               <img v-if="game.hometeamtype === 'Company'" class="pt-3 pb-3" :src="getLogoImage(game.hometeamlogourl)">
                                </b-col>
                                <b-col class="col-2 p-0 m-0">
                                 
                                </b-col>
                                <b-col class="col-5 pl-0 text-left">
-                                <img v-if="game.awayteamtype === 'Company'" class="pt-3 pb-3" :src="`https://res.cloudinary.com/dn3hzwewp/image/upload/h_50,c_scale/matchplay/logos/${game.awayteamlogourl}.png`">
+                                <img v-if="game.awayteamtype === 'Company'" class="pt-3 pb-3" :src="getLogoImage(game.awayteamlogourl)">
                                </b-col>
                              </b-row>
                              <b-row>
@@ -97,7 +105,7 @@
                      </b-col>
                      <!-- END In progress games -->
                           </b-tab>
-                          <b-tab disabled title-link-class="ml-2">
+                          <b-tab title-link-class="ml-2">
                              <template v-slot:title>
                               <span class="d-none d-sm-block">KOMMANDE <span v-if="updating2"><b-spinner small class="ml-1 mr-1 mb-1"></b-spinner></span><span v-else>({{gamescount2}})</span></span>
                               <span class="d-sm-none small-tabs"><i class="fal fa-hourglass"></i> <span v-if="updating2"><b-spinner small class="ml-1 mr-1 mb-1"></b-spinner></span><span v-else>({{gamescount2}})</span></span>
@@ -122,7 +130,8 @@
                          <b-row v-if="gamescount2 > 0" class="">
                           <b-col v-for="(game,idx2) in games2" :key="idx2" xs="12" sm="12" class="pt-3 pb-3 pl-md-2 pr-md-2 game" v-bind:class="{ greybg: idx2 % 2 === 0 }">                            
                              <b-row>
-                                 <b-col class="gameheader col-12 text-center mb-4">                                                                                                                              
+                                 <b-col class="gameheader col-12 text-center mb-4">
+                                   <img v-if="game.logourl" class="" :src="getClubLogo(game.logourl)">                                                                                                                              
                                    <span v-if="game.clubname">{{game.clubname}}</span>
                                    <span v-if="!game.clubname">Golfklubb saknas</span>
                                      <span class="small d-block" v-if="game.roundname">{{game.roundname}}</span>
@@ -148,13 +157,13 @@
                              </b-row>
                              <b-row>
                                <b-col class="col-5 pr-0 text-right">
-                                <img v-if="game.hometeamtype === 'Company'" class="pt-3 pb-3" :src="`https://res.cloudinary.com/dn3hzwewp/image/upload/h_50,c_scale/matchplay/logos/${game.hometeamlogourl}.png`">
+                                <img v-if="game.hometeamtype === 'Company'" class="pt-3 pb-3" :src="getLogoImage(game.hometeamlogourl)">
                                </b-col>
                                <b-col class="col-2 p-0 m-0">
                                 
                                </b-col>
                                <b-col class="col-5 pl-0 text-left">
-                                <img v-if="game.awayteamtype === 'Company'" class="pt-3 pb-3" :src="`https://res.cloudinary.com/dn3hzwewp/image/upload/h_50,c_scale/matchplay/logos/${game.awayteamlogourl}.png`">
+                                <img v-if="game.awayteamtype === 'Company'" class="pt-3 pb-3" :src="getLogoImage(game.awayteamlogourl)">
                                </b-col>
                              </b-row>
                              <b-row>
@@ -182,20 +191,20 @@
                         <span class="float-right" style="cursor:pointer;" v-on:click="updategames()"><i class="far fa-sync-alt"></i></span>
                        <h4>Spelade - {{active_round}} <span v-if="updating3"><b-spinner small type="grow" class="ml-2 mr-1 mb-1 red"></b-spinner>...</span><span v-else>({{gamescount3}})</span></h4>
                         <p hidden>Inom kort kommer bokade matcher visas här samt annan information om lagen!</p>
-                       
+                      
                         <b-row class="mb-4 mt-4">
                           <b-col>
                              <b-button hidden size="sm" v-on:click="updategames()" variant="primary">update</b-button>
                             <b-button hidden size="sm" v-on:click="getGamesFinished('button','all')" variant="primary">Alla</b-button>
                            
-                            <b-button size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Omgång 1')" variant="primary">Omgång 1</b-button>                           
-                            <b-button size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Omgång 2')" variant="primary">Omgång 2</b-button> 
-                            <b-button size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Omgång 3')" variant="primary">Omgång 3</b-button>
-                            <b-button size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Omgång 4')" variant="primary">Omgång 4</b-button>
-                            <b-button size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Omgång 5')" variant="primary">Omgång 5</b-button>
-                            <b-button size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Omgång 6')" variant="primary">Omgång 6</b-button>
-                            <b-button size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Omgång 7')" variant="primary">Omgång 7</b-button>
-                            <b-button size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Sverigefinal')" variant="primary">Sverigefinal</b-button>
+                            <b-button v-if="currentRound>0" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Omgång 1')" variant="primary">Omgång 1</b-button>                           
+                            <b-button v-if="currentRound>1" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Omgång 2')" variant="primary">Omgång 2</b-button> 
+                            <b-button v-if="currentRound>2" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Omgång 3')" variant="primary">Omgång 3</b-button>
+                            <b-button hidden size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Omgång 4')" variant="primary">Omgång 4</b-button>
+                            <b-button hidden size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Omgång 5')" variant="primary">Omgång 5</b-button>
+                            <b-button hidden size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Omgång 6')" variant="primary">Omgång 6</b-button>
+                            <b-button hidden size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Omgång 7')" variant="primary">Omgång 7</b-button>
+                            <b-button hidden size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Sverigefinal')" variant="primary">Sverigefinal</b-button>
                             
                             <form hidden v-on:submit.prevent="search">
                               <input type="text" id="searchfield" class="form-control" placeholder="Sök på namn/klubb">
@@ -217,7 +226,8 @@
                          <b-row v-if="gamescount3 > 0" class="">
                           <b-col v-for="(game,idx1) in games3" :key="idx1" xs="12" sm="12" class="pt-3 pb-3 pl-md-2 pr-md-2 game" v-bind:class="{ greybg: idx1 % 2 === 0 }">                            
                              <b-row>
-                                 <b-col class="gameheader col-12 text-center mb-4">                                                                                                                              
+                                 <b-col class="gameheader col-12 text-center mb-4"> 
+                                   <img v-if="game.logourl" class="" :src="getClubLogo(game.logourl)">                                                                                                                                  
                                    <span v-if="game.clubname">{{game.clubname}}</span>
                                    <span v-if="!game.clubname">Golfklubb saknas</span>
                                      <span class="small d-block" v-if="game.roundname">{{game.roundname}}</span>
@@ -247,13 +257,13 @@
                              </b-row>
                              <b-row>
                                <b-col class="col-5 pr-0 text-right">
-                                <img v-if="game.hometeamtype === 'Company'" class="pt-3 pb-3" :src="`https://res.cloudinary.com/dn3hzwewp/image/upload/h_50,c_scale/matchplay/logos/${game.hometeamlogourl}.png`">
+                                <img v-if="game.hometeamtype === 'Company'" class="pt-3 pb-3" :src="getLogoImage(game.hometeamlogourl)">
                                </b-col>
                                <b-col class="col-2 p-0 m-0">
                                 
                                </b-col>
                                <b-col class="col-5 pl-0 text-left">
-                                <img v-if="game.awayteamtype === 'Company'" class="pt-3 pb-3" :src="`https://res.cloudinary.com/dn3hzwewp/image/upload/h_50,c_scale/matchplay/logos/${game.awayteamlogourl}.png`">
+                                <img v-if="game.awayteamtype === 'Company'" class="pt-3 pb-3" :src="getLogoImage(game.awayteamlogourl)">
                                </b-col>
                              </b-row>
                              <b-row>
@@ -354,6 +364,7 @@
 
 
                         </b-tabs>
+</b-container>
 </template>
 
 
@@ -363,11 +374,6 @@ import { mapGetters } from "vuex";
 import { tagsMixin } from "../mixins/tagsMixin";
 /*import VuePhoneNumberInput from 'vue-phone-number-input';
 import 'vue-phone-number-input/dist/vue-phone-number-input.css';*/
-import { VueTelInput } from "vue-tel-input";
-import FlipCountdown from "./FlipCountdown";
-import AppRoundsGrafic from "./RoundsGrafic";
-import Testimonials from "./Testimonials";
-import Podium from "./Podium";
 
 import moment from "moment";
 import VueMoment from "vue-moment";
@@ -396,101 +402,50 @@ moment.updateLocale("sv", {
 });
 
 export default {
+  name: 'Resultat',
   created() {
 
-    //this.getTopListClubs();
-
-    /* setTimeout(() => {
-    this.showModal();                        
-  }, 2000); */
-  var i;
-  for (i = 0; i < this.images.length; i++) {
-  this.preloadImage(this.images[i])
-  }
-
-   //BG CHANGE 
-   var bg_change = setInterval(this.changeBg, 7000);
-
-  this.toast('b-toaster-top-right');
-
-  if (!globalState.compid) {
+    if (!globalState.compid) {
     return  
   } else {
     this.axios
       .post(globalState.admin_url + "getCompetition", {id: globalState.compid})
       .then((response) => {
-        if (!response.data.competitionmessages.length) {
-          return
-        }
-        this.messages = response.data.competitionmessages
-          .sort((a, b) => new Date(a.sortorder) - new Date(b.sortorder))
-          .filter((message) => message.active === true )
+        this.currentRound = response.data.currentround;      
+        this.active_round =  this.currentRound;
       })
       .catch((error) => {
         console.log(error);
       }); 
-  }     
+  }   
+
+    this.getGamesInprogress('initial');
+
+
     
   },
-  watch: {
+ watch: {
     $route(newVal, oldVal) {
       immediate: true, (this.modalShow = newVal.meta && newVal.meta.modalShow);
     },
     modalShow: {
       handler: function () {
         if (this.modalShow === false) {
-          this.$router.push({ path: "/" });
+          this.$router.push({ path: "/results" });
         }
       },
     },
-  },
-  name: "hello",
+  },  
   components: {
-    //'phone':VuePhoneNumberInput,
-    // 'phone':VueTelInput,
-    VueTelInput,
-    appCountdown: FlipCountdown,
-    AppRoundsGrafic, Testimonials, Podium
+    
   },
   data() {
     return {
+      doctitle: 'Resultat',
+      currentRound: null,
       messages: null, 
       modalShow: false,
       closed: false,
-      leader: "",
-      bindProps: {
-        mode: "international",
-        defaultCountry: "SE",
-        disabledFetchingCountry: false,
-        disabled: false,
-        disabledFormatting: false,
-        placeholder: "Skriv ditt mobilnummer",
-        required: true,
-        enabledCountryCode: false,
-        enabledFlags: true,
-        preferredCountries: [],
-        onlyCountries: ["SE", "NO", "DK"],
-        ignoredCountries: [],
-        autocomplete: "off",
-        name: "telephone",
-        maxLen: 25,
-        wrapperClasses: "",
-        inputClasses: "form-control",
-        dropdownOptions: {
-          disabledDialCode: false,
-        },
-        inputOptions: {
-          showDialCode: false,
-        },
-      },
-      //IMAGES
-      images: [
-            'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1608122032/matchplay/MPI-1825.jpg',
-            'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg',
-            'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:40,co_rgb:000000/v1608219772/matchplay/bg_matchplay.jpg',
-            'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:50,co_rgb:000000/v1608122570/matchplay/IMG_1232.jpg'
-            ],
-
       clubs: 0,
       birdies: 0,
       //IN PROGRESS GAMES
@@ -504,7 +459,7 @@ export default {
       tabIndex: 0,
       price1: globalState.price1,
       price2: globalState.price2,
-      active_round: "Sverigefinal",     
+      active_round: "Omgång 1",     
       //PENDING GAMES
       loadinggames2: true,
       updating2: true,
@@ -528,42 +483,8 @@ export default {
         total: 0,
       },
       searchfield: "",
-
-      showhelper: false,
-      //contbutton1: 'Fortsätt till nästa steg',
-      docontinue: true,
-      contbutton1: "Fortsätt",
-      showpasswordsdontmatch: false,
-      showspinnerregisteruser: false,
-      showerror: false, //if user exists when register
-      emailexist: "",
-      showloadgolfid: false,
-      dismissSecs: 5,
-      dismissCountDown: 0,
-      dismissCountDown2: 0,
-      test: "",
-      showDismissibleAlert: false,
-      golfid: "",
-      golfid2: "",
-      doctitle: this.$store.state.conferencename,
-
-      form: {
-        golfid: "",
-        mobile: "",
-        firstname: "",
-        lastname: "",
-        hcp: "",
-        club: "",
-        email: "",
-        password: "",
-        password2: "",
-      },
-      showform1: true,
-      showform2: false, //should be default false
-      showqualified: false,
-      showqualified32: false,
-      showqualifiedNOT: false,
-      showqualifiedNOCLUB: false,
+      showDismissibleAlert: false      
+     
     };
   },
 
@@ -633,52 +554,15 @@ export default {
   },
   mixins: [tagsMixin],
   
-  methods: {  
-    preloadImage(url)
-    {
-      var img=new Image();
-      img.src=url;
-    },
-    showModal() {
-      //if (localStorage.getItem('earlyBirdie2021') !== '2')
-      this.$refs['earlyBirdie'].show();
-      //localStorage.setItem('earlyBirdie2021', '2');
-    },
-     toast(toaster, append = false) {    
-    
-    this.$bvToast.toast(`Early Birdie är över, vinnarna av en golfweekend meddelas per mail samt på Facebook/Instagram. Följ oss där för fler tävlingar och utlottningar fram till tävlingsstart i maj!`, {
-      title: `Early Birdie`,
-      toaster: toaster,
-      autoHideDelay: 12000,
-      solid: true,         
-      appendToast: append
-    })
-
-    localStorage.setItem('earlyBirdie2021_1','1')
-
-    },
-    search: function () {
-      let searchvalue = document
-        .getElementById("searchfield")
-        .value.toLowerCase();
-      console.log("inne", searchvalue);
-      console.log(this.games);
-      this.games = this.games.filter(function (game) {
-        //console.log(searchvalue,game.hometeamname.includes(searchvalue.toLowerCase()))
-        console.log(searchvalue);
-        return (
-          game.hometeamname.toLowerCase().includes(searchvalue.toLowerCase()) ||
-          game.awayteamname.toLowerCase().includes(searchvalue.toLowerCase())
-        );
-      });
-      //this.gamescount = this.games.length
-    },
-    cancelsearch: function () {
-      let searchvalue = document.getElementById("searchfield");
-      searchvalue.value = "";
-      this.games = this.gamesOrg;
-      this.gamescount = this.games.length;
-    },
+  methods: {
+      getLogoImage(logourl) {      
+            var first_url = logourl.split("/upload/").pop();           
+            return 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_200,q_80,c_scale/' + first_url;
+            },
+            getClubLogo(logourl) {                     
+            return 'https://res.cloudinary.com/dn3hzwewp/image/upload/h_50,q_100,c_scale/' + logourl;
+            },
+            
     compareValues(key, order = "asc") {
       return function innerSort(a, b) {
         if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
@@ -793,7 +677,7 @@ export default {
 
       this.axios
         .post(globalState.admin_url + "getGamesAdvanced", {
-          competition: "sFAc3dvrn2P9pXHAz",
+          competition: globalState.compid,
           status: "In progress",
           //"from": today + " " + today_h,
           //"to": today + " 23:59",
@@ -814,8 +698,8 @@ export default {
           this.loadinggames = false;
           this.updating1 = false;
 
-          //LOAD PENDING if initial
-          if (type === "initial") {
+          //LOAD PENDING if initial         
+          if (type === "initial") {           
             this.updating2 = true;
             this.getGamesPending("initial");
           } else {
@@ -849,7 +733,7 @@ export default {
 
       this.axios
         .post(globalState.admin_url + "getGamesAdvanced", {
-          competition: "sFAc3dvrn2P9pXHAz",
+          competition: globalState.compid,
           status: "Pending",
           from: today + " " + today_h,
           //"to": today + " 23:59",
@@ -905,7 +789,7 @@ export default {
         this.active_round = round;
       } //this.classoptions = localStorage.getItem('active_round'); //console.log(this.classoptions) //if (this.classoptions === 'null' || this.classoptions === null) { //  delete options['roundname']; //} else { // options["roundname"] = this.classoptions; //}
 
-      options["competition"] = "sFAc3dvrn2P9pXHAz";
+      options["competition"] = globalState.compid;
       options["status"] = "Finished";
       if (round === "all") {
         delete options["roundname"];
@@ -949,7 +833,7 @@ export default {
 
       this.axios
         .post(globalState.admin_url + "getGamesAdvanced", {
-          competition: "sFAc3dvrn2P9pXHAz",
+          competition: globalState.compid,
           status: "Finished",
           //"from": today + " " + today_h,
           //"to": today + " 23:59",
@@ -965,7 +849,7 @@ export default {
           let finishedgames = [];
           this.axios
             .post(globalState.admin_url + "getGamesAdvanced", {
-              competition: "sFAc3dvrn2P9pXHAz",
+              competition: globalState.compid,
               status: "Finished",
               //"from": today + " " + today_h,
               //"to": today + " 23:59",
@@ -987,7 +871,7 @@ export default {
               let upcominggames = [];
               this.axios
                 .post(globalState.admin_url + "getGamesAdvanced", {
-                  competition: "sFAc3dvrn2P9pXHAz",
+                  competition: globalState.compid,
                   status: "Pending",
                   from: today + " " + today_h,
                   to: today + " 23:59",
@@ -1025,7 +909,7 @@ export default {
       this.axios
         .post("https://matchplay.meteorapp.com/methods/" + "getTeamsCount", {
           //getclubstoplist
-          competition: "sFAc3dvrn2P9pXHAz",
+          competition: globalState.compid,
         })
         .then((response) => {
           //console.log(response.data)
@@ -1066,7 +950,7 @@ export default {
           "https://matchplay.meteorapp.com/methods/" + "getTopClubsPlayed",
           {
             //getclubstoplist
-            competition: "sFAc3dvrn2P9pXHAz",
+            competition: globalState.compid,
             no: 99,
           }
         )
@@ -1087,7 +971,7 @@ export default {
           "https://matchplay.meteorapp.com/methods/" + "getAchievementData",
           {
             //getclubstoplist
-            competition: "sFAc3dvrn2P9pXHAz",
+            competition: globalState.compid,
             type: "birdie",
             no: 20,
           }
@@ -1098,220 +982,10 @@ export default {
         .catch((error) => {
           console.log(error);
         });
-    },
-    countDownChanged(dismissCountDown) {
-      this.dismissCountDown = dismissCountDown;
-    },
-    showAlert() {
-      this.dismissCountDown = this.dismissSecs;
-    },
-    showAlert2() {
-      this.dismissCountDown2 = true;
-    },
-    goRouter: function () {
-      this.$router.push({ path: "line-up" });
-    },
-    getGolfId: function (golfid) {
-      //evt.preventDefault();
-      //var golfid1 = document.getElementById("golfid1").value;
-      //var golfid2 = document.getElementById("golfid2").value;
-      if (this.golfid === "") return;
-      this.contbutton1 = "Hämtar data från SGF";
-      this.dismissCountDown2 = false; //hide you exist alert
-      this.showloadgolfid = true;
-      this.axios
-        .post(
-          //"https://colburn-chat-buxom-tamale.eu-gb.mybluemix.net/get_golfid?golfid=" + golfid1 + '-' + golfid2,
-          "https://matchplay.meteorapp.com/methods/getPlayerByGolfid", //"http://localhost:3000/get_golfid?golfid=" + golfid1 + '-' + golfid2,
-          {
-            golfid: this.golfid,
-          }
-        )
-        .then((response) => {
-          //console.log(response.data);
-
-          if (response.data.hasOwnProperty("error")) {
-            this.contbutton1 = "Fortsätt";
-            this.showAlert();
-            this.showloadgolfid = false;
-            return;
-          }
-
-          if (!response.data.hasOwnProperty("notingit")) {
-            //check if user exists in matchplay admin
-            if (response.data.exists) {
-              this.contbutton1 = "Prova igen";
-              this.showAlert2();
-              this.showloadgolfid = false;
-              return;
-            }
-            //end check
-            this.showform1 = false;
-            this.showform2 = true;
-            this.form.golfid = this.golfid;
-            this.form.firstname = response.data.firstname;
-            this.form.lastname = response.data.lastname;
-            this.form.club = response.data.club; //this.form.hcp = response.data.hcp;
-            this.form.hcp = response.data.hcp.replace(/,/g, ".");
-
-            if (response.data.club == "empty") {
-              this.showqualifiedNOCLUB = true;
-              return;
-            }
-
-            var element = this.$refs["success"];
-            var top = element.offsetTop;
-            window.scrollTo(0, 400);
-            //console.log(this.form.hcp)
-            if (this.form.hcp < 28.1) {
-              this.showqualified = true;
-              this.docontinue = true;
-            } else if (this.form.hcp > 28 && this.form.hcp < 36.1) {
-              this.showqualified32 = true;
-              this.docontinue = true;
-            } else if (this.form.hcp > 36.0) {
-              this.showqualifiedNOT = true;
-              this.docontinue = false;
-            }
-
-            this.showloadgolfid = false; //this.contbutton1 = 'Fortsätt till nästa steg';
-            this.contbutton1 = "Fortsätt";
-            return;
-          } else {
-            //console.log('empty');
-            this.showAlert();
-            this.showloadgolfid = false;
-            return;
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-    onSubmit(evt) {
-      evt.preventDefault();
-
-      if (this.form.password != this.form.password2) {
-        this.showpasswordsdontmatch = true;
-        return;
-      }
-
-      this.showerror = false;
-      this.showspinnerregisteruser = true;
-      this.axios
-        .post("https://matchplay.meteorapp.com/methods/userAdd", {
-          //ID: 12345
-          emails: [
-            {
-              address: this.form.email,
-            },
-          ],
-          password: this.form.password,
-          firstname: this.form.firstname,
-          lastname: this.form.lastname,
-          golfid: this.form.golfid,
-          mobile: this.form.mobile,
-        })
-        .then((response) => {
-          //$(".speaker-single").slideDown(200);
-          if (response.data.hasOwnProperty("error")) {
-            this.showerror = true;
-            this.emailexist = this.form.email;
-            this.showspinnerregisteruser = false;
-            return;
-          } //try to login the user
-          this.login();
-
-          return;
-        })
-        .catch((error) => {
-          console.log(error);
-        }); //alert(JSON.stringify(this.form));
-    },
-    login() {
-      this.showloginspinner = true; //DDP LOGIN
-      const simpleDDP = require("simpleddp");
-      const simpleDDPLogin = require("simpleddp-plugin-login").simpleDDPLogin;
-
-      let opts = {
-        endpoint: "wss://matchplay.meteorapp.com/websocket",
-        SocketConstructor: WebSocket,
-        reconnectInterval: 5000,
-      };
-      const server = new simpleDDP(opts, [simpleDDPLogin]);
-
-      let password = this.form.password;
-      let email = this.form.email;
-      let parentVue = this; // doAsyncOperation1() returns a promise.
-
-      trylogin()
-        .then(() => {
-          //console.log('logged in with creds',server.token);
-          //parentVue.showerror = false;
-          localStorage.setItem("auth_token", server.token); //parentVue.showlogin = false; //parentVue.showloginspinner = false; //parentVue.doctitle = 'Inloggad'; //Set params for user
-          let userinfo = server.collections.users[0].profile;
-          localStorage.setItem("userinfo", JSON.stringify(userinfo));
-          this.showspinnerregisteruser = false;
-          this.$router.push({ path: "mymatchplay" }); //this.setuserinfoform();
-        })
-        .then((output) => {})
-        .catch((err) => {
-          //console.log('NOT logged in with creds, show error on form')
-          //parentVue.showerror = true;
-          //parentVue.showloginspinner = false;
-        });
-
-      async function trylogin() {
-        // (1)
-        let response = await server.login({
-          password,
-          user: {
-            email,
-          },
-        });
-      }
-    },
-    onReset(evt) {
-      this.showform1 = true;
-      this.showform2 = false;
-      this.showqualified = false;
-      this.showqualified32 = false;
-      this.showqualifiedNOT = false;
-      this.showqualifiedNOCLUB = false;
-      evt.preventDefault(); // Reset our form values
-      this.form.email = "";
-      this.form.password = "";
-      this.form.password2 = ""; // Trick to reset/clear native browser form validation state
-      this.show = false;
-      this.$nextTick(() => {
-        this.show = true;
-      }); //scroll to correct place on page      p
-
-      var element = this.$refs["register"];
-      var top = element.offsetTop;
-      window.scrollTo(0, top);
-    },
-    changeBg() {
+    }
+  
+ 
      
-     //'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:50,co_rgb:000000/v1608122447/matchplay/IMG_1527.jpg',
-
-            var images2=['https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1608122032/matchplay/MPI-1825.jpg',
-            'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg',
-            'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:40,co_rgb:000000/v1608219772/matchplay/bg_matchplay.jpg',
-            'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:50,co_rgb:000000/v1608122570/matchplay/IMG_1232.jpg'
-
-            ];
-
-            var elem = this.$refs["slider"];
-            if (elem) {
-            var randomNumber = Math.floor(Math.random() * this.images.length);
-            var bgImg = 'url(' + this.images[randomNumber] + ')';
-            //elem.style.opacity = 100;
-            elem.style.backgroundImage = bgImg;
-            }
-
-    },
-    
   },
 
 };
@@ -1321,6 +995,10 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
+
+.modal-body {
+padding:0rem !important;
+}
 
 .jumbotron {
   border-radius:0;
@@ -1393,16 +1071,6 @@ p.inactive-round {
   border-radius: 0.3em;
   padding: 1em 1em 1em 1em;
   font-size: 0.8em;
-
-  /*
-    border-radius: .3em;
-    border: none;
-     background-color: #0f70b7;
-    color: #fff;   
-    background-repeat: no-repeat;
-    background-position: 0 0;
-    background-size: cover;
-    box-shadow: 2px 2px 5px 0 rgba(0,0,0,.27);*/
 }
 
 .hometeam span,
@@ -1414,398 +1082,7 @@ p.inactive-round {
   border-left: 1px solid #e6e6e6;
 }
 
-img {
-  max-width: 100%;
-}
-.theme {
-  padding: 10rem 0 5rem 0;
-  margin-top: -100px;
-  background: url(https://res.cloudinary.com/oredev/image/upload/f_auto,q_65/2019/html/background-1.jpg);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  width: 100%;
-  /*height: 900px;*/
-  @media (max-width: 1450px) {
-    /*height: 650px;*/
-    padding: 8rem 0 3rem 0;
-  }
-  @media (max-width: 1200px) {
-    /*height: 600px;*/
-  }
-  @media (max-width: 991px) {
-    /*height: 480px;*/
-    padding: 5rem 0 3rem 0;
-  }
-  @media (max-width: 767px) {
-    margin-top: -20px;
-    background-size: 150%;
-
-    padding: 1.5rem 0 1.5rem 0;
-    /*padding-bottom: 40px;*/
-  }
-  @media (max-width: 575px) {
-    background-size: 200%;
-    overflow: hidden;
-  }
-}
-.theme .container {
-  @media (max-width: 575px) {
-    width: 100%;
-    padding: 0;
-    margin: 0;
-  }
-}
-.theme img {
-  /*margin-top: 200px;*/
-  width: 80%;
-  @media (max-width: 2000px) {
-    /*margin-top: 130px;*/
-    width: 65%;
-  }
-  @media (max-width: 1450px) {
-    /*margin-top: 130px;*/
-    width: 60%;
-  }
-  @media (max-width: 991px) {
-    /*margin-top: 100px;*/
-    width: 80%;
-  }
-  @media (max-width: 767px) {
-    /*margin-top: 30px;*/
-    width: 100%;
-  }
-  @media (max-width: 575px) {
-    width: 120% !important;
-    max-width: 120% !important;
-    margin-left: -10%;
-  }
-}
-.theme h2 {
-  color: #fff;
-  margin: 40px 0 0 0;
-  @media (max-width: 767px) {
-    font-size: 1.3rem;
-    margin-top: 30px;
-  }
-  @media (max-width: 567px) {
-    font-size: 1rem;
-  }
-}
-
-.btn-special {
-  height: calc(1.5em + 1rem + 8px);
-  margin-top: 0 !important;
-}
-
-.bg1, .bg2 {
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: right 0px top 50%;
-  height:200px;
-  width:100%;
-}
-
-.bg1 {
-  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg);
-}
-
-.bg2 {
-  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1608122032/matchplay/MPI-1825.jpg);
-}
-
-.hero {
-  //background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg);
-  //background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1608122032/matchplay/MPI-1825.jpg);
-  //background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1608122246/matchplay/22092018-MGZ_1827.jpg);
-  //background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:50,co_rgb:000000/v1608122447/matchplay/IMG_1527.jpg);
-  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:50,co_rgb:000000/v1608122570/matchplay/IMG_1232.jpg);
-  background-repeat: no-repeat;
-  /*background-position: bottom 30% right 0;*/
-  background-size: cover;
-  color: #fff;
-  padding: 180px 0 180px 0;
-  background-position: center center;
-  @media (min-width: 320px) {
-    padding: 2rem 0 5rem 0;
-    /*background-position: bottom 10% right 0;*/
-  }
-  @media (min-width: 480px) {
-    padding: 6rem 0 6rem 0;
-    /*background-position: bottom 0% left 0;*/
-  }
-  @media (min-width: 768px) {
-    /*background-position: bottom 32% right 0;*/
-  }
-
-  @media (min-width: 992px) {
-    /*background-position: bottom 51% right 0;*/
-  }
-
-  @media (min-width: 1200px) {
-    /*background-position: bottom 55% right 0;*/
-  }
-  
-  -webkit-transition: all 1.5s ease-in-out;
-  -moz-transition: all 1.5s ease-in-out;
-  -ms-transition: all 1.5s ease-in-out;
-  -o-transition: all 1.5s ease-in-out;
-  transition: all 1.5s ease-in-out;
-
-}
 
 
 
-
-
-.hero2 {
-  //background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg);
-  //background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1608122032/matchplay/MPI-1825.jpg);
-  //background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1608122246/matchplay/22092018-MGZ_1827.jpg);
-  //background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:50,co_rgb:000000/v1608122447/matchplay/IMG_1527.jpg);
-  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:50,co_rgb:000000/v1608122570/matchplay/IMG_1232.jpg);
-  background-repeat: no-repeat;
-  /*background-position: bottom 30% right 0;*/
-  background-size: cover;
-  color: #fff;
-  padding: 180px 0 180px 0;
-  background-position: right 0px top 50%;
-  @media (min-width: 320px) {
-    padding: 2rem 0 5rem 0;
-    /*background-position: bottom 10% right 0;*/
-  }
-  @media (min-width: 480px) {
-    padding: 6rem 0 6rem 0;
-    /*background-position: bottom 0% right 0;*/
-  }
-  @media (min-width: 768px) {
-    /*background-position: bottom 32% right 0;*/
-  }
-
-  @media (min-width: 992px) {
-    /*background-position: bottom 51% right 0;*/
-  }
-
-  @media (min-width: 1200px) {
-    /*background-position: bottom 55% right 0;*/
-  }
-}
-
-.come {
-  /*background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_2390/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg);*/
-  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/v1573316365/matchplay/Henke.png);
-
-  background-repeat: no-repeat;
-  /*background-position: bottom 30% right 0;*/
-  background-size: contain;
-  color: #fff;
-  padding: 180px 0 180px 0;
-  background-position: right 0px bottom;
-  @media (min-width: 320px) {
-    padding: 15rem 0 5rem 0;
-    /*background-position: bottom 10% right 0;*/
-  }
-  @media (min-width: 480px) {
-    padding: 12rem 0 5rem 0;
-    /*background-position: bottom 0% right 0;*/
-  }
-  @media (min-width: 768px) {
-    /*background-position: bottom 32% right 0;*/
-  }
-
-  @media (min-width: 992px) {
-    /*background-position: bottom 51% right 0;*/
-  }
-
-  @media (min-width: 1200px) {
-    /*background-position: bottom 55% right 0;*/
-  }
-}
-.hero h2 {
-  color: #fff;
-  font-family: "Eurostile LT Std Demi", Arial, sans-serif;
-  font-weight: normal;
-  font-style: normal;
-}
-
-.come h2,
-.come a {
-  text-transform: uppercase;
-}
-.come button,
-.come a {
-  padding: 20px;
-  margin: 0 10px;
-}
-
-.come .buttons {
-  margin: 40px 0 0 0;
-}
-.ticket h2 {
-  text-transform: uppercase;
-  display: inline-block;
-  color: $pink;
-}
-.ticket img {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-.ticket .top {
-  background: url(https://res.cloudinary.com/oredev/image/upload/f_auto,q_65/v1556786227/2019/html/background-1_lower.jpg);
-  background-repeat: no-repeat;
-  background-position: bottom center;
-  background-size: cover;
-  width: 100%;
-  height: 300px;
-  @media (max-width: 767px) {
-    height: 5rem;
-  }
-}
-.ticket .bottom {
-  background: url(https://res.cloudinary.com/oredev/image/upload/v1556786227/2019/html/backround-1-top.jpg);
-  background-repeat: no-repeat;
-  background-position: top center;
-  background-size: cover;
-  width: 100%;
-  height: 300px;
-  @media (max-width: 767px) {
-    height: 5rem;
-  }
-}
-.personas {
-  max-width: 2650px;
-}
-.personas .start-persona img,
-.personas .first h2,
-.personas .last h2 {
-  border: 1px solid #fff;
-}
-.personas .start-persona {
-  cursor: pointer;
-}
-.personas .first h2,
-.personas .last h2 {
-  width: 100%;
-  height: 100%;
-  padding: 40px;
-  text-transform: uppercase;
-  font-size: 3.2rem;
-  @media (max-width: 1700px) {
-    font-size: 2.1rem;
-  }
-  @media (max-width: 1200px) {
-    font-size: 1.5rem;
-  }
-}
-.personas .last h2 {
-  font-size: 2.7rem;
-  @media (max-width: 1700px) {
-    font-size: 1.8rem;
-  }
-  @media (max-width: 1200px) {
-    font-size: 1.2rem;
-  }
-}
-.personas img {
-  max-width: 100%;
-}
-.personas span {
-  border-left: 1px solid #fff;
-  border-top: 1px solid #fff;
-  position: absolute;
-  padding: 15px;
-  text-transform: uppercase;
-}
-.teaser-container {
-  padding: 3rem 0 0 0;
-  @media (max-width: 767px) {
-    padding: 3rem 0;
-  }
-  @media (max-width: 575px) {
-    padding: 2rem 0;
-  }
-}
-.theme-description {
-  margin: 200px 0;
-  @media (max-width: 767px) {
-    margin: 0;
-  }
-}
-.theme-description .stars img {
-  @media (max-width: 767px) {
-    width: 50px;
-  }
-}
-.theme-description h2 {
-  color: $pink;
-}
-.theme-description .middle {
-  padding: 4rem 0;
-}
-.theme-description .left {
-  background: url(https://res.cloudinary.com/oredev/image/upload/q_65/2019/html/left);
-  background-repeat: no-repeat;
-  background-position: right center;
-  background-size: cover;
-}
-.theme-description .right {
-  background: url(https://res.cloudinary.com/oredev/image/upload/q_65/2019/html/right);
-  background-repeat: no-repeat;
-  background-position: left center;
-  background-size: cover;
-}
-
-.step {
-  border-radius: 0.3em;
-  border: 1px solid #e1e1e1;
-  padding: 1em;
-  min-height: 380px;
-  text-align: center;
-}
-
-.step i {
-  font-size: 3em;
-  text-align: center;
-  margin: 0 0 20px 0;
-  color: #fd9b37;
-}
-
-.step p {
-  text-align: left;
-  font-size: 0.8em;
-  margin: 20px 0 0 0;
-}
-
-.step:hover {
-  background: #f6f6f6;
-}
-
-@media (max-width: 576px) {
-  h3 {
-    font-size: 1.4rem !important;
-  }
-
-  h4 {
-    font-size: 1.1rem !important;
-  }
-
-  h5 {
-    font-size: 1.2rem !important;
-  }
-
-  .step {
-    min-height: auto;
-  }
-
-  h5 {
-    font-size: 1rem !important;
-  }
-}
-
-@media (max-width: 767px) {
-  .small-tabs {
-    font-size: 0.8em;
-  }
-}
 </style>

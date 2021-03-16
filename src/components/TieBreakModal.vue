@@ -1,12 +1,15 @@
 <template>
 	<div>
-		<b-modal ref="my-modal" id="modal-tie" hide-footer>
+		<b-modal ref="my-modal" id="modal-tie" hide-footer title="Regler för Särspel">
 			<b-row class="explanation">
-				<b-col cols="12">
-					<h1>Regler för Särspel</h1>
-					<p>Om ni spelat 18 hål men inte har en vinnare, följ då dessa regler:</p>
-					<p>Spela hål 1 eller hål 18 igen inom en timme. Om ingen vinnare kan utses vinner det lag med lägst HCP</p>
-					<p>Slutligen glöm inte att skicka in vinnaren med en av knapparna på scorekortet</p>
+				<b-col cols="12">					
+					<p>Vid lika efter 18 hål är det särspel enligt följande prioritering:</p>
+					<ul>
+						<li>Omspel hål 18 repetitivt tills skilje finns (alternativt hål 9 om matchen startades på hål 10)</li>
+						<li>Start hål 1 (alternativt hål 10 om matchen startades där)</li>
+						<li>Laget med lägst HCP inom laget utses till vinnare</li>
+					</ul>
+					<p>Slutligen glöm inte att skicka in vinnaren med en av knapparna på scorekortet.</p>
 					<p>
 						Lycka till!
 						<span class="material-icons">thumb_up</span>
@@ -16,8 +19,14 @@
 		</b-modal>
 		<b-container>
 			<b-row align-h="center">
-				<b-col cols="8">
-					<b-button @click="showModal" class="btn btn-warning">Regler för särspel</b-button>
+				<b-col class="col-8 small">
+					<p>Matchen måste gå till särspel för att utse en vinnare, se regler på knappen brevid.</p>
+				</b-col>
+				<b-col class="col-4 text-right">
+					<b-button @click="showModal" class="btn btn-warning btn-sm">Regler</b-button>
+				</b-col>
+				<b-col class="col-12">
+					<hr class="mt-0 mb-2" />
 				</b-col>
 			</b-row>
 		</b-container>

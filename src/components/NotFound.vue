@@ -1,17 +1,14 @@
 <template>
   <div>
     <vue-headful :title="doctitle" />
-    <div class="container">
-      <h1>Page Not Found</h1>
+    <div class="container mt-4">
+      <h1>Sidan kunde inte hittas</h1>
       <p>
-        Sorry, dear, this was not found.
-        <br />Were you up north or down south bound?
-        <br />Unless you feel like an aimless roam,
-        <br />we recommend you come back
-        <router-link to="/">home 🏠</router-link>
+        Tyvärr kunde vi inte hitta sidan du letar efter... gå till
+        <router-link to="/">startsidan</router-link>?
       </p>
       <router-link to="/">
-        <img src="/static/empty.jpg" alt="Empty white space with a single human walking" />
+         <p class="text-center mt-2 mb-3"><i class="far fa-robot fa-3x"></i></p> 
       </router-link>
     </div>
   </div>

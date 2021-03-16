@@ -1,13 +1,18 @@
-<template>
+<template> 
   <div
     v-if="
       ['Scorecard', 'CreateGame', 'Game', 'MyMatchplay', 'Receipt'].indexOf(
         $route.name
-      ) === -1
-    "
-  >
+      ) === -1">
+  
+  <ScrollTopComponent>
+  <b-button pill class="btn btn-circle blue-bg btn-md">
+    <i class="far fa-angle-double-up fa-2x"></i>
+  </b-button>
+  </ScrollTopComponent>
+
     <b-container class="sponsors">
-      <hr class="mb-5" />
+      <hr hidden class="mb-5" />
 
       <b-row>
         <b-col>
@@ -39,6 +44,40 @@
                 <b-img
                   alt="ping"
                   src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1575464479/matchplay/ping/logo.svg"
+                ></b-img>
+              </a>
+            </b-col>
+          </b-row>
+          <b-row no-gutters>
+            <b-col md="3" class="silver p-5 text-center">
+              <a href="https://scandic.se/" target="_blank">
+                <img
+                  src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1614942462/matchplay/sponsors/scandic.png"
+                  alt
+                />
+              </a>
+            </b-col>
+            <b-col md="3" class="silver p-2 pt-5 text-center">
+              <a href="https://prosak.se" target="_blank">
+                <img
+                  src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1614942462/matchplay/sponsors/prosak_logo_2016.png"
+                  alt
+                />
+              </a>
+            </b-col>
+            <b-col md="3" class="silver p-5 mt-2 text-center">
+              <a href="https://elgiganten.se" target="_blank">
+                <b-img
+                  alt="elgiganten"
+                  src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1614942462/matchplay/sponsors/Vinn-Elgiganten-Phonehouse.png"
+                ></b-img>
+              </a>
+            </b-col>
+             <b-col md="3" class="silver p-5 mt-2 text-center">
+              <a href="https://easygreen.se" target="_blank">
+                <b-img
+                  alt="easygreen"
+                  src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1614942462/matchplay/sponsors/easygreen.png"
                 ></b-img>
               </a>
             </b-col>
@@ -120,11 +159,12 @@
 //import CookieLaw from "vue-cookie-law";
 import VueCookieAcceptDecline from "vue-cookie-accept-decline";
 import "vue-cookie-accept-decline/dist/vue-cookie-accept-decline.css";
+import ScrollTopComponent from "./ScrollTopComponent";
 
 export default {
   name: "footer1",
   //components: { CookieLaw },
-  components: { VueCookieAcceptDecline },
+  components: { VueCookieAcceptDecline,ScrollTopComponent },
   data() {
     return {
       email2: "",

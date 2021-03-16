@@ -15,13 +15,9 @@
 				</b-row>
 				<b-row align-v="center" align-h="center">
 					<div v-for="{holes, name}, index in players">
-						<div
-							class="scoresOverview"
+						<div class="scoresOverview"
 							v-for="hole in holes"
-							:class="
-            hole.hole != activehole ? { classDisplayNone: active } : null
-          "
-						>
+							:class="hole.hole != activehole ? { classDisplayNone: active } : null">
 							<b-col cols="xs">
 								<button
 									:class="{'activePlayer': index === 0, 'btn-team1': index < 2, 'btn-team2': index > 1}"
@@ -48,11 +44,9 @@
 					:key="holes.index"
 					class="buttons"
 					:class="
-            holes.hole != activehole ? { classDisplayNone: active } : null
-          "
-				>
-					<!-- Visar antal slag per spelare i team 1 -->
-					<h2 v-if="holes.strokes !== holes.strokes">-</h2>
+            holes.hole != activehole ? { classDisplayNone: active } : null">
+					<!-- Visar antal slag per spelare i team 1 -->									
+					<h2 hidden v-if="holes.strokes !== holes.strokes">-</h2>
 					<h2 hidden v-else class="strokes">{{ holes.strokes }}</h2>
 
 					<app-numpad
@@ -119,11 +113,9 @@
 					:key="holes.index"
 					class="buttons"
 					:class="
-            holes.hole != activehole ? { classDisplayNone: active } : null
-          "
-				>
+            holes.hole != activehole ? { classDisplayNone: active } : null">
 					<!-- Visar antal slag per spelare i team 1 -->
-					<h2 v-if="holes.strokes !== holes.strokes">-</h2>
+					<h2 hidden v-if="holes.strokes !== holes.strokes">-</h2>
 					<h2 hidden v-else class="strokes">{{ holes.strokes }}</h2>
 
 					<app-numpad
@@ -190,11 +182,9 @@
 					:key="holes.index"
 					class="buttons"
 					:class="
-            holes.hole != activehole ? { classDisplayNone: active } : null
-          "
-				>
+            holes.hole != activehole ? { classDisplayNone: active } : null">
 					<!-- Visar antal slag per spelare i team 1 -->
-					<h2 v-if="holes.strokes !== holes.strokes">-</h2>
+					<h2 hidden v-if="holes.strokes !== holes.strokes">-</h2>
 					<h2 hidden v-else class="strokes">{{ holes.strokes }}</h2>
 
 					<app-numpad
@@ -261,11 +251,9 @@
 					:key="holes.index"
 					class="buttons"
 					:class="
-            holes.hole != activehole ? { classDisplayNone: active } : null
-          "
-				>
+            holes.hole != activehole ? { classDisplayNone: active } : null">
 					<!-- Visar antal slag per spelare i team 1 -->
-					<h2 v-if="holes.strokes !== holes.strokes">-</h2>
+					<h2 hidden v-if="holes.strokes !== holes.strokes">-</h2>
 					<h2 hidden v-else class="strokes">{{ holes.strokes }}</h2>
 
 					<app-numpad
@@ -311,7 +299,11 @@
 				}
 
 				let array = el.innerText.split(" ");
+				if (array.length === 3) { //if extra space in name from GIT
+					array = el.innerText.split("  ");					
+				}
 				const intialsArray = array.map(e => e.slice(0, 1));
+
 				el.innerHTML = intialsArray[0] + "." + intialsArray[1];
 			},
 			changeNan(el, bind) {
