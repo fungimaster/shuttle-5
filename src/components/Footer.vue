@@ -88,6 +88,7 @@
     </b-container>
 
     <footer class="text-center">
+      
       <vue-cookie-accept-decline
         :ref="'myPanel1'"
         :elementId="'myPanel1'"
