@@ -791,11 +791,12 @@ export default {
     
     changeBg() {
       var element = this.$refs["slider"];
+      if (!element) return;
 
       if (this.bgImageCount === 2) {
         this.bgImageCount = -1;
         element.classList.remove("herobg2");
-      } else {
+      } else {        
   element.classList.remove("herobg"+this.bgImageCount);
       }
     

@@ -1,4 +1,5 @@
 <template>
+ 
 <div class="my-matchplay">
     <vue-headful :title="doctitle" />
     <div v-if="loading" class="d-flex justify-content-center mb-3">
@@ -148,7 +149,7 @@
                 PROFIL
                 </template>
                     
-                <b-container class="mt-4 mt-md-5">                           
+                <b-container class="mt-4 mt-md-5" v-if="!loading">                           
                     <b-row hidden>
                         <b-col>
                          <h2 class="teaser-header mt-3">Hej {{userdetails.firstname}}</h2>
@@ -165,7 +166,7 @@
                             <label>Golf ID:</label>
                          <span class="d-inline">{{userdetails.golfid}}</span>
                             </div>
-                            <div>
+                            <div v-if="userdetails.hcp">
                             <label>HCP:</label>
                          <span class="d-inline"><span v-negativeToPostive:arguments="{hcp: userdetails.hcp}">{{ userdetails.hcp }}</span><i id="hcp_help" href="#" tabindex="0" class="fa fa-question-circle ml-2"></i></span>
                           <b-popover target="hcp_help" variant="info" triggers="focus" placement="topright">
@@ -181,6 +182,24 @@
                             <label>Mobilnr:</label>
                          <span class="d-inline">{{userdetails.mobile}}</span>
                             </div>
+                            
+                            <div>
+                                <label for="input-ref" class="d-inline">Intjänad rabatt:</label>
+                                 <span class="d-inline">{{userdetails.referrals*50}} kr</span>
+                                 <span v-if="userdetails.referrals > 0">({{userdetails.referrals}} lag)</span>
+                                 <i id="ref_help" href="#" tabindex="0" class="fa fa-question-circle ml-1"></i>
+                                 <b-popover target="ref_help" variant="info" triggers="focus" placement="topright">
+                                                <template #title>Information</template>
+                                                  För varje lag som följt din länk du delat och där ett lag skapas får du 50kr rabatt på nästa års anmälningsavgift.
+                                            </b-popover>
+                  
+                   <b-input id="ref_link" class="mt-2" :value="'https://matchplay.se/register?referral='+ userdetails.userId"></b-input>
+                   <b-button class="mt-3" size="sm" variant="primary" @click="copyLink('ref_link')">Kopiera länk</b-button>
+                 
+                            </div>
+
+
+
                         </b-col>
                     </b-row>
                     <b-row align-h="center" v-if="teams.length === 0 || !teams.length && !closed">
@@ -209,7 +228,7 @@
                                  <i id="numberofteams" href="#" tabindex="0" v-if="userdetails.numberofteams > 0" class="fas fa-star" v-bind:class="{ gold: userdetails.numberofteams > 2, silver: userdetails.numberofteams === 2,bronze: userdetails.numberofteams === 1 }"></i>
                                   <b-popover target="numberofteams" variant="success" triggers="focus" placement="topleft">
                                                 <template #title>Trophé</template>
-                                                 Deltagit med {{userdetails.numberofteams}} lag i tävlingen.
+                                                 Deltagit med {{userdetails.numberofteams}} lag i tävlingen (inkl. innevarande år).
                                             </b-popover>
 
                                  <!-- Ambassador-->                                 
@@ -1227,6 +1246,34 @@
             </b-container>
         </div>
     </div>    
+
+<b-modal ref="referral-modal" hide-footer no-close-on-esc no-close-on-backdrop>
+<b-container class="p-1">
+   
+            <b-row>
+                <b-col>
+                    <h4>Hjälp oss att sprida budskapet om Sveriges största och roligaste golftävling!</h4>
+                    <p>
+                        Använd länken nedan för att dela till vänner och bekanta som också älskar golf och som tack för hjälpen ger vi dig <strong>50kr rabatt per lag</strong> som anmäler sig till tävlingen via din länk! Denna rabatt kan du sen använda till anmälningsavgiften för nästa års tävling.
+                    </p>
+                    <p class="">
+                        Länken finns också på din profilflik.
+                    </p>
+                    <p>
+                         <b-input id="ref_link2" class="mt-3" :value="'https://matchplay.se/register?referral='+ userdetails.userId"></b-input>
+                   <b-button class="mt-3" size="sm" variant="primary" @click="copyLink('ref_link2')">Kopiera länk</b-button>
+                    </p>
+                </b-col>
+            </b-row>
+
+
+  
+                                   
+        </b-container>        
+      
+      <b-button class="mt-3" variant="outline-danger" block @click="hideModalReferral">Stäng</b-button>      
+    </b-modal>
+
 </div>
 
 
@@ -1602,7 +1649,8 @@ export default {
                 numberofgames: 0,
                 golfid: '',
                 hcp: '',
-                isambassador: false,                
+                isambassador: false,
+                referrals: 0             
             },
             form: {
                 email: '',
@@ -1737,6 +1785,26 @@ export default {
   
     mixins: [tagsMixin],
     methods: {
+               showReferralModal() {                      
+            this.$refs["referral-modal"].show();
+        },
+        hideModalReferral() {
+            localStorage.setItem('showReferralInfo', 1);
+            this.$refs['referral-modal'].hide()
+        },
+        copyLink(elem) {
+        /* Get the text field */
+        var copyText = document.getElementById(elem);
+
+        /* Select the text field */
+        copyText.select();
+        copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+        /* Copy the text inside the text field */
+        document.execCommand("copy");
+        this.makeToast('Länken är kopierad till urklipp.', 'success');
+
+        },
            getClubImage(logourl) {      
             return 'https://res.cloudinary.com/dn3hzwewp/image/upload/h_50,q_100,c_scale/' + logourl;
         },
@@ -3237,8 +3305,10 @@ export default {
                     userinfo = JSON.parse(userinfo);
                    
                     this.userinfo = userinfo;
+                    this.userdetails.userId = userinfo._id;
                     this.userdetails.firstname = userinfo.firstname;
                     this.userdetails.lastname = userinfo.lastname;
+                    this.userdetails.referrals = userinfo.numberofreferrals;
                     this.$username = this.userdetails.firstname;
                     this.userdetails.numberofteams = userinfo.numberofteams;
                     this.userdetails.golfid = userinfo.golfid;
@@ -3269,6 +3339,7 @@ export default {
                         this.showteamslist = true;
                         this.showcreateteamhelper = false;
                        
+                       
                         //this.teams = userinfo.teams.filter((team) => {
                         //    return team.paid || team.invoice
                         //});
@@ -3283,6 +3354,13 @@ export default {
                             //if (!this.teams[0].paid) {          
                                 this.getTopListClubs(this.teams[0].course);
                             //}
+
+                                //show referral modal if paid team, set cookie
+                                if(this.team.paid) {                                 
+                                     if (!localStorage.getItem('showReferralInfo')) {                                       
+                                        this.showReferralModal();                                          
+                                     }                                    
+                                }
 
                         }
 
@@ -3302,8 +3380,6 @@ export default {
                             //this.games.sort(this.compareValues('status', 'desc'));                               
                            }
                         }
-
-                        console.log(this.games)
 
                         this.gamescount = this.games.length;
 

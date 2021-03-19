@@ -106,9 +106,9 @@
                   class="btn blue-bg btn-special ml-0 mt-1 ml-sm-2 mt-sm-0"
                 >
                   <b-spinner v-if="showloadgolfid" small type="grow" class="mr-2"></b-spinner>
-                  {{ contbutton1 }}
+                  {{ contbutton1 }}                  
                 </b-button>
-
+                
                 <b-form-invalid-feedback
                   :state="validation"
                   v-if="showhelper"
@@ -405,6 +405,7 @@ components: {
           showDialCode: false
         }
       },  
+      referral: null,
       captain:'',
       invitegolfid:'',
       player: 'player1',
@@ -438,7 +439,8 @@ components: {
         email:"",
         password:"",
         password2:""
-      },      
+      },
+
       showform1: true,
       showform2:false, //should be default false
       showqualified: false,
@@ -501,6 +503,12 @@ components: {
       }
     },
   mixins: [tagsMixin],
+  created() {
+        if (this.$route.query.referral) {
+          this.referral = this.$route.query.referral;
+        } 
+
+    },
   mounted: function () {
               if (this.$route.query.player) {
                 if (this.$route.query.player === 'player2') {
@@ -656,7 +664,8 @@ components: {
               "firstname": this.form.firstname_hidden,
               "lastname": this.form.lastname_hidden,                              
               "golfid": this.form.golfid,
-              "mobile": this.form.mobile
+              "mobile": this.form.mobile,
+              "referral_id": this.referral
             }
           )
           .then(response => {            
