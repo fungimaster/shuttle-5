@@ -1,7 +1,7 @@
 <template> 
   <div
     v-if="
-      ['Scorecard', 'CreateGame', 'Game', 'MyMatchplay', 'Receipt'].indexOf(
+      ['Scorecard', 'CreateGame', 'CreateGame_free', 'Game', 'MyMatchplay', 'Receipt'].indexOf(
         $route.name
       ) === -1">
   
@@ -26,7 +26,7 @@
             <b-col md="4" class="gold p-5 text-center">
               <a href="https://futureitpartner.se/" target="_blank">
                 <img
-                  src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1573315610/matchplay/future_logo.png"
+                  src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_300,q_auto/v1573315610/matchplay/future_logo.png"
                   alt
                 />
               </a>
@@ -34,7 +34,7 @@
             <b-col md="4" class="gold p-2 pt-5 text-center">
               <a href="https://colburn.se" target="_blank">
                 <img
-                  src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1573315623/matchplay/Logo_Colburn.png"
+                  src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_300,q_auto/v1573315623/matchplay/Logo_Colburn.png"
                   alt
                 />
               </a>
@@ -43,7 +43,7 @@
               <a href="https://eu.ping.com/sv-se" target="_blank">
                 <b-img
                   alt="ping"
-                  src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1575464479/matchplay/ping/logo.svg"
+                  src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_300,q_auto/v1575464479/matchplay/ping/logo.svg"
                 ></b-img>
               </a>
             </b-col>
@@ -52,7 +52,7 @@
             <b-col md="3" class="silver p-5 text-center">
               <a href="https://scandic.se/" target="_blank">
                 <img
-                  src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1614942462/matchplay/sponsors/scandic.png"
+                  src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_150,q_auto/v1614942462/matchplay/sponsors/scandic.png"
                   alt
                 />
               </a>
@@ -60,7 +60,7 @@
             <b-col md="3" class="silver p-2 pt-5 text-center">
               <a href="https://prosak.se" target="_blank">
                 <img
-                  src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1614942462/matchplay/sponsors/prosak_logo_2016.png"
+                  src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_150,q_auto/v1614942462/matchplay/sponsors/prosak_logo_2016.png"
                   alt
                 />
               </a>
@@ -69,7 +69,7 @@
               <a href="https://elgiganten.se" target="_blank">
                 <b-img
                   alt="elgiganten"
-                  src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1614942462/matchplay/sponsors/Vinn-Elgiganten-Phonehouse.png"
+                  src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_150,q_auto/v1614942462/matchplay/sponsors/Vinn-Elgiganten-Phonehouse.png"
                 ></b-img>
               </a>
             </b-col>
@@ -77,7 +77,7 @@
               <a href="https://easygreen.se" target="_blank">
                 <b-img
                   alt="easygreen"
-                  src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1614942462/matchplay/sponsors/easygreen.png"
+                  src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_150,q_auto/v1614942462/matchplay/sponsors/easygreen.png"
                 ></b-img>
               </a>
             </b-col>
