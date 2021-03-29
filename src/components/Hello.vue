@@ -44,12 +44,37 @@
 
     <div class="hero herobg0" ref="slider">
       <b-container class="pl-4 pr-4">
-        <b-row>
+        <b-row align-h="center">
           <b-col class="col-12 col-md-12 mt-4">
             <h2>VÄLKOMMEN TILL MATCHPLAY 2021, GOLFTÄVLINGEN FÖR BÅDE PRIVATPERSONER OCH FÖRETAG</h2>
           </b-col>
 
+          <b-col v-if="!closed" class="col-12 col-md-6 mt-4 mb-3 mb-md-4 text-md-center text-left" id="countdown">
+            <h4 class="mb-3 mb-md-4">Anmälan stänger om:</h4>
+            <b-row align-h="center">
+            <b-col class="col-3">
+              <span id="days" class="days timenumbers">01</span>
+          <p class="timeRefDays timedescription">dagar</p>
+            </b-col>
+            <b-col class="col-3">
+              <span id="hours" class="hours timenumbers">00</span>
+          <p class="timeRefHours timedescription">timmar</p>
+            </b-col>
+            <b-col class="col-3">
+              <span id="minutes" class="minutes timenumbers">00</span>
+          <p class="timeRefMinutes timedescription">minuter</p>
+            </b-col>
+            <b-col class="col-3">
+              <span id="seconds" class="seconds timenumbers yellow-text">00</span>
+          <p class="timeRefSeconds timedescription">sekunder</p>
+            </b-col>
+            </b-row>
+          </b-col>
+
           <b-col class="col-12 col-md-8">
+            <p class="mt-3 mt-md-0">
+              <strong>Omgång 1 startar söndagen den 2 maj och pågår i 2 veckor.</strong>
+            </p>
             <p
               class="mt-3 mt-md-0"
             >Matchplay är en matchspelstävling för par med officiellt handikapp. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.</p>
@@ -75,10 +100,11 @@
                 class="btn blue-bg btn-md text-white mt-2 mr-2"
               >Anmälan</a>
               <a
-                v-if="!isAuthenticated"
+                v-if="!isAuthenticated && !closed"
                 href="#more"
                 class="btn blue-bg btn-md text-white mt-2 mr-2"
               >Vill du veta mer?</a>
+              <p v-if="closed">Anmälan har tyvärr stängt, välkommen nästa år!</p>
               <router-link
                 v-if="isAuthenticated"
                 class="btn blue-bg btn-md text-white mt-2 mr-2"
@@ -185,16 +211,11 @@
               <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
             </b-alert>
 
-            <b-alert v-if="closed" show class="mt-4 small" variant="warning">
+            <b-alert v-if="closed" hidden class="mt-4 small" variant="warning">
               <h4>LAGEN TILL FINALEN I SPANIEN ÄR KLARA</h4>Efter 358 spelade matcher på nästan 100 golfklubbar runtom i Sverige har vi nu korat vinnarna till Spanienfinalen!
               <br />Grattis till Joel Carnor/Emma Wedin samt Kim Christiansson/Martin Nileskär! Se mer info längre ner om vinnarna och finalresan.
               <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
             </b-alert>
-
-            <div hidden v-if="!closed" class="mt-4">
-              <h3 class="mb-3 text-center">Anmälan stänger om</h3>
-              <appCountdown deadline="2021-04-30 23:59:00"></appCountdown>
-            </div>
 
             <b-alert v-if="!closed" hidden class="mt-4 small" variant="warning">
               Start för tävlingen och sista anmälningsdag är ändrad! Tävlingen startar 1 juni och sista dagen för anmälan är 27:e maj.
@@ -238,9 +259,10 @@
     <b-jumbotron container-fluid class="white mb-0">
       <b-container>
         <b-row v-if="!isAuthenticated">
-          <b-col class="col-12">
+          <b-col v-if="!closed" class="col-12">
             <h1 v-if="!closed" class="teaser-header orange mb-3 text-left text-md-center">Anmäl ditt lag till Matchplay 2021</h1>
             <p>Hela tävlingen är numera digitaliserad där vi kontrollerar Golf-ID, hcp, slope mm för att kunna applicera våra hcputräkningar inför varje match. Ni använder vårt digitala scorekort för att föra score och vänner/familj kan följa matcherna live!</p>
+            <p>Sista anmälningsdag är den <strong>30 april</strong> och tävlingens första omgång börjar den <strong>2 maj</strong>.</p>
             <p>
               Anmälningskostnad per lag är
               <strong>{{price1}} kr</strong> för privatpersoner och
@@ -511,7 +533,6 @@
 <script>
 import { mapGetters } from "vuex";
 import { tagsMixin } from "../mixins/tagsMixin";
-import FlipCountdown from "./FlipCountdown";
 import AppRoundsGrafic from "./RoundsGrafic";
 import Testimonials from "./Testimonials";
 import Howitworks from "./Howitworks";
@@ -545,6 +566,9 @@ let options = {};
 
 
 export default {
+  mounted() {
+  this.countdown();
+  },
   created() {
 
     if (this.$route.query.sponsor === 'gm') {
@@ -690,7 +714,6 @@ export default {
   components: {
     //'phone':VuePhoneNumberInput,
     // 'phone':VueTelInput,    ,
-    appCountdown: FlipCountdown,
     AppRoundsGrafic, Testimonials, Podium, Howitworks, ScorecardExplainer
   },
   data() {
@@ -730,6 +753,40 @@ export default {
   mixins: [tagsMixin],
   
   methods: {
+
+    countdown() {
+
+      let parentvue = this;
+
+  const second = 1000,
+        minute = second * 60,
+        hour = minute * 60,
+        day = hour * 24;
+
+      let closedate = "April 30, 2021 23:59:00",
+      //let closedate = "March 25, 2021 17:21:00",
+      countDown = new Date(closedate).getTime(),
+      x = setInterval(function() {    
+
+        let now = new Date().getTime(),
+        distance = countDown - now;
+        if (document.getElementById("days")) {
+          document.getElementById("days").innerText = Math.floor(distance / (day)),
+          document.getElementById("hours").innerText = Math.floor((distance % (day)) / (hour)),
+          document.getElementById("minutes").innerText = Math.floor((distance % (hour)) / (minute)),
+          document.getElementById("seconds").innerText = Math.floor((distance % (minute)) / second);
+        } else {
+          clearInterval(x);
+        }
+        //do something later when date is reached
+        if (distance < 0) {         
+          parentvue.closed = true;
+          clearInterval(x);
+        }
+        //seconds
+      }, 0)
+  },
+
     getClubImage2(logourl) {
             return 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_100,q_80,c_scale/' + logourl;
       }, 
@@ -844,6 +901,30 @@ export default {
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
 
+                .timenumbers {
+                    display: block;
+                    font-size: 1.6rem;
+                    font-weight: 400;
+                    line-height: 1.5rem;
+                    margin: 0 auto;
+                    text-align: center;
+                    @media (min-width: 500px) {
+                        font-size:2rem;
+                    }
+                }
+
+                p.timedescription {
+                    font-size: 0.6rem;
+                    font-variant: small-caps;
+                    line-height: 1.5rem;
+                    margin: 0 auto;
+                    text-align: center;
+                    position: relative;
+                    top: 0px;
+                     @media (min-width: 500px) {
+                        font-size:0.8rem;
+                    }
+                }
 
 
 .toast-image {
@@ -1029,11 +1110,11 @@ img {
 }
 
 .bg1 {
-  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_70,e_colorize:10,co_rgb:000000/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg);
+  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_70,e_colorize:30,co_rgb:000000/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg);
 }
 
 .bg2 {
-  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_70,e_colorize:10,co_rgb:000000/v1608122032/matchplay/MPI-1825.jpg);
+  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_70,e_colorize:30,co_rgb:000000/v1608122032/matchplay/MPI-1825.jpg);
 }
 
 .hero {
@@ -1114,17 +1195,17 @@ img {
 }
 
 .herobg0 {
-   background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_70,e_colorize:50,co_rgb:000000/v1608122570/matchplay/IMG_1232.jpg);
+   background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_auto,e_colorize:50,co_rgb:000000/v1608122570/matchplay/IMG_1232.jpg);
    background-position: right center;
 }
 
 .herobg1 {
-  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_auto,e_colorize:40,co_rgb:000000/v1608219772/matchplay/bg_matchplay.jpg);
+  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_auto,e_colorize:50,co_rgb:000000/v1608219772/matchplay/bg_matchplay.jpg);
    background-position: center center;
 }
 
 .herobg2 {
-  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_auto,e_colorize:10,co_rgb:000000/v1608122032/matchplay/MPI-1825.jpg);
+  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_auto,e_colorize:50,co_rgb:000000/v1608122032/matchplay/MPI-1825.jpg);
   background-position: center center;
 }
 

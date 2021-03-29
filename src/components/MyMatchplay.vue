@@ -1067,8 +1067,8 @@
 
                                         <div class="mt-0 mb-0" :class="{ 'winner': game.winner && game.hometeam === game.winner, 'loser': game.winner && game.awayteam === game.winner}">
                                             <strong>HEMMALAG</strong><br>
-                                            <span class="d-block">{{game.hometeamleadername}} <span v-negativeToPostive:arguments="{hcp: game.hometeamleaderhcp}">{{game.hometeamleaderhcp}}</span></span>
-                                            <span v-if="game.hometeammembername" class="d-block">{{game.hometeammembername}} <span v-negativeToPostive:arguments="{hcp: game.hometeammemberhcp}">{{game.hometeammemberhcp}}</span></span>                                     
+                                            <span class="d-block">{{game.hometeamleadername}} <b-badge pill variant="warning" class="hcp" v-negativeToPostive:arguments="{hcp: game.hometeamleaderhcp}">{{game.hometeamleaderhcp}}</b-badge></span>
+                                            <span v-if="game.hometeammembername" class="d-block">{{game.hometeammembername}} <b-badge pill variant="warning" class="hcp" v-negativeToPostive:arguments="{hcp: game.hometeammemberhcp}">{{game.hometeammemberhcp}}</b-badge></span>                                     
                                             <span class="d-block" v-else>Lagkamrat saknas</span>
                                             <span v-if="game.hometeamcoursename"><i>{{game.hometeamcoursename}}</i></span>
                                             <span v-if="!game.hometeamcoursename">Hemmaklubb saknas</span><br>                                        
@@ -1085,8 +1085,8 @@
 
                                         <div class="mt-0 mb-0 text-right" :class="{ 'winner': game.winner && game.awayteam === game.winner, 'loser': game.winner && game.hometeam === game.winner}">
                                            <strong>BORTALAG</strong><br>
-                                           <span class="d-block">{{game.awayteamleadername}} <span v-negativeToPostive:arguments="{hcp: game.awayteamleaderhcp}">{{game.awayteamleaderhcp}}</span></span>
-                                           <span v-if="game.awayteammembername" class="d-block">{{game.awayteammembername}} <span v-negativeToPostive:arguments="{hcp: game.awayteammemberhcp}">{{game.awayteammemberhcp}}</span></span>                                       
+                                           <span class="d-block">{{game.awayteamleadername}} <b-badge pill variant="warning" class="hcp" v-negativeToPostive:arguments="{hcp: game.awayteamleaderhcp}">{{game.awayteamleaderhcp}}</b-badge></span>
+                                           <span v-if="game.awayteammembername" class="d-block">{{game.awayteammembername}} <b-badge pill variant="warning" class="hcp" v-negativeToPostive:arguments="{hcp: game.awayteammemberhcp}">{{game.awayteammemberhcp}}</b-badge></span>                                       
                                            <span class="d-block" v-else>Lagkamrat saknas</span>
                                              <span v-if="game.awayteamcoursename"><i>{{game.awayteamcoursename}}</i></span>
                                               <span v-if="!game.awayteamcoursename">Hemmaklubb saknas</span><br>
@@ -1214,8 +1214,8 @@
                                          <b-col v-if="game.status !== 'Finished'" class="col-4 text-right">
                                              <a hidden @click="showHelpGame()" class="btn btn-secondary btn-md text-white"><i class="fas fa-question mb-1"></i></a>
                                            
-                                             <b-button id="popover-help-game" href="#" tabindex="0" class="btn btn-secondary btn-md text-white"><i class="fas fa-question mb-1"></i></b-button>
-                                             <b-popover target="popover-help-game" variant="light" triggers="focus" placement="topleft">
+                                             <b-button :id="'popover-help-game-'+game._id" href="#" tabindex="0" class="btn btn-secondary btn-md text-white"><i class="fas fa-question mb-1"></i></b-button>
+                                             <b-popover :target="'popover-help-game-'+game._id" variant="light" triggers="focus" placement="topleft">
                                                 <template #title>Information</template>
                                                  Klicka på visa match för att se kontaktuppgifter till lagkaptenen i laget ni ska möta. Bestäm datum och tid för matchen (hemmalaget bestämmer bana) och boka tid genom t.ex Min Golf Bokning.
                                             </b-popover>
@@ -3488,6 +3488,12 @@ export default {
 
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
+
+.badge.hcp {
+    font-size:0.7em;
+    padding: 0.6em 0.6em 0.3em 0.6em;
+    margin-bottom:5px;
+}
 
 .card-body {
     padding-bottom:0px !important;

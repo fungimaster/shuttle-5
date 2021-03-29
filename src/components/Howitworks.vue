@@ -69,7 +69,7 @@ export default {
       swipe_show_once: false,
  //explainer
       explainer: [      
-        { icon: 'clipboard-check',title:'Anmälan', message: "Steg 1 är att anmäla dig som spelare under 'Anmälan' där du direkt får besked om du är kvalificerad. Du blir sedan inloggad för att påbörja ditt lagbygge. <strong>Inget</strong> förbinder dig att betala för ditt lag i detta läge. Anmälan stänger i slutet av april." },
+        { icon: 'clipboard-check',title:'Anmälan', message: "Steg 1 är att anmäla dig som spelare under 'Anmälan' där du direkt får besked om du är kvalificerad. Du blir sedan inloggad för att påbörja ditt lagbygge. <strong>Inget</strong> förbinder dig att betala för ditt lag i detta läge. Anmälan stänger den 30 april." },
         { icon: 'user-friends', title: 'Skapa ditt lag', message: "Nu ska du som lagkapten skapa ditt lag och väljer typ av lag (privat/företag) och lagmedlem. Du måste veta din lagkamrats golfid för att kunna välja lagkamrat. I sista steget betalar du med swish (privatpersoner), voucher eller faktura (företag)." },
         { icon: 'dice', title: 'Lottning', message: "Under maj görs lottningen för den första omgången och där det tas hänsyn till att alla lag ska få så kort resa som möjligt. Du kommer få information via mail samt på matchplay.se när lottningen är klar och du kan då se vilket lag ni kommer möta." },
         { icon: 'golf-ball', title: 'Spela matcher', message: "Varje match måste spelas inom den period som anges för den lottande omgången. På matchplay.se kommer du kunna se vilket lag ni ska möta samt kontaktuppgifter. Fram till Sverigefinalen betalar ni själva ev. greenfee. All score förs med vårt digitala scorekort." },
