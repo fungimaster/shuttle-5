@@ -72,12 +72,12 @@
           </b-col>
 
           <b-col class="col-12 col-md-8">
-            <p class="mt-3 mt-md-0">
+            <p v-if="!closed" class="mt-3 mt-md-0">
               <strong>Omgång 1 startar söndagen den 2 maj och pågår i 2 veckor.</strong>
             </p>
             <p
               class="mt-3 mt-md-0"
-            >Matchplay är en matchspelstävling för par med officiellt handikapp. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.</p>
+            >Matchplay är en matchspelstävling för par med officiellt handicap. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.</p>
             <p
               v-if="!closed"
             >Tävlingen spelas mellan maj-september i olika omgångar fram till Sverigefinalen och sedan vidare utomlands!</p>
@@ -86,7 +86,7 @@
               hidden
               v-if="closed"
             >I helgen (30-31 maj) lottas första omgången. Den 1 juni startar tävlingen!</p>
-
+           
             <div class="buttons text-left">
               <router-link
                 v-if="!closed && !isAuthenticated"
@@ -104,7 +104,23 @@
                 href="#more"
                 class="btn blue-bg btn-md text-white mt-2 mr-2"
               >Vill du veta mer?</a>
-              <p v-if="closed">Anmälan har tyvärr stängt, välkommen nästa år!</p>
+
+            <div v-if="closed && !isAuthenticated" class="mt-3 mb-3">
+              <b-row>
+                <b-col class="col-7 col-md-12 pr-0 pr-md-3">
+              <h3 class="">Statistik 2021</h3>
+              Anmälda lag: <strong>523</strong><br>
+              Snitthcp: <strong>12.2</strong><br>
+              Snittålder: <strong>46.2</strong><br>
+              
+                </b-col>
+                <b-col class="col-5 col-md-12 pl-0 pl-md-3">
+                  <b-button to="/results" class="text-white mt-5 mt-md-3" variant="primary" size="sm">Följ årets matcher</b-button>
+                </b-col>
+              </b-row>
+            </div>
+
+              <p v-if="closed && !isAuthenticated">Anmälan till årets tävling har tyvärr stängt, välkommen tillbaka nästa år, anmälan öppnar i december 2021.</p>
               <router-link
                 v-if="isAuthenticated"
                 class="btn blue-bg btn-md text-white mt-2 mr-2"
@@ -131,109 +147,12 @@
               v-for="message in messages"
               :key="message.index"
             >
-              <h6>{{message.title}}</h6>
+              <h6><strong>{{message.title}}</strong></h6>
               <span v-html="message.message"></span>
             </b-alert>
 
-            <b-alert class="mt-4 smaller" variant="warning">
-              Tävlingen startar den 3:e maj 2021 men anmäl ditt lag redan nu!
-              För mer uppdaterad information håll koll på
-              <a href="https://www.facebook.com/matchplaysweden/" target="_blank">Facebook</a> och
-              <a href="https://www.instagram.com/matchplay_sweden/" target="_blank">Instagram</a>.
-            </b-alert>
-
-            <b-alert v-if="closed" hidden class="mt-4 small" variant="warning">
-              Alla matcher är lottade och omgång 1 spelas mellan 1-14 juni!
-              <a href="#games">Se matcher längre ner!</a>
-              <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
-            </b-alert>
-
-            <b-alert v-if="closed" hidden class="mt-4 small" variant="warning">
-              Omgång 2 lottas under måndagen den 15 juni, håll utkik här på hemsidan eller på
-              <a href="https://www.facebook.com/matchplaysweden/">facebook</a> för uppdateringar om nya matcher och speldatum för nästa omgång!
-              <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
-            </b-alert>
-
-            <b-alert v-if="closed" hidden class="mt-4 small" variant="warning">
-              Omgång 3 lottas under måndagen den 6 juli, håll utkik här på hemsidan eller på
-              <a href="https://www.facebook.com/matchplaysweden/">facebook</a> för uppdateringar om nya matcher och speldatum för nästa omgång!
-              <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
-            </b-alert>
-
-            <b-alert v-if="closed" hidden class="mt-4 small" variant="warning">
-              Omgång 3 (huvudtävlingen och andra chansen) spelas mellan 6/7 - 19/7.
-              <a href="#games">Se matcher längre ner!</a>
-              Nyheter och aktuell info om tävlingen ses bäst på vår
-              <a href="https://www.facebook.com/matchplaysweden/">facebooksida</a>.
-              <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
-            </b-alert>
-
-            <b-alert v-if="closed" hidden class="mt-4 small" variant="warning">
-              Omgång 4 (huvudtävlingen och andra chansen) spelas mellan 20/7 - 3/8.
-              <a href="#games">Se matcher längre ner!</a>
-              Nyheter och aktuell info om tävlingen ses bäst på vår
-              <a href="https://www.facebook.com/matchplaysweden/">facebooksida</a>.
-              <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
-            </b-alert>
-
-            <b-alert v-if="closed" hidden class="mt-4 small" variant="warning">
-              Omgång 5 (huvudtävlingen och andra chansen) spelas mellan 4/8 - 18/8.
-              <a href="#games">Se matcher längre ner!</a>
-              Nyheter och aktuell info om tävlingen ses bäst på vår
-              <a href="https://www.facebook.com/matchplaysweden/">facebooksida</a>.
-              <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
-            </b-alert>
-
-            <b-alert v-if="closed" hidden class="mt-4 small" variant="warning">
-              <strong>8 lag</strong> återstår nu i resp spår av tävlingen (HT och AC). Omgång 6 (huvudtävlingen och andra chansen) spelas mellan 19/8 - 2/9.
-              <a href="#games">Se matcher längre ner!</a>
-              Nyheter och aktuell info om tävlingen ses bäst på vår
-              <a href="https://www.facebook.com/matchplaysweden/">facebooksida</a>.
-              <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
-            </b-alert>
-
-            <b-alert v-if="closed" hidden class="mt-4 small" variant="warning">
-              <strong>4 lag</strong> återstår nu i resp spår av tävlingen (HT och AC). Omgång 7 (huvudtävlingen och andra chansen) spelas mellan 1/9 - 15/9.
-              <a href="#games">Se matcher längre ner!</a>
-              <br />
-              <br />Omgång 8 (Sverigefinalen) spelas på Allerum GK 23-24 oktober. Se mer info längre ner.
-              Nyheter och aktuell info om tävlingen ses bäst på vår
-              <a href="https://www.facebook.com/matchplaysweden/">facebooksida</a>.
-              <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
-            </b-alert>
-
-            <b-alert v-if="closed" hidden class="mt-4 small" variant="warning">
-              <p>
-                <strong>Lagen som är vidare till Sverigefinalen är nu utsedda!</strong>
-              </p>
-              <p>I huvudtävlingen är CARNOR/WEDIN och IDLING/ANDERSSON vidare. I andra chansen är CHRISTIANSSON/NILESKÄR och THURESON/DAHL vidare.</p>Se mer info om Sverigefinalen längre ner. Nyheter och aktuell info om tävlingen ses bäst på vår
-              <a href="https://www.facebook.com/matchplaysweden/">facebooksida</a>.
-              <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
-            </b-alert>
-
-            <b-alert v-if="closed" hidden class="mt-4 small" variant="warning">
-              <h4>LAGEN TILL FINALEN I SPANIEN ÄR KLARA</h4>Efter 358 spelade matcher på nästan 100 golfklubbar runtom i Sverige har vi nu korat vinnarna till Spanienfinalen!
-              <br />Grattis till Joel Carnor/Emma Wedin samt Kim Christiansson/Martin Nileskär! Se mer info längre ner om vinnarna och finalresan.
-              <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
-            </b-alert>
-
-            <b-alert v-if="!closed" hidden class="mt-4 small" variant="warning">
-              Start för tävlingen och sista anmälningsdag är ändrad! Tävlingen startar 1 juni och sista dagen för anmälan är 27:e maj.
-              <a
-                href="https://www.facebook.com/pg/matchplaysweden/posts/?ref=page_internal"
-              >Läs mer här</a>
-              <span hidden>
-                <strong>OBS!</strong> Alla anmälda lag får tröjor från PING men vill man vara säker på att ha dom till matchstart i början av maj så måste man anmäla laget innan 1 april.
-              </span>
-              <!-- håll koll via <a href="https://www.facebook.com/pg/matchplaybusines" target="_blank">Facebook</a> och <a href="https://www.instagram.com/matchplaybusiness/" target="_blank">Instagram</a> -->
-            </b-alert>
-            <b-alert hidden class="mt-4 small" variant="danger">
-              Utvecklarna har kollat på Presidents cup hela natten så releasen blir lite senare under kvällen idag eller eventuellt imorgon förmiddag.
-              Håll koll via
-              <a href="https://www.facebook.com/matchplaysweden/" target="_blank">Facebook</a> och
-              <a href="https://www.instagram.com/matchplay_sweden/" target="_blank">Instagram</a>.
-            </b-alert>
           </b-col>
+          
 
           <b-col class="col-12 d-block d-md-none pl-2 justify-content-center align-self-center p-5">
             <b-img
@@ -259,6 +178,21 @@
     <b-jumbotron container-fluid class="white mb-0">
       <b-container>
         <b-row v-if="!isAuthenticated">
+            <b-col hidden v-if="closed" class="col-12">
+              <h1>Statistik 2021</h1>
+              Anmälda lag: 523<br>
+              Snittålder: 43<br>
+              Snitthcp: 12.2<br>
+
+
+            </b-col>
+          <b-col v-if="closed" class="col-12">
+            <p
+              class="mt-3 mt-md-0"
+            >Matchplay är en matchspelstävling för par med officiellt handicap. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.</p>
+            <p
+            >Tävlingen spelas mellan maj-september i olika omgångar fram till Sverigefinalen och sedan vidare utomlands!</p>
+          </b-col>
           <b-col v-if="!closed" class="col-12">
             <h1 v-if="!closed" class="teaser-header orange mb-3 text-left text-md-center">Anmäl ditt lag till Matchplay 2021</h1>
             <p>Hela tävlingen är numera digitaliserad där vi kontrollerar Golf-ID, hcp, slope mm för att kunna applicera våra hcputräkningar inför varje match. Ni använder vårt digitala scorekort för att föra score och vänner/familj kan följa matcherna live!</p>
@@ -280,7 +214,7 @@
             <h3 class="teaser-header orange mb-3">Hej {{user.firstname}}!</h3>
 
             <p v-if="user.teams">
-              Du har redan skapat ett lag och kan hantera det
+              Du kan hantera ditt lag 
               <router-link to="/mymatchplay">här</router-link>. Lycka till i tävlingen!
             </p>
             <div v-if="user.teams">
@@ -311,6 +245,7 @@
                     </p>
                   </div>
                 </div>
+         
               </div>
             </div>
             <p
@@ -331,9 +266,21 @@
           </b-col>
         </b-row>
 
-        <hr class="mt-4 mb-4 mt-md-5 mb-md-4" />
+        <b-row v-if="closed">
+          <b-col class="col-12 gradient">
+              <app-rounds-grafic
+              class="mt-3"
+              style="height: 300px"
+              linecolor="#808080"
+              opacity="1"
+              stagefill="white"
+            ></app-rounds-grafic>
+          </b-col>
+        </b-row>
+
+        <hr v-if="!closed" class="mt-4 mb-4 mt-md-5 mb-md-4" />
         <b-row align-h="center">
-          <b-col v-if="latestTeam" class="col-12 col-md-6">
+          <b-col v-if="latestTeam && !closed" class="col-12 col-md-6">
             <b-row align-h="center" class="align-items-center h-100">
                              <b-col class="col-3 mx-auto text-center text-md-right pl-0 pr-0">                              
                                   <b-img class="" :src="getClubImage2(latestTeamLogo)"></b-img> 
@@ -344,8 +291,8 @@
                             </b-row>
                             <hr class="d-block d-md-none" /> 
           </b-col>
-          <b-col class="col-12 col-md-6 p-0 mt-5 mt-md-0">           
-          <b-col class="col-12">
+          <b-col class="col-12 col-md-6 p-0 mt-2 mt-md-0">           
+          <b-col class="col-12 mt-3">
             <a
               class="btn orange-bg btn-md text-white mt-2 mr-md-2"
               href="https://www.facebook.com/matchplaysweden/"
@@ -371,7 +318,7 @@
 
         </b-row>
 
-        <b-row v-if="showTopClubs">
+        <b-row v-if="showTopClubs && !closed">
           <b-col class="col-12 mt-3">
             <hr />
             <h3 class="white mb-3 mt-4 pt-2">Topp 3 anmälda lag</h3>
@@ -385,9 +332,9 @@
       </b-container>
     </b-jumbotron>
 
-     <howitworks v-if="!isAuthenticated || !user"></howitworks>
+     <howitworks v-if="!closed && (!isAuthenticated || !user)"></howitworks>
     
-    <b-jumbotron container-fluid class="white mb-0">
+    <b-jumbotron v-if="!closed" container-fluid class="white mb-0">
       <b-container>
         <b-row>
           <b-col class="col-12 text-left text-md-center">
@@ -433,7 +380,7 @@
       </b-container>
     </b-jumbotron>
 
-    <b-jumbotron container-fluid class="white mb-3">
+    <b-jumbotron v-if="!closed" container-fluid class="white mb-3">
       <b-container>
         <b-row>
           <b-col class="col-12">
@@ -475,7 +422,7 @@
       </b-container>
     </b-jumbotron>
 
-    <b-jumbotron container-fluid class="gradient mb-0" id="more">
+    <b-jumbotron v-if="!isAuthenticated && !closed" container-fluid class="gradient mb-0" id="more">
       <b-container>
         <b-row>
           <b-col class="col-12 mt-4">
@@ -513,7 +460,7 @@
       </b-container>
     </b-jumbotron>
 
-     <b-jumbotron container-fluid class="white mb-0">
+     <b-jumbotron v-if="!closed && !isAuthenticated" container-fluid class="white mb-0">
       <b-container>
         <b-row>
           <b-col class="col-12 text-left text-md-center mt-4 mb-4">
@@ -725,7 +672,7 @@ export default {
       messages: null,
       showTopClubs: globalState.showTopClubs,
       modalShow: false,
-      closed: false,
+      closed: globalState.closed,
       leader: "",     
        //IMAGES
       images: [
@@ -900,6 +847,24 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
+
+
+.stats {
+    background: lighten($blue, 5%);
+    border-radius:0.2em;
+    color:#FFF;
+    border: 1px solid darken(#999, 3%);
+}
+
+.stats label {
+    font-size:0.7em;
+    text-transform:uppercase;
+    border-bottom: 1px solid white;
+}
+
+.stats span {
+    font-size:2em;
+}
 
                 .timenumbers {
                     display: block;
