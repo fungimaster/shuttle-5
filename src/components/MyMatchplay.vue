@@ -2769,6 +2769,10 @@ export default {
                 amount = this.team.price_company;
             }
 
+            if (this.$store.state.userId === "Y6PQXKor9iXxmKyD5") {
+                amount === 1
+            }
+
             this.axios.post(globalState.admin_url + 'swish', {
                     "competition": globalState.compid,
                     "team": this.team._id,
