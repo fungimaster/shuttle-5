@@ -2770,7 +2770,7 @@ export default {
             }
 
             if (this.$store.state.userId === "Y6PQXKor9iXxmKyD5") {
-                amount === 1
+                amount = 1
             }
 
             this.axios.post(globalState.admin_url + 'swish', {
