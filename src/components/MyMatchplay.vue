@@ -2768,7 +2768,8 @@ export default {
             if (this.team.type === "Company") {
                 amount = this.team.price_company;
             }
-
+            
+            //if user is Rasmus set amount to 1 sek. 
             if (this.$store.state.userId === "Y6PQXKor9iXxmKyD5") {
                 amount = 1
             }
