@@ -278,6 +278,7 @@ Vid omstart hål 1 (alt. Hål 10) så gäller det att det finns plats såklart. 
 </template>
 
 <script>
+console.log(process.env.BRANCH);
   import {tagsMixin} from '../mixins/tagsMixin';
   import { globalState } from "../main.js";
   import Howitworks from "./Howitworks";
