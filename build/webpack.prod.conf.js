@@ -31,7 +31,7 @@ var webpackConfig = merge(baseWebpackConfig, {
       // Required - The path to the webpack-outputted app to prerender.
       staticDir: path.join(__dirname, '../dist'),
       // Required - Routes to render.
-      routes: [ '/register', '/info', '/klubbar', '/mymatchplay' ],
+      routes: [ '/', '/register', '/info', '/klubbar', '/mymatchplay' ],
       renderer: new Renderer({
         // Optional - The name of the property to add to the window object with the contents of `inject`.
         //injectProperty: '__PRERENDER_INJECTED',
@@ -51,7 +51,7 @@ var webpackConfig = merge(baseWebpackConfig, {
 
         // Optional - Wait to render until a certain amount of time has passed.
         // NOT RECOMMENDED
-        renderAfterTime: 5000, // Wait 5 seconds.
+        // renderAfterTime: 5000, // Wait 5 seconds.
 
         // Other puppeteer options.
         // (See here: https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#puppeteerlaunchoptions)
