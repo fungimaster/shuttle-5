@@ -177,7 +177,7 @@
 
 						<!-- TEAM 1 CONTAINER -->
 						<div v-if="activeHole===1" class="sponsor mb-3 text-center">
-							<b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,h_60,q_auto/v1614942462/matchplay/sponsors/easygreen.png"></b-img>
+							<b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,h_40,q_auto/v1614942462/matchplay/sponsors/easygreen.png"></b-img>
 						</div>
 						<div
 							class="team1ScoreCard pt-3 pb-3"
@@ -835,6 +835,15 @@
             this.gameID = this.$route.query.id;
 			let userinfo = localStorage.getItem("userinfo");
 
+			//check if freeplay
+			if (this.$route.query.freeplay) {
+				if (this.$route.query.freeplay === 'true')
+				this.freeplay = true;
+			}
+
+			//console.log('freeplay='+this.freeplay)
+
+
 			//ej Inloggad
 			if (!userinfo) {
 				this.authorized = false;
@@ -844,11 +853,14 @@
 			}
 
             userinfo = JSON.parse(userinfo)
-            let teams = [...userinfo.teams]
+			let teams = [...userinfo.teams]
+			
 
             const url = "https://admin.matchplay.se/methods/getGameData";
             const gameID = {
-                id: this.gameID
+				id: this.gameID,
+				freeplay: this.freeplay,
+				userid: userinfo._id
 			};
 
 			if (teams.length === 0) { //logged in but no teams
@@ -867,7 +879,8 @@
                      awayteam = response.data.awayteam
                      hometeam = response.data.hometeam
                         for (const team of teams) {							
-                                if(team._id === awayteam || team._id === hometeam || userinfo.golfid === '780110-015') {									
+                                //if(team._id === awayteam || team._id === hometeam || userinfo.golfid === '780110-015') {									
+									if(team._id === hometeam || userinfo.golfid === '780110-015') {									
 									this.authorized = true;
 									//show legend modal if no scores yet
 									if (response.data.scorecard[0].holes[0].strokes === 0) {
@@ -932,6 +945,7 @@
 		},
 		data() {
 			return {
+				freeplay:false,
 				holes:null,
 				showfront9: true,
 				showback9:true,
@@ -1702,10 +1716,15 @@
 			},
 
 			async getGameData() {
+
+				let userinfo = localStorage.getItem("userinfo");
+            	userinfo = JSON.parse(userinfo)
 				
 				const url = "https://admin.matchplay.se/methods/getGameData";
 				const gameID = {
-					id: this.gameID
+					id: this.gameID,
+					freeplay: this.freeplay,
+					userid: userinfo._id
 				};
 
 				try {
@@ -2107,6 +2126,10 @@
 <style lang="scss"  scoped>
 
 @import "../styles/variables.scss";
+
+.sponsor img {
+	max-width:90%;
+}
 
 .fa-smile {
 	color:$blue;
