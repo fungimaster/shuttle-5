@@ -31,7 +31,7 @@ var webpackConfig = merge(baseWebpackConfig, {
       // Required - The path to the webpack-outputted app to prerender.
       staticDir: path.join(__dirname, '../dist'),
       // Required - Routes to render.
-      routes: [ '/', '/register', '/info', '/klubbar', '/mymatchplay' ],
+      routes: ['/register', '/info', '/klubbar', '/mymatchplay' ],
       renderer: new Renderer({
         // Optional - The name of the property to add to the window object with the contents of `inject`.
         //injectProperty: '__PRERENDER_INJECTED',
