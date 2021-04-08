@@ -61,19 +61,19 @@ export default {
       slides: [
          {
          message: 'När ni har träffats på klubben och det är dags för spel startar hemmalaget (som ansvarar för att föra score) matchen från matchplay.se och matchsidan. Aktuell hcp hämtas direkt från GIT och val av tee görs.',
-         image: 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_400,q_80/v1613126296/matchplay/scorecard1.png'       
+         image: 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_380,q_auto/v1613126296/matchplay/scorecard1.jpg'       
        },
        {
          message: 'Era spelhcp räknas ut automatiskt och kan nås från hjälpknappen. Här kan ni se exakt hur vi räknar ut era hcp, tex när laget har mer än 28 i hcp osv.',
-         image: 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_400,q_80/v1613126296/matchplay/scorecard_help.png'
+         image: 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_380,q_auto/v1613126296/matchplay/scorecard_help.jpg'
          
        },  
       { message: 'På översiktssidan ser man alla 18 hål med symboler för score, ev. slag för resp. spelare samt vinnande score. Högst upp ser man vem som leder matchen.',       
-       image: 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_400,q_80/v1613126296/matchplay/scorecard2.png'
+       image: 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_380,q_auto/v1613126296/matchplay/scorecard2.jpg'
        },
        
       { message: 'På resp. hål förs varje spelares score in genom ett enkelt gränssnitt, det tar i snitt 3-5 sekunder att mata in scoren för ett hål och sedan gå vidare till nästa. Familj och vänner kan följa matchen på matchplay.se. Behövs särspel efter 18:e hålet guidas ni i scorekortet.',
-        image: 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_400,q_80/v1613126296/matchplay/scorecard3.png'
+        image: 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_380,q_auto/v1613126296/matchplay/scorecard3.jpg'
         },
         
        
