@@ -869,10 +869,6 @@ export default {
           winner: null
         })
         .then((response) => {
-          location.href = "scorecard?id=" + response.data + '&freeplay=true';
-          return response
-        })
-        .then((response) => {
             this.axios
             .post(globalState.admin_url + "updateGame", {
               _id: response.data,
@@ -884,6 +880,9 @@ export default {
               loop: this.form.loop,
               loopname: this.form.loopname,
               winner: null
+            }).
+            then(() => {
+               location.href = "scorecard?id=" + response.data + '&freeplay=true';
             })
 
         })
