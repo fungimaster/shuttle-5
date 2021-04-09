@@ -852,9 +852,8 @@ export default {
       this.loading = true;
 
       //create game backend
-      
        this.axios
-        .post("https://matchplay.meteorapp.com/methods/createGame", {
+        .post(globalState.admin_url + "createGame", {
           competition: 'r3HP8Kw62z2qfZhkr', //freeplay
           "hometeamleader": "Spelare 1",
           "hometeammember": "Spelare 2",
@@ -870,9 +869,25 @@ export default {
           winner: null
         })
         .then((response) => {
-          console.log(response.data);
           location.href = "scorecard?id=" + response.data + '&freeplay=true';
+          return response
         })
+        .then((response) => {
+            this.axios
+            .post(globalState.admin_url + "updateGame", {
+              _id: response.data,
+              holes: this.holesArray,
+              scorecard: this.players,
+              status: "Pending",
+              club: this.form.courseID,
+              clubname: this.form.course,
+              loop: this.form.loop,
+              loopname: this.form.loopname,
+              winner: null
+            })
+
+        })
+      
         .catch((error) => {
           //this.player_1_error = "Golfaren hittades inte... prova att skriva in golfid igen.";
           console.log(error);
