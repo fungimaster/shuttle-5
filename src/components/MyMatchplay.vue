@@ -451,7 +451,9 @@
 
                                 <div v-if="team.teamreservegolfid" class="pt-0 pb-3">
                                      <span :id="'tooltip-teammember3-' + idx">
-                                        <i class="material-icons mr-2">person_pin</i>Reserv: {{team.teamreservegolfid}}                                        
+                                        <i class="material-icons mr-2">person_pin</i>Reserv: 
+                                        <span v-if="team.teamreservename">{{team.teamreservename}}</span>
+                                        <span v-else>{{team.teamreservegolfid}}</span>                                      
                                         <b-tooltip :target="'tooltip-teammember3-' + idx" triggers="hover" placement="top">
                                             Denna reserv kan väljas när en match ska startas
                                         </b-tooltip>                                                                                
