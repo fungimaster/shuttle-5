@@ -229,7 +229,7 @@ export default {
 
     userinfo = JSON.parse(userinfo);
     let teams = [...userinfo.teams];
-    const url = "https://admin.matchplay.se/methods/getGameData";
+    const url = globalState.admin_url + "getGameData";
     const gameID = {
       id: this.gameID,
     };
@@ -402,7 +402,7 @@ export default {
     //Hämta gamedata med hjälp av id
     try {
       this.axios
-        .post("https://admin.matchplay.se/methods/getGameData", {
+        .post(globalState.admin_url + "getGameData", {
           id: this.gameID,
         })
         .then((response) => {
@@ -427,7 +427,7 @@ export default {
     //Hämta alla golfklubbar
     try {
       this.axios
-        .post("https://admin.matchplay.se/methods/getGolfclubs")
+        .post(globalState.admin_url + "getGolfclubs")
         .then((response) => {
           this.courses = response.data;
 

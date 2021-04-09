@@ -806,6 +806,7 @@
 	import ScoringVue from "./Scoring.vue";
 	import HcpModalVue from "./HcpModal.vue";
 	import TieBreakModalVue from "./TieBreakModal.vue";
+	import { globalState } from "../main.js";
 
 	import moment from 'moment';
 
@@ -856,7 +857,7 @@
 			let teams = [...userinfo.teams]
 			
 
-            const url = "https://admin.matchplay.se/methods/getGameData";
+            const url = globalState.admin_url + "getGameData";
             const gameID = {
 				id: this.gameID,
 				freeplay: this.freeplay,
@@ -1720,7 +1721,7 @@
 				let userinfo = localStorage.getItem("userinfo");
             	userinfo = JSON.parse(userinfo)
 				
-				const url = "https://admin.matchplay.se/methods/getGameData";
+				const url = globalState.admin_url + "getGameData";
 				const gameID = {
 					id: this.gameID,
 					freeplay: this.freeplay,
