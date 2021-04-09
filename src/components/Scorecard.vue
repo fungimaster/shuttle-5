@@ -437,7 +437,7 @@
 					</b-col>
 
 						<b-col v-if="!authorized && status !== 'Finished'" cols="12" class="mt-4">
-							 <h5><b-spinner small type="grow" class="mr-2 mb-1 red"></b-spinner>Match pågår (start {{gametime}})</h5>
+							 <h5><b-spinner small type="grow" class="mr-2 mb-1 red"></b-spinner>Match pågår <span v-if="gametime">(start {{gametime}})</span> </h5>
 							 <b-button id="refresh_button" class="float-right btn-sm" @click="refreshGame3()" variant="warning" show><b-spinner v-if="updating" small type="grow" class="mr-1 red"></b-spinner>Uppdatera</b-button>
 							 <h5><span class="lowerCase timeUpdated">Uppdaterad: {{updatedAt}}</span></h5>
 							 
