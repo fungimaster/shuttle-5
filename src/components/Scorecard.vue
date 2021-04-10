@@ -2502,7 +2502,7 @@
 			#ecf5ec 10px,
 			#fff 10px,
 			#fff 20px
-		);
+		) !important;
 	}
 	.holeLoser {
 		background: repeating-linear-gradient(
@@ -2511,7 +2511,7 @@
 			#fceded 10px,
 			#fff 10px,
 			#fff 20px
-		);
+		) !important;
 	}
 
 	.hideSlag {
