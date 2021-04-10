@@ -1,5 +1,5 @@
 <template>
-	<div ref="scorecardTest">
+	<div ref="scorecardTest" class="bg">
 		<div v-if="loadingSpinner"  class="text-center min-vh-100">
 	 		<b-spinner big type="grow" class="align-items-center m-5" style="width: 5rem; height: 5rem;"></b-spinner>
 		</div>
@@ -2124,9 +2124,19 @@
 		}
 	};
 </script>
-<style lang="scss"  scoped>
+<style lang="scss" scoped>
 
 @import "../styles/variables.scss";
+
+.bg {
+ background-repeat: no-repeat;
+
+  background-position: right 0px top 50%;
+  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_800,q_auto,e_colorize:50,co_rgb:000000/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg);
+	height:100vh;
+	  background-size: cover;
+}
+
 
 .sponsor img {
 	max-width:90%;
@@ -2386,6 +2396,10 @@
 		margin-top: 0
 	}	
 
+	.table9, .table18 {
+		background:rgba(255,255,255,0.9)
+	}
+
 	.tableClubAndLoop{
 		margin-bottom: 0;
 		text-align: left;
@@ -2458,7 +2472,7 @@
 		margin-bottom: 20px;
 		height: 70px;
 		padding-top: 20px;
-		background-color: #195a3a;
+		//background-color: #195a3a;
 		color: white;
 		font-size: 20px;
 	}
@@ -2513,6 +2527,7 @@
 		box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.19);
 		border-radius: 10px;
 		padding: 5px 10px;
+		background:rgba(255,255,255,0.9)
 	}
 
 	.team1ScoreCard {
@@ -2671,10 +2686,12 @@
 		height: 80px;
 		width: 100%;
 		margin: 0;
-		background-color: #fff;
+		color:#FFF;
+		//background-color: #fff;
 	}
 	.scoreTeam {
 		font-size: 0.7em;
+		color:#FFF;
 	}
 	.scoreTeamModal {
 		//skriver over scoreTeam ovan om Scorevard öppnad i modal
@@ -2781,9 +2798,10 @@
 
 	#tie {
 		font-size: 1em;
+		color:#FFF;
 	}
 	.tie {
-		background: #fff;
+		//background: #fff;
 	}
 
 	.tie::before,
