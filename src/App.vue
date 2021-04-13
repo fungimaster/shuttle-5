@@ -152,7 +152,7 @@ strong {
   background: #F5F5F5;
 }
 
-.jumbotron.gradient {
+.jumbotron.gradient, div.gradient {
     border-radius: 0;
   color:#FFF;
 background: rgb(51,116,182);
@@ -429,4 +429,6 @@ button.Cookie--matchplay {
   line-height: 1.5;
   border-radius: 0.3rem;
 }
+
+
 </style>

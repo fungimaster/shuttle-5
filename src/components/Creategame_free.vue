@@ -15,6 +15,23 @@
           </div>
           <div v-if="!errorMSG && !loading">
             <div>
+
+               <!-- VAL SPELARE 1 -->
+
+              <b-form-group class="inputField">
+                Lag 1
+                 <b-form-input  class="" v-model="form.player1" placeholder="Golf-id spelare 1"></b-form-input>
+                  <b-form-input  class="" v-model="form.player2" placeholder="Golf-id spelare 2"></b-form-input>
+                  Lag 2
+                   <b-form-input  class="" v-model="form.player3" placeholder="Golf-id spelare 3"></b-form-input>
+                    <b-form-input  class="" v-model="form.player4" placeholder="Golf-id spelare 4"></b-form-input>
+
+
+
+                 <b-button @click="createPlayers(null)" variant="success" class="mt-1" size="sm">Sök</b-button> 
+
+              </b-form-group>
+
               <!-- VÄLJA KLUBB -->
 
               <b-form-group label="Välj klubb från listan:" class="inputField">
@@ -72,7 +89,7 @@
                     av tee tillsammans med matchplays regler för hcp-uträkning.
                     Era nya hcp samt slag per hål ser ni i nästa steg.
                   </b-alert>
-                    <b-alert dismissible v-if="form.slinga" show class="mt-3 mb-0 small" variant="danger">
+                    <b-alert hidden dismissible v-if="form.slinga" show class="mt-3 mb-0 small" variant="danger">
                     Ny regel 2021: Herrar spelar på klubbens rekommenderade tee för herrar och damer spelar på klubbens rekommenderade tee för damer.
                   </b-alert>
                   <b-alert
@@ -211,54 +228,14 @@ export default {
 		},
   created() {
     //Kolla så att vi har med ett match id i URL:en
-    this.gameID = this.$route.query.id;
-    if (!this.gameID) {
-      this.errorMSG = "Something went wrong (No ID in call)";
-      return;
-    }
+    //this.gameID = this.$route.query.id;
+    //if (!this.gameID) {
+      //this.errorMSG = "Something went wrong (No ID in call)";
+      //return;
+    //}
 
-    let userinfo = localStorage.getItem("userinfo");
-
-    if (!userinfo) {
-      this.errorMSG =
-        "Du saknar behörighet för denna sida. Var vänlig logga in. Du skickas nu vidare till inloggningssidan";
-      return setTimeout(() => {
-        this.$router.push("MyMatchplay");
-      }, 5000);
-    }
-
-    userinfo = JSON.parse(userinfo);
-    let teams = [...userinfo.teams];
-    const url = globalState.admin_url + "getGameData";
-    const gameID = {
-      id: this.gameID,
-    };
-
-    let hometeam = "";
-    let authorized = false;
-    axios
-      .post(url, gameID)
-      .then((response) => {
-        hometeam = response.data.hometeam;
-        for (const team of teams) {
-          if (team._id === hometeam || userinfo.golfid === "780110-015") {
-            authorized = true;
-          }
-        }
-      })
-      .then(() => {
-        if (!authorized) {
-          this.errorMSG =
-            "Du saknar behörighet att skapa denna match. Du skickas nu vidare till Din sida";
-          setTimeout(() => {
-            this.$router.push("MyMatchplay");
-          }, 5000);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-      
+    let authorized = true;
+           
 
   },
   updated() {
@@ -303,7 +280,7 @@ export default {
           { hole: 17, strokes: 0, slag: 0 },
           { hole: 18, strokes: 0, slag: 0 },
         ],
-        hcp: 1.2,
+        hcp: 0,
         orghcp: 0,
         shcp: null,
         tee: "",
@@ -333,7 +310,7 @@ export default {
           { hole: 17, strokes: 0, slag: 0 },
           { hole: 18, strokes: 0, slag: 0 },
         ],
-        hcp: 20,
+        hcp: 0,
         orghcp: 0,
         shcp: null,
         tee: "",
@@ -363,7 +340,7 @@ export default {
           { hole: 17, strokes: 0, slag: 0 },
           { hole: 18, strokes: 0, slag: 0 },
         ],
-        hcp: 11,
+        hcp: 0,
         orghcp: 0,
         shcp: null,
         tee: "",
@@ -393,21 +370,21 @@ export default {
           { hole: 17, strokes: 0, slag: 0 },
           { hole: 18, strokes: 0, slag: 0 },
         ],
-        hcp: 5,
+        hcp: 0,
         orghcp: 0,
         shcp: null,
         tee: "",
       },
     ];
     //Hämta gamedata med hjälp av id
-    try {
+  /*   try {
       this.axios
-        .post(globalState.admin_url + "getGameData", {
+        .post("https://admin.matchplay.se/methods/getGameData", {
           id: this.gameID,
         })
         .then((response) => {
           if (response.data.status == "No game found") {
-            this.errorMSG = "Something went wrong (No game found)";
+            this.errorMSG = "1 Something went wrong (No game found)";
           } else if (response.data.status === "Finished") {
             this.errorMSG = "Matchen är avslutad";
           } else {
@@ -418,16 +395,16 @@ export default {
           //Kolla om klubb redan är vald
         })
         .catch((error) => {
-          this.errorMSG = "Something went wrong (getGameData failed)";
+          this.errorMSG = "2 Something went wrong (getGameData failed)";
           console.log(error);
         });
     } catch (e) {
       console.log(e);
-    }
+    } */
     //Hämta alla golfklubbar
     try {
       this.axios
-        .post(globalState.admin_url + "getGolfclubs")
+        .post("https://admin.matchplay.se/methods/getGolfclubs")
         .then((response) => {
           this.courses = response.data;
 
@@ -449,7 +426,7 @@ export default {
           }
         })
         .catch((error) => {
-          this.errorMSG = "Something went wrong (getGolfclubs failed)";
+          this.errorMSG = "3 Something went wrong (getGolfclubs failed)";
           console.log(error);
         });
     } catch (e) {
@@ -490,6 +467,10 @@ export default {
         loopname: "",
         slinga: "",
         checked: [],
+        player1:'780110-015',
+        player2:'790308-001',
+        player3:'670717-007',
+        player4:'670827-007'    
       },
       show: true,
       test: {},
@@ -507,6 +488,17 @@ export default {
     //this.getGolfClubs();
   },
   methods: {
+    refreshHcp() {
+      let team1hcp = parseFloat(this.players[0].hcp) + parseFloat(this.players[1].hcp);
+       let team2hcp = parseFloat(this.players[2].hcp) + parseFloat(this.players[3].hcp)
+     
+      //console.log(team1hcp,team2hcp)
+      if (team1hcp > 28 || team2hcp > 28) {
+        this.max28 = true;
+      } else {
+        this.max28 = false;
+      }
+    },
     readGameData: function (data) {
       if (data.club) {
         this.savedclubId = data.club;
@@ -547,30 +539,21 @@ export default {
       this.getCourse(item.gitID);
     },
     createPlayers: function (data) {
-      if (
-        data.hometeamleadergolfid &&
-        data.hometeammembergolfid &&
-        data.awayteamleadergolfid &&
-        data.awayteammembergolfid
-      ) {
-        this.players[0].name = data.hometeamleadername;
-        this.players[0].gitID = data.hometeamleadergolfid;
-        this.players[1].name = data.hometeammembername;
-        this.players[1].gitID = data.hometeammembergolfid;
-        this.players[2].name = data.awayteamleadername;
-        this.players[2].gitID = data.awayteamleadergolfid;
-        this.players[3].name = data.awayteammembername;
-        this.players[3].gitID = data.awayteammembergolfid;
-        this.hometeamreservegolfid = data.hometeamreservegolfid;
-        this.awayteamreservegolfid = data.awayteamreservegolfid;
-
+      
+       
+        this.players[0].gitID = this.form.player1;      
+        this.players[1].gitID = this.form.player2;       
+        this.players[2].gitID = this.form.player3;      
+        this.players[3].gitID = this.form.player4;
+        
         this.players.forEach((element) => {
           this.axios
             .post(globalState.admin_url + "getPlayerByGolfid", {
               golfid: element.gitID,
             })
-            .then((response) => {                        
-                
+            .then((response) => {
+              if (!response.data.hasOwnProperty('error')) {
+                            
               element.hcp = parseFloat(
                 response.data.hcp.replace(/,/g, ".")
               ).toFixed(1);
@@ -582,8 +565,6 @@ export default {
               element.orghcp = parseFloat(
                 response.data.hcp.replace(/,/g, ".")
               ).toFixed(1);
-
-              
 
               if (response.data.hcp.includes('+')) {                
                element.orghcp = -Math.abs(element.hcp)
@@ -601,18 +582,19 @@ export default {
               element.name =
                 response.data.firstname + " " + response.data.lastname;
 
-              element.gender = response.data.gender;             
+              element.gender = response.data.gender;
+              this.refreshHcp(); 
+               }          
 
             })
             .catch((error) => {
-              this.errorMSG = "Something went wrong (Player not found)";
+              //this.errorMSG = "4 Something went wrong (Player not found)";
 
               console.log(error);
             });
         });
-      } else {
-        this.errorMSG = "Something went wrong (Missin GIT on player)";
-      }
+
+
 
 
     },
@@ -732,7 +714,7 @@ export default {
                   this.allTeesSelected = false;
                 })
                 .catch((error) => {
-                  this.errorMSG = "Something went wrong (Player not found)";
+                  this.errorMSG = "6 Something went wrong (Player not found)";
 
                   console.log(error);
                 });
@@ -869,7 +851,49 @@ export default {
       this.loadingtext = "Skapar scorekort";
       this.loading = true;
 
+      //create game backend
+       this.axios
+        .post(globalState.admin_url + "createGame", {
+          competition: 'r3HP8Kw62z2qfZhkr', //freeplay
+          "hometeamleader": "Spelare 1",
+          "hometeammember": "Spelare 2",
+          "awayteamleader": "Spelare 3",
+          "awayteammember": "Spelare 4",
+          "status": "Pending",
+          holes: this.holesArray,
+          scorecard: this.players,
+          club: this.form.courseID,
+          clubname: this.form.course,
+          loop: this.form.loop,
+          loopname: this.form.loopname,
+          winner: null
+        })
+        .then((response) => {
+            this.axios
+            .post(globalState.admin_url + "updateGame", {
+              _id: response.data,
+              holes: this.holesArray,
+              scorecard: this.players,
+              status: "Pending",
+              club: this.form.courseID,
+              clubname: this.form.course,
+              loop: this.form.loop,
+              loopname: this.form.loopname,
+              winner: null
+            }).
+            then(() => {
+               location.href = "scorecard?id=" + response.data + '&freeplay=true';
+            })
 
+        })
+      
+        .catch((error) => {
+          //this.player_1_error = "Golfaren hittades inte... prova att skriva in golfid igen.";
+          console.log(error);
+        });
+
+
+/* 
       this.axios
         .post("https://matchplay.meteorapp.com/methods/updateGame", {
           _id: this.gameID,
@@ -889,7 +913,7 @@ export default {
         .catch((error) => {
           //this.player_1_error = "Golfaren hittades inte... prova att skriva in golfid igen.";
           console.log(error);
-        });
+        }); */
     },
     clubSelectedInput(query) {
       if (query.trim().length === 0) {

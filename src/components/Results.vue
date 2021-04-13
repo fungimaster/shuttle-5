@@ -5,7 +5,7 @@
       <router-view class="" style="margin-left:-1rem;margin-right:-1rem;"> </router-view>
     </b-modal>
 
-      <b-tabs content-class="mt-3" v-model="tabIndex" no-key-nav class="mt-4">
+      <b-tabs content-class="mt-3" v-model="tabIndex" no-key-nav class="mt-4 mt-md-5">
                           <b-tab title-link-class="ml-2">
                             <template v-slot:title>
                              <span class="d-none d-sm-block"><b-spinner v-if="gamescount > 0" small type="grow" class="ml-0 pl-0 mr-1 mb-1 red"></b-spinner>LIVE <span v-if="updating1"><b-spinner small class="ml-1 mr-1 mb-1"></b-spinner></span><span v-else>({{gamescount}})</span></span>
@@ -364,6 +364,7 @@
 
 
                         </b-tabs>
+                        <hr class="mt-5" />
 </b-container>
 </template>
 

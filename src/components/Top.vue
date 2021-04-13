@@ -26,8 +26,9 @@ v-if="
       </div>
       <b-navbar-nav class="ml-auto">
         <!-- <b-nav-item :to="{path: '/line-up', query: {tags:$route.query.tags, day:$route.query.day}}">Line-up</b-nav-item> -->
-        <b-nav-item to="/register">Anmälan</b-nav-item>
-        <b-nav-item to="/klubbar">Klubbar   <b-badge class="new" pill variant="danger">Ny</b-badge></b-nav-item>
+        <b-nav-item v-if="!closed" to="/register">Anmälan</b-nav-item>
+        <b-nav-item v-if="closed" to="results">Resultat <b-badge class="new" pill variant="danger">Ny</b-badge></b-nav-item>
+        <b-nav-item to="/klubbar">Klubbar</b-nav-item>
         <b-nav-item to="/info">Om tävlingen</b-nav-item>
 
         <b-nav-item hidden to="/ping">PING</b-nav-item>
@@ -53,12 +54,15 @@ v-if="
 
 <script>
 import { mapGetters } from "vuex";
+import { globalState } from "../main.js";
 
 export default {
   name: "top",
   components: {},
   data() {
-    return {};
+    return {
+      closed: globalState.closed,
+    };
   },
   methods: {},
  

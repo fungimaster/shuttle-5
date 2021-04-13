@@ -1,5 +1,5 @@
 <template>
-	<div ref="scorecardTest">
+	<div ref="scorecardTest" class="bg">
 		<div v-if="loadingSpinner"  class="text-center min-vh-100">
 	 		<b-spinner big type="grow" class="align-items-center m-5" style="width: 5rem; height: 5rem;"></b-spinner>
 		</div>
@@ -177,7 +177,7 @@
 
 						<!-- TEAM 1 CONTAINER -->
 						<div v-if="activeHole===1" class="sponsor mb-3 text-center">
-							<b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,h_60,q_auto/v1614942462/matchplay/sponsors/easygreen.png"></b-img>
+							<b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,h_40,q_auto/v1614942462/matchplay/sponsors/easygreen.png"></b-img>
 						</div>
 						<div
 							class="team1ScoreCard pt-3 pb-3"
@@ -437,7 +437,7 @@
 					</b-col>
 
 						<b-col v-if="!authorized && status !== 'Finished'" cols="12" class="mt-4">
-							 <h5><b-spinner small type="grow" class="mr-2 mb-1 red"></b-spinner>Match pågår (start {{gametime}})</h5>
+							 <h5><b-spinner small type="grow" class="mr-2 mb-1 red"></b-spinner>Match pågår <span v-if="gametime">(start {{gametime}})</span> </h5>
 							 <b-button id="refresh_button" class="float-right btn-sm" @click="refreshGame3()" variant="warning" show><b-spinner v-if="updating" small type="grow" class="mr-1 red"></b-spinner>Uppdatera</b-button>
 							 <h5><span class="lowerCase timeUpdated">Uppdaterad: {{updatedAt}}</span></h5>
 							 
@@ -806,6 +806,7 @@
 	import ScoringVue from "./Scoring.vue";
 	import HcpModalVue from "./HcpModal.vue";
 	import TieBreakModalVue from "./TieBreakModal.vue";
+	import { globalState } from "../main.js";
 
 	import moment from 'moment';
 
@@ -835,6 +836,15 @@
             this.gameID = this.$route.query.id;
 			let userinfo = localStorage.getItem("userinfo");
 
+			//check if freeplay
+			if (this.$route.query.freeplay) {
+				if (this.$route.query.freeplay === 'true')
+				this.freeplay = true;
+			}
+
+			//console.log('freeplay='+this.freeplay)
+
+
 			//ej Inloggad
 			if (!userinfo) {
 				this.authorized = false;
@@ -844,11 +854,14 @@
 			}
 
             userinfo = JSON.parse(userinfo)
-            let teams = [...userinfo.teams]
+			let teams = [...userinfo.teams]
+			
 
-            const url = "https://admin.matchplay.se/methods/getGameData";
+            const url = globalState.admin_url + "getGameData";
             const gameID = {
-                id: this.gameID
+				id: this.gameID,
+				freeplay: this.freeplay,
+				userid: userinfo._id
 			};
 
 			if (teams.length === 0) { //logged in but no teams
@@ -867,7 +880,8 @@
                      awayteam = response.data.awayteam
                      hometeam = response.data.hometeam
                         for (const team of teams) {							
-                                if(team._id === awayteam || team._id === hometeam || userinfo.golfid === '780110-015') {									
+                                //if(team._id === awayteam || team._id === hometeam || userinfo.golfid === '780110-015') {									
+									if(team._id === hometeam || userinfo.golfid === '780110-015') {									
 									this.authorized = true;
 									//show legend modal if no scores yet
 									if (response.data.scorecard[0].holes[0].strokes === 0) {
@@ -932,6 +946,7 @@
 		},
 		data() {
 			return {
+				freeplay:false,
 				holes:null,
 				showfront9: true,
 				showback9:true,
@@ -1702,10 +1717,15 @@
 			},
 
 			async getGameData() {
+
+				let userinfo = localStorage.getItem("userinfo");
+            	userinfo = JSON.parse(userinfo)
 				
-				const url = "https://admin.matchplay.se/methods/getGameData";
+				const url = globalState.admin_url + "getGameData";
 				const gameID = {
-					id: this.gameID
+					id: this.gameID,
+					freeplay: this.freeplay,
+					userid: userinfo._id
 				};
 
 				try {
@@ -2104,9 +2124,23 @@
 		}
 	};
 </script>
-<style lang="scss"  scoped>
+<style lang="scss" scoped>
 
 @import "../styles/variables.scss";
+
+.bg {
+ background-repeat: no-repeat;
+
+  background-position: right 0px top 50%;
+  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_800,q_auto,e_colorize:50,co_rgb:000000/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg);
+	height:100vh;
+	  background-size: cover;
+}
+
+
+.sponsor img {
+	max-width:90%;
+}
 
 .fa-smile {
 	color:$blue;
@@ -2362,6 +2396,10 @@
 		margin-top: 0
 	}	
 
+	.table9, .table18 {
+		background:rgba(255,255,255,0.9)
+	}
+
 	.tableClubAndLoop{
 		margin-bottom: 0;
 		text-align: left;
@@ -2434,7 +2472,7 @@
 		margin-bottom: 20px;
 		height: 70px;
 		padding-top: 20px;
-		background-color: #195a3a;
+		//background-color: #195a3a;
 		color: white;
 		font-size: 20px;
 	}
@@ -2464,7 +2502,7 @@
 			#ecf5ec 10px,
 			#fff 10px,
 			#fff 20px
-		);
+		) !important;
 	}
 	.holeLoser {
 		background: repeating-linear-gradient(
@@ -2473,7 +2511,7 @@
 			#fceded 10px,
 			#fff 10px,
 			#fff 20px
-		);
+		) !important;
 	}
 
 	.hideSlag {
@@ -2489,6 +2527,7 @@
 		box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.19);
 		border-radius: 10px;
 		padding: 5px 10px;
+		background:rgba(255,255,255,0.9)
 	}
 
 	.team1ScoreCard {
@@ -2647,10 +2686,12 @@
 		height: 80px;
 		width: 100%;
 		margin: 0;
-		background-color: #fff;
+		color:#FFF;
+		//background-color: #fff;
 	}
 	.scoreTeam {
 		font-size: 0.7em;
+		color:#FFF;
 	}
 	.scoreTeamModal {
 		//skriver over scoreTeam ovan om Scorevard öppnad i modal
@@ -2757,9 +2798,10 @@
 
 	#tie {
 		font-size: 1em;
+		color:#FFF;
 	}
 	.tie {
-		background: #fff;
+		//background: #fff;
 	}
 
 	.tie::before,

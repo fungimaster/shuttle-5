@@ -396,7 +396,7 @@
 </b-container>              
             <b-container v-if="showteamslist && team.step === 0" class="">
                 <b-row align-h="center">
-                    <b-col sm="10" lg="6" class="team pl-2 pr-2 pb-2" v-for="(team,idx) in teams" :key="idx">
+                    <b-col sm="10" lg="6" class="team pl-1 pr-1 pb-2" v-for="(team,idx) in teams" :key="idx">
                         <b-button :id="'delete-team-' + idx" v-if="team.teamleader && !team.paid" @click="removeTeam(team)" variant="" class="btn-sm delete-team"><i class="material-icons">delete</i></b-button>
                         <b-tooltip :target="'delete-team-' + idx" triggers="hover" placement="top">
                             Radera det här laget
@@ -451,7 +451,9 @@
 
                                 <div v-if="team.teamreservegolfid" class="pt-0 pb-3">
                                      <span :id="'tooltip-teammember3-' + idx">
-                                        <i class="material-icons mr-2">person_pin</i>Reserv: {{team.teamreservegolfid}}                                        
+                                        <i class="material-icons mr-2">person_pin</i>Reserv: 
+                                        <span v-if="team.teamreservename">{{team.teamreservename}}</span>
+                                        <span v-else>{{team.teamreservegolfid}}</span>                                      
                                         <b-tooltip :target="'tooltip-teammember3-' + idx" triggers="hover" placement="top">
                                             Denna reserv kan väljas när en match ska startas
                                         </b-tooltip>                                                                                
@@ -1053,11 +1055,15 @@
 
 <b-row v-if="games.length > 0 || games.length" align-h="center">
 
-        <b-col sm="10" lg="6" class="team pl-2 pr-2 pb-2 mt-2 mt-md-4 pt-0 pt-md-3" v-for="(game,idx2) in this.games" :key="idx2">
+        <b-col sm="10" lg="7" class="team pl-1 pr-1 pb-2 mt-2 mt-md-2 pt-0 pt-md-3" v-for="(game,idx2) in this.games" :key="idx2">
                 
-             <b-card class="mb-4 team header">                            
-                            <b-card-text class="mt-0 card-text-team">                               
-                                 <h2 class="mt-1 mb-3 pb-0 pt-1">{{game.roundname}}</h2>                                 
+             <b-card class="mb-1 team header">                            
+                            <b-card-text class="mt-0 card-text-team">
+                                <span @click="expandGame(idx2)" variant="light" size="sm" class="pointer float-right"><i :id="'gamearrow'+idx2" class="fa fa-chevron-down mt-2 mb-2"></i></span>                  
+                                 <h2 @click="expandGame(idx2)" class="pointer mt-1 mb-3 pb-0 pt-1">{{game.roundname || 'Omgång'}}</h2>                                 
+                                
+                                  <div :id="'game'+idx2" class="hidden">
+                                      <hr />
                                   <div class="pt-0 pb-2 mt-0">                                               
                                         <span hidden>
                                             <i class="fas fa-home-alt mr-1 mb-1"></i>                                            
@@ -1198,13 +1204,8 @@
                                             
                                         </span>                                        
                                    </div>
-                                   
-
-                                    
-                                   
-                            </b-card-text>
-                             <template v-slot:footer> 
-                                 <b-container class="m-0 p-0">
+                                   <hr />
+                                       <b-container class="m-0 p-0 mt-4 mb-3">
                                      <b-row>
                                          <b-col class="col-8 text-left">
                                               <a hidden :href="`/game?id=${game._id}`" class="btn btn-success btn-md text-white mr-md-2">Visa match</a>
@@ -1228,9 +1229,16 @@
                                         </b-alert>
                                          </b-col>
                                      </b-row>
-                                 </b-container>                      
+                                 </b-container> 
+                                    
+                                   </div>
+                            </b-card-text>
+                            <!--  <template  v-slot:footer v-if="game0"> 
+                                 
+                                                   
                                   
-                            </template>
+                            </template> -->
+                            
              </b-card>
 
             
@@ -1345,7 +1353,16 @@ export default {
     data() {
         let clubs = [];
         let countries = ['Afghanistan', 'Åland Islands', 'Albania', 'Algeria', 'American Samoa', 'AndorrA', 'Angola', 'Anguilla', 'Antarctica', 'Antigua and Barbuda', 'Argentina', 'Armenia', 'Aruba', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bermuda', 'Bhutan', 'Bolivia', 'Bosnia and Herzegovina', 'Botswana', 'Bouvet Island', 'Brazil', 'British Indian Ocean Territory', 'Brunei Darussalam', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Cape Verde', 'Cayman Islands', 'Central African Republic', 'Chad', 'Chile', 'China', 'Christmas Island', 'Cocos (Keeling) Islands', 'Colombia', 'Comoros', 'Congo', 'Congo, The Democratic Republic of the', 'Cook Islands', 'Costa Rica', 'Cote D\'Ivoire', 'Croatia', 'Cuba', 'Cyprus', 'Czech Republic', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic', 'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Eritrea', 'Estonia', 'Ethiopia', 'Falkland Islands (Malvinas)', 'Faroe Islands', 'Fiji', 'Finland', 'France', 'French Guiana', 'French Polynesia', 'French Southern Territories', 'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana', 'Gibraltar', 'Greece', 'Greenland', 'Grenada', 'Guadeloupe', 'Guam', 'Guatemala', 'Guernsey', 'Guinea', 'Guinea-Bissau', 'Guyana', 'Haiti', 'Heard Island and Mcdonald Islands', 'Holy See (Vatican City State)', 'Honduras', 'Hong Kong', 'Hungary', 'Iceland', 'India'];
-        return {    
+        return {
+            game0: false,
+            game1: false,
+            game2: false,
+            game3: false,
+            game4: false,
+            game5: false,
+            game6: false,
+            game7: false,
+            game8: false,
             ninehole: false,
             clubinfo_first: 'Du är först ut med ett lag från denna klubb, sprid gärna budskapet om tävlingen på din klubb! Lottning sker mot lag från andra klubbar nära vald klubb för att minimera avstånden och ge er nya golfupplevelser.',
             choosereserve: false,
@@ -1785,6 +1802,26 @@ export default {
   
     mixins: [tagsMixin],
     methods: {
+        expandGame(id) {
+            var element = document.getElementById("game"+id);
+            var element2 = document.getElementById("gamearrow"+id);
+            if (!this['game'+id]) { //false, remove hidden
+                element.classList.remove("hidden");
+                element2.classList.remove("fa-chevron-down");
+                element2.classList.add("fa-chevron-up");
+               
+            } else {
+                element.classList.add("hidden");
+                element2.classList.add("fa-chevron-down");
+                element2.classList.remove("fa-chevron-up");
+            }
+            this['game'+id] = !this['game'+id];
+            
+            /*var element2 = document.getElementById("gamearrow"+id);
+            element2.classList.remove("fa-chevron-down");
+            element2.classList.add("fa-chevron-up");*/
+
+        },
                showReferralModal() {                      
             this.$refs["referral-modal"].show();
         },
@@ -3494,6 +3531,10 @@ export default {
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
 
+.pointer {
+    cursor:pointer;
+}
+
 .badge.hcp {
     font-size:0.7em;
     padding: 0.6em 0.6em 0.3em 0.6em;
@@ -3561,7 +3602,10 @@ h2.teaser-header {
 }
 
 .card {
-    //border: 1px solid rgba(0,0,0,.4);
+    border: 1px solid rgba(0,0,0,.2);
+        -webkit-box-shadow: 0px 0px 6px 2px #DBDBDB; 
+box-shadow: 0px 0px 6px 2px #DBDBDB;
+  
 }
 
 .invitemember {
@@ -3623,6 +3667,7 @@ img {
 
 .team {    
     font-size: 1em;
+  
 }
 
 .team i {

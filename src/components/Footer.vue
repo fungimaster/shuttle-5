@@ -49,7 +49,7 @@
             </b-col>
           </b-row>
           <b-row no-gutters>
-            <b-col md="3" class="silver p-5 text-center">
+            <b-col md="3" class="silver p-1 text-center">
               <a href="https://scandic.se/" target="_blank">
                 <img
                   src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_150,q_auto/v1614942462/matchplay/sponsors/scandic.png"
@@ -57,7 +57,7 @@
                 />
               </a>
             </b-col>
-            <b-col md="3" class="silver p-2 pt-5 text-center">
+            <b-col md="3" class="silver p-1 text-center">
               <a href="https://prosak.se" target="_blank">
                 <img
                   src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_150,q_auto/v1614942462/matchplay/sponsors/prosak_logo_2016.png"
@@ -65,7 +65,7 @@
                 />
               </a>
             </b-col>
-            <b-col md="3" class="silver p-5 mt-2 text-center">
+            <b-col md="3" class="silver p-1 mt-2 text-center">
               <a href="https://elgiganten.se" target="_blank">
                 <b-img
                   alt="elgiganten"
@@ -73,11 +73,11 @@
                 ></b-img>
               </a>
             </b-col>
-             <b-col md="3" class="silver p-5 mt-2 text-center">
+             <b-col md="3" class="silver p-1 mt-3 text-center">
               <a href="https://easygreen.se" target="_blank">
                 <b-img
                   alt="easygreen"
-                  src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_150,q_auto/v1614942462/matchplay/sponsors/easygreen.png"
+                  src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_150,q_auto/v1617614504/matchplay/sponsors/easygreen.png"
                 ></b-img>
               </a>
             </b-col>

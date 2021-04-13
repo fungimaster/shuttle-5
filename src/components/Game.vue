@@ -352,7 +352,7 @@
                           </b-alert>
 
                           <b-alert
-                            v-if="isteamleader && status != 'Finished'"
+                            v-if="isteamleader && status === 'Pending'"
                             show
                             dismissible
                             class="mt-1 mb-0 small"
@@ -375,7 +375,7 @@
                             >Starta match</b-button
                           >
                           <b-button
-                            v-if="isteamleader && status === 'In progress'"
+                            v-if="status === 'In progress'"
                            :to="`/scorecard?id=${game_id}`"
                             variant="success"
                             class="mr-1 mt-3 text-white"
@@ -479,7 +479,7 @@
                         </b-col>
                         <!-- home team member -->
                         <b-col
-                          v-if="!isteamleader"
+                          v-if="!isteamleader && hometeammembername"
                           class="col-12 text-left mt-3"
                         >
                           <span class="contact"
@@ -526,7 +526,7 @@
 
                         <!-- home team reserve -->
                         <b-col
-                          v-if="!isteamleader"
+                          v-if="!isteamleader && hometeamreservename"
                           class="col-12 text-left mt-3"
                         >
                           <span class="contact"
@@ -720,7 +720,7 @@
                         <b-col>
                             <b-alert show dismissible class="text-left small mt-3" variant="info">
                               <h5>Information om reserver</h5>
-                                           Om laget har en reserv tillgänglig för spel kan hemmalaget, när ni träffas innan spel, välja denna person i samband med att tee väljs innan matchen startar.
+                                           Om laget har en reserv tillgänglig för spel kan hemmalaget, när ni träffas innan spel, välja denna person i samband med att tee väljs innan matchen startar. Aktuell hcp hämtas alltid direkt från GIT innan matchen startas.
                                  </b-alert>
                         </b-col>
                       </b-row>
