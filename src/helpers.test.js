@@ -26,7 +26,7 @@ test('Test 2 of hcp to sloped hcp', () => {
 
 
 test('Test of calculateSlopeRating (hcp 8,2, slope 135, CR 71,0, CP 72)', () => {
-    expect(calculateSlopeRating('8.2', '135.0', '71.0', 72)).toBe(99);
+    expect(calculateSlopeRating('8.2', '135.0', '71.0', 72)).toBe(9);
 });
 
 test('Test of calculateSlopeRating (hcp 14.9, slope 126.0, CR 66.4, CP 72)', () => {
