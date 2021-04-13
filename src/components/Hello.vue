@@ -110,8 +110,9 @@
                 <b-col class="col-7 col-md-12 pr-0 pr-md-3">
               <h3 class="">Statistik 2021</h3>
               Anmälda lag: <strong>523</strong><br>
-              Snitthcp: <strong>12.2</strong><br>
-              Snittålder: <strong>46.2</strong><br>
+              Repr. klubbar: <strong>218</strong><br>
+              Snitthcp: <strong>12.1</strong><br>
+              Snittålder: <strong>44 år</strong><br>
               
                 </b-col>
                 <b-col class="col-5 col-md-12 pl-0 pl-md-3">
@@ -267,13 +268,13 @@
         </b-row>
 
         <b-row v-if="closed">
-          <b-col class="col-12 gradient">
+          <b-col class="col-12 mb-3 mt-3">
               <app-rounds-grafic
               class="mt-3"
               style="height: 300px"
               linecolor="#808080"
               opacity="1"
-              stagefill="white"
+              stagefill="black"
             ></app-rounds-grafic>
           </b-col>
         </b-row>

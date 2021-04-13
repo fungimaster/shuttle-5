@@ -34,7 +34,7 @@
 
               <!-- VÄLJA KLUBB -->
 
-              <b-form-group label="Välj klubb från listan:" class="inputField">
+              <b-form-group v-if="showcourses" label="Välj klubb från listan:" class="inputField">
                 <suggestions
                   v-model="form.course"
                   :options="options"
@@ -235,6 +235,7 @@ export default {
     //}
 
     let authorized = true;
+  
            
 
   },
@@ -436,6 +437,7 @@ export default {
  
   data() {
     return {
+      showcourses: false,
       ninehole: false,
       max28: false,
       gameID: "",
@@ -449,7 +451,7 @@ export default {
       loading: true,
       savedclubId: "",
       savedLoopId: "",
-      loadingtext: "Hämtar banor...",
+      loadingtext: "Laddar...",
       courseOptions: [],
       slingaOptions: [],
       teeOptions: [],
@@ -467,10 +469,10 @@ export default {
         loopname: "",
         slinga: "",
         checked: [],
-        player1:'780110-015',
-        player2:'790308-001',
+        player1:'780110-013',
+        player2:'871118-001',
         player3:'670717-007',
-        player4:'670827-007'    
+        player4:'781022-018'    
       },
       show: true,
       test: {},
@@ -486,6 +488,12 @@ export default {
   },
   mounted: function () {
     //this.getGolfClubs();
+      let userinfo = localStorage.getItem('userinfo');
+      if (userinfo) {
+      userinfo = JSON.parse(userinfo);
+        if (userinfo.golfid)
+          this.form.player1 = userinfo.golfid
+      }
   },
   methods: {
     refreshHcp() {
@@ -583,7 +591,8 @@ export default {
                 response.data.firstname + " " + response.data.lastname;
 
               element.gender = response.data.gender;
-              this.refreshHcp(); 
+              this.refreshHcp();
+              this.showcourses = true;
                }          
 
             })

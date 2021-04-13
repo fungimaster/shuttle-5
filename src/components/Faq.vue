@@ -181,7 +181,7 @@ Vid omstart hål 1 (alt. Hål 10) så gäller det att det finns plats såklart. 
 
 						<div class="section" id="12">
 							<h3 class="pt-5">12. SPELPLATSER</h3>
-							<p>Vårt lottningssystem är utformat för att ge en så rättvis fördelning som möjligt sett till spelplats. De lag som hamnar överst i spelarträdet har fördel av hemmabana. Detta innebär att man kan välja sin hemmabana men kan också komma överens med motståndarna om annan bana. Lagkaptenerna i respektive lag ansvarar för att föra score för alla spelare. Eventuell greenfee under kvalomgångarna innan semifinal och final betalas av respektive lag.</p>
+							<p>Vårt lottningssystem är utformat för att ge en så rättvis fördelning som möjligt sett till spelplats. Hemmalag/bortalag fördelas jämnt mellan omgångarna och lottas fram i första omgången. Detta innebär att man kan välja sin hemmabana men kan också komma överens med motståndarna om annan bana. Lagkaptenerna i respektive lag ansvarar för att föra score för alla spelare. Eventuell greenfee under kvalomgångarna innan semifinal och final betalas av respektive lag.</p>
 							<p>
 								Matchen avgörs över 18 hål med ev. särspel. OBS! Endast klubbar med 18 hål kan och ska användas under spelet. Om ett (eller flera) hål på banan är avstängt hoppar man över detta hål och matchen avgörs då över de hål som är spelbara.
 								Sverigefinalen spelas runt september 2021 på Allerum Golfklubb strax utanför Helsingborg. Spelformen är samma under Sverigefinalen som i grundomgången. Alla deltagare i Sverigefinalen har redan kvalificerat sig för spel nästkommande år utan kostnad. Vinnarna går vidare till finalspelet som sker utomlands (oktober 2021), på plats som meddelas januari 2021.
@@ -209,7 +209,7 @@ Vid omstart hål 1 (alt. Hål 10) så gäller det att det finns plats såklart. 
 
 						<div class="section" id="15">
 							<h3 class="pt-5">15. TÄVLINGSDOMARE</h3>
-							<p>Tävlingsansvarig Mikael Gräntz finns på plats tillsammans med andra knutna till Matchplay Business under både Sverige- och utlandsfinal. Under grundspelet ansvarar alla deltagare för regler gällande matchspel. Vi finns alltid tillgängliga på telefon under tävlingstiden, så har ni frågor eller funderingar så kontakta oss direkt.</p>
+							<p>Tävlingsansvarig Mikael Gräntz finns på plats tillsammans med andra knutna till Matchplay under både Sverige- och utlandsfinal. Under grundspelet ansvarar alla deltagare för regler gällande matchspel. Vi finns alltid tillgängliga på telefon under tävlingstiden, så har ni frågor eller funderingar så kontakta oss direkt.</p>
 						</div>
 
 						<div class="section" id="16">

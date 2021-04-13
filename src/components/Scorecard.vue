@@ -1869,7 +1869,11 @@
 										};
 								try {
 									let response = await axios.post(url, data);
-									location.href = "creategame?id=" + this.gameID;
+									if (this.freeplay) {
+										location.href = "creategame_free";
+									} else {
+										location.href = "creategame?id=" + this.gameID;
+									}
 								} catch (error) {
 									error => console.log(error);
 								}
