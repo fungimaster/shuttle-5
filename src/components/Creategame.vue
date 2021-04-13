@@ -185,6 +185,7 @@ import axios from "axios";
 import Suggestions from "v-suggestions";
 import "v-suggestions/dist/v-suggestions.css";
 import { globalState } from "../main.js";
+import { calculateSlopeRating } from '../helpers'
 
 export default {
   directives: {
@@ -938,10 +939,7 @@ export default {
         this.allTeesSelected = false;
       }
     },
-    calculateSlopeRating(hcp, slopeValue, courseRating, coursePar) {
-      return Math.round(hcp * (slopeValue / 113) + (courseRating - coursePar));
-    },
-
+    calculateSlopeRating,
     courseSelected(id) {
       //this.selectedSearchItem = item;
       //console.log('selected',item);
