@@ -89,7 +89,7 @@
 						<!-- AVSLUTA MATCH OCH SÄRSPEL -->
 						<app-tie-break-modal v-if="(setTieBreak && !gameClosed) && !winnerSent"></app-tie-break-modal>
 
-						<b-row align-v="center" align-h="center">
+						<b-row v-if="setTieBreak && !gameClosed" align-v="center" align-h="center">
 							<b-col cols="12" class="text-center small">								
 								<button
 									@click="sendTiebreakWinner(homeTeamId)"
@@ -153,7 +153,7 @@
 							</b-col>
 						</b-row>
 
-						<b-row align-v="center" align-h="center">
+						<b-row v-if="(setTieBreak && !gameClosed) || winnerDeclared && !gameClosed" align-v="center" align-h="center">
 							<b-col class="col-12 pt-0 mt-0 text-center mb-2">
 							<button
 								:disabled="winnerSent === false"
@@ -180,7 +180,7 @@
 							<b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,h_40,q_auto/v1614942462/matchplay/sponsors/easygreen.png"></b-img>
 						</div>
 						<div
-							class="team1ScoreCard pt-3 pb-3"
+							class="team1ScoreCard pt-2 pb-2"
 							:class="[
             singleHoleWinner < 0 && displayToast === false ? 'holeWinner' : '',
             singleHoleWinner > 0 && displayToast === false ? 'holeLoser' : ''
@@ -249,7 +249,7 @@
 
 						<!-- TEAM 2 CONTAINER -->
 						<div
-							class="team2ScoreCard pt-3 pb-3"
+							class="team2ScoreCard pt-2 pb-2"
 							:class="[
             singleHoleWinner > 0 && displayToast === false ? 'holeWinner' : '',
             singleHoleWinner < 0 && displayToast === false ? 'holeLoser' : ''
@@ -374,7 +374,7 @@
 						<footer class="fixed-bottom" v-if="!viewedInModal">
 							<b-row class="leaderSection" align-v="center" align-h="center">
 								<!-- HOME TEAM -->
-								<b-col class="col-4 scoreTeam text-left pl-3 pr-0" :class="[{ scoreTeam1: leader && !tie }, {scoreTeamDormy: setDormyClass(dormy2) }]">
+								<b-col class="col-4 scoreTeam text-left pl-2 pr-0" :class="[{ scoreTeam1: leader && !tie }, {scoreTeamDormy: setDormyClass(dormy2) }]">
 									<span
 										style="float:left;"										
 									>{{getInitials(players[0].name)}} & {{getInitials(players[1].name)}}</span>
@@ -407,7 +407,7 @@
 								</b-col>
 
 								<!-- away team -->
-								<b-col class="col-4 scoreTeam text-right pr-3 pl-0" :class="[{ scoreTeam2: !leader && !tie }, {scoreTeamDormy: setDormyClass(dormy1)}]">
+								<b-col class="col-4 scoreTeam text-right pr-2 pl-0" :class="[{ scoreTeam2: !leader && !tie }, {scoreTeamDormy: setDormyClass(dormy1)}]">
 									<i v-if="!tie && winnerDeclared && !leader" class="material-icons pb-1 pr-1">emoji_events</i>
 									<span
 										:style="(dormy1 === '') || (setTieBreak === true) ? 'float:right' : 'float:left'"
@@ -449,7 +449,7 @@
 
 				<b-row class="pt-3" align-v="center" align-h="center">
 					<!-- HOME TEAM -->
-					<b-col class="col-4 scoreTeam text-left pl-3 pr-0" :class="[{ scoreTeam1: leader && !tie }, {scoreTeamDormy: setDormyClass(dormy2)},  {scoreTeamModal: viewedInModal}]">
+					<b-col class="col-4 scoreTeam text-left pl-2 pr-0" :class="[{ scoreTeam1: leader && !tie }, {scoreTeamDormy: setDormyClass(dormy2)},  {scoreTeamModal: viewedInModal}]">
 						<span
 							style="float:left;"							
 						>{{ players.length !== 0 ? getInitials(players[0].name): ''}} & {{players.length !== 0 ? getInitials(players[1].name) : ''}}</span>
@@ -483,7 +483,7 @@
 					</b-col>
 
 					<!-- away team -->
-					<b-col class="col-4 scoreTeam text-right pr-3 pl-0" :class="[{ scoreTeam2: !leader && !tie }, {scoreTeamDormy: setDormyClass(dormy1)}, {scoreTeamModal: viewedInModal}]">
+					<b-col class="col-4 scoreTeam text-right pr-2 pl-0" :class="[{ scoreTeam2: !leader && !tie }, {scoreTeamDormy: setDormyClass(dormy1)}, {scoreTeamModal: viewedInModal}]">
 						<i v-if="!tie && winnerDeclared && !leader" class="material-icons pb-1 pr-1">emoji_events</i>
 						<span
 							:style="(dormy1 === '') || (setTieBreak === true) ? 'float:right' : 'float:left'"
@@ -2143,7 +2143,7 @@
 
 
 .sponsor img {
-	max-width:90%;
+	max-width:90%;	
 }
 
 .fa-smile {
@@ -2473,7 +2473,7 @@
 
 	/* HEADER ROW */
 	.holeRow {
-		margin-bottom: 20px;
+		margin-bottom: 15px;
 		height: 70px;
 		padding-top: 20px;
 		//background-color: #195a3a;
@@ -2769,6 +2769,7 @@
 		font-weight: 900;
 		color: #fff;
 		font-size: 1.1em;
+		margin-left:-1px;
 	}
 
 	.leaderRight::after {
