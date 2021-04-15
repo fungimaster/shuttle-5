@@ -15,7 +15,7 @@
           </div>
           <div v-if="!loading">
 
-<b-tabs content-class="mt-3" no-key-nav>
+<b-tabs content-class="mt-3" no-key-nav v-model="tabIndex">
     <b-tab title-link-class="ml-2">
                 <template v-slot:title>
                   <i class="fa fa-user-ninja mr-2"></i>
@@ -99,7 +99,7 @@
     </b-tab>
     <b-tab title-link-class="ml-2">
                 <template v-slot:title>
-                  <i class="fa fa-flag mr-2"></i>
+                  <i class="fa fa-flag mr-2" v-bind:class="{ green: player1ok && player2ok && player3ok && player4ok,red: !player1ok || !player2ok || !player3ok || !player4ok}"></i>
                 GOLFBANA
                 </template>
                  <!-- VÄLJA KLUBB -->
@@ -529,6 +529,7 @@ export default {
  
   data() {
     return {
+      tabindex: 0,
       gitidvalid: false,
       showloadgolfid: true,
       player1ok:false,
@@ -752,6 +753,10 @@ export default {
               this.golfid = null;
               this.activePlayer++;
               this.showloadgolfid = false;
+
+              if (this.player1ok && this.player2ok && this.player3ok && this.player4ok) {
+                this.tabIndex = 1;
+              }
 
                }          
 
