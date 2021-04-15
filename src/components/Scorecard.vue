@@ -881,7 +881,7 @@
                      hometeam = response.data.hometeam
                         for (const team of teams) {							
                                 //if(team._id === awayteam || team._id === hometeam || userinfo.golfid === '780110-015') {									
-									if(team._id === hometeam || userinfo.golfid === '780110-015') {									
+									if(team._id === hometeam || userinfo.golfid === '780110-015' || this.freeplay) {									
 									this.authorized = true;
 									//show legend modal if no scores yet
 									if (response.data.scorecard[0].holes[0].strokes === 0) {
