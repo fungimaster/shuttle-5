@@ -90,6 +90,11 @@
                 <span @click="activePlayer=4" class="player" v-bind:class="{ blink: activePlayer === 4}" v-else>Skriv in golf id för spelare 4</span>
               </div>
 
+              <b-button @click="tabIndex=1" size="md" class="btn btn-blue text-white mt-3"
+              v-if="player1ok && player2ok && player3ok && player4ok">
+              Välj bana
+              </b-button>
+
               <b-alert hidden class="small mt-3" variant="info">
                 Klicka på resp. spelare om du vill ändra golf id
               </b-alert>
@@ -529,7 +534,7 @@ export default {
  
   data() {
     return {
-      tabindex: 0,
+      tabIndex: 0,
       gitidvalid: false,
       showloadgolfid: true,
       player1ok:false,
@@ -752,11 +757,7 @@ export default {
               this['player'+player+'ok'] = true;
               this.golfid = null;
               this.activePlayer++;
-              this.showloadgolfid = false;
-
-              if (this.player1ok && this.player2ok && this.player3ok && this.player4ok) {
-                this.tabIndex = 1;
-              }
+              this.showloadgolfid = false;          
 
                }          
 
