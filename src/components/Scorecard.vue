@@ -177,7 +177,7 @@
 
 						<!-- TEAM 1 CONTAINER -->
 						<div v-if="activeHole===1" class="sponsor mb-3 text-center">
-							<b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,h_40,q_auto/v1614942462/matchplay/sponsors/easygreen.png"></b-img>
+							<b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,h_40,q_auto,e_colorize:100,co_rgb:ffffff/v1614942462/matchplay/sponsors/easygreen.png"></b-img>
 						</div>
 						<div
 							class="team1ScoreCard pt-2 pb-2"
@@ -809,7 +809,7 @@
 	import { globalState } from "../main.js";
 
 	import moment from 'moment';
-
+	
 	moment.locale('sv');
 
 	moment.updateLocale('sv', {
@@ -903,6 +903,8 @@
                 .catch(error => {
                     console.log(error)
 				})
+
+				
 
 		},
 		components: {
@@ -1530,6 +1532,7 @@
 			
 		},
 		methods: {
+		
 			b_mount() {
 	
 			//this.gameID = this.$route.query.id;
@@ -1792,15 +1795,24 @@
 				if (this.leader) {
 					//hometeam winner
 					data.result = `${this.matchScore}&${this.holesLeft}`
-					data.winner = this.homeTeamId
-					this.winningTeam = `${this.players[0].name} och  ${this.players[1].name}`
+					if (this.freeplay) {
+						data.winner = 'home'
+					}
+					else {
+						data.winner = this.homeTeamId
+					}					
+					this.winningTeam = `${this.players[0].name} och ${this.players[1].name}`
 
 				} else {
 					//awayteam winner
 					data.result = `${this.matchScore *-1}&${this.holesLeft}`
-					data.winner = this.awayTeamId
-					this.winningTeam = `${this.players[2].name} och  ${this.players[3].name}`
-
+					if (this.freeplay) {
+						data.winner = 'away'
+					}
+					else {
+						data.winner = this.awayTeamId
+					}	
+					this.winningTeam = `${this.players[2].name} och ${this.players[3].name}`
 				}
 					
 				//om matchen är avslutad: 
@@ -2136,7 +2148,8 @@
  background-repeat: no-repeat;
 
   background-position: right 0px top 50%;
-  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_800,q_auto,e_colorize:50,co_rgb:000000/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg);
+  //background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_800,q_auto,e_colorize:60,co_rgb:000000/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg);
+  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/e_improve,w_300,h_600,c_thumb,g_auto,e_colorize:50,co_rgb:000000/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg);
 	height:100vh;
 	  background-size: cover;
 }
@@ -2401,7 +2414,7 @@
 	}	
 
 	.table9, .table18 {
-		background:rgba(255,255,255,0.9)
+		background:rgba(255,255,255,0.88)
 	}
 
 	.tableClubAndLoop{
@@ -2436,6 +2449,11 @@
 
 	.emptyRow {
 		border: none;
+	}
+
+	.tableClubAndLoop tr, .tableClubAndLoop th, .tableClubAndLoop td {
+		background:none !important;
+		border:none !important;
 	}
 
 	tr:nth-child(1) {
@@ -2711,7 +2729,8 @@
 		position: relative;
 		color: #fff;
 		font-weight: 900;
-		line-height: 44px;		
+		line-height: 44px;
+		margin-left:-1px;	
 	}
 
 	.scoreTeam2 {
@@ -2823,6 +2842,12 @@
 	.extraheight {
 		height: calc(200vh) !important;
 	}
+
+	table {
+    border-collapse: collapse;
+  border-radius: 0.4em;
+  overflow: hidden;
+}
 
 
 @media only screen and (max-width: 375px) {

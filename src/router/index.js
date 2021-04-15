@@ -10,6 +10,7 @@ import Privacy from '@/components/Privacy'
 import NotFound from '@/components/NotFound'
 import CreateGame from '@/components/Creategame'
 import CreateGame_free from '@/components/Creategame_free'
+import Freeplay from '@/components/Freeplay'
 import Scorecard from '@/components/Scorecard'
 import Receipt from '@/components/Receipt'
 import Game from '@/components/Game'
@@ -56,6 +57,11 @@ export default new Router({
       path: '/creategame_free',
       name: 'CreateGame_free',
       component: CreateGame_free
+    },
+    {
+      path: '/freeplay',
+      name: 'Freeplay',
+      component: Freeplay
     },
     {
       path: '/register',

@@ -13,28 +13,103 @@
               </b-row>
             </b-container>
           </div>
-          <div v-if="!errorMSG && !loading">
+          <div v-if="!loading">
+
+<b-tabs content-class="mt-3" no-key-nav>
+    <b-tab title-link-class="ml-2">
+                <template v-slot:title>
+                  <i class="fa fa-user-ninja mr-2"></i>
+                SPELARE
+                </template>
+                  <!-- VAL SPELARE 1 -->
+                <div class="form-group mb-3">
+            <span v-if="activePlayer<5">Spelare {{activePlayer}}</span>
+            <span v-else>Klicka på resp. spelare om du vill byta id</span>
+            <span v-if="activePlayer===1 || activePlayer===2"> (Lag 1)</span>
+            <span v-if="activePlayer===3 || activePlayer===4"> (Lag 2)</span>            
+              <b-form
+                inline
+                @submit.stop.prevent                
+              >
+                <b-input
+                v-if="activePlayer<5"
+                  :state="validation"
+                  v-model="golfid"
+                  inputmode="numeric"
+                  pattern="[- +()0-9]+"
+                  type="text"
+                  size="lg"
+                  style="width:200px;"
+                  class="form-control mr-1"
+                  id="golfid"
+                  placeholder="xxxxxx-xxx"
+                ></b-input>
+                                
+                <b-form-invalid-feedback
+                  :state="validation"
+                  v-if="showhelper"
+                >Ange ditt Golf-ID med de 6 första siffrorna i ditt personnummer och sedan 3 siffror efter bindestrecket.</b-form-invalid-feedback>
+                <b-form-valid-feedback :state="validation" v-if="showhelper">Ser bra ut!</b-form-valid-feedback>
+                <b-button
+                 v-if="activePlayer<5"
+                 :disabled="!gitidvalid"
+                  type="submit"
+                  v-on:click="showloadgolfid=true,createPlayersSingle(activePlayer)"
+                  variant="secondary"
+                >
+                <b-spinner v-if="showloadgolfid" small type="grow" class=""></b-spinner>
+                <i v-if="!showloadgolfid" class="fa fa-plus"></i></b-button>
+                <b-alert v-if="errorMSG" show variant="danger" class="small mt-2 mb-2">
+                  Spelaren hittades inte i GIT, kontrollera golf-id {{golfiderror}}
+                </b-alert>
+              </b-form>
+
+              
+            </div>
+
             <div>
+             
+              <div class="team team1 p-3">
+                <h3>Lag 1</h3>
+                <!-- spelare 1 -->
+                <span @click="activePlayer=1" class="player" v-bind:class="{ blink: activePlayer === 1}" v-if="players[0].gitID">{{players[0].name}} <b-badge pill variant="warning" class="hcp" v-negativeToPostive:arguments="{hcp: players[0].hcp}">{{players[0].hcp}}</b-badge></span>
+                <span @click="activePlayer=1" class="player" v-bind:class="{ blink: activePlayer === 1}" v-else>Skriv in golf id</span>
+                 <!-- spelare 2 -->
+                <span @click="activePlayer=2" class="player" v-bind:class="{ blink: activePlayer === 2}"  v-if="players[1].gitID">{{players[1].name}} <b-badge pill variant="warning" class="hcp" v-negativeToPostive:arguments="{hcp: players[1].hcp}">{{players[1].hcp}}</b-badge></span>
+                <span @click="activePlayer=2" class="player" v-bind:class="{ blink: activePlayer === 2}" v-else>Skriv in golf id för spelare 2</span>
+              </div>
 
-               <!-- VAL SPELARE 1 -->
 
-              <b-form-group class="inputField">
-                Lag 1
-                 <b-form-input  class="" v-model="form.player1" placeholder="Golf-id spelare 1"></b-form-input>
-                  <b-form-input  class="" v-model="form.player2" placeholder="Golf-id spelare 2"></b-form-input>
-                  Lag 2
-                   <b-form-input  class="" v-model="form.player3" placeholder="Golf-id spelare 3"></b-form-input>
-                    <b-form-input  class="" v-model="form.player4" placeholder="Golf-id spelare 4"></b-form-input>
+              <div class="team team2 p-3">
+                <h3>Lag 2</h3>
+                <!-- spelare 3 -->
+                <span @click="activePlayer=3" class="player" v-bind:class="{ blink: activePlayer === 3}" v-if="players[2].gitID">{{players[2].name}} <b-badge pill variant="warning" class="hcp" v-negativeToPostive:arguments="{hcp: players[2].hcp}">{{players[2].hcp}}</b-badge></span>
+                <span @click="activePlayer=3" class="player" v-bind:class="{ blink: activePlayer === 3}" v-else>Skriv in golf id för spelare 3</span>
+                 <!-- spelare 4 -->
+                <span @click="activePlayer=4" class="player" v-bind:class="{ blink: activePlayer === 4}" v-if="players[3].gitID">{{players[3].name}} <b-badge pill variant="warning" class="hcp" v-negativeToPostive:arguments="{hcp: players[3].hcp}">{{players[3].hcp}}</b-badge></span>
+                <span @click="activePlayer=4" class="player" v-bind:class="{ blink: activePlayer === 4}" v-else>Skriv in golf id för spelare 4</span>
+              </div>
 
+              <b-alert hidden class="small mt-3" variant="info">
+                Klicka på resp. spelare om du vill ändra golf id
+              </b-alert>
 
+            </div>
 
-                 <b-button @click="createPlayers(null)" variant="success" class="mt-1" size="sm">Sök</b-button> 
+    </b-tab>
+    <b-tab title-link-class="ml-2">
+                <template v-slot:title>
+                  <i class="fa fa-flag mr-2"></i>
+                GOLFBANA
+                </template>
+                 <!-- VÄLJA KLUBB -->
 
-              </b-form-group>
+                 <b-alert v-if="!player1ok && !player2ok && !player3ok && !player4ok" show variant="warning">
+                   <h2>Information</h2>
+                   Du måste välja 4 spelare först innan du kan välja bana...
+                 </b-alert>
 
-              <!-- VÄLJA KLUBB -->
-
-              <b-form-group v-if="showcourses" label="Välj klubb från listan:" class="inputField">
+              <b-form-group v-if="player1ok && player2ok && player3ok && player4ok" label="Välj klubb från listan:" class="inputField">
                 <suggestions
                   v-model="form.course"
                   :options="options"
@@ -50,6 +125,7 @@
                                 Endast 18-hålsbanor kan användas i tävlingen!
                               </b-alert>
               </b-form-group>
+
 
               <!--  VÄLJA SLINGA -->
               <div v-if="loadingCourse == 1" class="d-flex justify-content-center mb-3">
@@ -76,10 +152,9 @@
                   ></b-form-select>
                 </b-form-group>
                 <p v-else>Ingen 18-hålsbana hittad</p>
+              
               </transition>
-            </div>
 
-            <!-- VÄLJA TEE -->
 
             <transition name="fade" mode="out-in" class="inputField">
               <div v-if="form.slinga">
@@ -170,8 +245,7 @@
                 </b-form-group>
               </div>
             </transition>
-          </div>
-          <div v-else>{{ errorMSG }}</div>
+
 
           <div class="col-12 m-0 p-0 mb-3" v-if="form.slinga && !loading" md="12">
             <b-button
@@ -191,6 +265,24 @@
               >Välj tee för samtliga spelare</b-alert>
             </div>
           </div>
+
+    </b-tab>    
+</b-tabs>
+
+
+
+            <div>
+
+             
+
+             
+
+            </div>
+
+            <!-- VÄLJA TEE -->
+
+          </div>
+         
         </b-col>
       </b-row>
     </b-container>
@@ -437,6 +529,17 @@ export default {
  
   data() {
     return {
+      gitidvalid: false,
+      showloadgolfid: true,
+      player1ok:false,
+      player2ok:false,
+      player3ok:false,
+      player4ok:false,
+      activePlayer: 1,
+      golfiderror: null,
+      golfid: null,
+      player1ok:false,
+      showhelper: false,
       showcourses: false,
       ninehole: false,
       max28: false,
@@ -492,8 +595,10 @@ export default {
       if (userinfo) {
       userinfo = JSON.parse(userinfo);
         if (userinfo.golfid)
-          this.form.player1 = userinfo.golfid
+          this.golfid = userinfo.golfid;
+          this.createPlayersSingle('1');
       }
+
   },
   methods: {
     refreshHcp() {
@@ -546,8 +651,7 @@ export default {
 
       this.getCourse(item.gitID);
     },
-    createPlayers: function (data) {
-      
+    createPlayers: function (data) {      
        
         this.players[0].gitID = this.form.player1;      
         this.players[1].gitID = this.form.player2;       
@@ -603,6 +707,65 @@ export default {
             });
         });
 
+
+
+
+    },
+     createPlayersSingle: function (player) {      
+        //console.log(this.form['player'+player])
+        
+        let index = parseInt(player-1);
+        //console.log(player, index, this.golfid);
+        this.players[index].gitID = this.golfid;
+        this.errorMSG = null;
+                      
+          this.axios
+            .post(globalState.admin_url + "getPlayerByGolfid", {
+              golfid: this.players[index].gitID,
+            })
+            .then((response) => {
+              if (!response.data.hasOwnProperty('error')) {
+                            
+              this.players[index].hcp = parseFloat(
+                response.data.hcp.replace(/,/g, ".")
+              ).toFixed(1);
+
+              if (response.data.hcp.includes('+')) {                
+                this.players[index].hcp = -Math.abs(this.players[index].hcp)               
+              }
+
+              this.players[index].orghcp = parseFloat(
+                response.data.hcp.replace(/,/g, ".")
+              ).toFixed(1);
+
+              if (response.data.hcp.includes('+')) {                
+               this.players[index].orghcp = -Math.abs(this.players[index].hcp)
+              }
+
+              this.players[index].name =
+                response.data.firstname + " " + response.data.lastname;
+
+              this.players[index].gender = response.data.gender;
+              this.refreshHcp();
+              this.showcourses = true; //wait until all players are ok with gitid
+              this['player'+player+'ok'] = true;
+              this.golfid = null;
+              this.activePlayer++;
+              this.showloadgolfid = false;
+
+               }          
+
+            })
+            .catch((error) => {
+              this.errorMSG = "Spelaren hittades inte";
+              this.golfiderror = this.golfid;
+               this['player'+player+'ok'] = false;
+              this.showloadgolfid = false;
+              
+              console.log(error);
+            });
+        
+            //console.log(this.players);
 
 
 
@@ -1022,6 +1185,30 @@ export default {
     },
   },
   computed: {
+     validation() {
+    
+      let validated = false;
+
+      var re = /^[- ]*[0-9][- 0-9]*$/;
+       if (re.test(this.golfid)) {
+
+        if (this.golfid.length === 6) {
+          this.golfid = this.golfid + '-'
+          validated = true;         
+        }
+
+        if (this.golfid.length === 10) {
+          validated = true;
+          this.gitidvalid = true;
+        } else {                    
+          validated = false;     
+          this.gitidvalid = false;     
+        }
+        }
+
+      return validated;
+      
+      },    
     slinga() {
       this.courses.forEach((course) => {
         if (course.title === this.form.course) {
@@ -1045,9 +1232,34 @@ export default {
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
 
-* {
-  font-family: Eurostile LT Std, Arial, sans-serif;
+.team {
+  border-radius:0.25em;
+  border:1px solid grey;
 }
+
+.team .player {
+  display:block;
+}
+
+.team1 {
+		border-left: 7px solid #fd9b37;
+	}
+
+	.team2 {
+		border-left: 7px solid #69b3fe;
+		margin-top: 13px;
+	}
+
+.badge.hcp {
+    font-size:0.6em;
+    padding: 0.6em 0.6em 0.3em 0.6em;
+    //margin-bottom:10px;
+}
+
+.green {
+  color:$success !important;
+}
+
 .container {
   padding-top: 40px;
 }
