@@ -104,7 +104,7 @@
                 </template>
                  <!-- VÄLJA KLUBB -->
 
-                 <b-alert v-if="!player1ok && !player2ok && !player3ok && !player4ok" show variant="warning">
+                 <b-alert v-if="!player1ok || !player2ok || !player3ok || !player4ok" show variant="warning">
                    <h2>Information</h2>
                    Du måste välja 4 spelare först innan du kan välja bana...
                  </b-alert>
