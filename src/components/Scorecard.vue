@@ -867,8 +867,18 @@
 			if (teams.length === 0) { //logged in but no teams
 				this.authorized = false;
 				//start function to setinterval for update
-				this.refreshGame();				
-				return;
+
+				if (this.freeplay) {
+					this.authorized = true;
+					if (response.data.scorecard[0].holes[0].strokes === 0) {
+						this.$bvModal.show('modal-legend');
+					}
+				} else {
+					this.refreshGame();				
+					return;
+				}
+
+				
 			}
 
 			
@@ -878,10 +888,14 @@
             axios.post(url, gameID)
                 .then(response =>  {
                      awayteam = response.data.awayteam
-                     hometeam = response.data.hometeam
+					 hometeam = response.data.hometeam
+					
+
                         for (const team of teams) {							
-                                //if(team._id === awayteam || team._id === hometeam || userinfo.golfid === '780110-015') {									
-									if(team._id === hometeam || userinfo.golfid === '780110-015' || this.freeplay) {									
+                                //if(team._id === awayteam || team._id === hometeam || userinfo.golfid === '780110-015') {
+									
+									if(team._id === hometeam || userinfo.golfid === '780110-015') {
+																
 									this.authorized = true;
 									//show legend modal if no scores yet
 									if (response.data.scorecard[0].holes[0].strokes === 0) {
@@ -893,7 +907,16 @@
 									return;
 									//start function to setinterval for update
 								}
-                        }
+						}
+						
+						if (!this.authorized) { //check if freeplay
+ 							if (this.freeplay) {
+								this.authorized = true;
+									if (response.data.scorecard[0].holes[0].strokes === 0) {
+										this.$bvModal.show('modal-legend');
+									}
+							}
+						}
 
 				})
 				/* .then( () => {
