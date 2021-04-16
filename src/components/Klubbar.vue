@@ -147,6 +147,11 @@ moment.updateLocale("sv", {
         //console.log("ROUTE", this.$route.query.resetpw)
 
   },
+  computed: {
+    fetchedclubs() {
+          return this.$store.getters.clubs
+    }
+  },
     methods: {
       searchClub() {
         
@@ -219,7 +224,34 @@ moment.updateLocale("sv", {
             return 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_100,q_80,c_scale/' + logourl;
         }, 
        getTopListClubs() {        
-      this.loadingclubs = true;       
+      this.loadingclubs = true;    
+
+      const handleResponse = (response) => {
+        this.$store.dispatch('setClubs', response)
+        this.clubno = response.data.length;
+        this.clubs = response.data;
+        this.clubs = this.clubs.sort(this.compareValues("club", "asc"));
+        this.clubsAll = this.clubs;
+        //GET ABC
+        for(var i = 0; i < this.clubs.length; i++) {
+          this.abc.push(this.clubs[i].club.charAt(0));
+        }
+        const distinctAbc = [...new Set(this.abc)];
+        this.abc = distinctAbc;           
+        this.clubnopercent = Math.round((this.clubno/448)*100);
+
+        //fix sorting
+        distinctAbc.sort( (a, b) => a.localeCompare(b, 'sv', {ignorePunctuation: true}));    
+
+        this.loadingclubs = false;         
+      }
+
+      if (this.fetchedclubs) {
+          handleResponse(this.$store.state.clubs)
+          return
+      }
+  
+      
       this.axios
         .post("https://matchplay.meteorapp.com/methods/" + "getTopClubs", {
           //getclubstoplist
@@ -227,22 +259,7 @@ moment.updateLocale("sv", {
           no: 500,
         })
         .then((response) => {
-          this.clubno = response.data.length;
-          this.clubs = response.data;
-          this.clubs = this.clubs.sort(this.compareValues("club", "asc"));
-          this.clubsAll = this.clubs;
-          //GET ABC
-           for(var i = 0; i < this.clubs.length; i++) {
-             this.abc.push(this.clubs[i].club.charAt(0));
-           }
-           const distinctAbc = [...new Set(this.abc)];
-           this.abc = distinctAbc;           
-           this.clubnopercent = Math.round((this.clubno/448)*100);
-
-           //fix sorting
-           distinctAbc.sort( (a, b) => a.localeCompare(b, 'sv', {ignorePunctuation: true}));    
-
-           this.loadingclubs = false;         
+          handleResponse(response)
         })
         .catch((error) => {
           console.log(error);

@@ -9,6 +9,7 @@ export default new Vuex.Store({
 
     state: {
       count: 0,
+      clubs: null, 
       maproom: '',
       speaker: {},
       conferencename: 'Matchplay 2021',
@@ -29,13 +30,18 @@ export default new Vuex.Store({
         user(state) {
             return state.user 
         },
+        clubs(state) {
+            return state.clubs 
+        },
 
     },
     mutations: {
-
       SET_AUTHENTICATION: (state, { token, userId }) => {
         state.token = token
         state.userId = userId
+      },
+      SET_CLUBS: (state, payload) => {
+        state.clubs = payload
       },
       SET_USER: (state, payload) => {
         state.user = payload
@@ -49,7 +55,6 @@ export default new Vuex.Store({
       },
     },
     actions: {
-
       deleteUserInfo: ({commit}) => {
         commit('DELETE_USER')
       },
@@ -61,6 +66,9 @@ export default new Vuex.Store({
       },
       setUser: ({commit}, payload) => {
         commit('SET_USER', payload)
+      },
+      setClubs: ({commit}, payload) => {
+        commit('SET_CLUBS', payload)
       },
       tryAutoLogin: ({ commit }) => {
         const token = localStorage.getItem("auth_token");
