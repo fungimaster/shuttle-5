@@ -1020,7 +1020,7 @@
                 <b-col sm="12" lg="10">
                     <app-rounds-grafic
                             class="mt-3"
-                            style="height: 40px"
+                            style="height: 50px"
                             linecolor="#808080"
                             opacity="1"
                             stagefill="black"

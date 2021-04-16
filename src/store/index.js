@@ -33,6 +33,16 @@ export default new Vuex.Store({
         clubs(state) {
             return state.clubs 
         },
+        isDefeated(state) {
+          if (state.user && state.user.teams) {
+            let status = state.user.teams[0].status
+            if (status  === 'Defeated') {
+              return true
+            }
+            return false
+          }
+          return false
+        },
 
     },
     mutations: {

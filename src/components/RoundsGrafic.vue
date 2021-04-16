@@ -8,50 +8,92 @@
     >
       <!-- Text-diven har en height på 10% så att den alltid står för sig själv -->
       <div class="h-10">
-        <!-- Window width under 700px -->
-        <p class="text-center" v-if="windowWidth < 1000">
-          {{
-            index === numberOfRounds - 2
-              ? "SF"
-              : index === numberOfRounds - 1
-              ? "F"
-              : `R${index + 1}`
-          }}
-          <em
-            class="material-icons d-block"
-            v-if="condensed && currentRound >= index + 1"
-            >check_circle</em
-          >
+        <!-- Window width under 1000px -->
+        <p class="text-center">
+          <span v-if="windowWidth < 1000">
+            {{
+              index === numberOfRounds - 2
+                ? "SF"
+                : index === numberOfRounds - 1
+                ? "F"
+                : `R${index + 1}`
+            }}
+          </span>
+
+          <span v-else>
+            {{
+              index === numberOfRounds - 2
+                ? "S-FINAL"
+                : index === numberOfRounds - 1
+                ? "FINAL"
+                : `R${index + 1}`
+            }}
+          </span>
+          <!-- SYMBOLS CONDSNED-->
+          <span v-if="condensed">
+            <span
+              class="d-flex justify-content-center"
+              v-if="currentRound === index + 1"
+            >
+              <b-spinner
+                small
+                label="Small Spinner"
+                style="color: #fea60173"
+                class="d-block ongoing"
+              ></b-spinner>
+            </span>
+
+            <span v-else class="d-block">
+              <em
+                class="material-icons d-block complete"
+                v-if="currentRound >= index + 1"
+                >check_circle</em
+              >
+              <i
+                v-else-if="isDefeated"
+                class="material-icons d-inline-block incomplete text-danger"
+                >cancel</i
+              >
+              <i
+                v-else-if="index === numberOfRounds - 1"
+                class="material-icons d-inline-block incomplete"
+                >flight_takeoff</i
+              >
+              <i
+                v-else-if="index === numberOfRounds - 2"
+                class="material-icons d-inline-block incomplete"
+                >golf_course</i
+              >
+
+              <em class="material-icons d-inline-block incomplete" v-else
+                >check_circle</em
+              >
+            </span>
+          </span>
         </p>
         <!-- Window width över 700px -->
-        <p class="text-center" v-else>
-          {{
-            index === numberOfRounds - 2
-              ? "SVERIGE-"
-              : index === numberOfRounds - 1
-              ? "FINAL"
-              : `R${index + 1}`
-          }}
-          <br />
-          {{ index === numberOfRounds - 2 ? "FINAL" : null }}
-          <em
-            class="material-icons d-block"
-            v-if="condensed && currentRound >= index + 1"
-            >check_circle</em
-          >
-        </p>
       </div>
 
       <div :style="{ height: `${height(index) / 2}%` }"></div>
       <!-- Den gula diven får en height på en andel av tot. antal rundor - 10%  -->
 
+      <!--  NOT CONDENSED  -->
       <div
         v-if="!condensed && currentRound >= index + 1"
         :class="{ 'stage-fill-white': stagefill === 'white' }"
         class="stage-fill stage p-2 d-flex justify-content-center align-items-center"
         :style="[roundCompleted, { height: `${100 - height(index) - 10}%` }]"
       >
-        <i class="material-icons icons-size">check_circle</i>
+       <span v-if="index + 1 === currentRound">
+         <b-spinner
+                small
+                label="Spinner"
+                variant="dark"                
+                class="d-block ongoing"
+              ></b-spinner>
+        </span>
+        <i  v-else class="material-icons icons-size">check_circle</i>
+        
       </div>
       <div
         v-if="!condensed && currentRound < index + 1"
@@ -70,17 +112,15 @@
           >golf_course</i
         >
 
-        <i v-else class="material-icons icons-size invisible">check_circle</i>
       </div>
-      <div hidden class="h-10 text-center teams-number">
-        {{ numberOfTeams(index) }}
-      </div>
+  
     </div>
   </div>
 </template>
 
 <script>
 import { globalState } from "../main.js";
+import { mapGetters } from "vuex";
 
 export default {
   created() {
@@ -89,8 +129,9 @@ export default {
         id: globalState.compid,
       })
       .then((response) => {
+
         this.numberOfRounds = response.data.numberofrounds;
-        this.currentRound = 2;
+        this.currentRound = response.data.currentround ? response.data.currentround : 0
       })
       .catch((error) => {
         console.log(error);
@@ -153,6 +194,7 @@ export default {
   },
 
   computed: {
+    ...mapGetters(["isDefeated"]),
     roundCompleted() {
       return { backgroundColor: `rgba(255, 166, 0, ${this.opacity}` };
     },
@@ -196,10 +238,24 @@ i {
   /*color: #fff;*/
   color: #333;
 }
-em {
-  font-size: 1rem;
+.complete {
+  margin-top: 0.3rem;
+  font-size: 1.1rem;
   color: rgba(255, 166, 0, 1);
 }
+
+.incomplete {
+  margin-top: 0.3rem;
+  font-size: 1rem;
+  color: #dfdfdf;
+  line-height: 0.35rem;
+  border-radius: 100%;
+  padding: 0.35rem;
+}
+.ongoing {
+  margin-top: 0.4rem;
+}
+
 .icons-size-final {
   font-size: 2rem;
 }
