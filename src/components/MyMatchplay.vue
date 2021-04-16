@@ -160,35 +160,39 @@
                             <h4><strong>Användaruppgifter</strong></h4>
                             <div class="mt-3">
                             <label>Namn:</label>
-                            <span class="d-inline">{{userdetails.firstname}} {{userdetails.lastname}}</span>
+                            <span class="d-inline" v-if="userdetails.firstname">{{userdetails.firstname}} {{userdetails.lastname}}</span>
+                            <span v-else><b-skeleton class="d-inline-block mt-1" width="50%"></b-skeleton> </span>    
                             </div>
                             <div>
                             <label>Golf ID:</label>
-                         <span class="d-inline">{{userdetails.golfid}}</span>
+                                <span class="d-inline" v-if="userdetails.golfid">{{userdetails.golfid}}</span>
+                                <span v-else><b-skeleton class="d-inline-block mt-1" width="50%"></b-skeleton> </span>    
                             </div>
                             <div v-if="userdetails.hcp">
                             <label>HCP:</label>
-                         <span class="d-inline"><span v-negativeToPostive:arguments="{hcp: userdetails.hcp}">{{ userdetails.hcp }}</span><i id="hcp_help" href="#" tabindex="0" class="fa fa-question-circle ml-2"></i></span>
-                          <b-popover target="hcp_help" variant="info" triggers="focus" placement="topright">
-                                                <template #title>Information</template>
-                                                  Din aktuella hcp (inhämtad från GIT idag 05.00).
-                                            </b-popover>
+                             <span class="d-inline"><span v-negativeToPostive:arguments="{hcp: userdetails.hcp}">{{ userdetails.hcp }}</span><i id="hcp_help" href="#" tabindex="0" class="fa fa-question-circle ml-2"></i></span>
+                                <b-popover target="hcp_help" variant="info" triggers="focus" placement="topright">
+                                    <template #title>Information</template>
+                                    Din aktuella hcp (inhämtad från GIT idag 05.00).
+                                </b-popover>
                             </div>
                             <div>
                             <label>Email:</label>
-                         <span class="d-inline">{{userdetails.email}}</span>
+                                 <span v-if="userdetails.email" class="d-inline">{{userdetails.email}}</span>
+                                 <span v-else><b-skeleton class="d-inline-block mt-1" width="50%"></b-skeleton> </span>    
                             </div>
                             <div>
                             <label>Mobilnr:</label>
-                         <span class="d-inline">{{userdetails.mobile}}</span>
+                                <span v-if="userdetails.mobile" class="d-inline">{{userdetails.mobile}}</span>
+                                <span v-else><b-skeleton class="d-inline-block mt-1" width="50%"></b-skeleton> </span>    
                             </div>
                             
                             <div>
                                 <label for="input-ref" class="d-inline">Intjänad rabatt:</label>
-                                 <span class="d-inline">{{userdetails.referrals*50}} kr</span>
-                                 <span v-if="userdetails.referrals > 0">({{userdetails.referrals}} lag)</span>
-                                 <i id="ref_help" href="#" tabindex="0" class="fa fa-question-circle ml-1"></i>
-                                 <b-popover target="ref_help" variant="info" triggers="focus" placement="topright">
+                                <span v-if="userdetails.referrals" class="d-inline">{{userdetails.referrals*50}} kr</span>
+                                <span v-if="userdetails.referrals > 0">({{userdetails.referrals}} lag)</span>
+                                <i id="ref_help" href="#" tabindex="0" class="fa fa-question-circle ml-1"></i>
+                                <b-popover target="ref_help" variant="info" triggers="focus" placement="topright">
                                                 <template #title>Information</template>
                                                   För varje lag som följt din länk du delat och där ett lag skapas får du 50kr rabatt på nästa års anmälningsavgift.
                                             </b-popover>
@@ -1012,6 +1016,19 @@
       </template>
 
   <b-container>                           
+            <b-row v-if="closed" class="mb-4" align-h="center">
+                <b-col sm="12" lg="10">
+                    <app-rounds-grafic
+                            class="mt-3"
+                            style="height: 40px"
+                            linecolor="#808080"
+                            opacity="1"
+                            stagefill="black"
+                            :condensed="true"
+                            >
+                        </app-rounds-grafic>          
+                    </b-col>
+            </b-row>
             <b-row v-if="games.length === 0 || !games.length" align-h="center">
                 <b-col sm="10" lg="6">
 
@@ -1310,13 +1327,16 @@ let opts = {
     SocketConstructor: WebSocket,
     reconnectInterval: 5000
 };
+import AppRoundsGrafic from "./RoundsGrafic";
 
 export default {
     name: 'mymatchplay',
     components: {
         'c-spinner': Spinner,
         'suggestions': Suggestions,
-        VueTelInput,ScorecardExplainer
+        VueTelInput,
+        ScorecardExplainer,
+        AppRoundsGrafic
         //'c-map':Map
     },
      directives: {
@@ -3506,7 +3526,31 @@ export default {
                     sim_id = this.$route.query.sim_id;   
                 }
                 
-                this.getPlayerData(sim_id);
+                //check data is in store --> then dont fetch
+                if (!this.$store.state.user) {
+                    this.getPlayerData(sim_id);
+                }
+
+                if (this.$store.state.user) {
+                    let userinfo = this.$store.state.user
+                    this.userinfo = userinfo;
+                    this.teams = this.userinfo.teams;
+                    this.teamscount = this.teams.length;                    
+                    
+                    //console.log(this.teamscount,this.userinfo);
+                    if (this.teamcount || this.teams) {
+                        this.showteamslist = true;                        
+                    } else {
+                        this.teamscount = 0;
+                    }
+                    
+                    localStorage.setItem('userinfo', JSON.stringify(userinfo));
+                    this.$store.dispatch('setUser', userinfo);
+                    this.setuserinfoform();
+        
+                    this.loading = false;
+                }
+
                 this.tabIndex = Number(localStorage.getItem('active_tab'));     
                 
                 //INITIATE POLL
