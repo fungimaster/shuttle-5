@@ -493,6 +493,9 @@ export default {
         ...mapGetters([
       "user",
       "isAuthenticated",
+      "getGames1",
+      "getGames2",
+      "getGames3"
     ]),
     validation() {
       let validated = false;
@@ -676,6 +679,36 @@ export default {
       const today = moment().format("YYYY-MM-DD");
       const today_h = moment().format("HH:mm");
 
+      const handleResponse = () =>  {
+        this.games = this.games.filter((game) => {
+          if (!game.winner) return true;
+        });
+        this.gamescount = this.games.length;
+        //console.log("getGamesInprogress ->  this.games",  this.games)
+        this.loadinggames = false;
+        this.updating1 = false;
+      } 
+
+      //* check if data in stores. Then skip fetch.
+      if (this.getGames1.length) {
+          this.games = this.getGames1
+          handleResponse()
+          //do not return here in order to get up to date live reults
+      }
+
+       //LOAD PENDING if initial
+        if (type === "initial") { 
+          this.updating2 = true;
+          this.getGamesPending("initial");
+        } else {
+          //RELOAD IN PROGRESS (INITATOR)
+          //NOT USED UNTIL NEXT MATCHPLAY 2021
+          /* setTimeout(() => {
+                        this.updating1 = false;
+                        this.getGamesInprogress('not-initial'); //in progress
+                      }, 60000);   */
+        }
+
       this.axios
         .post(globalState.admin_url + "getGamesAdvanced", {
           competition: globalState.compid,
@@ -684,33 +717,10 @@ export default {
           //"to": today + " 23:59",
           limit: 20,
         })
-
         .then((response) => {
-          //console.log(response.data)
           this.games = response.data;
-          //console.log("getGamesInprogress ->  this.games",  this.games)
-
-          this.games = this.games.filter((game) => {
-            if (!game.winner) return true;
-          });
-          this.gamescount = this.games.length;
-
-          //console.log("getGamesInprogress ->  this.games",  this.games)
-          this.loadinggames = false;
-          this.updating1 = false;
-
-          //LOAD PENDING if initial         
-          if (type === "initial") {           
-            this.updating2 = true;
-            this.getGamesPending("initial");
-          } else {
-            //RELOAD IN PROGRESS (INITATOR)
-            //NOT USED UNTIL NEXT MATCHPLAY 2021
-            /* setTimeout(() => {
-                          this.updating1 = false;                   
-                          this.getGamesInprogress('not-initial'); //in progress                          
-                        }, 60000);   */
-          }
+          this.$store.dispatch('setGames1', this.games)
+          handleResponse()   
         })
         .catch((error) => {
           console.log(error);
@@ -732,6 +742,34 @@ export default {
       //const today_h = moment().format("HH:mm");
       const today_h = moment().subtract(25, "minutes").format("HH:mm"); //add a few minutes so it will keep as pending before moving to in progress
 
+      const handleResponse = () => {
+        this.gamescount2 = this.games2.length;
+
+        this.loadinggames2 = false;
+        this.updating2 = false;
+
+        //get next game in line
+        if (this.gamescount2 > 0) {
+          this.hasnextgame = true;
+          this.nextgame = this.games2[0];
+        } else {
+          this.hasnextgame = false;
+        }
+      }
+
+      //* check if data in stores. Then skip fetch.
+      if(this.getGames2.length) {
+        this.games2 = this.getGames2
+        handleResponse()
+        return
+      }
+
+        //LOAD FINISHED
+        if (type === "initial") {
+          this.updating3 = true;
+          this.getGamesFinished("loader", this.active_round);
+        }
+ 
       this.axios
         .post(globalState.admin_url + "getGamesAdvanced", {
           competition: globalState.compid,
@@ -740,28 +778,10 @@ export default {
           //"to": today + " 23:59",
           //"limit": 20
         })
-
         .then((response) => {
-          //console.log(response.data)
           this.games2 = response.data;
-          this.gamescount2 = this.games2.length;
-
-          this.loadinggames2 = false;
-          this.updating2 = false;
-
-          //get next game in line
-          if (this.gamescount2 > 0) {
-            this.hasnextgame = true;
-            this.nextgame = this.games2[0];
-          } else {
-            this.hasnextgame = false;
-          }
-
-          //LOAD FINISHED
-          if (type === "initial") {
-            this.updating3 = true;
-            this.getGamesFinished("loader", this.active_round);
-          }
+          this.$store.dispatch('setGames2', this.games2)
+          handleResponse()
         })
         .catch((error) => {
           console.log(error);
@@ -801,14 +821,7 @@ export default {
       const today = moment().format("YYYY-MM-DD");
       const today_h = moment().format("HH:mm");
 
-      this.axios
-        .post(globalState.admin_url + "getGamesAdvanced", options)
-
-        .then((response) => {
-          let finishedgames = response.data;
-          this.games3 = finishedgames.sort(
-            this.compareValues("finishedAt", "desc")
-          );
+      const handleResponse = () => {
           this.gamescount3 = this.games3.length;
           this.loadinggames3 = false;
           this.updating3 = false;
@@ -818,6 +831,26 @@ export default {
             this.updating1 = false;
             this.getGamesInprogress("not-initial"); //in progress
           }, 60000);
+      }
+
+      //* check if data in stores. Then skip fetch.
+      if(this.getGames3.length) {
+        this.games3 = this.getGames3
+        handleResponse()
+        return
+      }
+
+      this.axios
+        .post(globalState.admin_url + "getGamesAdvanced", options)
+        .then((response) => {
+          let finishedgames = response.data;
+          let games3 = finishedgames.sort(
+            this.compareValues("finishedAt", "desc")
+          );
+          this.games3 = games3
+          this.$store.dispatch('setGames3', games3)
+          handleResponse()
+       
         })
         .catch((error) => {
           console.log(error);
