@@ -1,5 +1,5 @@
 <template>
-	<div ref="scorecardTest" class="bg">
+	<div ref="scorecardTest" v-bind:class="{bg: authorized,bg2:!authorized}">
 		<div v-if="loadingSpinner"  class="text-center min-vh-100">
 	 		<b-spinner big type="grow" class="align-items-center m-5" style="width: 5rem; height: 5rem;"></b-spinner>
 		</div>
@@ -2175,6 +2175,11 @@
   background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/e_improve,w_300,h_600,c_thumb,g_auto,e_colorize:50,co_rgb:000000/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg);
 	height:100vh;
 	  background-size: cover;
+}
+
+
+.bg2 {
+	background:white;
 }
 
 

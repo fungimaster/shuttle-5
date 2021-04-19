@@ -49,22 +49,22 @@
             <h2>VÄLKOMMEN TILL MATCHPLAY 2021, GOLFTÄVLINGEN FÖR BÅDE PRIVATPERSONER OCH FÖRETAG</h2>
           </b-col>
 
-          <b-col v-if="!closed" class="col-12 col-md-6 mt-4 mb-3 mb-md-4 text-md-center text-left" id="countdown">
+          <b-col v-if="!closed" class="col-12 col-md-6 mt-4 mb-3 mb-md-4 text-center" id="countdown">
             <h4 class="mb-3 mb-md-4">Anmälan stänger om:</h4>
             <b-row align-h="center">
-            <b-col class="col-3">
-              <span id="days" class="days timenumbers">01</span>
+            <b-col class="col-6 col-md-4">
+              <span id="days" class="blink days timenumbers">01</span>
           <p class="timeRefDays timedescription">dagar</p>
             </b-col>
-            <b-col class="col-3">
+            <b-col class="col-4 d-none d-md-block">
               <span id="hours" class="hours timenumbers">00</span>
           <p class="timeRefHours timedescription">timmar</p>
             </b-col>
-            <b-col class="col-3">
+            <b-col hidden class="col-4 d-none d-md-block">
               <span id="minutes" class="minutes timenumbers">00</span>
           <p class="timeRefMinutes timedescription">minuter</p>
             </b-col>
-            <b-col class="col-3">
+            <b-col hidden class="col-4">
               <span id="seconds" class="seconds timenumbers yellow-text">00</span>
           <p class="timeRefSeconds timedescription">sekunder</p>
             </b-col>
@@ -869,9 +869,9 @@ export default {
 
                 .timenumbers {
                     display: block;
-                    font-size: 1.6rem;
+                    font-size: 1.8rem;
                     font-weight: 400;
-                    line-height: 1.5rem;
+                    line-height:100px;
                     margin: 0 auto;
                     text-align: center;
                     @media (min-width: 500px) {
@@ -879,16 +879,29 @@ export default {
                     }
                 }
 
+                .timenumbers {
+                  border-radius:50%;
+                  border-width: 5px;
+                  border-color: rgba(0,0,0,0.3);
+                  border-style: solid;
+                  color:#000;
+                  width:100px;
+                  height:100px;
+                  background: rgba(255,255,255,0.7);
+                  
+                 
+                }
+
                 p.timedescription {
-                    font-size: 0.6rem;
+                    font-size: 1.2rem;
                     font-variant: small-caps;
                     line-height: 1.5rem;
                     margin: 0 auto;
                     text-align: center;
                     position: relative;
-                    top: 0px;
+                    top: 5px;
                      @media (min-width: 500px) {
-                        font-size:0.8rem;
+                        font-size:1rem;
                     }
                 }
 
