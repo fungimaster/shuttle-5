@@ -409,6 +409,7 @@ a.router-link-active {
     -webkit-animation:blink normal 1.5s infinite ease-in-out; /* Webkit */
     -ms-animation:blink normal 1.5s infinite ease-in-out; /* IE */
     animation:blink normal 1.5s infinite ease-in-out; /* Opera */
+  
 }
 
 
