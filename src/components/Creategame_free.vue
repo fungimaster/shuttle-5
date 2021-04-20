@@ -1033,11 +1033,11 @@ export default {
        this.axios
         .post(globalState.admin_url + "createGame", {
           competition: 'r3HP8Kw62z2qfZhkr', //freeplay
-          "hometeamleader": "Spelare 1",
-          "hometeammember": "Spelare 2",
-          "awayteamleader": "Spelare 3",
-          "awayteammember": "Spelare 4",
-          "status": "Pending",
+          hometeamleader:  this.players[0].gitID,
+          hometeammember:  this.players[1].gitID,
+          awayteamleader:  this.players[2].gitID,
+          awayteammember:  this.players[3].gitID,
+          status: "Pending",
           holes: this.holesArray,
           scorecard: this.players,
           club: this.form.courseID,
