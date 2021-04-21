@@ -977,6 +977,7 @@
 		},
 		data() {
 			return {
+				file: null,
 				freeplay:false,
 				holes:null,
 				showfront9: true,
@@ -1562,7 +1563,57 @@
 		},
 		methods: {
 		 handleFileUpload(){
-this.file = this.$refs.file.files[0];
+
+		var CLOUDINARY_URL = '';
+		var CLOUDINARY_UPLOAD_PRESET = '';
+		var base_url = '';
+		var parentVue = this;
+
+		this.file = this.$refs.file.files[0];
+		
+		CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/dn3hzwewp/image/upload';
+		CLOUDINARY_UPLOAD_PRESET = 'tveal75k';
+		base_url = 'https://res.cloudinary.com/dn3hzwewp/image/upload/q_auto,w_800/';
+
+		var formData = new FormData();
+		formData.append('file', this.file);
+		formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+
+		 fetch(CLOUDINARY_URL, {
+			method: 'POST',
+			body: formData
+		})
+    .then(function(response) {		
+		
+		return response.json();
+	})
+    .then(function(data) {		
+      //if (data.secure_url !== '') {
+			if (data.public_id !== '') {				
+        //var uploadedFileUrl = data.secure_url;
+				//console.log(data);
+				var uploadedFileUrl = data.public_id;
+			
+				parentVue.$bvToast.toast("Bilden är uppladdad och kommer visas live på vår resultatsida :)", {
+					title: "Bilden är uppladdad",
+					autoHideDelay: 3000,
+					variant: 'success',
+					solid: true
+				});
+							
+				//$scope.page.g_form.setValue('u_inspiration_image_before',uploadedFileUrl);
+				//$scope.page.g_form.setValue('u_inspiration_before_filetype',$scope.data.fileType);
+				
+				//$("#loadMe").modal("hide");
+				//$("#btn_fileupload_before").html('Replace image/video');
+				
+				//console.log('file type=' + $scope.data.fileType)						
+				
+				
+      }
+    })
+
+
       	},
 			b_mount() {
 	
