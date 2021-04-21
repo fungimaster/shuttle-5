@@ -1,5 +1,6 @@
 <template>
-	<div ref="scorecardTest" v-bind:class="{bg: authorized,bg2:!authorized}">
+
+	<div ref="scorecardTest" v-bind:class="{bg: authorized,bg2:!authorized, extraheight: (winnerSent && !gameClosed) || setTieBreak || gameClosed,extraheight2: (setTieBreak && !gameClosed) || winnerDeclared && !gameClosed}">
 		<div v-if="loadingSpinner"  class="text-center min-vh-100">
 	 		<b-spinner big type="grow" class="align-items-center m-5" style="width: 5rem; height: 5rem;"></b-spinner>
 		</div>
@@ -36,8 +37,8 @@
 			<div id="saveprogress" v-if="saveprogress && !overview" class="p-1"><b-spinner small type="grow" class=""></b-spinner></div>
 		
 			<b-row class="justify-content-center" align-h="center">
-				<b-col md="6" class="p-0">
-					<b-container class v-if="!overview && authorized" id="landscape" :class="{extraheight: (winnerSent && !gameClosed) || setTieBreak || gameClosed }">
+				<b-col md="6" class="p-0">					
+					<b-container class v-if="!overview && authorized" id="landscape">
 						<!--  HEADER  -->
 						<b-row class="holeRow pt-4">
 							<b-col class="col-2 pr-0 text-left">								
@@ -730,14 +731,24 @@
 
 				<!-- BUTTON FÖR MATCH VY -->
 				<b-row class="mt-3 mb-2">
-					<b-col class="col-4 text-left pr-0 mr-0">
+					<b-col class="col-5 text-left pr-0 mr-0">
 						<button class="btn btn-primary pulse-button btn-md" @click="showMatch(null)" v-if="authorized">
 							<span class="material-icons">create</span>
 							Score
 						</button>
 					</b-col>
-					<b-col class="col-4 text-center pl-0 pr-0 ml-0 mr-0">
-						<app-hcp-modal
+					<b-col class="col-2 text-center pl-0 pr-0 ml-0 mr-0">
+						<button hidden v-if="authorized" v-b-modal.modal-1 class="btn btn-primary btn-small btn-md" >
+							<span style="font-size:2em;" class="material-icons mr-0">add_a_photo</span>
+						</button>					
+						 <input v-if="authorized" type="file" id="file" ref="file" class="inputfile" v-on:change="handleFileUpload()"/>
+						 <label v-if="authorized" for="file"><span class="btn btn-primary"><span style="font-size:2em;" class="material-icons mr-0">add_a_photo</span></span></label>
+					</b-col>
+					<b-col class="col-5 text-right ml-0 pl-0">
+						<button v-if="authorized && (status !== 'Finished')" class="btn btn-primary btn-small btn-md" @click="resetGame">
+								<span style="font-size:1.2em;" class="material-icons">close</span>								
+							</button>							
+							<app-hcp-modal
 							:course-rating="courseRating"
 							:slope-rating="slopeRating"
 							:banans-par="banansPar"
@@ -749,12 +760,7 @@
 							:authorized="authorized"
 							@hidingModalInComponent="hideOverview"
 						></app-hcp-modal>
-					</b-col>
-					<b-col class="col-4 text-right ml-0 pl-0">
-							<button v-if="authorized && (status !== 'Finished')" class="btn btn-primary btn-md" @click="resetGame">
-								<span class="material-icons">warning</span>
-								Reset
-							</button>
+						
 						</b-col>
 					</b-row>
 					
@@ -1555,7 +1561,9 @@
 			
 		},
 		methods: {
-		
+		 handleFileUpload(){
+this.file = this.$refs.file.files[0];
+      	},
 			b_mount() {
 	
 			//this.gameID = this.$route.query.id;
@@ -2167,14 +2175,27 @@
 
 @import "../styles/variables.scss";
 
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.inputfile + label {
+	cursor: pointer; /* "hand" cursor */
+}
+
 .bg {
  background-repeat: no-repeat;
 
   background-position: right 0px top 50%;
   //background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_800,q_auto,e_colorize:60,co_rgb:000000/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg);
   background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/e_improve,w_300,h_600,c_thumb,g_auto,e_colorize:50,co_rgb:000000/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg);
-	height:100vh;
-	  background-size: cover;
+  height:calc(100vh);
+  background-size: cover;
 }
 
 
@@ -2217,8 +2238,8 @@
 
 
 .pulse-button {  
-	 box-shadow: 0 0 0 0 rgba(25, 90, 58, 1);
-    background-color: #195a3a !important;   
+	 box-shadow: 0 0 0 0 $orange;
+    background-color: $orange !important;   
   }
 
 	/* Scorecard figures */
@@ -2740,7 +2761,7 @@
 		//background-color: #fff;
 	}
 	.scoreTeam {
-		font-size: 0.7em;
+		font-size: 0.6em;
 		color:#FFF;
 	}
 	.scoreTeamModal {
@@ -2869,6 +2890,10 @@
 
 	.extraheight {
 		height: calc(200vh) !important;
+	}
+
+	.extraheight2 {
+		height: calc(120vh) !important;
 	}
 
 	table {

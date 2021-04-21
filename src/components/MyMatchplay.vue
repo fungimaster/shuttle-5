@@ -3603,8 +3603,8 @@ h2.teaser-header {
 
 .card {
     border: 1px solid rgba(0,0,0,.2);
-        -webkit-box-shadow: 0px 0px 6px 2px #DBDBDB; 
-box-shadow: 0px 0px 6px 2px #DBDBDB;
+        -webkit-box-shadow: 0px 0px 7px 0px #DBDBDB; 
+box-shadow: 0px 0px 7px 0px #DBDBDB;
   
 }
 

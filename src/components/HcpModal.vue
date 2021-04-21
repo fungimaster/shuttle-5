@@ -1,6 +1,7 @@
 <template>
-	<div>
+	<div class="float-right ml-1">
 		<b-modal id="modal-1" title="Uträkningshjälp" ok-only ref="my-modal" @hide="hide">
+
 			<b-tabs content-class="mt-3" v-model="tabIndex" no-key-nav>
 				<b-tab title-link-class="ml-2">
 					<template v-slot:title>Beräkning</template>
@@ -97,7 +98,8 @@
 				</b-tab>
 				<b-tab title-link-class="ml-2">
 					<template v-slot:title>Hjälp</template>
-					<b-container class="explanation">
+					
+					<b-container class="explanation">					
 						<b-row>
 							<b-col cols="6" class="explanation">
 								<h5>Uträkning</h5>
@@ -173,7 +175,7 @@
 			<b-container hidden class="container"></b-container>
 		</b-modal>
 		<button v-if="authorized" v-b-modal.modal-1 class="btn btn-primary btn-md" >
-			<span style="font-size:2em;" class="material-icons mr-0">help</span>
+			<span style="font-size:1.2em;" class="material-icons">help</span>			
 		</button>
 	</div>
 </template>
@@ -268,6 +270,8 @@
 </script>
 
 <style scoped>
+
+
 	.container {
 		font-size: 11px;
 	}
