@@ -1592,22 +1592,34 @@
 			if (data.public_id !== '') {				
         //var uploadedFileUrl = data.secure_url;
 				//console.log(data);
-				var uploadedFileUrl = data.public_id;
-			
-				parentVue.$bvToast.toast("Bilden är uppladdad och kommer visas live på vår resultatsida :)", {
+				var uploadedFileUrl = data.secure_url;
+				//console.log(uploadedFileUrl)
+
+				parentVue.axios.post('https://matchplay.meteorapp.com/methods/updateGame', {           
+				"_id":parentVue.gameID,	
+              "imageurl": uploadedFileUrl
+                         }
+          )
+          .then(response => {            
+           //console.log(response)
+	parentVue.$bvToast.toast("Bilden är uppladdad och kommer visas live på vår resultatsida :)", {
 					title: "Bilden är uppladdad",
 					autoHideDelay: 3000,
 					variant: 'success',
 					solid: true
 				});
 							
-				//$scope.page.g_form.setValue('u_inspiration_image_before',uploadedFileUrl);
-				//$scope.page.g_form.setValue('u_inspiration_before_filetype',$scope.data.fileType);
-				
-				//$("#loadMe").modal("hide");
-				//$("#btn_fileupload_before").html('Replace image/video');
-				
-				//console.log('file type=' + $scope.data.fileType)						
+                      
+           
+          })
+          .catch(error => {
+            console.log(error);
+          });
+
+							
+			
+			
+									
 				
 				
       }
