@@ -1,0 +1,80 @@
+<template>
+  <div>
+    <LightGallery
+      :images="lastFourImages"
+      :index="index"
+      :disable-scroll="true"
+      @close="index = null"
+    />
+    <b-row no-gutters align-h="center">
+      <b-col
+        cols="6"
+        md="3"
+        v-for="(thumb, thumbIndex) in lastFourImages"
+        :key="thumbIndex"
+      >
+        <div
+          class="image pointer "
+          @click="index = thumbIndex"
+           :style="{
+            backgroundImage: 'url(' + thumb + ')',
+            height: '80px',
+          }"
+        
+        >
+          <span class="overlay" v-if="thumb.title"> {{ thumb.title }} </span>
+        </div>
+      </b-col>
+    </b-row>
+  </div>
+</template>
+ 
+<script>
+import { LightGallery } from "vue-light-gallery";
+
+export default {
+  components: {
+    LightGallery,
+  },
+  props: ["images"],
+  data() {
+    return {
+      index: null,
+    };
+  },
+  computed: {
+      lastFourImages() {
+          if (this.images.length > 4) {
+            return this.images.slice(Math.max(this.images.length - 4, 1))
+          }
+          return this.images
+      }
+  }
+
+};
+</script> 
+
+<style scoped>
+.image {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  border: 1px solid #ebebeb;
+  margin: 5px;
+  position: relative;
+ 
+}
+
+.overlay {
+  background: rgba(0, 0, 0, 0.8);
+  color: rgba(255, 255, 255, 0.8);
+  position: absolute;
+  z-index: 1000;
+  bottom: 0;
+  display: block;
+  margin: 0 auto;
+  padding: 12px 30px;
+  width: 100%;
+  box-sizing: border-box;
+}
+</style> 

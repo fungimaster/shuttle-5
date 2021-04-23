@@ -276,6 +276,7 @@
               linecolor="#808080"
               opacity="1"
               stagefill="black"
+              :condensed="false"
             ></app-rounds-grafic>
           </b-col>
         </b-row>
