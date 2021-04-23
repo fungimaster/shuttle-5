@@ -105,15 +105,11 @@
                                    <span v-if="game.status === 'Finished' && game.finishedAt"><i class="material-icons mr-2 mb-1 green">check_circle_outline</i>{{getgamedate2(game.gamedate)}} sedan</span>
                                    <span v-if="game.status != 'Finished'"> | <router-link  @click="modalShow = !modalShow"  :to="`viewer?id=${game._id}`">   <i class="fal fa-list"></i> scorekort </router-link></span>
                                  <div class="p-2">
-                                  
-                                 <span v-for="(image,idx5) in game.imagesurl" :key="idx5">                                
-                                   <span @click="lightbox_image=image,$bvModal.show('lightbox')">                                    
-                                   <b-img-lazy rounded class="scorecard_image mr-2 mb-2" :src="formatImage(image)"></b-img-lazy>
-                                   </span>
-                                 </span>
                                  </div>
                                 </b-col>
-                             </b-row>                             
+                             </b-row>   
+                              <!-- AppGamesImageGallery takes an array of images and returns thumbnails and lightbox  -->
+                              <app-game-image-gallery v-if="game.imagesurl" :images="game.imagesurl"></app-game-image-gallery>               
                           </b-col>
                          </b-row>                                         
                      </b-col>
@@ -387,6 +383,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { tagsMixin } from "../mixins/tagsMixin";
+import AppGameImageGallery from "./GameImageGallery";
 /*import VuePhoneNumberInput from 'vue-phone-number-input';
 import 'vue-phone-number-input/dist/vue-phone-number-input.css';*/
 
@@ -452,6 +449,7 @@ export default {
     },
   },  
   components: {
+    AppGameImageGallery
     
   },
   data() {
