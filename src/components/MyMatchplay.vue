@@ -1016,7 +1016,7 @@
       </template>
 
   <b-container>                           
-            <b-row v-if="!closed" class="mb-4" align-h="center">
+            <b-row v-if="closed" class="mb-4" align-h="center">
                 <b-col sm="12" lg="10">
                     <app-rounds-grafic
                             class="mt-3"
