@@ -5,9 +5,12 @@
 	 		<b-spinner big type="grow" class="align-items-center m-5" style="width: 5rem; height: 5rem;"></b-spinner>
 		</div>
 
-		<b-modal id="modal-legend" title="Starta match" ok-only ref="modal-legend">
-			Välkommen till matchen! Se till att registrera scoren fortlöpande på väg till nästa tee eller innan ni slår ut på nästa så att dom som följer matchen ser de uppdaterade resultaten <i class="fa fa-smile"></i>
-			<h5 class="mt-3 mb-3">Symbolförklaring</h5>
+		<b-modal id="modal-legend" title="Välkommen till matchen!" ok-only ref="modal-legend">
+			Se till att registrera scoren fortlöpande på väg till nästa tee eller innan ni slår ut på nästa så att dom som följer matchen ser de uppdaterade resultaten <i class="fa fa-smile"></i>
+			<br><br>
+			Ta gärna ett foto på ditt lag eller hela gänget nu innan ni slår ut på första tee: <label v-if="authorized" for="file"><span class=" pulse-button btn btn-primary"><span style="font-size:1.5em;" class="material-icons mr-0">add_a_photo</span></span></label>
+			<br><span class="small">Bilden kommer visas på resultatsidan.</span>
+			<h5 class="mt-4 mb-3">Symbolförklaring</h5>
 			<b-row class="legend mb-3">
 				<b-col class="col-6 small mb-3">
 					<i style="font-size:0.3em;" class="fas fa-circle dots align-middle"></i> = Antal extraslag
@@ -29,7 +32,6 @@
 				</b-col>
 			
 			</b-row>
-						Lycka till!
 
 		</b-modal>
 
@@ -321,6 +323,7 @@
 							:nameCount="nameCount"
 							@sendScore="currentStrokes"
 							@updateCounter="updateCounter"
+							@close="saveData"
 						></app-scoring>
 
 						<!-- NÄSTA HÅL & ÖVERSIKT BUTTONS -->
@@ -837,6 +840,7 @@
 	});
 
 	export default {
+
 		created() {
 			this.$route.name === "viewer" ? this.viewedInModal = true : null 
             this.gameID = this.$route.query.id;
@@ -847,6 +851,8 @@
 				if (this.$route.query.freeplay === 'true')
 				this.freeplay = true;
 			}
+
+			
 
 			//console.log('freeplay='+this.freeplay)
 
@@ -907,6 +913,11 @@
 									if (response.data.scorecard[0].holes[0].strokes === 0) {
 										this.$bvModal.show('modal-legend');
 									}
+
+									if (this.$route.name === "viewer") {
+										this.authorized = false;
+									}
+
                             	} else { //either not logged in or not auth
 									this.authorized = false;									
 									this.refreshGame();

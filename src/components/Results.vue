@@ -5,6 +5,12 @@
       <router-view class="" style="margin-left:-1rem;margin-right:-1rem;"> </router-view>
     </b-modal>
 
+       <b-modal id="lightbox" ref="lightbox" title="Bild" ok-only size="xl" style="padding-left:-1rem;">
+      <p class="text-center">
+      <b-img class="lightbox-image" v-if="lightbox_image" :src="formatImage2(lightbox_image)"></b-img>
+      </p>
+    </b-modal>
+
       <b-tabs content-class="mt-3" v-model="tabIndex" no-key-nav class="mt-4 mt-md-5">
                           <b-tab title-link-class="ml-2">
                             <template v-slot:title>
@@ -17,7 +23,7 @@
 
                        <h4>Pågående matcher</h4>
                         <p hidden>Inom kort kommer bokade matcher visas här samt annan information om lagen!</p>
-                        <b-row v-if="loadinggames">
+                        <b-row hidden v-if="loadinggames">
                           <b-col>
                             <b-spinner small type="grow" class="class mr-2"></b-spinner>Hämtar matcher...
                           </b-col>
@@ -98,6 +104,14 @@
                                    <span v-if="game.status === 'Pending' && game.gamedate"><i class="material-icons mr-2 mb-1">schedule</i>{{getgamedate2(game.gamedate,game.gametime)}}</span>
                                    <span v-if="game.status === 'Finished' && game.finishedAt"><i class="material-icons mr-2 mb-1 green">check_circle_outline</i>{{getgamedate2(game.gamedate)}} sedan</span>
                                    <span v-if="game.status != 'Finished'"> | <router-link  @click="modalShow = !modalShow"  :to="`viewer?id=${game._id}`">   <i class="fal fa-list"></i> scorekort </router-link></span>
+                                 <div class="p-2">
+                                  
+                                 <span v-for="(image,idx5) in game.imagesurl" :key="idx5">                                
+                                   <span @click="lightbox_image=image,$bvModal.show('lightbox')">                                    
+                                   <b-img-lazy rounded class="scorecard_image mr-2 mb-2" :src="formatImage(image)"></b-img-lazy>
+                                   </span>
+                                 </span>
+                                 </div>
                                 </b-col>
                              </b-row>                             
                           </b-col>
@@ -442,6 +456,7 @@ export default {
   },
   data() {
     return {
+      lightbox_image: null,
       doctitle: 'Resultat',
       currentRound: null,
       messages: null, 
@@ -556,6 +571,16 @@ export default {
   mixins: [tagsMixin],
   
   methods: {
+     formatImage2(image) {
+       var first_url = image.split("/upload/").pop();      
+       
+      return 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_300,g_auto,c_fill/' + first_url;      
+    },
+    formatImage(image) {
+       var first_url = image.split("/upload/").pop();      
+       
+      return 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_80,ar_1:1,c_fill,g_auto/' + first_url;      
+    },
       getLogoImage(logourl) {      
             var first_url = logourl.split("/upload/").pop();           
             return 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_200,q_auto,c_scale/' + first_url;
@@ -997,6 +1022,19 @@ export default {
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
 
+.lightbox-image {
+      
+   max-width:90%;
+   max-height:70vh;
+   border-radius:0.25em;
+    
+}
+
+.scorecard_image {
+  max-width:80%;
+  cursor:pointer;
+}
+
 .modal-body {
 padding:0rem !important;
 }
@@ -1026,11 +1064,21 @@ p.inactive-round {
 }
 
 .homeleader {
-  background-color: $team1;
+  background-color: $team1;  
+}
+
+.result.homeleader {
+  border-top-right-radius: 0.25em;
+  border-bottom-right-radius: 0.25em;
 }
 
 .awayleader {
-  background-color: $team2;
+  background-color: $team2;  
+}
+
+.result.awayleader {
+  border-top-left-radius: 0.25em;
+  border-bottom-left-radius: 0.25em;
 }
 
 .red {
@@ -1045,6 +1093,10 @@ p.inactive-round {
   @media (max-width: 575px) {
     font-size: 0.8em;
   }
+}
+
+.game img {
+  max-width:90%;
 }
 
 .game i.missing {

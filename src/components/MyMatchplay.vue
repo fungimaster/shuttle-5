@@ -1036,16 +1036,19 @@
                              <h3 class="orange">Vårt digitala scorekort</h3>
             <ScorecardExplainer ></ScorecardExplainer>
 
+                                <h3 class="mt-5">Tips 1 (Ladda upp en bild)</h3>
+                                När er match är startad kan ni ta en bild på lagen i en gruppbild som kan postas upp till vår resultatsida så att folk som följer matchen kan se hur kul ni har det :)
+                            
 
-                                <h3 class="mt-5">Tips 1 (Speltid och plats)</h3>
+                                <h3 class="mt-5">Tips 2 (Speltid och plats)</h3>
                                 När din match i varje omgång är lottad syns den på denna sidan och är ni lottade som hemmalag, ta så fort som möjligt kontakt med era motståndare för att bestämma spelplats och tid. Det är viktigt att hemmalaget lägger upp tid och plats för matchen så att det blir rätt på resultsidorna på matchplay.se.
                             
                      
-                                 <h3 class="mt-4">Tips 2 (Reserv)</h3>
+                                 <h3 class="mt-4">Tips 3 (Reserv)</h3>
                                 Man ska alltid spela med sitt tänkta lag i första hand. Reserv tas in om någon av de ordinarie medlemmarna blir skadad eller sjuk. Ni behöver bara välj en reserv (från lagsidan) när behov uppstår och golfid väljs in innan matchen startar. Då kan hemmalaget välja denna reserv när matchen startas och hcp-uträkningarna blir rätt.
                            
                       
-                                 <h3 class="mt-4">Tips 3 (Ha kul!)</h3>
+                                 <h3 class="mt-4">Tips 4 (Ha kul!)</h3>
                                 Matchspel är en otroligt rolig spelform och med hjälp av vårt digitala scorekort blir det busenkelt att se vilka som vinner resp. hål och leder matchen. Släkt och vänner kan följa matchen från resultatsidan som läggs upp direkt när omgång 1 har lottats. Njut av rundan och må bästa lag vinna!                               
                           
                        </div>                 
