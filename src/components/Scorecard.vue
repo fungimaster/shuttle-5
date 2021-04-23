@@ -1,12 +1,16 @@
 <template>
-	<div ref="scorecardTest" v-bind:class="{bg: authorized,bg2:!authorized}">
+
+	<div ref="scorecardTest" v-bind:class="{bg: authorized,bg2:!authorized, extraheight: (winnerSent && !gameClosed) || setTieBreak || gameClosed,extraheight2: (setTieBreak && !gameClosed) || winnerDeclared && !gameClosed}">
 		<div v-if="loadingSpinner"  class="text-center min-vh-100">
 	 		<b-spinner big type="grow" class="align-items-center m-5" style="width: 5rem; height: 5rem;"></b-spinner>
 		</div>
 
-		<b-modal id="modal-legend" title="Starta match" ok-only ref="modal-legend">
-			Välkommen till matchen! Se till att registrera scoren fortlöpande på väg till nästa tee eller innan ni slår ut på nästa så att dom som följer matchen ser de uppdaterade resultaten <i class="fa fa-smile"></i>
-			<h5 class="mt-3 mb-3">Symbolförklaring</h5>
+		<b-modal id="modal-legend" title="Välkommen till matchen!" ok-only ref="modal-legend">
+			Se till att registrera scoren fortlöpande på väg till nästa tee eller innan ni slår ut på nästa så att dom som följer matchen ser de uppdaterade resultaten <i class="fa fa-smile"></i>
+			<br><br>
+			Ta gärna ett foto på ditt lag eller hela gänget nu innan ni slår ut på första tee: <label v-if="authorized" for="file"><span class=" pulse-button btn btn-primary"><span style="font-size:1.5em;" class="material-icons mr-0">add_a_photo</span></span></label>
+			<br><span class="small">Bilden kommer visas på resultatsidan.</span>
+			<h5 class="mt-4 mb-3">Symbolförklaring</h5>
 			<b-row class="legend mb-3">
 				<b-col class="col-6 small mb-3">
 					<i style="font-size:0.3em;" class="fas fa-circle dots align-middle"></i> = Antal extraslag
@@ -28,7 +32,6 @@
 				</b-col>
 			
 			</b-row>
-						Lycka till!
 
 		</b-modal>
 
@@ -36,8 +39,8 @@
 			<div id="saveprogress" v-if="saveprogress && !overview" class="p-1"><b-spinner small type="grow" class=""></b-spinner></div>
 		
 			<b-row class="justify-content-center" align-h="center">
-				<b-col md="6" class="p-0">
-					<b-container class v-if="!overview && authorized" id="landscape" :class="{extraheight: (winnerSent && !gameClosed) || setTieBreak || gameClosed }">
+				<b-col md="6" class="p-0">					
+					<b-container class v-if="!overview && authorized" id="landscape">
 						<!--  HEADER  -->
 						<b-row class="holeRow pt-4">
 							<b-col class="col-2 pr-0 text-left">								
@@ -320,6 +323,7 @@
 							:nameCount="nameCount"
 							@sendScore="currentStrokes"
 							@updateCounter="updateCounter"
+							@close="saveData"
 						></app-scoring>
 
 						<!-- NÄSTA HÅL & ÖVERSIKT BUTTONS -->
@@ -730,14 +734,24 @@
 
 				<!-- BUTTON FÖR MATCH VY -->
 				<b-row class="mt-3 mb-2">
-					<b-col class="col-4 text-left pr-0 mr-0">
+					<b-col class="col-5 text-left pr-0 mr-0">
 						<button class="btn btn-primary pulse-button btn-md" @click="showMatch(null)" v-if="authorized">
 							<span class="material-icons">create</span>
 							Score
 						</button>
 					</b-col>
-					<b-col class="col-4 text-center pl-0 pr-0 ml-0 mr-0">
-						<app-hcp-modal
+					<b-col class="col-2 text-center pl-0 pr-0 ml-0 mr-0">
+						<button hidden v-if="authorized" v-b-modal.modal-1 class="btn btn-primary btn-small btn-md" >
+							<span style="font-size:2em;" class="material-icons mr-0">add_a_photo</span>
+						</button>					
+						 <input v-if="authorized" type="file" id="file" ref="file" class="inputfile" v-on:change="handleFileUpload()"/>
+						 <label v-if="authorized" for="file"><span class="btn btn-primary"><span style="font-size:2em;" class="material-icons mr-0">add_a_photo</span></span></label>
+					</b-col>
+					<b-col class="col-5 text-right ml-0 pl-0">
+						<button v-if="authorized && (status !== 'Finished')" class="btn btn-primary btn-small btn-md" @click="resetGame">
+								<span style="font-size:1.2em;" class="material-icons">close</span>								
+							</button>							
+							<app-hcp-modal
 							:course-rating="courseRating"
 							:slope-rating="slopeRating"
 							:banans-par="banansPar"
@@ -749,12 +763,7 @@
 							:authorized="authorized"
 							@hidingModalInComponent="hideOverview"
 						></app-hcp-modal>
-					</b-col>
-					<b-col class="col-4 text-right ml-0 pl-0">
-							<button v-if="authorized && (status !== 'Finished')" class="btn btn-primary btn-md" @click="resetGame">
-								<span class="material-icons">warning</span>
-								Reset
-							</button>
+						
 						</b-col>
 					</b-row>
 					
@@ -831,6 +840,7 @@
 	});
 
 	export default {
+
 		created() {
 			this.$route.name === "viewer" ? this.viewedInModal = true : null 
             this.gameID = this.$route.query.id;
@@ -841,6 +851,8 @@
 				if (this.$route.query.freeplay === 'true')
 				this.freeplay = true;
 			}
+
+			
 
 			//console.log('freeplay='+this.freeplay)
 
@@ -901,6 +913,11 @@
 									if (response.data.scorecard[0].holes[0].strokes === 0) {
 										this.$bvModal.show('modal-legend');
 									}
+
+									if (this.$route.name === "viewer") {
+										this.authorized = false;
+									}
+
                             	} else { //either not logged in or not auth
 									this.authorized = false;									
 									this.refreshGame();
@@ -971,6 +988,7 @@
 		},
 		data() {
 			return {
+				file: null,
 				freeplay:false,
 				holes:null,
 				showfront9: true,
@@ -1555,7 +1573,71 @@
 			
 		},
 		methods: {
+		 handleFileUpload(){
+
+		var CLOUDINARY_URL = '';
+		var CLOUDINARY_UPLOAD_PRESET = '';
+		var base_url = '';
+		var parentVue = this;
+
+		this.file = this.$refs.file.files[0];
 		
+		CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/dn3hzwewp/image/upload';
+		CLOUDINARY_UPLOAD_PRESET = 'tveal75k';
+		base_url = 'https://res.cloudinary.com/dn3hzwewp/image/upload/q_auto,w_800/';
+
+		var formData = new FormData();
+		formData.append('file', this.file);
+		formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+
+		 fetch(CLOUDINARY_URL, {
+			method: 'POST',
+			body: formData
+		})
+    .then(function(response) {		
+		
+		return response.json();
+	})
+    .then(function(data) {		
+      //if (data.secure_url !== '') {
+			if (data.public_id !== '') {				
+        //var uploadedFileUrl = data.secure_url;
+				//console.log(data);
+				var uploadedFileUrl = data.secure_url;
+				//console.log(uploadedFileUrl)
+
+				parentVue.axios.post('https://matchplay.meteorapp.com/methods/updateGame', {           
+				"_id":parentVue.gameID,	
+              "imageurl": uploadedFileUrl
+                         }
+          )
+          .then(response => {            
+           //console.log(response)
+	parentVue.$bvToast.toast("Bilden är uppladdad och kommer visas live på vår resultatsida :)", {
+					title: "Bilden är uppladdad",
+					autoHideDelay: 3000,
+					variant: 'success',
+					solid: true
+				});
+							
+                      
+           
+          })
+          .catch(error => {
+            console.log(error);
+          });
+
+							
+			
+			
+									
+				
+				
+      }
+    })
+
+
+      	},
 			b_mount() {
 	
 			//this.gameID = this.$route.query.id;
@@ -2167,14 +2249,27 @@
 
 @import "../styles/variables.scss";
 
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.inputfile + label {
+	cursor: pointer; /* "hand" cursor */
+}
+
 .bg {
  background-repeat: no-repeat;
 
   background-position: right 0px top 50%;
   //background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_800,q_auto,e_colorize:60,co_rgb:000000/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg);
   background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/e_improve,w_300,h_600,c_thumb,g_auto,e_colorize:50,co_rgb:000000/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg);
-	height:100vh;
-	  background-size: cover;
+  height:calc(100vh);
+  background-size: cover;
 }
 
 
@@ -2217,8 +2312,8 @@
 
 
 .pulse-button {  
-	 box-shadow: 0 0 0 0 rgba(25, 90, 58, 1);
-    background-color: #195a3a !important;   
+	 box-shadow: 0 0 0 0 $orange;
+    background-color: $orange !important;   
   }
 
 	/* Scorecard figures */
@@ -2740,7 +2835,7 @@
 		//background-color: #fff;
 	}
 	.scoreTeam {
-		font-size: 0.7em;
+		font-size: 0.6em;
 		color:#FFF;
 	}
 	.scoreTeamModal {
@@ -2869,6 +2964,10 @@
 
 	.extraheight {
 		height: calc(200vh) !important;
+	}
+
+	.extraheight2 {
+		height: calc(120vh) !important;
 	}
 
 	table {

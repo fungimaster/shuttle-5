@@ -191,7 +191,7 @@
                               <label for="query">Var spelas matchen?<i href="#" tabindex="0" id="game_info_1" class="fas fa-question-circle ml-1 mr-1 mb-1"></i></label>
                                <b-popover target="game_info_1" variant="info" triggers="focus" placement="topleft">
                                                 <template #title>Information</template>
-                                                  Vi godkänner endast spel på 18-hålsbanor eller banor där olika 9-hålsslingor räknas som 18.
+                                                  Vi godkänner endast spel på 18-hålsbanor ansluta till Svenska Golfförbundet.
                                             </b-popover>
                               <suggestions
                                 v-model="query"
@@ -323,7 +323,7 @@
                     >
                       Hemmalaget (ni) bokar bana och speltid i samråd med
                       bortalaget. Se kontaktuppgifter under kontaktfliken. Boka
-                      först tid på banan och välj sedan bana nedan, datum och
+                      först tid på banan och välj sedan bana, datum och
                       tid för matchen och meddela era motståndare!
                     </b-alert>
                         </b-col>
@@ -338,22 +338,86 @@
 
                     <b-container class="mt-3">
                       <b-row class="justify-content-center" align-h="center">
-                        <b-col class="col-12 text-left">                         
+                        <b-col class="col-12 text-left">        
+
+                           <b-button
+                            v-if="isteamleader && status === 'Pending'"
+                            :disabled="status === 'Finished'"
+                            :to="`/creategame?id=${game_id}`"
+                            variant="success"
+                            class="mr-1 mt-2 text-white"
+                            ><i class="material-icons mr-2"
+                              >play_circle_filled</i
+                            >Starta match</b-button
+                          >
+                          <b-button
+                            v-if="status === 'In progress'"
+                           :to="`/scorecard?id=${game_id}`"
+                            variant="success"
+                            class="mr-1 mt-2 text-white"
+                            ><i class="material-icons mr-2"
+                              >play_circle_filled</i
+                            >Öppna scorekortet</b-button
+                          >
+                          <b-button
+                            v-if="status === 'Finished'"
+                            :to="`/scorecard?id=${game_id}`"
+                            variant="success"
+                            class="mr-1 mt-2 text-white"
+                            ><i class="material-icons mr-2"
+                              >play_circle_filled</i
+                            >Visa scorekortet</b-button
+                          >
+                          <hr />
+                           <b-button :id="'popover-help-game1-'+game_id" href="#" tabindex="0" class="btn btn-secondary btn-sm text-white mb-2">Vem för score?</b-button>
+                            <b-popover :target="'popover-help-game1-'+game_id" variant="warning" triggers="focus" placement="topleft">
+                              <template #title>Vem för score?</template>                               
+                             <span>Hemmalaget ansvarar för att starta och föra score för matchen
+                            via vårt system! Rätt hcp-regler används och vi
+                            hämtar aktuella hcp/slope/tee från Svenska
+                            Golfförbundet.</span>
+                            </b-popover>   
+
+                            <b-button v-if="status === 'Pending'"  :id="'popover-help-game2-'+game_id" href="#" tabindex="1" class="btn btn-secondary btn-sm text-white mb-2">Hur startas matchen?</b-button>
+                            <b-popover :target="'popover-help-game2-'+game_id" variant="warning" triggers="focus" placement="topleft">
+                              <template #title>Hur startas matchen?</template>                               
+                             <span v-if="isteamleader && status === 'Pending'">Klicka på knappen
+                            <strong>STARTA MATCH</strong> nedanför för att välja
+                            klubb/slinga/tee för spelarna när det är dags att
+                            spela golf!</span>
+                            <span v-if="!isteamleader && status === 'Pending'">Endast hemmalaget kan starta matchen.</span>
+                            </b-popover>       
+
+                            
+                            <b-button :id="'popover-help-game3-'+game_id" href="#" tabindex="1" class="btn btn-secondary btn-sm text-white mb-2">Reserv?</b-button>
+                            <b-popover :target="'popover-help-game3-'+game_id" variant="warning" triggers="focus" placement="topleft">
+                              <template #title>Reserv?</template>                               
+                             <span>Om laget har en reserv tillgänglig för spel kan hemmalaget, när ni träffas innan spel, välja denna person i samband med att tee väljs innan matchen startar. Laget måste ha en reserv anmäld (på lagsidan) i god tid innan matchen ska startas.</span>                           
+                            </b-popover>  
+
+                             <b-button :id="'popover-help-game4-'+game_id" href="#" tabindex="1" class="btn btn-secondary btn-sm text-white mb-2">Funkar inte scorekortet?</b-button>
+                            <b-popover :target="'popover-help-game4-'+game_id" variant="warning" triggers="focus" placement="topleft">
+                              <template #title>Funkar inte scorekortet?</template>                               
+                             <span>Om scorekortet av någon anledning inte fungerar när matchen ska spelas görs beräkningen enligt följande:<br>
+                            1. Gällande slopehcp på bana efter val av tee<br>
+                            2. Dra av 10% (tex hcp 14 får -1.4 = 12.6)<br>
+                            3. Nolla den lägsta hcp oavsett lag och dra av (eller lägg på för +hcp) skillnaden från övrigas hcp<br>
+                            4. Avrunda till närmsta heltal<br>
+                            5. Spela matchen och rapportera in resultatet till oss på info@matchplay.se<br><br>
+                            OBS! Ett lag får max ha 28 (innan slope) tillsammans. Tex: Om spelare A har 16 i hcp och spelare B har 19 i hcp blir detta 35 sammanlagt, vilket innebär att spelare A och B får 3.5 slag färre och kommer få nytt exakt hcp på 12.5 och 15.5 som sedan slope och matchspeluträkningar baseras på. Detta görs för att få så rättvisa matcher som möjligt mellan lagen.</span>                           
+                            </b-popover>       
 
                           <b-alert
-                            v-if="isteammember && status != 'Finished'"
-                            show
+                            v-if="isteammember && status != 'Finished'"                            
                             dismissible
                             class="mt-1 mb-0 small"
                             variant="warning"
                           >
-                            Endast hemmalaget kan rapportera resultatet för
-                            denna match.
+                           
                           </b-alert>
 
                           <b-alert
-                            v-if="isteamleader && status === 'Pending'"
-                            show
+                            v-if="isteamleader && status === 'Pending'"                            
                             dismissible
                             class="mt-1 mb-0 small"
                             variant="warning"
@@ -363,38 +427,9 @@
                             klubb/slinga/tee för spelarna när det är dags att
                             spela golf!
                           </b-alert>
-
-                          <b-button
-                            v-if="isteamleader && status === 'Pending'"
-                            :disabled="status === 'Finished'"
-                            :to="`/creategame?id=${game_id}`"
-                            variant="success"
-                            class="mr-1 mt-3 text-white"
-                            ><i class="material-icons mr-2"
-                              >play_circle_filled</i
-                            >Starta match</b-button
-                          >
-                          <b-button
-                            v-if="status === 'In progress'"
-                           :to="`/scorecard?id=${game_id}`"
-                            variant="success"
-                            class="mr-1 mt-3 text-white"
-                            ><i class="material-icons mr-2"
-                              >play_circle_filled</i
-                            >Öppna scorekortet</b-button
-                          >
-                          <b-button
-                            v-if="status === 'Finished'"
-                            :to="`/scorecard?id=${game_id}`"
-                            variant="success"
-                            class="mr-1 mt-3 text-white"
-                            ><i class="material-icons mr-2"
-                              >play_circle_filled</i
-                            >Visa scorekortet</b-button
-                          >
+                         
                            <b-alert
-                            v-if="status !== 'Finished'"
-                            show
+                            v-if="status !== 'Finished'"                            
                             dismissible
                             class="mt-3 small"
                             variant="info"
@@ -404,13 +439,12 @@
                             hämtar aktuella hcp/slope/tee från Svenska
                             Golfförbundet.
                           </b-alert>
-                           <b-alert show dismissible class="small mt-3" variant="info">
+                           <b-alert dismissible class="small mt-3" variant="info">
                               <h5>Information om reserver</h5>
                                            Om laget har en reserv tillgänglig för spel kan hemmalaget, när ni träffas innan spel, välja denna person i samband med att tee väljs innan matchen startar.
                                  </b-alert>
                            <b-alert
-                            v-if="(isteamleader || isteammember) && status != 'Finished'"
-                            show
+                            v-if="(isteamleader || isteammember) && status != 'Finished'"                            
                             dismissible
                             class="mt-3 mb-0 small"
                             variant="danger"

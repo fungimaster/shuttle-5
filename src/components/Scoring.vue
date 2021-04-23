@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<!-- Spelare 1 -->
-		<b-modal no-fade ref="1" id="modal-1" hide-footer hide-backdrop>
+		<b-modal no-fade ref="1" id="modal-1" hide-footer hide-backdrop @hide="handleClose">
 			<b-container>
 				<b-row align-v="center" align-h="center">
 					<p class>
@@ -313,6 +313,9 @@
 			}
 		},
 		methods: {
+			handleClose() {
+				this.$emit("close");
+			},
 			buttonActions(activehole, player) {
 				setTimeout(() => {
 					this.sendScore(activehole, player), this.nextModal();
@@ -351,9 +354,13 @@
 				const modalStaysOpenAfterClick =
 					this.nameCount[currentIndex].length === 5;
 
-				this.counter === 4
-					? (this.$refs["4"].hide(), this.updateCounter(1))
-					: null;
+				if (this.counter === 4) {
+						this.$refs["4"].hide();
+						this.updateCounter(1);
+						this.handleClose();
+					} else {
+						null;
+					}
 
 				if (modalStaysOpenAfterClick) {
 					this.counter === 1 ? this.$refs["1"].hide() : null;

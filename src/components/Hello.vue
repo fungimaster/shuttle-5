@@ -74,6 +74,7 @@
           <b-col class="col-12 col-md-8">
             <p v-if="!closed" class="mt-3 mt-md-0">
               <strong>Omgång 1 startar söndagen den 2 maj och pågår i 2 veckor.</strong>
+              <b-alert hidden variant="info" class="small mt-3">Lag från 50% av Sveriges golfklubbar finns nu representerade i tävlingen!</b-alert>              
             </p>
             <p
               class="mt-3 mt-md-0"
@@ -288,7 +289,7 @@
                                   <b-img class="" :src="getClubImage2(latestTeamLogo)"></b-img> 
                             </b-col>
                              <b-col class="col-7 small mx-auto pl-0 pr-0 text-left">
-                                {{latestTeam}} <router-link to="/klubbar">Se alla repr. klubbar hittills</router-link>.
+                                {{latestTeam}} <router-link to="/klubbar">Lag från 50% av Sveriges golfklubbar är nu representerade i tävlingen!</router-link>.
                              </b-col>
                             </b-row>
                             <hr class="d-block d-md-none" /> 
@@ -538,7 +539,10 @@ export default {
    //BG CHANGE 
   var bg_change = setInterval(this.changeBg, 8000);
 
-  //this.toast('b-toaster-top-right');
+   if (!localStorage.getItem('morethan50')) {
+    this.makeToast();
+    localStorage.setItem('morethan50',1)
+   }
 
   if (!globalState.compid) {
     return  
@@ -702,6 +706,15 @@ export default {
   mixins: [tagsMixin],
   
   methods: {
+    makeToast(append = false) {
+        this.toastCount++
+        this.$bvToast.toast('Lag från 50% av Sveriges golfklubbar finns nu representerade i Matchplay 2021!', {
+          title: 'Deltagarrekord!',
+          autoHideDelay: 5000,
+          variant:'success',
+          appendToast: append
+        })
+      },
 
     countdown() {
 
