@@ -22,8 +22,45 @@
       </b-row>
       <b-row v-if="isAuthenticated" class="justify-content-center mt-4" align-h="center">
           <b-col md="12">
-              <h4>Tidigare matcher</h4>
-              <p>lista tidigare matcher här</p>
+            <hr class="mt-2 mb-4" />
+              <h2>Tidigare matcher</h2>
+              
+              <!-- freeplay game -->
+              <b-card v-for="(game,idx1) in games" :key="idx1" class="mb-2 team">
+                <template v-slot:header>
+                  <b-card-title class="mt-2">
+                    <strong>{{game.clubname}}</strong>
+                    - {{game.loopname}}
+                  </b-card-title>       
+                </template>      
+
+                <b-row>
+                  <b-col class="col-5 p-0 m-0 text-right">
+                    <span class="d-block team1">{{game.hometeamleader.name}}<br>{{game.hometeammember.name}}</span>
+                  </b-col>
+                  <b-col class="col-2 text-center small p-0 m-0">
+                    <strong>vs</strong>
+                  </b-col>
+                  <b-col class="col-5 p-0 m-0">
+                    <span class="d-block team2">{{game.awayteamleader.name}}<br>{{game.awayteammember.name}}</span>
+                  </b-col>
+                </b-row>
+
+                <b-row class="mt-4">
+                  <b-col class="col-5">
+                    Vinnare: {{game.winner}}
+                  </b-col>
+                </b-row>
+
+                  
+
+               
+                <template v-slot:footer>
+                                <span class="small d-block">{{getgamedate(game.createdAt)}} sedan</span>                       
+                            </template>                         
+              </b-card>
+              <!-- end -->
+
           </b-col>
       </b-row>
     </b-container>
@@ -34,6 +71,29 @@
 import axios from "axios";
 import { globalState } from "../main.js";
 import { mapGetters } from "vuex";
+
+import moment from "moment";
+import VueMoment from "vue-moment";
+
+moment.locale("sv");
+
+moment.updateLocale("sv", {
+  relativeTime: {
+    future: "om %s",
+    past: "%s",
+    ss: "%d sek",
+    m: "1 minut",
+    mm: "%d min",
+    h: "en timme",
+    hh: "%d timmar",
+    d: "en dag",
+    dd: "%d dagar",
+    M: "en månad",
+    MM: "%d mån",
+    y: "ett år",
+    yy: "%d år",
+  },
+});
 
 export default {
   directives: {	
@@ -46,23 +106,22 @@ export default {
 
   },
   mounted() {
-
+ 
       let userinfo = localStorage.getItem('userinfo');
       if (userinfo)
       userinfo = JSON.parse(userinfo);
-
+     
       //TEST get games
-                this.axios.post(globalState.admin_url + 'getPlayerData', {
-                    "id": userinfo._id,
-                    "competition": "r3HP8Kw62z2qfZhkr",
-                    "freeplay": true
+                this.axios.post(globalState.admin_url + 'freeplay', {
+                    "golfid": userinfo.golfid                  
                 })
                 .then(response => {
                     if (response.data.hasOwnProperty('error')) {
                         console.log("error")
                         return;
                     }                  
-                    console.log(response.data);                                 
+                    console.log(response.data);
+                    this.games = response.data.games;                          
                   
                 })
                 .catch(error => {
@@ -74,14 +133,14 @@ export default {
  
   data() {
     return {
-      
+      games: []
     };
-  },
-  mounted: function () {
-   
-  },
+  }, 
   methods: {
-  
+   getgamedate: function (date) {
+      let gamedate2 = new Date(date);
+      return moment(gamedate2, "YYYY-MM-DD hh:mm").fromNow();      
+    }
   },
   computed: {
   ...mapGetters([      
@@ -96,5 +155,17 @@ export default {
 
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
+
+.team {
+  font-size:0.8em;
+}
+
+.team1 {
+		border-left: 5px solid #fd9b37;
+	}
+
+.team2 {
+	border-right: 5px solid #69b3fe;
+}
 
 </style>
