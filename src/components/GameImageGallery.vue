@@ -14,11 +14,11 @@
         :key="thumbIndex"
       >
         <div
-          class="image pointer "
+          class="image pointer"
           @click="index = thumbIndex"
            :style="{
             backgroundImage: 'url(' + thumb + ')',
-            height: '80px',
+            height: '10rem',
           }"
         
         >
