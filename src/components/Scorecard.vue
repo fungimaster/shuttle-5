@@ -430,14 +430,25 @@
 
 			
 			<div v-if="!authorized">
-			<b-row>
-					<b-col class="text-center mt-2">
+			<b-row align-v="center" align-h="center">
+					<b-col class="col-6 text-left mt-2">
 						<router-link class="" to="/" v-if="!viewedInModal">
 						<b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_150,c_scale/v1573118127/matchplay/matchplay-new-logo-2020.png" alt=""></b-img>        
 						</router-link>
 						
-						<b-img v-if="viewedInModal" src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_150,c_scale/v1573118127/matchplay/matchplay-new-logo-2020.png" alt=""></b-img>        
+						<b-img class="ml-3 topimage" v-if="viewedInModal" src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_150,c_scale/v1573118127/matchplay/matchplay-new-logo-2020.png" alt=""></b-img>   
 						
+					</b-col>
+					<b-col class="col-6 text-right mt-2">
+						<!-- sponsors -->
+						 <span
+                        v-for="(item) in testLimited"
+                        :key="item.message"
+                      >
+					  <a :href="item.url" target="_blank">
+						<b-img class="mr-2 topimage" v-if="viewedInModal" :src="item.image" alt=""></b-img>
+					  </a>       
+						</span>
 					</b-col>
 
 						<b-col v-if="!authorized && status !== 'Finished'" cols="12" class="mt-4">
@@ -451,7 +462,7 @@
 				
 			</div>
 
-				<b-row class="pt-3" align-v="center" align-h="center">
+				<b-row v-if="!viewedInModal" class="pt-3" align-v="center" align-h="center">
 					<!-- HOME TEAM -->
 					<b-col class="col-4 scoreTeam text-left pl-2 pr-0" :class="[{ scoreTeam1: leader && !tie }, {scoreTeamDormy: setDormyClass(dormy2)},  {scoreTeamModal: viewedInModal}]">
 						<span
@@ -988,6 +999,44 @@
 		},
 		data() {
 			return {
+				 sponsors: [
+					{
+					title: 'PING',
+					url: 'https://eu.ping.com/sv-se',
+					image: 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_150,q_auto/v1619248516/matchplay/sponsors/ping.png'
+				},
+				{
+					title: 'Future IT',
+					url: 'https://futureitpartner.se/',
+					image: 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_150,q_auto/v1619248516/matchplay/sponsors/future_logo.png'
+				},
+				{
+					title: 'Scandic',
+					url: 'https://www.scandichotels.se/',
+					image: 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_150,q_auto/v1614942462/matchplay/sponsors/scandic.png'
+				},
+					{ 
+					title: 'Colburn',
+					url: 'https://www.colburn.se/',
+					image: 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_150,q_auto/v1619248516/matchplay/sponsors/Logo_Colburn.png'
+				},
+				{ 
+					title: 'Easygreen',
+					url: 'http://www.easygreen.se/',
+					image: 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_150,q_auto/v1617614504/matchplay/sponsors/easygreen.png'
+				},
+					{ 
+					title: 'Professionell Säkerhet',
+					url: 'https://professionellsakerhet.se/',
+					image: 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_150,q_auto/v1614942462/matchplay/sponsors/prosak_logo_2016.png'
+				},
+					{ 
+					title: 'Elgiganten',
+					url: 'https://elgiganten.se/',
+					image: 'https://res.cloudinary.com/dn3hzwewp/image/upload/v1614942462/matchplay/sponsors/Vinn-Elgiganten-Phonehouse.png'
+				}
+				
+				],
 				file: null,
 				freeplay:false,
 				holes:null,
@@ -1084,6 +1133,13 @@
 		},
 
 		computed: {
+			testLimited() {
+				let randoms = this.shuffle(this.sponsors);
+				return randoms.slice(0, 1)
+			},
+			 testRandom() {
+				return this.shuffle(this.sponsors)
+			},
 			setTieBreak() {
 				let tieBreak = false;
 				if (this.tie === true && this.holesLeft <= 1) {
@@ -1573,6 +1629,10 @@
 			
 		},
 		methods: {
+			 shuffle(o) {
+				for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+				return o;
+			},
 		 handleFileUpload(){
 
 		var CLOUDINARY_URL = '';
@@ -2248,6 +2308,10 @@
 <style lang="scss" scoped>
 
 @import "../styles/variables.scss";
+
+.topimage {
+	max-width:100%;
+}
 
 .inputfile {
 	width: 0.1px;

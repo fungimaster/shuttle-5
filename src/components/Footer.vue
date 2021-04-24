@@ -74,7 +74,7 @@
               </a>
             </b-col>
              <b-col md="3" class="silver p-1 mt-3 text-center">
-              <a href="https://easygreen.se" target="_blank">
+              <a href="http://www.easygreen.se/" target="_blank">
                 <b-img
                   alt="easygreen"
                   src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_150,q_auto/v1617614504/matchplay/sponsors/easygreen.png"
