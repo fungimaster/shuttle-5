@@ -72,22 +72,22 @@
               <div class="team team1 p-3">
                 <h3>Lag 1</h3>
                 <!-- spelare 1 -->
-                <span @click="activePlayer=1" class="player" v-bind:class="{ blink: activePlayer === 1}" v-if="players[0].gitID">{{players[0].name}} <b-badge pill variant="warning" class="hcp" v-negativeToPostive:arguments="{hcp: players[0].hcp}">{{players[0].hcp}}</b-badge></span>
-                <span @click="activePlayer=1" class="player" v-bind:class="{ blink: activePlayer === 1}" v-else>Skriv in golf id</span>
+                <span @click="activePlayer=1,setFocus()" class="player" v-bind:class="{ blink: activePlayer === 1}" v-if="players[0].gitID">{{players[0].name}} <b-badge pill variant="warning" class="hcp" v-negativeToPostive:arguments="{hcp: players[0].hcp}">{{players[0].hcp}}</b-badge></span>
+                <span @click="activePlayer=1,setFocus()" class="player" v-bind:class="{ blink: activePlayer === 1}" v-else>Skriv in golf id</span>
                  <!-- spelare 2 -->
-                <span @click="activePlayer=2" class="player" v-bind:class="{ blink: activePlayer === 2}"  v-if="players[1].gitID">{{players[1].name}} <b-badge pill variant="warning" class="hcp" v-negativeToPostive:arguments="{hcp: players[1].hcp}">{{players[1].hcp}}</b-badge></span>
-                <span @click="activePlayer=2" class="player" v-bind:class="{ blink: activePlayer === 2}" v-else>Skriv in golf id för spelare 2</span>
+                <span @click="activePlayer=2,setFocus()" class="player" v-bind:class="{ blink: activePlayer === 2}"  v-if="players[1].gitID">{{players[1].name}} <b-badge pill variant="warning" class="hcp" v-negativeToPostive:arguments="{hcp: players[1].hcp}">{{players[1].hcp}}</b-badge></span>
+                <span @click="activePlayer=2,setFocus()" class="player" v-bind:class="{ blink: activePlayer === 2}" v-else>Skriv in golf id för spelare 2</span>
               </div>
 
 
               <div class="team team2 p-3">
                 <h3>Lag 2</h3>
                 <!-- spelare 3 -->
-                <span @click="activePlayer=3" class="player" v-bind:class="{ blink: activePlayer === 3}" v-if="players[2].gitID">{{players[2].name}} <b-badge pill variant="warning" class="hcp" v-negativeToPostive:arguments="{hcp: players[2].hcp}">{{players[2].hcp}}</b-badge></span>
-                <span @click="activePlayer=3" class="player" v-bind:class="{ blink: activePlayer === 3}" v-else>Skriv in golf id för spelare 3</span>
+                <span @click="activePlayer=3,setFocus()" class="player" v-bind:class="{ blink: activePlayer === 3}" v-if="players[2].gitID">{{players[2].name}} <b-badge pill variant="warning" class="hcp" v-negativeToPostive:arguments="{hcp: players[2].hcp}">{{players[2].hcp}}</b-badge></span>
+                <span @click="activePlayer=3,setFocus()" class="player" v-bind:class="{ blink: activePlayer === 3}" v-else>Skriv in golf id för spelare 3</span>
                  <!-- spelare 4 -->
-                <span @click="activePlayer=4" class="player" v-bind:class="{ blink: activePlayer === 4}" v-if="players[3].gitID">{{players[3].name}} <b-badge pill variant="warning" class="hcp" v-negativeToPostive:arguments="{hcp: players[3].hcp}">{{players[3].hcp}}</b-badge></span>
-                <span @click="activePlayer=4" class="player" v-bind:class="{ blink: activePlayer === 4}" v-else>Skriv in golf id för spelare 4</span>
+                <span @click="activePlayer=4,setFocus()" class="player" v-bind:class="{ blink: activePlayer === 4}" v-if="players[3].gitID">{{players[3].name}} <b-badge pill variant="warning" class="hcp" v-negativeToPostive:arguments="{hcp: players[3].hcp}">{{players[3].hcp}}</b-badge></span>
+                <span @click="activePlayer=4,setFocus()" class="player" v-bind:class="{ blink: activePlayer === 4}" v-else>Skriv in golf id för spelare 4</span>
               </div>
 
               <b-button @click="tabIndex=1" size="md" class="btn btn-blue text-white mt-3"
@@ -607,6 +607,9 @@ export default {
 
   },
   methods: {
+    setFocus() {
+      document.getElementById('golfid').focus();
+    },
     refreshHcp() {
       let team1hcp = parseFloat(this.players[0].hcp) + parseFloat(this.players[1].hcp);
        let team2hcp = parseFloat(this.players[2].hcp) + parseFloat(this.players[3].hcp)
