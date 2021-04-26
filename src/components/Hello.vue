@@ -53,7 +53,7 @@
             <h4 class="mb-3 mb-md-4">Anmälan stänger om:</h4>
             <b-row align-h="center">
             <b-col class="col-6 col-md-4">
-              <span id="days" class="blink days timenumbers">01</span>
+              <span id="days" class="blink red days timenumbers">01</span>
           <p class="timeRefDays timedescription">dagar</p>
             </b-col>
             <b-col class="col-4 d-none d-md-block">
@@ -73,8 +73,8 @@
 
           <b-col class="col-12 col-md-8">
             <p v-if="!closed" class="mt-3 mt-md-0">
-              <strong>Omgång 1 startar söndagen den 2 maj och pågår i 2 veckor.</strong>
-              <b-alert hidden variant="info" class="small mt-3">Lag från 50% av Sveriges golfklubbar finns nu representerade i tävlingen!</b-alert>              
+             Omgång 1 startar  <strong>söndagen den 2 maj</strong> och pågår till  <strong>söndagen den 30 maj</strong> (ändrat för att fler i mellersta och norra Sverige ska kunna delta pga av kall vinter/vår).
+              <b-alert hidden variant="info" class="small mt-3">Lag från mer än 50% av Sveriges golfklubbar finns nu representerade i tävlingen!</b-alert>              
             </p>
             <p
               class="mt-3 mt-md-0"
@@ -106,12 +106,12 @@
                 class="btn blue-bg btn-md text-white mt-2 mr-2"
               >Vill du veta mer?</a>
 
-            <div v-if="closed && !isAuthenticated" class="mt-3 mb-3">
+            <div v-if="closed" class="mt-3 mb-3">
               <b-row>
                 <b-col class="col-7 col-md-12 pr-0 pr-md-3">
               <h3 class="">Statistik 2021</h3>
-              Anmälda lag: <strong>523</strong><br>
-              Repr. klubbar: <strong>218</strong><br>
+              Anmälda lag: <strong>609</strong><br>
+              Repr. klubbar: <strong>227</strong><br>
               Snitthcp: <strong>12.1</strong><br>
               Snittålder: <strong>44 år</strong><br>
               
@@ -198,7 +198,7 @@
           <b-col v-if="!closed" class="col-12">
             <h1 v-if="!closed" class="teaser-header orange mb-3 text-left text-md-center">Anmäl ditt lag till Matchplay 2021</h1>
             <p>Hela tävlingen är numera digitaliserad där vi kontrollerar Golf-ID, hcp, slope mm för att kunna applicera våra hcputräkningar inför varje match. Ni använder vårt digitala scorekort för att föra score och vänner/familj kan följa matcherna live!</p>
-            <p>Sista anmälningsdag är den <strong>30 april</strong> och tävlingens första omgång börjar den <strong>2 maj</strong>.</p>
+            <p>Sista anmälningsdag är den <strong>30 april</strong> och tävlingens första omgång börjar den <strong>2 maj</strong> och slutar den <strong>30 maj</strong>.</p>
             <p>
               Anmälningskostnad per lag är
               <strong>{{price1}} kr</strong> för privatpersoner och
@@ -289,7 +289,7 @@
                                   <b-img class="" :src="getClubImage2(latestTeamLogo)"></b-img> 
                             </b-col>
                              <b-col class="col-7 small mx-auto pl-0 pr-0 text-left">
-                                {{latestTeam}} <router-link to="/klubbar">Lag från 50% av Sveriges golfklubbar är nu representerade i tävlingen!</router-link>.
+                                {{latestTeam}} <router-link to="/klubbar">Lag från mer än 50% av Sveriges golfklubbar är nu representerade i tävlingen!</router-link>.
                              </b-col>
                             </b-row>
                             <hr class="d-block d-md-none" /> 
@@ -430,7 +430,7 @@
         <b-row>
           <b-col class="col-12 mt-4">
             <h1 class="mb-5 text-white text-left text-md-center">Matchplay 2021</h1>
-            <p>Matchplay spelas 2021 i hela Sverige och är en tävling för 2-mannalag (herr, dam eller mixed). Officiellt HCP krävs för att delta. Tävlingsformen är 4-boll, Match/Bästboll. Beroende på antal anmälda lag kommer det bli 6-7 omgångar fram till Sverigefinalen. Varje omgång spelas inom 2 veckor där det vinnande laget går vidare i tävlingen.</p>
+            <p>Matchplay spelas 2021 i hela Sverige och är en tävling för 2-mannalag (herr, dam eller mixed). Officiellt HCP krävs för att delta. Tävlingsformen är 4-boll, Match/Bästboll. Beroende på antal anmälda lag kommer det bli 6-7 omgångar fram till Sverigefinalen. Varje omgång spelas inom 2 veckor (undantag 1:a omgången som är 4 veckor) där det vinnande laget går vidare i tävlingen.</p>
             <p>Matcherna lottas med hänsyn till geografiskt läge och i de inledande omgångarna kan ni räkna med att få möta lag från närliggande golfklubbar. Ju längre man kommer i tävlingen (ungefär från omgång 4), och beroende på var man bor i Sverige, kan resorna bli lite längre. Hemmalaget bokar golftid och lagen står själva för ev. greenfee fram till Sverigefinalen.</p>
             <p>Sverigefinalen görs upp 3-5 september mellan de åtta bästa lagen på Allerum Golfklubb strax utanför Helsingborg. Hotell, frukost, all golf samt en bankett på kvällen ingår. De 2 bästa lagen i Sverigefinalen åker med Matchplay till Spanska solkusten för att göra upp om titeln. Flyg, hotell och allt spel ingår för de bägge lagen.</p>
             <p>Priset för deltagande i tävlingen är {{price1}}:-/lag för privatpersoner och {{price2}}:-/lag (exkl. moms) för företag. Varje lag är garanterat minst 2 matcher.</p>
@@ -708,7 +708,7 @@ export default {
   methods: {
     makeToast(append = false) {
         this.toastCount++
-        this.$bvToast.toast('Lag från 50% av Sveriges golfklubbar finns nu representerade i Matchplay 2021!', {
+        this.$bvToast.toast('Lag från mer än 50% av Sveriges golfklubbar finns nu representerade i Matchplay 2021!', {
           title: 'Deltagarrekord!',
           autoHideDelay: 5000,
           variant:'success',
@@ -883,7 +883,7 @@ export default {
 
                 .timenumbers {
                     display: block;
-                    font-size: 1.8rem;
+                    font-size: 2.5rem;
                     font-weight: 400;
                     line-height:100px;
                     margin: 0 auto;

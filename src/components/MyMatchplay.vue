@@ -298,7 +298,7 @@
       Lag
       </template>    
 
-      <b-modal ref="poll1" id="poll1" title="Undersökning" size="md" hide-header-close no-close-on-backdrop ok-only ok-variant="secondary" ok-title="Cancel">
+      <b-modal ref="poll1" id="poll1" title="Undersökning" size="md" no-close-on-backdrop ok-only ok-variant="secondary" ok-title="Cancel">
     <p>Vi blir jätteglada om du skulle vilja svara på denna fråga! <i class="pb-0 mr-2 material-icons red">favorite</i></p>
     <p>
       <strong>{{poll.question}}</strong>
@@ -1302,6 +1302,41 @@
       <b-button class="mt-3" variant="outline-danger" block @click="hideModalReferral">Stäng</b-button>      
     </b-modal>
 
+
+<b-modal ref="important-modal" title="Viktig info" hide-footer no-close-on-esc no-close-on-backdrop>
+<b-container class="p-1">
+   
+            <b-row>
+                <b-col>
+                   <p>
+                       <ol class="small importantlist">
+                           <li>
+                               Hemmalaget för en match är alltid ansvariga för att kontakta sina motståndare och bestämma bana och tid för spel. Kontaktuppgifter finns under resp. match (klicka på den gröna knappen visa match).
+                           </li>
+                           <li>
+                               Boka först tid via tex. Min Golf bokning och skriv sedan in datum, tid och plats för matchen på din matchsida. Detta är viktigt då vi använder tid och plats för att förbereda resultatsidor mm.
+                           </li>
+                           <li>
+                               Använd alltid det digitala scorekortet för er match (hemmalaget för score).
+                            </li>
+                            <li>
+                                Ta väldigt gärna en eller flera bilder på laget, spelarna eller vackra golfhål under er match. Dessa bilder skapar en härlig gemenskap och visas på vår start- och resultatsida.
+                                <span style="font-size:1.5em;" class="align-middle material-icons mr-0">add_a_photo</span>
+                            </li>
+
+                       </ol>
+                   </p>
+                </b-col>
+            </b-row>
+
+
+  
+                                   
+        </b-container>        
+      
+      <b-button class="mt-3" variant="outline-danger" block @click="hideModalImportant">Stäng</b-button>      
+    </b-modal>
+
 </div>
 
 
@@ -1851,6 +1886,13 @@ export default {
         hideModalReferral() {
             localStorage.setItem('showReferralInfo', 1);
             this.$refs['referral-modal'].hide()
+        },
+         showImportantModal() {                      
+            this.$refs["important-modal"].show();
+        },
+        hideModalImportant() {
+            //localStorage.setItem('showImportantInfo', 1);
+            this.$refs['important-modal'].hide()
         },
         copyLink(elem) {
         /* Get the text field */
@@ -3423,8 +3465,11 @@ export default {
                                 //show referral modal if paid team, set cookie
                                 if(this.team.paid) {                                 
                                      if (!localStorage.getItem('showReferralInfo')) {                                       
-                                        this.showReferralModal();                                          
-                                     }                                    
+                                        //this.showReferralModal();   //only show in beginning of competition                                       
+                                     }    
+                                     
+                                     //show important modal every time
+                                     this.showImportantModal();    
                                 }
 
                         }
@@ -3577,6 +3622,14 @@ export default {
 
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
+
+ol {
+    padding-left:1.25em;
+}
+
+.importantlist li {
+    margin-bottom:1em;
+}
 
 .pointer {
     cursor:pointer;

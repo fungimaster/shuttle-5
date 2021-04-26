@@ -23,7 +23,8 @@
                       </b-col>
                        <b-col class="col-12 mt-2">
                     <b-progress height="1.8rem" :value="clubno" :max="448" show-value animated variant="success"></b-progress>
-                    <p class="mt-1" style="font-size:0.8em;">Just nu har vi deltagande lag från ca {{clubnopercent}}% av Sveriges 448 golfklubbar.</p>
+                    <p v-if="!closed" class="mt-1" style="font-size:0.8em;">Just nu har vi deltagande lag från ca {{clubnopercent}}% av Sveriges 448 golfklubbar.</p>
+                    <p v-else class="mt-1" style="font-size:0.8em;">I årets tävling har vi deltagande lag från ca {{clubnopercent}}% av Sveriges 448 golfklubbar.</p>
                     </b-col>
                     </b-row>
 
@@ -32,8 +33,8 @@
                           <b-col>
                             <hr class="mt-2" />
                           </b-col>
-                      </b-row>
-                        <b-row v-if="!loadingclubs && latestTeam" class="align-items-center h-100">
+                      </b-row>                     
+                        <b-row v-if="!loadingclubs && latestTeam && !closed" class="align-items-center h-100">
                             <b-col class="col-3 col-md-2 mx-auto text-center pl-0 pr-0">                              
                                   <b-img class="" :src="getClubImage2(latestTeamLogo)"></b-img> 
                             </b-col>
@@ -41,7 +42,7 @@
                                 {{latestTeam}}
                              </b-col>
                         </b-row>
-                         <b-row v-if="!loadingclubs && latestTeam">
+                         <b-row v-if="!loadingclubs && latestTeam && !closed">
                           <b-col>
                             <hr />
                           </b-col>
@@ -124,7 +125,8 @@ moment.updateLocale("sv", {
   export default {
     name: 'Klubbar',
     data () {
-      return {       
+      return { 
+        closed: globalState.closed,
         doctitle: 'Klubbar med deltagande lag',
         search: '',
         clubs: [],
