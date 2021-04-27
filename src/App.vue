@@ -413,6 +413,26 @@ a.router-link-active {
 }
 
 
+@-moz-keyframes blink-fast {0%{opacity:1;} 50%{opacity:0.5;} 100%{opacity:1;}} /* Firefox */
+@-webkit-keyframes blink-fast {0%{opacity:1;} 50%{opacity:0.5;} 100%{opacity:1;}} /* Webkit */
+@-ms-keyframes blink-fast {0%{opacity:1;} 50%{opacity:0.5;} 100%{opacity:1;}} /* IE */
+@keyframes blink-fast {0%{opacity:1;} 50%{opacity:0.5;} 100%{opacity:1;}} /* Opera */
+
+.blink-fast {
+    //text-align:center;
+    -moz-transition:all 0.2s ease-in-out;
+    -webkit-transition:all 0.2s ease-in-out;
+    -o-transition:all 0.2s ease-in-out;
+    -ms-transition:all 0.2s ease-in-out;
+    transition:all 0.2s ease-in-out; 
+    -moz-animation:blink normal 1.2s infinite ease-in-out; /* Firefox */
+    -webkit-animation:blink normal 1.2s infinite ease-in-out; /* Webkit */
+    -ms-animation:blink normal 1.2s infinite ease-in-out; /* IE */
+    animation:blink normal 1.2s infinite ease-in-out; /* Opera */
+  
+}
+
+
 button.Cookie--matchplay {
   background: #69b3fe;
   color: #fff !important;

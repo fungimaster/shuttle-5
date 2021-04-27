@@ -6,6 +6,7 @@ import Faq from '@/components/Faq'
 import Cookies from '@/components/Cookies'
 import Club from '@/components/Club'
 import Klubbar from '@/components/Klubbar'
+import Business from '@/components/Business'
 import Privacy from '@/components/Privacy'
 import NotFound from '@/components/NotFound'
 import CreateGame from '@/components/Creategame'
@@ -95,6 +96,16 @@ export default new Router({
       name: 'klubbar',
       component: Klubbar
     },  
+    {
+      path: '/business',
+      name: 'business',
+      component: Business
+    }, 
+    {
+      path: '/foretag',
+      name: 'foretag',
+      component: Business
+    }, 
     {
       path: '/info',
       name: 'Faq',

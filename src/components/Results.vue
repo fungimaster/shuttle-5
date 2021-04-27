@@ -23,6 +23,7 @@
 
                        <h4>Pågående matcher</h4>
                         <p hidden>Inom kort kommer bokade matcher visas här samt annan information om lagen!</p>
+                       
                         <b-row hidden v-if="loadinggames">
                           <b-col>
                             <b-spinner small type="grow" class="class mr-2"></b-spinner>Hämtar matcher...
@@ -47,8 +48,18 @@
                            </b-col>
                          </b-row>
 
+                         <b-row class="mt-2 mb-4">
+                           <b-col>
+                              <form v-on:submit.prevent="search">
+                                <input type="text" id="searchfield" class="form-control filterfield" placeholder="Sök på spelarnamn eller klubb">
+                                <b-button @click="gamesarray='games',search()" variant="success" class="mt-1 ml-2 btn-sm">Sök</b-button>
+                                <b-button @click="gamesarray='games',cancelsearch()" variant="danger" class="mt-1 btn-sm">Rensa</b-button>
+                              </form>
+                           </b-col>
+                         </b-row>
+
                          <b-row v-if="gamescount > 0" class="">
-                          <b-col v-for="(game,idx1) in games" :key="idx1" xs="12" sm="12" class="pt-3 pb-3 pl-md-2 pr-md-2 game" v-bind:class="{ greybg: idx1 % 2 === 0 }">                            
+                          <b-col v-for="(game,idx1) in games" :key="idx1" xs="12" sm="12" class="pt-3 pb-3 pl-md-2 pr-md-2 game mb-3" :class="idx1 % 2 === 0 ? 'whitebg' : 'whitebg'">                
                              <b-row>
                                  <b-col class="gameheader col-12 text-center mb-4">
                                    <img v-if="game.logourl" class="" :src="getClubLogo(game.logourl)">                                                                                                                         
@@ -216,11 +227,7 @@
                             <b-button hidden size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Omgång 7')" variant="primary">Omgång 7</b-button>
                             <b-button hidden size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Sverigefinal')" variant="primary">Sverigefinal</b-button>
                             
-                            <form hidden v-on:submit.prevent="search">
-                              <input type="text" id="searchfield" class="form-control" placeholder="Sök på namn/klubb">
-                              <b-button @click="search()" variant="success" class="mt-2 btn-sm">Sök</b-button>
-                              <b-button @click="cancelsearch()" variant="danger" class="mt-2 btn-sm">Rensa</b-button>
-                            </form>  
+                            
                                                 
                             <b-button hidden size="sm" v-on:click="getGamesFinished('button','Omgång 3')" variant="primary">Omgång 2 AC</b-button>                            
                           </b-col>
@@ -231,6 +238,16 @@
                             <b-spinner small type="grow" class="mr-2"></b-spinner>Hämtar matcher...
                           </b-col>
                         </b-row>
+
+                         <b-row class="mt-2 mb-4">
+                           <b-col>
+                              <form v-on:submit.prevent="search">
+                                <input type="text" id="searchfield3" class="form-control filterfield" placeholder="Sök på spelarnamn eller klubb">
+                                <b-button @click="gamesarray='games3',search()" variant="success" class="mt-1 ml-2 btn-sm">Sök</b-button>
+                                <b-button @click="gamesarray='games3',cancelsearch()" variant="danger" class="mt-1 btn-sm">Rensa</b-button>
+                              </form>
+                           </b-col>
+                         </b-row>
                        
 
                          <b-row v-if="gamescount3 > 0" class="">
@@ -454,6 +471,7 @@ export default {
   },
   data() {
     return {
+      gamesarray:'games',
       lightbox_image: null,
       doctitle: 'Resultat',
       currentRound: null,
@@ -467,6 +485,7 @@ export default {
       updating1: true,
       game: {},
       games: [],
+      gamesOrg: [],
       gamescount: 0,
 
       //TABS
@@ -479,6 +498,7 @@ export default {
       updating2: true,
       game2: {},
       games2: [],
+      games2Org: [],
       gamescount2: 0,
       hasnextgame: false,
       nextgame: {},
@@ -488,6 +508,7 @@ export default {
       updating3: true,
       game3: {},
       games3: [],
+      games3Org: [],
       gamescount3: 0,
 
       team: {
@@ -572,6 +593,39 @@ export default {
   mixins: [tagsMixin],
   
   methods: {
+    search: function() {  
+      let searchfield;
+     if (this.gamesarray==='games')
+       searchfield = 'searchfield';
+
+     if (this.gamesarray==='games2')
+       searchfield = 'searchfield2';
+
+     if (this.gamesarray==='games3')
+       searchfield = 'searchfield3';
+     
+    let searchvalue = document.getElementById(searchfield).value.toLowerCase();
+     this[this.gamesarray] = this[this.gamesarray+'Org'].filter(function(game) {
+       //console.log(searchvalue,game.hometeamname.includes(searchvalue.toLowerCase()))
+	    return game.hometeamleadername.toLowerCase().includes(searchvalue.toLowerCase()) || game.hometeammembername.toLowerCase().includes(searchvalue.toLowerCase()) || game.awayteamleadername.toLowerCase().includes(searchvalue.toLowerCase()) || game.awayteammembername.toLowerCase().includes(searchvalue.toLowerCase()) || game.clubname.toLowerCase().includes(searchvalue.toLowerCase())
+     });
+     this[this.gamesarray+'count'] = this[this.gamesarray].length
+  },
+  cancelsearch: function() {
+    let searchfield;
+     if (this.gamesarray==='games')
+       searchfield = 'searchfield';
+
+     if (this.gamesarray==='games2')
+       searchfield = 'searchfield2';
+
+     if (this.gamesarray==='games3')
+       searchfield = 'searchfield3';
+    let searchvalue = document.getElementById(searchfield);
+    searchvalue.value = '';
+    this[this.gamesarray] = this[this.gamesarray+'Org'];
+    this[this.gamesarray+'count'] = this[this.gamesarray].length;
+  },
      formatImage2(image) {
        var first_url = image.split("/upload/").pop();      
        
@@ -707,6 +761,7 @@ export default {
           if (!game.winner) return true;
         });
         this.gamescount = this.games.length;
+        this.gamesOrg = this.games;
         //console.log("getGamesInprogress ->  this.games",  this.games)
         this.loadinggames = false;
         this.updating1 = false;
@@ -1053,6 +1108,11 @@ export default {
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
 
+.filterfield {
+  width:50%;
+  float:left;
+}
+
 .lightbox-image {
       
    max-width:90%;
@@ -1136,8 +1196,17 @@ p.inactive-round {
 }
 
 .greybg {
-  background: #f6f6f6;
+ background: #f6f6f6;
   border-radius: 0.3em;
+  -webkit-box-shadow: 0px 0px 7px 0px #DBDBDB; 
+  box-shadow: 0px 0px 7px 0px #DBDBDB;
+}
+
+.whitebg {
+  border: 1px solid #f6f6f6;
+  border-radius: 0.3em;
+  -webkit-box-shadow: 0px 0px 7px 0px #DBDBDB; 
+  box-shadow: 0px 0px 7px 0px #DBDBDB;
 }
 
 .hometeam,

@@ -53,7 +53,7 @@
             <h4 class="mb-3 mb-md-4">Anmälan stänger om:</h4>
             <b-row align-h="center">
             <b-col class="col-6 col-md-4">
-              <span id="days" class="blink red days timenumbers">01</span>
+              <span id="days" class="blink-fast red days timenumbers">01</span>
           <p class="timeRefDays timedescription">dagar</p>
             </b-col>
             <b-col class="col-4 d-none d-md-block">
@@ -883,8 +883,8 @@ export default {
 
                 .timenumbers {
                     display: block;
-                    font-size: 2.5rem;
-                    font-weight: 400;
+                    font-size: 3rem;
+                    font-weight: 600;
                     line-height:100px;
                     margin: 0 auto;
                     text-align: center;

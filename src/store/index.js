@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     count: 0,
     clubs: null,
+    companies: null,
     maproom: "",
     speaker: {},
     conferencename: "Matchplay 2021",
@@ -42,6 +43,9 @@ export default new Vuex.Store({
     clubs(state) {
       return state.clubs;
     },
+    companies(state) {
+      return state.clubs;
+    },
     isDefeated(state) {
       if (state.user && state.user.teams) {
         let status = state.user.teams[0].status;
@@ -60,6 +64,9 @@ export default new Vuex.Store({
     },
     SET_CLUBS: (state, payload) => {
       state.clubs = payload;
+    },
+    SET_COMPANIES: (state, payload) => {
+      state.companies = payload;
     },
     //live
     SET_GAMES1: (state, payload) => {
@@ -96,6 +103,9 @@ export default new Vuex.Store({
     },
     setClubs: ({ commit }, payload) => {
       commit("SET_CLUBS", payload);
+    },
+    setCompanies: ({ commit }, payload) => {
+      commit("SET_COMPANIES", payload);
     },
     //live matches
     setGames1: ({ commit }, payload) => {
