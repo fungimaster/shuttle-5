@@ -1887,8 +1887,12 @@
 			async getGameData() {
 
 				let userinfo = localStorage.getItem("userinfo");
-            	userinfo = JSON.parse(userinfo)
 				
+				//if no userid in request getgamedata removes some of data in its response
+				if (userinfo) {
+            	userinfo = JSON.parse(userinfo)
+				}		
+
 				const url = globalState.admin_url + "getGameData";
 				const gameID = {
 					id: this.gameID,

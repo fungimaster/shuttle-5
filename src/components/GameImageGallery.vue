@@ -9,7 +9,7 @@
     <b-row no-gutters align-h="center">
       <b-col
         cols="6"
-        md="3"
+        md="2"
         v-for="(thumb, thumbIndex) in lastFourImages"
         :key="thumbIndex"
       >
@@ -17,8 +17,9 @@
           class="image pointer"
           @click="index = thumbIndex"
            :style="{
-            backgroundImage: 'url(' + thumb + ')',
-            height: '10rem',
+            backgroundImage: 'url(' + addToUrl(thumb, 'w_200,q_auto') + ')',
+            width: '150px',
+            height: '120px',
           }"
         
         >
@@ -49,7 +50,18 @@ export default {
           }
           return this.images
       }
-  }
+  },
+  methods: {
+    addToUrl(url, stringToAdd) {
+      if (!url) {
+        return;
+      }
+      let array = url.split("upload/");
+      array.splice(1, 0, "upload/" + stringToAdd + "/");
+      let urlString = array.join("");
+      return urlString;
+    }
+  },
 
 };
 </script> 
