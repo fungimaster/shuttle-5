@@ -1,18 +1,14 @@
 <template>
   <div>
     <vue-headful :title="doctitle" />
-    <b-container class="mt-5">
-        <b-row v-if="!loadingclubs">
+    <b-container class="mt-3">
+        <b-row v-if="!loading">
             <b-col class="col-12">
                 <h1 hidden>Företagslag 2021</h1>
                 <h5 class="mt-4"></h5>
                    
              </b-col>              
                     </b-row>
-                    
-                   
-                                    
-                       
                     
        
         <b-row v-if="loading">
@@ -23,14 +19,14 @@
         </b-row>
        <b-row id="companies" v-if="!loading" align-h="center" class="justify-content-center align-self-center mt-4">
                 <!-- PLUS -->
-                <b-col class="col-12 text-center">
-                    <h2>Företagslag +</h2>
+                <b-col class="col-12">
+                    <h1>Företagslag +</h1>
                 </b-col>
                 <b-col v-for="(company,idx) in companies_plus" :key="idx"
                     class="company col-6 col-md-6 pl-0 pr-0 align-self-center text-center p-0 m-0"
                 >              
                 <a :href="company.companyurl" target="_blank">
-               <b-img :id="'tooltip-course-' + idx" v-if="company.logourl" class="p-2 p-md-2" :src="getImageUrl(company.logourl,'w_300,f_auto,q_auto')"></b-img>               
+               <b-img v-if="company.logourl" class="p-2 p-md-2" :src="getImageUrl(company.logourl,'w_300,f_auto,q_auto')"></b-img>               
                 </a>              
                 </b-col>
 
@@ -39,14 +35,14 @@
                 </b-col>
 
                 <!-- NON PLUS -->
-                <b-col class="col-12 text-center mb-4">
-                    <h2>Företagslag</h2>
+                <b-col class="col-12 mb-4">
+                    <h1>Företagslag</h1>
                 </b-col>
-                <b-col v-for="(company,idy) in companies" :key="idy"
+                <b-col v-for="(company,idx) in companies" :key="'A'+ idx"
                     class="company col-4 col-md-3 pl-0 pr-0 align-self-center text-center"
                 >              
                 <a :href="company.companyurl" target="_blank">
-               <b-img :id="'tooltip-course-' + idy" v-if="company.logourl" class="p-3 p-md-5" :src="getImageUrl(company.logourl,'h_100,f_auto,q_auto')"></b-img>               
+               <b-img v-if="company.logourl" class="p-3 p-md-5" :src="getImageUrl(company.logourl,'h_100,f_auto,q_auto')"></b-img>               
                 </a>                
                              
                 </b-col>

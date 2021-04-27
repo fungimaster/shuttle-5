@@ -1017,7 +1017,7 @@
 
   <b-container>                           
             <b-row v-if="closed" class="mb-4" align-h="center">
-                <b-col sm="12" lg="10">
+                <b-col sm="12" lg="10" class="m-0 p-0">
                     <app-rounds-grafic
                             class="mt-3"
                             style="height: 50px"
@@ -1055,6 +1055,7 @@
 
                                 <h3 class="mt-5">Tips 1 (Ladda upp en bild)</h3>
                                 När er match är startad kan ni ta en bild på lagen i en gruppbild som kan postas upp till vår resultatsida så att folk som följer matchen kan se hur kul ni har det :)
+                                Tänk dock på Corona och håll bra avstånd.
                             
 
                                 <h3 class="mt-5">Tips 2 (Speltid och plats)</h3>
@@ -1424,7 +1425,7 @@ export default {
             ninehole: false,
             clubinfo_first: 'Du är först ut med ett lag från denna klubb, sprid gärna budskapet om tävlingen på din klubb! Lottning sker mot lag från andra klubbar nära vald klubb för att minimera avstånden och ge er nya golfupplevelser.',
             choosereserve: false,
-            closed: false,       
+            closed: globalState.closed,       
             tabIndex: 0,
             games:0,
             teamscount:0,

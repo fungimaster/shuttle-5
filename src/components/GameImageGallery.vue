@@ -8,7 +8,7 @@
     />
     <b-row no-gutters align-h="center">
       <b-col
-        cols="6"
+        cols="4"
         md="2"
         v-for="(thumb, thumbIndex) in lastFourImages"
         :key="thumbIndex"
@@ -18,8 +18,8 @@
           @click="index = thumbIndex"
            :style="{
             backgroundImage: 'url(' + addToUrl(thumb, 'w_200,q_auto') + ')',
-            width: '150px',
-            height: '120px',
+            width: '100px',
+            height: '80px',
           }"
         
         >
@@ -74,6 +74,8 @@ export default {
   border: 1px solid #ebebeb;
   margin: 5px;
   position: relative;
+  border-radius:0.25em;
+  max-width:95%;
  
 }
 

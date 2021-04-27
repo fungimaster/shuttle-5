@@ -29,6 +29,7 @@ v-if="
         <b-nav-item v-if="!closed" to="/register">Anmälan</b-nav-item>
         <b-nav-item v-if="closed" to="results">Resultat <b-badge class="new" pill variant="danger">Ny</b-badge></b-nav-item>
         <b-nav-item to="/klubbar">Klubbar <b-badge hidden class="new" pill variant="danger"><i class="fa fa-heart"></i></b-badge></b-nav-item>
+         <b-nav-item to="/business">Företagslag</b-nav-item>
         <b-nav-item to="/info">Om tävlingen</b-nav-item>
 
         <b-nav-item hidden to="/ping">PING</b-nav-item>

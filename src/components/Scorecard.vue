@@ -446,7 +446,7 @@
                         :key="item.message"
                       >
 					  <a :href="item.url" target="_blank">
-						<b-img class="mr-2 topimage" v-if="viewedInModal" :src="item.image" alt=""></b-img>
+						<b-img class="mr-2 topimage2" v-if="viewedInModal" :src="getImageUrl(item.image,'w_200,f_auto,q_auto')" alt=""></b-img>
 					  </a>       
 						</span>
 					</b-col>
@@ -527,10 +527,10 @@
 					</b-col>
 				</b-row>
 
-				<!--  TABELL CLUBNAME AND LOOP (EGEN TABELL FÖR ATT KUNNA SÄTTA TEXT-OVERFLOW: ELLIPSIS--> 
-				<table class="tableClubAndLoop mt-3">
-					<tr >	
-						<td colspan="2" class="tableClubAndLoopTd pt-1"> {{ clubname }}: {{ loop }}</td>
+				<!--  TABELL CLUBNAME AND LOOP (EGEN TABELL FÖR ATT KUNNA SÄTTA TEXT-OVERFLOW: ELLIPSIS--> 											
+				<table class="tableClubAndLoop mt-3">					
+					<tr>							
+						<td colspan="2" class="tableClubAndLoopTd pt-1" v-bind:class="{'text-black': viewedInModal}">{{ clubname }}: {{ loop }}</td>
 					</tr>
 				</table>
 
@@ -813,6 +813,9 @@
 								</b-row>
 							</b-container>
 						</b-col>
+						<b-col class="col-12">
+							 <app-game-image-gallery v-if="images" :images="images"></app-game-image-gallery>	
+						</b-col>
 
 					</b-row>
 
@@ -827,6 +830,7 @@
 	import HcpModalVue from "./HcpModal.vue";
 	import TieBreakModalVue from "./TieBreakModal.vue";
 	import { globalState } from "../main.js";
+	import AppGameImageGallery from "./GameImageGallery";
 
 	import moment from 'moment';
 	
@@ -961,7 +965,8 @@
 		components: {
 			appScoring: ScoringVue,
 			appHcpModal: HcpModalVue,
-			appTieBreakModal: TieBreakModalVue
+			appTieBreakModal: TieBreakModalVue,
+			appGameImageGallery: AppGameImageGallery
 		},
 		directives: {		
 			changeNanAndZero(el, bind) {
@@ -999,6 +1004,7 @@
 		},
 		data() {
 			return {
+				images: [],
 				 sponsors: [
 					{
 					title: 'PING',
@@ -1629,6 +1635,15 @@
 			
 		},
 		methods: {
+			    getImageUrl(url, stringToAdd) {
+					if (!url) {
+						return;
+					}
+					let array = url.split("upload/");
+					array.splice(1, 0, "upload/" + stringToAdd + "/");
+					let urlString = array.join("");
+					return urlString;
+					}, 
 			 shuffle(o) {
 				for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
 				return o;
@@ -1910,6 +1925,7 @@
 					this.homeTeamId = response.data.hometeam
 					this.awayTeamId = response.data.awayteam
 					this.gametime = response.data.gametime
+					this.images = response.data.imagesurl
                  
 					const [ hcp1, hcp2, hcp3, hcp4 ] = response.data.scorecard
 					this.hcpUnmutated = [ hcp1.orghcp, hcp2.orghcp, hcp3.orghcp, hcp4.orghcp ]
@@ -2313,8 +2329,16 @@
 
 @import "../styles/variables.scss";
 
+.text-black {
+	color:#000;
+}
+
 .topimage {
 	max-width:100%;
+}
+
+.topimage2 {
+	max-width:80%;
 }
 
 .inputfile {

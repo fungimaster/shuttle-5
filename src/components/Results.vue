@@ -143,13 +143,13 @@
                           </b-col>
                         </b-row>
                         <b-row v-if="gamescount2 === 0 && !loadinggames2">
-                          <b-col>
+                          <b-col class="mt-3">
                           Just nu finns inga fler planerade matcher, återkom efter nästa lottning! Matcherna visas här när starttid bokats mellan lagen.
                           </b-col>
                         </b-row>
 
                          <b-row v-if="gamescount2 > 0" class="">
-                          <b-col v-for="(game,idx2) in games2" :key="idx2" xs="12" sm="12" class="pt-3 pb-3 pl-md-2 pr-md-2 game" v-bind:class="{ greybg: idx2 % 2 === 0 }">                            
+                          <b-col v-for="(game,idx2) in games2" :key="idx2" xs="12" sm="12" class="pt-3 pb-3 pl-md-2 pr-md-2 game" :class="idx1 % 2 === 0 ? 'whitebg' : 'whitebg'">                            
                              <b-row>
                                  <b-col class="gameheader col-12 text-center mb-4">
                                    <img v-if="game.logourl" class="" :src="getClubLogo(game.logourl)">                                                                                                                              
@@ -251,7 +251,7 @@
                        
 
                          <b-row v-if="gamescount3 > 0" class="">
-                          <b-col v-for="(game,idx1) in games3" :key="idx1" xs="12" sm="12" class="pt-3 pb-3 pl-md-2 pr-md-2 game" v-bind:class="{ greybg: idx1 % 2 === 0 }">                            
+                          <b-col v-for="(game,idx1) in games3" :key="idx1" xs="12" sm="12" class="pt-3 pb-3 pl-md-2 pr-md-2 game" :class="idx1 % 2 === 0 ? 'whitebg' : 'whitebg'">                            
                              <b-row>
                                  <b-col class="gameheader col-12 text-center mb-4"> 
                                    <img v-if="game.logourl" class="" :src="getClubLogo(game.logourl)">                                                                                                                                  
@@ -297,8 +297,12 @@
                                 <b-col class="col-12 text-center mt-4">                                    
                                    <span v-if="game.status === 'Finished' && game.finishedAt"><i class="material-icons mr-2 mb-1 green">check_circle_outline</i>{{getgamedate(game.finishedAt)}} sedan</span>
                                     <span v-if="game.result != 'W/O'"> | <router-link  @click="modalShow = !modalShow"  :to="`viewer?id=${game._id}`">   <i class="fal fa-list"></i> scorekort </router-link></span>
+                                <div class="p-2">
+                                 </div>
                                 </b-col>
-                             </b-row>                             
+                             </b-row>
+                               <!-- AppGamesImageGallery takes an array of images and returns thumbnails and lightbox  -->
+                              <app-game-image-gallery v-if="game.imagesurl" :images="game.imagesurl"></app-game-image-gallery>                             
                           </b-col>
                          </b-row>                                         
                      </b-col>
@@ -621,6 +625,7 @@ export default {
 
      if (this.gamesarray==='games3')
        searchfield = 'searchfield3';
+
     let searchvalue = document.getElementById(searchfield);
     searchvalue.value = '';
     this[this.gamesarray] = this[this.gamesarray+'Org'];
@@ -746,6 +751,7 @@ export default {
       else return club;
     },
     getGamesInprogress(type) {
+      //console.log('inne progress games, ' + type)
       //loading
 
       this.loadinggames = true;
@@ -781,10 +787,10 @@ export default {
         } else {
           //RELOAD IN PROGRESS (INITATOR)
           //NOT USED UNTIL NEXT MATCHPLAY 2021
-          /* setTimeout(() => {
+           setTimeout(() => {
                         this.updating1 = false;
                         this.getGamesInprogress('not-initial'); //in progress
-                      }, 60000);   */
+                      }, 60000);   
         }
 
       this.axios
@@ -822,6 +828,7 @@ export default {
 
       const handleResponse = () => {
         this.gamescount2 = this.games2.length;
+        this.games2Org = this.games2;
 
         this.loadinggames2 = false;
         this.updating2 = false;
@@ -901,6 +908,7 @@ export default {
 
       const handleResponse = () => {
           this.gamescount3 = this.games3.length;
+          this.games3Org = this.games3;
           this.loadinggames3 = false;
           this.updating3 = false;
 
@@ -1109,7 +1117,7 @@ export default {
 @import "../styles/variables.scss";
 
 .filterfield {
-  width:50%;
+  width:55%;
   float:left;
 }
 
@@ -1203,10 +1211,10 @@ p.inactive-round {
 }
 
 .whitebg {
-  border: 1px solid #f6f6f6;
+  border: 2px solid #e0e0e0;
   border-radius: 0.3em;
-  -webkit-box-shadow: 0px 0px 7px 0px #DBDBDB; 
-  box-shadow: 0px 0px 7px 0px #DBDBDB;
+  -webkit-box-shadow: 0px 0px 4px 0px #DBDBDB; 
+  box-shadow: 0px 0px 4px 0px #DBDBDB;
 }
 
 .hometeam,
