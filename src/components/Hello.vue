@@ -52,19 +52,19 @@
           <b-col v-if="!closed" class="col-12 col-md-6 mt-4 mb-3 mb-md-4 text-center" id="countdown">
             <h4 class="mb-3 mb-md-4">Anmälan stänger om:</h4>
             <b-row align-h="center">
-            <b-col class="col-6 col-md-4">
+            <b-col class="col-4 col-md-4 p-0">
               <span id="days" class="blink-fast red days timenumbers">01</span>
-          <p class="timeRefDays timedescription">dagar</p>
+          <p class="timeRefDays timedescription">dag</p>
             </b-col>
-            <b-col class="col-4 d-none d-md-block">
+            <b-col class="col-4 col-md-4 p-0">
               <span id="hours" class="hours timenumbers">00</span>
           <p class="timeRefHours timedescription">timmar</p>
             </b-col>
-            <b-col hidden class="col-4 d-none d-md-block">
+            <b-col class="col-4 col-md-4 p-0">
               <span id="minutes" class="minutes timenumbers">00</span>
           <p class="timeRefMinutes timedescription">minuter</p>
             </b-col>
-            <b-col hidden class="col-4">
+            <b-col hidden class="col-4 p-0">
               <span id="seconds" class="seconds timenumbers yellow-text">00</span>
           <p class="timeRefSeconds timedescription">sekunder</p>
             </b-col>
@@ -110,9 +110,9 @@
               <b-row>
                 <b-col class="col-7 col-md-12 pr-0 pr-md-3">
               <h3 class="">Statistik 2021</h3>
-              Anmälda lag: <strong>609</strong><br>
-              Repr. klubbar: <strong>227</strong><br>
-              Snitthcp: <strong>12.1</strong><br>
+              Anmälda lag: <strong>685</strong><br>
+              Repr. klubbar: <strong>232</strong><br>
+              Snitthcp: <strong>12.4</strong><br>
               Snittålder: <strong>44 år</strong><br>
               
                 </b-col>
@@ -883,7 +883,7 @@ export default {
 
                 .timenumbers {
                     display: block;
-                    font-size: 3rem;
+                    font-size: 2rem;
                     font-weight: 600;
                     line-height:100px;
                     margin: 0 auto;

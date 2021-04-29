@@ -148,11 +148,11 @@
 								</p>
 							</b-col>
 							<b-col cols="12" class="p-2 text-center">
-						 		<router-link to="/mymatchplay" v-if="winnerSent && gameClosed">
+						 		<a href="/mymatchplay" v-if="winnerSent && gameClosed">
 									<button class="btn btn-warning btn-sm disable-dbl-tap-zoom ">
 										Tillbaka till din sida
 									</button>
-								 </router-link> 
+								 </a> 
 							</b-col>
 						</b-row>
 
@@ -2328,6 +2328,24 @@
 <style lang="scss" scoped>
 
 @import "../styles/variables.scss";
+
+>>> .modal-content {
+		//min-height: 590px;
+		border-radius: 0;
+	}
+
+	>>> .modal-dialog {
+    max-width: 100%;
+    margin: 0;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100vh;
+    display: flex;
+    position: fixed;
+    z-index: 100000;
+}
 
 .text-black {
 	color:#000;
