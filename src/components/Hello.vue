@@ -281,6 +281,30 @@
           </b-col>
         </b-row>
 
+         <b-row v-if="closed">
+          <b-col class="col-12 mb-3 mt-4">
+            <h3>Spela coronasäkert</h3>
+            <p>
+            Vår underbara sport kan bedrivas säkert som sällskapsspel. Vi är utomhus, utan kontakt, med stora ytor att röra oss på. 
+            </p>
+            <p>Att tänka på inför matchstart:</p>
+            <ul>
+              <li>
+              håll avstånd
+              </li>
+               <li>
+              inga handslag
+              </li>
+               <li>
+              låt flaggan stå
+              </li>
+                <li>
+              följ klubbarnas regler kring avstånd/maxantal etc.
+              </li>
+            </ul>
+          </b-col>
+         </b-row>
+
         <hr v-if="!closed" class="mt-4 mb-4 mt-md-5 mb-md-4" />
         <b-row align-h="center">
           <b-col v-if="latestTeam && !closed" class="col-12 col-md-6">

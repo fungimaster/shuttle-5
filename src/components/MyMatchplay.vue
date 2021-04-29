@@ -1016,6 +1016,13 @@
       </template>
 
   <b-container>                           
+       <b-row class="mt-4 mb-2" align-h="center">
+                <b-col sm="12" lg="10" class="m-0 p-0  text-right">
+                    <b-button @click="showImportantModal" variant="warning" size="sm">
+                        Visa viktig information
+                    </b-button>
+                </b-col>
+            </b-row>
             <b-row v-if="closed" class="mb-4" align-h="center">
                 <b-col sm="12" lg="10" class="m-0 p-0">
                     <app-rounds-grafic
@@ -1029,6 +1036,7 @@
                         </app-rounds-grafic>          
                     </b-col>
             </b-row>
+                
             <b-row v-if="games.length === 0 || !games.length" align-h="center">
                 <b-col sm="10" lg="6">
 
@@ -1311,11 +1319,14 @@
                 <b-col>
                    <p>
                        <ol class="small importantlist">
-                           <li>
-                               Hemmalaget för en match är alltid ansvariga för att kontakta sina motståndare och bestämma bana och tid för spel. Kontaktuppgifter finns under resp. match (klicka på den gröna knappen visa match).
+                            <li style="color:red;">
+                               Spela coronasäkert: Håll avstånd - inga handslag - låt flaggan stå - följ klubbarnas regler kring avstånd/maxantal etc.
                            </li>
                            <li>
-                               Boka först tid via tex. Min Golf bokning och skriv sedan in datum, tid och plats för matchen på din matchsida. Detta är viktigt då vi använder tid och plats för att förbereda resultatsidor mm.
+                               Hemmalaget för en match är alltid ansvariga för att kontakta sina motståndare och bestämma bana och tid för spel. Kontaktuppgifter finns under resp. matchsida.
+                           </li>
+                           <li>
+                               Boka först tid via tex. Min Golf bokning och skriv sedan in datum, tid och plats för matchen på matchsidan. Viktigt för våra resultatsidor!
                            </li>
                            <li>
                                Använd alltid det digitala scorekortet för er match (hemmalaget för score).
@@ -1324,7 +1335,15 @@
                                 Ta väldigt gärna en eller flera bilder på laget, spelarna eller vackra golfhål under er match. Dessa bilder skapar en härlig gemenskap och visas på vår start- och resultatsida.
                                 <span style="font-size:1.5em;" class="align-middle material-icons mr-0">add_a_photo</span>
                             </li>
-
+                             <b-form-checkbox
+                                id="checkbox-1"
+                                v-model="status_important"
+                                name="checkbox-1"
+                                value="accepted"
+                                unchecked-value="not_accepted"
+                                >
+                                Visa inte denna information igen
+                                </b-form-checkbox>
                        </ol>
                    </p>
                 </b-col>
@@ -1413,6 +1432,7 @@ export default {
         let clubs = [];
         let countries = ['Afghanistan', 'Åland Islands', 'Albania', 'Algeria', 'American Samoa', 'AndorrA', 'Angola', 'Anguilla', 'Antarctica', 'Antigua and Barbuda', 'Argentina', 'Armenia', 'Aruba', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bermuda', 'Bhutan', 'Bolivia', 'Bosnia and Herzegovina', 'Botswana', 'Bouvet Island', 'Brazil', 'British Indian Ocean Territory', 'Brunei Darussalam', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Cape Verde', 'Cayman Islands', 'Central African Republic', 'Chad', 'Chile', 'China', 'Christmas Island', 'Cocos (Keeling) Islands', 'Colombia', 'Comoros', 'Congo', 'Congo, The Democratic Republic of the', 'Cook Islands', 'Costa Rica', 'Cote D\'Ivoire', 'Croatia', 'Cuba', 'Cyprus', 'Czech Republic', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic', 'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Eritrea', 'Estonia', 'Ethiopia', 'Falkland Islands (Malvinas)', 'Faroe Islands', 'Fiji', 'Finland', 'France', 'French Guiana', 'French Polynesia', 'French Southern Territories', 'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana', 'Gibraltar', 'Greece', 'Greenland', 'Grenada', 'Guadeloupe', 'Guam', 'Guatemala', 'Guernsey', 'Guinea', 'Guinea-Bissau', 'Guyana', 'Haiti', 'Heard Island and Mcdonald Islands', 'Holy See (Vatican City State)', 'Honduras', 'Hong Kong', 'Hungary', 'Iceland', 'India'];
         return {
+            status_important: false,
             game0: false,
             game1: false,
             game2: false,
@@ -1888,11 +1908,21 @@ export default {
             localStorage.setItem('showReferralInfo', 1);
             this.$refs['referral-modal'].hide()
         },
-         showImportantModal() {                      
+         showImportantModal() {             
+            
+             if (localStorage.getItem('showImportantInfo')) {
+                if (localStorage.getItem('showImportantInfo') === 1 ) {
+                    this.status_important = 'accepted';
+                }
+             }
+             
             this.$refs["important-modal"].show();
+
         },
         hideModalImportant() {
-            //localStorage.setItem('showImportantInfo', 1);
+            if (this.status_important) {
+                localStorage.setItem('showImportantInfo', 1);
+            }
             this.$refs['important-modal'].hide()
         },
         copyLink(elem) {
@@ -3469,8 +3499,10 @@ export default {
                                         //this.showReferralModal();   //only show in beginning of competition                                       
                                      }    
                                      
-                                     //show important modal every time
-                                     this.showImportantModal();    
+                                     //show important modal only if user hasnt set checkbox
+                                     if (!localStorage.getItem('showImportantInfo')) {   
+                                        this.showImportantModal(); 
+                                     }
                                 }
 
                         }
@@ -3629,7 +3661,7 @@ ol {
 }
 
 .importantlist li {
-    margin-bottom:1em;
+    margin-bottom:0.75em;
 }
 
 .pointer {
