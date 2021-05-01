@@ -197,8 +197,8 @@
                                                   För varje lag som följt din länk du delat och där ett lag skapas får du 50kr rabatt på nästa års anmälningsavgift.
                                             </b-popover>
                   
-                   <b-input id="ref_link" class="mt-2" :value="'https://matchplay.se/register?referral='+ userdetails.userId"></b-input>
-                   <b-button class="mt-3" size="sm" variant="primary" @click="copyLink('ref_link')">Kopiera länk</b-button>
+                   <b-input v-if="!closed" id="ref_link" class="mt-2" :value="'https://matchplay.se/register?referral='+ userdetails.userId"></b-input>
+                   <b-button v-if="!closed" class="mt-3" size="sm" variant="primary" @click="copyLink('ref_link')">Kopiera länk</b-button>
                  
                             </div>
 
@@ -212,7 +212,7 @@
                         </b-col>
                     </b-row>
                      <b-row align-h="center">
-                        <b-col sm="10" lg="6" class="mt-4">
+                        <b-col sm="10" lg="6" class="mt-5">
                               <h4><strong>Troféer & Statistik</strong><i id="stats_help" href="#" tabindex="0" class="fa fa-question-circle ml-2"></i></h4>
                                 <b-popover target="stats_help" variant="info" triggers="focus" placement="topright">
                                                 <template #title>Information</template>
