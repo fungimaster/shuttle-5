@@ -3,16 +3,15 @@
     <b-row class="justify-content-center" align-h="center">
       <b-col md="8" id="register" class="mt-4 mt-md-5">
         <h2 class="teaser-header orange">Anmäl dig som spelare</h2>
-        <b-alert
-          hidden
-          variant="warning small form-text text-muted"
+        <b-alert show
+          variant="warning small form-text text-muted mb-4"
         >Denna efterhandsregistrering är bara till för spelare som redan är med som lagmedlem i ett lag men som inte har kopplats till ett lag. Efter din registrering kommer du kopplas till rätt lag (baserat på ditt golf-id).</b-alert>
 
         <h2
           class="hidden teaser-header orange"
         >Det är klart du vill vara med i golftävlingen, registrera dig här!</h2>
 
-        <b-row class="mb-2 mt-3">
+        <b-row hidden class="mb-2 mt-3">
           <b-col v-if="this.player==='player1'">
             <p>Registreringen består av 4 enkla steg:</p>
             <div v-bind:class="{ stepsuccess: step == 'step1' }">1. Skriv in ditt Golf-ID</div>
@@ -42,7 +41,7 @@
           </b-col>
         </b-row>
 
-        <b-row hidden class="mb-3 mt-0">
+        <b-row class="mb-3 mt-0">
           <b-col md="12" class="teaser-content" ref="success" id="success">
             <h3 v-if="showqualified" class="mt-0 mb-4">
               Grattis, du kan vara med i tävlingen
@@ -151,7 +150,7 @@
                   height="4px"
                 ></b-progress>
               </b-alert>
-              <b-alert show class="mt-4 small form-text text-muted" v-if="this.player==='player1'">
+              <b-alert hidden class="mt-4 small form-text text-muted" v-if="this.player==='player1'">
                 Inget förbinder dig att skapa ett lag genom att fortsätta till nästa steg. Betalningen sker först när ett lag skapas.
                 Anmälningskostnad per lag är
                 <strong>{{price1}} kr</strong> för privatpersoner och
@@ -244,7 +243,7 @@
                       variant="primary"
                     >Vi behöver veta lite mer om dig innan du kan gå vidare med registrerigen, vänligen fyll i informationen nedan.</b-alert>
                   </b-col>
-                  <b-col class="col-12 col-md-8">
+                  <b-col class="col-12 col-md-12">
                     <b-form-group
                       id="input-group-mobile"
                       label="Mobilnr"
@@ -288,8 +287,8 @@
                       <b-form-invalid-feedback :state="validatePassword2">Lösenorden stämmer inte...</b-form-invalid-feedback>
                     </b-form-group>
                   </b-col>
-                  <b-col class="col-md-4 d-none d-md-block">
-                    <b-card
+                  <b-col hidden class="col-md-4 d-none d-md-block">
+                    <b-card hidden
                       img-src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_300/v1573661281/matchplay/henke-granen.png"
                       img-top
                       tag="article"
@@ -324,7 +323,7 @@
                   </b-col>
                 </b-row>
                 <b-row>
-                  <b-col class="d-block d-md-none">
+                  <b-col hidden class="d-block d-md-none">
                     <b-card
                       img-src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_300/v1573661281/matchplay/henke-granen.png"
                       img-top
