@@ -42,7 +42,7 @@
           </b-col>
         </b-row>
 
-        <b-row class="mb-3 mt-0">
+        <b-row hidden class="mb-3 mt-0">
           <b-col md="12" class="teaser-content" ref="success" id="success">
             <h3 v-if="showqualified" class="mt-0 mb-4">
               Grattis, du kan vara med i tävlingen
@@ -665,7 +665,8 @@ components: {
               "lastname": this.form.lastname_hidden,                              
               "golfid": this.form.golfid,
               "mobile": this.form.mobile,
-              "referral_id": this.referral
+              "referral_id": this.referral,
+              "hcp": this.form.hcp
             }
           )
           .then(response => {            

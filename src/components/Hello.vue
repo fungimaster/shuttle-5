@@ -110,10 +110,10 @@
               <b-row>
                 <b-col class="col-7 col-md-12 pr-0 pr-md-3">
               <h3 class="">Statistik 2021</h3>
-              Anmälda lag: <strong>685</strong><br>
-              Repr. klubbar: <strong>232</strong><br>
-              Snitthcp: <strong>12.4</strong><br>
-              Snittålder: <strong>44 år</strong><br>
+              Anmälda lag: <strong>709</strong><br>
+              Repr. klubbar: <strong>233</strong><br>
+              Snitthcp: <strong>12.1</strong><br>
+              Snittålder: <strong>42.8 år</strong><br>
               
                 </b-col>
                 <b-col class="col-5 col-md-12 pl-0 pl-md-3">
