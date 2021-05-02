@@ -128,6 +128,9 @@
                 class="btn blue-bg btn-md text-white mt-2 mr-2"
                 to="/mymatchplay"
               >Lag- och matchhantering</router-link>
+              <b-alert show variant="danger" class="mt-3">
+                P.g.a. av väldigt hög aktivitet av våra härliga golfspelare här på sajten går servern på knäna och vi jobbar på att fixa problemen, kolla in på sajten imorgon igen för bättre prestanda!!!
+              </b-alert>              
               <a
                 hidden
                 v-if="isAuthenticated"
@@ -629,50 +632,8 @@ export default {
   //let latestTeam = localStorage.getItem('latestTeam');
   this.latestTeam = null;
     
-   this.axios
-      .post(globalState.admin_url + "getLatestPaidTeam")
-      .then((response) => {
-          
-        if (response.data) {
-          
-          let paidAt = moment(response.data.paidAt).add(0, 'hour').format()          
-          let test = moment().diff(paidAt, 'hours');
-          let regDate = moment(paidAt, "YYYY-MM-DD hh:mm").fromNow();
-          //this.toast('b-toaster-top-center',response.data, paidAt);
-          
-          if (test < 23) {
-         
-            //if (paidAt !== latestTeam) {
-
-            if (!response.data.logourl) {
-              this.latestTeamLogo = 'v1573118127/matchplay/matchplay-new-logo-2020.png'; //failover matchplay logo
-            } else {
-              this.latestTeamLogo = response.data.logourl;
-            }
-
-            this.latestTeam = 'Ett lag från ' + response.data.coursename + ' anmäldes för ' + regDate + ' sedan av ' + response.data.teamleadername + '.';
-            } else {            
-              this.latestTeam = null;
-            }
-            //localStorage.setItem('latestTeam',paidAt);  
-
-                //OLD TOAST, MOVED TO HERO
-                /* setTimeout(() => {
-                  this.toast('b-toaster-top-center',response.data, paidAt);
-                  localStorage.setItem('latestTeam',paidAt);                  
-                }, 1500);  */
-              
-              
-            //}
-        }
-        
-       
-        
-      })
-      .catch((error) => {
-        console.log(error);
-      }); 
   
+       
     
   },
   watch: {
@@ -730,6 +691,52 @@ export default {
   mixins: [tagsMixin],
   
   methods: {
+    getlatestteam() {
+
+ this.axios
+      .post(globalState.admin_url + "getLatestPaidTeam")
+      .then((response) => {
+          
+        if (response.data) {
+          
+          let paidAt = moment(response.data.paidAt).add(0, 'hour').format()          
+          let test = moment().diff(paidAt, 'hours');
+          let regDate = moment(paidAt, "YYYY-MM-DD hh:mm").fromNow();
+          //this.toast('b-toaster-top-center',response.data, paidAt);
+          
+          if (test < 23) {
+         
+            //if (paidAt !== latestTeam) {
+
+            if (!response.data.logourl) {
+              this.latestTeamLogo = 'v1573118127/matchplay/matchplay-new-logo-2020.png'; //failover matchplay logo
+            } else {
+              this.latestTeamLogo = response.data.logourl;
+            }
+
+            this.latestTeam = 'Ett lag från ' + response.data.coursename + ' anmäldes för ' + regDate + ' sedan av ' + response.data.teamleadername + '.';
+            } else {            
+              this.latestTeam = null;
+            }
+            //localStorage.setItem('latestTeam',paidAt);  
+
+                //OLD TOAST, MOVED TO HERO
+                /* setTimeout(() => {
+                  this.toast('b-toaster-top-center',response.data, paidAt);
+                  localStorage.setItem('latestTeam',paidAt);                  
+                }, 1500);  */
+              
+              
+            //}
+        }
+        
+       
+        
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    },
     makeToast(append = false) {
         this.toastCount++
         this.$bvToast.toast('Lag från mer än 50% av Sveriges golfklubbar finns nu representerade i Matchplay 2021!', {
