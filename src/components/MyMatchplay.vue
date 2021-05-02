@@ -120,7 +120,7 @@
                     </b-col>
                     <b-col hidden md="12" class="mt-3">
                         <h2>Skapa ditt blivande mästarlag</h2>
-                        <p class="mt-3" >Nu är det dags att skapa ditt lag för matchplay 2021. Klicka på knappen nedan och följ instruktionerna.</p>
+                        <p v-if="!closed" class="mt-3" >Nu är det dags att skapa ditt lag för matchplay 2021. Klicka på knappen nedan och följ instruktionerna.</p>
                     </b-col>
                     <b-col hidden md="12" class="pt-1 text-center mt-3 mb-5">
                         <b-button variant="primary" class="blue-bg mt-5 mb-3 pulse-button btn-lg" v-on:click="create_team('new')"><i class="material-icons">sports_golf</i> Skapa ditt lag</b-button>
@@ -391,9 +391,10 @@
                     <b-col md="12" class="mt-2">                       
                         <h2 hidden>Skapa ditt blivande mästarlag</h2>
                         <p v-if="closed" class="mt-3">Om inga lag syns här har något blivit fel med lagkopplingen, se kontaktuppg. längst ner på sidan.</p>
-                        <p v-if="!closed && teams.length === 0 || !teams.length" class="mt-3" >Nu är det dags att skapa ditt lag för matchplay 2021. Klicka på knappen nedan och följ instruktionerna.</p>
+                       
+                        <p v-if="!closed && teams.length === 0 || (!teams.length && !closed)" class="mt-3" >Nu är det dags att skapa ditt lag för matchplay 2021. Klicka på knappen nedan och följ instruktionerna.</p>
                     </b-col>
-                    <b-col v-if="!closed && teams.length === 0 || !teams.length" md="12" class="pt-1 text-center mt-2 mb-3">
+                    <b-col v-if="!closed && teams.length === 0 || (!teams.length && !closed)" md="12" class="pt-1 text-center mt-2 mb-3">
                         <b-button variant="primary" class="blue-bg mt-3 mb-3 pulse-button btn-lg" v-on:click="create_team('new')"><i class="material-icons">sports_golf</i> Skapa ditt lag</b-button>
                     </b-col>
             </b-row>
