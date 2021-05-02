@@ -69,11 +69,11 @@ import { globalState } from "../main.js";
       }
     },
      created() {
-    this.getCompanies();  
+   
   },
       mounted: function () {
         //console.log("ROUTE", this.$route.query.resetpw)
-
+ this.getCompanies();  
   },
   computed: {
     fetchedcompanies() {
