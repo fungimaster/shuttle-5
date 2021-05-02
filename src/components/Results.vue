@@ -15,7 +15,7 @@
                 På grund av väldigt hög aktivitet av våra härliga golfspelare här på sajten går servern på knäna och vi jobbar på att fixa problemen, kolla in på sajten imorgon igen för bättre prestanda!!!
               </b-alert>  
 
-      <b-tabs content-class="mt-3" v-model="tabIndex" no-key-nav class="mt-4 mt-md-5">
+      <b-tabs hidden content-class="mt-3" v-model="tabIndex" no-key-nav class="mt-4 mt-md-5">
                           <b-tab title-link-class="ml-2">
                             <template v-slot:title>
                              <span class="d-none d-sm-block"><b-spinner v-if="gamescount > 0" small type="grow" class="ml-0 pl-0 mr-1 mb-1 red"></b-spinner>LIVE <span v-if="updating1"><b-spinner small class="ml-1 mr-1 mb-1"></b-spinner></span><span v-else>({{gamescount}})</span></span>
@@ -441,6 +441,7 @@ moment.updateLocale("sv", {
 export default {
   name: 'Resultat',
   created() {
+    return;
 
     if (!globalState.compid) {
     return  
