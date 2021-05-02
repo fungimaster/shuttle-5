@@ -148,12 +148,12 @@
                           </b-col>
                         </b-row>
 
-                         <b-row v-if="gamescount2 > 0" class="">
-                          <b-col v-for="(game,idx2) in games2" :key="idx2" xs="12" sm="12" class="pt-3 pb-3 pl-md-2 pr-md-2 game" :class="idx1 % 2 === 0 ? 'whitebg' : 'whitebg'">                            
+                         <b-row v-if="gamescount2 > 0" class="mt-3">
+                          <b-col v-for="(game,idx2) in games2" :key="idx2" xs="12" sm="12" class="pt-3 pb-3 pl-md-2 pr-md-2 game mb-3" :class="idx1 % 2 === 0 ? 'whitebg' : 'whitebg'">                            
                              <b-row>
                                  <b-col class="gameheader col-12 text-center mb-4">
-                                   <img v-if="game.logourl" class="" :src="getClubLogo(game.logourl)">                                                                                                                              
-                                   <span v-if="game.clubname">{{game.clubname}}</span>
+                                   <img v-if="game.logourl" class="" :src="getClubLogo(game.logourl)">                                                                                                                           
+                                   <span class="d-block mt-2" v-if="game.clubname">{{game.clubname}}</span>
                                    <span v-if="!game.clubname">Golfklubb saknas</span>
                                      <span class="small d-block" v-if="game.roundname">{{game.roundname}}</span>
                                  </b-col>
@@ -475,6 +475,7 @@ export default {
   },
   data() {
     return {
+      idx1:null,
       gamesarray:'games',
       lightbox_image: null,
       doctitle: 'Resultat',
