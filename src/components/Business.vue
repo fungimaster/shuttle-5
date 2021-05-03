@@ -69,11 +69,11 @@ import { globalState } from "../main.js";
       }
     },
      created() {
-   
+    this.getCompanies();
   },
       mounted: function () {
         //console.log("ROUTE", this.$route.query.resetpw)
- this.getCompanies();  
+  
   },
   computed: {
     fetchedcompanies() {
@@ -90,7 +90,7 @@ import { globalState } from "../main.js";
       let urlString = array.join("");
       return urlString;
     }, 
-       getCompanies() {        
+    getCompanies() {        
       this.loading = true;    
 
       const handleResponse = (response) => {

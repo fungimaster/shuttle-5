@@ -38,6 +38,7 @@
               <b-spinner
                 small
                 label="Small Spinner"
+                type="grow"
                 style="color: #fea60173"
                 class="d-block ongoing"
               ></b-spinner>
@@ -88,6 +89,7 @@
          <b-spinner
                 small
                 label="Spinner"
+                type="grow"
                 variant="dark"                
                 class="d-block ongoing"
               ></b-spinner>

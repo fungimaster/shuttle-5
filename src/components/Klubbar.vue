@@ -184,6 +184,9 @@ moment.updateLocale("sv", {
           }
       },
       getLatestTeam() {
+        if (this.closed) {
+          return
+        }
 
    this.axios
       .post(globalState.admin_url + "getLatestPaidTeam")
