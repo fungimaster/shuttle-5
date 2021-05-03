@@ -48,10 +48,7 @@ export default {
         this.loading = false;
       }
     });
-     //* check if data in stores. Then skip fetch.
-      if(!this.getGames2.length) {
-          this.getGamesPending()
-      }
+    
   },
   mounted() {
     setTimeout(() => {
@@ -65,23 +62,7 @@ export default {
     AppSpinnerRouting,
   },
   methods: {
-    getGamesPending() {
-      const today = moment().format("YYYY-MM-DD");
-      const today_h = moment().format("HH:mm");
-       this.axios
-        .post(globalState.admin_url + "getGamesAdvanced2", {
-          competition: globalState.compid,
-          status: "Pending",
-          from: today + " " + today_h,
-  
-        })
-        .then((response) => {
-          this.$store.dispatch('setGames2', response.data)
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
+
     getPlayerData(id) { 
      
       this.axios.post('https://matchplay.meteorapp.com/methods/getPlayerData', {

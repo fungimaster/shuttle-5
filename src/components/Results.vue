@@ -665,6 +665,9 @@ export default {
             return 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_200,q_auto,c_scale/' + first_url;
             },
     getClubLogo(id) {
+      if (!this.getClubLogosUrls) {
+        return
+      }
       const club = this.getClubLogosUrls.find(club => club._id === id)
 
       if (club) {
