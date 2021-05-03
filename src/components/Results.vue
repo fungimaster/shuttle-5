@@ -11,7 +11,7 @@
       </p>
     </b-modal>
 
-    <b-alert show variant="warning" class="mt-3">
+    <b-alert hidden variant="warning" class="mt-3">
         På grund av hög belastning på vår server och inte helt optimerad kod kommer resultatsidan vara under utveckling nån dag eller två. Välkommen tillbaka!
     </b-alert>  
 
@@ -41,7 +41,7 @@
                                {{getgamedate2(nextgame.gamedate,nextgame.gametime)}} på <span v-if="nextgame.clubname">{{nextgame.clubname}}</span><span v-if="!nextgame.clubname">Golfklubb saknas</span>.
                              </p>
                             <p v-if="!nextgame">Just nu pågår inga matcher... men när matcher spelas kan dom följas live här!</p>                             
-                            <p>OBS! Sidan laddas om automatiskt när en match startar.</p>
+                            <p hidden>OBS! Sidan laddas om automatiskt när en match startar.</p>
                           </b-col>
                          
                         </b-row>
@@ -441,7 +441,6 @@ moment.updateLocale("sv", {
 export default {
   name: 'Resultat',
   created() {
-    return;
 
     if (!globalState.compid) {
     return  
@@ -800,7 +799,7 @@ export default {
         }
 
       this.axios
-        .post(globalState.admin_url + "getGamesAdvanced", {
+        .post(globalState.admin_url + "getGamesAdvanced2", {
           competition: globalState.compid,
           status: "In progress",
           //"from": today + " " + today_h,
@@ -862,7 +861,7 @@ export default {
         }
  
       this.axios
-        .post(globalState.admin_url + "getGamesAdvanced", {
+        .post(globalState.admin_url + "getGamesAdvanced2", {
           competition: globalState.compid,
           status: "Pending",
           from: today + " " + today_h,
@@ -933,7 +932,7 @@ export default {
       }
 
       this.axios
-        .post(globalState.admin_url + "getGamesAdvanced", options)
+        .post(globalState.admin_url + "getGamesAdvanced2", options)
         .then((response) => {
           let finishedgames = response.data;
           let games3 = finishedgames.sort(
@@ -958,7 +957,7 @@ export default {
       const today_h = moment().format("HH:mm");
 
       this.axios
-        .post(globalState.admin_url + "getGamesAdvanced", {
+        .post(globalState.admin_url + "getGamesAdvanced2", {
           competition: globalState.compid,
           status: "Finished",
           //"from": today + " " + today_h,
@@ -974,7 +973,7 @@ export default {
           //Get finished games
           let finishedgames = [];
           this.axios
-            .post(globalState.admin_url + "getGamesAdvanced", {
+            .post(globalState.admin_url + "getGamesAdvanced2", {
               competition: globalState.compid,
               status: "Finished",
               //"from": today + " " + today_h,
@@ -996,7 +995,7 @@ export default {
               //GET UPCOMING GAMES
               let upcominggames = [];
               this.axios
-                .post(globalState.admin_url + "getGamesAdvanced", {
+                .post(globalState.admin_url + "getGamesAdvanced2", {
                   competition: globalState.compid,
                   status: "Pending",
                   from: today + " " + today_h,
