@@ -20,10 +20,14 @@ export default new Vuex.Store({
     games1: [],
     games2: [],
     games3: [],
+    clublogosurl: null
   },
   getters: {
     isAuthenticated(state) {
       return state.token !== null;
+    },
+    getClubLogosUrls(state) {
+      return state.clublogosurl
     },
     getGames1(state) {
       return state.games1;
@@ -90,8 +94,14 @@ export default new Vuex.Store({
       state.token = null;
       state.userId = null;
     },
+    SET_CLUBLOGOSURL: (state, payload) => {
+      state.clublogosurl = payload;
+    },
   },
   actions: {
+    setClubsLogourl: ({ commit }, payload) => {
+      commit("SET_CLUBLOGOSURL", payload);
+    },
     deleteUserInfo: ({ commit }) => {
       commit("DELETE_USER");
     },

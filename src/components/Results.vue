@@ -66,7 +66,7 @@
                           <b-col v-for="(game,idx1) in games" :key="idx1" xs="12" sm="12" class="pt-3 pb-3 pl-md-2 pr-md-2 game mb-3" :class="idx1 % 2 === 0 ? 'whitebg' : 'whitebg'">                
                              <b-row>
                                  <b-col class="gameheader col-12 text-center mb-4">
-                                   <img v-if="game.logourl" class="" :src="getClubLogo(game.logourl)">                                                                                                                         
+                                   <img v-if="getClubLogo(game.club)" class="" :src="getClubLogo(game.club)">                                                                                                                         
                                    <span v-if="game.clubname">{{game.clubname}}</span>
                                    <span v-if="!game.clubname">Golfklubb saknas</span>
                                     <span class="small d-block" v-if="game.roundname">{{game.roundname}}</span>
@@ -138,7 +138,7 @@
                              <!-- PENDING GAMES -->
                       <b-col xs="12" sm="12" class="mt-4 mt-md-4">
 
-                        <span class="float-right" style="cursor:pointer;" v-on:click="getGamesPending('not-initial')"><i class="far fa-sync-alt"></i></span>
+                        <span hidden class="float-right" style="cursor:pointer;" v-on:click="getGamesPending('not-initial')"><i class="far fa-sync-alt"></i></span>
                        <h4>Kommande (bokade) <span v-if="updating2"><b-spinner small type="grow" class="blink ml-2 mr-1 mb-1 red"></b-spinner>...</span></h4>
                         <p hidden>Inom kort kommer bokade matcher visas här samt annan information om lagen!</p>
                         <b-row v-if="loadinggames2">
@@ -156,7 +156,7 @@
                           <b-col v-for="(game,idx2) in games2" :key="idx2" xs="12" sm="12" class="pt-3 pb-3 pl-md-2 pr-md-2 game mb-3" :class="idx1 % 2 === 0 ? 'whitebg' : 'whitebg'">                            
                              <b-row>
                                  <b-col class="gameheader col-12 text-center mb-4">
-                                   <img v-if="game.logourl" class="" :src="getClubLogo(game.logourl)">                                                                                                                           
+                                   <img v-if="getClubLogo(game.club)" class="" :src="getClubLogo(game.club)">                                                                                                                           
                                    <span class="d-block mt-2" v-if="game.clubname">{{game.clubname}}</span>
                                    <span v-if="!game.clubname">Golfklubb saknas</span>
                                      <span class="small d-block" v-if="game.roundname">{{game.roundname}}</span>
@@ -213,7 +213,7 @@
                                    <!--FINISHED GAMES -->
                       <b-col xs="12" sm="12" class="mt-4 mt-md-4">
 
-                        <span class="float-right" style="cursor:pointer;" v-on:click="updategames()"><i class="far fa-sync-alt"></i></span>
+                        <span hidden class="float-right" style="cursor:pointer;" v-on:click="updategames()"><i class="far fa-sync-alt"></i></span>
                        <h4>Spelade - {{active_round}} <span v-if="updating3"><b-spinner small type="grow" class="ml-2 mr-1 mb-1 red"></b-spinner>...</span><span v-else>({{gamescount3}})</span></h4>
                         <p hidden>Inom kort kommer bokade matcher visas här samt annan information om lagen!</p>
                       
@@ -258,7 +258,7 @@
                           <b-col v-for="(game,idx1) in games3" :key="idx1" xs="12" sm="12" class="pt-3 pb-3 pl-md-2 pr-md-2 game" :class="idx1 % 2 === 0 ? 'whitebg' : 'whitebg'">                            
                              <b-row>
                                  <b-col class="gameheader col-12 text-center mb-4"> 
-                                   <img v-if="game.logourl" class="" :src="getClubLogo(game.logourl)">                                                                                                                                  
+                                   <img v-if="getClubLogo(game.club)" class="" :src="getClubLogo(game.club)">                                                                                                                                  
                                    <span v-if="game.clubname">{{game.clubname}}</span>
                                    <span v-if="!game.clubname">Golfklubb saknas</span>
                                      <span class="small d-block" v-if="game.roundname">{{game.roundname}}</span>
@@ -458,7 +458,7 @@ export default {
 
     this.getGamesInprogress('initial');
 
-
+    this.getGolfclubsLogoUrl()
     
   },
  watch: {
@@ -538,7 +538,8 @@ export default {
       "isAuthenticated",
       "getGames1",
       "getGames2",
-      "getGames3"
+      "getGames3",
+      "getClubLogosUrls"
     ]),
     validation() {
       let validated = false;
@@ -602,6 +603,19 @@ export default {
   mixins: [tagsMixin],
   
   methods: {
+    getGolfclubsLogoUrl() {
+      if (this.getClubLogosUrls) {
+        return this.getClubLogosUrls
+      }
+      this.axios
+        .post(globalState.admin_url + "getGolfclubsLogoUrl")
+        .then((response) => {
+          this.$store.dispatch('setClubsLogourl', response.data)  
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
     search: function() {  
       let searchfield;
      if (this.gamesarray==='games')
@@ -650,9 +664,17 @@ export default {
             var first_url = logourl.split("/upload/").pop();           
             return 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_200,q_auto,c_scale/' + first_url;
             },
-            getClubLogo(logourl) {                     
-            return 'https://res.cloudinary.com/dn3hzwewp/image/upload/h_50,q_auto,c_scale/' + logourl;
-            },
+    getClubLogo(id) {
+      const club = this.getClubLogosUrls.find(club => club._id === id)
+
+      if (club) {
+        if (club.logoURL) {
+          return  'https://res.cloudinary.com/dn3hzwewp/image/upload/h_50,q_auto,c_scale/' + club.logoURL;
+        }
+      } else {
+        return false
+      }
+    },
             
     compareValues(key, order = "asc") {
       return function innerSort(a, b) {

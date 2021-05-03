@@ -21,6 +21,10 @@ import Top from "./components/Top";
 import Footer from "./components/Footer";
 import AppSpinnerRouting from "./components/spinner/SpinnerRouting";
 import NprogressContainer from "vue-nprogress/src/NprogressContainer";
+import { globalState } from "./main.js";
+import moment from "moment";
+import { mapGetters } from "vuex";
+
 
 export default {
   name: "app",
@@ -44,6 +48,13 @@ export default {
         this.loading = false;
       }
     });
+     //* check if data in stores. Then skip fetch.
+      if(!this.getGames1.length) {
+          this.getGamesInProgress()
+      }
+      if(!this.getGames2.length) {
+          this.getGamesPending()
+      }
   },
   mounted() {
     setTimeout(() => {
@@ -57,6 +68,39 @@ export default {
     AppSpinnerRouting,
   },
   methods: {
+    getGamesInProgress() {
+         this.axios
+        .post(globalState.admin_url + "getGamesAdvanced2", {
+          competition: globalState.compid,
+          status: "In progress",
+          limit: 20,
+        })
+        .then((response) => {
+          this.$store.dispatch('setGames1', response.data)
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+    },
+    getGamesPending() {
+
+      const today = moment().format("YYYY-MM-DD");
+      const today_h = moment().format("HH:mm");
+       this.axios
+        .post(globalState.admin_url + "getGamesAdvanced2", {
+          competition: globalState.compid,
+          status: "Pending",
+          from: today + " " + today_h,
+  
+        })
+        .then((response) => {
+          this.$store.dispatch('setGames2', response.data)
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
     getPlayerData(id) { 
      
       this.axios.post('https://matchplay.meteorapp.com/methods/getPlayerData', {
@@ -79,9 +123,7 @@ export default {
     },
   },
   computed: {
-    isAuthenticated() {
-      return this.$store.getters.isAuthenticated;
-    },
+     ...mapGetters(["isAuthenticated", "getGames1", "getGames2"]),
   },
 };
 </script>
