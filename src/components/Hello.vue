@@ -226,7 +226,7 @@
               <div v-if="user.teams.length>0">
                 <!-- kommande match -->
                 <div v-if="user.teams[0].games.length>0">
-                  <div v-if="user.teams[0].games[0].status === 'Pending'">
+                  <div v-if="user.teams[0].games[0].status === 'Pending' && user.teams[0].games[0].gamedate">
                     <p>
                       Din nästa match: {{user.teams[0].games[0].gamedate}} {{user.teams[0].games[0].gametime}}
                       <span
