@@ -49,9 +49,6 @@ export default {
       }
     });
      //* check if data in stores. Then skip fetch.
-      if(!this.getGames1.length) {
-          this.getGamesInProgress()
-      }
       if(!this.getGames2.length) {
           this.getGamesPending()
       }
@@ -68,23 +65,7 @@ export default {
     AppSpinnerRouting,
   },
   methods: {
-    getGamesInProgress() {
-         this.axios
-        .post(globalState.admin_url + "getGamesAdvanced2", {
-          competition: globalState.compid,
-          status: "In progress",
-          limit: 20,
-        })
-        .then((response) => {
-          this.$store.dispatch('setGames1', response.data)
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-
-    },
     getGamesPending() {
-
       const today = moment().format("YYYY-MM-DD");
       const today_h = moment().format("HH:mm");
        this.axios
