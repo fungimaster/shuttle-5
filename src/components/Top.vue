@@ -1,10 +1,7 @@
 <template>
-<div
+<div style="position:relat"
 v-if="
-      ['Scorecard', 'Receipt'].indexOf(
-        $route.name
-      ) === -1
-    ">
+      ['Scorecard', 'Receipt'].indexOf($route.name) === -1">
   <b-navbar toggleable="lg" sticky ref="top">
     <b-navbar-brand>
       <router-link class to="/">
@@ -27,7 +24,7 @@ v-if="
       <b-navbar-nav class="ml-auto">
         <!-- <b-nav-item :to="{path: '/line-up', query: {tags:$route.query.tags, day:$route.query.day}}">Line-up</b-nav-item> -->
         <b-nav-item v-if="!closed" to="/register">Anmälan</b-nav-item>
-        <b-nav-item v-if="closed" to="results">Resultat <b-badge class="new" pill variant="danger">Ny</b-badge></b-nav-item>
+        <b-nav-item v-if="closed" to="results">Resultat <b-badge hidden class="new" pill variant="danger">Ny</b-badge></b-nav-item>
         <b-nav-item to="/klubbar">Klubbar <b-badge hidden class="new" pill variant="danger"><i class="fa fa-heart"></i></b-badge></b-nav-item>
          <b-nav-item to="/business">Företagslag</b-nav-item>
         <b-nav-item to="/info">Om tävlingen</b-nav-item>
@@ -50,7 +47,9 @@ v-if="
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
-</div>
+      </div>
+
+
 </template>
 
 <script>

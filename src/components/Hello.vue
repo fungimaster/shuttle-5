@@ -128,7 +128,7 @@
                 class="btn blue-bg btn-md text-white mt-2 mr-2"
                 to="/mymatchplay"
               >Lag- och matchhantering</router-link>
-              <b-alert show variant="danger" class="mt-3">
+              <b-alert variant="danger" class="mt-3">
                 På grund av väldigt hög aktivitet av våra härliga golfspelare här på sajten går servern på knäna och vi jobbar på att fixa problemen, kolla in på sajten imorgon igen för bättre prestanda!!!
               </b-alert>              
               <a

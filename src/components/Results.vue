@@ -11,11 +11,11 @@
       </p>
     </b-modal>
 
-    <b-alert show variant="danger" class="mt-3">
-                På grund av väldigt hög aktivitet av våra härliga golfspelare här på sajten går servern på knäna och vi jobbar på att fixa problemen, kolla in på sajten imorgon igen för bättre prestanda!!!
-              </b-alert>  
+    <b-alert show variant="warning" class="mt-3">
+        På grund av hög belastning på vår server och inte helt optimerad kod kommer resultatsidan vara under utveckling nån dag eller två. Välkommen tillbaka!
+    </b-alert>  
 
-      <b-tabs hidden content-class="mt-3" v-model="tabIndex" no-key-nav class="mt-4 mt-md-5">
+      <b-tabs content-class="mt-3" v-model="tabIndex" no-key-nav class="mt-4 mt-md-5">
                           <b-tab title-link-class="ml-2">
                             <template v-slot:title>
                              <span class="d-none d-sm-block"><b-spinner v-if="gamescount > 0" small type="grow" class="ml-0 pl-0 mr-1 mb-1 red"></b-spinner>LIVE <span v-if="updating1"><b-spinner small class="ml-1 mr-1 mb-1"></b-spinner></span><span v-else>({{gamescount}})</span></span>
@@ -52,7 +52,7 @@
                            </b-col>
                          </b-row>
 
-                         <b-row class="mt-2 mb-4">
+                         <b-row hidden class="mt-2 mb-4">
                            <b-col>
                               <form v-on:submit.prevent="search">
                                 <input type="text" id="searchfield" class="form-control filterfield" placeholder="Sök på spelarnamn eller klubb">
@@ -491,8 +491,8 @@ export default {
       clubs: 0,
       birdies: 0,
       //IN PROGRESS GAMES
-      loadinggames: true,
-      updating1: true,
+      loadinggames: false,
+      updating1: false,
       game: {},
       games: [],
       gamesOrg: [],
@@ -504,8 +504,8 @@ export default {
       price2: globalState.price2,
       active_round: "Omgång 1",     
       //PENDING GAMES
-      loadinggames2: true,
-      updating2: true,
+      loadinggames2: false,
+      updating2: false,
       game2: {},
       games2: [],
       games2Org: [],
@@ -514,8 +514,8 @@ export default {
       nextgame: {},
 
       //FINISHED GAMES
-      loadinggames3: true,
-      updating3: true,
+      loadinggames3: false,
+      updating3: false,
       game3: {},
       games3: [],
       games3Org: [],
@@ -793,10 +793,10 @@ export default {
         } else {
           //RELOAD IN PROGRESS (INITATOR)
           //NOT USED UNTIL NEXT MATCHPLAY 2021
-           setTimeout(() => {
+          /*  setTimeout(() => {
                         this.updating1 = false;
                         this.getGamesInprogress('not-initial'); //in progress
-                      }, 60000);   
+                      }, 60000);  */  
         }
 
       this.axios
@@ -814,10 +814,10 @@ export default {
         })
         .catch((error) => {
           console.log(error);
-          setTimeout(() => {
+       /*    setTimeout(() => {
             this.updating1 = false;
             this.getGamesInprogress("not-initial"); //in progress
-          }, 30000);
+          }, 30000); */
           this.updating1 = false;
           this.loadinggames = false;
         });
@@ -919,10 +919,10 @@ export default {
           this.updating3 = false;
 
           //RELOAD IN PROGRESS (INITATOR)
-          setTimeout(() => {
+       /*    setTimeout(() => {
             this.updating1 = false;
             this.getGamesInprogress("not-initial"); //in progress
-          }, 60000);
+          }, 60000); */
       }
 
       //* check if data in stores. Then skip fetch.
