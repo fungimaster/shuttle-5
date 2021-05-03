@@ -48,7 +48,7 @@ export default new Vuex.Store({
       return state.clubs;
     },
     companies(state) {
-      return state.clubs;
+      return state.companies;
     },
     isDefeated(state) {
       if (state.user && state.user.teams) {
