@@ -110,6 +110,8 @@ import { globalState } from "../main.js";
       }
 
       if (this.fetchedcompanies) {
+        console.log("fetched");
+        console.log(this.$store.state.companies);
           handleResponse(this.$store.state.companies)
           return
       }
@@ -121,6 +123,9 @@ import { globalState } from "../main.js";
           id: globalState.compid          
         })
         .then((response) => {
+          console.log(" -----------------")
+          console.log("response", response)
+          console.log(" -----------------")
           handleResponse(response)
         })
         .catch((error) => {
