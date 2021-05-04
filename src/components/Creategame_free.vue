@@ -603,6 +603,11 @@ export default {
         if (userinfo.golfid)
           this.golfid = userinfo.golfid;
           this.createPlayersSingle('1');
+           /*
+           this.createPlayersSingle('2');
+            this.createPlayersSingle('3');
+             this.createPlayersSingle('4');
+             */
       }
 
   },

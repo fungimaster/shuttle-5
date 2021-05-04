@@ -6,7 +6,11 @@
         <b-alert show
           variant="warning small form-text text-muted mb-4"
         >Denna efterhandsregistrering är bara till för spelare som redan är med som lagmedlem i ett lag men som inte har kopplats till ett lag. Efter din registrering kommer du kopplas till rätt lag (baserat på ditt golf-id).</b-alert>
-
+          <p v-if="this.player==='player2' && closed" class="mb-4">
+              Din kompis
+              <span v-if="captain" style="font-weight:bold;color:green;">{{captain}}</span> har skapat ett lag i tävlingen och för att
+              <strong>göra laget komplett</strong> behöver du registrera dig som spelare här på matchplay! Följ instruktionerna nedan.
+            </p>           
         <h2
           class="hidden teaser-header orange"
         >Det är klart du vill vara med i golftävlingen, registrera dig här!</h2>
@@ -378,6 +382,7 @@ components: {
       //PRICE
       price1: globalState.price1,
       price2: globalState.price2,
+      closed: globalState.closed,
    
    bindProps: {
         mode: "international",

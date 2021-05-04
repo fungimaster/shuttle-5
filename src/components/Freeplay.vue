@@ -47,8 +47,13 @@
                 </b-row>
 
                 <b-row class="mt-4">
-                  <b-col class="col-5">
-                    Vinnare: {{game.winner}}
+                 <b-col class="col-5 p-0 m-0 text-right">                  
+                    <span v-if="game.winner==='home'" class="winnerhome">Vinnare: Hemmalag</span>                   
+                  </b-col>
+                  <b-col class="col-2 text-center small p-0 m-0">                 
+                  </b-col>
+                 <b-col class="col-5 p-0 m-0">   
+                    <span v-if="game.winner==='away'" class="winneraway">Vinnare: Bortalag</span>
                   </b-col>
                 </b-row>
 
@@ -56,7 +61,7 @@
 
                
                 <template v-slot:footer>
-                                <span class="small d-block">{{getgamedate(game.createdAt)}} sedan</span>                       
+                                <span class="small d-block">Startades för {{getgamedate(game.createdAt)}} sedan</span>                       
                             </template>                         
               </b-card>
               <!-- end -->
@@ -166,6 +171,16 @@ export default {
 
 .team2 {
 	border-right: 5px solid #69b3fe;
+}
+
+.winnerhome {
+  background: #fd9b37;
+  padding:0.5em;
+}
+
+.winneraway {
+  background: #69b3fe;
+  padding:0.5em;
 }
 
 </style>

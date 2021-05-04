@@ -148,9 +148,14 @@
 								</p>
 							</b-col>
 							<b-col cols="12" class="p-2 text-center">
-						 		<a href="/mymatchplay" v-if="winnerSent && gameClosed">
+						 		<a href="/mymatchplay" v-if="winnerSent && gameClosed && !freeplay">
 									<button class="btn btn-warning btn-sm disable-dbl-tap-zoom ">
 										Tillbaka till din sida
+									</button>
+								 </a>
+								 <a href="/freeplay" v-if="winnerSent && gameClosed && freeplay">
+									<button class="btn btn-warning btn-sm disable-dbl-tap-zoom ">
+										Tillbaka till freeplay
 									</button>
 								 </a> 
 							</b-col>

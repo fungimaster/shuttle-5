@@ -23,8 +23,8 @@ v-if="
       </div>
       <b-navbar-nav class="ml-auto">
         <!-- <b-nav-item :to="{path: '/line-up', query: {tags:$route.query.tags, day:$route.query.day}}">Line-up</b-nav-item> -->
-        <b-nav-item v-if="!closed" to="/register">Anmälan</b-nav-item>
-        <b-nav-item v-if="closed" to="results">Resultat <b-badge hidden class="new" pill variant="danger">Ny</b-badge></b-nav-item>
+        <b-nav-item v-if="!closed" to="/register">Efterhandsregistrering</b-nav-item>
+        <b-nav-item v-if="closed" to="results">Resultat <b-badge hidden class="new" pill variant="danger"><i class="fa fa-circle"></i></b-badge></b-nav-item>
         <b-nav-item to="/klubbar">Klubbar <b-badge hidden class="new" pill variant="danger"><i class="fa fa-heart"></i></b-badge></b-nav-item>
          <b-nav-item to="/business">Företagslag</b-nav-item>
         <b-nav-item to="/info">Om tävlingen</b-nav-item>

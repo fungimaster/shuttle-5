@@ -128,6 +128,11 @@
                 class="btn blue-bg btn-md text-white mt-2 mr-2"
                 to="/mymatchplay"
               >Lag- och matchhantering</router-link>
+              <router-link
+                v-if="!isAuthenticated"
+                class="btn btn-danger btn-md text-white mt-2 mr-2"
+                to="/register"
+              >Efterhandsregistrering</router-link>
               <b-alert variant="danger" class="mt-3">
                 På grund av väldigt hög aktivitet av våra härliga golfspelare här på sajten går servern på knäna och vi jobbar på att fixa problemen, kolla in på sajten imorgon igen för bättre prestanda!!!
               </b-alert>              
@@ -566,10 +571,10 @@ export default {
    //BG CHANGE 
   var bg_change = setInterval(this.changeBg, 8000);
 
-   if (!localStorage.getItem('morethan50')) {
+   /* if (!localStorage.getItem('morethan50')) {
     this.makeToast();
     localStorage.setItem('morethan50',1)
-   }
+   } */
 
   if (!globalState.compid) {
     return  
