@@ -143,7 +143,7 @@
              <b-container>                           
                 <b-row align-h="center">                    
                     <b-col class="mt-4 mt-md-5">    
-                        <b-alert show variant="warning" class="small">
+                        <b-alert  variant="warning" class="small">
                             Vi har tyvärr i vår iver att bygga en fantastisk lösning för er gjort lite missar som gör att er match temporärt inte syntes. Det fungerar igen och vi ska försöka att hålla fingrarna i styr framöver.                            
                         </b-alert>      
 <b-tabs content-class="mt-3" v-model="tabIndex" no-key-nav>

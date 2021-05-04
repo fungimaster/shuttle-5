@@ -16,7 +16,7 @@
     </b-alert>  
 
       <b-tabs content-class="mt-3" v-model="tabIndex" no-key-nav class="mt-4 mt-md-5">
-                          <b-tab title-link-class="ml-2">
+                          <b-tab title-link-class="ml-1">
                             <template v-slot:title>
                              <span class="d-none d-sm-block"><b-spinner v-if="gamescount > 0" small type="grow" class="ml-0 pl-0 mr-1 mb-1 red"></b-spinner>LIVE <span v-if="updating1"><b-spinner small class="ml-1 mr-1 mb-1"></b-spinner></span><span v-else>({{gamescount}})</span></span>
                              <span class="d-sm-none small-tabs"><i class="fal fa-heart-rate"></i> <span v-if="updating1"><b-spinner small class="ml-1 mr-1 mb-1"></b-spinner></span><span v-else>({{gamescount}})</span></span>
@@ -205,7 +205,7 @@
                          
                      </b-col>
                           </b-tab>
-                           <b-tab title-link-class="ml-2">
+                           <b-tab title-link-class="ml-1">
                               <template v-slot:title>
                              <span class="d-none d-sm-block">SPELADE <span v-if="updating3"><b-spinner small class="ml-1 mr-1 mb-1"></b-spinner></span><span v-else>({{gamescount3}})</span></span>
                              <span class="d-sm-none small-tabs"><i class="fal fa-check"></i> <span v-if="updating3"><b-spinner small class="ml-1 mr-1 mb-1"></b-spinner></span><span v-else>({{gamescount3}})</span></span>
@@ -313,7 +313,7 @@
                           </b-tab>
 
                             <!-- topplista klubbar... -->
-                        <b-tab title-link-class="ml-2">
+                        <b-tab title-link-class="ml-1">
                              
                              <template v-slot:title>
                              <span class="d-none d-sm-block">STATISTIK</span>

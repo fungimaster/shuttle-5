@@ -933,16 +933,25 @@
 										this.authorized = false;
 									}
 
-                            	} else { //either not logged in or not auth
-									this.authorized = false;									
-									this.refreshGame();
-									return;
+								} else { //either not logged in or not auth
+									if (!this.freeplay) {
+										this.authorized = false;									
+										this.refreshGame();
+										return;
+									} else { //freeplay
+										this.authorized = true;
+										if (response.data.scorecard[0].holes[0].strokes === 0) {
+											this.$bvModal.show('modal-legend');
+										}
+									}
 									//start function to setinterval for update
 								}
 						}
 						
 						if (!this.authorized) { //check if freeplay
+						
  							if (this.freeplay) {
+								
 								this.authorized = true;
 									if (response.data.scorecard[0].holes[0].strokes === 0) {
 										this.$bvModal.show('modal-legend');
@@ -1801,9 +1810,9 @@
 						scores++;
 					}
 				}
-				//console.log('hole=' + hole + ', ' + scores);
+				
 				if (scores === 4) { //all players has scores
-					this.displayToast = false;				
+					this.displayToast = false;
 					return true;
 				} else {
 					this.displayToast = true;
@@ -2214,6 +2223,11 @@
 				} else {
 					this.displayToast = true;
 				}
+
+				if (this.freeplay && this.allScores(activehole)) {
+					this.displayToast = false;
+				}
+
 							},
 	
 			async saveData() {
@@ -2291,7 +2305,7 @@
 				return listOfStrokesList[index];
 			},
 			makeToast(variant = null) {				
-								
+				
 				if (this.displayToast === false) {
 					return;
 				}
