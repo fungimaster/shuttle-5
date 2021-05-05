@@ -511,7 +511,7 @@ export default {
       tabIndex: 0,
       price1: globalState.price1,
       price2: globalState.price2,
-      active_round: "test",     
+      active_round: "Omgång 1",     
       //PENDING GAMES
       loadinggames2: false,
       updating2: false,

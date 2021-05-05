@@ -1255,7 +1255,7 @@
                                             </b-popover>
                                          </b-col>
                                          <b-col class="col-12 mt-3">
-                                             <p class="small">Hcp för spelarna hämtas in när matchen lottades, vissa avvikelser kan ske men läses in på nytt när matchen startar för aktuell hcp.</p>
+                                             <p class="small">Hcp för spelarna hämtades in när matchen lottades, vissa avvikelser kan ske men läses in på nytt när matchen startar för aktuell hcp.</p>
                                          </b-col>
 
                                      </b-row>
