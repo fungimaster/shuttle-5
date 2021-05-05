@@ -55,7 +55,7 @@
                          <b-row hidden class="mt-2 mb-4">
                            <b-col>
                               <form v-on:submit.prevent="search">
-                                <input type="text" id="searchfield" class="form-control filterfield" placeholder="Sök på spelarnamn eller klubb">
+                                <input type="text" id="searchfield" class="form-control filterfield" placeholder="Efternamn/klubb">
                                 <b-button @click="gamesarray='games',search()" variant="success" class="mt-1 ml-2 btn-sm">Sök</b-button>
                                 <b-button @click="gamesarray='games',cancelsearch()" variant="danger" class="mt-1 btn-sm">Rensa</b-button>
                               </form>
@@ -152,6 +152,16 @@
                           </b-col>
                         </b-row>
 
+                        <b-row v-if="gamescount2 > 0 && !loadinggames2" class="mt-2 mb-4">
+                           <b-col>
+                              <form v-on:submit.prevent="search">
+                                <input type="text" id="searchfield2" class="form-control filterfield" placeholder="Efternamn/klubb">
+                                <b-button @click="gamesarray='games2',search()" variant="success" class="mt-1 ml-2 btn-sm">Sök</b-button>
+                                <b-button @click="gamesarray='games2',cancelsearch()" variant="danger" class="mt-1 btn-sm">Rensa</b-button>
+                              </form>
+                           </b-col>
+                         </b-row>
+
                          <b-row v-if="gamescount2 > 0" class="mt-3">
                           <b-col v-for="(game,idx2) in games2" :key="idx2" xs="12" sm="12" class="pt-3 pb-3 pl-md-2 pr-md-2 game mb-3" :class="idx1 % 2 === 0 ? 'whitebg' : 'whitebg'">                            
                              <b-row>
@@ -244,9 +254,9 @@
                         </b-row>
 
                          <b-row class="mt-2 mb-4">
-                           <b-col>
+                           <b-col class="col-12">
                               <form v-on:submit.prevent="search">
-                                <input type="text" id="searchfield3" class="form-control filterfield" placeholder="Sök på spelarnamn eller klubb">
+                                <input type="text" id="searchfield3" class="form-control filterfield" placeholder="Efternamn/klubb">
                                 <b-button @click="gamesarray='games3',search()" variant="success" class="mt-1 ml-2 btn-sm">Sök</b-button>
                                 <b-button @click="gamesarray='games3',cancelsearch()" variant="danger" class="mt-1 btn-sm">Rensa</b-button>
                               </form>
@@ -501,7 +511,7 @@ export default {
       tabIndex: 0,
       price1: globalState.price1,
       price2: globalState.price2,
-      active_round: "Omgång 1",     
+      active_round: "test",     
       //PENDING GAMES
       loadinggames2: false,
       updating2: false,
@@ -626,7 +636,7 @@ export default {
 
      if (this.gamesarray==='games3')
        searchfield = 'searchfield3';
-     
+
     let searchvalue = document.getElementById(searchfield).value.toLowerCase();
      this[this.gamesarray] = this[this.gamesarray+'Org'].filter(function(game) {
        //console.log(searchvalue,game.hometeamname.includes(searchvalue.toLowerCase()))

@@ -467,11 +467,12 @@
 				
 			</div>
 
-				<b-row v-if="!viewedInModal" class="pt-3" align-v="center" align-h="center">
+				<b-row class="pt-3" align-v="center" align-h="center">
 					<!-- HOME TEAM -->
 					<b-col class="col-4 scoreTeam text-left pl-2 pr-0" :class="[{ scoreTeam1: leader && !tie }, {scoreTeamDormy: setDormyClass(dormy2)},  {scoreTeamModal: viewedInModal}]">
 						<span
-							style="float:left;"							
+							style="float:left;"
+							v-bind:class="{'text-black': viewedInModal || !authorized}"						
 						>{{ players.length !== 0 ? getInitials(players[0].name): ''}} & {{players.length !== 0 ? getInitials(players[1].name) : ''}}</span>
 						<i v-if="!tie && winnerDeclared && leader" class="material-icons pb-1 pl-1">emoji_events</i>
 						<span v-if="!tie && !winnerDeclared" class="dormy">{{dormy2}}</span>
@@ -482,8 +483,8 @@
 						class="col-4 text-center score pl-0 pr-0"
 						:class="{ leaderRight: leader && !tie, leaderLeft: !leader && !tie, tie: tie, winnerdeclared: winnerDeclared}"
 					>
-						<span v-if="tie" id="tie">A/S</span>
-						<span v-if="!leader && !tie && !winnerDeclared">{{ matchScore * -1 }}UP</span>
+						<span v-if="tie" id="tie" v-bind:class="{'text-black': viewedInModal || !authorized}">A/S</span>
+						<span v-if="!leader && !tie && !winnerDeclared" v-bind:class="{'text-black': viewedInModal || !authorized}">{{ matchScore * -1 }}UP</span>
 						<!-- away leads -->
 						<span
 							v-if="!leader && winnerDeclared && holesLeft !== 0"
@@ -506,6 +507,7 @@
 					<b-col class="col-4 scoreTeam text-right pr-2 pl-0" :class="[{ scoreTeam2: !leader && !tie }, {scoreTeamDormy: setDormyClass(dormy1)}, {scoreTeamModal: viewedInModal}]">
 						<i v-if="!tie && winnerDeclared && !leader" class="material-icons pb-1 pr-1">emoji_events</i>
 						<span
+						v-bind:class="{'text-black': viewedInModal || !authorized}"
 							:style="(dormy1 === '') || (setTieBreak === true) ? 'float:right' : 'float:left'"
 						>{{players.length !== 0 ? getInitials(players[2].name) : ''}} & {{players.length !== 0 ? getInitials(players[3].name) : ''}}</span>
 						<span style="clear:right;" v-if="!tie && !winnerDeclared" class="dormy">{{dormy1}}</span>
@@ -535,7 +537,7 @@
 				<!--  TABELL CLUBNAME AND LOOP (EGEN TABELL FÖR ATT KUNNA SÄTTA TEXT-OVERFLOW: ELLIPSIS--> 											
 				<table class="tableClubAndLoop mt-3">					
 					<tr>							
-						<td colspan="2" class="tableClubAndLoopTd pt-1" v-bind:class="{'text-black': viewedInModal}">{{ clubname }}: {{ loop }}</td>
+						<td colspan="2" class="tableClubAndLoopTd pt-1" v-bind:class="{'text-black': viewedInModal || !authorized}">{{ clubname }}: {{ loop }}</td>
 					</tr>
 				</table>
 
@@ -1916,17 +1918,18 @@
 			async getGameData() {
 
 				let userinfo = localStorage.getItem("userinfo");
-				
+				let temp_user_id = '';
 				//if no userid in request getgamedata removes some of data in its response
 				if (userinfo) {
-            	userinfo = JSON.parse(userinfo)
-				}		
+					userinfo = JSON.parse(userinfo);
+					temp_user_id = userinfo._id;
+				} 				
 
 				const url = globalState.admin_url + "getGameData";
 				const gameID = {
 					id: this.gameID,
 					freeplay: this.freeplay,
-					userid: userinfo._id
+					userid: temp_user_id
 				};
 
 				try {
@@ -2367,7 +2370,7 @@
 }
 
 .text-black {
-	color:#000;
+	color:#000 !important;
 }
 
 .topimage {

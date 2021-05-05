@@ -1,23 +1,24 @@
 <template>
   <div>
     <vue-headful :title="doctitle" />
-    <b-container class="mt-5">
-        <b-row v-if="!loadingclubs">
+    <b-container class="mt-5"    
+    >
+        <b-row v-if="!loadingclubs && !maxsize">
             <b-col class="col-12">
-                <h1>Golfklubbar 2021</h1>
-                <h5 class="mt-4">Följande 
+                <h1 v-if="!maxsize">Golfklubbar 2021</h1>
+                <h5 v-if="!maxsize" class="mt-4">Följande 
                     <span v-if="loadingclubs">
                         <b-spinner type="grow" small class="ml-0 pl-0 mr-1 mb-1"></b-spinner>                        
                         </span>
                         <span v-else>
                             <strong>{{clubno}}</strong>
                         </span> 
-                         golfklubbar finns <strong>HITTILLS</strong> representerade med deltagande lag i årets tävling</h5>
+                         golfklubbar finns <strong v-if="!closed">HITTILLS</strong> representerade med deltagande lag i årets tävling</h5>
                    
              </b-col>              
                     </b-row>
                     
-                    <b-row v-if="clubno>111">
+                    <b-row v-if="clubno>111 && !maxsize">
                       <b-col>
                         <hr />
                       </b-col>
@@ -29,12 +30,12 @@
                     </b-row>
 
                    
-                      <b-row v-if="!loadingclubs && latestTeam">
+                      <b-row v-if="!loadingclubs && latestTeam && !maxsize">
                           <b-col>
                             <hr class="mt-2" />
                           </b-col>
                       </b-row>                     
-                        <b-row v-if="!loadingclubs && latestTeam && !closed" class="align-items-center h-100">
+                        <b-row v-if="!loadingclubs && latestTeam && !closed && !maxsize" class="align-items-center h-100">
                             <b-col class="col-3 col-md-2 mx-auto text-center pl-0 pr-0">                              
                                   <b-img class="" :src="getClubImage2(latestTeamLogo)"></b-img> 
                             </b-col>
@@ -42,7 +43,7 @@
                                 {{latestTeam}}
                              </b-col>
                         </b-row>
-                         <b-row v-if="!loadingclubs && latestTeam && !closed">
+                         <b-row v-if="!loadingclubs && latestTeam && !closed && !maxsize">
                           <b-col>
                             <hr />
                           </b-col>
@@ -51,7 +52,7 @@
 
                   
 
-                  <b-row>
+                  <b-row v-if="!maxsize">
             <b-col class="col-12 mt-1">
               <b-form
                 @submit.stop.prevent
@@ -83,9 +84,12 @@
         </b-row>
        <b-row id="clubs" v-if="!loadingclubs" align-h="center" class="justify-content-center align-self-center mt-4">
                 <b-col v-for="(club,idx) in clubs" :key="idx"
-                    class="club col-4 col-md-3 pl-0 pr-0 align-self-center text-center"
+                    class="club col-4 pl-0 pr-0 align-self-center text-center"
+                    :class="[!maxsize ? 'col-md-3' : 'col-md-1']"
                 >
-               <b-img :id="'tooltip-course-' + idx" v-if="club.logourl" class="p-3 p-md-5" :src="getClubImage(club.logourl)"></b-img>               
+               <b-img :id="'tooltip-course-' + idx" v-if="club.logourl" class="p-3"
+               :class="[!maxsize ? 'p-md-5' : 'p-md-1']"
+                :src="getClubImage(club.logourl)"></b-img>               
                 <b-tooltip :target="'tooltip-course-' + idx" triggers="hover" placement="top">
                                             {{club.club}} - {{club.count}} lag
                                         </b-tooltip>
@@ -125,7 +129,8 @@ moment.updateLocale("sv", {
   export default {
     name: 'Klubbar',
     data () {
-      return { 
+      return {
+        maxsize: false,
         closed: globalState.closed,
         doctitle: 'Klubbar med deltagande lag',
         search: '',
