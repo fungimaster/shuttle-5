@@ -12,7 +12,7 @@
           <b-img
             v-for="(thumb, thumbIndex) in columnOne"
             :key=" thumbIndex"
-            class="pointer flex-shrink-1 pt-1 pb-1"
+            class="double-tap-no-zoom pointer flex-shrink-1 pt-1 pb-1"
             fluid
             @click="index = thumbIndex"
             :src="addToUrl(thumb.url, 'w_400,q_auto')"
@@ -23,7 +23,7 @@
           <b-img
             v-for="(thumb, thumbIndex) in columnTwo"
             :key="thumbIndex"
-            class="pointer flex-shrink-1 pt-1 pb-1"
+            class="double-tap-no-zoom pointer flex-shrink-1 pt-1 pb-1"
             fluid
             @click="index = thumbIndex + oneFourth"
             :src="addToUrl(thumb.url, 'w_300,q_auto')"
@@ -45,7 +45,7 @@
           <b-img
             v-for="(thumb, thumbIndex) in columnThree"
             :key="thumbIndex"
-            class="pointer flex-shrink-1 pt-1 pb-1"
+            class="double-tap-no-zoom pointer flex-shrink-1 pt-1 pb-1"
             fluid
             @click="index = thumbIndex + oneFourth*2"
             :src="addToUrl(thumb.url, 'w_300,q_auto')"
@@ -55,7 +55,7 @@
           <b-img
             v-for="(thumb, thumbIndex) in columnFour"
             :key="thumbIndex"
-            class="pointer flex-shrink-1 pt-1 pb-1"
+            class="double-tap-no-zoom pointer flex-shrink-1 pt-1 pb-1"
             fluid
             @click="index = thumbIndex + oneFourth*3"
             :src="addToUrl(thumb.url, 'w_300,q_auto')"
@@ -135,6 +135,9 @@ export default {
 </script> 
 
 <style scoped>
+.double-tap-no-zoom{
+		touch-action: manipulation;
+	}
 .bg-images {
   background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1500,q_auto,e_colorize:70,co_rgb:000000/v1608122032/matchplay/MPI-1825.jpg);
   background-repeat: no-repeat;
