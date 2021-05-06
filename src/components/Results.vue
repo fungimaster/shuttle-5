@@ -470,7 +470,7 @@ export default {
   }   
 
     this.getGamesInprogress('initial');
-
+    this.getGamesFinished();
     this.getGolfclubsLogoUrl()
     
   },

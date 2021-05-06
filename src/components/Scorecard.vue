@@ -188,6 +188,7 @@
 						<div v-if="activeHole===1" class="sponsor mb-3 text-center">
 							<b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,h_40,q_auto,e_colorize:100,co_rgb:ffffff/v1614942462/matchplay/sponsors/easygreen.png"></b-img>
 						</div>
+
 						<div
 							class="team1ScoreCard pt-2 pb-2"
 							:class="[
@@ -335,17 +336,27 @@
 						<!-- NÄSTA HÅL & ÖVERSIKT BUTTONS -->
 
 						<b-row class="mt-4">
-							<b-col class="col-6">
+							<b-col v-if="uploading" class="col-12 mb-3">
+								<b-progress height="1rem" variant="secondary" striped animated>           
+									<b-progress-bar :value="progress">
+									</b-progress-bar>
+								</b-progress> 
+							</b-col>
+							<b-col class="col-5">
 								<b-button
 									class="btn-md pl-3 pr-3 bottombuttons"
 									:class="{bottombuttonsModal: viewedInModal}"
 									variant="primary"
 									@click="overview = !overview, overviewButtonClicked = true, saveData(), sendInProgress()"
 								>
-									<span class="material-icons" v-if="!viewedInModal">reorder</span> Översikt
+									<span hidden class="material-icons" v-if="!viewedInModal">reorder</span>Översikt
 								</b-button>
 							</b-col>
-							<b-col class="col-6 text-right">
+							<b-col class="col-2 text-center p-0 m-0">
+								<input v-if="authorized" type="file" id="file" ref="file" class="inputfile" v-on:change="handleFileUpload()"/>
+						 		<label v-if="authorized" for="file"><span class="btn btn-primary"><span style="font-size:1.5em;" class="material-icons mr-0">add_a_photo</span></span></label>
+							</b-col>
+							<b-col class="col-5 text-right">
 								<b-button
 									v-if="activeHole < 18"
 									id="nextHole"
@@ -354,7 +365,7 @@
 									variant="primary"
 									@click="currentStrokes(activeHole),activeHole++, saveData(), sendInProgress(), makeToast('danger')"
 								>
-									Nästa hål
+									Hål {{activeHole + 1}}
 									<span class="material-icons" v-if="!viewedInModal">arrow_forward_ios</span>
 								</b-button>	
 																								
@@ -771,7 +782,7 @@
 							<span style="font-size:2em;" class="material-icons mr-0">add_a_photo</span>
 						</button>					
 						 <input v-if="authorized" type="file" id="file" ref="file" class="inputfile" v-on:change="handleFileUpload()"/>
-						 <label v-if="authorized" for="file"><span class="btn btn-primary"><span style="font-size:2em;" class="material-icons mr-0">add_a_photo</span></span></label>
+						 <label v-if="authorized" for="file"><span class="btn btn-primary"><span style="font-size:1.5em;" class="material-icons mr-0">add_a_photo</span></span></label>
 					</b-col>
 					<b-col class="col-5 text-right ml-0 pl-0">
 						<button v-if="authorized && (status !== 'Finished')" class="btn btn-primary btn-small btn-md" @click="resetGame">
@@ -2393,6 +2404,7 @@
 
 >>> .modal-body {
 	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
 }
 
 .text-black {
