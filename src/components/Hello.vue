@@ -380,6 +380,10 @@
       </b-container>
     </b-jumbotron>
 
+    <app-image-collage v-if="allGameImages.length" :numberOfImages="30" :images="allGameImages"></app-image-collage>               
+
+      
+
     <b-jumbotron container-fluid class="gradient mb-3">
       <b-container class="mb-4 mt-4">      
         <b-row align-h="center">
@@ -519,6 +523,7 @@ import AppRoundsGrafic from "./RoundsGrafic";
 import Testimonials from "./Testimonials";
 import Howitworks from "./Howitworks";
 import ScorecardExplainer from "./ScorecardExplainer";
+import AppImageCollage from "./ImageCollage";
 import Podium from "./Podium";
 import { globalState } from "../main.js";
 
@@ -552,7 +557,7 @@ export default {
   this.countdown();
   },
   created() {
-
+    this.getAllGameImages()
     if (this.$route.query.sponsor === 'gm') {
       localStorage.setItem('sponsor','gm');     
     }
@@ -657,7 +662,12 @@ export default {
   components: {
     //'phone':VuePhoneNumberInput,
     // 'phone':VueTelInput,    ,
-    AppRoundsGrafic, Testimonials, Podium, Howitworks, ScorecardExplainer
+    AppRoundsGrafic, 
+    Testimonials, 
+    Podium, 
+    Howitworks, 
+    ScorecardExplainer,
+    AppImageCollage
   },
   data() {
     return {
@@ -683,7 +693,8 @@ export default {
       showhelper: false,  
       doctitle: this.$store.state.conferencename,
       price1: globalState.price1,
-      price2: globalState.price2
+      price2: globalState.price2,
+      allGameImages:[]
     };
   },
 
@@ -696,9 +707,71 @@ export default {
   mixins: [tagsMixin],
   
   methods: {
+    getAllGameImages() {
+      this.axios
+        .post(globalState.admin_url + "allGameImages")
+        .then((response) => {
+          this.allGameImages =[
+    {
+        "title": "Barsebäck Golf & Country Club",
+        "url": "https://res.cloudinary.com/padel-crew/image/upload/v1611066894/gallery/p7okxwpirlqlf4ux6mzs.jpg"
+    },
+    {
+        "title": "Allerum Golfklubb",
+        "url": "https://res.cloudinary.com/dn3hzwewp/image/upload/v1619514376/matchplay/scorecard/fyqny15sbfexpmammf9x.jpg"
+    },
+    {
+        "title": "Allerum Golfklubb",
+        "url": "https://res.cloudinary.com/dn3hzwewp/image/upload/v1619514376/matchplay/scorecard/fyqny15sbfexpmammf9x.jpg"
+    },
+    {
+        "title": "Allerum Golfklubb",
+        "url": "https://res.cloudinary.com/dn3hzwewp/image/upload/v1619973271/matchplay/scorecard/a5ilqzbojyxmzivvnhbt.jpg"
+    },
+    {
+        "title": "Allerum Golfklubb",
+        "url": "https://res.cloudinary.com/dn3hzwewp/image/upload/v1619973271/matchplay/scorecard/a5ilqzbojyxmzivvnhbt.jpg"
+    },
+    {
+        "title": "Halmstad Golfklubb",
+        "url": "https://res.cloudinary.com/dn3hzwewp/image/upload/v1620137968/matchplay/scorecard/gqbkuzxhxl8iy3oac1w2.jpg"
+    },
+    {
+        "title": "Woodlands Golf & Country Club",
+        "url": "https://res.cloudinary.com/dn3hzwewp/image/upload/v1620282528/matchplay/scorecard/smzl7ewvrqm6sgfdebtf.png"
+    },
+    {
+        "title": "Woodlands Golf & Country Club",
+        "url": "https://res.cloudinary.com/dn3hzwewp/image/upload/v1620282528/matchplay/scorecard/smzl7ewvrqm6sgfdebtf.png"
+    },
+    {
+        "title": "Woodlands Golf & Country Club",
+        "url": "https://res.cloudinary.com/dn3hzwewp/image/upload/v1620282528/matchplay/scorecard/smzl7ewvrqm6sgfdebtf.png"
+    },
+    {
+        "title": "Woodlands Golf & Country Club",
+        "url": "https://res.cloudinary.com/dn3hzwewp/image/upload/v1620282528/matchplay/scorecard/smzl7ewvrqm6sgfdebtf.png"
+    },
+    {
+        "title": "Albatross Golfklubb",
+        "url": "https://res.cloudinary.com/dn3hzwewp/image/upload/v1620289396/matchplay/scorecard/buymk1lfeyjjahgdcfem.jpg"
+    },
+    {
+        "title": "Albatross Golfklubb",
+        "url": "https://res.cloudinary.com/dn3hzwewp/image/upload/v1620289396/matchplay/scorecard/buymk1lfeyjjahgdcfem.jpg"
+    },
+    {
+        "title": "Albatross Golfklubb",
+        "url": "https://res.cloudinary.com/dn3hzwewp/image/upload/v1620289396/matchplay/scorecard/buymk1lfeyjjahgdcfem.jpg"
+    }
+]
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
     getlatestteam() {
-
- this.axios
+     this.axios
       .post(globalState.admin_url + "getLatestPaidTeam")
       .then((response) => {
           
