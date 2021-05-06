@@ -8,31 +8,18 @@
     />
     <div class="bg-images p-4">
       <b-row class="m-0">
-        <b-col md="3" xs="12" class="d-flex flex-column p-1">
+        <b-col md="3" sm="6" xs="12" class="d-flex flex-column p-1">
           <b-img
             v-for="(thumb, thumbIndex) in columnOne"
-            :key="thumbIndex"
+            :key=" thumbIndex"
             class="pointer flex-shrink-1 pt-1 pb-1"
             fluid
             @click="index = thumbIndex"
-            :src="addToUrl(thumb.url, 'w_300,q_auto')"
+            :src="addToUrl(thumb.url, 'w_400,q_auto')"
           >
           </b-img>
-          <span
-            v-for="(thumb, thumbIndex) in columnOne"
-            :key="thumbIndex"
-            class="overlay"
-          >
-            {{ thumb.clubname }}
-          </span>
         </b-col>
-
-        <b-col md="3" xs="12" class="d-block d-sm-flex d-md-none p-1">
-          <h6 class="text-center text-light">
-            Klicka och bläddra i bildspelet för att se alla bilder...
-          </h6>
-        </b-col>
-        <b-col md="3" class="d-none d-sm-flex flex-column p-1">
+        <b-col md="3" sm="6" class="d-none d-sm-flex flex-column p-1">
           <b-img
             v-for="(thumb, thumbIndex) in columnTwo"
             :key="thumbIndex"
@@ -42,7 +29,12 @@
             :src="addToUrl(thumb.url, 'w_300,q_auto')"
           ></b-img>
         </b-col>
-        <b-col md="3" class="d-none d-sm-flex flex-column p-1 d-none">
+        <b-col md="3" sm="12" xs="12" class="d-block d-sm-flex d-md-none p-1 pt-4 justify-content-center">
+          <h6 class="text-center text-light">
+            Klicka och bläddra i bildspelet för att se alla bilder...
+          </h6>
+        </b-col>
+        <b-col md="3" class="d-none d-md-flex flex-column p-1">
           <b-img
             v-for="(thumb, thumbIndex) in columnThree"
             :key="thumbIndex"
@@ -52,7 +44,7 @@
             :src="addToUrl(thumb.url, 'w_300,q_auto')"
           ></b-img>
         </b-col>
-        <b-col md="3" class="d-none d-sm-flex flex-column p-1">
+        <b-col md="3" class="d-none d-md-flex flex-column p-1">
           <b-img
             v-for="(thumb, thumbIndex) in columnFour"
             :key="thumbIndex"
@@ -106,7 +98,6 @@ export default {
       if (!this.lastXImages) {
         return;
       }
-
       return this.lastXImages.slice(this.oneFourth, this.oneFourth * 2);
     },
     columnThree() {

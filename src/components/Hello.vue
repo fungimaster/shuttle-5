@@ -380,7 +380,7 @@
       </b-container>
     </b-jumbotron>
 
-    <app-image-collage v-if="allGameImages.length" :numberOfImages="30" :images="allGameImages"></app-image-collage>               
+    <app-image-collage v-if="allGameImages.length" :numberOfImages="20" :images="allGameImages"></app-image-collage>               
 
       
 
@@ -557,7 +557,7 @@ export default {
   this.countdown();
   },
   created() {
-    this.getAllGameImages()
+    this.gameImages()
     if (this.$route.query.sponsor === 'gm') {
       localStorage.setItem('sponsor','gm');     
     }
@@ -702,69 +702,25 @@ export default {
         ...mapGetters([
       "user",
       "isAuthenticated",
+      "getAllImages"
     ]) 
   },
   mixins: [tagsMixin],
   
   methods: {
-    getAllGameImages() {
+    gameImages() {
+      if (this.getAllImages) {
+        console.log("hej");
+        this.allGameImages = this.getAllImages
+        return
+      }
+
       this.axios
-        .post(globalState.admin_url + "allGameImages")
+        .post(globalState.admin_url + "allGameImages", {competition: 'r3HP8Kw62z2qfZhkr'})
         .then((response) => {
-          this.allGameImages =[
-    {
-        "title": "Barsebäck Golf & Country Club",
-        "url": "https://res.cloudinary.com/padel-crew/image/upload/v1611066894/gallery/p7okxwpirlqlf4ux6mzs.jpg"
-    },
-    {
-        "title": "Allerum Golfklubb",
-        "url": "https://res.cloudinary.com/dn3hzwewp/image/upload/v1619514376/matchplay/scorecard/fyqny15sbfexpmammf9x.jpg"
-    },
-    {
-        "title": "Allerum Golfklubb",
-        "url": "https://res.cloudinary.com/dn3hzwewp/image/upload/v1619514376/matchplay/scorecard/fyqny15sbfexpmammf9x.jpg"
-    },
-    {
-        "title": "Allerum Golfklubb",
-        "url": "https://res.cloudinary.com/dn3hzwewp/image/upload/v1619973271/matchplay/scorecard/a5ilqzbojyxmzivvnhbt.jpg"
-    },
-    {
-        "title": "Allerum Golfklubb",
-        "url": "https://res.cloudinary.com/dn3hzwewp/image/upload/v1619973271/matchplay/scorecard/a5ilqzbojyxmzivvnhbt.jpg"
-    },
-    {
-        "title": "Halmstad Golfklubb",
-        "url": "https://res.cloudinary.com/dn3hzwewp/image/upload/v1620137968/matchplay/scorecard/gqbkuzxhxl8iy3oac1w2.jpg"
-    },
-    {
-        "title": "Woodlands Golf & Country Club",
-        "url": "https://res.cloudinary.com/dn3hzwewp/image/upload/v1620282528/matchplay/scorecard/smzl7ewvrqm6sgfdebtf.png"
-    },
-    {
-        "title": "Woodlands Golf & Country Club",
-        "url": "https://res.cloudinary.com/dn3hzwewp/image/upload/v1620282528/matchplay/scorecard/smzl7ewvrqm6sgfdebtf.png"
-    },
-    {
-        "title": "Woodlands Golf & Country Club",
-        "url": "https://res.cloudinary.com/dn3hzwewp/image/upload/v1620282528/matchplay/scorecard/smzl7ewvrqm6sgfdebtf.png"
-    },
-    {
-        "title": "Woodlands Golf & Country Club",
-        "url": "https://res.cloudinary.com/dn3hzwewp/image/upload/v1620282528/matchplay/scorecard/smzl7ewvrqm6sgfdebtf.png"
-    },
-    {
-        "title": "Albatross Golfklubb",
-        "url": "https://res.cloudinary.com/dn3hzwewp/image/upload/v1620289396/matchplay/scorecard/buymk1lfeyjjahgdcfem.jpg"
-    },
-    {
-        "title": "Albatross Golfklubb",
-        "url": "https://res.cloudinary.com/dn3hzwewp/image/upload/v1620289396/matchplay/scorecard/buymk1lfeyjjahgdcfem.jpg"
-    },
-    {
-        "title": "Albatross Golfklubb",
-        "url": "https://res.cloudinary.com/dn3hzwewp/image/upload/v1620289396/matchplay/scorecard/buymk1lfeyjjahgdcfem.jpg"
-    }
-]
+          this.$store.dispatch('setAllImages', [...response.data, ...response.data, ...response.data.reverse()])
+          console.log("OBS FEJK DATA I ALL IMAGES");
+          this.allGameImages = [...response.data, ...response.data, ...response.data.reverse()]
         })
         .catch((error) => {
           console.log(error);
