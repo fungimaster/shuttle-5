@@ -185,9 +185,25 @@
 						<!-- SÄRSPEL SLUT -->
 
 						<!-- TEAM 1 CONTAINER -->
-						<div v-if="activeHole===1" class="sponsor mb-3 text-center">
-							<b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,h_40,q_auto,e_colorize:100,co_rgb:ffffff/v1614942462/matchplay/sponsors/easygreen.png"></b-img>
+						<div v-if="activeHole===1" class="sponsor mb-3 text-center">							
+							<b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,h_40,q_auto,e_colorize:100,co_rgb:ffffff/v1620295332/matchplay/logos/cellsolar.png"></b-img>
 						</div>
+
+						<div v-if="activeHole===3" class="sponsor mb-3 text-center">							
+							<b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,h_40,q_auto,e_colorize:100,co_rgb:ffffff/v1612367112/matchplay/logos/Logo_Colburn.png"></b-img>
+						</div>
+
+						<div v-if="activeHole===5" class="sponsor mb-3 text-center">
+							<b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,h_40,q_auto,e_colorize:100,co_rgb:ffffff/v1620295831/matchplay/logos/506_bild-0.png"></b-img>
+						</div>
+						
+						<div v-if="activeHole===7" class="sponsor mb-3 text-center">
+							<b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,h_40,q_auto/v1614084963/matchplay/logos/prosak.png"></b-img>
+						</div>
+
+						<div v-if="activeHole===9" class="sponsor mb-3 text-center">
+							<b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,h_40,q_auto,e_colorize:100,co_rgb:ffffff/v1620295945/matchplay/logos/spc_moyl9g.png"></b-img>
+						</div>						
 
 						<div
 							class="team1ScoreCard pt-2 pb-2"
@@ -2447,6 +2463,9 @@
 	background:white;
 }
 
+.sponsor {
+	margin-top:-15px;
+}
 
 .sponsor img {
 	max-width:90%;	
