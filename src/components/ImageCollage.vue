@@ -135,9 +135,7 @@ export default {
 </script> 
 
 <style scoped>
-.double-tap-no-zoom{
-		touch-action: manipulation;
-	}
+
 .bg-images {
   background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1500,q_auto,e_colorize:70,co_rgb:000000/v1608122032/matchplay/MPI-1825.jpg);
   background-repeat: no-repeat;
