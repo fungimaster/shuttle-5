@@ -276,7 +276,7 @@
 		border-radius: 0;
 	}
 
-	>>> .modal-dialog {
+	/* >>> .modal-dialog {
     max-width: 100%;
     margin: 0;
     top: 0;
@@ -292,7 +292,7 @@
 >>> .modal-body {
 	overflow-y: scroll;
 	-webkit-overflow-scrolling: touch;
-}
+} */
 
 	.container {
 		font-size: 11px;
