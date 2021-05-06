@@ -25,13 +25,20 @@
             :key="thumbIndex"
             class="pointer flex-shrink-1 pt-1 pb-1"
             fluid
-            @click="index = thumbIndex"
+            @click="index = thumbIndex + oneFourth"
             :src="addToUrl(thumb.url, 'w_300,q_auto')"
           ></b-img>
         </b-col>
-        <b-col md="3" sm="12" xs="12" class="d-block d-sm-flex d-md-none p-1 pt-4 justify-content-center">
-          <h6 class="text-center text-light">
-            Klicka och bläddra i bildspelet för att se alla bilder...
+        <b-col md="3" sm="12" xs="12" class="d-block d-xs-block d-sm-none p-1 pt-4 justify-content-center">
+           <!-- ONE COLUMNS -->
+          <h6 class="text-center text-light" @click="index = oneFourth ">
+            <span class="material-icons"> touch_app </span> Klicka för att bläddra i bildspelet och se alla bilder...
+          </h6>
+        </b-col>
+        <b-col md="3" sm="12" xs="12" class="d-none d-sm-block d-md-none p-1 pt-4 justify-content-center">
+           <!-- TWO COLUMNS -> Different next image -->
+          <h6 class="text-center text-light" @click="index = oneFourth * 2">
+            <span class="material-icons"> touch_app </span> Klicka för att bläddra i bildspelet och se alla bilder...
           </h6>
         </b-col>
         <b-col md="3" class="d-none d-md-flex flex-column p-1">
@@ -40,7 +47,7 @@
             :key="thumbIndex"
             class="pointer flex-shrink-1 pt-1 pb-1"
             fluid
-            @click="index = thumbIndex"
+            @click="index = thumbIndex + oneFourth*2"
             :src="addToUrl(thumb.url, 'w_300,q_auto')"
           ></b-img>
         </b-col>
@@ -50,7 +57,7 @@
             :key="thumbIndex"
             class="pointer flex-shrink-1 pt-1 pb-1"
             fluid
-            @click="index = thumbIndex"
+            @click="index = thumbIndex + oneFourth*3"
             :src="addToUrl(thumb.url, 'w_300,q_auto')"
           ></b-img>
         </b-col>
