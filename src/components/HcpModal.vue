@@ -289,6 +289,10 @@
     z-index: 100000;
 }
 
+>>> .modal-body {
+	overflow-y: scroll;
+}
+
 	.container {
 		font-size: 11px;
 	}

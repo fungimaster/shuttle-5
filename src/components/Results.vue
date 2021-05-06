@@ -37,8 +37,11 @@
                           <b-col class="col-12 mt-3">
                             
                             <p v-if="hasnextgame && gamescount === 0">
-                              <strong>Nästa match:</strong> {{lastname(nextgame.hometeamleadername)}} & {{lastname(nextgame.hometeammembername)}} vs {{lastname(nextgame.awayteamleadername)}} & {{lastname(nextgame.awayteammembername)}}
+                               <span class="d-block"><strong>Nästa match:</strong> </span>
+                                <img v-if="getClubLogo(nextgame.club)" class="float-right ml-3" :src="getClubLogo(nextgame.club)">     
+                             {{lastname(nextgame.hometeamleadername)}} & {{lastname(nextgame.hometeammembername)}} vs {{lastname(nextgame.awayteamleadername)}} & {{lastname(nextgame.awayteammembername)}}
                                {{getgamedate2(nextgame.gamedate,nextgame.gametime)}} på <span v-if="nextgame.clubname">{{nextgame.clubname}}</span><span v-if="!nextgame.clubname">Golfklubb saknas</span>.
+                             
                              </p>
                             <p v-if="!nextgame">Just nu pågår inga matcher... men när matcher spelas kan dom följas live här!</p>                             
                             <p hidden>OBS! Sidan laddas om automatiskt när en match startar.</p>
@@ -636,13 +639,17 @@ export default {
 
      if (this.gamesarray==='games3')
        searchfield = 'searchfield3';
+     
 
     let searchvalue = document.getElementById(searchfield).value.toLowerCase();
-     this[this.gamesarray] = this[this.gamesarray+'Org'].filter(function(game) {
+    
+     this[this.gamesarray] = this[this.gamesarray+'Org'].filter(function(game) {     
        //console.log(searchvalue,game.hometeamname.includes(searchvalue.toLowerCase()))
 	    return game.hometeamleadername.toLowerCase().includes(searchvalue.toLowerCase()) || game.hometeammembername.toLowerCase().includes(searchvalue.toLowerCase()) || game.awayteamleadername.toLowerCase().includes(searchvalue.toLowerCase()) || game.awayteammembername.toLowerCase().includes(searchvalue.toLowerCase()) || game.clubname.toLowerCase().includes(searchvalue.toLowerCase())
      });
-     this[this.gamesarray+'count'] = this[this.gamesarray].length
+     
+     this[this.gamesarray+'count'] = this[this.gamesarray].length;
+     
   },
   cancelsearch: function() {
     let searchfield;

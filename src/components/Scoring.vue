@@ -414,6 +414,10 @@
     z-index: 100000;
 }
 
+>>> .modal-body {
+	overflow-y: scroll;
+}
+
 
 	h2 {
 		font-weight: bold;

@@ -1331,7 +1331,7 @@
                                Spela coronasäkert: Håll avstånd - inga handslag - låt flaggan stå - följ klubbarnas regler kring avstånd/maxantal etc.
                            </li>
                            <li>
-                               Hemmalaget för en match är alltid ansvariga för att kontakta sina motståndare och bestämma bana och tid för spel. Kontaktuppgifter finns under resp. matchsida.
+                               Båda lagen är ansvariga för att kontakta sina motståndare för att komma överens om datum för spel. Kontaktuppgifter finns under resp. matchsida. Hemmalaget har fördel av att välja golfbana för spelet.
                            </li>
                            <li>
                                Boka först tid via tex. Min Golf bokning och skriv sedan in datum, tid och plats för matchen på matchsidan. Viktigt för våra resultatsidor!

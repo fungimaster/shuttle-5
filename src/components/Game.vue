@@ -137,7 +137,7 @@
                         class="mt-3 mb-0 small"
                         variant="info"
                       >
-                        Hemmalaget bokar bana och speltid i samråd med er. Se
+                        Båda lagen är ansvariga för att kontakta sina motståndare för att komma överens om datum för spel. Se
                         kontaktuppgifter under kontaktfliken.
                       </b-alert>
                     </div>
@@ -322,9 +322,8 @@
                       variant="info"
                     >
                       Hemmalaget (ni) bokar bana och speltid i samråd med
-                      bortalaget. Se kontaktuppgifter under kontaktfliken. Boka
-                      först tid på banan och välj sedan bana, datum och
-                      tid för matchen och meddela era motståndare!
+                      bortalaget. Se kontaktuppgifter under kontaktfliken. Kom först överens om tid för spel och boka
+                      sen tid på banan med tex Min Golf Bokning. Skriv därefter in datum, tid och bana för matchen här ovan!
                     </b-alert>
                         </b-col>
                       </b-row>

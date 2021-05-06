@@ -1,6 +1,7 @@
 <template>
 
 	<div ref="scorecardTest" v-bind:class="{bg: authorized,bg2:!authorized, extraheight: (winnerSent && !gameClosed) || setTieBreak || gameClosed,extraheight2: (setTieBreak && !gameClosed) || winnerDeclared && !gameClosed}">
+		<vue-headful :title="doctitle" />
 		<div v-if="loadingSpinner"  class="text-center min-vh-100">
 	 		<b-spinner big type="grow" class="align-items-center m-5" style="width: 5rem; height: 5rem;"></b-spinner>
 		</div>
@@ -752,6 +753,13 @@
 
 				<!-- BUTTON FÖR MATCH VY -->
 				<b-row class="mt-3 mb-2">
+					<b-col v-if="uploading" class="col-12 mb-3">
+						<b-progress height="1rem" variant="secondary" striped animated>           
+                    		<b-progress-bar :value="progress">
+							</b-progress-bar>
+						</b-progress> 
+					</b-col>
+
 					<b-col class="col-5 text-left pr-0 mr-0">
 						<button class="btn btn-primary pulse-button btn-md" @click="showMatch(null)" v-if="authorized">
 							<span class="material-icons">create</span>
@@ -1020,6 +1028,9 @@
 		},
 		data() {
 			return {
+				doctitle: 'Scorekort',
+				uploading: false,
+				progress:0,
 				images: [],
 				 sponsors: [
 					{
@@ -1665,7 +1676,10 @@
 				return o;
 			},
 		 handleFileUpload(){
-
+		this.parentVue = this;
+		this.uploading = true;
+		this.progress = 0;
+			
 		var CLOUDINARY_URL = '';
 		var CLOUDINARY_UPLOAD_PRESET = '';
 		var base_url = '';
@@ -1676,10 +1690,11 @@
 		CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/dn3hzwewp/image/upload';
 		CLOUDINARY_UPLOAD_PRESET = 'tveal75k';
 		base_url = 'https://res.cloudinary.com/dn3hzwewp/image/upload/q_auto,w_800/';
-
+		this.progress = 20;
 		var formData = new FormData();
 		formData.append('file', this.file);
 		formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+		this.progress = 30;
 
 		 fetch(CLOUDINARY_URL, {
 			method: 'POST',
@@ -1688,13 +1703,16 @@
     .then(function(response) {		
 		
 		return response.json();
+		parentVue.progress = 40;
 	})
     .then(function(data) {		
       //if (data.secure_url !== '') {
+		  	parentVue.progress = 60;
 			if (data.public_id !== '') {				
         //var uploadedFileUrl = data.secure_url;
 				//console.log(data);
 				var uploadedFileUrl = data.secure_url;
+				parentVue.progress = 80;
 				//console.log(uploadedFileUrl)
 
 				parentVue.axios.post('https://matchplay.meteorapp.com/methods/updateGame', {           
@@ -1702,7 +1720,9 @@
               "imageurl": uploadedFileUrl
                          }
           )
-          .then(response => {            
+          .then(response => {
+			parentVue.progress = 100;
+			parentVue.uploading = false;        
            //console.log(response)
 	parentVue.$bvToast.toast("Bilden är uppladdad och kommer visas live på vår resultatsida :)", {
 					title: "Bilden är uppladdad",
@@ -1715,6 +1735,8 @@
            
           })
           .catch(error => {
+			parentVue.progress = 0;
+			parentVue.uploading = false;
             console.log(error);
           });
 
@@ -2367,6 +2389,10 @@
     display: flex;
     position: fixed;
     z-index: 100000;
+}
+
+>>> .modal-body {
+	overflow-y: scroll;
 }
 
 .text-black {

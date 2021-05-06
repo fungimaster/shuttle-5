@@ -13,12 +13,14 @@ export default {
   },
   methods: {
     scrollTop: function () {
-      this.intervalId = setInterval(() => {
+      document.body.scrollTop = 0; // For Safari
+      document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+      /* this.intervalId = setInterval(() => {
         if (window.pageYOffset === 0) {
           clearInterval(this.intervalId)
         }
         window.scroll(0, window.pageYOffset - 50)
-      }, 10)
+      }, 0) */
     },
     scrollListener: function () {
     
