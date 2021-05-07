@@ -380,9 +380,9 @@
       </b-container>
     </b-jumbotron>
 
-    <app-image-collage v-if="allGameImages.length >= 20" :numberOfImages="20" :images="allGameImages"></app-image-collage>               
-
-      
+    <b-jumbotron container-fluid class="bg-image-collage p-0 m-0">
+        <app-image-collage class="bg-image-collage d-flex justify-content-center" v-if="allGameImages.length >= 20" :numberOfImages="20" :images="allGameImages"></app-image-collage>               
+    </b-jumbotron>
 
     <b-jumbotron container-fluid class="gradient mb-3">
       <b-container class="mb-4 mt-4">      
@@ -928,6 +928,11 @@ export default {
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
 
+.bg-image-collage {
+  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1500,q_auto,e_colorize:70,co_rgb:000000/v1608122032/matchplay/MPI-1825.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 
 .stats {
     background: lighten($blue, 5%);

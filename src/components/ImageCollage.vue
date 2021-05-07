@@ -6,7 +6,7 @@
       :disable-scroll="true"
       @close="index = null"
     />
-    <div class="bg-images p-1 p-md-4">
+    <div class="p-1 p-md-4">
       <b-row class="m-0">
         <b-col md="3" cols="4" class="d-flex flex-sm-column flex-wrap p-1">
           <b-img
@@ -159,11 +159,6 @@ export default {
 </script> 
 
 <style scoped>
-.bg-images {
-  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1500,q_auto,e_colorize:70,co_rgb:000000/v1608122032/matchplay/MPI-1825.jpg);
-  background-repeat: no-repeat;
-  background-size: cover;
-}
 
 .overlay {
   background: rgba(0, 0, 0, 0.8);
