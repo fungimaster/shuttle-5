@@ -6,61 +6,65 @@
       :disable-scroll="true"
       @close="index = null"
     />
-    <div class="bg-images p-4">
+    <div class="bg-images p-1 p-md-4">
       <b-row class="m-0">
-        <b-col md="3" sm="6" xs="12" class="d-flex flex-column p-1">
+        <b-col md="3" cols="4" class="d-flex flex-sm-column flex-wrap p-1">
           <b-img
             v-for="(thumb, thumbIndex) in columnOne"
-            :key=" thumbIndex"
-            class="double-tap-no-zoom pointer flex-shrink-1 pt-1 pb-1"
+            :key="thumbIndex"
+            class="pointer flex-shrink-1 pt-1 pb-1"
             fluid
             @click="index = thumbIndex"
-            :src="addToUrl(thumb.url, 'w_400,q_auto')"
+            :src="addToUrl(thumb.url, imageProps)"
           >
           </b-img>
         </b-col>
-        <b-col md="3" sm="6" class="d-none d-sm-flex flex-column p-1">
+        <b-col md="3" cols="4" class="d-flex flex-sm-column flex-wrap p-1">
+
           <b-img
             v-for="(thumb, thumbIndex) in columnTwo"
             :key="thumbIndex"
-            class="double-tap-no-zoom pointer flex-shrink-1 pt-1 pb-1"
+            class="pointer flex-shrink-1 pt-1 pb-1"
             fluid
-            @click="index = thumbIndex + oneFourth"
-            :src="addToUrl(thumb.url, 'w_300,q_auto')"
+            @click="index = thumbIndex + onePart"
+            :src="addToUrl(thumb.url, imageProps)"
           ></b-img>
         </b-col>
-        <b-col md="3" sm="12" xs="12" class="d-block d-xs-block d-sm-none p-1 pt-4 justify-content-center">
-           <!-- ONE COLUMNS -->
-          <h6 class="text-center text-light" @click="index = oneFourth ">
+        <!--   <b-col md="3" sm="12" xs="12" class="d-block d-xs-block d-sm-none p-1 pt-4 justify-content-center">
+          <h6 class="text-center text-light" @click="index = onePart ">
             <span class="material-icons"> touch_app </span> Klicka för att bläddra i bildspelet och se alla bilder...
           </h6>
-        </b-col>
-        <b-col md="3" sm="12" xs="12" class="d-none d-sm-block d-md-none p-1 pt-4 justify-content-center">
-           <!-- TWO COLUMNS -> Different next image -->
-          <h6 class="text-center text-light" @click="index = oneFourth * 2">
+        </b-col> -->
+        <!--     <b-col md="3" sm="12" xs="12" class="d-none d-sm-block d-md-none p-1 pt-4 justify-content-center">
+          <h6 class="text-center text-light" @click="index = onePart * 2">
             <span class="material-icons"> touch_app </span> Klicka för att bläddra i bildspelet och se alla bilder...
           </h6>
-        </b-col>
-        <b-col md="3" class="d-none d-md-flex flex-column p-1">
+        </b-col> -->
+        <b-col md="3" cols="4" class="d-flex flex-sm-column flex-wrap p-1">
           <b-img
             v-for="(thumb, thumbIndex) in columnThree"
             :key="thumbIndex"
-            class="double-tap-no-zoom pointer flex-shrink-1 pt-1 pb-1"
+            class="pointer flex-shrink-1 pt-1 pb-1"
             fluid
-            @click="index = thumbIndex + oneFourth*2"
-            :src="addToUrl(thumb.url, 'w_300,q_auto')"
+            @click="index = thumbIndex + onePart * 2"
+            :src="addToUrl(thumb.url, imageProps)"
           ></b-img>
         </b-col>
-        <b-col md="3" class="d-none d-md-flex flex-column p-1">
+        <b-col md="3" class="d-none d-md-flex flex-sm-column flex-wrap p-1">
           <b-img
             v-for="(thumb, thumbIndex) in columnFour"
             :key="thumbIndex"
-            class="double-tap-no-zoom pointer flex-shrink-1 pt-1 pb-1"
+            class="pointer flex-shrink-1 pt-1 pb-1"
             fluid
-            @click="index = thumbIndex + oneFourth*3"
-            :src="addToUrl(thumb.url, 'w_300,q_auto')"
+            @click="index = thumbIndex + onePart * 3"
+            :src="addToUrl(thumb.url, imageProps)"
           ></b-img>
         </b-col>
+        <!--   <b-col  cols="12" class="d-block d-sm-block d-md-none p-1 pt-4 justify-content-center">
+          <h6 class="text-center text-light" @click="index = onePart * 3">
+            <span class="material-icons"> touch_app </span> Klicka för att bläddra i bildspelet och se alla bilder...
+          </h6>
+        </b-col>  -->
       </b-row>
     </div>
   </div>
@@ -70,6 +74,12 @@
 import { LightGallery } from "vue-light-gallery";
 
 export default {
+  created() {
+    window.addEventListener("resize", this.handleResize);
+  },
+  destroyed() {
+    window.removeEventListener("resize", this.handleResize);
+  },
   components: {
     LightGallery,
   },
@@ -77,9 +87,17 @@ export default {
   data() {
     return {
       index: null,
+      windowWidth: window.innerWidth,
     };
   },
   computed: {
+    imageProps() {
+      //576px is equivilent to Bootstraps XS/COLS
+      if (this.windowWidth <= 576) {
+        return "c_crop,h_800,w_800/c_scale,w_400,h_400,q_auto";
+      }
+      return "w_300,q_auto";
+    },
     lastXImages() {
       let number = this.numberOfImages;
 
@@ -88,9 +106,12 @@ export default {
       }
       return this.images;
     },
-    oneFourth() {
+    onePart() {
       if (!this.lastXImages) {
         return;
+      }
+      if (this.windowWidth <= 768) {
+        return Math.ceil(this.lastXImages.length / 3);
       }
       return Math.ceil(this.lastXImages.length / 4);
     },
@@ -99,28 +120,31 @@ export default {
         return;
       }
 
-      return this.lastXImages.slice(0, this.oneFourth);
+      return this.lastXImages.slice(0, this.onePart).slice(0,6);
     },
     columnTwo() {
       if (!this.lastXImages) {
         return;
       }
-      return this.lastXImages.slice(this.oneFourth, this.oneFourth * 2);
+      return this.lastXImages.slice(this.onePart, this.onePart * 2).slice(0,6);
     },
     columnThree() {
       if (!this.lastXImages) {
         return;
       }
-      return this.lastXImages.slice(this.oneFourth * 2, this.oneFourth * 3);
+      return this.lastXImages.slice(this.onePart * 2, this.onePart * 3).slice(0,6);
     },
     columnFour() {
       if (!this.lastXImages) {
         return;
       }
-      return this.lastXImages.slice(this.oneFourth * 3, this.oneFourth * 4);
+      return this.lastXImages.slice(this.onePart * 3, this.onePart * 4).slice(0,6);
     },
   },
   methods: {
+    handleResize() {
+      this.windowWidth = window.innerWidth;
+    },
     addToUrl(url, stringToAdd) {
       if (!url) {
         return;
@@ -135,7 +159,6 @@ export default {
 </script> 
 
 <style scoped>
-
 .bg-images {
   background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1500,q_auto,e_colorize:70,co_rgb:000000/v1608122032/matchplay/MPI-1825.jpg);
   background-repeat: no-repeat;

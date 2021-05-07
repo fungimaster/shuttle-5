@@ -380,7 +380,7 @@
       </b-container>
     </b-jumbotron>
 
-    <app-image-collage v-if="allGameImages.length" :numberOfImages="20" :images="allGameImages"></app-image-collage>               
+    <app-image-collage v-if="allGameImages.length >= 20" :numberOfImages="20" :images="allGameImages"></app-image-collage>               
 
       
 
