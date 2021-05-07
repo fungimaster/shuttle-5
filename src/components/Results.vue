@@ -24,7 +24,7 @@
                             <!-- IN PROGRESS GAMES -->
                       <b-col xs="12" sm="12" class="mt-4 mt-md-4">
 
-
+                        <span v-if="!loadinggames && !loadinggames2 && !loadinggames3" class="float-right" style="cursor:pointer;" v-on:click="getGamesInprogress('not-initial')"><i class="far fa-sync-alt"></i></span>
                        <h4>Pågående matcher</h4>
                         <p hidden>Inom kort kommer bokade matcher visas här samt annan information om lagen!</p>
                        
@@ -33,14 +33,14 @@
                             <b-spinner small type="grow" class="class mr-2"></b-spinner>Hämtar matcher...
                           </b-col>
                         </b-row>
-                        <b-row v-if="gamescount === 0 && !loadinggames">
+                        <b-row v-if="gamescount === 0">
                           <b-col class="col-12 mt-3">
                             
                             <p v-if="hasnextgame && gamescount === 0">
                                <span class="d-block"><strong>Nästa match:</strong> </span>
                                 <img v-if="getClubLogo(nextgame.club)" class="float-right ml-3" :src="getClubLogo(nextgame.club)">     
                              {{lastname(nextgame.hometeamleadername)}} & {{lastname(nextgame.hometeammembername)}} vs {{lastname(nextgame.awayteamleadername)}} & {{lastname(nextgame.awayteammembername)}}
-                               {{getgamedate2(nextgame.gamedate,nextgame.gametime)}} på <span v-if="nextgame.clubname">{{nextgame.clubname}}</span><span v-if="!nextgame.clubname">Golfklubb saknas</span>.
+                               {{getgamedate2(nextgame.gamedate,nextgame.gametime)}} på <span v-if="nextgame.clubname">{{nextgame.clubname}}</span><span hidden v-if="!nextgame.clubname">Golfklubb saknas</span>.
                              
                              </p>
                             <p v-if="!nextgame">Just nu pågår inga matcher... men när matcher spelas kan dom följas live här!</p>                             
@@ -71,7 +71,7 @@
                                  <b-col class="gameheader col-12 text-center mb-4">
                                    <img v-if="getClubLogo(game.club)" class="" :src="getClubLogo(game.club)">                                                                                                                         
                                    <span v-if="game.clubname">{{game.clubname}}</span>
-                                   <span v-if="!game.clubname">Golfklubb saknas</span>
+                                   <span hidden v-if="!game.clubname">Golfklubb saknas</span>
                                     <span class="small d-block" v-if="game.roundname">{{game.roundname}}</span>
                                     <hr class="mt-3 mb-1" />
                                  </b-col>
@@ -171,7 +171,7 @@
                                  <b-col class="gameheader col-12 text-center mb-4">
                                    <img v-if="getClubLogo(game.club)" class="" :src="getClubLogo(game.club)">                                                                                                                           
                                    <span class="d-block mt-2" v-if="game.clubname">{{game.clubname}}</span>
-                                   <span v-if="!game.clubname">Golfklubb saknas</span>
+                                   <span hidden v-if="!game.clubname">Golfklubb saknas</span>
                                      <span class="small d-block" v-if="game.roundname">{{game.roundname}}</span>
                                  </b-col>
                              </b-row>
@@ -230,7 +230,7 @@
                        <h4>Spelade - {{active_round}} <span v-if="updating3"><b-spinner small type="grow" class="ml-2 mr-1 mb-1 red"></b-spinner>...</span><span v-else>({{gamescount3}})</span></h4>
                         <p hidden>Inom kort kommer bokade matcher visas här samt annan information om lagen!</p>
                       
-                        <b-row class="mb-4 mt-4">
+                        <b-row class="mb-3 mt-2">
                           <b-col>
                              <b-button hidden size="sm" v-on:click="updategames()" variant="primary">update</b-button>
                             <b-button hidden size="sm" v-on:click="getGamesFinished('button','all')" variant="primary">Alla</b-button>
@@ -268,12 +268,12 @@
                        
 
                          <b-row v-if="gamescount3 > 0" class="">
-                          <b-col v-for="(game,idx1) in games3" :key="idx1" xs="12" sm="12" class="pt-3 pb-3 pl-md-2 pr-md-2 game" :class="idx1 % 2 === 0 ? 'whitebg' : 'whitebg'">                            
+                          <b-col v-for="(game,idx1) in games3" :key="idx1" xs="12" sm="12" class="pt-3 pb-3 pl-md-2 pr-md-2 game mb-3" :class="idx1 % 2 === 0 ? 'whitebg' : 'whitebg'">                            
                              <b-row>
                                  <b-col class="gameheader col-12 text-center mb-4"> 
                                    <img v-if="getClubLogo(game.club)" class="" :src="getClubLogo(game.club)">                                                                                                                                  
                                    <span v-if="game.clubname">{{game.clubname}}</span>
-                                   <span v-if="!game.clubname">Golfklubb saknas</span>
+                                   <span hidden v-if="!game.clubname">Golfklubb saknas</span>
                                      <span class="small d-block" v-if="game.roundname">{{game.roundname}}</span>
                                  </b-col>
                              </b-row>
@@ -492,6 +492,7 @@ export default {
   },
   data() {
     return {
+      latestUpdate: null,
       idx1:null,
       gamesarray:'games',
       lightbox_image: null,
@@ -616,6 +617,15 @@ export default {
   mixins: [tagsMixin],
   
   methods: {
+     makeToast(append = false) {
+        this.toastCount++
+        this.$bvToast.toast('Vänta lite med att uppdatera, tack!', {
+          title: 'Uppdateringsvarning!',
+          autoHideDelay: 3000,
+          variant:'danger',
+          appendToast: append
+        })
+      },
     getGolfclubsLogoUrl() {
       if (this.getClubLogosUrls) {
         return this.getClubLogosUrls
@@ -642,10 +652,21 @@ export default {
      
 
     let searchvalue = document.getElementById(searchfield).value.toLowerCase();
+    let foundvalue = false;
     
-     this[this.gamesarray] = this[this.gamesarray+'Org'].filter(function(game) {     
-       //console.log(searchvalue,game.hometeamname.includes(searchvalue.toLowerCase()))
-	    return game.hometeamleadername.toLowerCase().includes(searchvalue.toLowerCase()) || game.hometeammembername.toLowerCase().includes(searchvalue.toLowerCase()) || game.awayteamleadername.toLowerCase().includes(searchvalue.toLowerCase()) || game.awayteammembername.toLowerCase().includes(searchvalue.toLowerCase()) || game.clubname.toLowerCase().includes(searchvalue.toLowerCase())
+     this[this.gamesarray] = this[this.gamesarray+'Org'].filter(function(game) {   
+       
+       if (!game.hasOwnProperty('hometeammembername')) {        
+         game.hometeammembername = 'SAKNAS***'      
+       }
+       if (!game.hasOwnProperty('awayteammembername')) {        
+         game.awayteammembername = 'SAKNAS***'      
+       }
+       if (!game.hasOwnProperty('clubname')) {        
+         game.clubname = ''      
+       }
+       
+       return game.hometeamleadername.toLowerCase().includes(searchvalue.toLowerCase()) || game.hometeammembername.toLowerCase().includes(searchvalue.toLowerCase()) || game.awayteamleadername.toLowerCase().includes(searchvalue.toLowerCase()) || game.awayteammembername.toLowerCase().includes(searchvalue.toLowerCase()) || game.clubname.toLowerCase().includes(searchvalue.toLowerCase())
      });
      
      this[this.gamesarray+'count'] = this[this.gamesarray].length;
@@ -779,7 +800,7 @@ export default {
         let names = thename.split(" ");
         return names[names.length - 1];
       } else {
-        return "SAKNAS*****";
+        return "SAKNAS***";
       }
     },
     getgamedate2: function (gamedate, gametime) {
@@ -798,8 +819,34 @@ export default {
       else return club;
     },
     getGamesInprogress(type) {
-      //console.log('inne progress games, ' + type)
+      console.log('inne progress games, ' + type);
+      
       //loading
+
+      
+      //console.log('latest update: ', 'new val=',moment().format("HH:mm:ss"));
+     
+      //console.log(this.latestUpdate)
+      //let now = moment().format("HH:mm:ss");
+      var lastUpdate;
+
+      if (this.latestUpdate) {            
+        var nowplusseconds = moment();
+        nowplusseconds.add(moment.duration(10, 'seconds'));
+            
+        // Function call
+        var result = nowplusseconds.diff(this.latestUpdate, 'seconds') 
+
+        //console.log("No of seconds:", result, this.latestUpdate)
+        if (result < 20) { //throw alert to user, don't spam
+            this.makeToast();
+            return;
+        }
+      }
+
+      lastUpdate= moment(); 
+      this.latestUpdate = lastUpdate;  
+     
 
       this.loadinggames = true;
       this.updating1 = true;
@@ -864,7 +911,7 @@ export default {
         });
     },
     getGamesPending(type) {
-      //loading
+      //loading      
 
       //this.gamescount = 0;
       this.updating2 = true;
@@ -890,7 +937,7 @@ export default {
       }
 
       //* check if data in stores. Then skip fetch.
-      if(this.getGames2.length) {
+      if(this.getGames2.length) {      
         this.games2 = this.getGames2
         handleResponse()
         return
