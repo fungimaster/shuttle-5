@@ -94,7 +94,7 @@ export default {
     imageProps() {
       //576px is equivilent to Bootstraps XS/COLS
       if (this.windowWidth <= 576) {
-        return "c_crop,h_800,w_800/c_scale,w_400,h_400,q_auto";
+        return "c_fill,h_800,w_800/c_scale,w_150,h_150,q_auto";
       }
       return "w_300,q_auto";
     },
