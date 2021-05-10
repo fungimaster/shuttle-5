@@ -163,7 +163,7 @@
 						</b-row>
 
 						<b-row v-if="(setTieBreak && !gameClosed) || winnerDeclared && !gameClosed" align-v="center" align-h="center">
-							<b-col class="col-12 pt-0 mt-0 text-center mb-2">
+							<b-col class="col-12 pt-0 mt-0 text-center mb-3">
 							<button
 								:disabled="winnerSent === false"
 								v-if="setTieBreak && !gameClosed"
@@ -472,8 +472,8 @@
 						<b-img class="mt-1 ml-2 topimage" v-if="viewedInModal" src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_150,c_scale/v1573118127/matchplay/matchplay-new-logo-2020.png" alt=""></b-img>   
 						
 					</b-col>
-					<b-col class="col-6 text-right mt-2">
-						<b-img class="mr-2 topimage2" v-if="viewedInModal" :src="getLogoImage(logourl,'h_70,f_auto,q_auto')" alt=""></b-img>
+					<b-col class="col-6 text-right mt-2">						
+						<b-img class="mr-2 topimage2"  :src="getLogoImage(logourl,'h_70,f_auto,q_auto')" alt=""></b-img>
 					</b-col>
 
 					<b-col hidden class="col-6 text-right mt-2">
@@ -504,7 +504,7 @@
 					<b-col class="col-4 scoreTeam text-left pl-2 pr-0" :class="[{ scoreTeam1: leader && !tie }, {scoreTeamDormy: setDormyClass(dormy2)},  {scoreTeamModal: viewedInModal}]">
 						<span
 							style="float:left;"
-							v-bind:class="{'text-black': viewedInModal || !authorized}"						
+							v-bind:class="{'text-black': (viewedInModal || !authorized) && (winnerDeclared && !leader || matchScore === 0)}"						
 						>{{ players.length !== 0 ? getInitials(players[0].name): ''}} & {{players.length !== 0 ? getInitials(players[1].name) : ''}}</span>
 						<i v-if="!tie && winnerDeclared && leader" class="material-icons pb-1 pl-1">emoji_events</i>
 						<span v-if="!tie && !winnerDeclared" class="dormy">{{dormy2}}</span>
@@ -514,15 +514,16 @@
 					<b-col
 						class="col-4 text-center score pl-0 pr-0"
 						:class="{ leaderRight: leader && !tie, leaderLeft: !leader && !tie, tie: tie, winnerdeclared: winnerDeclared}"
-					>
-						<span v-if="tie" id="tie" v-bind:class="{'text-black': viewedInModal || !authorized}">A/S</span>
-						<span v-if="!leader && !tie && !winnerDeclared" v-bind:class="{'text-black': viewedInModal || !authorized}">{{ matchScore * -1 }}UP</span>
+					>					
+						<span v-if="tie" id="tie" v-bind:class="{'text-black': (viewedInModal || !authorized) && (matchScore === 0)}">A/S</span>
+						
+						<span v-if="!leader && !tie && !winnerDeclared" v-bind:class="{'text-black': (viewedInModal || !authorized) && (matchScore === 0)}">{{ matchScore * -1 }}UP</span>
 						<!-- away leads -->
 						<span
-							v-if="!leader && winnerDeclared && holesLeft !== 0"
+							v-if="!leader && winnerDeclared && holesLeft !== 0 && matchScore !==0"
 						>{{ matchScore * -1 }}&{{holesLeft}}</span>
-						<!-- away wins -->
-						<span v-if="!leader && winnerDeclared && holesLeft === 0">{{ matchScore * -1 }}UP</span>
+						<!-- away wins -->												
+						<span v-if="!leader && winnerDeclared && holesLeft === 0 && matchScore !== 0">{{ matchScore * -1 }}&0</span>
 						<!-- away wins on last hole -->
 
 						<!--  -->
@@ -531,20 +532,27 @@
 						<!-- home leads -->
 						<span v-if="leader && winnerDeclared &&  holesLeft !== 0">{{ matchScore }}&{{holesLeft}}</span>
 						<!-- home wins -->
-						<span v-if="leader && winnerDeclared && holesLeft === 0">{{ matchScore }}UP</span>
+						<span v-if="leader && winnerDeclared && holesLeft === 0">{{ matchScore }}&0</span>
 						<!-- home wins on last hole -->
 					</b-col>
 
 					<!-- away team -->
-					<b-col class="col-4 scoreTeam text-right pr-2 pl-0" :class="[{ scoreTeam2: !leader && !tie }, {scoreTeamDormy: setDormyClass(dormy1)}, {scoreTeamModal: viewedInModal}]">
+					<b-col class="col-4 scoreTeam text-right pr-2 pl-0" :class="[{ scoreTeam2: !leader && !tie }, {scoreTeamDormy: setDormyClass(dormy1)}, {scoreTeamModal: viewedInModal}]">						
 						<i v-if="!tie && winnerDeclared && !leader" class="material-icons pb-1 pr-1">emoji_events</i>
 						<span
-						v-bind:class="{'text-black': viewedInModal || !authorized}"
+						v-bind:class="{'text-black': (viewedInModal || !authorized) && ((winnerDeclared && leader) || matchScore === 0) }"
 							:style="(dormy1 === '') || (setTieBreak === true) ? 'float:right' : 'float:left'"
 						>{{players.length !== 0 ? getInitials(players[2].name) : ''}} & {{players.length !== 0 ? getInitials(players[3].name) : ''}}</span>
 						<span style="clear:right;" v-if="!tie && !winnerDeclared" class="dormy">{{dormy1}}</span>
+										
+					</b-col>
+					<b-col class="col-12 mb-0" v-if="tie && winnerDeclared && status === 'Finished'">
+						<b-alert show variant="warning" class="mb-0">
+						<p class="small">Matchen avgjordes i särspel, vinnare: {{winningTeam}}.</p>
+						</b-alert>
 					</b-col>
 				</b-row>
+				
 
 				<b-row hidden class="leaderBoardPlayers">
 					<b-col s="4" class="scoreTeam1">
