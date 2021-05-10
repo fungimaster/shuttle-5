@@ -1,9 +1,30 @@
 <template>
 
+
 	<div ref="scorecardTest" v-bind:class="{bg: authorized,bg2:!authorized, extraheight: ((winnerSent && !gameClosed) && !viewedInModal) || (setTieBreak && !viewedInModal) || (gameClosed && !viewedInModal),extraheight2: (setTieBreak && !gameClosed) || winnerDeclared && !gameClosed}">
 		<vue-headful :title="doctitle" />
-		<div v-if="loadingSpinner"  class="text-center min-vh-100">
-	 		<b-spinner big type="grow" class="align-items-center m-5" style="width: 5rem; height: 5rem;"></b-spinner>
+		<div v-if="loadingSpinner"  class="text-center min-vh-100 mt-5">
+	 		<b-spinner hidden big type="grow" class="align-items-center m-5" style="width: 5rem; height: 5rem;"></b-spinner>
+			 <b-progress height="1rem" variant="success" striped animated class="m-5">           
+									<b-progress-bar :value="loadingprogress">
+									</b-progress-bar>
+								</b-progress> 
+				<div v-if="authorized && !viewedInModal" class="text-center p-3">
+					Laddar scorekortet
+				</div>
+
+			 	<div class="text-center" v-if="viewedInModal">
+					 Matchen presenteras av:<br><br>
+				 <!-- sponsors -->
+						 <span
+                        v-for="(item) in testLimited"
+                        :key="item.message"
+                      >
+					  <a :href="item.url" target="_blank">
+						<b-img class="mr-2 topimage2" v-if="viewedInModal" :src="getImageUrl(item.image,'w_200,f_auto,q_auto')" alt=""></b-img>
+					  </a>       
+						</span>
+				</div>
 		</div>
 
 		<b-modal id="modal-legend" title="Välkommen till matchen!" ok-only ref="modal-legend">
@@ -875,7 +896,9 @@
 
 			</b-container>
 		</div>
+		
 	</div>
+
 </template>
 <script>
 	import axios from "axios";
@@ -909,11 +932,17 @@
 	});
 
 	export default {
+		mounted() {
+			if (this.viewedInModal) {
 
+			}
+		},
 		created() {
 			this.$route.name === "viewer" ? this.viewedInModal = true : null 
             this.gameID = this.$route.query.id;
 			let userinfo = localStorage.getItem("userinfo");
+
+			this.loadingprogress = 10;
 
 			//check if freeplay
 			if (this.$route.query.freeplay) {
@@ -936,7 +965,7 @@
 
             userinfo = JSON.parse(userinfo)
 			let teams = [...userinfo.teams]
-			
+			this.loadingprogress = 20;
 
             const url = globalState.admin_url + "getGameData";
             const gameID = {
@@ -948,6 +977,7 @@
 			if (teams.length === 0) { //logged in but no teams
 				this.authorized = false;
 				//start function to setinterval for update
+				this.loadingprogress = 30;
 
 				if (this.freeplay) {
 					this.authorized = true;
@@ -955,14 +985,14 @@
 						this.$bvModal.show('modal-legend');
 					}
 				} else {
-					this.refreshGame();				
+					this.refreshGame();					
 					return;
 				}
 
 				
 			}
 
-			
+			this.loadingprogress = 40;
 			//hanterar om inloggad med lag men någon annans scorecard
             let awayteam = ""
 			let hometeam = ""
@@ -971,15 +1001,15 @@
                      awayteam = response.data.awayteam
 					 hometeam = response.data.hometeam
 					
-
                         for (const team of teams) {							
                                 //if(team._id === awayteam || team._id === hometeam || userinfo.golfid === '780110-015') {
-									
+								
 									if(team._id === hometeam || userinfo.golfid === '780110-015') {
 																
 									this.authorized = true;
 									//show legend modal if no scores yet
 									if (response.data.scorecard[0].holes[0].strokes === 0 && !this.viewedInModal) {
+										
 										this.$bvModal.show('modal-legend');
 									}
 
@@ -1072,6 +1102,7 @@
 		},
 		data() {
 			return {
+				loadingprogress: 0,
 				doctitle: 'Scorekort',
 				uploading: false,
 				progress:0,
@@ -1534,6 +1565,7 @@
 		
 
 		beforeMount() {
+			this.loadingprogress = 65;	
 			this.players = [
 					{
 						name: "Spelare 1",
@@ -1650,6 +1682,7 @@
 				await this.getGameData()
 				//kallar på shcp-metoden. 
 				this.shcp();
+				this.loadingprogress = 80;	
 
 				//uppdaterar nameCount med namn som spelaren har poäng/score inrapporterat redan på hålet. 
 				let counter = -1
@@ -1675,7 +1708,19 @@
 						hole.par = this.course[index].par;
 					});
 				});
-				this.loadingSpinner = false
+				this.loadingprogress = 90;	
+				
+				if (this.viewedInModal) {
+					setTimeout(() => {
+						this.loadingprogress = 100;	
+                       this.loadingSpinner = false;                      
+                      },2000);
+				} else {
+					this.loadingprogress = 100;	
+					this.loadingSpinner = false;
+				}
+
+
 				//gör så att hcpmodal visas en gång när sidan hämtas men inte varje gång översiken hämtas. 
 				if (this.status === "Finished") {
 						this.overview = false
@@ -1706,7 +1751,7 @@
 			},
 			
 		},
-		methods: {
+		methods: {	
 			 getLogoImage(logourl,preset) {      
 				var first_url = logourl.split("/upload/").pop();           
 				return 'https://res.cloudinary.com/dn3hzwewp/image/upload/' + preset + '/' + first_url;

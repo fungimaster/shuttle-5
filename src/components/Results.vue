@@ -65,7 +65,7 @@
                            </b-col>
                          </b-row>
 
-                         <b-row v-if="gamescount > 0" class="">
+                         <b-row v-if="gamescount > 0" class="mt-4">
                           <b-col v-for="(game,idx1) in games" :key="idx1" xs="12" sm="12" class="pt-3 pb-3 pl-md-2 pr-md-2 game mb-3" :class="idx1 % 2 === 0 ? 'whitebg' : 'whitebg'">                
                              <b-row>
                                  <b-col class="gameheader col-12 text-center mb-4">
@@ -830,16 +830,8 @@ export default {
       else return club;
     },
     getGamesInprogress(type) {
-     // console.log('inne progress games, ' + type);
-      
-      //loading
 
-      
-      //console.log('latest update: ', 'new val=',moment().format("HH:mm:ss"));
-     
-      //console.log(this.latestUpdate)
-      //let now = moment().format("HH:mm:ss");
-      this.loadinggames = true;
+      this.loadinggames = true
       this.updating1 = true;
       
       var lastUpdate;
@@ -877,8 +869,7 @@ export default {
         });
         this.gamescount = this.games.length;
         this.gamesOrg = this.games;
-        //console.log("getGamesInprogress ->  this.games",  this.games)
-        this.loadinggames = false;
+        //console.log("getGamesInprogress ->  this.games",  this.games)        
         this.updating1 = false;
       } 
 
@@ -913,7 +904,8 @@ export default {
         .then((response) => {
           this.games = response.data;
           this.$store.dispatch('setGames1', this.games)
-          handleResponse()   
+          handleResponse();
+          this.loadinggames = false;
         })
         .catch((error) => {
           console.log(error);

@@ -9,7 +9,7 @@
                 <b-col md="6" class="text-center">
                   <b-spinner big type="grow" class="m-5" style="width: 5rem; height: 5rem;"></b-spinner>
                   <p>{{ loadingtext }}</p>
-                  <p v-if="loadingstate===2" class="small">Om du av misstag råkar gå bakåt från scorekortet i en redan påbörjad match med inskriven score, klicka <router-link to="/mymatchplay">här</router-link> för att komma tillbaka till din profil där du kan återuppta matchen från matchsidan.</p>
+                  <p hidden v-if="loadingstate===2" class="small">Om du av misstag råkar gå bakåt från scorekortet i en redan påbörjad match med inskriven score kan du enkelt återuppta den i rutan ovanför val av bana.</p>
                 </b-col>
               </b-row>
             </b-container>
