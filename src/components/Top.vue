@@ -2,7 +2,7 @@
 <div style="position:relat"
 v-if="
       ['Scorecard', 'Receipt'].indexOf($route.name) === -1">
-  <b-navbar toggleable="lg" sticky ref="top">
+  <b-navbar toggleable="lg" ref="top">
     <b-navbar-brand>
       <router-link class to="/">
         <img
