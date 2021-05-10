@@ -725,6 +725,7 @@ export default {
         .post(globalState.admin_url + "allGameImages", {competition: '8dmNL5K5ypaHbTbEM'})
         .then((response) => {
           this.$store.dispatch('setAllImages', response.data)
+          this.allGameImages = response.data
           //create an even number of images for component
           if(response.data.length % 2 == 0) {
               this.numberOfImages = response.data.length
