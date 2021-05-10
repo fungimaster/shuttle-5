@@ -20,9 +20,13 @@ export default new Vuex.Store({
     games1: [],
     games2: [],
     games3: [],
-    clublogosurl: null
+    clublogosurl: null,
+    images: null
   },
   getters: {
+    getAllImages(state) {
+      return state.images
+    },
     isAuthenticated(state) {
       return state.token !== null;
     },
@@ -84,6 +88,9 @@ export default new Vuex.Store({
     SET_GAMES3: (state, payload) => {
       state.games3 = payload;
     },
+    SET_ALL_IMAGES: (state, payload) => {
+      state.images = payload;
+    },
     SET_USER: (state, payload) => {
       state.user = payload;
     },
@@ -127,6 +134,9 @@ export default new Vuex.Store({
     //played matches
     setGames3: ({ commit }, payload) => {
       commit("SET_GAMES3", payload);
+    },
+    setAllImages: ({ commit }, payload) => {
+      commit("SET_ALL_IMAGES", payload);
     },
     setUser: ({ commit }, payload) => {
       commit("SET_USER", payload);

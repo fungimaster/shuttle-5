@@ -369,7 +369,7 @@
 								</b-button>
 							</b-col>
 							<b-col class="col-2 text-center p-0 m-0">
-								<input v-if="authorized" type="file" id="file" ref="file" class="inputfile" v-on:change="handleFileUpload()"/>
+								<input v-if="authorized" type="file" accept=".jpg, .png"  id="file" ref="file" class="inputfile" v-on:change="handleFileUpload()"/>
 						 		<label v-if="authorized" for="file"><span class="btn btn-primary"><span style="font-size:1.5em;" class="material-icons mr-0">add_a_photo</span></span></label>
 							</b-col>
 							<b-col class="col-5 text-right">

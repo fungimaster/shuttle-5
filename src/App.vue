@@ -93,6 +93,10 @@ export default {
 <style lang="scss">
 @import "./styles/variables.scss";
 
+button {
+  touch-action: manipulation !important; 
+}
+
 @font-face {
   font-family: "Montserrat";
   src: url("../static/fonts/Montserrat-Regular.ttf") format("truetype");

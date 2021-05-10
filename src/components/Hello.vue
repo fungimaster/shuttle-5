@@ -380,6 +380,10 @@
       </b-container>
     </b-jumbotron>
 
+    <b-jumbotron container-fluid class="bg-image-collage p-0 m-0">
+        <app-image-collage class="bg-image-collage d-flex justify-content-center" v-if="allGameImages.length" :numberOfImages="numberOfImages" :images="allGameImages"></app-image-collage>               
+    </b-jumbotron>
+
     <b-jumbotron container-fluid class="gradient mb-3">
       <b-container class="mb-4 mt-4">      
         <b-row align-h="center">
@@ -519,6 +523,7 @@ import AppRoundsGrafic from "./RoundsGrafic";
 import Testimonials from "./Testimonials";
 import Howitworks from "./Howitworks";
 import ScorecardExplainer from "./ScorecardExplainer";
+import AppImageCollage from "./ImageCollage";
 import Podium from "./Podium";
 import { globalState } from "../main.js";
 
@@ -552,7 +557,7 @@ export default {
   this.countdown();
   },
   created() {
-
+    this.gameImages()
     if (this.$route.query.sponsor === 'gm') {
       localStorage.setItem('sponsor','gm');     
     }
@@ -657,7 +662,12 @@ export default {
   components: {
     //'phone':VuePhoneNumberInput,
     // 'phone':VueTelInput,    ,
-    AppRoundsGrafic, Testimonials, Podium, Howitworks, ScorecardExplainer
+    AppRoundsGrafic, 
+    Testimonials, 
+    Podium, 
+    Howitworks, 
+    ScorecardExplainer,
+    AppImageCollage
   },
   data() {
     return {
@@ -683,7 +693,9 @@ export default {
       showhelper: false,  
       doctitle: this.$store.state.conferencename,
       price1: globalState.price1,
-      price2: globalState.price2
+      price2: globalState.price2,
+      allGameImages:[],
+      numberOfImages: 0
     };
   },
 
@@ -691,14 +703,42 @@ export default {
         ...mapGetters([
       "user",
       "isAuthenticated",
+      "getAllImages"
     ]) 
   },
   mixins: [tagsMixin],
   
   methods: {
-    getlatestteam() {
+    gameImages() {
+      if (this.getAllImages) {
+        //create an even number of images for component
+        this.allGameImages = this.getAllImages
+          if(this.allGameImages.length % 2 == 0) {
+              this.numberOfImages = this.allGameImages.length
+          } else {
+             this.numberOfImages = this.allGameImages.length -1
+          }
+        return
+      }
 
- this.axios
+      this.axios
+        .post(globalState.admin_url + "allGameImages", {competition: '8dmNL5K5ypaHbTbEM'})
+        .then((response) => {
+          this.$store.dispatch('setAllImages', response.data)
+          this.allGameImages = response.data
+          //create an even number of images for component
+          if(response.data.length % 2 == 0) {
+              this.numberOfImages = response.data.length
+          } else {
+             this.numberOfImages = response.data.length -1
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    getlatestteam() {
+     this.axios
       .post(globalState.admin_url + "getLatestPaidTeam")
       .then((response) => {
           
@@ -899,6 +939,11 @@ export default {
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
 
+.bg-image-collage {
+  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1500,q_auto,e_colorize:70,co_rgb:000000/v1608122032/matchplay/MPI-1825.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 
 .stats {
     background: lighten($blue, 5%);
