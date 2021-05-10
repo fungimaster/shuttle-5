@@ -9,12 +9,24 @@
                 <b-col md="6" class="text-center">
                   <b-spinner big type="grow" class="m-5" style="width: 5rem; height: 5rem;"></b-spinner>
                   <p>{{ loadingtext }}</p>
+                  <p v-if="loadingstate===2" class="small">Om du av misstag råkar gå bakåt från scorekortet i en redan påbörjad match med inskriven score, klicka <router-link to="/mymatchplay">här</router-link> för att komma tillbaka till din profil där du kan återuppta matchen från matchsidan.</p>
                 </b-col>
               </b-row>
             </b-container>
           </div>
           <div v-if="!errorMSG && !loading">
             <div>
+
+              <!-- check if game in progress, show button to scorecard instead, id of game -->
+              <div v-if="gameinprogress">
+                <b-alert show variant="danger" class="mb-3 small">
+                  Du verkar ha en pågående match, klicka på knappen nedan för att återuppta matchen! Om du vill starta om matchen välj klubb/slinga nedan.
+                  <b-button :to="'scorecard?id='+gameID" variant="warning" class="mt-2 text-white" size="sm">Återuppta match</b-button>
+                </b-alert>
+                
+              </div>
+
+
               <!-- VÄLJA KLUBB -->
 
               <b-form-group label="Välj klubb från listan:" class="inputField">
@@ -240,10 +252,23 @@ export default {
     axios
       .post(url, gameID)
       .then((response) => {
-        hometeam = response.data.hometeam;
+         hometeam = response.data.hometeam;
+
+         
+
+
+        
         for (const team of teams) {
           if (team._id === hometeam || userinfo.golfid === "780110-015") {
             authorized = true;
+
+            //check if game in progress
+            if (response.data.hasOwnProperty('status')) {
+              if (response.data.status === 'In progress') {
+                this.gameinprogress = true;
+              }
+            }
+
           }
         }
       })
@@ -460,6 +485,7 @@ export default {
  
   data() {
     return {
+      gameinprogress: false,
       ninehole: false,
       max28: false,
       gameID: "",
@@ -474,6 +500,7 @@ export default {
       savedclubId: "",
       savedLoopId: "",
       loadingtext: "Hämtar banor...",
+      loadingstate: 1,
       courseOptions: [],
       slingaOptions: [],
       teeOptions: [],
@@ -803,8 +830,10 @@ export default {
 
       // Kolla om det finns en sparad slinga i getGameData
       if (this.savedLoopId) {
-        this.form.slinga = this.savedLoopId;
-        this.courseSelected(this.savedLoopId);
+        //this.form.slinga = this.savedLoopId;
+        //this.courseSelected(this.savedLoopId);
+        this.form.slinga = this.slingaOptions[0].value;
+        this.courseSelected(this.slingaOptions[0].value);
       } else {
         this.form.slinga = this.slingaOptions[0].value;
         this.courseSelected(this.slingaOptions[0].value);
@@ -869,6 +898,7 @@ export default {
          
       this.loadingtext = "Skapar scorekort";
       this.loading = true;
+      this.loadingstate = 2;
 
 
       this.axios

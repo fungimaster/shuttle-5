@@ -16,15 +16,15 @@
     </b-alert>  
 
       <b-tabs content-class="mt-3" v-model="tabIndex" no-key-nav class="mt-4 mt-md-5">
-                          <b-tab title-link-class="ml-1">
+                          <b-tab title-link-class="ml-0">
                             <template v-slot:title>
-                             <span class="d-none d-sm-block"><b-spinner v-if="gamescount > 0" small type="grow" class="ml-0 pl-0 mr-1 mb-1 red"></b-spinner>LIVE <span v-if="updating1"><b-spinner small class="ml-1 mr-1 mb-1"></b-spinner></span><span v-else>({{gamescount}})</span></span>
-                             <span class="d-sm-none small-tabs"><i class="fal fa-heart-rate"></i> <span v-if="updating1"><b-spinner small class="ml-1 mr-1 mb-1"></b-spinner></span><span v-else>({{gamescount}})</span></span>
+                             <span class="d-none d-sm-block"><b-spinner v-if="gamescount > 0" small type="grow" class="ml-0 pl-0 mr-1 mb-1 red"></b-spinner>LIVE <span v-if="updating1"><b-spinner hidden small class="ml-1 mr-1 mb-1"></b-spinner></span><span v-else>({{gamescount}})</span></span>
+                             <span class="d-sm-none small-tabs"><i class="fal fa-heart-rate"></i> <span v-if="updating1"><b-spinner small class="ml-1"></b-spinner></span><span v-else>({{gamescount}})</span></span>
                             </template> 
                             <!-- IN PROGRESS GAMES -->
                       <b-col xs="12" sm="12" class="mt-4 mt-md-4">
 
-                        <span v-if="!loadinggames && !loadinggames2 && !loadinggames3" class="float-right" style="cursor:pointer;" v-on:click="getGamesInprogress('not-initial')"><i class="far fa-sync-alt"></i></span>
+                        <span class="float-right" style="cursor:pointer;" v-on:click="getGamesInprogress('not-initial')"><i class="far fa-sync-alt" v-bind:class="{'fa-spin': loadinggames}"></i></span>
                        <h4>Pågående matcher</h4>
                         <p hidden>Inom kort kommer bokade matcher visas här samt annan information om lagen!</p>
                        
@@ -49,7 +49,7 @@
                          
                         </b-row>
                         
-                         <b-row v-if="gamescount > 0" class="mt-2 mb-2">
+                         <b-row hidden v-if="gamescount > 0" class="mt-2 mb-2">
                            <b-col>
                              <small>Sidan uppdateras automatiskt...</small>
                            </b-col>
@@ -133,10 +133,10 @@
                      </b-col>
                      <!-- END In progress games -->
                           </b-tab>
-                          <b-tab title-link-class="ml-2">
+                          <b-tab title-link-class="ml-0">
                              <template v-slot:title>
-                              <span class="d-none d-sm-block">KOMMANDE <span v-if="updating2"><b-spinner small class="ml-1 mr-1 mb-1"></b-spinner></span><span v-else>({{gamescount2}})</span></span>
-                              <span class="d-sm-none small-tabs"><i class="fal fa-hourglass"></i> <span v-if="updating2"><b-spinner small class="ml-1 mr-1 mb-1"></b-spinner></span><span v-else>({{gamescount2}})</span></span>
+                              <span class="d-none d-sm-block">KOMMANDE <span v-if="updating2"><b-spinner small class="ml-1"></b-spinner></span><span v-else>({{gamescount2}})</span></span>
+                              <span class="d-sm-none small-tabs"><i class="fal fa-hourglass"></i> <span v-if="updating2"><b-spinner small class="ml-1"></b-spinner></span><span v-else>({{gamescount2}})</span></span>
                             </template> 
                              <!-- PENDING GAMES -->
                       <b-col xs="12" sm="12" class="mt-4 mt-md-4">
@@ -172,7 +172,7 @@
                                    <img v-if="getClubLogo(game.club)" class="" :src="getClubLogo(game.club)">                                                                                                                           
                                    <span class="d-block mt-2" v-if="game.clubname">{{game.clubname}}</span>
                                    <span hidden v-if="!game.clubname">Golfklubb saknas</span>
-                                     <span class="small d-block" v-if="game.roundname">{{game.roundname}}</span>
+                                     <span class="small d-block mt-2" v-if="game.roundname">{{game.roundname}}</span>
                                  </b-col>
                              </b-row>
                              <b-row>                              
@@ -218,7 +218,7 @@
                          
                      </b-col>
                           </b-tab>
-                           <b-tab title-link-class="ml-1">
+                           <b-tab title-link-class="ml-0">
                               <template v-slot:title>
                              <span class="d-none d-sm-block">SPELADE <span v-if="updating3"><b-spinner small class="ml-1 mr-1 mb-1"></b-spinner></span><span v-else>({{gamescount3}})</span></span>
                              <span class="d-sm-none small-tabs"><i class="fal fa-check"></i> <span v-if="updating3"><b-spinner small class="ml-1 mr-1 mb-1"></b-spinner></span><span v-else>({{gamescount3}})</span></span>
@@ -230,7 +230,7 @@
                        <h4>Spelade - {{active_round}} <span v-if="updating3"><b-spinner small type="grow" class="ml-2 mr-1 mb-1 red"></b-spinner>...</span><span v-else>({{gamescount3}})</span></h4>
                         <p hidden>Inom kort kommer bokade matcher visas här samt annan information om lagen!</p>
                       
-                        <b-row class="mb-3 mt-2">
+                        <b-row hidden class="mb-3 mt-2">
                           <b-col>
                              <b-button hidden size="sm" v-on:click="updategames()" variant="primary">update</b-button>
                             <b-button hidden size="sm" v-on:click="getGamesFinished('button','all')" variant="primary">Alla</b-button>
@@ -272,9 +272,9 @@
                              <b-row>
                                  <b-col class="gameheader col-12 text-center mb-4"> 
                                    <img v-if="getClubLogo(game.club)" class="" :src="getClubLogo(game.club)">                                                                                                                                  
-                                   <span v-if="game.clubname">{{game.clubname}}</span>
+                                   <span class="d-block mt-2" v-if="game.clubname">{{game.clubname}}</span>
                                    <span hidden v-if="!game.clubname">Golfklubb saknas</span>
-                                     <span class="small d-block" v-if="game.roundname">{{game.roundname}}</span>
+                                     <span class="small d-block mt-2" v-if="game.roundname">{{game.roundname}}</span>
                                  </b-col>
                              </b-row>
                              <b-row>                              
@@ -287,7 +287,7 @@
                                                                 
                                  </b-col>
                                   <b-col class="col-2 m-0 p-0 text-center result" v-bind:class="{ homeleader: game.status != 'Pending' && (game.result > 0 || game.hometeam == game.winner ), awayleader: game.status != 'Pending' && (game.result < 0 || game.awayteam == game.winner ) }">                                    
-                                    <span v-if="game.result && game.status === 'Finished'">{{getScore(game.result,game.status)}}</span>         
+                                    <span v-if="game.result && game.status === 'Finished'" v-bind:class="{ sarspel: getScore(game.result,game.status) === 'SÄRSPEL' }">{{getScore(game.result,game.status)}}</span>         
                                                              
                                  </b-col>
                                   <b-col class="awayteam col-5 text-left pl-2 pt-2 pb-2" v-bind:class="{ awayleader: game.status != 'Pending' && (game.result < 0 || game.awayteam == game.winner ) }">
@@ -354,7 +354,7 @@
                       </b-row>
                      
                       <hr hidden>
-
+  <div hidden>
                           <h5 class="mt-3">
                          Birdieligan
                         </h5>
@@ -378,6 +378,7 @@
                          </b-row>
 
                          <hr>
+  </div>
 
                         <h5 class="mt-4">
                           Toppklubbar (spelade matcher)
@@ -462,7 +463,7 @@ export default {
       .post(globalState.admin_url + "getCompetition", {id: globalState.compid})
       .then((response) => {
         this.currentRound = response.data.currentround;      
-        this.active_round =  this.currentRound;
+        this.active_round =  'Omgång ' + this.currentRound;
       })
       .catch((error) => {
         console.log(error);
@@ -471,7 +472,10 @@ export default {
 
     this.getGamesInprogress('initial');
     this.getGamesFinished();
-    this.getGolfclubsLogoUrl()
+    this.getGolfclubsLogoUrl();
+    this.getTopListClubsPlayed(); //top list clubs played
+    this.getBirdies();
+    //this.getTeamsCount(); /for stats
     
   },
  watch: {
@@ -748,6 +752,7 @@ export default {
         return "SÄRSPEL";
       }
 
+      /*
       if (result === "1&0") {
         //särspelat
         return "1UP";
@@ -755,7 +760,9 @@ export default {
 
       if (result === "2&0") {
         return "2&1";
-      }
+      }      
+      */
+
       if (result === "3&0") {
         return "3&2";
       }
@@ -769,11 +776,15 @@ export default {
       }
 
       if (result === "6&0" || (result === "6" && status === "Finished")) {
-        return "5&4";
+        return "6&5";
       }
 
       if (result === "4&2") {
         return "4&3";
+      }
+
+      if (result === "5&3") {
+        return "5&4";
       }
 
       if (result.includes("&") || result.includes("UP")) {
@@ -819,7 +830,7 @@ export default {
       else return club;
     },
     getGamesInprogress(type) {
-      console.log('inne progress games, ' + type);
+     // console.log('inne progress games, ' + type);
       
       //loading
 
@@ -828,6 +839,9 @@ export default {
      
       //console.log(this.latestUpdate)
       //let now = moment().format("HH:mm:ss");
+      this.loadinggames = true;
+      this.updating1 = true;
+      
       var lastUpdate;
 
       if (this.latestUpdate) {            
@@ -838,18 +852,19 @@ export default {
         var result = nowplusseconds.diff(this.latestUpdate, 'seconds') 
 
         //console.log("No of seconds:", result, this.latestUpdate)
-        if (result < 20) { //throw alert to user, don't spam
-            this.makeToast();
+         if (result < 20) { //throw alert to user, don't spam
+            //this.makeToast();
+             this.loadinggames = false;
+              this.updating1 = false;
             return;
-        }
+        } 
       }
 
       lastUpdate= moment(); 
       this.latestUpdate = lastUpdate;  
      
 
-      this.loadinggames = true;
-      this.updating1 = true;
+     
 
       //this.gamescount = 0;
 
@@ -1126,7 +1141,7 @@ export default {
           competition: globalState.compid,
         })
         .then((response) => {
-          //console.log(response.data)
+          console.log(response.data)
           this.team.total = response.data.total;
           this.team.defeated = response.data.defeated;
           this.team.secondchance = response.data.secondchance;
@@ -1209,6 +1224,16 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
+
+ @media (max-width: 575px) {
+    >>> .nav-tabs {
+      font-size: 0.85em;
+    }
+ }
+
+.sarspel {
+  font-size:0.8em;
+}
 
 .filterfield {
   width:55%;

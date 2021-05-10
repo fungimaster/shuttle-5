@@ -1,6 +1,6 @@
 <template>
 
-	<div ref="scorecardTest" v-bind:class="{bg: authorized,bg2:!authorized, extraheight: (winnerSent && !gameClosed) || setTieBreak || gameClosed,extraheight2: (setTieBreak && !gameClosed) || winnerDeclared && !gameClosed}">
+	<div ref="scorecardTest" v-bind:class="{bg: authorized,bg2:!authorized, extraheight: ((winnerSent && !gameClosed) && !viewedInModal) || (setTieBreak && !viewedInModal) || (gameClosed && !viewedInModal),extraheight2: (setTieBreak && !gameClosed) || winnerDeclared && !gameClosed}">
 		<vue-headful :title="doctitle" />
 		<div v-if="loadingSpinner"  class="text-center min-vh-100">
 	 		<b-spinner big type="grow" class="align-items-center m-5" style="width: 5rem; height: 5rem;"></b-spinner>
@@ -148,7 +148,7 @@
 									<i class="material-icons pb-1 pr-1">emoji_events</i> </span>
 								</p>
 							</b-col>
-							<b-col cols="12" class="p-2 text-center">
+							<b-col cols="12" class="p-2 text-center mb-3">
 						 		<a href="/mymatchplay" v-if="winnerSent && gameClosed && !freeplay">
 									<button class="btn btn-warning btn-sm disable-dbl-tap-zoom ">
 										Tillbaka till din sida
@@ -463,16 +463,20 @@
 
 			
 			<div v-if="!authorized">
-			<b-row align-v="center" align-h="center">
-					<b-col class="col-6 text-left mt-2">
+			<b-row align-v="center" align-h="center" class="mb-2">
+					<b-col class="col-6 text-left">
 						<router-link class="" to="/" v-if="!viewedInModal">
-						<b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_150,c_scale/v1573118127/matchplay/matchplay-new-logo-2020.png" alt=""></b-img>        
+						<b-img class="mt-3" src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_150,c_scale/v1573118127/matchplay/matchplay-new-logo-2020.png" alt=""></b-img>        
 						</router-link>
 						
-						<b-img class="ml-3 topimage" v-if="viewedInModal" src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_150,c_scale/v1573118127/matchplay/matchplay-new-logo-2020.png" alt=""></b-img>   
+						<b-img class="mt-1 ml-2 topimage" v-if="viewedInModal" src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_150,c_scale/v1573118127/matchplay/matchplay-new-logo-2020.png" alt=""></b-img>   
 						
 					</b-col>
 					<b-col class="col-6 text-right mt-2">
+						<b-img class="mr-2 topimage2" v-if="viewedInModal" :src="getLogoImage(logourl,'h_70,f_auto,q_auto')" alt=""></b-img>
+					</b-col>
+
+					<b-col hidden class="col-6 text-right mt-2">
 						<!-- sponsors -->
 						 <span
                         v-for="(item) in testLimited"
@@ -939,7 +943,7 @@
 
 				if (this.freeplay) {
 					this.authorized = true;
-					if (response.data.scorecard[0].holes[0].strokes === 0) {
+					if (response.data.scorecard[0].holes[0].strokes === 0) {						
 						this.$bvModal.show('modal-legend');
 					}
 				} else {
@@ -967,7 +971,7 @@
 																
 									this.authorized = true;
 									//show legend modal if no scores yet
-									if (response.data.scorecard[0].holes[0].strokes === 0) {
+									if (response.data.scorecard[0].holes[0].strokes === 0 && !this.viewedInModal) {
 										this.$bvModal.show('modal-legend');
 									}
 
@@ -1035,10 +1039,15 @@
 				}
 
 				let array = el.innerText.split(" ");
-				if (array.length === 3) { //if extra space in name from GIT
-					array = el.innerText.split("  ");					
+				if (array.length === 3) { //if extra space in name from GIT or double name
+					if (array[1].length < 3) {
+						array = el.innerText.split("  ");
+					} else {
+						array = el.innerText.split(" ");
+					}					
 				}
-				const intialsArray = array.map(e => e.slice(0, 1));
+
+				const intialsArray = array.map(e => e.slice(0, 1));				
 				
 				el.innerHTML = intialsArray[0] + "." + intialsArray[1];
 			},
@@ -1152,6 +1161,7 @@
 				gameClosed: false, 
 				hcpUnmutated: [],
 				clubname:"Klubbnamn", 
+				logourl:"", 
 				loop: "Slinga",
 				modalMounted: false, 
 				overviewButtonClicked: false, 
@@ -1689,6 +1699,10 @@
 			
 		},
 		methods: {
+			 getLogoImage(logourl,preset) {      
+				var first_url = logourl.split("/upload/").pop();           
+				return 'https://res.cloudinary.com/dn3hzwewp/image/upload/' + preset + '/' + first_url;
+            },
 			    getImageUrl(url, stringToAdd) {
 					if (!url) {
 						return;
@@ -1985,6 +1999,7 @@
 					let response = await axios.post(url, gameID);
 					this.clubname = response.data.clubname
 					this.loop = response.data.loopname
+					this.logourl = response.data.logourl
 					this.status = response.data.status
 					this.course = response.data.holes;
 					this.players  = response.data.scorecard
@@ -2238,9 +2253,15 @@
 
 			getInitials(name) {				
 				let array = name.split(" ");
-				if (array.length === 3) { //if extra space in name from GIT
-					array = name.split("  ");					
+
+				if (array.length === 3) { //if extra space in name from GIT or double name
+					if (array[1].length < 3) {
+						array = name.split("  ");
+					} else {
+						array = name.split(" ");
+					}					
 				}
+
 				const intialsArray = array.map(e => e.slice(0, 1));
 				
 				return (
@@ -2428,11 +2449,11 @@
 }
 
 .topimage {
-	max-width:100%;
+	max-width:70%;
 }
 
 .topimage2 {
-	max-width:80%;
+	max-width:100%;
 }
 
 .inputfile {
