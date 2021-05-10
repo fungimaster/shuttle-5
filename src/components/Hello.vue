@@ -381,7 +381,7 @@
     </b-jumbotron>
 
     <b-jumbotron container-fluid class="bg-image-collage p-0 m-0">
-        <app-image-collage class="bg-image-collage d-flex justify-content-center" v-if="allGameImages.length >= 20" :numberOfImages="20" :images="allGameImages"></app-image-collage>               
+        <app-image-collage class="bg-image-collage d-flex justify-content-center" v-if="allGameImages.length" :numberOfImages="6" :images="allGameImages"></app-image-collage>               
     </b-jumbotron>
 
     <b-jumbotron container-fluid class="gradient mb-3">
@@ -716,11 +716,10 @@ export default {
       }
 
       this.axios
-        .post(globalState.admin_url + "allGameImages", {competition: 'r3HP8Kw62z2qfZhkr'})
+        .post(globalState.admin_url + "allGameImages", {competition: '8dmNL5K5ypaHbTbEM'})
         .then((response) => {
-          this.$store.dispatch('setAllImages', [...response.data, ...response.data, ...response.data.reverse()])
-          console.log("OBS FEJK DATA I ALL IMAGES");
-          this.allGameImages = [...response.data, ...response.data, ...response.data.reverse()]
+          this.$store.dispatch('setAllImages', response.data)
+          this.allGameImages = response.data
         })
         .catch((error) => {
           console.log(error);
