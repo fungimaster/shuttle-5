@@ -30,16 +30,6 @@
             :src="addToUrl(thumb.url, imageProps)"
           ></b-img>
         </b-col>
-        <!--   <b-col md="3" sm="12" xs="12" class="d-block d-xs-block d-sm-none p-1 pt-4 justify-content-center">
-          <h6 class="text-center text-light" @click="index = onePart ">
-            <span class="material-icons"> touch_app </span> Klicka för att bläddra i bildspelet och se alla bilder...
-          </h6>
-        </b-col> -->
-        <!--     <b-col md="3" sm="12" xs="12" class="d-none d-sm-block d-md-none p-1 pt-4 justify-content-center">
-          <h6 class="text-center text-light" @click="index = onePart * 2">
-            <span class="material-icons"> touch_app </span> Klicka för att bläddra i bildspelet och se alla bilder...
-          </h6>
-        </b-col> -->
         <b-col md="3" cols="4" class="d-flex flex-sm-column flex-wrap p-1">
           <b-img
             v-for="(thumb, thumbIndex) in columnThree"
@@ -60,11 +50,6 @@
             :src="addToUrl(thumb.url, imageProps)"
           ></b-img>
         </b-col>
-        <!--   <b-col  cols="12" class="d-block d-sm-block d-md-none p-1 pt-4 justify-content-center">
-          <h6 class="text-center text-light" @click="index = onePart * 3">
-            <span class="material-icons"> touch_app </span> Klicka för att bläddra i bildspelet och se alla bilder...
-          </h6>
-        </b-col>  -->
       </b-row>
     </div>
   </div>

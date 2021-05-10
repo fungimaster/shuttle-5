@@ -381,7 +381,7 @@
     </b-jumbotron>
 
     <b-jumbotron container-fluid class="bg-image-collage p-0 m-0">
-        <app-image-collage class="bg-image-collage d-flex justify-content-center" v-if="allGameImages.length" :numberOfImages="6" :images="allGameImages"></app-image-collage>               
+        <app-image-collage class="bg-image-collage d-flex justify-content-center" v-if="allGameImages.length" :numberOfImages="numberOfImages" :images="allGameImages"></app-image-collage>               
     </b-jumbotron>
 
     <b-jumbotron container-fluid class="gradient mb-3">
@@ -694,7 +694,8 @@ export default {
       doctitle: this.$store.state.conferencename,
       price1: globalState.price1,
       price2: globalState.price2,
-      allGameImages:[]
+      allGameImages:[],
+      numberOfImages: 0
     };
   },
 
@@ -710,8 +711,13 @@ export default {
   methods: {
     gameImages() {
       if (this.getAllImages) {
-        console.log("hej");
+        //create an even number of images for component
         this.allGameImages = this.getAllImages
+          if(this.allGameImages.length % 2 == 0) {
+              this.numberOfImages = this.allGameImages.length
+          } else {
+             this.numberOfImages = this.allGameImages.length -1
+          }
         return
       }
 
@@ -719,7 +725,12 @@ export default {
         .post(globalState.admin_url + "allGameImages", {competition: '8dmNL5K5ypaHbTbEM'})
         .then((response) => {
           this.$store.dispatch('setAllImages', response.data)
-          this.allGameImages = response.data
+          //create an even number of images for component
+          if(response.data.length % 2 == 0) {
+              this.numberOfImages = response.data.length
+          } else {
+             this.numberOfImages = response.data.length -1
+          }
         })
         .catch((error) => {
           console.log(error);
