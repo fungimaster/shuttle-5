@@ -19,10 +19,10 @@
 		</b-modal>
 		<b-container style="background:white;border-radius:0.25em;" class="p-3">
 			<b-row align-h="center">
-				<b-col class="col-8 small">
-					<p>Matchen måste gå till särspel för att utse en vinnare, se regler på knappen brevid.</p>
+				<b-col class="col-8 small pt-0 pb-0 pr-1">
+					<p>Matchen måste gå till särspel, om den inte avgörs på sista hålet, för att utse en vinnare, se regler på knappen brevid.</p>
 				</b-col>
-				<b-col class="col-4 text-right">
+				<b-col class="col-4 text-right pl-0">
 					<b-button @click="showModal" class="btn btn-warning btn-sm">Regler</b-button>
 				</b-col>
 				<b-col hidden class="col-12">

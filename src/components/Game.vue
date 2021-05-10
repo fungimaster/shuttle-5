@@ -1005,6 +1005,7 @@ export default {
     let clubs = [];
 
     return {
+      clearData: false,
       ninehole: false,
       tabIndex: 0,
       isSaving: false,
@@ -1346,9 +1347,9 @@ if(timeFormat.test(this.gametime) == false)
       this.boxTwo = "";
       this.$bvModal
         .msgBoxConfirm(
-          "Är du säker på att du vill rensa bana/slinga för matchen? Du kan alltid välja ny efter.",
+          "Är du säker på att du vill rensa datum/tid/bana/slinga för matchen? Du kan alltid skriva in ny information efter.",
           {
-            title: "Rensa spelplats??",
+            title: "Rensa uppgifter??",
             size: "md",
             buttonSize: "md",
             okVariant: "danger",
@@ -1363,8 +1364,14 @@ if(timeFormat.test(this.gametime) == false)
           if (value) {
             this.query = "";
             this.slingaOptions = [];
+            this.slinga = '';
+            this.gamedate = '';
+            this.clubid = '';
+            document.getElementById('gametime').value = '';            
+            this.gametime  ='';
             this.slinganame = "";
             this.loadingCourse = 0;
+            this.clearData = true;
             this.saveResult();
           }
         })
@@ -1663,15 +1670,25 @@ if(timeFormat.test(this.gametime) == false)
     },
     saveResult() {
                 
-                
-      let element = document.querySelector("#gametime");
-      if (element.classList.contains("is-invalid")) {                  
-        return;
+      
+      if (!this.clearData) { //if clear data by user, don't stop here...
+        let element = document.querySelector("#gametime");
+        if (element.classList.contains("is-invalid")) {            
+          return;
+        }
+      }
+
+      let gamedate;
+      if (!this.clearData) {
+       gamedate = moment(this.gamedate).format("YYYY-MM-DD")
+      } else {
+        gamedate = '';
       }
  
 
       //if (this.lastsaved !== moment().format('HH:mm')) {
       this.isSaving = true;
+      this.clearData = false;
       //}
 
       let gameid = this.$route.query.id;
@@ -1684,7 +1701,7 @@ if(timeFormat.test(this.gametime) == false)
       this.axios
         .post(globalState.admin_url + "updateGame", {
           _id: gameid,
-          gamedate: moment(this.gamedate).format("YYYY-MM-DD"),
+          gamedate: gamedate,
           gametime: this.gametime,
           club: this.clubid,
           loop: this.slinga,

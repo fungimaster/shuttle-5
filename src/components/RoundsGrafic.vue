@@ -1,5 +1,6 @@
 <template>
-  <div class="d-flex" v-if="numberOfRounds">
+  <div class="d-flex" v-if="numberOfRounds" @click="showRoundsModal" style="cursor:pointer;">
+  
     <div
       class="flex-fill"
       :style="stageBorder"
@@ -117,7 +118,62 @@
       </div>
   
     </div>
-  </div>
+
+
+<b-modal ref="rounds-modal" title="Datum för omgångar" hide-footer no-close-on-esc no-close-on-backdrop>
+<b-container class="p-1">
+   
+            <b-row>
+                <b-col>
+                   <p>
+                    
+                       <ul class="roundlist">
+                          <li v-bind:class="{ active: currentRound === 1}">
+                            Omgång 1: 2 maj - 30 maj
+                          </li>
+                           <li>
+                            Omgång 2: 31 maj - 20 juni
+                          </li>
+                           <li>
+                            Omgång 3: 21 juni - 4 juli
+                          </li>
+                           <li>
+                            Omgång 4: 5 juli - 18 juli
+                          </li>
+                           <li>
+                            Omgång 5: 19 juli - 1 aug
+                          </li>
+                           <li>
+                            Omgång 6: 2 aug -  15 aug
+                          </li>
+                           <li>
+                            Omgång 7: 16 aug - 29 aug
+                          </li>
+                           <li>
+                            Sverigefinal (3-5 sep)
+                          </li>
+                           <li>
+                            Final (November)
+                          </li>
+                       </ul>
+                   </p>
+                </b-col>
+            </b-row>
+
+
+  
+                                   
+        </b-container>        
+      
+      <b-button class="mt-3" variant="outline-danger" block @click="hideRoundsModal">Stäng</b-button>      
+    </b-modal>
+
+   
+    </div>
+   
+ 
+
+
 </template>
 
 <script>
@@ -166,6 +222,12 @@ export default {
     };
   },
   methods: {
+    showRoundsModal() {
+        this.$refs["rounds-modal"].show();
+    },
+    hideRoundsModal() {
+        this.$refs["rounds-modal"].hide();
+    },
     numberOfTeams(index) {
       if (index === 0) return this.teams;
       if (index === 1) return this.teams / 2;
@@ -211,6 +273,20 @@ export default {
 
 
 <style scoped>
+
+.active {
+  font-family: "Eurostile LT Std Bold";
+}
+
+.roundlist {
+  list-style-type:none;
+}
+
+.roundlist li {
+  margin-bottom:0.25em;
+}
+
+
 .teams-number {
   font-size: 0.7em;
 }
