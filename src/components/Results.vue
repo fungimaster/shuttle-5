@@ -354,7 +354,7 @@
                       </b-row>
                      
                       <hr hidden>
-  <div hidden>
+  <div>
                           <h5 class="mt-3">
                          Birdieligan
                         </h5>
