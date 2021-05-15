@@ -75,7 +75,7 @@ export default {
   },
   methods: {
      getClubImage(logourl) {
-            return 'https://res.cloudinary.com/dn3hzwewp/image/upload/h_40,q_100,c_fill,ar_1:1,g_auto/' + logourl;
+            return 'https://res.cloudinary.com/dn3hzwewp/image/upload/h_40,q_auto,c_fill,ar_1:1,g_auto/' + logourl;
         },
       progress(count) {        
         return count/this.topclub;

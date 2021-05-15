@@ -70,10 +70,10 @@
                              <b-row>
                                  <b-col class="gameheader col-12 text-center mb-4">
                                    <img v-if="getClubLogo(game.club)" class="" :src="getClubLogo(game.club)">                                                                                                                         
-                                   <span v-if="game.clubname">{{game.clubname}}</span>
+                                   <span class="d-block mt-2" v-if="game.clubname">{{game.clubname}}</span>
                                    <span hidden v-if="!game.clubname">Golfklubb saknas</span>
-                                    <span class="small d-block" v-if="game.roundname">{{game.roundname}}</span>
-                                    <hr class="mt-3 mb-1" />
+                                    <span class="small d-block mt-2" v-if="game.roundname">{{game.roundname}}</span>
+                                    <hr hidden class="mt-3 mb-1" />
                                  </b-col>
                              </b-row>
                              <b-row>                              

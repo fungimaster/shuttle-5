@@ -82,6 +82,12 @@
             <p
               v-if="!closed"
             >Tävlingen spelas mellan maj-september i olika omgångar fram till Sverigefinalen och sedan vidare utomlands!</p>
+            
+            
+             <div v-if="closed && gamescount > 0 && !loadinggames" class="mt-3 mb-4">
+                <b-spinner small type="grow" class="mr-2 mb-1 red"></b-spinner>LIVE - Just nu spelas matcher, <router-link to="/results" class="text-white">följ dom här!</router-link>
+              </div>
+            
             <p hidden v-if="!closed">2020 spelades 358 matcher på nästan 100 golfklubbar.</p>
             <p
               hidden
@@ -123,6 +129,7 @@
             </div>
 
               <p v-if="closed && !isAuthenticated">Anmälan till årets tävling har tyvärr stängt, välkommen tillbaka nästa år, anmälan öppnar i december 2021.</p>
+              
               <router-link
                 v-if="isAuthenticated"
                 class="btn blue-bg btn-md text-white mt-2 mr-2"
@@ -554,14 +561,16 @@ let options = {};
 
 export default {
   mounted() {
-  this.countdown();
+  //this.countdown();
+  this.getGamesInprogress();   
   },
   created() {
     this.gameImages()
     if (this.$route.query.sponsor === 'gm') {
       localStorage.setItem('sponsor','gm');     
     }
-     
+
+  
 
     //this.getTopListClubs();
 
@@ -671,6 +680,10 @@ export default {
   },
   data() {
     return {
+      loadinggames: true,
+      gamescount:0,
+      game: {},
+      games: [],
       latestTeam: null,
       latestTeamLogo: null,
       slide: 0,
@@ -709,6 +722,31 @@ export default {
   mixins: [tagsMixin],
   
   methods: {
+      getGamesInprogress() {
+
+      this.loadinggames = true;
+      this.gamescount = 0;
+      
+      this.axios
+        .post(globalState.admin_url + "getGamesAdvanced2", {
+          competition: globalState.compid,
+          status: "In progress",
+          limit: 1,
+        })
+        .then((response) => {
+          this.games = response.data;
+          this.gamescount = response.data.length;
+          if (this.gamescount > 0) {
+            this.game = response.data[0];
+          }
+          this.loadinggames = false;
+          
+        })
+        .catch((error) => {
+          console.log(error);
+          this.loadinggames = false;
+        });
+    },
     gameImages() {
       if (this.getAllImages) {
         //create an even number of images for component

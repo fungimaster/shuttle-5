@@ -1947,12 +1947,12 @@ export default {
 
         },
            getClubImage(logourl) {      
-            return 'https://res.cloudinary.com/dn3hzwewp/image/upload/h_50,q_100,c_scale/' + logourl;
+            return 'https://res.cloudinary.com/dn3hzwewp/image/upload/h_50,q_auto,c_scale/' + logourl;
         },
         getTeamLogo(logourl) {
             if (logourl) {
                 var first_url = logourl.split("/upload/").pop();        
-                return 'https://res.cloudinary.com/dn3hzwewp/image/upload/h_40,q_80,c_scale/' + first_url;  
+                return 'https://res.cloudinary.com/dn3hzwewp/image/upload/h_40,q_auto,c_scale/' + first_url;  
             }
         },
                 compareValues(key, order = 'asc') {
@@ -2442,7 +2442,7 @@ export default {
 
         },
         getShirtImg(shirt) {
-            return 'https://res.cloudinary.com/dn3hzwewp/image/upload/h_30,c_scale,q_50/v1575307928/matchplay/ping/' + shirt + '.png'
+            return 'https://res.cloudinary.com/dn3hzwewp/image/upload/h_30,c_scale,q_auto/v1575307928/matchplay/ping/' + shirt + '.png'
         },
 
         selectShirt(shirt) {

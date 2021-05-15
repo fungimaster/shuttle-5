@@ -306,7 +306,7 @@ Vid omstart hål 1 (alt. Hål 10) så gäller det att det finns plats såklart. 
 	@import "../styles/variables.scss";
 
 	.hero {
-		background: url("https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70/v1572963227/matchplay/matchplay_bg.jpg");
+		background: url("https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_auto/v1572963227/matchplay/matchplay_bg.jpg");
 
 		background-repeat: no-repeat;
 		/*background-position: bottom 30% right 0;*/
