@@ -8,43 +8,43 @@
     />
     <div class="p-1 p-md-4">
       <b-row class="m-0">
-        <b-col md="3" cols="4" class="d-flex flex-sm-column flex-wrap p-1">
+        <b-col md="3" cols="4" class="d-flex flex-sm-column  flex-wrap p-1">
           <b-img
             v-for="(thumb, thumbIndex) in columnOne"
             :key="thumbIndex"
-            class="pointer flex-shrink-1 pt-1 pb-1"
+            class="pointer align-self-start pt-1 pb-1"
             fluid
             @click="index = thumbIndex"
             :src="addToUrl(thumb.url, imageProps)"
           >
           </b-img>
         </b-col>
-        <b-col md="3" cols="4" class="d-flex flex-sm-column flex-wrap p-1">
+        <b-col md="3" cols="4" class="d-flex flex-column flex-wrap p-1">
 
           <b-img
             v-for="(thumb, thumbIndex) in columnTwo"
             :key="thumbIndex"
-            class="pointer flex-shrink-1 pt-1 pb-1"
+            class="pointer align-self-start pt-1 pb-1"
             fluid
             @click="index = thumbIndex + onePart"
             :src="addToUrl(thumb.url, imageProps)"
           ></b-img>
         </b-col>
-        <b-col md="3" cols="4" class="d-flex flex-sm-column flex-wrap p-1">
+        <b-col md="3" cols="4" class="d-flex flex-column flex-wrap p-1">
           <b-img
             v-for="(thumb, thumbIndex) in columnThree"
             :key="thumbIndex"
-            class="pointer flex-shrink-1 pt-1 pb-1"
+            class="pointer align-self-start pt-1 pb-1"
             fluid
             @click="index = thumbIndex + onePart * 2"
             :src="addToUrl(thumb.url, imageProps)"
           ></b-img>
         </b-col>
-        <b-col md="3" class="d-none d-md-flex flex-sm-column flex-wrap p-1">
+        <b-col md="3" class="d-none d-md-flex flex-column flex-wrap p-1">
           <b-img
             v-for="(thumb, thumbIndex) in columnFour"
             :key="thumbIndex"
-            class="pointer flex-shrink-1 pt-1 pb-1"
+            class="pointer align-self-start pt-1 pb-1"
             fluid
             @click="index = thumbIndex + onePart * 3"
             :src="addToUrl(thumb.url, imageProps)"
