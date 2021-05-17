@@ -512,7 +512,8 @@
 						<b-col v-if="!authorized && status !== 'Finished'" cols="12" class="mt-4">
 							 <h5><b-spinner small type="grow" class="mr-2 mb-1 red"></b-spinner>Match pågår <span v-if="gametime">(start {{gametime}})</span> </h5>
 							 <b-button id="refresh_button" class="float-right btn-sm" @click="refreshGame3()" variant="warning" show><b-spinner v-if="updating" small type="grow" class="mr-1 red"></b-spinner>Uppdatera</b-button>
-							 <h5><span class="lowerCase timeUpdated">Uppdaterad: {{updatedAt}}</span></h5>
+							 <h5><span class="lowerCase timeUpdated">Senaste score: {{getgamedate(modifiedAt)}}</span></h5>
+							 
 							 
 						</b-col>
 			
@@ -1102,6 +1103,7 @@
 		},
 		data() {
 			return {
+				modifiedAt: null,
 				loadingprogress: 0,
 				doctitle: 'Scorekort',
 				uploading: false,
@@ -1752,6 +1754,12 @@
 			
 		},
 		methods: {	
+			 getgamedate: function (updated) {
+				let gamedate2 = new Date(updated);
+				//return moment(gamedate2, "hh:mm:ss");
+				return moment(gamedate2).format("HH:mm:ss")
+				//var gamedate2 = '"' + gamedate + '"' + ' ' + gametime; //return moment(gamedate2, "YYYY-MM-DD hh:mm").add(3, 'hours').fromNow();
+			},
 			 getLogoImage(logourl,preset) {      
 				var first_url = logourl.split("/upload/").pop();           
 				return 'https://res.cloudinary.com/dn3hzwewp/image/upload/' + preset + '/' + first_url;
@@ -2052,6 +2060,7 @@
 					let response = await axios.post(url, gameID);
 					this.clubname = response.data.clubname
 					this.loop = response.data.loopname
+					this.modifiedAt = response.data.modifiedAt
 					this.logourl = response.data.logourl
 					this.status = response.data.status
 					this.course = response.data.holes;

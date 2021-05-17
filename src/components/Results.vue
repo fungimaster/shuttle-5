@@ -475,7 +475,7 @@ export default {
     this.getGolfclubsLogoUrl();
     this.getTopListClubsPlayed(); //top list clubs played
     this.getBirdies();
-    //this.getTeamsCount(); /for stats
+    //this.getTeamsCount();
     
   },
  watch: {
@@ -1172,7 +1172,7 @@ export default {
           {
             //getclubstoplist
             competition: globalState.compid,
-            no: 99,
+            no: 20,
           }
         )
         .then((response) => {

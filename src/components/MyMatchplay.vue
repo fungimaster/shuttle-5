@@ -146,6 +146,7 @@
                         <b-alert  variant="warning" class="small">
                             Vi har tyvärr i vår iver att bygga en fantastisk lösning för er gjort lite missar som gör att er match temporärt inte syntes. Det fungerar igen och vi ska försöka att hålla fingrarna i styr framöver.                            
                         </b-alert>      
+
 <b-tabs content-class="mt-3" v-model="tabIndex" no-key-nav>
     <b-tab title-link-class="ml-2" @click="saveTabIndex(0)">
                 <template v-slot:title>
@@ -1020,14 +1021,7 @@
       </template>
 
   <b-container>                           
-       <b-row class="mt-4 mb-2" align-h="center">
-                <b-col sm="12" lg="10" class="m-0 p-0  text-right">
-                    <b-button @click="showImportantModal" variant="warning" size="sm">
-                        Visa viktig information
-                    </b-button>
-                </b-col>
-            </b-row>
-            <b-row v-if="closed" class="mb-4" align-h="center">
+            <b-row v-if="closed" class="mb-2" align-h="center">
                 <b-col sm="12" lg="10" class="m-0 p-0">
                     <app-rounds-grafic
                             class="mt-3"
@@ -1040,6 +1034,14 @@
                         </app-rounds-grafic>          
                     </b-col>
             </b-row>
+               <b-row v-if="teams.length>0">
+    <b-col class="col-12 small pr-0 text-right" v-if="teams[0].status">
+    Lagstatus: 
+    <span v-if="teams[0].status==='Winner'">Vidare i huvudtävling</span>
+    <span v-if="teams[0].status==='Second chance'">Deltar i andra chansen</span>
+    <span v-if="teams[0].status==='Defeated'">Utslagna</span>
+    </b-col>
+</b-row>
                 
             <b-row v-if="games.length === 0 || !games.length" align-h="center">
                 <b-col sm="10" lg="6">
@@ -1085,6 +1087,7 @@
                                 
                 </b-col>
             </b-row>
+           
 
 <b-row v-if="games.length > 0 || games.length" align-h="center">
 
@@ -1281,6 +1284,13 @@
             
         </b-col>
                 </b-row>
+                  <b-row class="mt-3 mb-2" align-h="center">
+                <b-col sm="12" lg="10" class="m-0 p-0  text-right">
+                    <b-button @click="showImportantModal" variant="warning" size="sm">
+                        Visa viktig information
+                    </b-button>
+                </b-col>
+            </b-row>
 
   </b-container>
 
