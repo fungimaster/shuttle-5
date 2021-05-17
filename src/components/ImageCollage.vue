@@ -89,7 +89,7 @@ export default {
       if (this.images.length > number) {
         return this.images.slice(Math.max(this.images.length - number, 1));
       }
-      return this.images;
+      return this.images
     },
     onePart() {
       if (!this.lastXImages) {
@@ -105,25 +105,25 @@ export default {
         return;
       }
 
-      return this.lastXImages.slice(0, this.onePart).slice(0,6);
+      return this.lastXImages.slice(0, this.onePart).slice(0,12);
     },
     columnTwo() {
       if (!this.lastXImages) {
         return;
       }
-      return this.lastXImages.slice(this.onePart, this.onePart * 2).slice(0,6);
+      return this.lastXImages.slice(this.onePart, this.onePart * 2).slice(0,12);
     },
     columnThree() {
       if (!this.lastXImages) {
         return;
       }
-      return this.lastXImages.slice(this.onePart * 2, this.onePart * 3).slice(0,6);
+      return this.lastXImages.slice(this.onePart * 2, this.onePart * 3).slice(0,12);
     },
     columnFour() {
       if (!this.lastXImages) {
         return;
       }
-      return this.lastXImages.slice(this.onePart * 3, this.onePart * 4).slice(0,6);
+      return this.lastXImages.slice(this.onePart * 3, this.onePart * 4).slice(0,12);
     },
   },
   methods: {
