@@ -1093,7 +1093,7 @@
 
         <b-col sm="10" lg="7" class="team pl-1 pr-1 pb-2 mt-2 mt-md-2 pt-0 pt-md-3" v-for="(game,idx2) in this.games" :key="idx2">
                 
-             <b-card class="mt-4 mb-3 team header">                            
+             <b-card class="mt-2 mb-0 team header">                            
                             <b-card-text class="mt-0 card-text-team">
                                 <span @click="expandGame(idx2)" variant="light" size="sm" class="pointer float-right"><i :id="'gamearrow'+idx2" class="fa fa-chevron-down mt-2 mb-2"></i></span>                  
                                  <h2 @click="expandGame(idx2)" class="pointer mt-1 mb-3 pb-0 pt-1">{{game.roundname || 'Omgång'}}</h2>                                 

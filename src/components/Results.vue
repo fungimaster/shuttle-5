@@ -16,6 +16,25 @@
     </b-alert>  
 
       <b-tabs content-class="mt-3" v-model="tabIndex" no-key-nav class="mt-4 mt-md-5">
+
+          <b-tab title-link-class="ml-0">
+             <template v-slot:title>
+                
+                <span class="d-sm-none small-tabs"><i class="fa fa-images"></i></span>               
+                <span class="d-none d-sm-block"><i class="fa fa-images mr-1"></i> Bilder</span>
+                
+                            </template> 
+
+<div v-if="loadingimages">
+                 <b-spinner small type="grow" class="ml-0 pl-0 mr-1 mb-1"></b-spinner>
+                 Laddar bilder från våra härliga matchspelare!
+               </div>
+
+             <b-jumbotron container-fluid class="p-0 m-0">               
+        <app-image-collage class="bg-image-collage d-flex justify-content-center" v-if="allGameImages.length" :numberOfImages="numberOfImages" :images="allGameImages"></app-image-collage>               
+    </b-jumbotron>
+          </b-tab>
+
                           <b-tab title-link-class="ml-0">
                             <template v-slot:title>
                              <span class="d-none d-sm-block"><b-spinner v-if="gamescount > 0" small type="grow" class="ml-0 pl-0 mr-1 mb-1 red"></b-spinner>LIVE <span v-if="updating1"><b-spinner hidden small class="ml-1 mr-1 mb-1"></b-spinner></span><span v-else>({{gamescount}})</span></span>
@@ -326,7 +345,7 @@
                           </b-tab>
 
                             <!-- topplista klubbar... -->
-                        <b-tab title-link-class="ml-1">
+                        <b-tab title-link-class="ml-0">
                              
                              <template v-slot:title>
                              <span class="d-none d-sm-block">STATISTIK</span>
@@ -423,6 +442,7 @@
 import { mapGetters } from "vuex";
 import { tagsMixin } from "../mixins/tagsMixin";
 import AppGameImageGallery from "./GameImageGallery";
+import AppImageCollage from "./ImageCollage";
 /*import VuePhoneNumberInput from 'vue-phone-number-input';
 import 'vue-phone-number-input/dist/vue-phone-number-input.css';*/
 
@@ -478,6 +498,9 @@ export default {
     //this.getTeamsCount();
     
   },
+  mounted() {
+    this.gameImages();
+  },
  watch: {
     $route(newVal, oldVal) {
       immediate: true, (this.modalShow = newVal.meta && newVal.meta.modalShow);
@@ -491,11 +514,14 @@ export default {
     },
   },  
   components: {
-    AppGameImageGallery
+    AppGameImageGallery,AppImageCollage
     
   },
   data() {
     return {
+      loadingimages: true,
+      allGameImages:[],
+      numberOfImages: 0,
       latestUpdate: null,
       idx1:null,
       gamesarray:'games',
@@ -516,7 +542,7 @@ export default {
       gamescount: 0,
 
       //TABS
-      tabIndex: 0,
+      tabIndex: 1,
       price1: globalState.price1,
       price2: globalState.price2,
       active_round: "Omgång 1",     
@@ -621,6 +647,36 @@ export default {
   mixins: [tagsMixin],
   
   methods: {
+       gameImages() {
+      if (this.getAllImages) {
+        //create an even number of images for component
+        this.allGameImages = this.getAllImages        
+          if(this.allGameImages.length % 2 == 0) {
+              this.numberOfImages = this.allGameImages.length
+          } else {
+             this.numberOfImages = this.allGameImages.length -1
+          }
+        return
+      }
+
+      this.axios
+        .post(globalState.admin_url + "allGameImages", {competition: '8dmNL5K5ypaHbTbEM'})
+        .then((response) => {
+          this.$store.dispatch('setAllImages', response.data)
+          this.allGameImages = response.data
+          //create an even number of images for component
+          if(response.data.length % 2 == 0) {
+              this.numberOfImages = response.data.length
+          } else {
+             this.numberOfImages = response.data.length -1
+          }
+          this.loadingimages = false;
+        })
+        .catch((error) => {
+          console.log(error);
+          this.loadingimages = false;
+        });
+    },
      makeToast(append = false) {
         this.toastCount++
         this.$bvToast.toast('Vänta lite med att uppdatera, tack!', {
@@ -1217,9 +1273,18 @@ export default {
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
 
+.bg-image-collage {
+  //background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1500,q_auto,e_colorize:70,co_rgb:000000/v1608122032/matchplay/MPI-1825.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background:#FFF;
+}
+
  @media (max-width: 575px) {
     >>> .nav-tabs {
-      font-size: 0.85em;
+      font-size: 0.7em;
+      padding-left:0.2em;
+      padding-right:0.2em;
     }
  }
 

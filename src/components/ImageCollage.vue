@@ -6,7 +6,7 @@
       :disable-scroll="true"
       @close="index = null"
     />
-    <div class="p-1 p-md-4">
+    <div class="p-1">
       <b-row class="m-0">
         <b-col md="3" cols="4" class="d-flex flex-sm-column  flex-wrap p-1">
           <b-img

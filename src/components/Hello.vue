@@ -85,7 +85,7 @@
             
             
              <div v-if="closed && gamescount > 0 && !loadinggames" class="mt-3 mb-4">
-                <b-spinner small type="grow" class="mr-2 mb-1 red"></b-spinner>LIVE - Just nu spelas matcher, <router-link to="/results" class="text-white">följ dom här!</router-link>
+                <b-spinner small type="grow" class="mr-2 mb-1 red"></b-spinner><router-link to="/results" class="text-white">LIVE - Just nu spelas matcher, följ dom här!</router-link>
               </div>
             
             <p hidden v-if="!closed">2020 spelades 358 matcher på nästan 100 golfklubbar.</p>

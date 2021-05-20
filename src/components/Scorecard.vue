@@ -1001,10 +1001,13 @@
                 .then(response =>  {
                      awayteam = response.data.awayteam
 					 hometeam = response.data.hometeam
+
+					 
 					
                         for (const team of teams) {							
+							//console.log(team)
                                 //if(team._id === awayteam || team._id === hometeam || userinfo.golfid === '780110-015') {
-								
+								//console.log(team._id,hometeam)
 									if(team._id === hometeam || userinfo.golfid === '780110-015') {
 																
 									this.authorized = true;
@@ -1017,6 +1020,8 @@
 									if (this.$route.name === "viewer") {
 										this.authorized = false;
 									}
+
+									break;
 
 								} else { //either not logged in or not auth
 									if (!this.freeplay) {
