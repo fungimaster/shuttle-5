@@ -1258,7 +1258,7 @@
 			},
 			setTieBreak() {
 				let tieBreak = false;
-				if (this.tie === true && this.holesLeft <= 1) {
+				if (this.tie === true && this.holesLeft < 1) {
 					tieBreak = true;
 				}
 				return tieBreak;
@@ -3244,7 +3244,7 @@
 	}
 
 	.extraheight2 {
-		height: calc(120vh) !important;
+		height: calc(140vh) !important;
 	}
 
 	table {
