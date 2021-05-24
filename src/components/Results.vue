@@ -84,7 +84,7 @@
                            </b-col>
                          </b-row>
 
-                         <b-row v-if="gamescount > 0" class="mt-4">
+                         <b-row v-if="gamescount > 0" class="mt-4">                          
                           <b-col v-for="(game,idx1) in games" :key="idx1" xs="12" sm="12" class="pt-3 pb-3 pl-md-2 pr-md-2 game mb-3" :class="idx1 % 2 === 0 ? 'whitebg' : 'whitebg'">                
                              <b-row>
                                  <b-col class="gameheader col-12 text-center mb-4">

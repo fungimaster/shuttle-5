@@ -194,6 +194,7 @@
                             <div>
                                 <label for="input-ref" class="d-inline">Intjänad rabatt:</label>
                                 <span v-if="userdetails.referrals" class="d-inline">{{userdetails.referrals*50}} kr</span>
+                                <span v-if="userdetails.referrals===0">{{userdetails.referrals}}:-</span>
                                 <span v-if="userdetails.referrals > 0">({{userdetails.referrals}} lag)</span>
                                 <i id="ref_help" href="#" tabindex="0" class="fa fa-question-circle ml-1"></i>
                                 <b-popover target="ref_help" variant="info" triggers="focus" placement="topright">
@@ -244,6 +245,13 @@
                                   <b-popover target="ambassador" variant="success" triggers="focus" placement="topleft">
                                                 <template #title>Trophé</template>
                                                  Du är en ambassadör för tävlingen! Tack :)
+                                            </b-popover>
+
+                                 <!-- First win -->                                         
+                                 <i id="firstwin" href="#" tabindex="0" v-if="userdetails.firstwin" class="fas fa-medal gold"></i>
+                                  <b-popover target="firstwin" variant="success" triggers="focus" placement="topleft">
+                                                <template #title>Trophé</template>
+                                                Första matchen vunnen!
                                             </b-popover>
                                 
 
@@ -1764,6 +1772,7 @@ export default {
                 golfid: '',
                 hcp: '',
                 isambassador: false,
+                firstwin: false,
                 referrals: 0             
             },
             form: {
@@ -3484,6 +3493,9 @@ export default {
 
                     if (userinfo.hasOwnProperty('numberofwins')) {
                         this.userdetails.numberofwins = userinfo.numberofwins;
+                        if (userinfo.numberofwins > 0) {                              
+                            this.userdetails.firstwin = true;                            
+                        }
                     } 
 
                     this.games = [];

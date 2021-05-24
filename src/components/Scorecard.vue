@@ -28,7 +28,10 @@
 		</div>
 
 		<b-modal id="modal-legend" title="Välkommen till matchen!" ok-only ref="modal-legend">
-			Se till att registrera scoren fortlöpande på väg till nästa tee eller innan ni slår ut på nästa så att dom som följer matchen ser de uppdaterade resultaten <i class="fa fa-smile"></i>
+			
+			Se till att registrera scoren fortlöpande på väg till nästa tee eller innan ni slår ut på nästa så att dom som följer matchen ser de uppdaterade resultaten.
+			<br><br>
+			<span class="red">När er match är avgjord är det viktigt att trycka på knappen <strong>avsluta matchen</strong> som blinkar rött högst upp på scorekortet!</span>
 			<br><br>
 			Ta gärna ett foto på ditt lag eller hela gänget nu innan ni slår ut på första tee: <label v-if="authorized" for="file"><span class=" pulse-button btn btn-primary"><span style="font-size:1.5em;" class="material-icons mr-0">add_a_photo</span></span></label>
 			<br><span class="small">Bilden kommer visas på resultatsidan.</span>
@@ -198,7 +201,7 @@
 							<button
 								v-if="winnerDeclared && !gameClosed"
 								@click="winnerDeclared = true,  sendWinner('Finished'), closeGame()"
-								class="btn btn-danger disable-dbl-tap-zoom"
+								class="btn btn-danger disable-dbl-tap-zoom pulse-button2"
 							>Avsluta matchen</button>
 							</b-col>
 						</b-row>
@@ -821,7 +824,7 @@
 						</b-progress> 
 					</b-col>
 
-					<b-col class="col-5 text-left pr-0 mr-0">
+					<b-col class="col-5 text-left pr-0 mr-0">						
 						<button class="btn btn-primary pulse-button btn-md" @click="showMatch(null)" v-if="authorized">
 							<span class="material-icons">create</span>
 							Score
@@ -1529,7 +1532,7 @@
 				this.holeWinner = matchScore;
 
 				//POSTAR IN SCORE HÄR SÅ MAN KOMMER ÅT DET SOM UNAUTH TITTARE
-				if (this.winnerDeclared && this.nameCount[this.activeHole-1].length === 5 && this.status !== "Finished") {
+				if (this.winnerDeclared && this.nameCount[this.activeHole-1].length === 5 && this.status !== "Finished") {					
 					(async () => {
   						const data = {
 						_id: this.gameID,
@@ -1753,19 +1756,23 @@
 		watch: {
 			winnerDeclared: {
 				handler: function() {
-					this.sendWinner(); 
+					//this.sendWinner(); 
 				}
 			},
 			
 		},
 		methods: {	
+			setScores() {
+				
+			},
 			 getgamedate: function (updated) {
 				let gamedate2 = new Date(updated);
 				//return moment(gamedate2, "hh:mm:ss");
 				return moment(gamedate2).format("HH:mm:ss")
 				//var gamedate2 = '"' + gamedate + '"' + ' ' + gametime; //return moment(gamedate2, "YYYY-MM-DD hh:mm").add(3, 'hours').fromNow();
 			},
-			 getLogoImage(logourl,preset) {      
+			 getLogoImage(logourl,preset) {
+				 if (logourl)
 				var first_url = logourl.split("/upload/").pop();           
 				return 'https://res.cloudinary.com/dn3hzwewp/image/upload/' + preset + '/' + first_url;
             },
@@ -2033,6 +2040,7 @@
 				}
 
 				const url = "https://admin.matchplay.se/methods/updateGame";
+				console.log('update2')
 			
 				try {
 					let response = await axios.post(url, data);
@@ -2155,6 +2163,7 @@
 				}
 
 				const url = "https://admin.matchplay.se/methods/updateGame";
+				console.log('update4')
 
 			
 				try {
@@ -2391,6 +2400,7 @@
 				};
 
 				const url = "https://admin.matchplay.se/methods/updateGame";
+				console.log('update3')
 			
 				try {
 					let response = await axios.post(url, data);
@@ -2801,12 +2811,9 @@
 	}
 
 	.btn-danger {
-		font-size: 12px;
+		font-size: 16px;
 	}
-	.btn-danger {
-		font-size: 12px;
-	}
-
+	
 	/* leader board      ---> table */
 
 	.table9 {
