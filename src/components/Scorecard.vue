@@ -33,8 +33,10 @@
 			<br><br>
 			<span class="red">När er match är avgjord är det viktigt att trycka på knappen <strong>avsluta matchen</strong> som blinkar rött högst upp på scorekortet!</span>
 			<br><br>
-			Ta gärna ett foto på ditt lag eller hela gänget nu innan ni slår ut på första tee: <label v-if="authorized" for="file"><span class=" pulse-button btn btn-primary"><span style="font-size:1.5em;" class="material-icons mr-0">add_a_photo</span></span></label>
-			<br><span class="small">Bilden kommer visas på resultatsidan.</span>
+			<div v-if="!freeplay">
+				Ta gärna ett foto på ditt lag eller hela gänget nu innan ni slår ut på första tee: <label v-if="authorized" for="file"><span class=" pulse-button btn btn-primary"><span style="font-size:1.5em;" class="material-icons mr-0">add_a_photo</span></span></label>
+						<br><span class="small">Bilden kommer visas på resultatsidan.</span>
+			</div>
 			<h5 class="mt-4 mb-3">Symbolförklaring</h5>
 			<b-row class="legend mb-3">
 				<b-col class="col-6 small mb-3">
@@ -247,7 +249,7 @@
 											<span>SHCP {{ slopedHcpPlayers[index] }}</span>
 											<span
 												:class="{ hideSlag: slag(index) === 0 ? true : false }"
-											>&#9642; SLAG {{ slag(index) }}</span>
+											>&#9642; <strong>SLAG {{ slag(index) }}</strong></span>
 										</div>
 									</b-col>
 
@@ -316,7 +318,7 @@
 											<span>SHCP {{ slopedHcpPlayers[index + 2] }}</span>
 											<span
 												:class="{ hideSlag: slag(index + 2) === 0 ? true : false }"
-											>&#9642; SLAG {{ slag(index + 2) }}</span>
+											>&#9642; <strong>SLAG {{ slag(index + 2) }}</strong></span>
 										</div>
 									</b-col>
 									<!-- SCOREBUTTON -->
@@ -515,7 +517,8 @@
 						<b-col v-if="!authorized && status !== 'Finished'" cols="12" class="mt-4">
 							 <h5><b-spinner small type="grow" class="mr-2 mb-1 red"></b-spinner>Match pågår <span v-if="gametime">(start {{gametime}})</span> </h5>
 							 <b-button id="refresh_button" class="float-right btn-sm" @click="refreshGame3()" variant="warning" show><b-spinner v-if="updating" small type="grow" class="mr-1 red"></b-spinner>Uppdatera</b-button>
-							 <h5><span class="lowerCase timeUpdated">Senaste score: {{getgamedate(modifiedAt)}}</span></h5>
+							 <h5 class="mb-0"><span class="lowerCase timeUpdated">Senaste score: {{getgamedate(modifiedAt)}}</span></h5>
+							 <h5><span class="lowerCase timeUpdated">Nästa score ca: {{getgamedatepredict(modifiedAt,holesLeft,holesArr)}}</span></h5>
 							 
 							 
 						</b-col>
@@ -632,7 +635,7 @@
 							v-changeNanAndZero:arguments="{
                 score: holes.strokes
               }"
-					>				
+					>								
 					<span :class="{eagle: holes.strokes === holes.par-2 ,birdie: holes.strokes === holes.par-1,bogey: holes.strokes === holes.par+1, doubleBogey: holes.strokes >= holes.par+2   }">{{ holes.strokes === 0 ? null : holes.strokes }}</span>
 					<span hidden :class="[{ hideSlag: slagTable(0, index) === 0 ? true : false }, 'slagInTable']">
 						{{slagTable(0, index)}}
@@ -1071,12 +1074,14 @@
 			appGameImageGallery: AppGameImageGallery
 		},
 		directives: {		
-			changeNanAndZero(el, bind) {
+			changeNanAndZero(el, bind) {				
 				if (bind.value.score !== bind.value.score) {
-					el.innerHTML = "-";
+					//el.innerHTML = "-";
+					el.children[0].innerHTML = "-";
 				}
 				if (bind.value.score === 0) {
-					el.innerHTML = null;
+					//el.innerHTML = null;
+					el.children[0].innerHTML = null;
 				}
 			},
 			initials(el) {
@@ -1111,6 +1116,7 @@
 		},
 		data() {
 			return {
+				holesArr: null,
 				modifiedAt: null,
 				loadingprogress: 0,
 				doctitle: 'Scorekort',
@@ -1765,6 +1771,22 @@
 			setScores() {
 				
 			},
+			 getgamedatepredict: function (updated,holesLeft,holes) {
+				let nexthole = 19-holesLeft;
+				let nextpar = holes[nexthole-1];
+				let addmin = 12;
+				//console.log('nextpar',nextpar)
+				if (nextpar.par === 4) addmin = 14;
+				if (nextpar.par === 5) addmin = 17;
+
+
+				let gamedate2 = new Date(updated);
+				var predict = moment(gamedate2);
+        		predict.add(moment.duration(addmin, 'minutes'));
+				return moment(predict).format("HH:mm:ss");
+				//return moment(gamedate2).format("HH:mm:ss")
+				//var gamedate2 = '"' + gamedate + '"' + ' ' + gametime; //return moment(gamedate2, "YYYY-MM-DD hh:mm").add(3, 'hours').fromNow();
+			},
 			 getgamedate: function (updated) {
 				let gamedate2 = new Date(updated);
 				//return moment(gamedate2, "hh:mm:ss");
@@ -2040,7 +2062,7 @@
 				}
 
 				const url = "https://admin.matchplay.se/methods/updateGame";
-				console.log('update2')
+				
 			
 				try {
 					let response = await axios.post(url, data);
@@ -2082,6 +2104,7 @@
 					this.awayTeamId = response.data.awayteam
 					this.gametime = response.data.gametime
 					this.images = response.data.imagesurl
+					this.holesArr = response.data.holes
                  
 					const [ hcp1, hcp2, hcp3, hcp4 ] = response.data.scorecard
 					this.hcpUnmutated = [ hcp1.orghcp, hcp2.orghcp, hcp3.orghcp, hcp4.orghcp ]
@@ -2163,8 +2186,7 @@
 				}
 
 				const url = "https://admin.matchplay.se/methods/updateGame";
-				console.log('update4')
-
+				
 			
 				try {
 					let response = await axios.post(url, data);
@@ -2400,7 +2422,7 @@
 				};
 
 				const url = "https://admin.matchplay.se/methods/updateGame";
-				console.log('update3')
+				
 			
 				try {
 					let response = await axios.post(url, data);
