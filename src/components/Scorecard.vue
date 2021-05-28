@@ -405,7 +405,7 @@
 									class="btn-md pl-3 pr-3 bottombuttons"
 									:class="{bottombuttonsModal: viewedInModal, 'pulse-button': allScores(activeHole)}"
 									variant="primary"
-									@click="currentStrokes(activeHole),activeHole++, saveData(), sendInProgress(), makeToast('danger')"
+									@click="currentStrokes(activeHole),makeToast('danger'),activeHole++, saveData(), sendInProgress()"
 								>
 									Hål {{activeHole + 1}}
 									<span class="material-icons" v-if="!viewedInModal">arrow_forward_ios</span>
@@ -2212,7 +2212,7 @@
 				} catch (error) {
 					error => console.log(error);
 				}
-
+			
 			},
 			slagTable(playerIndex, holeIndex) {
 				// skickar tillbaka slag för den spelare och hålindex man skickar in. 
@@ -2407,11 +2407,19 @@
 							},
 	
 			async saveData() {
-				//hindrar att status byts om man öppnar sin egna avslutade match och bröjar byta hål. 
+				//hindrar att status byts om man öppnar sin egna avslutade match och börjar byta hål. 
 				if (this.status === "Finished") {
 					return;
 				}
-				
+
+				//exit om inte alla scorer är inrapporterade
+				if (!this.allScores(this.activeHole)) {					
+					return;
+				}
+
+				//check network
+				//console.log(window.navigator.onLine)
+						
 				this.saveprogress = true;
 				
 				const data = {
@@ -2421,15 +2429,14 @@
 					holesleft: this.holesLeft
 				};
 
-				const url = "https://admin.matchplay.se/methods/updateGame";
-				
+				const url = "https://admin.matchplay.se/methods/updateGame";				
 			
 				try {
 					let response = await axios.post(url, data);
 					this.saveprogress = false;
 					
 				} catch (e) {
-					this.saveprogress = false;
+					this.saveprogress = false;					
 					error => console.log(error);					
 				}
 
