@@ -131,28 +131,28 @@
                           <li v-bind:class="{ active: currentRound === 1}">
                             Omgång 1: 2 maj - 30 maj
                           </li>
-                           <li>
+                           <li v-bind:class="{ active: currentRound === 2}">
                             Omgång 2: 31 maj - 20 juni
                           </li>
-                           <li>
+                            <li v-bind:class="{ active: currentRound === 3}">
                             Omgång 3: 21 juni - 4 juli
                           </li>
-                           <li>
+                            <li v-bind:class="{ active: currentRound === 4}">
                             Omgång 4: 5 juli - 18 juli
                           </li>
-                           <li>
+                            <li v-bind:class="{ active: currentRound === 5}">
                             Omgång 5: 19 juli - 1 aug
                           </li>
-                           <li>
+                            <li v-bind:class="{ active: currentRound === 6}">
                             Omgång 6: 2 aug -  15 aug
                           </li>
-                           <li>
+                           <li v-bind:class="{ active: currentRound === 7}">
                             Omgång 7: 16 aug - 29 aug
                           </li>
-                           <li>
+                           <li v-bind:class="{ active: currentRound === 8}">
                             Sverigefinal (3-5 sep)
                           </li>
-                           <li>
+                           <li v-bind:class="{ active: currentRound === 9}">
                             Final (November)
                           </li>
                        </ul>

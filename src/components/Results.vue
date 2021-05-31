@@ -249,14 +249,14 @@
                        <h4>Spelade - {{active_round}} <span v-if="updating3"><b-spinner small type="grow" class="ml-2 mr-1 mb-1 red"></b-spinner>...</span><span v-else>({{gamescount3}})</span></h4>
                         <p hidden>Inom kort kommer bokade matcher visas här samt annan information om lagen!</p>
                       
-                        <b-row hidden class="mb-3 mt-2">
+                        <b-row class="mb-3 mt-2">
                           <b-col>
                              <b-button hidden size="sm" v-on:click="updategames()" variant="primary">update</b-button>
                             <b-button hidden size="sm" v-on:click="getGamesFinished('button','all')" variant="primary">Alla</b-button>
                            
-                            <b-button v-if="currentRound>0" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Omgång 1')" variant="primary">Omgång 1</b-button>                           
-                            <b-button v-if="currentRound>1" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Omgång 2')" variant="primary">Omgång 2</b-button> 
-                            <b-button v-if="currentRound>2" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Omgång 3')" variant="primary">Omgång 3</b-button>
+                            <b-button v-if="currentRound>0" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','1')" variant="primary">Omgång 1</b-button>                           
+                            <b-button v-if="currentRound>1" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','2')" variant="primary">Omgång 2</b-button> 
+                            <b-button v-if="currentRound>2" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','3')" variant="primary">Omgång 3</b-button>
                             <b-button hidden size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Omgång 4')" variant="primary">Omgång 4</b-button>
                             <b-button hidden size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Omgång 5')" variant="primary">Omgång 5</b-button>
                             <b-button hidden size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Omgång 6')" variant="primary">Omgång 6</b-button>
@@ -491,7 +491,7 @@ export default {
   }   
 
     this.getGamesInprogress('initial');
-    this.getGamesFinished();
+    //this.getGamesFinished();
     this.getGolfclubsLogoUrl();
     this.getTopListClubsPlayed(); //top list clubs played
     this.getBirdies();
@@ -863,6 +863,7 @@ export default {
       }
     },
     lastname(thename) {
+     // return thename;
       if (thename) {
         let names = thename.split(" ");
         return names[names.length - 1];
@@ -1049,7 +1050,7 @@ export default {
       if (origin === "button") {
         //set saved filter
         localStorage.setItem("active_round", round);
-        this.active_round = round;
+        this.active_round = 'Omgång ' + round;
       } //this.classoptions = localStorage.getItem('active_round'); //console.log(this.classoptions) //if (this.classoptions === 'null' || this.classoptions === null) { //  delete options['roundname']; //} else { // options["roundname"] = this.classoptions; //}
 
       options["competition"] = globalState.compid;
@@ -1057,7 +1058,7 @@ export default {
       if (round === "all") {
         delete options["roundname"];
       } else {
-        options["roundname"] = round;
+        options["roundname"] = 'Omgång ' + round //round;
       }
 
       const today = moment().format("YYYY-MM-DD");
@@ -1080,7 +1081,7 @@ export default {
       if(this.getGames3.length) {
         this.games3 = this.getGames3
         handleResponse()
-        return
+        //return
       }
 
       this.axios
