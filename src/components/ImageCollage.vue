@@ -93,7 +93,7 @@ export default {
       if (this.windowWidth <= 576) {
         images = this.images.map(e => {
           const obj = {}
-          obj.url = this.addToUrl(e.url,"w_400,q_auto" ) 
+          obj.url = this.addToUrl(e.url,"w_600,q_auto" ) 
           obj.title = e.title
           return obj
         })
