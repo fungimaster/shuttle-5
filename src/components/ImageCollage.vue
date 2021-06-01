@@ -84,12 +84,26 @@ export default {
       return "w_300,q_auto";
     },
     lastXImages() {
+   
       let number = this.numberOfImages;
 
-      if (this.images.length > number) {
-        return this.images.slice(Math.max(this.images.length - number, 1));
+      let images = [...this.images]
+      
+      //krymp storleken för öppande bilder i mobil 
+      if (this.windowWidth <= 576) {
+        images = this.images.map(e => {
+          const obj = {}
+          obj.url = this.addToUrl(e.url,"w_400,q_auto" ) 
+          obj.title = e.title
+          return obj
+        })
       }
-      return this.images
+
+      if (images.length > number) {
+        return images.slice(Math.max(this.images.length - number, 1))
+      }
+
+      return images
     },
     onePart() {
       if (!this.lastXImages) {
