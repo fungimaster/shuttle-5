@@ -15,6 +15,43 @@
         På grund av hög belastning på vår server och inte helt optimerad kod kommer resultatsidan vara under utveckling nån dag eller två. Välkommen tillbaka!
     </b-alert>  
 
+    <b-container class="mt-3 ml-0 mr-0 p-0">      
+        <b-row class="p-0 m-0">      
+            <b-col class="col-3 col-md-3 text-center p-1">
+                <div class="stats pt-2 pl-1 pr-1 pb-0" variant="primary">
+                  <label class="d-block">Lag:</label>
+                  <span v-if="!loadingstats" class="d-inline">{{this.team.total}}</span>
+                   <span v-else class="d-inline"><b-spinner small type="grow" class="ml-0 pl-0 mr-1 mb-1"></b-spinner></span>
+                </div>
+            </b-col>
+             <b-col class="col-3 col-md-3 text-center p-1">
+                <div class="stats stats_green pt-2 pl-1 pr-1 pb-0" variant="primary">
+                  <label class="d-block">HT:</label>
+                  <span v-if="!loadingstats" class="d-inline">{{this.team.winner}}</span>
+                  <span v-else class="d-inline"><b-spinner small type="grow" class="ml-0 pl-0 mr-1 mb-1"></b-spinner></span>
+                </div>
+            </b-col> 
+             <b-col class="col-3 col-md-3 text-center p-1">
+                <div class="stats stats_orange pt-2 pl-1 pr-1 pb-0" variant="primary">
+                  <label class="d-block">AC:</label>
+                  <span v-if="!loadingstats" class="d-inline">{{this.team.secondchance}}</span>
+                  <span v-else class="d-inline"><b-spinner small type="grow" class="ml-0 pl-0 mr-1 mb-1"></b-spinner></span>
+                </div>
+            </b-col> 
+             <b-col class="col-3 col-md-3 text-center p-1">
+                <div class="stats stats_red pt-2 pl-1 pr-1 pb-0" variant="primary">
+                  <label class="d-block">Utslagna:</label>
+                  <span v-if="!loadingstats" class="d-inline">{{this.team.defeated}}</span>
+                   <span v-else class="d-inline"><b-spinner small type="grow" class="ml-0 pl-0 mr-1 mb-1"></b-spinner></span>
+                </div>
+            </b-col>  
+          <!-- <b-col class="col-3 p-0 m-0"><div class="statcard">Lag:<br> {{this.team.total}}</div></b-col>
+          <b-col class="col-3 p-0 m-0"><div class="statcard">Vinnare:<br> {{this.team.winner}}</div></b-col>
+          <b-col class="col-3 p-0 m-0"><div class="statcard">Andra Chansen:<br> {{this.team.secondchance}}</div></b-col>
+          <b-col class="col-3 p-0 m-0"><div class="statcard">Utslagna:<br> {{this.team.defeated}}</div></b-col>  -->             
+      </b-row>
+    </b-container>
+
       <b-tabs content-class="mt-3" v-model="tabIndex" no-key-nav class="mt-4 mt-md-5">
 
           <b-tab title-link-class="ml-0">
@@ -476,6 +513,8 @@ export default {
   name: 'Resultat',
   created() {
 
+    this.loadingstats = true;
+
     if (!globalState.compid) {
     return  
   } else {
@@ -484,18 +523,20 @@ export default {
       .then((response) => {
         this.currentRound = response.data.currentround;      
         this.active_round =  'Omgång ' + this.currentRound;
+        console.log('created current round',this.currentRound);
+         this.getGamesInprogress('initial');
+        //this.getGamesFinished();
+        this.getGolfclubsLogoUrl();
+        this.getTopListClubsPlayed(); //top list clubs played
+        this.getBirdies();
+        this.getTeamsCount();
       })
       .catch((error) => {
         console.log(error);
       }); 
   }   
 
-    this.getGamesInprogress('initial');
-    //this.getGamesFinished();
-    this.getGolfclubsLogoUrl();
-    this.getTopListClubsPlayed(); //top list clubs played
-    this.getBirdies();
-    //this.getTeamsCount();
+   
     
   },
   mounted() {
@@ -520,6 +561,7 @@ export default {
   data() {
     return {
       loadingimages: true,
+      loadingstats: true,
       allGameImages:[],
       numberOfImages: 0,
       latestUpdate: null,
@@ -545,7 +587,7 @@ export default {
       tabIndex: 1,
       price1: globalState.price1,
       price2: globalState.price2,
-      active_round: "Omgång 1",     
+      active_round: "Omgång 2",     
       //PENDING GAMES
       loadinggames2: false,
       updating2: false,
@@ -1009,8 +1051,9 @@ export default {
 
         //LOAD FINISHED
         if (type === "initial") {
-          this.updating3 = true;
-          this.getGamesFinished("loader", this.active_round);
+          this.updating3 = true;          
+          console.log(this.active_round)
+          this.getGamesFinished("loader", this.currentRound);
         }
  
       this.axios
@@ -1037,7 +1080,7 @@ export default {
     },
     getGamesFinished(origin, round) {
       //loading
-
+      console.log('inital load',this.currentRound)
       this.updating3 = true;
 
       if (origin === "loader") {
@@ -1190,11 +1233,12 @@ export default {
           competition: globalState.compid,
         })
         .then((response) => {
-          console.log(response.data)
+          //console.log(response.data)
           this.team.total = response.data.total;
           this.team.defeated = response.data.defeated;
           this.team.secondchance = response.data.secondchance;
           this.team.winner = response.data.winner;
+          this.loadingstats = false;
           //this.clubs = response.data;
         })
         .catch((error) => {
@@ -1273,6 +1317,51 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
+
+.stats {
+    // background: lighten($blue, 5%);
+    border-radius:0.2em;
+    color:#333;
+    border: 1px solid darken(#999, 15%);
+    label {
+      border-bottom: 1px solid lighten(#999, 30%);
+    }
+}
+
+.stats_green {
+  background:$green;
+  border: 1px solid darken($green, 15%);
+  label {
+     border-bottom: 1px solid lighten($green, 15%);
+  }
+}
+
+.stats_orange {
+  background:$orange;
+  border: 1px solid darken($orange, 15%);
+  label {
+     border-bottom: 1px solid lighten($orange, 15%);
+  }
+}
+
+.stats_red {
+  background:$red;
+  border: 1px solid darken($red, 15%);
+  label {
+     border-bottom: 1px solid lighten($red, 15%);
+  }
+}
+
+.stats label {
+    font-size:0.7em;
+    text-transform:uppercase;
+    
+}
+
+
+.stats span {
+    font-size:1em;
+}
 
 .bg-image-collage {
   //background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1500,q_auto,e_colorize:70,co_rgb:000000/v1608122032/matchplay/MPI-1825.jpg);
