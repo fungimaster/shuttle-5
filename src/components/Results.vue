@@ -885,7 +885,7 @@ export default {
         return "5&4";
       }
 
-      if (result.includes("&") || result.includes("UP")) {
+      if ((result && result.length && result.includes("&")) || (result && result.length && result.includes("UP"))) {
         return result;
       }
 

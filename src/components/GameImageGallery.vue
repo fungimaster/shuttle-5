@@ -34,6 +34,12 @@
 import { LightGallery } from "vue-light-gallery";
 
 export default {
+  created() {
+    window.addEventListener("resize", this.handleResize);
+  },
+  destroyed() {
+    window.removeEventListener("resize", this.handleResize);
+  },
   components: {
     LightGallery,
   },
@@ -41,14 +47,21 @@ export default {
   data() {
     return {
       index: null,
+            windowWidth: window.innerWidth,
     };
   },
   computed: {
       lastFourImages() {
-          if (this.images.length > 4) {
-            return this.images.slice(Math.max(this.images.length - 4, 1))
+      let images = [...this.images]
+
+          if (this.windowWidth <= 576) {
+            images = this.images.map(e => this.addToUrl(e,"w_600,q_auto" ))
           }
-          return this.images
+
+          if (images.length > 4) {
+            return images.slice(Math.max(this.images.length - 4, 1))
+          }
+          return images
       }
   },
   methods: {
