@@ -530,14 +530,15 @@ export default {
         this.getTopListClubsPlayed(); //top list clubs played
         this.getBirdies();
         this.getTeamsCount();
+  
       })
       .catch((error) => {
         console.log(error);
       }); 
   }   
 
-   
-    this.gamescount3 = this.numberOfGames3
+    this.gamescount3 = this.numberOfGames3 || null
+
   },
   mounted() {
     this.gameImages();
@@ -553,6 +554,13 @@ export default {
         }
       },
     },
+    numberOfGames3: {
+      handler: function () {
+        this.gamescount3 = this.numberOfGames3
+        console.log(this.gamescount3)
+      }   
+    }
+         
   },  
   components: {
     AppGameImageGallery,AppImageCollage
@@ -1147,7 +1155,7 @@ export default {
     getGames() {
       //loading
 
-      this.gamescount3 = 0;
+       this.gamescount3 = 0;
 
       const today = moment().format("YYYY-MM-DD");
       const today_h = moment().format("HH:mm");
