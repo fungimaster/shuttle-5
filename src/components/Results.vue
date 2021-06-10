@@ -530,14 +530,15 @@ export default {
         this.getTopListClubsPlayed(); //top list clubs played
         this.getBirdies();
         this.getTeamsCount();
+  
       })
       .catch((error) => {
         console.log(error);
       }); 
   }   
 
-   
-    
+    this.gamescount3 = this.numberOfGames3 || null
+
   },
   mounted() {
     this.gameImages();
@@ -553,6 +554,13 @@ export default {
         }
       },
     },
+    numberOfGames3: {
+      handler: function () {
+        this.gamescount3 = this.numberOfGames3
+        console.log(this.gamescount3)
+      }   
+    }
+         
   },  
   components: {
     AppGameImageGallery,AppImageCollage
@@ -577,7 +585,7 @@ export default {
       birdies: 0,
       //IN PROGRESS GAMES
       loadinggames: false,
-      updating1: false,
+      updating1: true,
       game: {},
       games: [],
       gamesOrg: [],
@@ -625,7 +633,8 @@ export default {
       "getGames1",
       "getGames2",
       "getGames3",
-      "getClubLogosUrls"
+      "getClubLogosUrls",
+      "numberOfGames3"
     ]),
     validation() {
       let validated = false;
@@ -1108,7 +1117,6 @@ export default {
       const today_h = moment().format("HH:mm");
 
       const handleResponse = () => {
-          this.gamescount3 = this.games3.length;
           this.games3Org = this.games3;
           this.loadinggames3 = false;
           this.updating3 = false;
@@ -1147,7 +1155,7 @@ export default {
     getGames() {
       //loading
 
-      this.gamescount3 = 0;
+       this.gamescount3 = 0;
 
       const today = moment().format("YYYY-MM-DD");
       const today_h = moment().format("HH:mm");

@@ -42,6 +42,9 @@ export default new Vuex.Store({
     getGames3(state) {
       return state.games3;
     },
+    numberOfGames3(state) {
+      return state.games3.length;
+    },
     userId(state) {
       return state.userId;
     },
