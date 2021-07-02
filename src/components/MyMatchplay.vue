@@ -293,8 +293,15 @@
                                
                             </div>
                         </b-col>
-                    </b-row>      
-                            
+                    </b-row>  
+
+                <!-- MATCH BILDER -->
+                    <b-row align-h="center" v-if="myImages">
+                        <b-col sm="10" lg="6" class="mt-5">
+                              <h4><strong>MATCHBILDER</strong></h4>
+                                <app-game-image-gallery v-if="myImages" :images="myImages" align="start"></app-game-image-gallery>	
+                        </b-col>    
+                    </b-row>                             
                     
                     <b-row align-h="center" v-if="!showlogin">
                             <b-col sm="10" lg="6" class="mt-4 text-right">
@@ -1412,6 +1419,7 @@ let opts = {
     reconnectInterval: 5000
 };
 import AppRoundsGrafic from "./RoundsGrafic";
+import AppGameImageGallery from "./GameImageGallery";
 
 export default {
     name: 'mymatchplay',
@@ -1420,8 +1428,8 @@ export default {
         'suggestions': Suggestions,
         VueTelInput,
         ScorecardExplainer,
-        AppRoundsGrafic
-        //'c-map':Map
+        AppRoundsGrafic,
+        AppGameImageGallery
     },
      directives: {
 		 negativeToPostive: {
@@ -1790,7 +1798,35 @@ export default {
         }
     },
     computed: {
-         hasPoll() {            
+        myImages() {
+            if (!this.userinfo) {
+                return false;
+            }
+
+            let teams = this.userinfo.teams || null;
+
+            if (teams) {
+                let games = teams.map((e) => e.games);
+
+                if (!games.length) {
+                return false;
+                }
+
+                let listsOfImages = games
+                .flat()
+                .filter((game) => game.imagesurl)
+                .map((game) => game.imagesurl.flat())
+                .map((imagesurlarray) => [...imagesurlarray]);
+
+                if (!listsOfImages.length) {
+                return false;
+                }
+                const merged = [].concat.apply([], listsOfImages);
+
+                return merged;
+            }
+        },
+        hasPoll() {
             if (this.poll == '') return true;
             else return false;
         },

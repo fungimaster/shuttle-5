@@ -6,7 +6,7 @@
       :disable-scroll="true"
       @close="index = null"
     />
-    <b-row no-gutters align-h="center">
+    <b-row no-gutters :align-h="align || 'center'">
       <b-col
         cols="4"
         md="2"
@@ -43,7 +43,7 @@ export default {
   components: {
     LightGallery,
   },
-  props: ["images"],
+  props: ["images", "align"],
   data() {
     return {
       index: null,
