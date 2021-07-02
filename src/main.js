@@ -21,6 +21,7 @@ window.JQuery = require('jquery')
 import router from './router';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
+import VueEllipseProgress from 'vue-ellipse-progress';
 
 Vue.use(BootstrapVue);
 
@@ -31,6 +32,7 @@ Vue.prototype.axios = axios;
 
 Vue.use(Vuex);
 Vue.use(NProgress)
+Vue.use(VueEllipseProgress);
  
 const nprogress = new NProgress()
 
