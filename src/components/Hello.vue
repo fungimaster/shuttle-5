@@ -188,9 +188,61 @@
             ></b-img>
           </b-col> 
         </b-row>
+        <b-row v-if="closed" align-h="center" class="mt-0 mt-sm-4 pt-0 pt-sm-4">
+          <b-col cols="6" md="4" class="d-flex justify-content-center" >
+            <vue-ellipse-progress 
+             :progress="gameRoundCount ? (gameRoundCount.htroundwinners/gameRoundCount.winner*100) : 0"
+            :legend-value="gameRoundCount ? gameRoundCount.htroundwinners : 0"
+             color="#57C5DA"
+            empty-color="#b5ebf4"
+            :size="isMobile ? 130 : 180"
+            :thickness="5"
+            :empty-thickness="3"
+            animation="default 1000 400"
+            :fontSize="isMobile ? '0.7rem' : '1.5rem'"
+            font-color="white"
+            dot="10 #57C5DA"
+            :loading="loadingGameRoundCount"
+
+            reverse>
+            
+            <span v-if="gameRoundCount" slot="legend-value" > / {{gameRoundCount.winner}}</span>
+          <div slot="legend-caption">
+              <small v-if="gameRoundCount" :style="isMobile ? 'font-size: 0.8rem' : null"   slot="legend-caption">Matcher R{{currentRound}}</small>
+              <span v-if="gameRoundCount" class="d-block" :style="isMobile ? 'font-size: 0.8rem' : null"  >HT</span>
+            </div>            
+          </vue-ellipse-progress>
+          </b-col>
+          <b-col cols="6" md="4" class="d-flex justify-content-center" >
+            <vue-ellipse-progress 
+             :progress="gameRoundCount ? (gameRoundCount.acroundwinners/gameRoundCount.winner*100) : 0"
+            :legend-value="gameRoundCount ? gameRoundCount.acroundwinners : 0"
+             color="#FC9B37"
+            empty-color="#f4cea8"
+            :size="isMobile ? 130 : 180"
+            :thickness="5"
+            :empty-thickness="3"
+            animation="default 1000 400"
+            :fontSize="isMobile ? '0.7rem' : '1.5rem'"
+            font-color="white"
+            dot="10 #FC9B37"
+            :loading="loadingGameRoundCount"
+
+            reverse>
+            
+            <span v-if="gameRoundCount" slot="legend-value" > / {{gameRoundCount.secondchance}}</span>
+            <div slot="legend-caption">
+              <small v-if="gameRoundCount"  :style="isMobile ? 'font-size: 0.8rem' : null"   slot="legend-caption">Matcher R{{currentRound}}</small>
+              <span v-if="gameRoundCount" class="d-block" :style="isMobile ? 'font-size: 0.8rem' : null"  >AC</span>
+            </div>
+            
+          </vue-ellipse-progress>
+          </b-col>
+        </b-row>
       </b-container>
     </div>
     <!-- TEMP HIDDEN -->
+        
 
     <b-jumbotron container-fluid class="white mb-0">
       <b-container>
@@ -564,7 +616,12 @@ export default {
   //this.countdown();
   this.getGamesInprogress();   
   },
+  destroyed() {
+    window.removeEventListener("resize", this.handleResize);
+  },
   created() {
+    window.addEventListener("resize", this.handleResize);
+
     this.gameImages()
     if (this.$route.query.sponsor === 'gm') {
       localStorage.setItem('sponsor','gm');     
@@ -596,6 +653,7 @@ export default {
     this.axios
       .post(globalState.admin_url + "getCompetition", {id: globalState.compid})
       .then((response) => {
+          this.currentRound = response.data.currentround;      
 
         //show modal if gamedate is today
 /* 
@@ -633,6 +691,7 @@ export default {
         } */
         
         //end
+        this.getTeamsCount()
         
         if (!response.data.competitionmessages.length) {
           return
@@ -708,7 +767,12 @@ export default {
       price1: globalState.price1,
       price2: globalState.price2,
       allGameImages:[],
-      numberOfImages: 0
+      numberOfImages: 0,
+      currentRound: null,
+      gameRoundCount: null,
+      loadingGameRoundCount: true,  
+      windowWidth: window.innerWidth,
+
     };
   },
 
@@ -717,11 +781,31 @@ export default {
       "user",
       "isAuthenticated",
       "getAllImages"
-    ]) 
+    ]),
+    isMobile() {
+        if (this.windowWidth <= 576) {
+          return true
+        }
+      return false
+    } 
   },
   mixins: [tagsMixin],
   
   methods: {
+      handleResize() {
+        this.windowWidth = window.innerWidth;
+      },
+      getTeamsCount(){
+         this.axios
+          .post(globalState.admin_url + "getTeamsCount", {competition: globalState.compid, roundnumber: this.currentRound})
+          .then((response) => {
+            this.gameRoundCount = response.data
+            this.loadingGameRoundCount = false
+          })
+          .catch((error) => {
+            console.log(error);
+          }); 
+      },
       getGamesInprogress() {
 
       this.loadinggames = true;

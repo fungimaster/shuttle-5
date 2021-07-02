@@ -15,8 +15,84 @@
         På grund av hög belastning på vår server och inte helt optimerad kod kommer resultatsidan vara under utveckling nån dag eller två. Välkommen tillbaka!
     </b-alert>  
 
-    <b-container class="mt-3 ml-0 mr-0 p-0">      
-        <b-row class="p-0 m-0">      
+    <b-container class="mt-3 ml-0 mr-0 p-0">    
+       <b-row  align-h="center" class="mt-0 mt-sm-4 pt-0 pt-sm-4">
+      
+          <b-col cols="4" md="4" class="d-flex justify-content-center p-0" >
+            <vue-ellipse-progress 
+            :progress="gameRoundCount ? (gameRoundCount.htroundwinners/gameRoundCount.winner*100) : 0"
+            :legend-value="gameRoundCount ? gameRoundCount.htroundwinners : 0"
+            color="#57C5DA"
+            empty-color="#b5ebf4"
+            :size="isMobile ? 100 : 180"
+            :thickness="5"
+            :empty-thickness="3"
+            animation="default 1000 400"
+            :fontSize="isMobile ? '0.7rem' : '1.5rem'"
+            font-color="black"
+            dot="9 #57C5DA"
+            :loading="loadingGameRoundCount"
+
+            reverse>
+            
+          <span v-if="gameRoundCount" slot="legend-value" > / {{gameRoundCount.winner}}</span>
+          <div v-if="gameRoundCount" slot="legend-caption">
+              <small :style="isMobile ? 'font-size: 0.8rem' : null"  slot="legend-caption"><span v-if="!isMobile">Matcher</span>  R{{currentRound}} <span v-if="isMobile">HT</span></small>
+              <span v-if="!isMobile" class="d-block" :style="isMobile ? 'font-size: 0.8rem' : null">HT</span>
+            </div>            
+          </vue-ellipse-progress>
+          </b-col>
+          <b-col cols="4" md="4" class=" d-flex justify-content-center p-0" >
+            <vue-ellipse-progress 
+            :progress="gameRoundCount ? (gameRoundCount.acroundwinners/gameRoundCount.winner*100) : 0"
+            :legend-value="gameRoundCount ? gameRoundCount.acroundwinners : 0"
+            color="#FC9B37"
+            empty-color="#f4cea8"
+            :size="isMobile ? 100 : 180"
+            :thickness="5"
+            :empty-thickness="3"
+            animation="default 1000 400"
+            :fontSize="isMobile ? '0.7rem' : '1.5rem'"
+            font-color="black"
+            dot="9 #FC9B37"
+            :loading="loadingGameRoundCount"
+
+            reverse>
+            
+            <span v-if="gameRoundCount" slot="legend-value" > / {{gameRoundCount.secondchance}}</span>
+            <div v-if="gameRoundCount" slot="legend-caption">
+              <small :style="isMobile ? 'font-size: 0.8rem' : null" slot="legend-caption"> <span v-if="!isMobile">Matcher</span> R{{currentRound}} <span v-if="isMobile">AC</span> </small>
+              <span v-if="!isMobile" class="d-block" :style="isMobile ? 'font-size: 0.8rem' : null">AC</span>
+            </div>
+            
+          </vue-ellipse-progress>
+          </b-col>
+         <b-col cols="4" md="4" class="d-flex justify-content-center p-0" >
+            <vue-ellipse-progress 
+              :progress="gameRoundCount ? (gameRoundCount.defeated/this.team.total*100) : 0"
+            :legend-value="gameRoundCount ? gameRoundCount.defeated : 0"
+            color="#F96D80"
+            empty-color="#f7c0c8"
+            :size="isMobile ? 100 : 180"
+            :thickness="5"
+            :empty-thickness="3"
+            animation="default 1000 400"
+            :fontSize="isMobile ? '0.7rem' : '1.5rem'"
+            font-color="black"
+            dot="9 #F96D80"
+            :loading="loadingGameRoundCount"
+
+            reverse>
+            
+            <span v-if="team.total" slot="legend-value" > / {{this.team.total}}</span>
+            <div slot="legend-caption">
+              <small :style="isMobile ? 'font-size: 0.8rem' : null" v-if="team.defeated" slot="legend-caption">Utslagna</small>
+            </div> 
+            
+          </vue-ellipse-progress>
+          </b-col> 
+        </b-row>  
+        <b-row  class="p-0 m-0 mt-4">      
             <b-col class="col-3 col-md-3 text-center p-1">
                 <div class="stats pt-2 pl-1 pr-1 pb-0" variant="primary">
                   <label class="d-block">Lag:</label>
@@ -50,6 +126,7 @@
           <b-col class="col-3 p-0 m-0"><div class="statcard">Andra Chansen:<br> {{this.team.secondchance}}</div></b-col>
           <b-col class="col-3 p-0 m-0"><div class="statcard">Utslagna:<br> {{this.team.defeated}}</div></b-col>  -->             
       </b-row>
+       
     </b-container>
 
       <b-tabs content-class="mt-3" v-model="tabIndex" no-key-nav class="mt-4 mt-md-5">
@@ -539,6 +616,10 @@ export default {
 
     this.gamescount3 = this.numberOfGames3 || null
 
+    window.addEventListener("resize", this.handleResize);
+  },
+  destroyed() {
+    window.removeEventListener("resize", this.handleResize);
   },
   mounted() {
     this.gameImages();
@@ -621,7 +702,11 @@ export default {
         total: 0,
       },
       searchfield: "",
-      showDismissibleAlert: false      
+      showDismissibleAlert: false,
+      gameRoundCount: null,
+      loadingGameRoundCount: true,
+      windowWidth: window.innerWidth,
+     
      
     };
   },
@@ -694,11 +779,20 @@ export default {
       }
       return this.form.password === this.form.password2;
     },
+    isMobile() {
+          if (this.windowWidth <= 576) {
+           return true
+          }
+        return false
+      }
   },
   mixins: [tagsMixin],
   
   methods: {
-       gameImages() {
+      handleResize() {
+        this.windowWidth = window.innerWidth;
+      },
+      gameImages() {
       if (this.getAllImages) {
         //create an even number of images for component
         this.allGameImages = this.getAllImages        
@@ -1236,18 +1330,22 @@ export default {
       //loading
 
       this.axios
-        .post("https://matchplay.meteorapp.com/methods/" + "getTeamsCount", {
+        .post(globalState.admin_url + "getTeamsCount", {
           //getclubstoplist
           competition: globalState.compid,
+          roundnumber: this.currentRound
         })
         .then((response) => {
-          //console.log(response.data)
+          console.log(response.data)
+          this.gameRoundCount = response.data    
           this.team.total = response.data.total;
           this.team.defeated = response.data.defeated;
           this.team.secondchance = response.data.secondchance;
           this.team.winner = response.data.winner;
           this.loadingstats = false;
           //this.clubs = response.data;
+          this.loadingGameRoundCount = false
+
         })
         .catch((error) => {
           console.log(error);
