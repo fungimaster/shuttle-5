@@ -298,8 +298,8 @@
                 <!-- MATCH BILDER -->
                     <b-row align-h="center" v-if="myImages">
                         <b-col sm="10" lg="6" class="mt-5">
-                              <h4><strong>MATCHBILDER</strong></h4>
-                                <app-game-image-gallery v-if="myImages" :images="myImages" align="start"></app-game-image-gallery>	
+                              <h4><strong>MINA MATCHBILDER</strong></h4>
+                                <app-game-image-gallery v-if="myImages" :images="myImages" align="start" :showAll="true"></app-game-image-gallery>	
                         </b-col>    
                     </b-row>                             
                     

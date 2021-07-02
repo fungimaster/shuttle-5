@@ -43,7 +43,7 @@ export default {
   components: {
     LightGallery,
   },
-  props: ["images", "align"],
+  props: ["images", "align", "showAll"],
   data() {
     return {
       index: null,
@@ -58,7 +58,7 @@ export default {
             images = this.images.map(e => this.addToUrl(e,"w_600,q_auto" ))
           }
 
-          if (images.length > 4) {
+          if (images.length > 4 && !this.showAll) {
             return images.slice(Math.max(this.images.length - 4, 1))
           }
           return images

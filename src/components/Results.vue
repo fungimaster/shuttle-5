@@ -1336,7 +1336,6 @@ export default {
           roundnumber: this.currentRound
         })
         .then((response) => {
-          console.log(response.data)
           this.gameRoundCount = response.data    
           this.team.total = response.data.total;
           this.team.defeated = response.data.defeated;
