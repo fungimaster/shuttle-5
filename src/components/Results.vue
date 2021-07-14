@@ -16,7 +16,7 @@
     </b-alert>  
 
     <b-container class="mt-3 ml-0 mr-0 p-0">    
-       <b-row  align-h="center" class="mt-0 mt-sm-4 pt-0 pt-sm-4">
+    <!--    <b-row  align-h="center" class="mt-0 mt-sm-4 pt-0 pt-sm-4">
       
           <b-col cols="4" md="4" class="d-flex justify-content-center p-0" >
             <vue-ellipse-progress 
@@ -35,7 +35,7 @@
 
             reverse>
             
-          <span v-if="gameRoundCount" slot="legend-value" > / {{gameRoundCount.winner}}</span>
+          <span v-if="gameRoundCount" slot="legend-value" > / {{(gameRoundCount.winner + gameRoundCount.htroundwinners)/2}}</span>
           <div v-if="gameRoundCount" slot="legend-caption">
               <small :style="isMobile ? 'font-size: 0.8rem' : null"  slot="legend-caption"><span v-if="!isMobile">Matcher</span>  R{{currentRound}} <span v-if="isMobile">HT</span></small>
               <span v-if="!isMobile" class="d-block" :style="isMobile ? 'font-size: 0.8rem' : null">HT</span>
@@ -59,7 +59,7 @@
 
             reverse>
             
-            <span v-if="gameRoundCount" slot="legend-value" > / {{gameRoundCount.secondchance}}</span>
+            <span v-if="gameRoundCount" slot="legend-value" > / {{(gameRoundCount.secondchance+ gameRoundCount.acroundwinners)/2 }}</span>
             <div v-if="gameRoundCount" slot="legend-caption">
               <small :style="isMobile ? 'font-size: 0.8rem' : null" slot="legend-caption"> <span v-if="!isMobile">Matcher</span> R{{currentRound}} <span v-if="isMobile">AC</span> </small>
               <span v-if="!isMobile" class="d-block" :style="isMobile ? 'font-size: 0.8rem' : null">AC</span>
@@ -91,7 +91,7 @@
             
           </vue-ellipse-progress>
           </b-col> 
-        </b-row>  
+        </b-row>   -->
         <b-row  class="p-0 m-0 mt-4">      
             <b-col class="col-3 col-md-3 text-center p-1">
                 <div class="stats pt-2 pl-1 pr-1 pb-0" variant="primary">
