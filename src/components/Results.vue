@@ -129,6 +129,17 @@
        
     </b-container>
 
+<b-container v-if="active_round==='Omgång 8'">
+<b-row>
+<b-col class="col-12 mt-5">
+  <h1>Sverigefinal!</h1>
+   <p>Nu i helgen, 3-5 september, spelas äntligen Sverigefinalen i Matchplay 2021.
+    I år spelar vi på Allerum Golfklubb strax utanför Helsingborg där 8 lag gör upp om 2 finalplatser till Spanien senare i år. De 13 lag som är kvar i andra chansen kommer spela kval under fredagen den 3:e där de 2 bästa lagen får plats till lördagens spel och har samma chanser att gå vidare till söndagens spel som de 6 lagen från huvudtävlingen. Lycka till alla spelare!
+  </p>
+</b-col>
+</b-row>
+</b-container>
+
       <b-tabs content-class="mt-3" v-model="tabIndex" no-key-nav class="mt-4 mt-md-5">
 
           <b-tab title-link-class="ml-0">
@@ -673,7 +684,7 @@ export default {
       gamescount: 0,
 
       //TABS
-      tabIndex: 1,
+      tabIndex: 0, //0=bilder, 1=pågående
       price1: globalState.price1,
       price2: globalState.price2,
       active_round: "Omgång 2",     

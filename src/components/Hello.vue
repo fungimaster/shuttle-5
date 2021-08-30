@@ -136,6 +136,7 @@
                 to="/mymatchplay"
               >Lag- och matchhantering</router-link>
               <router-link
+              hidden
                 v-if="!isAuthenticated"
                 class="btn btn-danger btn-md text-white mt-2 mr-2"
                 to="/register"
