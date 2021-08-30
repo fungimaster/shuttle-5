@@ -129,7 +129,7 @@
        
     </b-container>
 
-<b-container v-if="active_round==='Omgång 8'">
+<b-container v-if="currentRound===8">
 <b-row>
 <b-col class="col-12 mt-5">
   <h1>Sverigefinal!</h1>
@@ -687,7 +687,7 @@ export default {
       tabIndex: 0, //0=bilder, 1=pågående
       price1: globalState.price1,
       price2: globalState.price2,
-      active_round: "Omgång 2",     
+      active_round: "Omgång 8",     
       //PENDING GAMES
       loadinggames2: false,
       updating2: false,
