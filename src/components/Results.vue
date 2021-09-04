@@ -386,6 +386,7 @@
                             <b-button v-if="currentRound>4" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','5')" variant="primary">Omgång 5</b-button>
                             <b-button v-if="currentRound>5" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','6')" variant="primary">Omgång 6</b-button>
                             <b-button v-if="currentRound>6" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','7')" variant="primary">Omgång 7</b-button>
+                            <b-button v-if="currentRound>7" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Sverigefinalen SEMI')" variant="primary">Sverigefinalen SEMI</b-button>
                             <b-button v-if="currentRound>7" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Sverigefinal')" variant="primary">Sverigefinal</b-button>
                             
                             
@@ -609,9 +610,9 @@ export default {
     this.axios
       .post(globalState.admin_url + "getCompetition", {id: globalState.compid})
       .then((response) => {
-        this.currentRound = response.data.currentround;      
-        this.active_round =  'Omgång ' + this.currentRound;
-        console.log('created current round',this.currentRound);
+        this.currentRound = "Sverigefinalen SEMI" //response.data.currentround;      
+        this.active_round =  "Sverigefinalen SEMI" //this.currentRound;
+       // console.log('created current round',this.currentRound);
          this.getGamesInprogress('initial');
         //this.getGamesFinished();
         this.getGolfclubsLogoUrl();
@@ -684,10 +685,10 @@ export default {
       gamescount: 0,
 
       //TABS
-      tabIndex: 0, //0=bilder, 1=pågående
+      tabIndex: 1, //0=bilder, 1=pågående
       price1: globalState.price1,
       price2: globalState.price2,
-      active_round: "Omgång 8",     
+      active_round: "Sverigefinalen SEMI",     
       //PENDING GAMES
       loadinggames2: false,
       updating2: false,
@@ -1190,7 +1191,8 @@ export default {
     },
     updategames() {
       this.updating1 = false;
-      this.getGamesFinished("loader", this.active_round);
+      //this.getGamesFinished("loader", this.active_round);
+      this.getGamesFinished("loader", "Sverigefinalen SEMI");
     },
     getGamesFinished(origin, round) {
       //loading
@@ -1200,14 +1202,14 @@ export default {
       if (origin === "loader") {
         //if (localStorage.getItem('active_round') !== null) {
         if (localStorage.hasOwnProperty("active_round")) {
-          this.active_round = localStorage.getItem("active_round");
+          this.active_round = "Sverigefinalen SEMI" //localStorage.getItem("active_round");
         }
       }
 
       if (origin === "button") {
         //set saved filter
         localStorage.setItem("active_round", round);
-        this.active_round = 'Omgång ' + round;
+        this.active_round = round;
       } //this.classoptions = localStorage.getItem('active_round'); //console.log(this.classoptions) //if (this.classoptions === 'null' || this.classoptions === null) { //  delete options['roundname']; //} else { // options["roundname"] = this.classoptions; //}
 
       options["competition"] = globalState.compid;
@@ -1215,7 +1217,7 @@ export default {
       if (round === "all") {
         delete options["roundname"];
       } else {
-        options["roundname"] = 'Omgång ' + round //round;
+        options["roundname"] = round //round;
       }
 
       const today = moment().format("YYYY-MM-DD");
