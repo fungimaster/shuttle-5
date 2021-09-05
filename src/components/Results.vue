@@ -379,15 +379,15 @@
                              <b-button hidden size="sm" v-on:click="updategames()" variant="primary">update</b-button>
                             <b-button hidden size="sm" v-on:click="getGamesFinished('button','all')" variant="primary">Alla</b-button>
                            
-                            <b-button v-if="currentRound>0" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','1')" variant="primary">Omgång 1</b-button>                           
-                            <b-button v-if="currentRound>1" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','2')" variant="primary">Omgång 2</b-button> 
-                            <b-button v-if="currentRound>2" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','3')" variant="primary">Omgång 3</b-button>
-                            <b-button v-if="currentRound>3" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','4')" variant="primary">Omgång 4</b-button>
-                            <b-button v-if="currentRound>4" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','5')" variant="primary">Omgång 5</b-button>
-                            <b-button v-if="currentRound>5" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','6')" variant="primary">Omgång 6</b-button>
-                            <b-button v-if="currentRound>6" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','7')" variant="primary">Omgång 7</b-button>
-                            <b-button v-if="currentRound>7" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Sverigefinalen SEMI')" variant="primary">Sverigefinalen SEMI</b-button>
-                            <b-button v-if="currentRound>7" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Sverigefinal')" variant="primary">Sverigefinal</b-button>
+                            <b-button  size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','1')" variant="primary">Omgång 1</b-button>                           
+                            <b-button  size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','2')" variant="primary">Omgång 2</b-button> 
+                            <b-button  size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','3')" variant="primary">Omgång 3</b-button>
+                            <b-button  size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','4')" variant="primary">Omgång 4</b-button>
+                            <b-button  size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','5')" variant="primary">Omgång 5</b-button>
+                            <b-button  size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','6')" variant="primary">Omgång 6</b-button>
+                            <b-button size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','7')" variant="primary">Omgång 7</b-button>
+                            <b-button size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Sverigefinalen SEMI')" variant="primary">Sverigefinalen SEMI</b-button>
+                            <b-button v-if="currentRound==='Sverigefinal'" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Sverigefinal')" variant="primary">Sverigefinal</b-button>
                             
                             
                                                 
