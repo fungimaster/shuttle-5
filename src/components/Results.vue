@@ -610,8 +610,8 @@ export default {
     this.axios
       .post(globalState.admin_url + "getCompetition", {id: globalState.compid})
       .then((response) => {
-        this.currentRound = "Sverigefinalen SEMI" //response.data.currentround;      
-        this.active_round =  "Sverigefinalen SEMI" //this.currentRound;
+        this.currentRound = "Sverigefinal" //response.data.currentround;      
+        this.active_round =  "Sverigefinal" //this.currentRound;
        // console.log('created current round',this.currentRound);
          this.getGamesInprogress('initial');
         //this.getGamesFinished();
@@ -688,7 +688,7 @@ export default {
       tabIndex: 1, //0=bilder, 1=pågående
       price1: globalState.price1,
       price2: globalState.price2,
-      active_round: "Sverigefinalen SEMI",     
+      active_round: "Sverigefinal",     
       //PENDING GAMES
       loadinggames2: false,
       updating2: false,
@@ -1192,7 +1192,7 @@ export default {
     updategames() {
       this.updating1 = false;
       //this.getGamesFinished("loader", this.active_round);
-      this.getGamesFinished("loader", "Sverigefinalen SEMI");
+      this.getGamesFinished("loader", "Sverigefinal");
     },
     getGamesFinished(origin, round) {
       //loading
@@ -1202,7 +1202,7 @@ export default {
       if (origin === "loader") {
         //if (localStorage.getItem('active_round') !== null) {
         if (localStorage.hasOwnProperty("active_round")) {
-          this.active_round = "Sverigefinalen SEMI" //localStorage.getItem("active_round");
+          this.active_round = "Sverigefinal" //localStorage.getItem("active_round");
         }
       }
 
