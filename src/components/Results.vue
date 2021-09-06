@@ -168,6 +168,8 @@
                             <!-- IN PROGRESS GAMES -->
                       <b-col xs="12" sm="12" class="mt-4 mt-md-4">
 
+
+
                         <span class="float-right" style="cursor:pointer;" v-on:click="getGamesInprogress('not-initial')"><i class="far fa-sync-alt" v-bind:class="{'fa-spin': loadinggames}"></i></span>
                        <h4>Pågående matcher</h4>
                         <p hidden>Inom kort kommer bokade matcher visas här samt annan information om lagen!</p>
@@ -685,7 +687,7 @@ export default {
       gamescount: 0,
 
       //TABS
-      tabIndex: 1, //0=bilder, 1=pågående
+      tabIndex: 0, //0=bilder, 1=pågående
       price1: globalState.price1,
       price2: globalState.price2,
       active_round: "Sverigefinal",     
