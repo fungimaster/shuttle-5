@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="!flip" class="divider-blue p-sm-4">
+    <div v-if="!flip" class="divider-blue p-sm-4 ">
       <b-row class="p-4">
         <b-col md="4" sm="12">
           <h1>{{ video.headline }}</h1>
@@ -141,6 +141,10 @@ export default {
 
 .divider-blue {
   background-color: #2e5783;
-  min-height: 350px;
+  min-height: 550px;
+    @media (max-width: 576px) {
+      min-height: 420px;
+
+  }
 }
 </style>

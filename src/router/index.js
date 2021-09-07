@@ -127,7 +127,6 @@ export default new Router({
       path: "/tavlingar/",
       name: "Competitions",
       component: Competitions,
-      redirect: {name: "Competition"},
       children: [
         {
           path: "/tavlingar/:competition",

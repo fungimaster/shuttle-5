@@ -16,32 +16,32 @@
           backgroundImage: 'url(' + competition.competitionpictureurl + ')',
         }"
       >
-        <div
-          class="p-4 layover d-flex justify-content-center align-self-center"
-        >
-          <div class="p-4">
-            <h2
-              class="text-color-light text-center pt-5"
-              style="font-size: 3.5rem !important"
-            >
-              {{ competition.competitionname }}
-            </h2>
-            <hr>  
-            <h3 class="w-100" style="font-size: 1.8rem !important">
-               MATCHPLAY 
-            </h3>
-            <hr>
+        <div class="p-4 d-flex justify-content-center align-self-center">
+          <b-row class="layover">
+            <b-col class="p-4" offset-md="3" md="6" sm="12">
+              <h2
+                class="text-color-light text-center pt-5"
+                style="font-size: 3.5rem !important"
+              >
+                {{ competition.competitionname }}
+              </h2>
+              <hr />
+              <h3 class="w-100" style="font-size: 1.8rem !important">
+                MATCHPLAY
+              </h3>
+              <hr />
 
-            <p class="text-light text-justify">
-              {{ competition.presentation }}
-            </p>
-          </div>
+              <p class="text-light text-justify">
+                {{ competition.presentation }}
+              </p>
+            </b-col>
+          </b-row>
         </div>
       </div>
     </div>
 
     <!-- WINNERS -->
-    <div class="wallpaperContainer1 p-0 m-0" v-if="competition.stats">
+    <div class="wallpaperContainer1 p-0 m-0" v-if="competition.winners">
       <div class="pt-5 pb-5">
         <h2>Årets Vinnare</h2>
         <div
@@ -56,7 +56,10 @@
         </div>
 
         <hr />
-        <h3 class="text-center text-color-light mt-5 mb-4">
+        <h3
+          class="text-center text-color-light mt-5 mb-4"
+          v-if="competition.finalteams"
+        >
           Övriga finalister
         </h3>
         <div
@@ -73,8 +76,11 @@
     </div>
 
     <!-- STATS -->
-    <div class="wallpaperContainer2 p-0 m-0" v-if="competition.stats">
+    <div class="wallpaperContainer2 p-0 m-0" >
       <div class="pt-5 pb-5">
+        <div v-if="competition.stats">
+
+      
         <h5 class="mb-3">
           <strong>Anmälda lag:</strong> {{ competition.stats.teams }}
         </h5>
@@ -87,13 +93,14 @@
         <h5 class="mb-3">
           <strong> Snitthcp:</strong> {{ competition.stats.hcp }}
         </h5>
+          </div>
         <h5 class="text-center mt-5"><strong> Topplista klubbar </strong></h5>
         <div class="p-4">
-          <podium number="10" class="text-light" variant="warning"></podium>
+          <podium number="10" :prevCompetitionId=competition._id class="text-light" variant="warning"></podium>
         </div>
       </div>
     </div>
-    <div class="wallpaperContainer1 p-0 m-0">
+    <div class="wallpaperContainer4 p-0 m-0">
       <div class="p-4 pt-5 pb-5 ml-sm-5 mr-sm-5">
         <app-birdie-ligan
           class="text-color-light"
@@ -104,10 +111,11 @@
     </div>
 
     <!-- VIDEO  -->
-    <app-video-block :video="competition.video1"> </app-video-block>
+    <app-video-block v-if="competition.video1" :video="competition.video1">
+    </app-video-block>
 
     <!-- IMAGES -->
-    <div class="wallpaperContainer3 p-0 m-0">
+    <div class="wallpaperContainer3 p-0 m-0" v-if="allGameImages.length">
       <app-image-collage
         class="bg-image-collage d-flex justify-content-center"
         v-if="allGameImages.length"
@@ -118,7 +126,11 @@
     </div>
 
     <!-- VIDEO 2 -->
-    <app-video-block :video="competition.video2" :flip="true">
+    <app-video-block
+      v-if="competition.video2"
+      :video="competition.video2"
+      :flip="true"
+    >
     </app-video-block>
 
     <!-- GO TO INFO -->
@@ -140,8 +152,9 @@
           >GÅ till Info</b-button
         >
       </div>
+        <hr class="text-color-light ml-4 mr-4 mt-5" />
     </div>
-    <div class="gradient p-0 m-0">
+    <div class="gradient p-0 m-0" v-if="competition.special">
       <div class="p-sm-4">
         <b-row class="p-4">
           <b-col md="8" sm="12">
@@ -187,15 +200,26 @@
         flex-wrap
       "
     >
-      <h1 class="text-color-light text-center">
-        Vill du vara med i Sveries största och roligaste matchspeltävling?
-      </h1>
-      <h4 v-if="closed" class="text-warning text-center w-100">
-        Anmälan är stängd och öppnar i december
-      </h4>
-      <b-button variant="light" size="lg" pill :disabled="closed"
-        >Till anmälan!</b-button
-      >
+      <div>
+        <h1 class="text-color-light text-center">
+          Vill du vara med i Sveries största och roligaste matchspeltävling?
+        </h1>
+        <h4 v-if="closed" class="text-warning text-center pt-4">
+          Anmälan är stängd och öppnar i december.
+        </h4>
+        <h6 v-if="closed" class="text-warning text-center p-4">
+          Följ oss på
+          <a href="https://www.facebook.com/matchplaysweden/" target="_blank"
+            >Facebook</a
+          >
+          för ta del av de nyheter och tävlingar.
+        </h6>
+        <div class="d-flex justify-content-center pt-4">
+          <b-button variant="light" size="lg" pill :disabled="closed"
+            >Till anmälan!</b-button
+          >
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -210,26 +234,57 @@ import testimonials from "./Testimonials.vue";
 
 export default {
   created() {
-    this.gameImages();
-    this.getBirdies();
-  },
-  components: {
-    AppImageCollage,
-    AppVideoBlock,
-    podium,
-    AppBirdieLigan,
-    testimonials,
-  },
-  data() {
-    return {
-      competition: {
+    if (this.$route.params.competition === "2020") {
+      this.competition = {
+        _id: "sFAc3dvrn2P9pXHAz",
+        competitioninfo:
+          "Matchplay är en matchspelstävling för par med officiellt handicap. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.",
+        competitionname: "2020",
+        competitionpictureurl:
+          "https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_auto,e_colorize:60,co_rgb:000000,e_blur:300/v1617895896/matchplay/bg_matchplay.jpg",
+        finallag: [],
+        finalteams: null,
+        presentation:
+          "Matchplay Sweden 2020 avgjordes en solig dag i oktober. Vinnarna fick hänga med på resan Los Naranjos. Som alltid ett stort tack för ert deltagande och återseende nästa år.",
+        special: null,
+        stats: null,
+        video1: {
+          bgimage:
+            "https://res.cloudinary.com/dn3hzwewp/image/upload/v1631010958/matchplay/Nileskar.png",
+          headline: "Intervju med Christiansson & Nileskär",
+          text: "",
+          url: "https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Fmatchplaysweden%2Fvideos%2F353100142577281%2F&show_text=false&width=560&&autoplay=true&t=0",
+        },
+        video2: {
+          bgimage:
+            "https://res.cloudinary.com/dn3hzwewp/image/upload/v1631011152/matchplay/carnorwendin.png",
+          headline: "Intervju med Carnor & Wedin",
+          text: "",
+          url: "https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Fmatchplaysweden%2Fvideos%2F388256685545899%2F&show_text=false&width=560&autoplay=true&t=0",
+        },
+
+        winners: [
+          {
+            club: "",
+            name: "Carnor/Wedin",
+          },
+          {
+            club: "",
+            name: "Christiansson/ Nileskär",
+          },
+        ],
+      };
+    }
+
+    if (this.$route.params.competition === "2021") {
+      this.competition = {
         _id: "8dmNL5K5ypaHbTbEM",
         club: "3cyyCoTn46QfhqMRq",
         competitioninfo:
           "Matchplay är en matchspelstävling för par med officiellt handicap. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.",
         competitionname: "2021",
         competitionpictureurl:
-          "https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_auto,e_colorize:50,co_rgb:000000/v1608219772/matchplay/bg_matchplay.jpg",
+          "https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_auto,e_colorize:60,co_rgb:000000,e_blur:300/v1631006181/matchplay/vinnare.jpg",
         finallag: [],
         finalteams: [
           {
@@ -279,7 +334,7 @@ export default {
           ingress:
             "Plötsligt händer det - och här är ett exempel! Martin Ljunggren spelade sin match på Borås Norra bana och på hål 15, ett par 4 så hände det vi många enbart kommer att drömma om. Martin berättar",
           text: "Under gårdagens match mellan mig och Carl Lejon mot Markus Andersson och Peter Lindeberg hade jag lyckan att göra en HIO på hål nummer 15 på Borås norra banan. Slaget skedde med driver och hålet spelades strax över 300 m med tanke på flaggplacering och teeplacering. När vi inte kunde hitta bollen i närheten av green gick jag och tittade i koppen och chocken var total när bollen låg där",
-          url: "https://scontent.fmmx1-1.fna.fbcdn.net/v/t1.6435-9/208900931_251833650076026_3588374777838811982_n.jpg?_nc_cat=103&ccb=1-5&_nc_sid=730e14&_nc_ohc=oJQmePLBi-UAX-dCq13&_nc_ht=scontent.fmmx1-1.fna&oh=b70f554a836dac352330770a719ba945&oe=615A5C08",
+          url: "https://res.cloudinary.com/dn3hzwewp/image/upload/v1631006701/matchplay/hole_in_one.jpg",
         },
         stats: {
           age: 43,
@@ -289,17 +344,17 @@ export default {
         },
         video1: {
           bgimage:
-            "https://res.cloudinary.com/dk1b2ytfl/image/upload/v1630936057/Ska%CC%88rmavbild_2021-09-06_kl._15.47.27_ptb0os.png",
+            "https://res.cloudinary.com/dn3hzwewp/image/upload/v1631006660/matchplay/videoimage2.png",
           headline: "Live från finaldagen 2021",
           text: "Sverigefinalen 2021 spelades på AlLerums GK. Matcherna gick att följa live på hemsidan och på Facebook publicerades livesändningar likt denna.",
           url: "https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Fmatchplaysweden%2Fvideos%2F2991832374362345%2F&show_text=false&width=560&autoplay=true&t=0",
         },
         video2: {
           bgimage:
-            "https://res.cloudinary.com/dk1b2ytfl/image/upload/v1630926990/Ska%CC%88rmavbild_2021-09-06_kl._13.16.22_wfxak8.png",
+            "https://res.cloudinary.com/dn3hzwewp/image/upload/v1631006653/matchplay/videoimage1.png",
           headline: "Dramatik in i det sista!",
           text: "All square in för sista och avgörande hålet! Arvid ligger pin-heigh för en birdieputt och har inga slag på hålet. I andra laget har Jonatan på tre slag en chip på ca 10 meter och inga slag på hålet. Se den dramatiska upplösningen",
-          url: "https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Fmatchplaysweden%2Fvideos%2F2779410105631927%2F&show_text=false&width=560&t=0",
+          url: "https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Fmatchplaysweden%2Fvideos%2F2779410105631927%2F&show_text=false&width=560&&autoplay=true&t=0",
         },
         winners: [
           {
@@ -311,7 +366,21 @@ export default {
             name: "Lind/Fråhn",
           },
         ],
-      },
+      };
+    }
+    this.gameImages();
+    this.getBirdies();
+  },
+  components: {
+    AppImageCollage,
+    AppVideoBlock,
+    podium,
+    AppBirdieLigan,
+    testimonials,
+  },
+  data() {
+    return {
+      competition: {},
       allGameImages: [],
       birdies: null,
       closed: globalState.closed,
@@ -369,11 +438,12 @@ export default {
 @import "../styles/bootstrap-overwrite.css";
 
 hr {
-    border-top: 1px solid $light;
+  border-top: 1px solid $light;
 }
 
 .layover {
   background-color: rgba(100, 94, 74, 0.724);
+  min-height: 500px;
 }
 
 .wallpaperContainer1 {
@@ -401,13 +471,14 @@ hr {
   background-position-y: 50%;
   background-image: url("https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_auto,q_auto,e_colorize:50,co_rgb:000000/v1608219772/matchplay/bg_matchplay.jpg");
 }
+
 .wallpaperContainer4 {
-  background-repeat: no-repeat;
   min-height: 650px;
+  background-repeat: no-repeat;
   background-size: cover;
   background-position-x: 50%;
   background-position-y: 50%;
-  background-image: url("https://res.cloudinary.com/dk1b2ytfl/image/upload/c_scale,w_auto,q_auto,e_colorize:50,co_rgb:000000/v1630927513/Ska%CC%88rmavbild_2021-09-06_kl._13.25.07_vppaah.png");
+  background-image: url("https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_auto,q_auto,e_colorize:50,co_rgb:000000/v1572942209/matchplay/c640cf_402261724c71433c9662662c3114e5b8_mv2_d_4500_3000_s_4_2.jpg");
 }
 
 .text-color-light {

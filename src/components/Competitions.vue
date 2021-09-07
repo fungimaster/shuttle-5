@@ -6,23 +6,52 @@
           <b-row>
             <b-col md="10">
               <h2>Tidigare tävlingar</h2>
-              <p>Länkar till de senaste tävlingar hittar du nedan</p>
             </b-col>
             <b-col md="2" class></b-col>
           </b-row>
         </b-container>
       </div>
-      <div class="m-4 p-4">
-        <b-row>
-          <b-col md="10">
-            <a @click="$router.push('tavlingar/2021')">
-              <h3>Matchplay 2021</h3>
-            </a>
-          </b-col>
-          <b-col md="2" class></b-col>
-        </b-row>
+      <div
+        class="
+          wallpaperContainer4
+          d-flex
+          justify-content-center
+          align-items-center
+        "
+      >
+        <b-button
+          disabled
+          variant="light"
+          size="lg"
+          @click="$router.push('tavlingar/2022')"
+        >
+          <span class="text-reset">2022</span>
+        </b-button>
       </div>
-      <hr />
+      <div
+        class="
+          wallpaperContainer1
+          d-flex
+          justify-content-center
+          align-items-center
+        "
+      >
+        <b-button variant="light" size="lg" to="/tavlingar/2021">
+          <span class="text-reset">2021</span>
+        </b-button>
+      </div>
+      <div
+        class="
+          wallpaperContainer2
+          d-flex
+          justify-content-center
+          align-items-center
+        "
+      >
+        <b-button variant="light" size="lg" to="/tavlingar/2020">
+          <span class="text-reset">2020</span>
+        </b-button>
+      </div>
     </div>
 
     <router-view v-else></router-view>
@@ -31,9 +60,12 @@
 
 
 
-<style scoped>
+<style lang="scss" scoped>
+@import "../styles/variables.scss";
+@import "../styles/bootstrap-overwrite.css";
+
 .hero {
-  background: url("https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_auto/v1572963227/matchplay/matchplay_bg.jpg");
+  background-image: url("https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_auto,q_auto,e_colorize:50,co_rgb:000000/v1572942209/matchplay/c640cf_402261724c71433c9662662c3114e5b8_mv2_d_4500_3000_s_4_2.jpg");
 
   background-repeat: no-repeat;
   /*background-position: bottom 30% right 0;*/
@@ -47,5 +79,33 @@
   @media (min-width: 480px) {
     padding: 8rem 0 8rem 0;
   }
+}
+
+.wallpaperContainer1 {
+  min-height: 250px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position-x: 50%;
+  background-position-y: 50%;
+  background-image: url("https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1608122032/matchplay/MPI-1825.jpg");
+}
+
+.wallpaperContainer2 {
+  min-height: 250px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position-x: 50%;
+  background-position-y: 50%;
+
+  background-image: url("https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:10,co_rgb:000000/v1573661166/matchplay/Stripe05.jpg");
+}
+.wallpaperContainer4 {
+  min-height: 250px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position-x: 50%;
+  background-position-y: 50%;
+
+  background-image: url("https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_auto,q_auto,e_colorize:50,co_rgb:000000/v1573317237/matchplay/Stripe03.jpg");
 }
 </style>

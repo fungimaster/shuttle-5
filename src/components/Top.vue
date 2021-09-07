@@ -32,8 +32,10 @@ v-if="
             text="Tidigare tävlingar"
             right
           >
-            <b-dropdown-item href="#" @click="$router.push('tavlingar/2021')"
+            <b-dropdown-item to="/tavlingar/2021" 
               >2021</b-dropdown-item>
+            <b-dropdown-item to="/tavlingar/" 
+              >Alla tävlingar</b-dropdown-item>
         </b-nav-item-dropdown>
 
         <b-nav-item hidden to="/ping">PING</b-nav-item>

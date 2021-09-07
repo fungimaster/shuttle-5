@@ -54,7 +54,7 @@
 import { globalState } from "../main.js";
 
 export default {
-  props: ["number", "variant"],
+  props: ["number", "variant", "prevCompetitionId"],
   data() {
     return {
         clubs: [],
@@ -97,7 +97,7 @@ export default {
       this.axios
         .post("https://matchplay.meteorapp.com/methods/" + "getTopClubs", {
           //getclubstoplist
-          competition: globalState.compid,
+          competition: this.prevCompetitionId ? this.prevCompetitionId : globalState.compid,
           no: number,
         })
         .then((response) => {         
