@@ -1,0 +1,9 @@
+.btn-light {
+    background-color: #fff3cb !important;
+    border-color: #00344121 !important;
+    transition: all 0.2s ease-in-out;
+    text-transform: uppercase !important;
+    letter-spacing: 1.5px !important;
+    color: #003441 !important;
+  }
+  

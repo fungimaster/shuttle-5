@@ -24,10 +24,17 @@ v-if="
       <b-navbar-nav class="ml-auto">
         <!-- <b-nav-item :to="{path: '/line-up', query: {tags:$route.query.tags, day:$route.query.day}}">Line-up</b-nav-item> -->
         <b-nav-item v-if="!closed" to="/register">Efterhandsregistrering</b-nav-item>
-        <b-nav-item v-if="closed" to="results">Resultat <b-badge hidden class="new" pill variant="danger"><i class="fa fa-circle"></i></b-badge></b-nav-item>
+        <b-nav-item v-if="closed" @click="$router.push('results')">Resultat <b-badge hidden class="new" pill variant="danger"><i class="fa fa-circle"></i></b-badge></b-nav-item>
         <b-nav-item to="/klubbar">Klubbar <b-badge hidden class="new" pill variant="danger"><i class="fa fa-heart"></i></b-badge></b-nav-item>
          <b-nav-item to="/business">Företagslag</b-nav-item>
         <b-nav-item to="/info">Om tävlingen</b-nav-item>
+        <b-nav-item-dropdown
+            text="Tidigare tävlingar"
+            right
+          >
+            <b-dropdown-item href="#" @click="$router.push('tavlingar/2021')"
+              >2021</b-dropdown-item>
+        </b-nav-item-dropdown>
 
         <b-nav-item hidden to="/ping">PING</b-nav-item>
         <!--a class="nav-item nav-link text-dark show-search-button nav-link" href="#search" data-toggle="collapse" aria-expanded="false" aria-controls="search"><i class="material-icons mobile-search">search</i></a-->

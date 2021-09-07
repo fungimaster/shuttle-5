@@ -18,7 +18,7 @@
                  <b-col
                     class="col-12 col-md-7 pl-0 pr-0 pb-4 pb-md-3 mt-md-3 mt-0"                    
                 >                
-                <b-progress height="1.4rem" :value="club.count" :max="topclub" show-value animated variant="success"></b-progress>
+                <b-progress height="1.4rem" :value="club.count" :max="topclub" show-value animated :variant="variant ? variant : 'success'"></b-progress>
                 
                 </b-col>
                 </b-row>
@@ -54,7 +54,7 @@
 import { globalState } from "../main.js";
 
 export default {
-  props: ["number"],
+  props: ["number", "variant"],
   data() {
     return {
         clubs: [],

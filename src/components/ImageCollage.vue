@@ -61,6 +61,7 @@ import { LightGallery } from "vue-light-gallery";
 export default {
   created() {
     window.addEventListener("resize", this.handleResize);
+    this.columnLength = this.imagesInColumn || 12
   },
   destroyed() {
     window.removeEventListener("resize", this.handleResize);
@@ -68,11 +69,12 @@ export default {
   components: {
     LightGallery,
   },
-  props: ["images", "numberOfImages", "fill"],
+  props: ["images", "numberOfImages", "fill", "imagesInColumn"],
   data() {
     return {
       index: null,
       windowWidth: window.innerWidth,
+      columnLength:12
     };
   },
   computed: {
@@ -119,25 +121,25 @@ export default {
         return;
       }
 
-      return this.lastXImages.slice(0, this.onePart).slice(0,12);
+      return this.lastXImages.slice(0, this.onePart).slice(0, this.columnLength);
     },
     columnTwo() {
       if (!this.lastXImages) {
         return;
       }
-      return this.lastXImages.slice(this.onePart, this.onePart * 2).slice(0,12);
+      return this.lastXImages.slice(this.onePart, this.onePart * 2).slice(0, this.columnLength);
     },
     columnThree() {
       if (!this.lastXImages) {
         return;
       }
-      return this.lastXImages.slice(this.onePart * 2, this.onePart * 3).slice(0,12);
+      return this.lastXImages.slice(this.onePart * 2, this.onePart * 3).slice(0, this.columnLength);
     },
     columnFour() {
       if (!this.lastXImages) {
         return;
       }
-      return this.lastXImages.slice(this.onePart * 3, this.onePart * 4).slice(0,12);
+      return this.lastXImages.slice(this.onePart * 3, this.onePart * 4).slice(0, this.columnLength);
     },
   },
   methods: {

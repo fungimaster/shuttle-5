@@ -8,6 +8,8 @@ import Club from '@/components/Club'
 import Klubbar from '@/components/Klubbar'
 import Business from '@/components/Business'
 import Privacy from '@/components/Privacy'
+import Competition from '@/components/Competition'
+import Competitions from '@/components/Competitions'
 import NotFound from '@/components/NotFound'
 import CreateGame from '@/components/Creategame'
 import CreateGame_free from '@/components/Creategame_free'
@@ -121,6 +123,19 @@ export default new Router({
       name: 'Privacy',
       component: Privacy
     },    
+    {
+      path: "/tavlingar/",
+      name: "Competitions",
+      component: Competitions,
+      redirect: {name: "Competition"},
+      children: [
+        {
+          path: "/tavlingar/:competition",
+          name: "Competition",
+          component: Competition,
+        },
+      ],
+    },  
     {
       // will match everything
       path: '/*',

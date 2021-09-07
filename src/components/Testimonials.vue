@@ -25,13 +25,13 @@
                   </b-carousel>
                 </div>
                   <div class="col-12 text-center mb-2">
-                  <b-button variant="primary" @click="prev()">
+                  <b-button :variant="variant ? variant : 'primary'"  @click="prev()">
                     <i class="fa fa-arrow-left"></i>
                   </b-button>
-                  <b-button variant="primary" @click="next()">
+                  <b-button :variant="variant ? variant : 'primary'"  @click="next()">
                     <i class="fa fa-arrow-right"></i>
                   </b-button>
-                   <b-button v-if="register" variant="primary" class="text-white" to="/register">
+                   <b-button v-if="register" :variant="variant ? variant : 'primary'" class="text-white" to="/register">
                   Anmälan
                   </b-button>
                 </div>
@@ -44,7 +44,8 @@
 export default {
   props: {
     number:  Number,   
-    register: Boolean
+    register: Boolean,
+    variant: String
   },
   data() {
     return {
