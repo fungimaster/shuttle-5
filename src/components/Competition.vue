@@ -415,6 +415,7 @@ hr {
 }
 >>> .card-testimonial {
   color: $light;
+  background-color: #2e5783;
 }
 
 h2 {
