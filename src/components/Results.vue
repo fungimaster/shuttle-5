@@ -15,7 +15,7 @@
         På grund av hög belastning på vår server och inte helt optimerad kod kommer resultatsidan vara under utveckling nån dag eller två. Välkommen tillbaka!
     </b-alert>  
 
-    <b-container class="mt-3 ml-0 mr-0 p-0">    
+    <b-container class="mt-3 ml-0 mr-0 p-0 pt-sm-4">    
     <!--    <b-row  align-h="center" class="mt-0 mt-sm-4 pt-0 pt-sm-4">
       
           <b-col cols="4" md="4" class="d-flex justify-content-center p-0" >
@@ -92,7 +92,7 @@
           </vue-ellipse-progress>
           </b-col> 
         </b-row>   -->
-        <b-row  class="p-0 m-0 mt-4">      
+        <b-row  class="p-0 m-0 mt-4 pt-sm-4">      
             <b-col class="col-3 col-md-3 text-center p-1">
                 <div class="stats pt-2 pl-1 pr-1 pb-0" variant="primary">
                   <label class="d-block">Lag:</label>
@@ -501,31 +501,13 @@
                       </b-row>
                      
                       <hr hidden>
-  <div>
-                          <h5 class="mt-3">
-                         Birdieligan
-                        </h5>
+                      <div>
+                                        
 
-                        <b-row class="mt-3">                         
-                             <b-col class="col-10 col-md-10 mr-0 pr-0 mb-2">
-                               <strong>Spelare</strong>
-                             </b-col>
-                          <b-col class="col-2 col-md-2 text-right mb-2">          
-                            <strong>Antal</strong>
-                          </b-col>                                
-                        </b-row>
-                      
-                        <b-row v-for="(birdie,index) in birdies" :key="'bird'+index" class="mb-2" v-bind:class="{ greybg:index% 2 === 0 }">
-                            <b-col class="col-10 col-md-10 mr-0 pr-0" v-bind:class="{no1:index=== 0, no2: index === 1, no3: index === 2 }">
-                              <span class="line" >{{index+1}}. {{truncate(birdie.playername)}}</span>
-                            </b-col>
-                            <b-col class="col-2 col-md-2 text-right" v-bind:class="{no1:index=== 0, no2: +index === 1, no3: index === 2 }">          
-                              <span class="line">({{birdie.birdie}})</span>
-                            </b-col>                         
-                         </b-row>
+                      <app-birdie-ligan></app-birdie-ligan>
 
-                         <hr>
-  </div>
+                      <hr>
+                      </div>
 
                         <h5 class="mt-4">
                           Toppklubbar (spelade matcher)
@@ -571,6 +553,7 @@ import { mapGetters } from "vuex";
 import { tagsMixin } from "../mixins/tagsMixin";
 import AppGameImageGallery from "./GameImageGallery";
 import AppImageCollage from "./ImageCollage";
+import AppBirdieLigan from "./BirdieLigan";
 /*import VuePhoneNumberInput from 'vue-phone-number-input';
 import 'vue-phone-number-input/dist/vue-phone-number-input.css';*/
 
@@ -619,7 +602,6 @@ export default {
         //this.getGamesFinished();
         this.getGolfclubsLogoUrl();
         this.getTopListClubsPlayed(); //top list clubs played
-        this.getBirdies();
         this.getTeamsCount();
   
       })
@@ -658,7 +640,9 @@ export default {
          
   },  
   components: {
-    AppGameImageGallery,AppImageCollage
+    AppGameImageGallery,
+    AppImageCollage,
+    AppBirdieLigan
     
   },
   data() {
@@ -677,7 +661,6 @@ export default {
       modalShow: false,
       closed: false,
       clubs: 0,
-      birdies: 0,
       //IN PROGRESS GAMES
       loadinggames: false,
       updating1: true,
@@ -1404,27 +1387,7 @@ export default {
           console.log(error);
         });
     },
-    getBirdies() {
-      //loading
-      this.value = 5;
 
-      this.axios
-        .post(
-          "https://matchplay.meteorapp.com/methods/" + "getAchievementData",
-          {
-            //getclubstoplist
-            competition: globalState.compid,
-            type: "birdie",
-            no: 20,
-          }
-        )
-        .then((response) => {
-          this.birdies = response.data;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
   
  
      
