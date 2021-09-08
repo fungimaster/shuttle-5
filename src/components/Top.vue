@@ -21,10 +21,10 @@ v-if="
         <h1 class="hidden theme">Psyched</h1>
         <p class="hidden text-uppercase">Matchplay 2021</p>
       </div>
-      <b-navbar-nav class="ml-auto">
+      <b-navbar-nav class="ml-auto ">
         <!-- <b-nav-item :to="{path: '/line-up', query: {tags:$route.query.tags, day:$route.query.day}}">Line-up</b-nav-item> -->
         <b-nav-item v-if="!closed" to="/register">Efterhandsregistrering</b-nav-item>
-        <b-nav-item v-if="closed" @click="$router.push('results')">Resultat <b-badge hidden class="new" pill variant="danger"><i class="fa fa-circle"></i></b-badge></b-nav-item>
+        <b-nav-item v-if="closed" to="/results">Resultat <b-badge hidden class="new" pill variant="danger"><i class="fa fa-circle"></i></b-badge></b-nav-item>
         <b-nav-item to="/klubbar">Klubbar <b-badge hidden class="new" pill variant="danger"><i class="fa fa-heart"></i></b-badge></b-nav-item>
          <b-nav-item to="/business">Företagslag</b-nav-item>
         <b-nav-item to="/info">Om tävlingen</b-nav-item>
@@ -32,9 +32,9 @@ v-if="
             text="Tidigare tävlingar"
             right
           >
-            <b-dropdown-item to="/tavlingar/2021" 
+            <b-dropdown-item to="/tavlingar/2021"  
               >2021</b-dropdown-item>
-            <b-dropdown-item to="/tavlingar/" 
+            <b-dropdown-item to="/tavlingar/"  
               >Alla tävlingar</b-dropdown-item>
         </b-nav-item-dropdown>
 

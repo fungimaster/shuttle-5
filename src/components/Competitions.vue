@@ -54,7 +54,7 @@
       </div>
     </div>
 
-    <router-view v-else></router-view>
+    <router-view v-else :key="$route.params.competition"></router-view>
   </div>
 </template>
 

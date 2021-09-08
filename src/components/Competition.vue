@@ -76,37 +76,44 @@
     </div>
 
     <!-- STATS -->
-    <div class="wallpaperContainer2 p-0 m-0" >
+    <div class="wallpaperContainer2 p-0 m-0">
       <div class="pt-5 pb-5">
         <div v-if="competition.stats">
-
-      
-        <h5 class="mb-3">
-          <strong>Anmälda lag:</strong> {{ competition.stats.teams }}
-        </h5>
-        <h5 class="mb-3">
-          <strong> Repr klubbar:</strong> {{ competition.stats.clubs }}
-        </h5>
-        <h5 class="mb-3">
-          <strong> Snittålder:</strong> {{ competition.stats.age }}
-        </h5>
-        <h5 class="mb-3">
-          <strong> Snitthcp:</strong> {{ competition.stats.hcp }}
-        </h5>
-          </div>
+          <h5 class="mb-3">
+            <strong>Anmälda lag:</strong> {{ competition.stats.teams }}
+          </h5>
+          <h5 class="mb-3">
+            <strong> Repr klubbar:</strong> {{ competition.stats.clubs }}
+          </h5>
+          <h5 class="mb-3">
+            <strong> Snittålder:</strong> {{ competition.stats.age }}
+          </h5>
+          <h5 class="mb-3">
+            <strong> Snitthcp:</strong> {{ competition.stats.hcp }}
+          </h5>
+        </div>
         <h5 class="text-center mt-5"><strong> Topplista klubbar </strong></h5>
         <div class="p-4">
-          <podium number="10" :prevCompetitionId=competition._id class="text-light" variant="warning"></podium>
+          <podium
+            number="10"
+            :prevCompetitionId="competition._id"
+            class="text-light"
+            variant="warning"
+          ></podium>
         </div>
       </div>
     </div>
     <div class="wallpaperContainer4 p-0 m-0">
       <div class="p-4 pt-5 pb-5 ml-sm-5 mr-sm-5">
-        <app-birdie-ligan
-          class="text-color-light"
-          :competitionid="competition._id"
-          :numberofbirdies="10"
-        ></app-birdie-ligan>
+        <b-row>
+          <b-col class="p-4" offset-md="3" md="6" sm="12">
+            <app-birdie-ligan
+              class="text-color-light"
+              :competitionid="competition._id"
+              :numberofbirdies="10"
+            ></app-birdie-ligan>
+          </b-col>
+        </b-row>
       </div>
     </div>
 
@@ -134,7 +141,7 @@
     </app-video-block>
 
     <!-- GO TO INFO -->
-    <div class="divider-blue">
+    <div class="divider-blue p-4">
       <div class="pt-5 p-2">
         <hr class="text-color-light ml-4 mr-4" />
         <h5 class="text-color-light text-center pt-5">
@@ -146,34 +153,48 @@
       </div>
 
       <div
-        class="d-flex justify-content-center align-items-center flex-wrap pt-5"
+        class="
+          d-flex
+          justify-content-center
+          align-items-center
+          flex-wrap
+          pt-5
+          pb-4
+        "
       >
         <b-button @click="$router.push('/info')" size="lg" variant="light" pill
           >GÅ till Info</b-button
         >
       </div>
-        <hr class="text-color-light ml-4 mr-4 mt-5" />
+      <hr class="text-color-light ml-4 mr-4" />
+      <br />
     </div>
+
+    <!-- SPECIAL -->
     <div class="gradient p-0 m-0" v-if="competition.special">
       <div class="p-sm-4">
-        <b-row class="p-4">
-          <b-col md="8" sm="12">
-            <div>
-              <b-img
-                fluid
-                :src="competition.special.url"
-                class="shadow-lg rounded mb-4"
+        <b-container>
+          <b-row class="p-4">
+            <b-col md="8" sm="12">
+              <div>
+                <b-img
+                  fluid
+                  :src="competition.special.url"
+                  class="shadow-lg rounded mb-4"
+                >
+                </b-img>
+              </div>
+            </b-col>
+            <b-col md="4" sm="12">
+              <p>
+                {{ competition.special.ingress }}
+              </p>
+              <i class="text-color-light">
+                - "{{ competition.special.text }}"</i
               >
-              </b-img>
-            </div>
-          </b-col>
-          <b-col md="4" sm="12">
-            <p>
-              {{ competition.special.ingress }}
-            </p>
-            <i class="text-color-light"> - "{{ competition.special.text }}"</i>
-          </b-col>
-        </b-row>
+            </b-col>
+          </b-row>
+        </b-container>
       </div>
     </div>
 
@@ -234,140 +255,7 @@ import testimonials from "./Testimonials.vue";
 
 export default {
   created() {
-    if (this.$route.params.competition === "2020") {
-      this.competition = {
-        _id: "sFAc3dvrn2P9pXHAz",
-        competitioninfo:
-          "Matchplay är en matchspelstävling för par med officiellt handicap. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.",
-        competitionname: "2020",
-        competitionpictureurl:
-          "https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_auto,e_colorize:60,co_rgb:000000,e_blur:300/v1617895896/matchplay/bg_matchplay.jpg",
-        finallag: [],
-        finalteams: null,
-        presentation:
-          "Matchplay Sweden 2020 avgjordes en solig dag i oktober. Vinnarna fick hänga med på resan Los Naranjos. Som alltid ett stort tack för ert deltagande och återseende nästa år.",
-        special: null,
-        stats: null,
-        video1: {
-          bgimage:
-            "https://res.cloudinary.com/dn3hzwewp/image/upload/v1631010958/matchplay/Nileskar.png",
-          headline: "Intervju med Christiansson & Nileskär",
-          text: "",
-          url: "https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Fmatchplaysweden%2Fvideos%2F353100142577281%2F&show_text=false&width=560&&autoplay=true&t=0",
-        },
-        video2: {
-          bgimage:
-            "https://res.cloudinary.com/dn3hzwewp/image/upload/v1631011152/matchplay/carnorwendin.png",
-          headline: "Intervju med Carnor & Wedin",
-          text: "",
-          url: "https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Fmatchplaysweden%2Fvideos%2F388256685545899%2F&show_text=false&width=560&autoplay=true&t=0",
-        },
-
-        winners: [
-          {
-            club: "",
-            name: "Carnor/Wedin",
-          },
-          {
-            club: "",
-            name: "Christiansson/ Nileskär",
-          },
-        ],
-      };
-    }
-
-    if (this.$route.params.competition === "2021") {
-      this.competition = {
-        _id: "8dmNL5K5ypaHbTbEM",
-        club: "3cyyCoTn46QfhqMRq",
-        competitioninfo:
-          "Matchplay är en matchspelstävling för par med officiellt handicap. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.",
-        competitionname: "2021",
-        competitionpictureurl:
-          "https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_auto,e_colorize:60,co_rgb:000000,e_blur:300/v1631006181/matchplay/vinnare.jpg",
-        finallag: [],
-        finalteams: [
-          {
-            club: "Vadstena GK",
-            name: "Johansson/Gustafsson",
-          },
-          {
-            club: "Bollnäs GK",
-            name: "Brosten/Sigvardsson",
-          },
-          {
-            club: "Arninge GK",
-            name: "Andersson/Hamilton",
-          },
-          {
-            club: "PGA Sweden National",
-            name: "Carlsson/Hall",
-          },
-          {
-            club: "Örebro City GCC",
-            name: "Sahlin/Jungander",
-          },
-          {
-            club: "Bokskogen GK/Holms GK",
-            name: "Wennolf/Ljungberg",
-          },
-          {
-            club: "Lyckorna GK/Onsjö GK",
-            name: "Landberg/Bengtsson",
-          },
-          {
-            club: "Mauritzbergs SI/Göteborgs Golf",
-            name: "Söderström/Wakeus",
-          },
-          {
-            club: "Skepparslövs GK",
-            name: "Kullberg/Johansson",
-          },
-          {
-            club: "Örebro City GCC",
-            name: "Andersson/Berggren",
-          },
-        ],
-        presentation:
-          "Matchplay Sweden är avgjort för detta året och vi säger stort grattis till vinnarna! Från Huvudtävlingen till Andra Chansen - ett stort tack för ert deltagande och återseende nästa år.",
-        special: {
-          ingress:
-            "Plötsligt händer det - och här är ett exempel! Martin Ljunggren spelade sin match på Borås Norra bana och på hål 15, ett par 4 så hände det vi många enbart kommer att drömma om. Martin berättar",
-          text: "Under gårdagens match mellan mig och Carl Lejon mot Markus Andersson och Peter Lindeberg hade jag lyckan att göra en HIO på hål nummer 15 på Borås norra banan. Slaget skedde med driver och hålet spelades strax över 300 m med tanke på flaggplacering och teeplacering. När vi inte kunde hitta bollen i närheten av green gick jag och tittade i koppen och chocken var total när bollen låg där",
-          url: "https://res.cloudinary.com/dn3hzwewp/image/upload/v1631006701/matchplay/hole_in_one.jpg",
-        },
-        stats: {
-          age: 43,
-          clubs: 232,
-          hcp: 12.2,
-          teams: 712,
-        },
-        video1: {
-          bgimage:
-            "https://res.cloudinary.com/dn3hzwewp/image/upload/v1631006660/matchplay/videoimage2.png",
-          headline: "Live från finaldagen 2021",
-          text: "Sverigefinalen 2021 spelades på AlLerums GK. Matcherna gick att följa live på hemsidan och på Facebook publicerades livesändningar likt denna.",
-          url: "https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Fmatchplaysweden%2Fvideos%2F2991832374362345%2F&show_text=false&width=560&autoplay=true&t=0",
-        },
-        video2: {
-          bgimage:
-            "https://res.cloudinary.com/dn3hzwewp/image/upload/v1631006653/matchplay/videoimage1.png",
-          headline: "Dramatik in i det sista!",
-          text: "All square in för sista och avgörande hålet! Arvid ligger pin-heigh för en birdieputt och har inga slag på hålet. I andra laget har Jonatan på tre slag en chip på ca 10 meter och inga slag på hålet. Se den dramatiska upplösningen",
-          url: "https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Fmatchplaysweden%2Fvideos%2F2779410105631927%2F&show_text=false&width=560&&autoplay=true&t=0",
-        },
-        winners: [
-          {
-            club: "Kårsta GK",
-            name: "Carlsson/Lindström",
-          },
-          {
-            club: "Borås GK",
-            name: "Lind/Fråhn",
-          },
-        ],
-      };
-    }
+    this.setData();
     this.gameImages();
     this.getBirdies();
   },
@@ -387,6 +275,138 @@ export default {
     };
   },
   methods: {
+    setData() {
+      if (this.$route.params.competition === "2020") {
+        this.competition = {
+          _id: "sFAc3dvrn2P9pXHAz",
+          competitioninfo:
+            "Matchplay är en matchspelstävling för par med officiellt handicap. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.",
+          competitionname: "2020",
+          competitionpictureurl:
+            "https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_auto,e_colorize:60,co_rgb:000000,e_blur:300/v1617895896/matchplay/bg_matchplay.jpg",
+          finalteams: null,
+          presentation:
+            "Matchplay Sweden 2020 avgjordes en solig dag i oktober. Vinnarna fick hänga med på resan Los Naranjos. Som alltid ett stort tack för ert deltagande och återseende nästa år.",
+          special: null,
+          stats: null,
+          video1: {
+            bgimage:
+              "https://res.cloudinary.com/dn3hzwewp/image/upload/v1631010958/matchplay/Nileskar.png",
+            headline: "Intervju med Christiansson & Nileskär",
+            text: "Med rutin från tidigare tävlingar och ett komplementerande spel tog Christiansson och Nileskär hem finalen.",
+            url: "https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Fmatchplaysweden%2Fvideos%2F353100142577281%2F&show_text=false&width=560&&autoplay=true&t=0",
+          },
+          video2: {
+            bgimage:
+              "https://res.cloudinary.com/dn3hzwewp/image/upload/v1631011152/matchplay/carnorwendin.png",
+            headline: "Intervju med Carnor & Wedin",
+            text: "Joel var i zonen när syskonparet tog hem segern.",
+            url: "https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Fmatchplaysweden%2Fvideos%2F388256685545899%2F&show_text=false&width=560&autoplay=true&t=0",
+          },
+
+          winners: [
+            {
+              club: "",
+              name: "Carnor/Wedin",
+            },
+            {
+              club: "",
+              name: "Christiansson/ Nileskär",
+            },
+          ],
+        };
+      } else if (this.$route.params.competition === "2021") {
+        this.competition = {
+          _id: "8dmNL5K5ypaHbTbEM",
+
+          competitionname: "2021",
+          competitionpictureurl:
+            "https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_auto,e_colorize:60,co_rgb:000000,e_blur:300/v1631006181/matchplay/vinnare.jpg",
+          finalteams: [
+            {
+              club: "Vadstena GK",
+              name: "Johansson/Gustafsson",
+            },
+            {
+              club: "Bollnäs GK",
+              name: "Brosten/Sigvardsson",
+            },
+            {
+              club: "Arninge GK",
+              name: "Andersson/Hamilton",
+            },
+            {
+              club: "PGA Sweden National",
+              name: "Carlsson/Hall",
+            },
+            {
+              club: "Örebro City GCC",
+              name: "Sahlin/Jungander",
+            },
+            {
+              club: "Bokskogen GK/Holms GK",
+              name: "Wennolf/Ljungberg",
+            },
+            {
+              club: "Lyckorna GK/Onsjö GK",
+              name: "Landberg/Bengtsson",
+            },
+            {
+              club: "Mauritzbergs SI/Göteborgs Golf",
+              name: "Söderström/Wakeus",
+            },
+            {
+              club: "Skepparslövs GK",
+              name: "Kullberg/Johansson",
+            },
+            {
+              club: "Örebro City GCC",
+              name: "Andersson/Berggren",
+            },
+          ],
+          presentation:
+            "Matchplay Sweden är avgjort för detta året och vi säger stort grattis till vinnarna! Från Huvudtävlingen till Andra Chansen - ett stort tack för ert deltagande och på återseende nästa år.",
+          special: {
+            ingress:
+              "Plötsligt händer det - och här är ett exempel! Martin Ljunggren spelade sin match på Borås Norra bana och på hål 15, ett par 4 så hände det vi många enbart kommer att drömma om. Martin berättar",
+            text: "Under gårdagens match mellan mig och Carl Lejon mot Markus Andersson och Peter Lindeberg hade jag lyckan att göra en HIO på hål nummer 15 på Borås norra banan. Slaget skedde med driver och hålet spelades strax över 300 m med tanke på flaggplacering och teeplacering. När vi inte kunde hitta bollen i närheten av green gick jag och tittade i koppen och chocken var total när bollen låg där",
+            url: "https://res.cloudinary.com/dn3hzwewp/image/upload/v1631006701/matchplay/hole_in_one.jpg",
+          },
+          stats: {
+            age: 43,
+            clubs: 232,
+            hcp: 12.2,
+            teams: 712,
+          },
+          video1: {
+            bgimage:
+              "https://res.cloudinary.com/dn3hzwewp/image/upload/v1631006660/matchplay/videoimage2.png",
+            headline: "Live från finaldagen 2021",
+            text: "Sverigefinalen 2021 spelades på Allerums GK. Matcherna gick att följa live på hemsidan och på Facebook publicerades livesändningar likt denna.",
+            url: "https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Fmatchplaysweden%2Fvideos%2F2991832374362345%2F&show_text=false&width=560&autoplay=true&t=0",
+          },
+          video2: {
+            bgimage:
+              "https://res.cloudinary.com/dn3hzwewp/image/upload/v1631006653/matchplay/videoimage1.png",
+            headline: "Dramatik in i det sista!",
+            text: "All square in för sista och avgörande hålet! Arvid ligger pin-heigh för en birdieputt och har inga slag på hålet. I andra laget har Jonatan på tre slag en chip på ca 10 meter och inga slag på hålet. Se den dramatiska upplösningen",
+            url: "https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Fmatchplaysweden%2Fvideos%2F2779410105631927%2F&show_text=false&width=560&&autoplay=true&t=0",
+          },
+          winners: [
+            {
+              club: "Kårsta GK",
+              name: "Carlsson/Lindström",
+            },
+            {
+              club: "Borås GK",
+              name: "Lind/Fråhn",
+            },
+          ],
+        };
+      } else {
+        this.$router.push("/tavlingar");
+      }
+    },
     gameImages() {
       this.axios
         .post(globalState.admin_url + "allGameImages", {

@@ -15,7 +15,7 @@
         På grund av hög belastning på vår server och inte helt optimerad kod kommer resultatsidan vara under utveckling nån dag eller två. Välkommen tillbaka!
     </b-alert>  
 
-    <b-container class="mt-3 ml-0 mr-0 p-0">    
+    <b-container class="mt-3 ml-0 mr-0 p-0 pt-sm-4">    
     <!--    <b-row  align-h="center" class="mt-0 mt-sm-4 pt-0 pt-sm-4">
       
           <b-col cols="4" md="4" class="d-flex justify-content-center p-0" >
@@ -92,7 +92,7 @@
           </vue-ellipse-progress>
           </b-col> 
         </b-row>   -->
-        <b-row  class="p-0 m-0 mt-4">      
+        <b-row  class="p-0 m-0 mt-4 pt-sm-4">      
             <b-col class="col-3 col-md-3 text-center p-1">
                 <div class="stats pt-2 pl-1 pr-1 pb-0" variant="primary">
                   <label class="d-block">Lag:</label>
