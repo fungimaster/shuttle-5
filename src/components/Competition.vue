@@ -236,7 +236,7 @@
           för ta del av de nyheter och tävlingar.
         </h6>
         <div class="d-flex justify-content-center pt-4">
-          <b-button variant="light" size="lg" pill :disabled="closed"
+          <b-button variant="light" size="lg" pill :disabled="closed" @click="$router.push('/register')" 
             >Till anmälan!</b-button
           >
         </div>
@@ -508,6 +508,7 @@ hr {
   color: $light;
   background-color: #2e5783;
 }
+
 
 h2 {
   color: $light;
