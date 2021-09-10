@@ -1,5 +1,5 @@
 <template>
-  <div class="cont position-relative w-100">
+  <div class="cont position-relative w-100 ">
     <div class="photo below"></div>
     <div class="photo below2"></div> 
  
@@ -19,7 +19,7 @@
 @import "../styles/variables.scss";
 
 .cont {
-  min-height: 600px;
+  min-height: 700px;
 }
 
 .text-container {
