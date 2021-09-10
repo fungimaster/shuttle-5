@@ -104,6 +104,7 @@
 
 <script>
 
+
 import { globalState } from "../main.js";
 import moment from "moment";
 import VueMoment from "vue-moment";

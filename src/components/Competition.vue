@@ -210,38 +210,10 @@
     </div>
 
     <!-- GO TO SIGN UP -->
-    <div
-      class="
-        wallpaperContainer2
-        pb-4
-        m-0
-        d-flex
-        justify-content-center
-        align-items-center
-        flex-wrap
-      "
-    >
-      <div>
-        <h1 class="text-color-light text-center">
-          Vill du vara med i Sveries största och roligaste matchspeltävling?
-        </h1>
-        <h4 v-if="closed" class="text-warning text-center pt-4">
-          Anmälan är stängd och öppnar i december.
-        </h4>
-        <h6 v-if="closed" class="text-warning text-center p-4">
-          Följ oss på
-          <a href="https://www.facebook.com/matchplaysweden/" target="_blank"
-            >Facebook</a
-          >
-          för ta del av de nyheter och tävlingar.
-        </h6>
-        <div class="d-flex justify-content-center pt-4">
-          <b-button variant="light" size="lg" pill :disabled="closed" @click="$router.push('/register')" 
-            >Till anmälan!</b-button
-          >
-        </div>
-      </div>
-    </div>
+    <app-call-to-action></app-call-to-action>
+
+    <!-- Henke ⚽️ ⚽️ ⚽️ -->
+    <app-henke-larsson> </app-henke-larsson>
   </div>
 </template>
 
@@ -250,6 +222,8 @@ import { globalState } from "../main.js";
 import AppImageCollage from "./ImageCollage";
 import AppVideoBlock from "./VideoBlock";
 import AppBirdieLigan from "./BirdieLigan";
+import AppCallToAction from "./CallToAction";
+import AppHenkeLarsson from "./HenkeLarsson";
 import podium from "./Podium.vue";
 import testimonials from "./Testimonials.vue";
 
@@ -265,6 +239,8 @@ export default {
     podium,
     AppBirdieLigan,
     testimonials,
+    AppCallToAction,
+    AppHenkeLarsson,
   },
   data() {
     return {
@@ -508,7 +484,6 @@ hr {
   color: $light;
   background-color: #2e5783;
 }
-
 
 h2 {
   color: $light;
