@@ -365,7 +365,7 @@ export default {
             bgimage:
               "https://res.cloudinary.com/dn3hzwewp/image/upload/v1631006653/matchplay/videoimage1.png",
             headline: "Dramatik in i det sista!",
-            text: "All square in för sista och avgörande hålet! Arvid ligger pin-heigh för en birdieputt och har inga slag på hålet. I andra laget har Jonatan på tre slag en chip på ca 10 meter och inga slag på hålet. Se den dramatiska upplösningen",
+            text: "All square in för sista och avgörande hålet! Arvid ligger pin heigh för en birdieputt och har inga slag på hålet. I andra laget har Jonatan på tre slag en chip på ca 10 meter och inga slag på hålet. Se den dramatiska upplösningen",
             url: "https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Fmatchplaysweden%2Fvideos%2F2779410105631927%2F&show_text=false&width=560&&autoplay=true&t=0",
           },
           winners: [

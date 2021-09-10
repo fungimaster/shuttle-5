@@ -32,7 +32,7 @@
         >
         för ta del av de nyheter och tävlingar.
       </h6>
-      <div class="d-flex justify-content-center pt-4">
+      <div class="d-flex justify-content-center pt-4" v-if="!closed">
         <b-button
           variant="outline-warning"
           size="lg"
