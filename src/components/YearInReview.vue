@@ -53,7 +53,7 @@
                   </div>
                 </b-col>
                 <b-col cols="6" v-if="birdies">
-                  <small class="text-light"> Birdie Ligan</small>
+                  <small class="text-light"> Birdieligan</small>
                   <div
                     v-for="(birdie, index) in birdies"
                     :key="birdie.index"
@@ -76,7 +76,7 @@
                 </b-col>
                 <b-col cols="6">
                   <small class="text-light"
-                    >Spelade <br class="custom-br" />matcher</small
+                    >Spelade <br class="custom-br" />Matcher</small
                   >
                   <h1 class="color-yellow">1054</h1>
                 </b-col>
