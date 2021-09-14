@@ -69,13 +69,15 @@
               <b-row class="pt-4">
                 <b-col cols="6">
                   <small class="text-light"
-                    >Antal <br />
-                    Birdies</small
-                  >
+                    >Antal <br class="custom-br" />
+                    <span class="mt-0">Birdies</span>
+                  </small>
                   <h1 class="color-yellow">{{ totaltBirdies }}</h1>
                 </b-col>
                 <b-col cols="6">
-                  <small class="text-light">Spelade <br />matcher</small>
+                  <small class="text-light"
+                    >Spelade <br class="custom-br" />matcher</small
+                  >
                   <h1 class="color-yellow">1054</h1>
                 </b-col>
               </b-row>
@@ -83,8 +85,10 @@
                 <b-col cols="6" v-if="playerBirdie">
                   <small class="text-light"
                     >Med {{ playerBirdie }}
+                    <span v-if="playerBirdie > 1">gjorda</span>
+                    <span v-else> gjord</span> <br class="custom-br" />
                     <span v-if="playerBirdie > 1">birdies</span>
-                    <span v-else> birdie</span> <br />
+                    <span v-else> birdie</span>
                     är du topp</small
                   >
                   <h1 class="color-yellow" v-if="!loading">
@@ -93,12 +97,28 @@
                 </b-col>
                 <b-col cols="6" v-if="hcpCompared">
                   <small class="text-light"
-                    >Ditt Hcp <br />
+                    >Ditt hcp <br class="custom-br" />
                     tillhör top</small
                   >
                   <h1 class="color-yellow">{{ getInterval(hcpCompared) }} %</h1>
                 </b-col>
               </b-row>
+              <b-skeleton-wrapper :loading="loading">
+                <template #loading>
+                  <div class="d-flex justify-content-between">
+                    <b-skeleton width="40%"></b-skeleton>
+                    <b-skeleton width="40%"></b-skeleton>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                    <b-skeleton width="40%"></b-skeleton>
+                    <b-skeleton width="40%"></b-skeleton>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                    <b-skeleton width="40%"></b-skeleton>
+                    <b-skeleton width="40%"></b-skeleton>
+                  </div>
+                </template>
+              </b-skeleton-wrapper>
             </div>
           </div>
           <b-button
@@ -352,5 +372,11 @@ export default {
 }
 .white-space {
   white-space: nowrap;
+}
+
+.custom-br {
+  display: block;
+  margin-top: -10px;
+  content: "";
 }
 </style>
