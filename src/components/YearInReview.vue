@@ -103,7 +103,7 @@
                   <h1 class="color-yellow">{{ getInterval(hcpCompared) }} %</h1>
                 </b-col>
               </b-row>
-              <b-skeleton-wrapper :loading="loading">
+              <b-skeleton-wrapper :loading="loading ">
                 <template #loading>
                   <div class="d-flex justify-content-between">
                     <b-skeleton width="40%"></b-skeleton>
@@ -156,12 +156,13 @@ export default {
       totalPlayers: 1424,
       playerBirdie: null,
       playerBirdiePercentage: null,
-      loading: true,
+      loading: false,
       birdies: null,
     };
   },
   methods: {
     getAchievementDataPlayer() {
+      this.loading = true
       this.axios
         .post(globalState.admin_url + "getAchievementDataPlayer", {
           competition: globalState.compid,
