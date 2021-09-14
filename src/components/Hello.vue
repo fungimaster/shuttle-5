@@ -420,13 +420,13 @@
     
     <app-year-in-review :isMobile="isMobile" :year="2021"></app-year-in-review>
     
-    <b-jumbotron v-if="closed" container-fluid class=" mb-0">
+    <b-jumbotron v-if="closed" container-fluid style="background-color: white">
       <b-container>
         <b-row>
           <b-col class="col-12">
             <b-row v-if="closed">
               <b-col class="col-12 mb-3 mt-4">
-                <h3>Spela coronasäkert</h3>
+                <h1>Spela coronasäkert</h1>
                 <p>
                   Vår underbara sport kan bedrivas säkert som sällskapsspel. Vi är
                   utomhus, utan kontakt, med stora ytor att röra oss på.
