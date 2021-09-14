@@ -123,6 +123,9 @@ export default {
   created() {
     this.competition = this.$store.getters["getCompetition"](this.year);
     this.getBirdies();
+    if (this.user) {
+      this.getAchievementDataPlayer();
+    }
   },
   mounted() {},
   data() {
