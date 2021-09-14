@@ -6,6 +6,8 @@
   >
     <b-row class="pt-4 pb-4">
       <b-col offset-md="3" md="6" sm="12">
+        <h2 class="pb-5 text-center review-headline">Återblick Matchplay {{ year }}</h2>
+
         <div
           class="
             d-flex
@@ -103,7 +105,7 @@
                   <h1 class="color-yellow">{{ getInterval(hcpCompared) }} %</h1>
                 </b-col>
               </b-row>
-              <b-skeleton-wrapper :loading="loading ">
+              <b-skeleton-wrapper :loading="loading">
                 <template #loading>
                   <div class="d-flex justify-content-between">
                     <b-skeleton width="40%"></b-skeleton>
@@ -162,7 +164,7 @@ export default {
   },
   methods: {
     getAchievementDataPlayer() {
-      this.loading = true
+      this.loading = true;
       this.axios
         .post(globalState.admin_url + "getAchievementDataPlayer", {
           competition: globalState.compid,
@@ -379,5 +381,10 @@ export default {
   display: block;
   margin-top: -10px;
   content: "";
+}
+
+.review-headline {
+  color: #dac056;
+  letter-spacing: 2px;
 }
 </style>
