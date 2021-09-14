@@ -10,7 +10,7 @@
   </div> 
           </div>
                 <div class="col-12 text-left text-md-center">
-                   <h1 class="text-white">HUR GÅR DET TILL?</h1>
+                   <h1 class="text-white">{{headline ? headline : 'HUR GÅR DET TILL?'}}</h1>
                   <b-carousel ref="explainer" id="explainer" v-model="slide" :interval="500000" indicators="">
                     <div class="carousel-inner text-left">
                       <div
@@ -61,7 +61,7 @@
 <script>
 
 export default {
-  props: ["number"],
+  props: ["number", "headline"],
   data() {
     return {
       slide:0,

@@ -7,3 +7,12 @@
     color: #003441 !important;
   }
   
+.btn-outline-warning {
+  
+    color: #fc9b37;
+    border-color: #fc9b37;
+}
+  
+.btn-outline-warning:hover {
+  background-color: #fc9b37 !important;
+}  

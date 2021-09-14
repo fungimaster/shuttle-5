@@ -278,7 +278,7 @@
             </router-link>
           </b-col>
         </b-row>
-                     
+
         <b-row v-if="isAuthenticated && user">
           <b-col class="col-12">
             <h3 class="teaser-header orange mb-3">Hej {{user.firstname}}!</h3>
@@ -349,29 +349,7 @@
           </b-col>
         </b-row>
 
-         <b-row v-if="closed">
-          <b-col class="col-12 mb-3 mt-4">
-            <h3>Spela coronasäkert</h3>
-            <p>
-            Vår underbara sport kan bedrivas säkert som sällskapsspel. Vi är utomhus, utan kontakt, med stora ytor att röra oss på. 
-            </p>
-            <p>Att tänka på inför matchstart:</p>
-            <ul>
-              <li>
-              håll avstånd
-              </li>
-               <li>
-              inga handslag
-              </li>
-               <li>
-              låt flaggan stå
-              </li>
-                <li>
-              följ klubbarnas regler kring avstånd/maxantal etc.
-              </li>
-            </ul>
-          </b-col>
-         </b-row>
+        
 
         <hr v-if="!closed" class="mt-4 mb-4 mt-md-5 mb-md-4" />
         <b-row align-h="center">
@@ -435,6 +413,33 @@
           <b-col class="col-12 text-left text-md-center">
             <h1 class="orange">Deltagarröster från 2020</h1>
             <testimonials :number=5 :register=true></testimonials>
+          </b-col>
+        </b-row>
+      </b-container>
+    </b-jumbotron>
+    
+    <app-year-in-review :isMobile="isMobile" :year="2021"></app-year-in-review>
+    
+    <b-jumbotron v-if="closed" container-fluid style="background-color: white">
+      <b-container>
+        <b-row>
+          <b-col class="col-12">
+            <b-row v-if="closed">
+              <b-col class="col-12 mb-3 mt-4">
+                <h1>Spela coronasäkert</h1>
+                <p>
+                  Vår underbara sport kan bedrivas säkert som sällskapsspel. Vi är
+                  utomhus, utan kontakt, med stora ytor att röra oss på.
+                </p>
+                <p>Att tänka på inför matchstart:</p>
+                <ul>
+                  <li>håll avstånd</li>
+                  <li>inga handslag</li>
+                  <li>låt flaggan stå</li>
+                  <li>följ klubbarnas regler kring avstånd/maxantal etc.</li>
+                </ul>
+              </b-col>
+            </b-row>
           </b-col>
         </b-row>
       </b-container>
@@ -584,6 +589,7 @@ import Testimonials from "./Testimonials";
 import Howitworks from "./Howitworks";
 import ScorecardExplainer from "./ScorecardExplainer";
 import AppImageCollage from "./ImageCollage";
+import AppYearInReview from "./YearInReview";
 import Podium from "./Podium";
 import { globalState } from "../main.js";
 
@@ -736,7 +742,8 @@ export default {
     Podium, 
     Howitworks, 
     ScorecardExplainer,
-    AppImageCollage
+    AppImageCollage,
+    AppYearInReview
   },
   data() {
     return {
