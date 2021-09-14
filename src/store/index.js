@@ -279,7 +279,6 @@ export default new Vuex.Store({
       commit("SET_ALL_IMAGES", payload);
     },
     setUser: ({ commit }, payload) => {
-      payload.hcp = 5
       commit("SET_USER", payload);
     },
     tryAutoLogin: ({ commit }) => {

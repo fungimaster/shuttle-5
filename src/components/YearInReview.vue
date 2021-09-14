@@ -54,7 +54,11 @@
                 </b-col>
                 <b-col cols="6" v-if="birdies">
                   <small class="text-light"> Birdie Ligan</small>
-                  <div v-for="(birdie, index) in birdies" :key="birdie.index" class="white-space">
+                  <div
+                    v-for="(birdie, index) in birdies"
+                    :key="birdie.index"
+                    class="white-space"
+                  >
                     <small class="d-block color-yellow text-overflow"
                       ><span class="text-light"> {{ index + 1 }}.</span>
                       {{ birdie.playername }}</small
@@ -62,9 +66,12 @@
                   </div>
                 </b-col>
               </b-row>
-              <b-row class="pt-4" >
+              <b-row class="pt-4">
                 <b-col cols="6">
-                  <small class="text-light">Antal <br> Birdies</small>
+                  <small class="text-light"
+                    >Antal <br />
+                    Birdies</small
+                  >
                   <h1 class="color-yellow">{{ totaltBirdies }}</h1>
                 </b-col>
                 <b-col cols="6">
@@ -72,7 +79,7 @@
                   <h1 class="color-yellow">1054</h1>
                 </b-col>
               </b-row>
-              <b-row class="pt-4" v-if="user && userId">
+              <b-row class="pt-4" v-if="user && user._id && !loading">
                 <b-col cols="6" v-if="playerBirdie">
                   <small class="text-light"
                     >Med {{ playerBirdie }}
@@ -117,11 +124,7 @@ export default {
     this.competition = this.$store.getters["getCompetition"](this.year);
     this.getBirdies();
   },
-  mounted() {
-    if (this.userId) {
-      this.getAchievementDataPlayer();
-    }
-  },
+  mounted() {},
   data() {
     return {
       competition: null,
@@ -140,7 +143,7 @@ export default {
         .post(globalState.admin_url + "getAchievementDataPlayer", {
           competition: globalState.compid,
           type: "birdie",
-          player: this.userId,
+          player: this.user._id,
         })
         .then((response) => {
           this.playerBirdie = response.data;
@@ -151,7 +154,6 @@ export default {
               number: response.data,
             })
             .then((response) => {
-          
               this.playerBirdiePercentage =
                 (response.data / this.totalPlayers) * 100;
               this.loading = false;
@@ -180,7 +182,7 @@ export default {
           console.log(error);
         });
     },
-        getInterval(critieria) {
+    getInterval(critieria) {
       if (this.loading) {
         return "";
       } else if (critieria <= 1) {
@@ -204,8 +206,15 @@ export default {
       }
     },
   },
+  watch: {
+    user: {
+      handler: function () {
+        this.getAchievementDataPlayer();
+      },
+    },
+  },
   computed: {
-    ...mapGetters(["userId", "user", "competitionHcps"]),
+    ...mapGetters(["user", "competitionHcps"]),
 
     myImages() {
       if (!this.user) {
@@ -268,23 +277,21 @@ export default {
       }
     },
     hcpCompared() {
-      if (!this.user || !this.user.hcp) {
-        return false
+      if (!this.user || (!this.user.hcp && this.user.hcp !== 0)) {
+        return false;
       }
       const { hcps } = this.$store.getters["getCompetition"](this.year);
-      const numberOfHcps = hcps.length
+      const numberOfHcps = hcps.length;
       const userHcp = this.user.hcp;
 
-
       let count = hcps.reduce(function (accumulator, val) {
-        if (val.hcp > userHcp) {
+        if (val.hcp < userHcp) {
           accumulator++;
         }
         return accumulator;
       }, 0);
-      
-    
-      return (count / numberOfHcps) * 100
+
+      return (count / numberOfHcps) * 100;
     },
   },
 };
@@ -337,10 +344,10 @@ export default {
 }
 
 .text-overflow {
-        overflow: hidden;
-    text-overflow: ellipsis;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .white-space {
-            white-space: nowrap;
+  white-space: nowrap;
 }
 </style>
