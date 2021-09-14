@@ -278,7 +278,7 @@
             </router-link>
           </b-col>
         </b-row>
-                     
+
         <b-row v-if="isAuthenticated && user">
           <b-col class="col-12">
             <h3 class="teaser-header orange mb-3">Hej {{user.firstname}}!</h3>
@@ -440,6 +440,8 @@
       </b-container>
     </b-jumbotron>
 
+    <app-year-in-review :isMobile="isMobile" :year="2021"></app-year-in-review>
+
     <b-jumbotron container-fluid class="bg-image-collage p-0 m-0">
         <app-image-collage class="bg-image-collage d-flex justify-content-center" v-if="allGameImages.length" :numberOfImages="numberOfImages" :images="allGameImages"></app-image-collage>               
     </b-jumbotron>
@@ -584,6 +586,7 @@ import Testimonials from "./Testimonials";
 import Howitworks from "./Howitworks";
 import ScorecardExplainer from "./ScorecardExplainer";
 import AppImageCollage from "./ImageCollage";
+import AppYearInReview from "./YearInReview";
 import Podium from "./Podium";
 import { globalState } from "../main.js";
 
@@ -736,7 +739,8 @@ export default {
     Podium, 
     Howitworks, 
     ScorecardExplainer,
-    AppImageCollage
+    AppImageCollage,
+    AppYearInReview
   },
   data() {
     return {

@@ -48,16 +48,16 @@
     <b-container>
       <b-row align-v="center" class="text-center stats pt-4">
         <b-col md="4" cols="12" class="pt-3">
-          <h5>2000</h5>
+          <h5>1904</h5>
           <small class="text-light">Golfälskande deltagare</small>
         </b-col>
         <b-col md="4" cols="12" class="pt-3">
-          <h5>301%</h5>
-          <small class="text-light">Ökning av antal lag mellan tävlingar</small>
+          <h5>2486</h5>
+          <small class="text-light">Birdies</small>
         </b-col>
         <b-col md="4" cols="12" class="pt-3">
           <h5>12.1</h5>
-          <small class="text-light">Är snitthcp för deltagarna</small>
+          <small class="text-light">I Snitthcp</small>
         </b-col>
       </b-row>
     </b-container>
