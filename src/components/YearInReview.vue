@@ -43,7 +43,7 @@
             <div class="w-100 mt-5">
               <b-row>
                 <b-col cols="6">
-                  <small class="text-light">Vinnare </small>
+                  <small class="text-light">SF Vinnare </small>
 
                   <div
                     v-for="winner in competition.winners"
@@ -354,7 +354,6 @@ export default {
     rgba(51, 116, 182, 1) 41%,
     rgba(47, 47, 47, 1) 100%
   );
-  -webkit-animation: pulse 4s infinite alternate;
   animation: pulse 4s infinite alternate;
   background-size: 100% 100%;
   position: relative;
@@ -365,7 +364,7 @@ export default {
     background-size: 100% 100%;
   }
   100% {
-    background-size: 120% 100%;
+    background-size: 140% 100%;
   }
 }
 

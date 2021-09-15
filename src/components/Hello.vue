@@ -449,18 +449,18 @@
         <app-image-collage class="bg-image-collage d-flex justify-content-center" v-if="allGameImages.length" :numberOfImages="numberOfImages" :images="allGameImages"></app-image-collage>               
     </b-jumbotron>
 
-    <b-jumbotron container-fluid class="gradient mb-3">
+    <b-jumbotron container-fluid class="gradient mb-3" >
       <b-container class="mb-4 mt-4">      
         <b-row align-h="center">
           <b-col class="col-12 col-md-10 col-lg-10">
             <b-row align-h="center">
           <b-col class="col-12 col-md-12">
-            <h1 class="mb-5 text-white text-left text-md-center">Dubbelt så stor Sverigefinal</h1>            
+            <h1 class="mb-5 text-white text-left text-md-center">Sverigefinalen 2021 är avgjord</h1>            
           </b-col>
             </b-row>
             <b-row align-h="center">
           <b-col class="col-12 col-md-8">
-            <p>Åtta lag går till Sverigefinalen som spelas 3-5 september på Allerum Golfklubb, strax utanför Helsingborg. Hotell inklusive frukost, inspel, semifinal och för de fyra vinnande lagen blir det final på söndagen. Bankett på lördagskvällen för de 8 deltagande lagen. De två lagen som vinner respektive match på söndagen blir bjudna på den stora finalen på Los Naranjos i Spanien.</p>
+            <p>Åtta lag gick till Sverigefinalen som spelas 3-5 september på Allerum Golfklubb, strax utanför Helsingborg. Hotell inklusive frukost, inspel och bankett på lördagskvällen för de 8 deltagande lagen ingick. Semifinal och för de fyra vinnande lagen samt final spelades på söndagen. De två lagen som vann respektive match på söndagen blir bjudna på den stora finalen på Los Naranjos i Spanien.</p>
           </b-col>
           <b-col class="col-12 col-md-4 text-center mt-3 mt-md-0">
             <img

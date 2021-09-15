@@ -25,7 +25,7 @@ export default new Vuex.Store({
     images: null,
     competitions: [{
       _id: "8dmNL5K5ypaHbTbEM",
-      hcps: hcps, 
+      hcps: hcps,
       competitionname: "2021",
       competitionpictureurl:
         "https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_auto,e_colorize:60,co_rgb:000000,e_blur:300/v1631006181/matchplay/vinnare.jpg",
@@ -115,6 +115,12 @@ export default new Vuex.Store({
           name: "Lind/Fråhn",
         },
       ],
+      price:
+      {
+        imageurl: "https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_auto,q_auto,e_colorize:10,co_rgb:000000/v1631698312/matchplay/price2021text.png",
+        destination: " Los Naranjos i Spanien den 7-11 november",
+        text: "Boende på femstjärniga Gran Hotel Guadalpin Banus, ca 45 min sydväst om Malaga flygplats. Här väntade lyxiga rum med pool- & havsutsikt. <br/> <br/> Hotellet ligger utmed den långa sandstranden och har 10-15 min gångväg till marinan i Puerto Banus. Till svenskbekantningen Los Naranjos, där de båda finalrundorna spelas, är det mindre än 10 shuttle-minuter."
+      },
     },
 
     {

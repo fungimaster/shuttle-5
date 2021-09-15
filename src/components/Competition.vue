@@ -43,7 +43,7 @@
     <!-- WINNERS -->
     <div class="wallpaperContainer1 p-0 m-0" v-if="competition.winners">
       <div class="pt-5 pb-5">
-        <h2>Årets Vinnare</h2>
+        <h2>Årets SF Vinnare</h2>
         <div
           class="text-center text-color-light mt-5"
           v-for="winners in competition.winners"
@@ -72,6 +72,31 @@
           </h5>
           <small class="mt-0">{{ players.club }}</small>
         </div>
+      </div>
+    </div>
+
+    <!-- Price -->
+    <div class="wallpaperContainer5">
+      <div class="p-sm-4">
+        <b-container>
+          <b-row class="p-4">
+            <b-col offset-md="3" md="6" sm="12">
+              <div class="text-center text-color-light mt-5">
+                <h2>
+                  <strong class="mb-0"> Finalresan </strong>
+                </h2>
+                <hr />
+
+                <h3 class="mt-0">{{ competition.price.destination }}</h3>
+              </div>
+              <hr />
+
+              <p class="text-light text-justify p-4">
+                <span v-html="competition.price.text"></span>
+              </p>
+            </b-col>
+          </b-row>
+        </b-container>
       </div>
     </div>
 
@@ -217,7 +242,9 @@
               <p>
                 {{ competition.special2.ingress }}
               </p>
-              <i v-if="competition.special2.text" class="text-color-light"> "{{ competition.special2.text }}"</i>
+              <i v-if="competition.special2.text" class="text-color-light">
+                "{{ competition.special2.text }}"</i
+              >
             </b-col>
           </b-row>
         </b-container>
@@ -278,11 +305,13 @@ export default {
   },
   methods: {
     setData() {
-      const competitionYear = this.$route.params.competition
+      const competitionYear = this.$route.params.competition;
       if (competitionYear === "2020") {
-        this.competition = this.$store.getters['getCompetition'](competitionYear)
+        this.competition =
+          this.$store.getters["getCompetition"](competitionYear);
       } else if (competitionYear === "2021") {
-        this.competition = this.$store.getters['getCompetition'](competitionYear)
+        this.competition =
+          this.$store.getters["getCompetition"](competitionYear);
       } else {
         this.$router.push("/tavlingar");
       }
@@ -379,6 +408,14 @@ hr {
   background-position-x: 50%;
   background-position-y: 50%;
   background-image: url("https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_auto,q_auto,e_colorize:50,co_rgb:000000/v1572942209/matchplay/c640cf_402261724c71433c9662662c3114e5b8_mv2_d_4500_3000_s_4_2.jpg");
+}
+.wallpaperContainer5 {
+  min-height: 550px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position-x: 50%;
+  background-position-y: 50%;
+  background-image: url("https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_auto,q_auto,e_colorize:50,co_rgb:000000/v1631699117/matchplay/background.jpg");
 }
 
 .text-color-light {
