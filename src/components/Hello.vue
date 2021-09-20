@@ -283,9 +283,12 @@
           <b-col class="col-12">
             <h3 class="teaser-header orange mb-3">Hej {{user.firstname}}!</h3>
 
-            <p v-if="user.teams">
+            <p v-if="user.teams && currentround<numberofrounds">
               Du kan hantera ditt lag 
               <router-link to="/mymatchplay">här</router-link>. Lycka till i tävlingen!
+            </p>
+            <p v-if="user.teams && currentround===numberofrounds">
+              Tävlingen är avslutad för i år, tack för ditt deltagande!              
             </p>
             <div v-if="user.teams">
               <div v-if="user.teams.length>0">
@@ -660,7 +663,8 @@ export default {
     this.axios
       .post(globalState.admin_url + "getCompetition", {id: globalState.compid})
       .then((response) => {
-          this.currentRound = response.data.currentround;      
+          this.currentround = response.data.currentround;
+          this.numberofrounds = response.data.numberofrounds;          
 
         //show modal if gamedate is today
 /* 
@@ -777,6 +781,7 @@ export default {
       allGameImages:[],
       numberOfImages: 0,
       currentRound: null,
+      numberofrounds: null,
       gameRoundCount: null,
       loadingGameRoundCount: true,  
       windowWidth: window.innerWidth,
