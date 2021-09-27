@@ -76,7 +76,7 @@
     </div>
 
     <!-- Price -->
-    <div class="wallpaperContainer5">
+    <div class="wallpaperContainer5" v-if="competition.price">
       <div class="p-sm-4">
         <b-container>
           <b-row class="p-4">
