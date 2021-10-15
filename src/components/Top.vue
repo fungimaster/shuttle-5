@@ -41,7 +41,9 @@ v-if="
         <b-nav-item hidden to="/ping">PING</b-nav-item>
         <!--a class="nav-item nav-link text-dark show-search-button nav-link" href="#search" data-toggle="collapse" aria-expanded="false" aria-controls="search"><i class="material-icons mobile-search">search</i></a-->
         <b-nav-item show title="login" to="/mymatchplay" v-if="isAuthenticated">
-          <i class="material-icons mr-1" style="vertical-align:bottom;">supervised_user_circle</i>
+            <b-avatar v-if="user && user.profilepicture" :src="user.profilepicture">
+            </b-avatar>
+          <i  v-else class="material-icons mr-1" style="vertical-align:bottom;">supervised_user_circle</i>
           <span v-if="!user">   
             <b-spinner small variant="primary" label="Small Spinner" type="grow"></b-spinner>
             <b-spinner small variant="primary"  label="Small Spinner" type="grow"></b-spinner>

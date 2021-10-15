@@ -65,9 +65,9 @@ export default {
 
     getPlayerData(id) { 
      
-      this.axios.post('https://matchplay.meteorapp.com/methods/getPlayerData', {
+      this.axios.post(globalState.admin_url + 'getPlayerData', {
               "id": id,
-              "competition": '8dmNL5K5ypaHbTbEM'
+              "competition": globalState.compid
           })
           .then(response => {
               if (response.data.hasOwnProperty('error')) {

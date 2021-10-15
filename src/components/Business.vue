@@ -18,23 +18,8 @@
         
         </b-row>
        <b-row id="companies" v-if="!loading" align-h="center" class="justify-content-center align-self-center mt-4">
-                <!-- PLUS -->
-                <b-col class="col-12">
-                    <h1>Företagslag +</h1>
-                </b-col>
-                <b-col v-for="(company,idx) in companies_plus" :key="idx"
-                    class="company col-6 col-md-6 pl-0 pr-0 align-self-center text-center p-0 m-0"
-                >              
-                <a :href="company.companyurl" target="_blank">
-               <b-img v-if="company.logourl" class="p-2 p-md-2" :src="getImageUrl(company.logourl,'w_300,f_auto,q_auto')"></b-img>               
-                </a>              
-                </b-col>
-
-                <b-col class="col-12 mt-4 mb-4">
-                    <hr />
-                </b-col>
-
-                <!-- NON PLUS -->
+              
+               <!-- NON PLUS -->
                 <b-col class="col-12 mb-4">
                     <h1>Företagslag</h1>
                 </b-col>
@@ -63,7 +48,6 @@ import { globalState } from "../main.js";
         closed: globalState.closed,
         doctitle: 'Våra företagslag 2021',        
         companies: [],
-        companies_plus: [],           
         clubno: 0,        
         loading: true        
       }
@@ -97,10 +81,7 @@ import { globalState } from "../main.js";
         this.$store.dispatch('setCompanies', response)
         this.clubno = response.data.length;
         this.companies = response.data;
-        //PLUS
-        this.companies_plus = this.companies.filter((company) => {
-          if (company.packageplus) return true;
-        });
+  
         //NON-PLUS
         this.companies = this.companies.filter((company) => {
           if (!company.packageplus) return true;

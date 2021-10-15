@@ -42,7 +42,8 @@ export const globalState = new Vue({
   data: {
     admin_url: 'https://admin.matchplay.se/methods/',
     compid: '8dmNL5K5ypaHbTbEM', //2020 'sFAc3dvrn2P9pXHAz',
-    closed: true,
+    prevcompid: 'sFAc3dvrn2P9pXHAz', //2020 'sFAc3dvrn2P9pXHAz',
+    closed: false,
     price1: 750,
     price2: 2250,
     price3: 5450,

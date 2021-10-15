@@ -3,7 +3,7 @@
     <b-row class="justify-content-center" align-h="center">
       <b-col md="8" id="register" class="mt-4 mt-md-5">
         <h2 class="teaser-header orange">Anmäl dig som spelare</h2>
-        <b-alert show
+        <b-alert !show
           variant="warning small form-text text-muted mb-4"
         >Denna efterhandsregistrering är bara till för spelare som redan är med som lagmedlem i ett lag men som inte har kopplats till ett lag. Efter din registrering kommer du kopplas till rätt lag (baserat på ditt golf-id).</b-alert>
           <p v-if="this.player==='player2' && closed" class="mb-4">
@@ -53,11 +53,17 @@
             </h3>
 
             <h3 v-if="showqualified32" class="mt-1 mb-4">
-              Grattis, du kan vara med i tävlingen men ditt handicap kommer räknas som 28 i matchspelet.
+              Grattis, du kan vara med i tävlingen.
               <i
                 class="material-icons"
               >tag_faces</i>
             </h3>
+
+       
+            <b-alert v-if="showqualified32" show class="mt-4 small" variant="warning">
+              <h5 class="alert-heading text-dark">Information om HCP reducering</h5>
+              <p class="text-dark">Ditt HCP är över 20 och därför vill vi påminna om att högsta HCP i matchspel är 28.0. Skulle ditt lag gemensamt få ett högre HCP än 28.0, kommer spelarna i laget dela på reduceringen. Varmt välkommen till Sveriges roligaste golftungering!</p>
+            </b-alert>
 
             <h3
               v-if="showqualifiedNOT"
@@ -170,7 +176,7 @@
                   id="input-group-1"
                   label="Ditt Golf-ID"
                   label-for="input-1"
-                  label-cols="4"
+                  label-cols="3"
                   label-cols-lg="2"
                   label-size="sm"
                 >
@@ -187,7 +193,7 @@
                   id="input-group-1"
                   label="Förnamn"
                   label-for="input-1"
-                  label-cols="4"
+                  label-cols="3"
                   label-cols-lg="2"
                   label-size="sm"
                 >
@@ -203,7 +209,7 @@
                   id="input-group-1"
                   label="Efternamn"
                   label-for="input-1"
-                  label-cols="4"
+                  label-cols="3"
                   label-cols-lg="2"
                   label-size="sm"
                 >
@@ -213,7 +219,7 @@
                   id="input-group-1"
                   label="Medlemsklubb"
                   label-for="input-1"
-                  label-cols="4"
+                  label-cols="3"
                   label-cols-lg="2"
                   label-size="sm"
                 >
@@ -224,11 +230,32 @@
                   id="input-group-1"
                   label="Ditt HCP"
                   label-for="input-1"
-                  label-cols="4"
+                  label-cols="3"
                   label-cols-lg="2"
                   label-size="sm"
                 >
                   <b-form-input id="hcp" v-model="form.hcp" type="text" required readonly></b-form-input>
+                </b-form-group>
+                <hr>
+                <b-form-group
+                  id="input-group-1"
+                  label="E-post"
+                  label-for="input-1"
+                  label-cols="2"
+                  label-cols-lg="2"
+                  label-size="sm"
+                >
+                  <b-form-input id="hcp" v-model="form.email" type="text" required readonly></b-form-input>
+                </b-form-group>
+                <b-form-group
+                  id="input-group-1"
+                  label="Mobil"
+                  label-for="input-1"
+                  label-cols="2"
+                  label-cols-lg="2"
+                  label-size="sm"
+                >
+                  <b-form-input id="hcp" v-model="form.mobile" type="text" required readonly></b-form-input>
                 </b-form-group>
 
                 <b-row v-if="docontinue">
@@ -291,20 +318,7 @@
                       <b-form-invalid-feedback :state="validatePassword2">Lösenorden stämmer inte...</b-form-invalid-feedback>
                     </b-form-group>
                   </b-col>
-                  <b-col hidden class="col-md-4 d-none d-md-block">
-                    <b-card hidden
-                      img-src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_300/v1573661281/matchplay/henke-granen.png"
-                      img-top
-                      tag="article"
-                      class="mt-2 mb-2"
-                    >
-                      <b-card-text>
-                        Kul att du vill vara med i golftävlingen, hoppas vi ses!
-                        <br />
-                        <i>Henke & Granen</i>
-                      </b-card-text>
-                    </b-card>
-                  </b-col>
+                 
                 </b-row>
                 <b-row>
                   <b-col>
@@ -326,22 +340,7 @@
                     <b-button type="reset" variant="danger">Avbryt</b-button>
                   </b-col>
                 </b-row>
-                <b-row>
-                  <b-col hidden class="d-block d-md-none">
-                    <b-card
-                      img-src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_300/v1573661281/matchplay/henke-granen.png"
-                      img-top
-                      tag="article"
-                      class="mt-3 mb-2"
-                    >
-                      <b-card-text>
-                        Kul att du vill vara med i golftävlingen, hoppas vi ses!
-                        <br />
-                        <i>Henke & Granen</i>
-                      </b-card-text>
-                    </b-card>
-                  </b-col>
-                </b-row>
+               
               </b-form>
 
               <b-card class="mt-3 hidden" header="Form Data Result">
@@ -441,6 +440,7 @@ components: {
         hcp: "",
         club: "",
         email:"",
+        email_hidden:"",
         password:"",
         password2:""
       },
@@ -489,7 +489,7 @@ components: {
          }
 
          var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-         return re.test(String(this.form.email).toLowerCase());
+         return re.test(String(this.form.email_hidden).toLowerCase());
          
       },
       validatePassword1() {
@@ -555,14 +555,7 @@ components: {
       this.dismissCountDown2 = false; //hide you exist alert
       this.showloadgolfid = true;
       this.axios      
-        .post(
-          //"https://colburn-chat-buxom-tamale.eu-gb.mybluemix.net/get_golfid?golfid=" + golfid1 + '-' + golfid2,
-          "https://matchplay.meteorapp.com/methods/getPlayerByGolfid",
-          //"http://localhost:3000/get_golfid?golfid=" + golfid1 + '-' + golfid2,
-          {
-                  "golfid": this.golfid                      
-                }
-        )
+        .post( globalState.admin_url + "getPlayerByGolfid", {"golfid": this.golfid})
         .then(response => {         
           //console.log(response.data);         
 
@@ -601,10 +594,34 @@ components: {
             xlen += '*'
           }
           
+          this.form.lastname = response.data.lastname.substring(0, 2) + xlen;
+
+
+          xlen = '*';
+          let email = response.data.email
+          for (var i = 0; i < email.length-10; i++) {
+            xlen += '*'
+          }
+          let emailEnding = email.substring(email.length -6)
+          this.form.email = response.data.email.substring(0, 4) + xlen + emailEnding
+
+          xlen = '*';
+          let phone = response.data.phone
+          for (var i = 0; i < phone.length-10; i++) {
+            xlen += '*'
+          }
+          let phoneEnding = phone.substring(phone.length -3)
+          this.form.mobile = response.data.phone.substring(0, 4) + xlen + phoneEnding
+
+
+
+          
           
-          this.form.lastname = response.data.lastname.substring(0, 2) + xlen;
           this.form.firstname_hidden = response.data.firstname;
           this.form.lastname_hidden = response.data.lastname;
+          
+
+          this.form.email_hidden = response.data.email;
           this.form.club = response.data.club;
           //this.form.hcp = response.data.hcp;
           this.form.hcp = response.data.hcp.replace(/,/g, '.')
@@ -623,7 +640,7 @@ components: {
               this.showqualified = true;
               this.step = 'step2';
               this.docontinue = true;
-          } else if (this.form.hcp > 28 && this.form.hcp < 36.1 ) {
+          } else if (this.form.hcp > 20 && this.form.hcp < 36.1 ) {
               this.showqualified32 = true;
               this.docontinue = true;
           } else if (this.form.hcp > 36.0) {
@@ -657,7 +674,7 @@ components: {
 
       this.showerror = false;
       this.showspinnerregisteruser = true;
-          this.axios.post('https://matchplay.meteorapp.com/methods/userAdd', {           
+          this.axios.post(globalState.admin_url + 'userAdd', {           
               //ID: 12345              
               "emails": [
                   {
@@ -783,7 +800,8 @@ trylogin()
       
 
     }
-  }
+  },
+
 };
 </script>
 

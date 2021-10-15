@@ -140,7 +140,7 @@
                 v-if="!isAuthenticated"
                 class="btn btn-danger btn-md text-white mt-2 mr-2"
                 to="/register"
-              >Efterhandsregistrering</router-link>
+              >registrering</router-link>
               <b-alert variant="danger" class="mt-3">
                 På grund av väldigt hög aktivitet av våra härliga golfspelare här på sajten går servern på knäna och vi jobbar på att fixa problemen, kolla in på sajten imorgon igen för bättre prestanda!!!
               </b-alert>              
@@ -411,7 +411,7 @@
       <b-container>
         <b-row>
           <b-col class="col-12 text-left text-md-center">
-            <h1 class="orange">Deltagarröster från 2020</h1>
+            <h1 class="orange">Deltagarröster</h1>
             <testimonials :number=5 :register=true></testimonials>
           </b-col>
         </b-row>
