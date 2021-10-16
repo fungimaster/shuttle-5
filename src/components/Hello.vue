@@ -46,10 +46,10 @@
       <b-container class="pl-4 pr-4">
         <b-row align-h="center">
           <b-col class="col-12 col-md-12 mt-4">
-            <h2>VÄLKOMMEN TILL MATCHPLAY 2021, GOLFTÄVLINGEN FÖR BÅDE PRIVATPERSONER OCH FÖRETAG</h2>
+            <h2>VÄLKOMMEN TILL MATCHPLAY 2022, GOLFTÄVLINGEN FÖR BÅDE PRIVATPERSONER OCH FÖRETAG</h2>
           </b-col>
 
-          <b-col v-if="!closed" class="col-12 col-md-6 mt-4 mb-3 mb-md-4 text-center" id="countdown">
+          <b-col hidden v-if="!closed" class="col-12 col-md-6 mt-4 mb-3 mb-md-4 text-center" id="countdown">
             <h4 class="mb-3 mb-md-4">Anmälan stänger om:</h4>
             <b-row align-h="center">
             <b-col hidden class="col-4 col-md-4 p-0">
@@ -72,7 +72,7 @@
           </b-col>
 
           <b-col class="col-12 col-md-8">
-            <p v-if="!closed" class="mt-3 mt-md-0">
+            <p hidden v-if="!closed" class="mt-3 mt-md-0">
              Omgång 1 startar  <strong>söndagen den 2 maj</strong> och pågår till  <strong>söndagen den 30 maj</strong> (ändrat för att fler i mellersta och norra Sverige ska kunna delta pga av kall vinter/vår).
               <b-alert hidden variant="info" class="small mt-3">Lag från mer än 50% av Sveriges golfklubbar finns nu representerade i tävlingen!</b-alert>              
             </p>
@@ -264,9 +264,9 @@
             >Tävlingen spelas mellan maj-september i olika omgångar fram till Sverigefinalen och sedan vidare utomlands!</p>
           </b-col>
           <b-col v-if="!closed" class="col-12">
-            <h1 v-if="!closed" class="teaser-header orange mb-3 text-left text-md-center">Anmäl ditt lag till Matchplay 2021</h1>
+            <h1 v-if="!closed" class="teaser-header orange mb-3 text-left text-md-center">Anmäl ditt lag till Matchplay 2022</h1>
             <p>Hela tävlingen är numera digitaliserad där vi kontrollerar Golf-ID, hcp, slope mm för att kunna applicera våra hcputräkningar inför varje match. Ni använder vårt digitala scorekort för att föra score och vänner/familj kan följa matcherna live!</p>
-            <p>Sista anmälningsdag är den <strong>30 april</strong> och tävlingens första omgång börjar den <strong>2 maj</strong> och slutar den <strong>30 maj</strong>.</p>
+            <p hidden>Sista anmälningsdag är den <strong>30 april</strong> och tävlingens första omgång börjar den <strong>2 maj</strong> och slutar den <strong>30 maj</strong>.</p>
             <p>
               Anmälningskostnad per lag är
               <strong>{{price1}} kr</strong> för privatpersoner och
@@ -449,7 +449,7 @@
         <app-image-collage class="bg-image-collage d-flex justify-content-center" v-if="allGameImages.length" :numberOfImages="numberOfImages" :images="allGameImages"></app-image-collage>               
     </b-jumbotron>
 
-    <b-jumbotron container-fluid class="gradient mb-3" >
+    <b-jumbotron hidden container-fluid class="gradient mb-3" >
       <b-container class="mb-4 mt-4">      
         <b-row align-h="center">
           <b-col class="col-12 col-md-10 col-lg-10">
@@ -484,7 +484,7 @@
       </b-container>
     </b-jumbotron>
 
-    <b-jumbotron v-if="!closed" container-fluid class="white mb-3">
+    <b-jumbotron hidden v-if="!closed" container-fluid class="white mb-0">
       <b-container>
         <b-row>
           <b-col class="col-12">
@@ -530,8 +530,8 @@
       <b-container>
         <b-row>
           <b-col class="col-12 mt-4">
-            <h1 class="mb-5 text-white text-left text-md-center">Matchplay 2021</h1>
-            <p>Matchplay spelas 2021 i hela Sverige och är en tävling för 2-mannalag (herr, dam eller mixed). Officiellt HCP krävs för att delta. Tävlingsformen är 4-boll, Match/Bästboll. Beroende på antal anmälda lag kommer det bli 6-7 omgångar fram till Sverigefinalen. Varje omgång spelas inom 2 veckor (undantag 1:a omgången som är 4 veckor) där det vinnande laget går vidare i tävlingen.</p>
+            <h1 class="mb-5 text-white text-left text-md-center">Matchplay 2022</h1>
+            <p>Matchplay spelas 2022 i hela Sverige och är en tävling för 2-mannalag (herr, dam eller mixed). Officiellt HCP krävs för att delta. Tävlingsformen är 4-boll, Match/Bästboll. Beroende på antal anmälda lag kommer det bli 6-7 omgångar fram till Sverigefinalen. Varje omgång spelas inom 2 veckor (undantag 1:a omgången som är 4 veckor) där det vinnande laget går vidare i tävlingen.</p>
             <p>Matcherna lottas med hänsyn till geografiskt läge och i de inledande omgångarna kan ni räkna med att få möta lag från närliggande golfklubbar. Ju längre man kommer i tävlingen (ungefär från omgång 4), och beroende på var man bor i Sverige, kan resorna bli lite längre. Hemmalaget bokar golftid och lagen står själva för ev. greenfee fram till Sverigefinalen.</p>
             <p>Sverigefinalen görs upp 3-5 september mellan de åtta bästa lagen på Allerum Golfklubb strax utanför Helsingborg. Hotell, frukost, all golf samt en bankett på kvällen ingår. De 2 bästa lagen i Sverigefinalen åker med Matchplay till Spanska solkusten för att göra upp om titeln. Flyg, hotell och allt spel ingår för de bägge lagen.</p>
             <p>Priset för deltagande i tävlingen är {{price1}}:-/lag för privatpersoner och {{price2}}:-/lag (exkl. moms) för företag. Varje lag är garanterat minst 2 matcher.</p>
