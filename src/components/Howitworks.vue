@@ -73,8 +73,8 @@ export default {
         { icon: 'user-friends', title: 'Skapa ditt lag', message: "Nu ska du som lagkapten skapa ditt lag och väljer typ av lag (privat/företag) och lagmedlem. Du måste veta din lagkamrats golfid för att kunna välja lagkamrat. I sista steget betalar du med swish (privatpersoner), voucher eller faktura (företag)." },
         { icon: 'dice', title: 'Lottning', message: "Under maj görs lottningen för den första omgången och där det tas hänsyn till att alla lag ska få så kort resa som möjligt. Du kommer få information via mail samt på matchplay.se när lottningen är klar och du kan då se vilket lag ni kommer möta." },
         { icon: 'golf-ball', title: 'Spela matcher', message: "Varje match måste spelas inom den period som anges för den lottande omgången. På matchplay.se kommer du kunna se vilket lag ni ska möta samt kontaktuppgifter. Fram till Sverigefinalen betalar ni själva ev. greenfee. All score förs med vårt digitala scorekort." },
-        { icon: 'trophy', title: 'Sverigefinal', message: "2021 gör vi Sverigefinalen dubbelt så stor med åtta lag som spelas den 3-5 september på Allerum Golfklubb, strax utanför Helsingborg. Hotell, frukost, all golf samt en bankett på kvällen ingår." },
-        { icon: 'plane-departure', title: 'Finalen', message: "De 2 vinnande lagen i Sverigefinalen åker med Matchplay till Spanska solkusten för att göra upp om titeln. Flyg, hotell och allt spel ingår för de bägge lagen." }
+        { icon: 'trophy', title: 'Sverigefinal', message: "Sverigefinalen 2021 spelades 3-5 september på Allerum GK utanför Helsingborg i Skåne och vart finalen går 2022 kommer att bestämmas under vintern. Även Andra Chansens kvartsfinaler kommer att spelas under Sverigefinalens datum 2022." },
+        { icon: 'plane-departure', title: 'Finalen', message: "De 2 vinnande lagen i Sverigefinalen åker med Matchplay till solkusten för att göra upp om titeln. Flyg, hotell och allt spel ingår för de bägge lagen." }
         //{ icon: 'calendar-exclamation', title: 'Sista anmälningsdag', message: "Anmälan och betalning stänger i slutet av april." },
       ],
     };

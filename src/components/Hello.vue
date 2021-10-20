@@ -1399,7 +1399,7 @@ img {
 }
 
 .herobg0 {
-   background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_auto,e_colorize:50,co_rgb:000000/v1608122570/matchplay/IMG_1232.jpg);
+   background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_auto,e_colorize:50,co_rgb:000000/v1634639604/matchplay/241623315_297370888855635_7137633828161165670_n.jpg);
    background-position: right center;
 }
 

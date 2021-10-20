@@ -81,30 +81,27 @@
     <b-container>
       <b-row>
         <b-col class="mt-3 col-12">
-						  <hr>
+          <hr />
 
           <div class="pt-4 pb-2 first" id="1">
             <h3>LÖPANDE INFO & Kommunikation</h3>
-            <p>
-              Matchplay är en tävling som enbart marknadsförs på sociala medier
-              och därför är det vår största informationskanal mot alla våra
-              deltagare.
-              <a href="https://www.facebook.com/matchplaysweden/"
-                >Följ oss gärna</a
-              >
-              där för snabbast info gällande allt som rör tävlingen.
+            <p>    
+              Matchplay är en tävling som enbart marknadsförs främst på sociala medier och
+              därför är det vår största informationskanal mot alla våra
+              deltagare. Följ oss gärna där för snabbast info gällande allt som
+              rör tävlingen. Alla deltagare finns även med sina adresser i vårt
+              nyhetsbrev och kommer där få information inför uppstart och
+              Sverigefinal.
             </p>
           </div>
-		  <hr>
-
-
+          <hr />
 
           <app-faq-card
             :headline="'Allmänt'"
             :icon="'fa fa-clipboard-check'"
             :information="category6"
           ></app-faq-card>
-			
+
           <app-faq-card
             :headline="'Anmälan & deltagare'"
             :icon="'fa fa-user-friends'"
@@ -179,7 +176,7 @@ export default {
       doctitle: "Info - " + this.$store.state.conferencename,
       information: [
         {
-          headline: "Regioner Matchplay 2021",
+          headline: "Regioner Matchplay 2022",
           text: "Matchplay spelas i hela Sverige. Längre resväg kan förekomma vid få registrerade lag i vissa regioner av Sverige. Värt att poängtera är att lottningen alltid sker med geografiskt utgångsläge som prioritering för minimera reslängd.",
           imgurl1: null,
           imgurl2: null,
@@ -208,7 +205,7 @@ export default {
         },
         {
           headline: "ÅLDERSGRÄNS FÖR DELTAGANDE",
-          text: "Båda spelarna måste fylla minst 18 år innan tävlingsstart.",
+          text: " Båda spelarna måste fylla minst 18 år innan tävlingsstart. Undantaget är när en deltagare under 18 registreras tillsammans med målsman, som då är bunden att medverka vid eventuell utlandsfinal.",
           imgurl1: null,
           imgurl2: null,
           category: 1,
@@ -221,7 +218,7 @@ export default {
           category: 1,
         },
         {
-          headline: "Tävlingsklasser 2021",
+          headline: "Tävlingsklasser 2022",
           text: "Matchplay spelas i en klass.",
           imgurl1: null,
           imgurl2: null,
@@ -237,7 +234,7 @@ export default {
         },
         {
           headline: "Särspel",
-          text: "Vid lika efter 18 hål är det särspel enligt följande prioritering <ol> <li>Omspel hål 18 repetitivt tills skilje finns (alternativt hål 9 om matchen startades på hål 10)</li> <li>Start hål 1 (alternativt hål 10 om matchen startades där)</li> <li>Laget med lägst HCP inom laget utses till vinnare</li> </ol> Vid omstart hål 18 (alt hål 9) så är detta om bakomvarande spel tillåter detta. Lagen ska vänta i maximalt 30 minuter efter avslutat spel för att sedan sikta på punkt 2. Vid omstart hål 1 (alt. Hål 10) så gäller det att det finns plats såklart. Lagen ska vänta i maximalt 30 minuter för spel annars infaller punkt 3.",
+          text: "Vid lika efter 18 hål är det särspel enligt följande prioritering <ol> <li>Omspel hål 18 repetitivt tills skilje finns (alternativt hål 9 om matchen startades på hål 10)</li> <li>Start hål 1 (alternativt hål 10 om matchen startades där)</li> <li>Start på hål som klubben delger er har bäst förutsättningar tidsmässigt under aktuellt spel</li> </ol> Vid omstart hål 18 (alt hål 9) så är detta om bakomvarande spel tillåter detta. Lagen ska vänta i maximalt 30 minuter efter avslutat spel för att sedan sikta på punkt 2. Vid omstart hål 1 (alt. Hål 10) så gäller det att det finns plats såklart. Lagen ska vänta i maximalt 30 minuter för spel annars infaller punkt 3.  Om inte hål 18 eller 1 är tillgängliga enligt ovan, ska klubben konsulteras och ge er ett hål att starta särspel på.",
           imgurl1: null,
           imgurl2: null,
           category: 2,
@@ -265,14 +262,14 @@ export default {
         },
         {
           headline: "Spelplatser",
-          text: "Vårt lottningssystem är utformat för att ge en så rättvis fördelning som möjligt sett till spelplats.  <br/> <br/> Hemmalag/bortalag fördelas jämnt mellan omgångarna och lottas fram i första omgången. Detta innebär att man kan välja sin hemmabana men kan också komma överens med motståndarna om annan bana. Lagkaptenerna i respektive lag ansvarar för att föra score för alla spelare. Eventuell greenfee under kvalomgångarna innan semifinal och final betalas av respektive lag. <br/> <br/> Matchen avgörs över 18 hål med ev. särspel. OBS! Endast klubbar med 18 hål kan och ska användas under spelet. Om ett (eller flera) hål på banan är avstängt hoppar man över detta hål och matchen avgörs då över de hål som är spelbara.  <br/> <br/> Sverigefinalen spelas runt september 2021 på Allerum Golfklubb strax utanför Helsingborg. Spelformen är samma under Sverigefinalen som i grundomgången. Alla deltagare i Sverigefinalen har redan kvalificerat sig för spel nästkommande år utan kostnad. Vinnarna går vidare till finalspelet som sker utomlands (oktober 2021), på plats som meddelas januari 2021.",
+          text: "Vårt lottningssystem är utformat för att ge en så rättvis fördelning som möjligt sett till spelplats.  <br/> <br/> Hemmalag/bortalag fördelas jämnt mellan omgångarna och lottas fram i första omgången. Detta innebär att man kan välja sin hemmabana men kan också komma överens med motståndarna om annan bana. Lagkaptenerna i respektive lag ansvarar för att föra score för alla spelare. Eventuell greenfee under kvalomgångarna innan semifinal och final betalas av respektive lag. <br/> <br/> Matchen avgörs över 18 hål med ev. särspel. OBS! Endast klubbar med 18 hål kan och ska användas under spelet. Om ett (eller flera) hål på banan är avstängt hoppar man över detta hål och matchen avgörs då över de hål som är spelbara.  <br/> <br/> Sverigefinalen spelas runt september 2022 på Allerum Golfklubb strax utanför Helsingborg. Spelformen är samma under Sverigefinalen som i grundomgången. Alla deltagare i Sverigefinalen har redan kvalificerat sig för spel nästkommande år utan kostnad. Vinnarna går vidare till finalspelet som sker utomlands (oktober 2022), på plats som meddelas januari 2022.",
           imgurl1: null,
           imgurl2: null,
           category: 4,
         },
         {
           headline: "Ersättare/reserv",
-          text: "I Matchplay är det okej att använda sig av en reserv. <br/> <br/> Reserv anmäler ni under LAGFLIKEN på din sida. Klicka på knappen 'välj reserv' och följ instruktionerna. Reserven behöver anmälas INNAN matchen och scorekortet startas. Om reserv finns väljs denna in i samband med att matchen startas (görs av hemmalaget). <br/> <br/> Är inte reserv anmäld i systemet och laget spelar med reserv kan laget bli diskvalificerat. Reservinträde skall också meddelas motståndarna innan spel, när reserv deltager i tävlingen. Man får bara använda sig av en reserv (samma person). Denna reserv kan komplettera laget vid behov under hela tävlingen.  <br/> <br/> Observera att reserv inte får spela i annat deltagande lag som fortfarande är med i tävlingen. Har man åkt ur tävlingen kan och får man gå in som reserv i annat lag.",
+          text: "I Matchplay är det okej att använda sig av en reserv. <br/> <br/> Reserv anmäler ni under LAGFLIKEN på din sida. Om reserv finns väljs denna in i samband med att matchen startas (görs av hemmalaget). <br/>  <br/> När scorekortet startas inför match av hemmalaget, så kommer alla deltagare upp. Ska deltagare ersättas med reserv så klicka på knappen under deltagaren ”välj reserv”  och fyll i dennes golf id. Då hämtas dagsaktuellt HCP och uträkningen blir rätt. <br/> <br/> Är inte reserv anmäld i systemet och laget spelar med reserv kan laget bli diskvalificerat. Reservinträde skall också meddelas motståndarna innan spel, när reserv deltager i tävlingen. Man får bara använda sig av en reserv (samma person). Denna reserv kan komplettera laget vid behov under hela tävlingen.  <br/> <br/> Observera att reserv inte får spela i annat deltagande lag som fortfarande är med i tävlingen. Har man åkt ur tävlingen kan och får man gå in som reserv i annat lag.",
           imgurl1: null,
           imgurl2: null,
           category: 1,
@@ -295,7 +292,7 @@ export default {
         },
         {
           headline: "Minimiantal",
-          text: "Vi utgår från att vi blir fullt tillräckligt med antal företags- och privatlag lag under 2021, men reserverar oss för händelser helt utanför vår kontroll, som kan innebära att deltagarantalet blir alldeles för litet för att genomföra tävlingen.  <br/> <br/> Om detta skulle ske <strong>återbetalas</strong> hela beloppet till respektive lag samma dag beslutet tas. Då vi står helt ovetandes inför alla beslut som tas gällande Corona, så vill vi här betona garantin att om tävlingen av olika anledningar inte skulle gå eller få spelas, så återbetalas alla deltagaravgifter till 100%.",
+          text: "Vi utgår från att vi blir fullt tillräckligt med antal företags- och privatlag lag under 2022, men reserverar oss för händelser helt utanför vår kontroll, som kan innebära att deltagarantalet blir alldeles för litet för att genomföra tävlingen.  <br/> <br/> Om detta skulle ske <strong>återbetalas</strong> hela beloppet till respektive lag samma dag beslutet tas. Då vi står helt ovetandes inför alla beslut som tas gällande Corona, så vill vi här betona garantin att om tävlingen av olika anledningar inte skulle gå eller få spelas, så återbetalas alla deltagaravgifter till 100%.",
           imgurl1: null,
           imgurl2: null,
           category: 6,
@@ -323,7 +320,7 @@ export default {
         },
         {
           headline: "Spelschema",
-          text: "Matchplay består av en ”Huvudtävling” och en ”Andra Chansen” vilka skapas efter den första omgången, där förlorarna får en andra chans att nå finalspelet. Lag och vägen från Andra Chansen till finalen kommer att vara aningens svårare, då färre lag går vidare än från Huvudtävlingen.",
+          text: "Matchplay består av en ”Huvudtävling” och en ”Andra Chansen” vilka skapas efter den första omgången, där förlorarna får en andra chans att nå finalspelet. Lag och vägen från Andra Chansen till finalen kommer att vara aningens svårare, då färre lag går vidare än från Huvudtävlingen. <br/> <br/> När Andra Chansen nått omgång 5-6 (beroende på antal deltagare 2022) så bjuds alla kvarvarande lag till en gemensam tävling som spelas dagen innan och på samma bana som de sex kvalificerade lagen från huvudtävlingen i Sverigefinalen. De två bästa lagen här tar de två sista av de åtta platserna för lördagens semifinal och söndagens final. Allt spel och boende här står Matchplay för.",
           imgurl1: null,
           imgurl2: null,
           category: 4,

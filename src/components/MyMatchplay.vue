@@ -178,7 +178,7 @@
                                 <br>
             
                         
-                            <b-col class="col-12  p-0 mb-4">                                  
+                            <b-col class="col-12  p-0 mb-4">                                                            
                                 <b-form-file
                                 accept=".jpg, .png"
                                 type="file"
@@ -2018,6 +2018,9 @@ export default {
         },
         isAuthenticated() {
             return this.$store.getters.isAuthenticated
+        },
+        userId() {
+            return this.$store.getters.userId
         }
     },
   
@@ -3006,6 +3009,17 @@ export default {
                 this.selectedSearchItem = team.coursename
                 this.query = team.coursename
                 this.team.teammembername = team.teammembergolfid  
+
+                //timeout in order to put last in call stack so field have time to render
+                setTimeout(() => {
+                    var x = document.getElementsByClassName("course");
+                    var i;
+                    for (i = 0; i < x.length; i++) {
+                        x[i].classList.add("is-valid");
+                        x[i].classList.remove("is-invalid");
+                    }
+                }, 0);
+           
             } else {
                 this.team.name = team.teamname
                 this.team.clubid = team.course
@@ -3827,7 +3841,7 @@ export default {
         //window.scrollTo(0, 0);
     },
     created() {
-        console.log("created")
+        this.getGolfClubs();
                 
         if (localStorage.getItem('sponsor')) {
             if (localStorage.getItem('sponsor') === 'gm') {
@@ -3837,7 +3851,7 @@ export default {
             }
             this.team.price_private =  this.team.price_private-this.team.pricereduc;
         }
-      
+    
        this.$store.dispatch("tryAutoLogin").then(() => {
             if (this.isAuthenticated) {
             console.log("isAuthenticated")
@@ -3908,6 +3922,11 @@ export default {
                 return
             }
             this.handleFileUpload()
+            },
+        },
+        userId: {
+            handler() {
+                this.getPrevTeamData(this.userId)
             },
         },
     },
