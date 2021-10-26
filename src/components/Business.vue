@@ -78,7 +78,8 @@ import { globalState } from "../main.js";
       this.loading = true;    
 
       const handleResponse = (response) => {
-        this.$store.dispatch('setCompanies', response)
+        this.$store.dispatch("setCompanies", response.data);
+               
         this.clubno = response.data.length;
         this.companies = response.data;
   
