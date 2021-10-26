@@ -42,8 +42,28 @@
       <router-view> </router-view>
     </b-modal>-->
 
-    <div class="hero herobg0" ref="slider">
+    <div class="hero herobg0 position-relative" ref="slider">
+            <div class="d-none d-md-block position-absolute pl-2 pt-2 pb-5 pr-5  openForBusiness"> 
+             <div class="pt-3 ">
+                <span class="line1">ANMÄLAN ÄR</span>
+                <br>
+                <span class="line2">ÖPPEN!</span>
+             </div>
+            </div>
+             <div class="d-block d-md-none  text-center openForBusinessMobile"> 
+             <div class="pt-3 pb-2">
+                 <b-img
+                  class="w-25 pb-2"
+                    src="https://res.cloudinary.com/dn3hzwewp/image/upload/e_colorize,co_rgb:fff/v1573118127/matchplay/matchplay-new-logo-2020.png"
+                    alt
+                  ></b-img>
+                  <br>
+                <span class="line3">ANMÄLAN ÄR ÖPPEN!</span>
+                                
+             </div>
+            </div>
       <b-container class="pl-4 pr-4">
+        
         <b-row align-h="center">
           <b-col class="col-12 col-md-12 mt-4">
             <h2>VÄLKOMMEN TILL MATCHPLAY 2022, GOLFTÄVLINGEN FÖR BÅDE PRIVATPERSONER OCH FÖRETAG</h2>
@@ -93,7 +113,8 @@
               hidden
               v-if="closed"
             >I helgen (30-31 maj) lottas första omgången. Den 1 juni startar tävlingen!</p>
-           
+
+
             <div class="buttons text-left">
               <router-link
                 v-if="!closed && !isAuthenticated"
@@ -267,9 +288,15 @@
             <h1 v-if="!closed" class="teaser-header orange mb-3 text-left text-md-center">Anmäl ditt lag till Matchplay 2022</h1>
             <p>Hela tävlingen är numera digitaliserad där vi kontrollerar Golf-ID, hcp, slope mm för att kunna applicera våra hcputräkningar inför varje match. Ni använder vårt digitala scorekort för att föra score och vänner/familj kan följa matcherna live!</p>
             <p hidden>Sista anmälningsdag är den <strong>30 april</strong> och tävlingens första omgång börjar den <strong>2 maj</strong> och slutar den <strong>30 maj</strong>.</p>
-            <p>
-              Anmälningskostnad per lag är
+            <p hidden>
+              Anmälningskostnad per lag 
               <strong>{{price1}} kr</strong> för privatpersoner och
+              <strong>{{price2}} kr</strong> (exkl. moms) för företag.
+            </p>
+            <p>
+              Nu kör vi Early Birdie priser fram till den 31 december!
+              Anmälningskostnad per lag 
+              <strong class="text-danger">{{price1}} kr</strong> (ordinarie pris 750 kr) för privatpersoner och
               <strong>{{price2}} kr</strong> (exkl. moms) för företag.
             </p>
             <b-alert show variant="info" class="mt-3 mb-3 small">Glöm inte att anmälningsavgiften kan användas som <strong>friskvårdsbidrag</strong>. Golftävlingar är godkända som bidrag sedan 2020. <strong>Kvitto</strong> erhålls automatiskt efter betalning.</b-alert>
@@ -1472,4 +1499,32 @@ img {
     font-size: 0.8em;
   }
 }
+.openForBusiness {
+  top: 0; 
+  left: 0; 
+  border-bottom-right-radius: 130px;
+  background-color: #d08a3f7c;
+  color: white; 
+
+}
+.openForBusinessMobile {
+  top: 0; 
+  left: 0; 
+  width: 100%; 
+  background-color: #d08a3f7c;
+  color: white; 
+
+}
+.line1 {
+  padding-top: 1.5rem; 
+  font-size: 0.6rem;
+}
+.line2 {
+  font-size: 1.2rem;
+}
+
+.line3 {
+  font-size: 1.4rem;
+}
+
 </style>
