@@ -4,7 +4,7 @@
     <b-container class="mt-3">
         <b-row v-if="!loading">
             <b-col class="col-12">
-                <h1 hidden>Företagslag 2021</h1>
+                <h1 hidden>Företagslag 2022</h1>
                 <h5 class="mt-4"></h5>
                    
              </b-col>              
@@ -46,7 +46,7 @@ import { globalState } from "../main.js";
     data () {
       return { 
         closed: globalState.closed,
-        doctitle: 'Våra företagslag 2021',        
+        doctitle: 'Våra företagslag 2022',        
         companies: [],
         clubno: 0,        
         loading: true        

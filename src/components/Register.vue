@@ -176,9 +176,10 @@
                   id="input-group-1"
                   label="Ditt Golf-ID"
                   label-for="input-1"
-                  label-cols="3"
+                  label-cols="12"
                   label-cols-lg="2"
                   label-size="sm"
+                  class="mb-1"
                 >
                   <b-form-input
                     id="golfid"
@@ -193,9 +194,10 @@
                   id="input-group-1"
                   label="Förnamn"
                   label-for="input-1"
-                  label-cols="3"
+                  label-cols="12"
                   label-cols-lg="2"
                   label-size="sm"
+                  class="mb-1"
                 >
                   <b-form-input
                     id="firstname"
@@ -209,9 +211,10 @@
                   id="input-group-1"
                   label="Efternamn"
                   label-for="input-1"
-                  label-cols="3"
+                  label-cols="12"
                   label-cols-lg="2"
                   label-size="sm"
+                  class="mb-1"
                 >
                   <b-form-input id="lastname" v-model="form.lastname" type="text" required readonly></b-form-input>
                 </b-form-group>
@@ -219,7 +222,7 @@
                   id="input-group-1"
                   label="Medlemsklubb"
                   label-for="input-1"
-                  label-cols="3"
+                  label-cols="12"
                   label-cols-lg="2"
                   label-size="sm"
                 >
@@ -230,33 +233,51 @@
                   id="input-group-1"
                   label="Ditt HCP"
                   label-for="input-1"
-                  label-cols="3"
+                  label-cols="12"
                   label-cols-lg="2"
                   label-size="sm"
                 >
                   <b-form-input id="hcp" v-model="form.hcp" type="text" required readonly></b-form-input>
                 </b-form-group>
                 <hr>
-                <b-form-group
+                <b-form-group  
+                  v-if="!editEmail"
                   id="input-group-1"
                   label="E-post"
                   label-for="input-1"
-                  label-cols="2"
+                  label-cols="12"
                   label-cols-lg="2"
                   label-size="sm"
-                >
+                  class="mb-1"
+                  >
+
+                <b-input-group>
                   <b-form-input id="hcp" v-model="form.email" type="text" required readonly></b-form-input>
+                  <b-input-group-append>
+                    <b-button variant="warning" @click="editEmail = true, form.email = ''"><i class="fas fa-pen"></i></b-button>
+                  </b-input-group-append>
+                </b-input-group>
                 </b-form-group>
+
                 <b-form-group
+                  v-if="!editMobile"
                   id="input-group-1"
                   label="Mobil"
                   label-for="input-1"
-                  label-cols="2"
+                  label-cols="12"
                   label-cols-lg="2"
                   label-size="sm"
+                  class="mb-1"
                 >
+                <b-input-group>
                   <b-form-input id="hcp" v-model="form.mobile" type="text" required readonly></b-form-input>
+                   <b-input-group-append>
+                    <b-button variant="warning" @click="editMobile = true, form.mobile = ''"><i class="fas fa-pen"></i></b-button>
+                  </b-input-group-append>
+                </b-input-group>  
                 </b-form-group>
+
+                <hr class="mt-3 mb-3">
 
                 <b-row v-if="docontinue">
                   <b-col lg="12">
@@ -276,24 +297,42 @@
                   </b-col>
                   <b-col class="col-12 col-md-12">
                     <b-form-group
+                      v-if="editMobile"
                       id="input-group-mobile"
                       label="Mobilnr"
                       label-for="input-1-mobile"
                       size="lg"
+                      class="mb-1"
                     >
                       <vue-tel-input v-model="form.mobile" v-bind="bindProps"></vue-tel-input>
                     </b-form-group>
-                    <b-form-group id="input-group-1" label="E-post" label-for="input-1">
-                      <b-form-input
-                        id="input-1"
-                        v-model="form.email"
-                        :state="validateEmail"
-                        type="email"
-                        required
-                        placeholder="Skriv din e-postadress"
-                      ></b-form-input>
+                    <b-form-group  
+                      v-if="editEmail" 
+                      id="input-group-1" 
+                      label="E-post" 
+                      label-for="input-1"
+                      class="mb-1"
+                      >
+                        <b-form-input
+                          id="input-1"
+                          v-model="form.email"
+                          :state="validateEmail"
+                          type="email"
+                          required
+                          placeholder="Skriv din e-postadress"
+                        ></b-form-input>
                     </b-form-group>
-                    <b-form-group id="input-group-2" label="Ditt nya lösenord" label-for="input-1">
+
+                    
+                    <b-form-group 
+                      id="input-group-2" 
+                      label="Välj lösenord" 
+                      label-for="input-1"
+                      label-cols="12"
+                      label-cols-lg="2"
+                      label-size="sm"
+                      class="mb-1"
+                      >
                       <b-form-input
                         :state="validatePassword1"
                         v-model="form.password"
@@ -305,8 +344,11 @@
                     </b-form-group>
                     <b-form-group
                       id="input-group-3"
-                      label="Skriv ditt lösenord en gång till"
+                      label="Upprepa lösenordet"
                       label-for="input-1"
+                      label-cols="12"
+                      label-cols-lg="2"
+                      label-size="sm"
                     >
                       <b-form-input
                         :state="validatePassword2"
@@ -337,7 +379,7 @@
                     >
                       <b-spinner v-if="showspinnerregisteruser" small type="grow" class="mr-2"></b-spinner>Registrera dig
                     </b-button>
-                    <b-button type="reset" variant="danger">Avbryt</b-button>
+                    <b-button type="reset" variant="danger" @click="editMobile = false, editEmail = false">Avbryt</b-button>
                   </b-col>
                 </b-row>
                
@@ -450,7 +492,9 @@ components: {
       showqualified: false,
       showqualified32: false,
       showqualifiedNOT: false,
-      showqualifiedNOCLUB: false
+      showqualifiedNOCLUB: false,
+      editEmail:false,
+      editMobile:false
     };
   },
    
@@ -607,7 +651,7 @@ components: {
 
           xlen = '*';
           let phone = response.data.phone
-          for (var i = 0; i < phone.length-10; i++) {
+          for (var i = 0; i < phone.length-9; i++) {
             xlen += '*'
           }
           let phoneEnding = phone.substring(phone.length -3)

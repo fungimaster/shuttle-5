@@ -3,7 +3,7 @@
     <vue-headful :title="doctitle" />
     <div class="hidden theme text-center">
       <div class="container">
-        <h2 class="when">Matchplay 2021</h2>
+        <h2 class="when">Matchplay 2022</h2>
       </div>
     </div>
 
