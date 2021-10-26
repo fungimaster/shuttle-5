@@ -47,17 +47,13 @@
 
         <b-row class="mb-3 mt-0">
           <b-col md="12" class="teaser-content" ref="success" id="success">
-            <h3 v-if="showqualified" class="mt-0 mb-4">
-              Grattis, du kan vara med i tävlingen
-              <i class="material-icons">tag_faces</i>
-            </h3>
+            <h5 v-if="showqualified" class="mt-0 mb-4">
+              Ditt HCP är under 36 och du kan vara med i tävlingen
+            </h5>
 
-            <h3 v-if="showqualified32" class="mt-1 mb-4">
-              Grattis, du kan vara med i tävlingen.
-              <i
-                class="material-icons"
-              >tag_faces</i>
-            </h3>
+            <h5 v-if="showqualified32" class="mt-1 mb-4">
+              Ditt HCP är under 36 och du kan vara med i tävlingen.
+            </h5>
 
        
             <b-alert v-if="showqualified32" show class="mt-4 small" variant="warning">
@@ -65,20 +61,20 @@
               <p class="text-dark">Ditt HCP är över 20 och därför vill vi påminna om att högsta HCP i matchspel är 28.0. Skulle ditt lag gemensamt få ett högre HCP än 28.0, kommer spelarna i laget dela på reduceringen. Varmt välkommen till Sveriges roligaste golftungering!</p>
             </b-alert>
 
-            <h3
+            <h5
               v-if="showqualifiedNOT"
               class="mt-3 mb-4"
-            >Tyvärr kan du inte vara med i tävlingen, man måste ha 36 eller lägre...</h3>
+            >Tyvärr kan du inte vara med i tävlingen, man måste ha 36 eller lägre...</h5>
 
-            <h3
+            <h5
               v-if="showqualifiedNOCLUB"
               class="mt-3 mb-4"
-            >Du verkar inte ha någon klubbtillhörighet, kontakta oss gärna om det inte stämmer!</h3>
+            >Du verkar inte ha någon klubbtillhörighet, kontakta oss gärna om det inte stämmer!</h5>
 
             <div class="form-group" v-if="showform1">
-              <b-row class>
+              <b-row class="pt-4 pb-4">
                 <b-col xs="12" sm="12" class>
-                  <h4>1. Skriv in ditt Golf-ID</h4>
+                  <h4>Skriv in ditt Golf-ID</h4>
                   <p>Börja med att ange ditt Golf-ID så kontrollerar vi det mot Svenska Golfförbundet.</p>
                   <b-alert
                     hidden
@@ -301,7 +297,9 @@
                       id="input-group-mobile"
                       label="Mobilnr"
                       label-for="input-1-mobile"
-                      size="lg"
+                      label-cols="12"
+                      label-cols-lg="2"
+                      label-size="sm"
                       class="mb-1"
                     >
                       <vue-tel-input v-model="form.mobile" v-bind="bindProps"></vue-tel-input>
@@ -311,6 +309,9 @@
                       id="input-group-1" 
                       label="E-post" 
                       label-for="input-1"
+                      label-cols="12"
+                      label-cols-lg="2"
+                      label-size="sm"
                       class="mb-1"
                       >
                         <b-form-input
@@ -355,7 +356,7 @@
                         v-model="form.password2"
                         type="password"
                         required
-                        placeholder="Återupprepa lösenordet"
+                        placeholder="Återupprepa lösenord"
                       ></b-form-input>
                       <b-form-invalid-feedback :state="validatePassword2">Lösenorden stämmer inte...</b-form-invalid-feedback>
                     </b-form-group>
