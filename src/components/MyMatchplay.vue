@@ -3006,7 +3006,6 @@ export default {
             const team = this.previousteam
             this.team.type = team.type
 
-            this.team.type = "Private"
 
             if (this.team.type === "Company") {
                 this.team.payment = "B"
