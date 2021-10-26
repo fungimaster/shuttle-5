@@ -838,7 +838,7 @@
                             <b-col md="6" class="mb-4 mt-3">                                
                                 <b-button @click.prevent="cancel_team()" size="sm" variant="light"><i class="material-icons">arrow_back_ios</i>Tillbaka</b-button>
                                 <b-button v-if="!team.teammembergolfid" :disabled="team.clubid === ''" size="sm" class="mt-0 mt-sm-0 float-right" @click.prevent="next()" variant="success">
-                                    <b-spinner v-if="showloginspinner" size="sm" small type="grow" class="mr-2"></b-spinner>Välj lagkamrat<i class="ml-2 material-icons">arrow_forward_ios</i>
+                                    <b-spinner v-if="showloginspinner" size="sm" small type="grow" class="mr-2"></b-spinner>Välj lagkamrat<i v-if="!showloginspinner" class="ml-2 material-icons">arrow_forward_ios</i>
                                 </b-button>
                                  <b-button v-if="team.teammembergolfid" size="sm" class="mt-0 mt-sm-0 float-right" @click.prevent="update_team()" variant="success">
                                     <b-spinner v-if="showloginspinner" small type="grow" class="mr-2"></b-spinner>Spara<i class="ml-2 material-icons">save</i>
@@ -860,7 +860,7 @@
                         <b-row v-if="!team.completemode" align-h="center">
                             <b-col md="6" class="text-center mb-3">
                                 <b-button @click.prevent="skipStep()" variant="success" size="sm">
-                                    Jag vill bjuda in en lagkamrat senare<i class="ml-2 material-icons mr-2">arrow_forward_ios</i>
+                                    Bjud in en lagkamrat senare<i class="ml-2 material-icons mr-2">arrow_forward_ios</i>
                                 </b-button>
                             </b-col>
                         </b-row>
