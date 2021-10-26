@@ -700,7 +700,7 @@ export default {
         //end
         this.getTeamsCount()
         
-        if (!response.data.competitionmessages.length) {
+        if (!response.data.competitionmessages || !response.data.competitionmessages.length) {
           return
         }
         this.messages = response.data.competitionmessages

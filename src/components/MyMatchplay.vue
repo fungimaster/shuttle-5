@@ -980,6 +980,9 @@
                                     <b-button :disabled="showspinner_swish || team.swish.mobile === ''" show @click="swish()" variant="success" size="lg" class="w-100 float-right mt-3">
                                         <b-spinner v-if="showspinner_swish" small type="grow" class="mr-2"></b-spinner>Betala
                                     </b-button>
+                                    <br>
+                                    <br>
+                                    <br>
 
                                     <b-alert v-if="showspinner_swish" show class="mt-5 small text-center" variant="primary">
                                         Nu kan du öppna din Swish-app och godkänna betalningen.

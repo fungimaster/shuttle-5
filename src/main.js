@@ -41,10 +41,10 @@ Vue.component('vue-headful', vueHeadful);
 export const globalState = new Vue({
   data: {
     admin_url: 'https://admin.matchplay.se/methods/',
-    compid: '8dmNL5K5ypaHbTbEM', //2020 'sFAc3dvrn2P9pXHAz',
-    prevcompid: 'sFAc3dvrn2P9pXHAz', //2020 'sFAc3dvrn2P9pXHAz',
+    compid: 'hXcmBwqmfWC2tYcxR', //2020 'sFAc3dvrn2P9pXHAz',
+    prevcompid: '8dmNL5K5ypaHbTbEM', //2020 'sFAc3dvrn2P9pXHAz',
     closed: false,
-    price1: 750,
+    price1: 650,
     price2: 2250,
     price3: 5450,
     showTopClubs: false
