@@ -141,7 +141,7 @@ import { mapGetters } from "vuex";
 import { globalState } from "../main.js";
 
 export default {
-  props: ["isMobile", "year"],
+  props: ["isMobile", "year", "compid"],
   created() {
     this.competition = this.$store.getters["getCompetition"](this.year);
     this.getBirdies();
@@ -167,7 +167,7 @@ export default {
       this.loading = true;
       this.axios
         .post(globalState.admin_url + "getAchievementDataPlayer", {
-          competition: globalState.compid,
+          competition: this.compid ? this.compid : globalState.compid,
           type: "birdie",
           player: this.user._id,
         })
@@ -195,9 +195,7 @@ export default {
     getBirdies() {
       this.axios
         .post(globalState.admin_url + "getAchievementData", {
-          competition: this.competitionid
-            ? this.competitionid
-            : globalState.compid,
+          competition: this.compid ? this.compid : globalState.compid,
           type: "birdie",
           no: 5,
         })

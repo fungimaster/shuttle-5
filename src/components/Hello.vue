@@ -65,8 +65,9 @@
       <b-container class="pl-4 pr-4">
         
         <b-row align-h="center">
-          <b-col class="col-12 col-md-12 mt-4">
-            <h2>VÄLKOMMEN TILL MATCHPLAY 2022, GOLFTÄVLINGEN FÖR BÅDE PRIVATPERSONER OCH FÖRETAG</h2>
+          <b-col class="col-12 col-md-12 mt-4 pt-2">
+            <h2>VÄLKOMMEN TILL MATCHPLAY 2022</h2>
+            <h2>- GOLFTÄVLINGEN FÖR BÅDE PRIVATPERSONER OCH FÖRETAG</h2>
           </b-col>
 
           <b-col hidden v-if="!closed" class="col-12 col-md-6 mt-4 mb-3 mb-md-4 text-center" id="countdown">
@@ -97,9 +98,13 @@
               <b-alert hidden variant="info" class="small mt-3">Lag från mer än 50% av Sveriges golfklubbar finns nu representerade i tävlingen!</b-alert>              
             </p>
             <p
+              class="mt-3 mt-md-0 pb-5"
+            >Matchplay är en matchspelstävling för par med officiellt handicap. <span hidden>Par kan vara män, kvinnor eller mix. </span> </p>
+            
+            <p hidden
               class="mt-3 mt-md-0"
-            >Matchplay är en matchspelstävling för par med officiellt handicap. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.</p>
-            <p
+            >Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.</p>
+            <p hidden
               v-if="!closed"
             >Tävlingen spelas mellan maj-september i olika omgångar fram till Sverigefinalen och sedan vidare utomlands!</p>
             
@@ -118,7 +123,8 @@
             <div class="buttons text-left">
               <router-link
                 v-if="!closed && !isAuthenticated"
-                class="btn blue-bg btn-md text-white mt-2 mr-2"
+                class="btn blue-bg btn-md text-white mt-2 mr-2 "
+                :class="isMobile ? 'w-100' : ''"
                 to="/register"
               >Anmälan</router-link>
               <a
@@ -131,6 +137,8 @@
                 v-if="!isAuthenticated && !closed"
                 href="#more"
                 class="btn blue-bg btn-md text-white mt-2 mr-2"
+                                :class="isMobile ? 'w-100' : ''"
+
               >Vill du veta mer?</a>
 
             <div v-if="closed" class="mt-3 mb-3">
@@ -296,10 +304,10 @@
             <p>
               Nu kör vi Early Birdie priser fram till den 31 december!
               Anmälningskostnad per lag 
-              <strong class="text-danger">{{price1}} kr</strong> (ordinarie pris 750 kr) för privatpersoner och
+              <strong class="text-dark">{{price1}} kr</strong> (ordinarie pris 750 kr) för privatpersoner och
               <strong>{{price2}} kr</strong> (exkl. moms) för företag.
             </p>
-            <b-alert show variant="info" class="mt-3 mb-3 small">Glöm inte att anmälningsavgiften kan användas som <strong>friskvårdsbidrag</strong>. Golftävlingar är godkända som bidrag sedan 2020. <strong>Kvitto</strong> erhålls automatiskt efter betalning.</b-alert>
+            <b-alert show variant="warning" class="mt-3 mb-3 small text-dark">Glöm inte att anmälningsavgiften kan användas som <strong>friskvårdsbidrag</strong>. Golftävlingar är godkända som bidrag sedan 2020. <strong>Kvitto</strong> erhålls automatiskt efter betalning.</b-alert>
             <router-link class="btn blue-bg btn-md text-white mt-2 mr-2" to="/register">
               <i class="pb-1 mr-2 material-icons">thumb_up</i>Steg 1 - Skriv in ditt Golf-ID
             </router-link>
@@ -391,30 +399,7 @@
                             </b-row>
                             <hr class="d-block d-md-none" /> 
           </b-col>
-          <b-col class="col-12 col-md-6 p-0 mt-2 mt-md-0">           
-          <b-col class="col-12 mt-3">
-            <a
-              class="btn orange-bg btn-md text-white mt-2 mr-md-2"
-              href="https://www.facebook.com/matchplaysweden/"
-              target="_blank"
-            >
-              <i class="material-icons mr-2">facebook</i>Facebook
-            </a>
-            <a
-              class="btn orange-bg btn-md text-white mt-2"
-              href="https://www.instagram.com/matchplay_sweden/"
-              target="_blank"
-            >
-              <i class="material-icons mr-2">camera_alt</i>Instagram
-            </a>
-          </b-col>
-           <b-col class="col-12 mt-2">           
-            <p class="mt-4 small">
-              Se till att följa oss på våra
-              <strong>sociala medier</strong> för nyheter och tävlingar!
-            </p>
-          </b-col>
-          </b-col>
+     
 
         </b-row>
 
@@ -445,7 +430,7 @@
       </b-container>
     </b-jumbotron>
     
-    <app-year-in-review :isMobile="isMobile" :year="2021"></app-year-in-review>
+    <app-year-in-review :isMobile="isMobile" :year="2021" :compid="prevcompid"></app-year-in-review>
     
     <b-jumbotron v-if="closed" container-fluid style="background-color: white">
       <b-container>
@@ -558,9 +543,12 @@
         <b-row>
           <b-col class="col-12 mt-4">
             <h1 class="mb-5 text-white text-left text-md-center">Matchplay 2022</h1>
-            <p>Matchplay spelas 2022 i hela Sverige och är en tävling för 2-mannalag (herr, dam eller mixed). Officiellt HCP krävs för att delta. Tävlingsformen är 4-boll, Match/Bästboll. Beroende på antal anmälda lag kommer det bli 6-7 omgångar fram till Sverigefinalen. Varje omgång spelas inom 2 veckor (undantag 1:a omgången som är 4 veckor) där det vinnande laget går vidare i tävlingen.</p>
-            <p>Matcherna lottas med hänsyn till geografiskt läge och i de inledande omgångarna kan ni räkna med att få möta lag från närliggande golfklubbar. Ju längre man kommer i tävlingen (ungefär från omgång 4), och beroende på var man bor i Sverige, kan resorna bli lite längre. Hemmalaget bokar golftid och lagen står själva för ev. greenfee fram till Sverigefinalen.</p>
-            <p>Sverigefinalen görs upp 3-5 september mellan de åtta bästa lagen på Allerum Golfklubb strax utanför Helsingborg. Hotell, frukost, all golf samt en bankett på kvällen ingår. De 2 bästa lagen i Sverigefinalen åker med Matchplay till Spanska solkusten för att göra upp om titeln. Flyg, hotell och allt spel ingår för de bägge lagen.</p>
+            <p>Matchplay spelas 2022 i hela Sverige och är en tävling för 2-mannalag (herr, dam eller mixed). Officiellt HCP krävs för att delta. Tävlingsformen är 4-boll, Match/Bästboll. Beroende på antal anmälda lag kommer det bli 6-7 omgångar fram till Sverigefinalen. </p>
+            <p>Varje omgång spelas inom 2 veckor (undantag 1:a omgången som är 4 veckor) där det vinnande laget går vidare i tävlingen.</p>
+            <p>Matcherna lottas med hänsyn till geografiskt läge och i de inledande omgångarna kan ni räkna med att få möta lag från närliggande golfklubbar. </p>
+            <p>Ju längre man kommer i tävlingen (ungefär från omgång 4), och beroende på var man bor i Sverige, kan resorna bli lite längre. Hemmalaget bokar golftid och lagen står själva för ev. greenfee fram till Sverigefinalen. </p>
+            <p>Sverigefinalen görs upp 3-5 september mellan de åtta bästa lagen på Allerum Golfklubb strax utanför Helsingborg. Hotell, frukost, all golf samt en bankett på kvällen ingår.</p>
+            <p>De 2 bästa lagen i Sverigefinalen åker med Matchplay till Spanska solkusten för att göra upp om titeln. Flyg, hotell och allt spel ingår för de bägge lagen.</p>
             <p>Priset för deltagande i tävlingen är {{price1}}:-/lag för privatpersoner och {{price2}}:-/lag (exkl. moms) för företag. Varje lag är garanterat minst 2 matcher.</p>
 
             <app-rounds-grafic
@@ -571,7 +559,7 @@
               opacity="1"
               stagefill="white"
             ></app-rounds-grafic>
-            <p
+            <p hidden
               class="mt-3 small"
               style="font-style:italic;"
             >Denna visualisering kommer visa aktuell rond fram till finalen. Efter varje rond halveras antal lag då förlorarna blir utslagna. Förlorande lag i omgång 1 går till andra chansen.</p>
@@ -601,6 +589,32 @@
         </b-row>
       </b-container>
     </b-jumbotron>
+      <b-row align-h="center">
+          <b-col  class="col-12 mt-3 d-flex justify-content-center">
+            <a
+              class="btn orange-bg btn-md text-white mt-2 mr-2 "
+              href="https://www.facebook.com/matchplaysweden/"
+              target="_blank"
+            >
+              <i class="material-icons mr-2">facebook</i>Facebook
+            </a>
+            <a
+              class="btn orange-bg btn-md text-white mt-2"
+              href="https://www.instagram.com/matchplay_sweden/"
+              target="_blank"
+            >
+              <i class="material-icons mr-2">camera_alt</i>Instagram
+            </a>    
+          </b-col>
+        </b-row>
+      <b-row align-h="center">
+          <b-col cols="10" md="6" class="mt-3 ">
+              <p class="mt-4 small ">
+                Se till att följa oss på våra
+                <strong>sociala medier</strong> för nyheter och tävlingar!
+              </p>
+          </b-col>
+        </b-row>
      
 
   </div>
@@ -807,6 +821,7 @@ export default {
       gameRoundCount: null,
       loadingGameRoundCount: true,  
       windowWidth: window.innerWidth,
+      prevcompid: globalState.prevcompid
 
     };
   },
