@@ -23,7 +23,7 @@ import AppSpinnerRouting from "./components/spinner/SpinnerRouting";
 import NprogressContainer from "vue-nprogress/src/NprogressContainer";
 import { globalState } from "./main.js";
 import moment from "moment";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 
 export default {
@@ -34,6 +34,7 @@ export default {
     };
   },
   created() {
+    this.$store.dispatch("setEarlyBirdie")
     this.$store.dispatch("tryAutoLogin").then(() => {
       if (this.isAuthenticated) {
         var sim_id;
@@ -62,7 +63,6 @@ export default {
     AppSpinnerRouting,
   },
   methods: {
-
     getPlayerData(id) { 
      
       this.axios.post(globalState.admin_url + 'getPlayerData', {
@@ -86,6 +86,7 @@ export default {
   },
   computed: {
      ...mapGetters(["isAuthenticated", "getGames1", "getGames2"]),
+  
   },
 };
 </script>

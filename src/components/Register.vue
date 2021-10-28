@@ -58,7 +58,7 @@
        
             <b-alert v-if="showqualified32" show class="mt-4 small" variant="warning">
               <h5 class="alert-heading text-dark">Information om HCP reducering</h5>
-              <p class="text-dark">Ditt HCP är över 20 och därför vill vi påminna om att högsta HCP i matchspel är 28.0. Skulle ditt lag gemensamt få ett högre HCP än 28.0, kommer spelarna i laget dela på reduceringen. Varmt välkommen till Sveriges roligaste golftungering!</p>
+              <p class="text-dark">Ditt HCP är över 20 och därför vill vi påminna om att högsta HCP i matchspel är 28.0. Skulle ditt lag gemensamt få ett högre HCP än 28.0, kommer spelarna i laget dela på reduceringen. Varmt välkommen till Sveriges roligaste golfturnering!</p>
             </b-alert>
 
             <h5
@@ -133,7 +133,7 @@
               >
                 <p
                   v-if="this.player==='player1'"
-                >Du finns redan med i Matchplay som en registrerad spelare. Logga in på knappen nedan för att skapa ett lag för Matchplay 2021!</p>
+                >Du finns redan med i Matchplay som en registrerad spelare. Logga in på knappen nedan för att skapa ett lag för Matchplay 2022!</p>
                 <p
                   v-if="this.player==='player2'"
                 >Du finns redan med i Matchplay som en registrerad spelare. Logga in på knappen nedan för att ansluta till ett skapat lag!</p>
@@ -156,12 +156,7 @@
                   height="4px"
                 ></b-progress>
               </b-alert>
-              <b-alert hidden class="mt-4 small form-text text-muted" v-if="this.player==='player1'">
-                Inget förbinder dig att skapa ett lag genom att fortsätta till nästa steg. Betalningen sker först när ett lag skapas.
-                Anmälningskostnad per lag är
-                <strong>{{price1}} kr</strong> för privatpersoner och
-                <strong>{{price2}} kr</strong> (exkl. moms) för företag.
-              </b-alert>
+  
 <hr class="mt-5" />
               <testimonials :number=5 :register=false></testimonials>
             </div>
@@ -422,8 +417,7 @@ components: {
     return {
 
       //PRICE
-      price1: globalState.price1,
-      price2: globalState.price2,
+
       closed: globalState.closed,
    
    bindProps: {

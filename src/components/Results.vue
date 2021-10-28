@@ -671,8 +671,6 @@ export default {
 
       //TABS
       tabIndex: 0, //0=bilder, 1=pågående
-      price1: globalState.price1,
-      price2: globalState.price2,
       active_round: "Sverigefinal",     
       //PENDING GAMES
       loadinggames2: false,

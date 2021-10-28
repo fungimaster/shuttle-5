@@ -468,11 +468,16 @@
             </b-container>              
             <b-container v-if="showteamslist && team.step === 0" class="">
                 <b-row align-h="center">
+                    <b-col cols="12" lg="10" class="pl-1 pr-1">
+                        <b-alert dismissible  @dismissed="setCookie" v-if="!team.paid && isEarlyBirdie && showEarlyBirdie" show variant="warning" class="text-dark">Glöm inte bort att just nu har vi vårt Early Birdie erbjuande med ett reducerat ordinarie pris med 100 kr.</b-alert>
+                    </b-col>
                     <b-col sm="10" lg="6" class="team pl-1 pr-1 pb-2" v-for="(team,idx) in teams" :key="idx">
                         <b-button :id="'delete-team-' + idx" v-if="team.teamleader && !team.paid" @click="removeTeam(team)" variant="" class="btn-sm delete-team"><i class="material-icons">delete</i></b-button>
                         <b-tooltip :target="'delete-team-' + idx" triggers="hover" placement="top">
                             Radera det här laget
                         </b-tooltip>
+
+
                         <b-card class="mb-2 team header">
                             <b-card-title class="mt-2">
                                 <span v-if="team.type === 'Company'" class="pr-2">{{team.teamname}}</span>
@@ -972,8 +977,9 @@
                                 </b-form-group>
 
                                 <b-form-group fluid class="mb-3" v-if="team.payment === 'A'">
+                                    <p v-if="team.type==='Private' && !useDiscount && isEarlyBirdie" class="text-success mb-0 mt-1">Early Birdie pris! Ordinaire pris {{price1 + 100}}:-</p>
                                     <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_150/v1575278258/matchplay/swish.png" alt="swish"></b-img>
-                                    <span v-if="team.type==='Private' && !useDiscount">{{team.price_private}} SEK</span>
+                                    <span v-if="team.type==='Private' && !useDiscount"> {{team.price_private}} SEK</span>
                                     <span v-if="team.type==='Private' && useDiscount" > 
                                         <span style="text-decoration: line-through;" class="text-danger mr-2">{{team.price_private}}</span>
                                         <strong class="text-success"> {{ team.price_private - userdetails.referrals * 50 }} SEK </strong>
@@ -1028,14 +1034,20 @@
                                 </b-form-group>
 
                         
+                                <b-row class="mb-5 pt-2">
+                                     <b-col cols="5" md="6">
+                                         <b-button v-if="team.completemode" @click.prevent="cancel_team()" size="sm" variant="outline-warning"><i class="material-icons">clear</i> Avbryt</b-button>                      
+                                    </b-col>
+                                    <b-col cols="7" md="6">
+                                           <b-button @click.prevent="cancel_team()" variant="outline-info" size="sm" class="float-right">
+                                                Betala senare<i class="ml-2 material-icons mr-2">arrow_forward_ios</i>
+                                            </b-button>
+                                    </b-col>
+                                   
+                                </b-row>
+                             
                                 
-                                <b-button @click.prevent="cancel_team()" variant="outline-info" size="sm" class="float-right mb-3">
-                                    Jag vill betala senare<i class="ml-2 material-icons mr-2">arrow_forward_ios</i>
-                                </b-button>
                                 
-                                <div v-if="team.completemode">     
-                                    <b-button @click.prevent="cancel_team()" class="float-right mb-2" variant="light"><i class="material-icons">clear</i> Avbryt</b-button>                      
-                                </div>
 
                             </b-col>
                         </b-row>
@@ -1482,6 +1494,8 @@ let opts = {
 };
 import AppRoundsGrafic from "./RoundsGrafic";
 import AppGameImageGallery from "./GameImageGallery";
+import { mapGetters } from "vuex";
+
 
 export default {
     name: 'mymatchplay',
@@ -1785,10 +1799,10 @@ export default {
                     ],
                 },               
                 _id: '',
-                price_private: globalState.price1, 
+                price_private: this.price1,
                 pricereduc: 0,               
-                price_company: globalState.price2,
-                price_company2: globalState.price3,
+                price_company: this.price2,
+                price_company2: this.price3,
                 company_big: false,
                 checkgolfidvariant2: 'primary',
                 checkgolfidvariant3: 'primary',
@@ -1864,10 +1878,20 @@ export default {
             showSearchPlayerAlert: false,
             useDiscount: false,
             fetchingPrevData: false,
-            fetchingPlayerData: false
+            fetchingPlayerData: false,
+            showEarlyBirdie: false
         }
     },
     computed: {
+        ...mapGetters([
+        "price1",
+        "price2",
+        "price3",
+        "price4",
+        "isEarlyBirdie",
+        "userId",
+        "isAuthenticated"
+        ]),
         getProfileInitials() {
             if (!this.userinfo.firstname) {
                 return
@@ -2022,17 +2046,14 @@ export default {
         },
         validate_marketingpackage() {
             return this.team.invoice.marketingpackage !== '';
-        },
-        isAuthenticated() {
-            return this.$store.getters.isAuthenticated
-        },
-        userId() {
-            return this.$store.getters.userId
         }
     },
   
     mixins: [tagsMixin],
     methods: {
+        setCookie() {
+            localStorage.setItem('earlyBirdie2022', '1');
+        },
         handleFileUpload() {
         this.uploading = true;
         this.progress = 0;
@@ -3730,8 +3751,8 @@ export default {
                     this.userdetails.golfid = userinfo.golfid;
                     this.userdetails.hcp = userinfo.hcp;
                     this.userdetails.email = userinfo.email;
-                    this.userdetails.mobile = userinfo.mobile;
-                    this.team.swish.mobile = userinfo.mobile;
+                    this.userdetails.mobile = "+46" + userinfo.mobile
+                    this.team.swish.mobile = "+46" + userinfo.mobile.slice(1)
                     if (userinfo.hasOwnProperty('isambassador')) {
                         this.userdetails.isambassador = userinfo.isambassador;
                     } else {
@@ -3862,8 +3883,15 @@ export default {
         //window.scrollTo(0, 0);
     },
     created() {
-        this.getGolfClubs();
-                
+        if (localStorage.getItem('earlyBirdie2022') !== '1') {
+            this.showEarlyBirdie = true
+        }
+    const promise = this.$store.dispatch('getCompetition', globalState.compid)
+        promise.then(() => {
+        this.team.price_private = this.price1
+        this.team.price_company = this.price2
+        this.team.price_company2 = this.price3
+                  
         if (localStorage.getItem('sponsor')) {
             if (localStorage.getItem('sponsor') === 'gm') {
                 this.team.pricereduc = 50;            
@@ -3872,7 +3900,11 @@ export default {
             }
             this.team.price_private =  this.team.price_private-this.team.pricereduc;
         }
-    
+
+    })
+        
+       this.getGolfClubs();
+       
        this.$store.dispatch("tryAutoLogin").then(() => {
             if (this.isAuthenticated) {
             console.log("isAuthenticated")
@@ -3916,7 +3948,7 @@ export default {
                     
                     localStorage.setItem('userinfo', JSON.stringify(userinfo));
                     this.$store.dispatch('setUser', userinfo);
-                    this.setuserinfoform();med
+                    this.setuserinfoform();
                     this.loading = false;
 
                 }

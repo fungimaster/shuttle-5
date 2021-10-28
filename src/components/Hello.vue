@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div >
     <vue-headful :title="doctitle" />
     <div class="hidden theme text-center">
       <div class="container">
@@ -48,12 +48,13 @@
                 <span class="line1">ANMÄLAN ÄR</span>
                 <br>
                 <span class="line2">ÖPPEN!</span>
+                <br>                
              </div>
             </div>
              <div class="d-block d-md-none  text-center openForBusinessMobile"> 
-             <div class="pt-3 pb-2">
+             <div class="pt-3 pb-4">
                  <b-img
-                  class="w-25 pb-2"
+                  class="w-25 pb-4"
                     src="https://res.cloudinary.com/dn3hzwewp/image/upload/e_colorize,co_rgb:fff/v1573118127/matchplay/matchplay-new-logo-2020.png"
                     alt
                   ></b-img>
@@ -65,9 +66,22 @@
       <b-container class="pl-4 pr-4">
         
         <b-row align-h="center">
-          <b-col class="col-12 col-md-12 mt-4 pt-2">
+          <b-col class="col-12 col-md-12 mt-4 pt-2 mb-4">
             <h2>VÄLKOMMEN TILL MATCHPLAY 2022</h2>
-            <h2>- GOLFTÄVLINGEN FÖR BÅDE PRIVATPERSONER OCH FÖRETAG</h2>
+            <h2 class=mb-3>- GOLFTÄVLINGEN FÖR BÅDE PRIVATPERSONER OCH FÖRETAG</h2>
+             <a
+                hidden
+                v-if="!isAuthenticated"
+                href="/register"
+                class="btn blue-bg btn-md text-white mt-2 mr-2"
+              >Anmälan</a>
+              <a
+                href="#earlyBirdie"
+                class="btn btn-success text-white btn-sm mt-2 mr-2"
+
+              >JUST NU EARLY BIRDIE PRIS</a>
+            <!-- <b-button variant="success" size="sm" v-if="isEarlyBirdie" class=" p-1 pt-2 rounded bg-success">JUST NU EARLY BIRDIE PRIS</b-button>  -->
+
           </b-col>
 
           <b-col hidden v-if="!closed" class="col-12 col-md-6 mt-4 mb-3 mb-md-4 text-center" id="countdown">
@@ -276,7 +290,7 @@
 
     <b-jumbotron container-fluid class="white mb-0">
       <b-container>
-        <b-row v-if="!isAuthenticated">
+        <b-row v-if="!isAuthenticated" id="earlyBirdie">
             <b-col hidden v-if="closed" class="col-12">
               <h1>Statistik 2021</h1>
               Anmälda lag: 523<br>
@@ -292,7 +306,7 @@
             <p
             >Tävlingen spelas mellan maj-september i olika omgångar fram till Sverigefinalen och sedan vidare utomlands!</p>
           </b-col>
-          <b-col v-if="!closed" class="col-12">
+          <b-col v-if="!closed && competitionFetched" class="col-12">
             <h1 v-if="!closed" class="teaser-header orange mb-3 text-left text-md-center">Anmäl ditt lag till Matchplay 2022</h1>
             <p>Hela tävlingen är numera digitaliserad där vi kontrollerar Golf-ID, hcp, slope mm för att kunna applicera våra hcputräkningar inför varje match. Ni använder vårt digitala scorekort för att föra score och vänner/familj kan följa matcherna live!</p>
             <p hidden>Sista anmälningsdag är den <strong>30 april</strong> och tävlingens första omgång börjar den <strong>2 maj</strong> och slutar den <strong>30 maj</strong>.</p>
@@ -304,7 +318,7 @@
             <p>
               Nu kör vi Early Birdie priser fram till den 31 december!
               Anmälningskostnad per lag 
-              <strong class="text-dark">{{price1}} kr</strong> (ordinarie pris 750 kr) för privatpersoner och
+              <strong class="text-dark">{{price4}} kr</strong> (ordinarie pris {{price1}} kr) för privatpersoner och
               <strong>{{price2}} kr</strong> (exkl. moms) för företag.
             </p>
             <b-alert show variant="warning" class="mt-3 mb-3 small text-dark">Glöm inte att anmälningsavgiften kan användas som <strong>friskvårdsbidrag</strong>. Golftävlingar är godkända som bidrag sedan 2020. <strong>Kvitto</strong> erhålls automatiskt efter betalning.</b-alert>
@@ -313,8 +327,13 @@
             </router-link>
           </b-col>
         </b-row>
+        
+        <div v-if="!competitionFetched && !isAuthenticated" class="text-center pt-5 pb-5">
+          <b-spinner variant="success" type="grow" label="Spinning"></b-spinner>
+        </div>
 
-        <b-row v-if="isAuthenticated && user">
+
+        <b-row v-if="isAuthenticated && user && competitionFetched" id="earlyBirdie" >
           <b-col class="col-12">
             <h3 class="teaser-header orange mb-3">Hej {{user.firstname}}!</h3>
 
@@ -353,16 +372,20 @@
          
               </div>
             </div>
+            <strong v-if="isEarlyBirdie" 
+            >Just nu har vi vårt Early Birdie erbjudande. Istället för {{price1}} kr betalar du {{price1 + 100}} fram till den sista december.</strong>
             <p
               v-if="!user.teams"
             >Du har ännu inget lag i Sveriges roligaste golftävling, skapa ett på knappen nedan.</p>
-            <div v-if="user.teams">
+            <div v-if="user.teams && competitionFetched">
               <p v-if="!user.teams[0].paid">
                 Anmälningskostnad per lag är
                 <strong>{{price1}} kr</strong> för privatpersoner och
                 <strong>{{price2}} kr</strong> (exkl. moms) för företag.
               </p>
             </div>
+            
+        
             <router-link
               v-if="!user.teams"
               class="btn blue-bg btn-md text-white mt-2 mr-2"
@@ -370,6 +393,9 @@
             >Skapa ett lag</router-link>
           </b-col>
         </b-row>
+        <div v-if="!competitionFetched && isAuthenticated" class="text-center pt-5 pb-5">
+          <b-spinner variant="success" type="grow" label="Spinning"></b-spinner>
+        </div>
 
         <b-row v-if="closed">
           <b-col class="col-12 mb-3 mt-3">
@@ -668,6 +694,10 @@ export default {
     window.removeEventListener("resize", this.handleResize);
   },
   created() {
+    const promise = this.$store.dispatch('getCompetition', globalState.compid)
+    promise.then(() => {
+      this.competitionFetched = true
+    })
     window.addEventListener("resize", this.handleResize);
 
     this.gameImages()
@@ -678,10 +708,10 @@ export default {
   
 
     //this.getTopListClubs();
-
-    /* setTimeout(() => {
+/* 
+     setTimeout(() => {
     this.showModal();                        
-  }, 2000); */
+  }, 2000);  */
  /*  var i;
   for (i = 0; i < this.images.length; i++) {
   this.preloadImage(this.images[i])
@@ -813,15 +843,15 @@ export default {
       birdies: 0,    
       showhelper: false,  
       doctitle: this.$store.state.conferencename,
-      price1: globalState.price1,
-      price2: globalState.price2,
+     
       allGameImages:[],
       numberOfImages: 0,
       currentRound: null,
       gameRoundCount: null,
       loadingGameRoundCount: true,  
       windowWidth: window.innerWidth,
-      prevcompid: globalState.prevcompid
+      prevcompid: globalState.prevcompid,
+      competitionFetched: false
 
     };
   },
@@ -830,8 +860,13 @@ export default {
         ...mapGetters([
       "user",
       "isAuthenticated",
-      "getAllImages"
-    ]),
+      "getAllImages",
+      "isEarlyBirdie",
+      "price1",
+      "price2",
+      "price3",
+      "price4"
+      ]),
     isMobile() {
         if (this.windowWidth <= 576) {
           return true
@@ -1017,9 +1052,9 @@ export default {
       img.src=url;
     },
     showModal() {
-      //if (localStorage.getItem('earlyBirdie2021') !== '2')
+      if (localStorage.getItem('earlyBirdie2022') !== '2')
       this.$refs['earlyBirdie'].show();
-      //localStorage.setItem('earlyBirdie2021', '2');
+      localStorage.setItem('earlyBirdie2022', '2');
     },
     toast(toaster,data, paidAt, append = false) {    
     //set delay 2-3 sekunder...

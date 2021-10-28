@@ -44,9 +44,6 @@ export const globalState = new Vue({
     compid: 'hXcmBwqmfWC2tYcxR', //2020 'sFAc3dvrn2P9pXHAz',
     prevcompid: '8dmNL5K5ypaHbTbEM', //2020 'sFAc3dvrn2P9pXHAz',
     closed: false,
-    price1: 650,
-    price2: 2250,
-    price3: 5450,
     showTopClubs: false
   }
 })
