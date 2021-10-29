@@ -42,15 +42,15 @@
       <router-view> </router-view>
     </b-modal>-->
 
-    <div  class="hero herobg0" ref="slider">
-            <!-- <div  class="d-none d-md-block float-left pl-2 pt-2 pb-5 pr-5  openForBusiness"> 
+    <div  class="hero herobg0 position-relative" ref="slider">
+            <div  class="d-none d-md-block position-absolute float-left pl-2 pt-2 pb-5 pr-5  openForBusiness"> 
              <div class="pt-3 ">
                 <span class="line1">ANMÄLAN ÄR</span>
                 <br>
                 <span class="line2">ÖPPEN!</span>
                 <br>                
              </div>
-            </div> -->
+            </div> 
       
              <div class="d-block d-md-none  text-center openForBusinessMobile"> 
              <div class="pt-3 pb-4">
@@ -68,7 +68,7 @@
         
         <b-row align-h="center">
           <b-col class="col-12 col-md-12 mt-4 pt-2 mb-4">
-            <h2 class="d-none d-md-block line1">Anmälan är öppen!</h2>
+            <!-- <h2 class="d-none d-md-block line1">Anmälan är öppen!</h2> -->
             <br>
             <h2>VÄLKOMMEN TILL MATCHPLAY 2022</h2>
             <h2 class=mb-3>- GOLFTÄVLINGEN FÖR BÅDE PRIVATPERSONER OCH FÖRETAG</h2>
@@ -570,46 +570,7 @@
       </b-container>
     </b-jumbotron>
 
-    <b-jumbotron v-if="!isAuthenticated && !closed" container-fluid class="gradient mb-0" id="more">
-      <b-container>
-        <b-row>
-          <b-col class="col-12 mt-4">
-            <h1 class="mb-5 text-white text-left text-md-center">Matchplay 2022</h1>
-            <p>Matchplay spelas 2022 i hela Sverige och är en tävling för 2-mannalag (herr, dam eller mixed). Officiellt HCP krävs för att delta. Tävlingsformen är 4-boll, Match/Bästboll. Beroende på antal anmälda lag kommer det bli 6-7 omgångar fram till Sverigefinalen. </p>
-            <p>Varje omgång spelas inom 2 veckor (undantag 1:a omgången som är 4 veckor) där det vinnande laget går vidare i tävlingen.</p>
-            <p>Matcherna lottas med hänsyn till geografiskt läge och i de inledande omgångarna kan ni räkna med att få möta lag från närliggande golfklubbar. </p>
-            <p>Ju längre man kommer i tävlingen (ungefär från omgång 4), och beroende på var man bor i Sverige, kan resorna bli lite längre. Hemmalaget bokar golftid och lagen står själva för ev. greenfee fram till Sverigefinalen. </p>
-            <p>Sverigefinalen görs upp 3-5 september mellan de åtta bästa lagen på Allerum Golfklubb strax utanför Helsingborg. Hotell, frukost, all golf samt en bankett på kvällen ingår.</p>
-            <p>De 2 bästa lagen i Sverigefinalen åker med Matchplay till Spanska solkusten för att göra upp om titeln. Flyg, hotell och allt spel ingår för de bägge lagen.</p>
-            <p>Priset för deltagande i tävlingen är {{price1}}:-/lag för privatpersoner och {{price2}}:-/lag (exkl. moms) för företag. Varje lag är garanterat minst 2 matcher.</p>
 
-            <app-rounds-grafic
-              hidden
-              class="mt-5"
-              style="height: 300px"
-              linecolor="#808080"
-              opacity="1"
-              stagefill="white"
-            ></app-rounds-grafic>
-            <p hidden
-              class="mt-3 small"
-              style="font-style:italic;"
-            >Denna visualisering kommer visa aktuell rond fram till finalen. Efter varje rond halveras antal lag då förlorarna blir utslagna. Förlorande lag i omgång 1 går till andra chansen.</p>
-          </b-col>
-        </b-row>
-        <b-row>
-          <b-col class="col-12 mt-3">
-            <b-button variant="primary" class="text-white" to="/register">
-                  Anmälan
-                  </b-button>
-                  <b-button variant="primary" class="text-white" to="/info">
-                  FAQ
-                  </b-button>
-          </b-col>
-        </b-row>
-     
-      </b-container>
-    </b-jumbotron>
 
      <b-jumbotron v-if="!closed && !isAuthenticated" container-fluid class="white mb-0">
       <b-container>
@@ -621,7 +582,8 @@
         </b-row>
       </b-container>
     </b-jumbotron>
-      <b-row align-h="center">
+    <b-container>
+       <b-row align-h="center">
           <b-col  class="col-12 mt-3 d-flex justify-content-center">
             <a
               class="btn orange-bg btn-md text-white mt-2 mr-2 "
@@ -647,6 +609,9 @@
               </p>
           </b-col>
         </b-row>
+
+    </b-container>
+     
      
 
   </div>
@@ -1558,8 +1523,9 @@ img {
   }
 }
 .openForBusiness {
-
-  border-radius: 130px;
+  top:0;
+  left:0;
+  border-bottom-right-radius: 130px;
   background-color: #d08a3f7c;
   color: white; 
 
@@ -1574,8 +1540,7 @@ img {
 
 }
 .line1 {
-  letter-spacing: 10px;
-  font-size: 3rem;
+  font-size: 0.6rem;
 }
 .line2 {
   font-size: 1.2rem;
