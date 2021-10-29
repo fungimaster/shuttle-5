@@ -1,64 +1,100 @@
 <template>
-<div style="position:relat"
-v-if="
-      ['Scorecard', 'Receipt'].indexOf($route.name) === -1">
-  <b-navbar toggleable="lg" ref="top">
-    <b-navbar-brand>
-      <router-link class to="/">
-        <img
-          src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_100/v1573118127/matchplay/matchplay-new-logo-2020.png"
-          alt
-        />
-      </router-link>
-    </b-navbar-brand>
+  <div
+    style="position: relat"
+    v-if="['Scorecard', 'Receipt'].indexOf($route.name) === -1"
+  >
+    <b-navbar toggleable="lg" ref="top">
+      <b-navbar-brand>
+        <router-link class to="/">
+          <img
+            src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_100/v1573118127/matchplay/matchplay-new-logo-2020.png"
+            alt
+          />
+        </router-link>
+      </b-navbar-brand>
 
-    <b-navbar-toggle target="nav-collapse">
-      <i class="material-icons"></i>
-    </b-navbar-toggle>
+      <b-navbar-toggle target="nav-collapse">
+        <i class="material-icons"></i>
+      </b-navbar-toggle>
 
-    <b-collapse id="nav-collapse" is-nav class="text-center">
-      <div class="d-lg-none mt-5 mb-2">
-        <h1 class="hidden theme">Psyched</h1>
-        <p class="hidden text-uppercase">Matchplay 2021</p>
-      </div>
-      <b-navbar-nav class="ml-auto ">
-        <!-- <b-nav-item :to="{path: '/line-up', query: {tags:$route.query.tags, day:$route.query.day}}">Line-up</b-nav-item> -->
-        <b-nav-item v-if="!closed" to="/register">Efterhandsregistrering</b-nav-item>
-        <b-nav-item v-if="closed" to="/results">Resultat <b-badge hidden class="new" pill variant="danger"><i class="fa fa-circle"></i></b-badge></b-nav-item>
-        <b-nav-item to="/klubbar">Klubbar <b-badge hidden class="new" pill variant="danger"><i class="fa fa-heart"></i></b-badge></b-nav-item>
-         <b-nav-item to="/business">Företagslag</b-nav-item>
-        <b-nav-item to="/info">Om tävlingen</b-nav-item>
-        <b-nav-item-dropdown
-            text="Tidigare tävlingar"
-            right
+      <b-collapse id="nav-collapse" is-nav class="text-center">
+        <div class="d-lg-none mt-5 mb-2">
+          <h1 class="hidden theme">Psyched</h1>
+          <p class="hidden text-uppercase">Matchplay 2021</p>
+        </div>
+        <b-navbar-nav class="ml-auto">
+          <!-- <b-nav-item :to="{path: '/line-up', query: {tags:$route.query.tags, day:$route.query.day}}">Line-up</b-nav-item> -->
+          <b-nav-item v-if="!closed" to="/register"> Registrering</b-nav-item>
+          <b-nav-item v-if="closed" to="/results"
+            >Resultat
+            <b-badge hidden class="new" pill variant="danger"
+              ><i class="fa fa-circle"></i></b-badge
+          ></b-nav-item>
+          <b-nav-item hidden to="/klubbar"
+            >Klubbar
+            <b-badge hidden class="new" pill variant="danger"
+              ><i class="fa fa-heart"></i></b-badge
+          ></b-nav-item>
+          <b-nav-item v-if="companies" to="/business">Företagslag</b-nav-item>
+          <b-nav-item to="/info">Om tävlingen</b-nav-item>
+          <b-nav-item-dropdown text="Tidigare tävlingar" right>
+            <b-dropdown-item to="/tavlingar/2021">2021</b-dropdown-item>
+            <b-dropdown-item to="/tavlingar/">Alla tävlingar</b-dropdown-item>
+          </b-nav-item-dropdown>
+
+          <b-nav-item hidden to="/ping">PING</b-nav-item>
+          <!--a class="nav-item nav-link text-dark show-search-button nav-link" href="#search" data-toggle="collapse" aria-expanded="false" aria-controls="search"><i class="material-icons mobile-search">search</i></a-->
+          <b-nav-item
+            show
+            title="login"
+            to="/mymatchplay"
+            v-if="isAuthenticated"
           >
-            <b-dropdown-item to="/tavlingar/2021"  
-              >2021</b-dropdown-item>
-            <b-dropdown-item to="/tavlingar/"  
-              >Alla tävlingar</b-dropdown-item>
-        </b-nav-item-dropdown>
-
-        <b-nav-item hidden to="/ping">PING</b-nav-item>
-        <!--a class="nav-item nav-link text-dark show-search-button nav-link" href="#search" data-toggle="collapse" aria-expanded="false" aria-controls="search"><i class="material-icons mobile-search">search</i></a-->
-        <b-nav-item show title="login" to="/mymatchplay" v-if="isAuthenticated">
-          <i class="material-icons mr-1" style="vertical-align:bottom;">supervised_user_circle</i>
-          <span v-if="!user">   
-            <b-spinner small variant="primary" label="Small Spinner" type="grow"></b-spinner>
-            <b-spinner small variant="primary"  label="Small Spinner" type="grow"></b-spinner>
-            <b-spinner small variant="primary"  label="Small Spinner" type="grow"></b-spinner>
-          </span> 
-          <span v-if="user">{{user.firstname}} </span> 
-        </b-nav-item>
-        <b-nav-item show title="login" to="/mymatchplay" v-if="!isAuthenticated">
-          <i class="material-icons mr-1" style="vertical-align:bottom;">supervised_user_circle</i>
-          Logga in
-        </b-nav-item>
-      </b-navbar-nav>
-    </b-collapse>
-  </b-navbar>
-      </div>
-
-
+            <b-avatar
+              v-if="user && user.profilepicture"
+              :src="user.profilepicture"
+            >
+            </b-avatar>
+            <i v-else class="material-icons mr-1" style="vertical-align: bottom"
+              >supervised_user_circle</i
+            >
+            <span v-if="!user">
+              <b-spinner
+                small
+                variant="primary"
+                label="Small Spinner"
+                type="grow"
+              ></b-spinner>
+              <b-spinner
+                small
+                variant="primary"
+                label="Small Spinner"
+                type="grow"
+              ></b-spinner>
+              <b-spinner
+                small
+                variant="primary"
+                label="Small Spinner"
+                type="grow"
+              ></b-spinner>
+            </span>
+            <span v-if="user">{{ user.firstname }} </span>
+          </b-nav-item>
+          <b-nav-item
+            show
+            title="login"
+            to="/mymatchplay"
+            v-if="!isAuthenticated"
+          >
+            <i class="material-icons mr-1" style="vertical-align: bottom"
+              >supervised_user_circle</i
+            >
+            Logga in
+          </b-nav-item>
+        </b-navbar-nav>
+      </b-collapse>
+    </b-navbar>
+  </div>
 </template>
 
 <script>
@@ -67,21 +103,42 @@ import { globalState } from "../main.js";
 
 export default {
   name: "top",
-  components: {},
+  created() {
+    this.getCompanies();
+  },
   data() {
     return {
       closed: globalState.closed,
     };
   },
-  methods: {},
- 
-   computed: {
-    ...mapGetters([
-      "user",
-      "isAuthenticated",
-    ]),
+  computed: {
+    ...mapGetters(["user", "isAuthenticated", "companies"]),
   },
-  updated: function() {}
+  methods: {
+    getCompanies() {
+      const handleResponse = (response) => {
+        if (response.data.length) {
+          this.$store.dispatch("setCompanies", response.data);
+        }
+      };
+
+      if (this.fetchedcompanies) {
+        handleResponse(this.$store.state.companies);
+        return;
+      }
+
+      this.axios
+        .post(globalState.admin_url + "getPaidCompanyTeams", {
+          id: globalState.compid,
+        })
+        .then((response) => {
+          handleResponse(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  },
 };
 </script>
 
@@ -144,7 +201,7 @@ h1.theme {
 
 .new {
   vertical-align: top;
-  font-size:0.6em;
-  padding-top:0.6em;
+  font-size: 0.6em;
+  padding-top: 0.6em;
 }
 </style>

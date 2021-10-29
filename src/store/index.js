@@ -1,11 +1,17 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import { hcps } from './hcp2021'
+import axios from 'axios'
+import moment from 'moment'
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    price1 :null, 
+    price2: null, 
+    price3: null,
+    price4: null,
     count: 0,
     clubs: null,
     companies: null,
@@ -210,6 +216,21 @@ export default new Vuex.Store({
     getCompetition: (state) => (id) => {
       return state.competitions.filter(competition => competition.competitionname == id)[0]
     },
+    price1: (state) => {
+      return state.price1
+    },
+    price2: (state) => {
+      return state.price2
+    },
+    price3: (state) => {
+      return state.price3
+    },
+    price4: (state) => {
+      return state.price4
+    },
+    isEarlyBirdie: (state) => {
+      return state.isEarlyBirdie
+    },
   },
   mutations: {
     SET_AUTHENTICATION: (state, { token, userId }) => {
@@ -250,6 +271,26 @@ export default new Vuex.Store({
     SET_CLUBLOGOSURL: (state, payload) => {
       state.clublogosurl = payload;
     },
+    SET_PRICE: (state, payload) => {
+      state.price1 = payload.price1;
+     
+        if (state.isEarlyBirdie) {
+          state.price1 = payload.price4
+        } 
+    
+      state.price2 = payload.price2;
+      state.price3 = payload.price3;
+      state.price4 = payload.price4;
+    },
+    SET_EARLY_BIRDIE: (state, payload) => {
+      const now = moment()
+        const deadline = moment("2022-01-01" + " " + "00:00");
+        if (now < deadline) {
+          state.isEarlyBirdie = true
+        } else {
+          state.isEarlyBirdie = false
+        }
+    }
   },
   actions: {
     setClubsLogourl: ({ commit }, payload) => {
@@ -287,6 +328,9 @@ export default new Vuex.Store({
     setUser: ({ commit }, payload) => {
       commit("SET_USER", payload);
     },
+    setEarlyBirdie: ({ commit },) => {
+      commit("SET_EARLY_BIRDIE");
+    },
     tryAutoLogin: ({ commit }) => {
       const token = localStorage.getItem("auth_token");
       if (!token) {
@@ -297,6 +341,23 @@ export default new Vuex.Store({
         token,
         userId,
       });
+    },
+    getCompetition: ({ commit }, compid) => {
+    console.log("compid", compid)
+      return new Promise((resolve, reject) => {
+        this.$axios
+        axios
+        .post("https://admin.matchplay.se/methods/" + "getCompetition", { id: compid })
+        .then((response) => {
+          commit("SET_PRICE", response.data)
+          resolve()
+        })
+        .catch((error) => {
+          console.log(error);
+          reject()
+        });
+      })
+      
     },
   },
 });

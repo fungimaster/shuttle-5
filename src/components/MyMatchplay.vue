@@ -120,7 +120,7 @@
                     </b-col>
                     <b-col hidden md="12" class="mt-3">
                         <h2>Skapa ditt blivande mästarlag</h2>
-                        <p v-if="!closed" class="mt-3" >Nu är det dags att skapa ditt lag för matchplay 2021. Klicka på knappen nedan och följ instruktionerna.</p>
+                        <p v-if="!closed" class="mt-3" >Nu är det dags att skapa ditt lag för matchplay 2022. Klicka på knappen nedan och följ instruktionerna.</p>
                     </b-col>
                     <b-col hidden md="12" class="pt-1 text-center mt-3 mb-5">
                         <b-button variant="primary" class="blue-bg mt-5 mb-3 pulse-button btn-lg" v-on:click="create_team('new')"><i class="material-icons">sports_golf</i> Skapa ditt lag</b-button>
@@ -161,8 +161,55 @@
                     </b-row>                   
                     <b-row align-h="center">
                         <b-col sm="10" lg="6" class="mt-3">
+                            
                             <h4><strong>Användaruppgifter</strong></h4>
-                            <div class="mt-3">
+                            
+                                <div class="mt-3">
+                                    <div class="">
+                                        <b-avatar
+                                            variant="warning"
+                                            :text="getProfileInitials"
+                                            :src="getFaceProfilePic"
+                                            size="7rem"
+                                            class="mb-2s"
+                                            >
+                                        </b-avatar>
+                                    </div>
+                                <br>
+            
+                        
+                            <b-col class="col-12  p-0 mb-4">                                                            
+                                <b-form-file
+                                accept=".jpg, .png"
+                                type="file"
+                                id="photo"
+                                class="inputfile"
+                                v-model="file"
+                                />
+                                <label class=" d-block w-100" for="photo"
+                                ><span class="btn btn-outline-warning"
+                                    ><span
+                                    style="font-size: 1.5em"
+                                    class="material-icons mr-0"
+                                    >add_a_photo</span
+                                    ></span
+                                > 
+                                <small v-if="!userinfo.profilepicture">Lägg till en profilbild</small>
+                                <small v-else>Uppdatera profilbild</small>
+                                
+                                </label
+                                >
+                            </b-col>
+                            
+
+                            <b-col v-if="uploading" class="col-12 mb-3">
+                                <b-progress height="1rem" variant="secondary" striped animated>           
+                                    <b-progress-bar :value="progress">
+                                    </b-progress-bar>
+                                </b-progress> <samp></samp>
+                            </b-col>
+                            
+                            
                             <label>Namn:</label>
                             <span class="d-inline" v-if="userdetails.firstname">{{userdetails.firstname}} {{userdetails.lastname}}</span>
                             <span v-else><b-skeleton class="d-inline-block mt-1" width="50%"></b-skeleton> </span>    
@@ -405,26 +452,32 @@
   </b-modal>
 
 
-<b-container class="mt-3 mt-md-5" v-if="team.step === 0">        
-            <b-row align-h="center" v-if="teams.length === 0 || !teams.length || !closed">
-                    <b-col md="12" class="mt-2">                       
-                        <h2 hidden>Skapa ditt blivande mästarlag</h2>
-                        <p v-if="closed" class="mt-3">Om inga lag syns här har något blivit fel med lagkopplingen, se kontaktuppg. längst ner på sidan.</p>
-                       
-                        <p v-if="!closed && teams.length === 0 || (!teams.length && !closed)" class="mt-3" >Nu är det dags att skapa ditt lag för matchplay 2021. Klicka på knappen nedan och följ instruktionerna.</p>
-                    </b-col>
-                    <b-col v-if="!closed && teams.length === 0 || (!teams.length && !closed)" md="12" class="pt-1 text-center mt-2 mb-3">
-                        <b-button variant="primary" class="blue-bg mt-3 mb-3 pulse-button btn-lg" v-on:click="create_team('new')"><i class="material-icons">sports_golf</i> Skapa ditt lag</b-button>
-                    </b-col>
-            </b-row>
-</b-container>              
+            <b-container class="mt-3 mt-md-5" v-if="team.step === 0">        
+                <b-row align-h="center" v-if="teams.length === 0 || !teams.length || !closed">
+                        <b-col md="12" class="mt-2">                       
+                            <h2 hidden>Skapa ditt blivande mästarlag</h2>
+                            <p v-if="closed" class="mt-3">Om inga lag syns här har något blivit fel med lagkopplingen, se kontaktuppg. längst ner på sidan.</p>
+                        
+                            <p v-if="!closed && teams.length === 0 || (!teams.length && !closed)" class="mt-3" >Nu är det dags att skapa ditt lag för matchplay 2022. Klicka på knappen nedan och följ instruktionerna.</p>
+                        </b-col>
+                        <b-col v-if="!closed && teams.length === 0 || (!teams.length && !closed)" md="12" class="pt-1 text-center mt-2 mb-3">
+                            <b-button variant="primary" class="blue-bg mt-3 mb-3 pulse-button btn-lg" v-on:click="create_team('new')"><i class="material-icons">sports_golf</i> Skapa ditt lag</b-button>
+                        </b-col>
+                </b-row>
+               
+            </b-container>              
             <b-container v-if="showteamslist && team.step === 0" class="">
                 <b-row align-h="center">
+                    <b-col cols="12" lg="10" class="pl-1 pr-1">
+                        <b-alert dismissible  @dismissed="setCookie" v-if="!team.paid && isEarlyBirdie && showEarlyBirdie" show variant="warning" class="text-dark">Glöm inte bort att just nu har vi vårt Early Birdie erbjuande med ett reducerat ordinarie pris med 100 kr.</b-alert>
+                    </b-col>
                     <b-col sm="10" lg="6" class="team pl-1 pr-1 pb-2" v-for="(team,idx) in teams" :key="idx">
                         <b-button :id="'delete-team-' + idx" v-if="team.teamleader && !team.paid" @click="removeTeam(team)" variant="" class="btn-sm delete-team"><i class="material-icons">delete</i></b-button>
                         <b-tooltip :target="'delete-team-' + idx" triggers="hover" placement="top">
                             Radera det här laget
                         </b-tooltip>
+
+
                         <b-card class="mb-2 team header">
                             <b-card-title class="mt-2">
                                 <span v-if="team.type === 'Company'" class="pr-2">{{team.teamname}}</span>
@@ -573,8 +626,13 @@
                             <b-button hidden variant="primary" class="blue-bg">Redigera lag</b-button>
                         </b-card>
                     </b-col>
+                    
                 </b-row>
+                  
             </b-container>
+            <b-row align-h="center pt-2 pb-2" v-if="fetchingPlayerData">
+                <b-spinner></b-spinner>
+            </b-row>
             
             <!--   -->
             <b-form class="mt-4" v-if="showcreateteam" @submit.stop.prevent @submit="save_state1">
@@ -584,7 +642,29 @@
                     <b-container class="mb-3 mb-md-5">
                         <b-row align-h="center">
                             <b-col md="6">
+                                <b-alert v-if="!fetchingPrevData && !previousteam" class="w-100 mt-2 text-dark" show variant="warning"> 
+                                    <b-spinner small></b-spinner> Kollar efter sparade lag.
+                                    <small class="d-block">Data från tidigare lag används för autofylla formuläret</small>
+                                </b-alert>
+                         
+                                <div class="d-flex justify-content-center mb-2">   
+                                   
+                                    <div v-if="previousteam && previousteam.teamleader">
+                               
+                                         <div class="d-blick border mt-1 p-3 rounded ">
+                                               <small> 
+                                                  Ditt lag med lagkamrat <strong>{{previousteam.teammembername}}</strong> och hemmaklubb <strong>{{previousteam.coursename}} </strong>finns sparat. 
+                                                  Klicka nedan för att använda samma information i årets lag. 
+                                                </small>
+                                                <b-button class="w-100 mt-2" @click="populateTeamsForm" variant="warning"> 
+                                                  Autofyll formuläret! 
+                                                </b-button>
+                                           
+                                         </div>
 
+                                    </div>
+
+                                </div>
                                 <b-card class="mt-0 mb-1 pt-0" no-body>
                                     <b-card-header>
                                         Ditt lag<span v-if="team.name != ''">: {{team.name}}</span>                                        
@@ -669,7 +749,7 @@
                                     </b-form-select>
                                 </b-form-group>
                                 <b-alert show v-if="team.type==='Company'" variant="warning" class="small">                                   
-                                <p>I vårt <strong>grundpaket</strong> ({{team.price_company}}:-) för företag ingår:</p>
+                                <p>I vårt <strong>företagspaket</strong> ({{team.price_company}}:-) för företag ingår:</p>
                                 <ol>
                                     <li>
                                         Ett lag i tävlingen
@@ -678,25 +758,8 @@
                                         Synlighet på resultatsidan med er logo
                                     </li>
                                 </ol>
-                                <p hidden>Pris: {{team.price_company}}:- (exkl. moms)</p>
-                                 <p>I vårt <strong>företagspaket PLUS</strong> ({{team.price_company2}}:-) erbjuder vi följande utöver grundpaketet:</p>
-                                 <ol>
-                                    <li>
-                                        Synlighet på matchplay.se som företagssponsor
-                                    </li>
-                                    <li>
-                                        Nätverksträff i slutet av augusti på en golfklubb (bestäms inom kort) inkl. golfspel, bankett och övernattning för dig och din lagkamrat
-                                    </li>                                     
-                                </ol>
-                                <p hidden>Pris: {{team.price_company2}}:- (exkl. moms)</p>
-                                 <b-form-checkbox
-      id="checkbox-1"
-      v-model="team.company_big"
-      name="checkbox-1"
-     
-    >
-      Välj PLUS
-    </b-form-checkbox>
+                    
+                            
            
      <p class="pt-3"><strong>Faktureras: </strong><span v-if="team.company_big">{{team.price_company2}}:- (exkl. moms)</span>
      <span v-else>{{team.price_company}}:- (exkl. moms)</span>
@@ -780,7 +843,7 @@
                             <b-col md="6" class="mb-4 mt-3">                                
                                 <b-button @click.prevent="cancel_team()" size="sm" variant="light"><i class="material-icons">arrow_back_ios</i>Tillbaka</b-button>
                                 <b-button v-if="!team.teammembergolfid" :disabled="team.clubid === ''" size="sm" class="mt-0 mt-sm-0 float-right" @click.prevent="next()" variant="success">
-                                    <b-spinner v-if="showloginspinner" size="sm" small type="grow" class="mr-2"></b-spinner>Välj lagkamrat<i class="ml-2 material-icons">arrow_forward_ios</i>
+                                    <b-spinner v-if="showloginspinner" size="sm" small type="grow" class="mr-2"></b-spinner>Välj lagkamrat<i v-if="!showloginspinner" class="ml-2 material-icons">arrow_forward_ios</i>
                                 </b-button>
                                  <b-button v-if="team.teammembergolfid" size="sm" class="mt-0 mt-sm-0 float-right" @click.prevent="update_team()" variant="success">
                                     <b-spinner v-if="showloginspinner" small type="grow" class="mr-2"></b-spinner>Spara<i class="ml-2 material-icons">save</i>
@@ -802,7 +865,7 @@
                         <b-row v-if="!team.completemode" align-h="center">
                             <b-col md="6" class="text-center mb-3">
                                 <b-button @click.prevent="skipStep()" variant="success" size="sm">
-                                    Jag vill bjuda in en lagkamrat senare<i class="ml-2 material-icons mr-2">arrow_forward_ios</i>
+                                    Bjud in en lagkamrat senare<i class="ml-2 material-icons mr-2">arrow_forward_ios</i>
                                 </b-button>
                             </b-col>
                         </b-row>
@@ -814,7 +877,7 @@
                                     <b-form-input :state="validation_teammembername" v-model="team.teammembername" inputmode="numeric" pattern="[- +()0-9]+" id="teammembername" placeholder="Golf id (xxxxxx-xxx)" required>
                                     </b-form-input>
                                     <b-button @click="checkGolfID(team.teammembername,'2')" v-if="!team.is_readonly" variant="info" size="sm" class="float-right mt-1">
-                                        <b-spinner v-if="showspinner_2" small type="grow" class="mr-2"></b-spinner>Sök spelare
+                                        <b-spinner v-if="showspinner_2" small type="grow" class="mr-2"></b-spinner> <span v-if="showSearchPlayerAlert">Uppdatera spelarinfo</span> <span v-else>Sök spelare</span> 
                                     </b-button>
                                 </b-form-group>
                                 <b-alert v-if="team.showplayer2" :variant="team.checkgolfidvariant2" show class="mt-4 small form-text">
@@ -896,6 +959,17 @@
                             <b-col md="6">
                                 <b-form-group class="mb-2" v-if="team.type != null && !team.is_readonly">
                                     <h4>Betalningsalternativ</h4>
+                                        <b-form-checkbox
+                                            v-if="userdetails.referrals"
+                                            id="checkbox-1"
+                                            v-model="useDiscount"
+                                            name="checkbox-1"
+                                            :value="true"
+                                            variant="success"
+                                            :unchecked-value="false"
+                                        >
+                                        <strong :class="useDiscount ? 'text-success' : 'text-primary'">Använd intjänad rabatt ({{ userdetails.referrals * 50 }} kr) ?</strong>
+                                        </b-form-checkbox>
 
                                     <b-form-radio v-if="team.type === 'Private'" v-model="team.payment" name="some-radios" value="A">Swish</b-form-radio>
                                     <b-form-radio v-if="team.type === 'Company'" v-model="team.payment" name="some-radios" value="B">Faktura</b-form-radio>
@@ -903,15 +977,24 @@
                                 </b-form-group>
 
                                 <b-form-group fluid class="mb-3" v-if="team.payment === 'A'">
+                                    <p v-if="team.type==='Private' && !useDiscount && isEarlyBirdie" class="text-success mb-0 mt-1">Early Birdie pris! Ordinaire pris {{price1 + 100}}:-</p>
                                     <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_150/v1575278258/matchplay/swish.png" alt="swish"></b-img>
-                                    <span v-if="team.type==='Private'">{{team.price_private}} SEK</span>
+                                    <span v-if="team.type==='Private' && !useDiscount"> {{team.price_private}} SEK</span>
+                                    <span v-if="team.type==='Private' && useDiscount" > 
+                                        <span style="text-decoration: line-through;" class="text-danger mr-2">{{team.price_private}}</span>
+                                        <strong class="text-success"> {{ team.price_private - userdetails.referrals * 50 }} SEK </strong>
+                                    </span>
+
                                     <span class="d-block small mb-1 text-right red" v-if="team.pricereduc > 0">Du har fått {{team.pricereduc}} kr rabatt!</span>
 
                                     <vue-tel-input v-model="team.swish.mobile" v-bind="bindProps"></vue-tel-input>
 
-                                    <b-button :disabled="showspinner_swish || team.swish.mobile === ''" show @click="swish()" variant="info" size="sm" class="float-right mt-1">
+                                    <b-button :disabled="showspinner_swish || team.swish.mobile === ''" show @click="swish()" variant="success" size="lg" class="w-100 float-right mt-3">
                                         <b-spinner v-if="showspinner_swish" small type="grow" class="mr-2"></b-spinner>Betala
                                     </b-button>
+                                    <br>
+                                    <br>
+                                    <br>
 
                                     <b-alert v-if="showspinner_swish" show class="mt-5 small text-center" variant="primary">
                                         Nu kan du öppna din Swish-app och godkänna betalningen.
@@ -920,21 +1003,13 @@
                                 </b-form-group>
 
                                 <!-- Invoice -->
-                                <b-form-group v-if="team.payment === 'B'">
+                                <b-form-group v-if="team.payment === 'B' && team.type==='Company'">
                                     <label for="name">Fakturauppgifter</label>
-                                    <span v-if="team.type==='Company' && !team.company_big">{{team.price_company}} SEK (exkl. moms)</span>
-                                    <span v-if="team.type==='Company' && team.company_big">{{team.price_company2}} SEK (exkl. moms)</span>
-                                    <b-alert show v-if="!team.company_big" variant="warning" class="small">
-                                        Är du säker på att du inte vill ha vårt pluspaket för {{team.price_company2}}:- (totalpris) där nätverksträff ingår i slutet av augusti med golf, bankett och övernattning för 2 personer?
-                                        <b-form-checkbox
-      id="checkbox-2"
-      v-model="team.company_big"
-      name="checkbox-2"
-     
-    >
-      Klart jag vill ha PLUS!
-    </b-form-checkbox>
-                                        </b-alert>
+                                    <span v-if="team.type==='Company' && !useDiscount">{{team.price_company}} SEK (exkl. moms)</span>
+                                     <span v-if="team.type==='Company' && useDiscount" > 
+                                        <span style="text-decoration: line-through;" class="text-danger mr-2">{{team.price_company}}</span>
+                                        <strong class="text-success"> {{ team.price_company - userdetails.referrals * 50 }} SEK </strong>
+                                    </span>
 
                                     <b-form-input class="mb-2" id="invoicename" name="invoicename" v-model="invoicename" required placeholder="Skriv in ditt namn" :state="validate_invoicename"></b-form-input>
                                     <b-form-input inputmode="numeric" class="mb-2" id="invoiceorgno" name="invoiceorgno" v-model="team.invoice.invoiceorgno" required placeholder="Skriv in organisationsnummer" :state="validate_invoiceorgno"></b-form-input>
@@ -958,22 +1033,21 @@
                                     </b-form-invalid-feedback>
                                 </b-form-group>
 
-                                <b-container v-if="team.completemode">
-                                    <b-row align-h="center">
-                                        <b-col md="12" class="text-center">
-                                            <b-button @click.prevent="cancel_team()" variant="light"><i class="material-icons">clear</i> Avbryt</b-button>
-                                        </b-col>
-                                    </b-row>
-                                </b-container>
-                                <b-container v-if="!team.completemode">
-                                    <b-row align-h="center">
-                                        <b-col md="12" class="text-center mt-3">
-                                            <b-button @click.prevent="cancel_team()" variant="success">
-                                                Jag vill betala senare<i class="ml-2 material-icons mr-2">arrow_forward_ios</i>
+                        
+                                <b-row class="mb-5 pt-2">
+                                     <b-col cols="5" md="6">
+                                         <b-button v-if="team.completemode" @click.prevent="cancel_team()" size="sm" variant="outline-warning"><i class="material-icons">clear</i> Avbryt</b-button>                      
+                                    </b-col>
+                                    <b-col cols="7" md="6">
+                                           <b-button @click.prevent="cancel_team()" variant="outline-info" size="sm" class="float-right">
+                                                Betala senare<i class="ml-2 material-icons mr-2">arrow_forward_ios</i>
                                             </b-button>
-                                        </b-col>
-                                    </b-row>
-                                </b-container>
+                                    </b-col>
+                                   
+                                </b-row>
+                             
+                                
+                                
 
                             </b-col>
                         </b-row>
@@ -994,7 +1068,7 @@
                             <b-col v-if="this.paymentstatus === 'DECLINED'" md="6">
                                 <h2 class="text-center"><i class="material-icons">eject</i> Du valde att avbryta betalningen</h2>
                                 <p>Kontakta oss om det är något som är oklart så hjälper vi till att förklara.</p>
-                                <p>Hälsningar<br>matchplay</p>
+                                <p>Hälsningar<br>Matchplay</p>
                                 <div class="text-center mt-5 mb-5">
                                     <b-button @click="team.step = 3">
                                         <i class="material-icons">
@@ -1420,6 +1494,8 @@ let opts = {
 };
 import AppRoundsGrafic from "./RoundsGrafic";
 import AppGameImageGallery from "./GameImageGallery";
+import { mapGetters } from "vuex";
+
 
 export default {
     name: 'mymatchplay',
@@ -1579,7 +1655,7 @@ export default {
                 paidteam: 'Laget är betalt',
                 not_paidteam: 'Laget är inte betalt'
             },
-            showcreateteam: false,
+            showcreateteam: true,
             showteamslist: false,
             showcreateteamhelper: false,
             showspinner_1: false,
@@ -1723,10 +1799,10 @@ export default {
                     ],
                 },               
                 _id: '',
-                price_private: globalState.price1, 
+                price_private: this.price1,
                 pricereduc: 0,               
-                price_company: globalState.price2,
-                price_company2: globalState.price3,
+                price_company: this.price2,
+                price_company2: this.price3,
                 company_big: false,
                 checkgolfidvariant2: 'primary',
                 checkgolfidvariant3: 'primary',
@@ -1743,7 +1819,7 @@ export default {
                 player_3_name: '',
                 player_3_hcp: '',
                 player_3_exists: false,
-                is_readonly: true,
+                is_readonly: false,
                 type: null,
                 file: null,
                 logo: null,
@@ -1763,7 +1839,7 @@ export default {
                 uniquename: true,
                 validatevoucher: true,
                 shirts: '',
-                payment: '',
+                payment: 'A',
                 paid: ''
             },
             //END
@@ -1794,10 +1870,44 @@ export default {
             sendformreset: {
                 email: ''
             },
-            doctitle: 'Mina sidor'
+            doctitle: 'Mina sidor',
+            file: null,
+            progress: 0,
+            uploading: false,
+            previousteam:null,
+            showSearchPlayerAlert: false,
+            useDiscount: false,
+            fetchingPrevData: false,
+            fetchingPlayerData: false,
+            showEarlyBirdie: false
         }
     },
     computed: {
+        ...mapGetters([
+        "price1",
+        "price2",
+        "price3",
+        "price4",
+        "isEarlyBirdie",
+        "userId",
+        "isAuthenticated"
+        ]),
+        getProfileInitials() {
+            if (!this.userinfo.firstname) {
+                return
+            }
+            return this.userinfo.firstname.charAt(0) + this.userinfo.lastname.charAt(0);
+            },
+        getFaceProfilePic() {
+            if (!this.userinfo.profilepicture) {
+                return;
+            }
+            var basepart = "https://res.cloudinary.com/dn3hzwewp";
+            var transform = "w_400,h_400,c_fill,g_face/";
+            var imagepart = this.userinfo.profilepicture.split("upload/")[1];
+
+            return basepart + "/image/upload/" + transform + imagepart;
+        },
         myImages() {
             if (!this.userinfo) {
                 return false;
@@ -1936,14 +2046,68 @@ export default {
         },
         validate_marketingpackage() {
             return this.team.invoice.marketingpackage !== '';
-        },
-        isAuthenticated() {
-            return this.$store.getters.isAuthenticated
         }
     },
   
     mixins: [tagsMixin],
     methods: {
+        setCookie() {
+            localStorage.setItem('earlyBirdie2022', '1');
+        },
+        handleFileUpload() {
+        this.uploading = true;
+        this.progress = 0;
+
+        const CLOUDINARY_URL =  "https://api.cloudinary.com/v1_1/dn3hzwewp/image/upload";
+        const CLOUDINARY_UPLOAD_PRESET = 'cwk6nx1v';
+        const url = globalState.admin_url
+
+        this.progress = 20;
+        const formData = new FormData();
+        formData.append("file", this.file);
+		formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+
+        
+        this.progress = 30;
+
+        this.axios.post(CLOUDINARY_URL, formData)
+            .then((res) =>  {
+            this.progress = 60;
+            if (res.data.public_id !== "") {
+            
+                let id = this.userinfo._id
+                const obj = {
+                    id,
+                    imageurl: res.data.secure_url,
+                }
+                
+                this.progress = 80;
+                this.axios.post(url+ "updateUserPhoto", obj)
+                .then((response) => {
+
+                    const sim_id = localStorage.getItem('userId');
+                    this.getPlayerData(sim_id);
+                        
+                    this.progress = 100;
+                    this.uploading = false; 
+                    this.$bvToast.toast(
+                    "Bilden är uppladdad :)",
+                    {
+                        title: "Bilden är uppladdad",
+                        autoHideDelay: 3000,
+                        variant: "success",
+                        solid: true,
+                    }
+                    ); 
+                })
+                .catch((error) => {
+                    this.progress = 0;
+                    this.uploading = false;
+                    console.log(error);
+                });
+            }
+        })
+        },
         expandGame(id) {
             var element = document.getElementById("game"+id);
             var element2 = document.getElementById("gamearrow"+id);
@@ -2805,7 +2969,7 @@ export default {
                 });
         },
         getPlayerData(id) {
-            
+            this.fetchingPlayerData = true
             
             if (!id) {
                 id = this.userinfo._id;
@@ -2835,11 +2999,77 @@ export default {
                     localStorage.setItem('userinfo', JSON.stringify(userinfo));
                     this.$store.dispatch('setUser', userinfo);
                     this.setuserinfoform();
+                    this.fetchingPlayerData = false
                     return;
+                })
+                .catch(error => {
+                    this.fetchingPlayerData = false
+                    console.log(error);
+                });
+
+        },
+        getPrevTeamData(id) { 
+            this.axios.post(globalState.admin_url + 'getPlayerData', {
+                    "id": id ? id : this.userinfo._id,
+                    "competition": globalState.prevcompid
+                })
+                .then(response => {
+                    this.previousteam = response.data.teams[0]
+                    this.fetchingPrevData = true
                 })
                 .catch(error => {
                     console.log(error);
                 });
+
+        },
+        populateTeamsForm() { 
+            this.showSearchPlayerAlert = true
+            const team = this.previousteam
+            this.team.type = team.type
+
+
+            if (this.team.type === "Company") {
+                this.team.payment = "B"
+                this.team.company = team.company
+                this.team.logo = team.logourl
+                this.team.file = true
+                this.team.name = team.teamnamecompany
+                this.team.clubid = team.course
+                this.team.course = team.coursename
+                this.selectedSearchItem = team.coursename
+                this.query = team.coursename
+                this.team.teammembername = team.teammembergolfid  
+                this.invoicename = team.invoicename
+                this.team.invoice.invoiceemail = team.invoiceemail
+                this.team.invoice.invoiceorgno = team.invoiceorgno
+
+                //timeout in order to put last in call stack so field have time to render
+                setTimeout(() => {
+                    var x = document.getElementsByClassName("course");
+                    var i;
+                    for (i = 0; i < x.length; i++) {
+                        x[i].classList.add("is-valid");
+                        x[i].classList.remove("is-invalid");
+                    }
+                }, 0);
+           
+            } else {
+                this.team.name = team.teamname
+                this.team.clubid = team.course
+                this.team.course = team.coursename
+                this.selectedSearchItem = team.coursename
+                this.query = team.coursename
+                this.team.teammembername = team.teammembergolfid  
+                
+                setTimeout(() => {
+                    var x = document.getElementsByClassName("course");
+                    var i;
+                    for (i = 0; i < x.length; i++) {
+                        x[i].classList.add("is-valid");
+                        x[i].classList.remove("is-invalid");
+                    }
+                }, 0);
+            }     
 
         },
         getSwishStatus: function (team) {
@@ -2912,6 +3142,9 @@ export default {
             if (this.team.company_big) {
                 invprice = this.team.price_company2;
             }
+            if (this.useDiscount) {
+                invprice = invprice - this.userdetails.referrals * 50
+            }
 
             this.showspinner_invoice = true;
             this.axios.post(globalState.admin_url + 'payInvoice', {
@@ -2925,7 +3158,6 @@ export default {
                     "invoiceorgno": this.team.invoice.invoiceorgno,
                     "invoiceemail": this.team.invoice.invoiceemail,
                     "invoiceamount": invprice,
-                    "packageplus": this.team.company_big, 
                     "marketingpackage": this.team.invoice.marketingpackage
                 })
                 .then(response => {
@@ -2964,7 +3196,11 @@ export default {
             if (this.team.type === "Company") {
                 amount = this.team.price_company;
             }
-            
+
+            if (this.useDiscount) {
+                amount = amount - this.userdetails.referrals * 50
+            }
+                        
             //if user is Rasmus set amount to 1 sek. 
             if (this.$store.state.userId === "Y6PQXKor9iXxmKyD5") {
                 amount = 1
@@ -3515,8 +3751,8 @@ export default {
                     this.userdetails.golfid = userinfo.golfid;
                     this.userdetails.hcp = userinfo.hcp;
                     this.userdetails.email = userinfo.email;
-                    this.userdetails.mobile = userinfo.mobile;
-                    this.team.swish.mobile = userinfo.mobile;
+                    this.userdetails.mobile = "+46" + userinfo.mobile
+                    this.team.swish.mobile = "+46" + userinfo.mobile.slice(1)
                     if (userinfo.hasOwnProperty('isambassador')) {
                         this.userdetails.isambassador = userinfo.isambassador;
                     } else {
@@ -3647,7 +3883,15 @@ export default {
         //window.scrollTo(0, 0);
     },
     created() {
-                
+        if (localStorage.getItem('earlyBirdie2022') !== '1') {
+            this.showEarlyBirdie = true
+        }
+    const promise = this.$store.dispatch('getCompetition', globalState.compid)
+        promise.then(() => {
+        this.team.price_private = this.price1
+        this.team.price_company = this.price2
+        this.team.price_company2 = this.price3
+                  
         if (localStorage.getItem('sponsor')) {
             if (localStorage.getItem('sponsor') === 'gm') {
                 this.team.pricereduc = 50;            
@@ -3656,9 +3900,16 @@ export default {
             }
             this.team.price_private =  this.team.price_private-this.team.pricereduc;
         }
-      
+
+    })
+        
+       this.getGolfClubs();
+       
        this.$store.dispatch("tryAutoLogin").then(() => {
             if (this.isAuthenticated) {
+            console.log("isAuthenticated")
+            console.log(this.$store.state.user)
+                
                 var sim_id;
                 sim_id = localStorage.getItem('userId');
                 
@@ -3673,6 +3924,10 @@ export default {
                     sim_id = this.$route.query.sim_id;   
                 }
                 
+                this.getPrevTeamData(sim_id)
+
+               
+
                 //check data is in store --> then dont fetch
                 if (!this.$store.state.user) {
                     this.getPlayerData(sim_id);
@@ -3694,8 +3949,8 @@ export default {
                     localStorage.setItem('userinfo', JSON.stringify(userinfo));
                     this.$store.dispatch('setUser', userinfo);
                     this.setuserinfoform();
-        
                     this.loading = false;
+
                 }
 
                 this.tabIndex = Number(localStorage.getItem('active_tab'));     
@@ -3712,7 +3967,22 @@ export default {
             }
        })
        
-    }
+    },
+    watch: {
+        file: {
+            handler() {
+            if (this.file === null) {
+                return
+            }
+            this.handleFileUpload()
+            },
+        },
+        userId: {
+            handler() {
+                this.getPrevTeamData(this.userId)
+            },
+        },
+    },
 
 }
 </script>
@@ -3972,6 +4242,19 @@ img.overview-logo {
     -moz-animation: none;
     -ms-animation: none;
     animation: none;
+}
+
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.inputfile + label {
+	cursor: pointer; /* "hand" cursor */
 }
 
 @-webkit-keyframes pulse {

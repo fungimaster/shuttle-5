@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div >
     <vue-headful :title="doctitle" />
     <div class="hidden theme text-center">
       <div class="container">
-        <h2 class="when">Matchplay 2021</h2>
+        <h2 class="when">Matchplay 2022</h2>
       </div>
     </div>
 
@@ -42,14 +42,49 @@
       <router-view> </router-view>
     </b-modal>-->
 
-    <div class="hero herobg0" ref="slider">
+    <div class="hero herobg0 position-relative" ref="slider">
+            <div class="d-none d-md-block position-absolute pl-2 pt-2 pb-5 pr-5  openForBusiness"> 
+             <div class="pt-3 ">
+                <span class="line1">ANMÄLAN ÄR</span>
+                <br>
+                <span class="line2">ÖPPEN!</span>
+                <br>                
+             </div>
+            </div>
+             <div class="d-block d-md-none  text-center openForBusinessMobile"> 
+             <div class="pt-3 pb-4">
+                 <b-img
+                  class="w-25 pb-4"
+                    src="https://res.cloudinary.com/dn3hzwewp/image/upload/e_colorize,co_rgb:fff/v1573118127/matchplay/matchplay-new-logo-2020.png"
+                    alt
+                  ></b-img>
+                  <br>
+                <span class="line3">ANMÄLAN ÄR ÖPPEN!</span>
+                                
+             </div>
+            </div>
       <b-container class="pl-4 pr-4">
+        
         <b-row align-h="center">
-          <b-col class="col-12 col-md-12 mt-4">
-            <h2>VÄLKOMMEN TILL MATCHPLAY 2021, GOLFTÄVLINGEN FÖR BÅDE PRIVATPERSONER OCH FÖRETAG</h2>
+          <b-col class="col-12 col-md-12 mt-4 pt-2 mb-4">
+            <h2>VÄLKOMMEN TILL MATCHPLAY 2022</h2>
+            <h2 class=mb-3>- GOLFTÄVLINGEN FÖR BÅDE PRIVATPERSONER OCH FÖRETAG</h2>
+             <a
+                hidden
+                v-if="!isAuthenticated"
+                href="/register"
+                class="btn blue-bg btn-md text-white mt-2 mr-2"
+              >Anmälan</a>
+              <a
+                href="#earlyBirdie"
+                class="btn btn-success text-white btn-sm mt-2 mr-2"
+
+              >JUST NU EARLY BIRDIE PRIS</a>
+            <!-- <b-button variant="success" size="sm" v-if="isEarlyBirdie" class=" p-1 pt-2 rounded bg-success">JUST NU EARLY BIRDIE PRIS</b-button>  -->
+
           </b-col>
 
-          <b-col v-if="!closed" class="col-12 col-md-6 mt-4 mb-3 mb-md-4 text-center" id="countdown">
+          <b-col hidden v-if="!closed" class="col-12 col-md-6 mt-4 mb-3 mb-md-4 text-center" id="countdown">
             <h4 class="mb-3 mb-md-4">Anmälan stänger om:</h4>
             <b-row align-h="center">
             <b-col hidden class="col-4 col-md-4 p-0">
@@ -72,14 +107,18 @@
           </b-col>
 
           <b-col class="col-12 col-md-8">
-            <p v-if="!closed" class="mt-3 mt-md-0">
+            <p hidden v-if="!closed" class="mt-3 mt-md-0">
              Omgång 1 startar  <strong>söndagen den 2 maj</strong> och pågår till  <strong>söndagen den 30 maj</strong> (ändrat för att fler i mellersta och norra Sverige ska kunna delta pga av kall vinter/vår).
               <b-alert hidden variant="info" class="small mt-3">Lag från mer än 50% av Sveriges golfklubbar finns nu representerade i tävlingen!</b-alert>              
             </p>
             <p
+              class="mt-3 mt-md-0 pb-5"
+            >Matchplay är en matchspelstävling för par med officiellt handicap. <span hidden>Par kan vara män, kvinnor eller mix. </span> </p>
+            
+            <p hidden
               class="mt-3 mt-md-0"
-            >Matchplay är en matchspelstävling för par med officiellt handicap. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.</p>
-            <p
+            >Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.</p>
+            <p hidden
               v-if="!closed"
             >Tävlingen spelas mellan maj-september i olika omgångar fram till Sverigefinalen och sedan vidare utomlands!</p>
             
@@ -93,11 +132,13 @@
               hidden
               v-if="closed"
             >I helgen (30-31 maj) lottas första omgången. Den 1 juni startar tävlingen!</p>
-           
+
+
             <div class="buttons text-left">
               <router-link
                 v-if="!closed && !isAuthenticated"
-                class="btn blue-bg btn-md text-white mt-2 mr-2"
+                class="btn blue-bg btn-md text-white mt-2 mr-2 "
+                :class="isMobile ? 'w-100' : ''"
                 to="/register"
               >Anmälan</router-link>
               <a
@@ -110,6 +151,8 @@
                 v-if="!isAuthenticated && !closed"
                 href="#more"
                 class="btn blue-bg btn-md text-white mt-2 mr-2"
+                                :class="isMobile ? 'w-100' : ''"
+
               >Vill du veta mer?</a>
 
             <div v-if="closed" class="mt-3 mb-3">
@@ -140,7 +183,7 @@
                 v-if="!isAuthenticated"
                 class="btn btn-danger btn-md text-white mt-2 mr-2"
                 to="/register"
-              >Efterhandsregistrering</router-link>
+              >registrering</router-link>
               <b-alert variant="danger" class="mt-3">
                 På grund av väldigt hög aktivitet av våra härliga golfspelare här på sajten går servern på knäna och vi jobbar på att fixa problemen, kolla in på sajten imorgon igen för bättre prestanda!!!
               </b-alert>              
@@ -247,7 +290,7 @@
 
     <b-jumbotron container-fluid class="white mb-0">
       <b-container>
-        <b-row v-if="!isAuthenticated">
+        <b-row v-if="!isAuthenticated" id="earlyBirdie">
             <b-col hidden v-if="closed" class="col-12">
               <h1>Statistik 2021</h1>
               Anmälda lag: 523<br>
@@ -263,23 +306,34 @@
             <p
             >Tävlingen spelas mellan maj-september i olika omgångar fram till Sverigefinalen och sedan vidare utomlands!</p>
           </b-col>
-          <b-col v-if="!closed" class="col-12">
-            <h1 v-if="!closed" class="teaser-header orange mb-3 text-left text-md-center">Anmäl ditt lag till Matchplay 2021</h1>
+          <b-col v-if="!closed && competitionFetched" class="col-12">
+            <h1 v-if="!closed" class="teaser-header orange mb-3 text-left text-md-center">Anmäl ditt lag till Matchplay 2022</h1>
             <p>Hela tävlingen är numera digitaliserad där vi kontrollerar Golf-ID, hcp, slope mm för att kunna applicera våra hcputräkningar inför varje match. Ni använder vårt digitala scorekort för att föra score och vänner/familj kan följa matcherna live!</p>
-            <p>Sista anmälningsdag är den <strong>30 april</strong> och tävlingens första omgång börjar den <strong>2 maj</strong> och slutar den <strong>30 maj</strong>.</p>
-            <p>
-              Anmälningskostnad per lag är
+            <p hidden>Sista anmälningsdag är den <strong>30 april</strong> och tävlingens första omgång börjar den <strong>2 maj</strong> och slutar den <strong>30 maj</strong>.</p>
+            <p hidden>
+              Anmälningskostnad per lag 
               <strong>{{price1}} kr</strong> för privatpersoner och
               <strong>{{price2}} kr</strong> (exkl. moms) för företag.
             </p>
-            <b-alert show variant="info" class="mt-3 mb-3 small">Glöm inte att anmälningsavgiften kan användas som <strong>friskvårdsbidrag</strong>. Golftävlingar är godkända som bidrag sedan 2020. <strong>Kvitto</strong> erhålls automatiskt efter betalning.</b-alert>
+            <p>
+              Nu kör vi Early Birdie priser fram till den 31 december!
+              Anmälningskostnad per lag 
+              <strong class="text-dark">{{price4}} kr</strong> (ordinarie pris {{price1}} kr) för privatpersoner och
+              <strong>{{price2}} kr</strong> (exkl. moms) för företag.
+            </p>
+            <b-alert show variant="warning" class="mt-3 mb-3 small text-dark">Glöm inte att anmälningsavgiften kan användas som <strong>friskvårdsbidrag</strong>. Golftävlingar är godkända som bidrag sedan 2020. <strong>Kvitto</strong> erhålls automatiskt efter betalning.</b-alert>
             <router-link class="btn blue-bg btn-md text-white mt-2 mr-2" to="/register">
               <i class="pb-1 mr-2 material-icons">thumb_up</i>Steg 1 - Skriv in ditt Golf-ID
             </router-link>
           </b-col>
         </b-row>
+        
+        <div v-if="!competitionFetched && !isAuthenticated" class="text-center pt-5 pb-5">
+          <b-spinner variant="success" type="grow" label="Spinning"></b-spinner>
+        </div>
 
-        <b-row v-if="isAuthenticated && user">
+
+        <b-row v-if="isAuthenticated && user && competitionFetched" id="earlyBirdie" >
           <b-col class="col-12">
             <h3 class="teaser-header orange mb-3">Hej {{user.firstname}}!</h3>
 
@@ -321,16 +375,20 @@
          
               </div>
             </div>
+            <strong v-if="isEarlyBirdie" 
+            >Just nu har vi vårt Early Birdie erbjudande. Istället för {{price1}} kr betalar du {{price1 + 100}} fram till den sista december.</strong>
             <p
               v-if="!user.teams"
             >Du har ännu inget lag i Sveriges roligaste golftävling, skapa ett på knappen nedan.</p>
-            <div v-if="user.teams">
+            <div v-if="user.teams && competitionFetched">
               <p v-if="!user.teams[0].paid">
                 Anmälningskostnad per lag är
                 <strong>{{price1}} kr</strong> för privatpersoner och
                 <strong>{{price2}} kr</strong> (exkl. moms) för företag.
               </p>
             </div>
+            
+        
             <router-link
               v-if="!user.teams"
               class="btn blue-bg btn-md text-white mt-2 mr-2"
@@ -338,6 +396,9 @@
             >Skapa ett lag</router-link>
           </b-col>
         </b-row>
+        <div v-if="!competitionFetched && isAuthenticated" class="text-center pt-5 pb-5">
+          <b-spinner variant="success" type="grow" label="Spinning"></b-spinner>
+        </div>
 
         <b-row v-if="closed">
           <b-col class="col-12 mb-3 mt-3">
@@ -367,30 +428,7 @@
                             </b-row>
                             <hr class="d-block d-md-none" /> 
           </b-col>
-          <b-col class="col-12 col-md-6 p-0 mt-2 mt-md-0">           
-          <b-col class="col-12 mt-3">
-            <a
-              class="btn orange-bg btn-md text-white mt-2 mr-md-2"
-              href="https://www.facebook.com/matchplaysweden/"
-              target="_blank"
-            >
-              <i class="material-icons mr-2">facebook</i>Facebook
-            </a>
-            <a
-              class="btn orange-bg btn-md text-white mt-2"
-              href="https://www.instagram.com/matchplay_sweden/"
-              target="_blank"
-            >
-              <i class="material-icons mr-2">camera_alt</i>Instagram
-            </a>
-          </b-col>
-           <b-col class="col-12 mt-2">           
-            <p class="mt-4 small">
-              Se till att följa oss på våra
-              <strong>sociala medier</strong> för nyheter och tävlingar!
-            </p>
-          </b-col>
-          </b-col>
+     
 
         </b-row>
 
@@ -414,14 +452,14 @@
       <b-container>
         <b-row>
           <b-col class="col-12 text-left text-md-center">
-            <h1 class="orange">Deltagarröster från 2020</h1>
+            <h1 class="orange">Deltagarröster</h1>
             <testimonials :number=5 :register=true></testimonials>
           </b-col>
         </b-row>
       </b-container>
     </b-jumbotron>
     
-    <app-year-in-review :isMobile="isMobile" :year="2021"></app-year-in-review>
+    <app-year-in-review :isMobile="isMobile" :year="2021" :compid="prevcompid"></app-year-in-review>
     
     <b-jumbotron v-if="closed" container-fluid style="background-color: white">
       <b-container>
@@ -452,7 +490,7 @@
         <app-image-collage class="bg-image-collage d-flex justify-content-center" v-if="allGameImages.length" :numberOfImages="numberOfImages" :images="allGameImages"></app-image-collage>               
     </b-jumbotron>
 
-    <b-jumbotron container-fluid class="gradient mb-3" >
+    <b-jumbotron hidden container-fluid class="gradient mb-3" >
       <b-container class="mb-4 mt-4">      
         <b-row align-h="center">
           <b-col class="col-12 col-md-10 col-lg-10">
@@ -487,7 +525,7 @@
       </b-container>
     </b-jumbotron>
 
-    <b-jumbotron v-if="!closed" container-fluid class="white mb-3">
+    <b-jumbotron hidden v-if="!closed" container-fluid class="white mb-0">
       <b-container>
         <b-row>
           <b-col class="col-12">
@@ -533,10 +571,13 @@
       <b-container>
         <b-row>
           <b-col class="col-12 mt-4">
-            <h1 class="mb-5 text-white text-left text-md-center">Matchplay 2021</h1>
-            <p>Matchplay spelas 2021 i hela Sverige och är en tävling för 2-mannalag (herr, dam eller mixed). Officiellt HCP krävs för att delta. Tävlingsformen är 4-boll, Match/Bästboll. Beroende på antal anmälda lag kommer det bli 6-7 omgångar fram till Sverigefinalen. Varje omgång spelas inom 2 veckor (undantag 1:a omgången som är 4 veckor) där det vinnande laget går vidare i tävlingen.</p>
-            <p>Matcherna lottas med hänsyn till geografiskt läge och i de inledande omgångarna kan ni räkna med att få möta lag från närliggande golfklubbar. Ju längre man kommer i tävlingen (ungefär från omgång 4), och beroende på var man bor i Sverige, kan resorna bli lite längre. Hemmalaget bokar golftid och lagen står själva för ev. greenfee fram till Sverigefinalen.</p>
-            <p>Sverigefinalen görs upp 3-5 september mellan de åtta bästa lagen på Allerum Golfklubb strax utanför Helsingborg. Hotell, frukost, all golf samt en bankett på kvällen ingår. De 2 bästa lagen i Sverigefinalen åker med Matchplay till Spanska solkusten för att göra upp om titeln. Flyg, hotell och allt spel ingår för de bägge lagen.</p>
+            <h1 class="mb-5 text-white text-left text-md-center">Matchplay 2022</h1>
+            <p>Matchplay spelas 2022 i hela Sverige och är en tävling för 2-mannalag (herr, dam eller mixed). Officiellt HCP krävs för att delta. Tävlingsformen är 4-boll, Match/Bästboll. Beroende på antal anmälda lag kommer det bli 6-7 omgångar fram till Sverigefinalen. </p>
+            <p>Varje omgång spelas inom 2 veckor (undantag 1:a omgången som är 4 veckor) där det vinnande laget går vidare i tävlingen.</p>
+            <p>Matcherna lottas med hänsyn till geografiskt läge och i de inledande omgångarna kan ni räkna med att få möta lag från närliggande golfklubbar. </p>
+            <p>Ju längre man kommer i tävlingen (ungefär från omgång 4), och beroende på var man bor i Sverige, kan resorna bli lite längre. Hemmalaget bokar golftid och lagen står själva för ev. greenfee fram till Sverigefinalen. </p>
+            <p>Sverigefinalen görs upp 3-5 september mellan de åtta bästa lagen på Allerum Golfklubb strax utanför Helsingborg. Hotell, frukost, all golf samt en bankett på kvällen ingår.</p>
+            <p>De 2 bästa lagen i Sverigefinalen åker med Matchplay till Spanska solkusten för att göra upp om titeln. Flyg, hotell och allt spel ingår för de bägge lagen.</p>
             <p>Priset för deltagande i tävlingen är {{price1}}:-/lag för privatpersoner och {{price2}}:-/lag (exkl. moms) för företag. Varje lag är garanterat minst 2 matcher.</p>
 
             <app-rounds-grafic
@@ -547,7 +588,7 @@
               opacity="1"
               stagefill="white"
             ></app-rounds-grafic>
-            <p
+            <p hidden
               class="mt-3 small"
               style="font-style:italic;"
             >Denna visualisering kommer visa aktuell rond fram till finalen. Efter varje rond halveras antal lag då förlorarna blir utslagna. Förlorande lag i omgång 1 går till andra chansen.</p>
@@ -577,6 +618,32 @@
         </b-row>
       </b-container>
     </b-jumbotron>
+      <b-row align-h="center">
+          <b-col  class="col-12 mt-3 d-flex justify-content-center">
+            <a
+              class="btn orange-bg btn-md text-white mt-2 mr-2 "
+              href="https://www.facebook.com/matchplaysweden/"
+              target="_blank"
+            >
+              <i class="material-icons mr-2">facebook</i>Facebook
+            </a>
+            <a
+              class="btn orange-bg btn-md text-white mt-2"
+              href="https://www.instagram.com/matchplay_sweden/"
+              target="_blank"
+            >
+              <i class="material-icons mr-2">camera_alt</i>Instagram
+            </a>    
+          </b-col>
+        </b-row>
+      <b-row align-h="center">
+          <b-col cols="10" md="6" class="mt-3 ">
+              <p class="mt-4 small ">
+                Se till att följa oss på våra
+                <strong>sociala medier</strong> för nyheter och tävlingar!
+              </p>
+          </b-col>
+        </b-row>
      
 
   </div>
@@ -630,6 +697,10 @@ export default {
     window.removeEventListener("resize", this.handleResize);
   },
   created() {
+    const promise = this.$store.dispatch('getCompetition', globalState.compid)
+    promise.then(() => {
+      this.competitionFetched = true
+    })
     window.addEventListener("resize", this.handleResize);
 
     this.gameImages()
@@ -640,10 +711,10 @@ export default {
   
 
     //this.getTopListClubs();
-
-    /* setTimeout(() => {
+/* 
+     setTimeout(() => {
     this.showModal();                        
-  }, 2000); */
+  }, 2000);  */
  /*  var i;
   for (i = 0; i < this.images.length; i++) {
   this.preloadImage(this.images[i])
@@ -704,7 +775,7 @@ export default {
         //end
         this.getTeamsCount()
         
-        if (!response.data.competitionmessages.length) {
+        if (!response.data.competitionmessages || !response.data.competitionmessages.length) {
           return
         }
         this.messages = response.data.competitionmessages
@@ -776,8 +847,7 @@ export default {
       birdies: 0,    
       showhelper: false,  
       doctitle: this.$store.state.conferencename,
-      price1: globalState.price1,
-      price2: globalState.price2,
+     
       allGameImages:[],
       numberOfImages: 0,
       currentRound: null,
@@ -785,6 +855,8 @@ export default {
       gameRoundCount: null,
       loadingGameRoundCount: true,  
       windowWidth: window.innerWidth,
+      prevcompid: globalState.prevcompid,
+      competitionFetched: false
 
     };
   },
@@ -793,8 +865,13 @@ export default {
         ...mapGetters([
       "user",
       "isAuthenticated",
-      "getAllImages"
-    ]),
+      "getAllImages",
+      "isEarlyBirdie",
+      "price1",
+      "price2",
+      "price3",
+      "price4"
+      ]),
     isMobile() {
         if (this.windowWidth <= 576) {
           return true
@@ -980,9 +1057,9 @@ export default {
       img.src=url;
     },
     showModal() {
-      //if (localStorage.getItem('earlyBirdie2021') !== '2')
+      if (localStorage.getItem('earlyBirdie2022') !== '2')
       this.$refs['earlyBirdie'].show();
-      //localStorage.setItem('earlyBirdie2021', '2');
+      localStorage.setItem('earlyBirdie2022', '2');
     },
     toast(toaster,data, paidAt, append = false) {    
     //set delay 2-3 sekunder...
@@ -1404,7 +1481,7 @@ img {
 }
 
 .herobg0 {
-   background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_auto,e_colorize:50,co_rgb:000000/v1608122570/matchplay/IMG_1232.jpg);
+   background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_auto,e_colorize:50,co_rgb:000000/v1634639604/matchplay/241623315_297370888855635_7137633828161165670_n.jpg);
    background-position: right center;
 }
 
@@ -1477,4 +1554,32 @@ img {
     font-size: 0.8em;
   }
 }
+.openForBusiness {
+  top: 0; 
+  left: 0; 
+  border-bottom-right-radius: 130px;
+  background-color: #d08a3f7c;
+  color: white; 
+
+}
+.openForBusinessMobile {
+  top: 0; 
+  left: 0; 
+  width: 100%; 
+  background-color: #d08a3f7c;
+  color: white; 
+
+}
+.line1 {
+  padding-top: 1.5rem; 
+  font-size: 0.6rem;
+}
+.line2 {
+  font-size: 1.2rem;
+}
+
+.line3 {
+  font-size: 1.4rem;
+}
+
 </style>

@@ -31,6 +31,7 @@
     "vue-headful": "^2.1.0",
     "vue-light-gallery": "^1.0.1",
     "vue-mailchimp-subscribe": "^1.1.0",
+    "vue-meeting-selector": "^1.1.0",
     "vue-moment": "^4.1.0",
     "vue-nprogress": "^0.2.0",
     "vue-range-component": "^1.0.3",
