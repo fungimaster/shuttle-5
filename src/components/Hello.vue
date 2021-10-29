@@ -42,15 +42,16 @@
       <router-view> </router-view>
     </b-modal>-->
 
-    <div class="hero herobg0 position-relative" ref="slider">
-            <div class="d-none d-md-block position-absolute pl-2 pt-2 pb-5 pr-5  openForBusiness"> 
+    <div  class="hero herobg0" ref="slider">
+            <!-- <div  class="d-none d-md-block float-left pl-2 pt-2 pb-5 pr-5  openForBusiness"> 
              <div class="pt-3 ">
                 <span class="line1">ANMÄLAN ÄR</span>
                 <br>
                 <span class="line2">ÖPPEN!</span>
                 <br>                
              </div>
-            </div>
+            </div> -->
+      
              <div class="d-block d-md-none  text-center openForBusinessMobile"> 
              <div class="pt-3 pb-4">
                  <b-img
@@ -67,6 +68,8 @@
         
         <b-row align-h="center">
           <b-col class="col-12 col-md-12 mt-4 pt-2 mb-4">
+            <h2 class="d-none d-md-block line1">Anmälan är öppen!</h2>
+            <br>
             <h2>VÄLKOMMEN TILL MATCHPLAY 2022</h2>
             <h2 class=mb-3>- GOLFTÄVLINGEN FÖR BÅDE PRIVATPERSONER OCH FÖRETAG</h2>
              <a
@@ -1555,11 +1558,11 @@ img {
   }
 }
 .openForBusiness {
-  top: 0; 
-  left: 0; 
-  border-bottom-right-radius: 130px;
+
+  border-radius: 130px;
   background-color: #d08a3f7c;
   color: white; 
+
 
 }
 .openForBusinessMobile {
@@ -1571,8 +1574,8 @@ img {
 
 }
 .line1 {
-  padding-top: 1.5rem; 
-  font-size: 0.6rem;
+  letter-spacing: 10px;
+  font-size: 3rem;
 }
 .line2 {
   font-size: 1.2rem;
