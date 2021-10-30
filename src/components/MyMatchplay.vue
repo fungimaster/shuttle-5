@@ -469,7 +469,7 @@
             <b-container v-if="showteamslist && team.step === 0" class="">
                 <b-row align-h="center">
                     <b-col cols="12" lg="10" class="pl-1 pr-1">
-                        <b-alert dismissible  @dismissed="setCookie" v-if="!team.paid && isEarlyBirdie && showEarlyBirdie" show variant="warning" class="text-dark">Glöm inte bort att just nu har vi vårt Early Birdie erbjuande med ett reducerat ordinarie pris med 100 kr.</b-alert>
+                        <b-alert dismissible  @dismissed="setCookie" v-if="!team.paid && isEarlyBirdie && showEarlyBirdie" show variant="warning" class="text-dark">Glöm inte bort att just nu har vi vårt Early Birdie erbjudande med ett reducerat ordinarie pris med 100 kr.</b-alert>
                     </b-col>
                     <b-col sm="10" lg="6" class="team pl-1 pr-1 pb-2" v-for="(team,idx) in teams" :key="idx">
                         <b-button :id="'delete-team-' + idx" v-if="team.teamleader && !team.paid" @click="removeTeam(team)" variant="" class="btn-sm delete-team"><i class="material-icons">delete</i></b-button>
