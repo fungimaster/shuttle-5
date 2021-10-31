@@ -321,7 +321,7 @@
             <p>
               Nu kör vi Early Birdie priser fram till den 31 december!
               Anmälningskostnad per lag 
-              <strong class="text-dark">{{price4}} kr</strong> (ordinarie pris {{price1}} + 100 kr) för privatpersoner och
+              <strong class="text-dark">{{price4}} kr</strong> (ordinarie pris {{price1 + 100 }} kr) för privatpersoner och
               <strong>{{price2}} kr</strong> (exkl. moms) för företag.
             </p>
             <b-alert show variant="warning" class="mt-3 mb-3 small text-dark">Glöm inte att anmälningsavgiften kan användas som <strong>friskvårdsbidrag</strong>. Golftävlingar är godkända som bidrag sedan 2020. <strong>Kvitto</strong> erhålls automatiskt efter betalning.</b-alert>
