@@ -147,6 +147,7 @@
                 class="btn blue-bg btn-md text-white mt-2 mr-2"
               >Anmälan</a>
               <a
+                hidden
                 v-if="!isAuthenticated && !closed"
                 href="#more"
                 class="btn blue-bg btn-md text-white mt-2 mr-2"
@@ -293,10 +294,15 @@
     </div>
     <!-- TEMP HIDDEN -->
         
+    
+    <div id="earlyBirdie"></div>
+    <div v-if="!competitionFetched && isAuthenticated" class="text-center pt-5 pb-5">
+      <b-spinner variant="success" type="grow" label="Spinning"></b-spinner>
+    </div>
 
     <b-jumbotron container-fluid class="white mb-0">
       <b-container>
-        <b-row v-if="!isAuthenticated" id="earlyBirdie">
+        <b-row v-if="!isAuthenticated" >
             <b-col hidden v-if="closed" class="col-12">
               <h1>Statistik 2021</h1>
               Anmälda lag: 523<br>
@@ -406,9 +412,7 @@
             >Skapa ett lag</router-link>
           </b-col>
         </b-row>
-        <div v-if="!competitionFetched && isAuthenticated" class="text-center pt-5 pb-5">
-          <b-spinner variant="success" type="grow" label="Spinning"></b-spinner>
-        </div>
+    
 
         <b-row v-if="closed">
           <b-col class="col-12 mb-3 mt-3">
