@@ -1460,7 +1460,7 @@ img {
 .herobg0, .herobg1, .herobg2 {
   background-size: cover !important;
   background-repeat: no-repeat !important;
-  z-index: -1;
+  
 }
 
 .herobg0 {

@@ -37,7 +37,7 @@
           ></b-nav-item>
           <b-nav-item v-if="companies" to="/business">Företagslag</b-nav-item>
           <b-nav-item to="/info">Om tävlingen</b-nav-item>
-          <b-nav-item-dropdown text="Tidigare tävlingar" right>
+          <b-nav-item-dropdown text="Tidigare tävlingar" right class="setOnTop">
             <b-dropdown-item to="/tavlingar/2021">2021</b-dropdown-item>
             <b-dropdown-item to="/tavlingar/">Alla tävlingar</b-dropdown-item>
           </b-nav-item-dropdown>
@@ -149,6 +149,9 @@ export default {
 .nav-item {
   font-size: 18px;
   line-height: 33px;
+}
+.dropdown-menu-right  {
+  z-index:100;
 }
 .material-icons {
   font-size: 35px;
