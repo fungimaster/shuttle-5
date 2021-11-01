@@ -67,7 +67,7 @@
       <b-container class="pl-4 pr-4">
         
         <b-row align-h="center">
-          <b-col class="col-12 col-md-12 mt-4 pt-2 mb-4">
+          <b-col class="col-12 col-md-12 mt-4 pt-2 pb-0 pb-md-5">
             <!-- <h2 class="d-none d-md-block line1">Anmälan är öppen!</h2> -->
             <br>
             <h2>VÄLKOMMEN TILL MATCHPLAY 2022</h2>
@@ -78,11 +78,7 @@
                 href="/register"
                 class="btn blue-bg btn-md text-white mt-2 mr-2"
               >Anmälan</a>
-              <a
-                href="#earlyBirdie"
-                class="btn btn-success text-white btn-sm mt-2 mr-2"
 
-              >JUST NU EARLY BIRDIE PRIS</a>
             <!-- <b-button variant="success" size="sm" v-if="isEarlyBirdie" class=" p-1 pt-2 rounded bg-success">JUST NU EARLY BIRDIE PRIS</b-button>  -->
 
           </b-col>
@@ -115,7 +111,7 @@
               <b-alert hidden variant="info" class="small mt-3">Lag från mer än 50% av Sveriges golfklubbar finns nu representerade i tävlingen!</b-alert>              
             </p>
             <p
-              class="mt-3 mt-md-0 pb-5"
+              class="mt-3 mt-md-0 pb-3 pb-md-5"
             >Matchplay är en matchspelstävling för par med officiellt handicap. <span hidden>Par kan vara män, kvinnor eller mix. </span> </p>
             
             <p hidden
@@ -176,9 +172,16 @@
 
               <p v-if="closed && !isAuthenticated">Anmälan till årets tävling har tyvärr stängt, välkommen tillbaka nästa år, anmälan öppnar i december 2021.</p>
               
+              <a
+                href="#earlyBirdie"
+                :class="isMobile ? 'w-100' : ''"
+                class="btn btn-success text-white mt-2 mr-2"
+
+              >JUST NU EARLY BIRDIE PRIS</a>
               <router-link
                 v-if="isAuthenticated"
                 class="btn blue-bg btn-md text-white mt-2 mr-2"
+                :class="isMobile ? 'w-100' : ''"
                 to="/mymatchplay"
               >Lag- och matchhantering</router-link>
               <router-link
@@ -377,17 +380,23 @@
               </div>
             </div>
             <strong v-if="isEarlyBirdie" 
-            >Just nu har vi vårt Early Birdie erbjudande. Istället för {{price1 + 100}} kr betalar du {{price1}} fram till den sista december.</strong>
+            >Just nu har vi vårt Early Birdie erbjudande. Istället för {{price1}} kr betalar du {{price1 + 100}} fram till den sista december.</strong>
             <p
               v-if="!user.teams"
             >Du har ännu inget lag i Sveriges roligaste golftävling, skapa ett på knappen nedan.</p>
-            <div v-if="user.teams && competitionFetched">
+            <div v-if="user.teams && competitionFetched" class="mt-3">
               <p v-if="!user.teams[0].paid">
                 Anmälningskostnad per lag är
                 <strong>{{price1}} kr</strong> för privatpersoner och
                 <strong>{{price2}} kr</strong> (exkl. moms) för företag.
               </p>
             </div>
+            <router-link
+                v-if="!closed && isAuthenticated && !user.teams[0].paid"
+                class="btn blue-bg btn-md text-white mt-2 mr-2 "
+                :class="isMobile ? 'w-100' : ''"
+                to="/register"
+              >Gå till anmälan</router-link>
             
         
             <router-link
@@ -416,7 +425,6 @@
 
         
 
-        <hr v-if="!closed" class="mt-4 mb-4 mt-md-5 mb-md-4" />
         <b-row align-h="center">
           <b-col v-if="latestTeam && !closed" class="col-12 col-md-6">
             <b-row align-h="center" class="align-items-center h-100">
@@ -447,7 +455,7 @@
       </b-container>
     </b-jumbotron>
 
-     <howitworks v-if="!closed && (!isAuthenticated || !user)"></howitworks>
+    <howitworks v-if="!closed && (!isAuthenticated || !user)"></howitworks>
     
     <b-jumbotron v-if="!closed" container-fluid class="white mb-0">
       <b-container>
@@ -459,9 +467,11 @@
         </b-row>
       </b-container>
     </b-jumbotron>
+  
+    <app-call-to-action v-if="!isAuthenticated"/>
     
     <app-year-in-review :isMobile="isMobile" :year="2021" :compid="prevcompid"></app-year-in-review>
-    
+
     <b-jumbotron v-if="closed" container-fluid style="background-color: white">
       <b-container>
         <b-row>
@@ -626,6 +636,7 @@ import Howitworks from "./Howitworks";
 import ScorecardExplainer from "./ScorecardExplainer";
 import AppImageCollage from "./ImageCollage";
 import AppYearInReview from "./YearInReview";
+import AppCallToAction from "./CallToAction";
 import Podium from "./Podium";
 import { globalState } from "../main.js";
 
@@ -784,7 +795,8 @@ export default {
     Howitworks, 
     ScorecardExplainer,
     AppImageCollage,
-    AppYearInReview
+    AppYearInReview,
+    AppCallToAction
   },
   data() {
     return {
