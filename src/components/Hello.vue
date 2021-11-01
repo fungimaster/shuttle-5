@@ -398,7 +398,7 @@
               </p>
             </div>
             <router-link
-                v-if="!closed && isAuthenticated && !user.teams[0].paid"
+                v-if="!closed && isAuthenticated && user.teams.length && !user.teams[0].paid"
                 class="btn blue-bg btn-md text-white mt-2 mr-2 "
                 :class="isMobile ? 'w-100' : ''"
                 to="/register"

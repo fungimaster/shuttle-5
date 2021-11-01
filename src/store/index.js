@@ -343,7 +343,6 @@ export default new Vuex.Store({
       });
     },
     getCompetition: ({ commit }, compid) => {
-    console.log("compid", compid)
       return new Promise((resolve, reject) => {
         this.$axios
         axios

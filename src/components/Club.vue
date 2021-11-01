@@ -37,7 +37,7 @@
           <h5 class>LAGBILJETT 2022**: {{ tickets }}</h5>
           <small class="d-block text-black-50 mb-2"
             >* Uträkningen antar {{ totaltTeams }} deltagande lag
-            och {{ rounds }} spelrundor. 2021 deltog 780 lag och 8 rundor spelas.
+            och {{ rounds }} spelrundor. 2022 deltog 780 lag och 8 rundor spelas.
           </small>
           <small class="d-block text-black-50">
             Siffran bygger vidare på på att alla är garanterade två matcher, att det är 50
@@ -83,7 +83,7 @@
 
           <b-alert show variant="warning" class="mt-3 small"
             >Om ni får {{ teams }} lag att välja er klubb som hemmaklubb i
-            Matchplay 2021 beräknar vi att ni kommer få {{ players }} nya gäster
+            Matchplay 2022 beräknar vi att ni kommer få {{ players }} nya gäster
             som besöker er anläggning. Vi beräknar att {{ games }} matcher
             kommer spelas på er anläggning med hänsyn till huvudtävling och
             andra chansen. Er snittgreenfee i perioden maj-september är
@@ -168,7 +168,7 @@
             av de vanligaste:
           </p>
           <ul>
-            <li>
+            <li hidden>
               <a
                 href="https://res.cloudinary.com/dn3hzwewp/image/upload/v1608284620/matchplay/Matchplay_2021_flyer_new.pdf"
                 target="_blank"
