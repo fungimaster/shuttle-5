@@ -3751,8 +3751,8 @@ export default {
                     this.userdetails.golfid = userinfo.golfid;
                     this.userdetails.hcp = userinfo.hcp;
                     this.userdetails.email = userinfo.email;
-                    this.userdetails.mobile = "+46" + userinfo.mobile
-                    this.team.swish.mobile = "+46" + userinfo.mobile.slice(1)
+                    this.userdetails.mobile = userinfo.mobile
+                    this.team.swish.mobile = userinfo.mobile
                     if (userinfo.hasOwnProperty('isambassador')) {
                         this.userdetails.isambassador = userinfo.isambassador;
                     } else {
