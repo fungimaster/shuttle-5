@@ -428,22 +428,22 @@
         </b-row>
 
         
-
-        <b-row align-h="center">
+        <hr class="mt-5" >
+        <b-row align-h="center" class="mt-5 mb-5">
           <b-col v-if="latestTeam && !closed" class="col-12 col-md-6">
+            
             <b-row align-h="center" class="align-items-center h-100">
-                             <b-col class="col-3 mx-auto text-center text-md-right pl-0 pr-0">                              
-                                  <b-img class="" :src="getClubImage2(latestTeamLogo)"></b-img> 
-                            </b-col>
-                             <b-col class="col-7 small mx-auto pl-0 pr-0 text-left">
-                                {{latestTeam}} <router-link to="/klubbar">Lag från mer än 50% av Sveriges golfklubbar är nu representerade i tävlingen!</router-link>.
-                             </b-col>
-                            </b-row>
-                            <hr class="d-block d-md-none" /> 
+              <b-col class="col-3 mx-auto text-center text-md-right pl-0 pr-0">                              
+                  <b-img class="" :src="getClubImage2(latestTeamLogo)"></b-img> 
+            </b-col>
+              <b-col class="col-7 small mx-auto pl-0 pr-0 text-left">
+                {{latestTeam}} <router-link hidden to="/klubbar">Lag från mer än 50% av Sveriges golfklubbar är nu representerade i tävlingen!</router-link>
+              </b-col>
+            </b-row>
+            
           </b-col>
-     
-
         </b-row>
+        <hr class="" /> 
 
         <b-row v-if="showTopClubs && !closed">
           <b-col class="col-12 mt-3">
@@ -772,7 +772,7 @@ export default {
 
   //let latestTeam = localStorage.getItem('latestTeam');
   this.latestTeam = null;
-    
+  this.getlatestteam()  
   
        
     
@@ -1459,7 +1459,8 @@ img {
 
 .herobg0, .herobg1, .herobg2 {
   background-size: cover !important;
-   background-repeat: no-repeat !important;
+  background-repeat: no-repeat !important;
+  z-index: -1;
 }
 
 .herobg0 {
