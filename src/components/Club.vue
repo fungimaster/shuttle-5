@@ -37,7 +37,7 @@
           <h5 class>LAGBILJETT 2022**: {{ tickets }}</h5>
           <small class="d-block text-black-50 mb-2"
             >* Uträkningen antar {{ totaltTeams }} deltagande lag
-            och {{ rounds }} spelrundor. 2022 deltog 780 lag och 8 rundor spelas.
+            och {{ rounds }} spelrundor. 2021 deltog 780 lag och 8 rundor spelas.
           </small>
           <small class="d-block text-black-50">
             Siffran bygger vidare på på att alla är garanterade två matcher, att det är 50
