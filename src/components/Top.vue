@@ -30,17 +30,17 @@
             <b-badge hidden class="new" pill variant="danger"
               ><i class="fa fa-circle"></i></b-badge
           ></b-nav-item>
-          <b-nav-item hidden to="/klubbar"
+          <b-nav-item to="/klubbar"
             >Klubbar
             <b-badge hidden class="new" pill variant="danger"
               ><i class="fa fa-heart"></i></b-badge
           ></b-nav-item>
           <b-nav-item v-if="companies" to="/business">Företagslag</b-nav-item>
           <b-nav-item to="/info">Om tävlingen</b-nav-item>
-          <b-nav-item-dropdown text="Tidigare tävlingar" right class="setOnTop">
-            <b-dropdown-item to="/tavlingar/2021">2021</b-dropdown-item>
-            <b-dropdown-item to="/tavlingar/">Alla tävlingar</b-dropdown-item>
-          </b-nav-item-dropdown>
+
+          <b-nav-item  to="/tavlingar"
+            >Tidigare tävlingar
+          </b-nav-item>          
 
           <b-nav-item hidden to="/ping">PING</b-nav-item>
           <!--a class="nav-item nav-link text-dark show-search-button nav-link" href="#search" data-toggle="collapse" aria-expanded="false" aria-controls="search"><i class="material-icons mobile-search">search</i></a-->
@@ -150,9 +150,7 @@ export default {
   font-size: 18px;
   line-height: 33px;
 }
-.dropdown-menu-right  {
-  z-index:100;
-}
+
 .material-icons {
   font-size: 35px;
 }
