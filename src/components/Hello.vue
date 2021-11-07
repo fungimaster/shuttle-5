@@ -386,7 +386,7 @@
               </div>
             </div>
             <strong v-if="isEarlyBirdie" 
-            >Just nu har vi vårt Early Birdie erbjudande. Istället för {{price1 +100}} kr betalar du {{price1}} fram till den sista december.</strong>
+            >Just nu har vi vårt Early Birdie erbjudande. Istället för {{price1 +100}} kr betalar du {{price1}} kr fram till den sista december.</strong>
             <p
               v-if="!user.teams"
             >Du har ännu inget lag i Sveriges roligaste golftävling, skapa ett på knappen nedan.</p>
