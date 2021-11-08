@@ -880,7 +880,7 @@
                                         <b-spinner v-if="showspinner_2" small type="grow" class="mr-2"></b-spinner> <span v-if="showSearchPlayerAlert">Uppdatera spelarinfo</span> <span v-else>Sök spelare</span> 
                                     </b-button>
                                 </b-form-group>
-                                <b-alert show dismissible v-if="showSearchPlayerAlert" variant="primary" class="mt-2"><span class="text-dark">Din lagkamrats golfid är sparat sedan tidigare men HCP måste uppdateras. Tryck uppdatera spelareinfo för komma vidare.</span>  </b-alert>
+                                <b-alert show dismissible v-if="showSearchPlayerAlert && !team.showplayer2" variant="primary" class="mt-2"><span class="text-dark">Tryck på knappen ”Uppdatera spelarinfo” ovan för att komma vidare.</span>  </b-alert>
 
                                 <b-alert v-if="team.showplayer2" :variant="team.checkgolfidvariant2" show class="mt-4 small form-text">
                                     <span v-if="team.ownid != ''">{{team.ownid}}</span>
