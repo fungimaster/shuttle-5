@@ -231,8 +231,7 @@
                   <b-form-input id="hcp" v-model="form.hcp" type="text" required readonly></b-form-input>
                 </b-form-group>
                 <hr>
-                <b-form-group  
-                  v-if="!editEmail"
+                <!-- <b-form-group  
                   id="input-group-1"
                   label="E-post"
                   label-for="input-1"
@@ -242,15 +241,15 @@
                   class="mb-1"
                   >
 
-                <b-input-group>
+                 <b-input-group>
                   <b-form-input id="hcp" v-model="form.email" type="text" required readonly></b-form-input>
                   <b-input-group-append>
                     <b-button variant="warning" @click="editEmail = true, form.email = ''"><i class="fas fa-pen"></i></b-button>
                   </b-input-group-append>
-                </b-input-group>
-                </b-form-group>
+                </b-input-group> 
+                </b-form-group> -->
 
-                <b-form-group
+                <!-- <b-form-group
                   v-if="!editMobile"
                   id="input-group-1"
                   label="Mobil"
@@ -266,7 +265,7 @@
                     <b-button variant="warning" @click="editMobile = true, form.mobile = ''"><i class="fas fa-pen"></i></b-button>
                   </b-input-group-append>
                 </b-input-group>  
-                </b-form-group>
+                </b-form-group> -->
 
                 <hr class="mt-3 mb-3">
 
@@ -288,7 +287,6 @@
                   </b-col>
                   <b-col class="col-12 col-md-12">
                     <b-form-group
-                      v-if="editMobile"
                       id="input-group-mobile"
                       label="Mobilnr"
                       label-for="input-1-mobile"
@@ -300,7 +298,6 @@
                       <vue-tel-input v-model="form.mobile" v-bind="bindProps"></vue-tel-input>
                     </b-form-group>
                     <b-form-group  
-                      v-if="editEmail" 
                       id="input-group-1" 
                       label="E-post" 
                       label-for="input-1"
@@ -636,21 +633,21 @@ components: {
           this.form.lastname = response.data.lastname.substring(0, 2) + xlen;
 
 
-          xlen = '*';
-          let email = response.data.email
-          for (var i = 0; i < email.length-10; i++) {
-            xlen += '*'
-          }
-          let emailEnding = email.substring(email.length -6)
-          this.form.email = response.data.email.substring(0, 4) + xlen + emailEnding
+          // xlen = '*';
+          // let email = response.data.email
+          // for (var i = 0; i < email.length-10; i++) {
+          //   xlen += '*'
+          // }
+          // let emailEnding = email.substring(email.length -6)
+          // this.form.email = response.data.email.substring(0, 4) + xlen + emailEnding
 
-          xlen = '*';
-          let phone = response.data.phone
-          for (var i = 0; i < phone.length-9; i++) {
-            xlen += '*'
-          }
-          let phoneEnding = phone.substring(phone.length -3)
-          this.form.mobile = response.data.phone.substring(0, 4) + xlen + phoneEnding
+          // xlen = '*';
+          // let phone = response.data.phone
+          // for (var i = 0; i < phone.length-9; i++) {
+          //   xlen += '*'
+          // }
+          // let phoneEnding = phone.substring(phone.length -3)
+          // this.form.mobile = response.data.phone.substring(0, 4) + xlen + phoneEnding
 
 
 
