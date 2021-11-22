@@ -401,8 +401,8 @@
                 v-if="!closed && isAuthenticated && user.teams.length && !user.teams[0].paid"
                 class="btn blue-bg btn-md text-white mt-2 mr-2 "
                 :class="isMobile ? 'w-100' : ''"
-                to="/register"
-              >Gå till anmälan</router-link>
+                to="/mymatchplay"
+              >Gå till lagasida</router-link>
             
         
             <router-link
