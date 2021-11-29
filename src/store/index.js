@@ -124,7 +124,7 @@ export default new Vuex.Store({
       winners: [
         {
           club: "Kårsta GK",
-          name: "Carlsson/Lindström",
+          name: "Lind/Strömberg",
         }
       ],
       price:
