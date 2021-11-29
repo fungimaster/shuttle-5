@@ -30,13 +30,17 @@
                 pl-3
               "
             >
+            <!--
+              https://res.cloudinary.com/dn3hzwewp/image/upload/w_1000,ar_1:1,c_fill,g_auto,e_art:zorro/v1631006181/matchplay/vinnare.jpg
+              
+              -->
               <b-img
                 class="img"
                 fluid
                 :src="
                   myImages
                     ? myImages
-                    : 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_1000,ar_1:1,c_fill,g_auto,e_art:zorro/v1631006181/matchplay/vinnare.jpg'
+                    : 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_1000,ar_1:1,c_fill,g_auto,e_art:zorro/v1638199895/matchplay/IMG_5205.jpg'
                 "
               ></b-img>
             </div>
@@ -51,6 +55,16 @@
                   >
                     <small class="d-block color-yellow">{{
                       winner.name
+                    }}</small>
+                  </div>
+                       <small class="text-light">Runner up </small>
+
+                  <div
+                    v-for="second in competition.second"
+                    :key="second.index"
+                  >
+                    <small class="d-block color-yellow">{{
+                      second.name
                     }}</small>
                   </div>
                 </b-col>

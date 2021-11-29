@@ -667,7 +667,8 @@
                                 </div>
                                 <b-card class="mt-0 mb-1 pt-0" no-body>
                                     <b-card-header>
-                                        Ditt lag<span v-if="team.name != ''">: {{team.name}}</span>                                        
+                                        <span v-if="team.name != ''">{{team.name}}</span>
+                                        <span v-if="team.name === ''">Ditt lag</span>                                      
                                         <img class="overview-logo" v-bind:src="team.logo" v-if="team.type === 'Company'" />
                                     </b-card-header>
                                     <b-card-body>
@@ -685,8 +686,8 @@
                                                 <span id="tooltip-team-type">
                                                     <i class="material-icons mr-2">label</i>
                                                     <span v-if="team.type === 'Private'">Privat</span>
-                                                    <span v-if="team.type === 'Company'">Företag</span>
-                                                    <span v-if="team.type === 'Company' && team.company != ''">: {{team.company}}</span>
+                                                    <span hidden v-if="team.type === 'Company'">Företag</span>
+                                                    <span v-if="team.type === 'Company' && team.company != ''">{{team.company}}</span>
                                                     <b-tooltip target="tooltip-team-type" triggers="hover" placement="top">
                                                         Lagtyp
                                                     </b-tooltip>
@@ -1005,7 +1006,7 @@
                                 </b-form-group>
 
                                 <!-- Invoice -->
-                                <b-form-group v-if="team.payment === 'B' && team.type==='Company'">
+                                <b-form-group v-if="team.payment === 'B' && team.type==='Company'">                                   
                                     <label for="name">Fakturauppgifter</label>
                                     <span v-if="team.type==='Company' && !useDiscount">{{team.price_company}} SEK (exkl. moms)</span>
                                      <span v-if="team.type==='Company' && useDiscount" > 
@@ -1023,6 +1024,7 @@
                                 </b-form-group>
 
                                 <!-- Voucher -->
+                                
                                 <b-form-group v-if="team.payment === 'C'">
                                     <label for="name">Voucher</label>
                                     <b-form-input @focus="team.validatevoucher = true" aria-describedby="no-voucher" id="voucher" v-model="team.voucher" required placeholder="Skriv in din voucherkod här" :state="validate_voucher">

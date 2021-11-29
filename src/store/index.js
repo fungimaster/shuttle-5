@@ -33,48 +33,50 @@ export default new Vuex.Store({
       _id: "8dmNL5K5ypaHbTbEM",
       hcps: hcps,
       competitionname: "2021",
-      competitionpictureurl:
+      competitionpictureurl_old:
         "https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_auto,e_colorize:60,co_rgb:000000,e_blur:300/v1631006181/matchplay/vinnare.jpg",
+      competitionpictureurl:
+      "https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_auto,e_colorize:60,co_rgb:000000,e_blur:300/v1638199895/matchplay/IMG_5205.jpg",
       finalteams: [
         {
           club: "Vadstena GK",
-          name: "Johansson/Gustafsson",
+          name: "Johansson/Gustafsson"
         },
         {
           club: "Bollnäs GK",
-          name: "Brosten/Sigvardsson",
+          name: "Brosten/Sigvardsson"
         },
         {
           club: "Arninge GK",
-          name: "Andersson/Hamilton",
+          name: "Andersson/Hamilton"
         },
         {
           club: "PGA Sweden National",
-          name: "Carlsson/Hall",
+          name: "Carlsson/Hall"
         },
         {
           club: "Örebro City GCC",
-          name: "Sahlin/Jungander",
+          name: "Sahlin/Jungander"
         },
         {
           club: "Bokskogen GK/Holms GK",
-          name: "Wennolf/Ljungberg",
+          name: "Wennolf/Ljungberg"
         },
         {
           club: "Lyckorna GK/Onsjö GK",
-          name: "Landberg/Bengtsson",
+          name: "Landberg/Bengtsson"
         },
         {
           club: "Mauritzbergs SI/Göteborgs Golf",
-          name: "Söderström/Wakeus",
+          name: "Söderström/Wakeus"
         },
         {
           club: "Skepparslövs GK",
-          name: "Kullberg/Johansson",
+          name: "Kullberg/Johansson"
         },
         {
           club: "Örebro City GCC",
-          name: "Andersson/Berggren",
+          name: "Andersson/Berggren"
         },
       ],
       presentation:
@@ -98,33 +100,37 @@ export default new Vuex.Store({
         teams: 712,
       },
       video1: {
-        bgimage:
-          "https://res.cloudinary.com/dn3hzwewp/image/upload/v1631006660/matchplay/videoimage2.png",
+        bgimage: "https://res.cloudinary.com/dn3hzwewp/image/upload/v1631006660/matchplay/videoimage2.png",
         headline: "Live från finaldagen 2021",
         text: "Sverigefinalen 2021 spelades på Allerums GK. Matcherna gick att följa live på hemsidan och på Facebook publicerades livesändningar likt denna.",
-        url: "https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Fmatchplaysweden%2Fvideos%2F2991832374362345%2F&show_text=false&width=560&autoplay=true&t=0",
+        url: "https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Fmatchplaysweden%2Fvideos%2F2991832374362345%2F&show_text=false&width=560&autoplay=true&t=0"
       },
       video2: {
-        bgimage:
-          "https://res.cloudinary.com/dn3hzwewp/image/upload/v1631006653/matchplay/videoimage1.png",
+        bgimage: "https://res.cloudinary.com/dn3hzwewp/image/upload/v1631006653/matchplay/videoimage1.png",
         headline: "Dramatik in i det sista!",
-        text: "All square in för sista och avgörande hålet! Arvid ligger pin high för en birdieputt och har inga slag på hålet. I andra laget har Jonatan på tre slag en chip på ca 10 meter och inga slag på hålet. Se den dramatiska upplösningen",
-        url: "https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Fmatchplaysweden%2Fvideos%2F2779410105631927%2F&show_text=false&width=560&&autoplay=true&t=0",
+        text: "All square in för sista och avgörande hålet! Arvid ligger pin high för en birdieputt och har inga slag på hålet. I andra laget har Jonatan på tre slag en chip på ca 10 meter och inga slag på hålet. Se den dramatiska upplösningen från Sverigefinalen på Allerum.",
+        url: "https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Fmatchplaysweden%2Fvideos%2F2779410105631927%2F&show_text=false&width=560&&autoplay=true&t=0"
       },
       winnersSF: [
         {
           club: "Kårsta GK",
-          name: "Carlsson/Lindström",
+          name: "Carlsson/Lindström"
         },
         {
           club: "Borås GK",
-          name: "Lind/Strömberg",
+          name: "Lind/Strömberg"
         },
       ],
       winners: [
         {
+          club: "Borås GK",
+          name: "Lind/Strömberg"
+        }
+      ],
+      second: [
+        {
           club: "Kårsta GK",
-          name: "Lind/Strömberg",
+          name: "Carlsson/Lindström"
         }
       ],
       price:
@@ -165,17 +171,17 @@ export default new Vuex.Store({
       winnersSF: [
         {
           club: "",
-          name: "Carnor/Wedin",
+          name: "Carnor/Wedin"
         },
         {
           club: "",
-          name: "Christiansson/ Nileskär",
+          name: "Christiansson/ Nileskär"
         },
       ],
       winners: [
         {
           club: "",
-          name: "Christiansson/ Nileskär",
+          name: "Christiansson/ Nileskär"
         }
       ],
     }
