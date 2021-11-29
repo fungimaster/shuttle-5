@@ -43,7 +43,7 @@
     <!-- WINNERS -->
     <div class="wallpaperContainer1 p-0 m-0" v-if="competition.winners">
       <div class="pt-5 pb-5">
-        <h2>Årets SF Vinnare</h2>
+        <h2>Årets Vinnare</h2>
         <div
           class="text-center text-color-light mt-5"
           v-for="winners in competition.winners"
@@ -54,8 +54,20 @@
           </h2>
           <small class="mt-0">{{ winners.club }}</small>
         </div>
+        <h3 class="pt-5 mt-5 pb-2" >Årets Sverigefinal Vinnare</h3>
+        <div
+          class="text-center text-color-light "
+          v-for="winners in competition.winnersSF"
+          :key="winners.index"
+        >
+          <h5>
+            <strong class="mb-0"> {{ winners.name }} </strong>
+          </h5>
+          <small class="mt-0">{{ winners.club }}</small>
+        </div>
+    </div>
 
-        <hr />
+     <hr />
         <h3
           class="text-center text-color-light mt-5 mb-4"
           v-if="competition.finalteams"
@@ -73,7 +85,6 @@
           <small class="mt-0">{{ players.club }}</small>
         </div>
       </div>
-    </div>
 
     <!-- Price -->
     <div class="wallpaperContainer5" v-if="competition.price">

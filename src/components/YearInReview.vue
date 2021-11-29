@@ -43,7 +43,7 @@
             <div class="w-100 mt-5">
               <b-row>
                 <b-col cols="6">
-                  <small class="text-light">SF Vinnare </small>
+                  <small class="text-light">Vinnare </small>
 
                   <div
                     v-for="winner in competition.winners"
