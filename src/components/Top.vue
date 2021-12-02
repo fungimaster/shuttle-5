@@ -35,7 +35,7 @@
             <b-badge hidden class="new" pill variant="danger"
               ><i class="fa fa-heart"></i></b-badge
           ></b-nav-item>
-          <b-nav-item v-if="companies" to="/business">Företagslag</b-nav-item>
+          <b-nav-item hidden v-if="companies" to="/business">Företagslag</b-nav-item>
           <b-nav-item to="/info">Om tävlingen</b-nav-item>
 
           <b-nav-item  to="/tavlingar"

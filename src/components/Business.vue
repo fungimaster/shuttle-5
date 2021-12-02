@@ -91,11 +91,11 @@ import { globalState } from "../main.js";
         this.loading = false;         
       }
 
-      if (this.fetchedcompanies) {
+  /*     if (this.fetchedcompanies) {
           handleResponse(this.$store.state.companies)
           return
       }
-  
+   */
       
       this.axios
         .post(globalState.admin_url + "getPaidCompanyTeams", {
