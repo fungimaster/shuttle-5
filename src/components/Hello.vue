@@ -83,22 +83,22 @@
 
           </b-col>
 
-          <b-col hidden v-if="!closed" class="col-12 col-md-6 mt-4 mb-3 mb-md-4 text-center" id="countdown">
-            <h4 class="mb-3 mb-md-4">Anmälan stänger om:</h4>
+          <b-col  v-if="!closed" class="col-12 col-md-6 mt-4 mb-3 mb-md-4 text-center" id="countdown">
+            <h4 class="mb-3 mb-md-4">Early bird pris slutar gälla om:</h4>
             <b-row align-h="center">
-            <b-col hidden class="col-4 col-md-4 p-0">
+            <b-col  class="col-3  p-0">
               <span id="days" class="blink-fast red days timenumbers">01</span>
           <p class="timeRefDays timedescription">dag</p>
             </b-col>
-            <b-col class="col-4 col-md-4 p-0">
-              <span id="hours" class="blink-fast red hours timenumbers">00</span>
+            <b-col class="col-3  p-0">
+              <span id="hours" class="hours timenumbers">00</span>
           <p class="timeRefHours timedescription">timmar</p>
             </b-col>
-            <b-col class="col-4 col-md-4 p-0">
+            <b-col class="col-3 p-0">
               <span id="minutes" class="minutes timenumbers">00</span>
           <p class="timeRefMinutes timedescription">minuter</p>
             </b-col>
-            <b-col class="col-4 p-0">
+            <b-col class="col-3  p-0">
               <span id="seconds" class="seconds timenumbers">00</span>
           <p class="timeRefSeconds timedescription">sekunder</p>
             </b-col>
@@ -671,7 +671,7 @@ let options = {};
 
 export default {
   mounted() {
-  //this.countdown();
+  this.countdown();
   this.getGamesInprogress();   
   },
   destroyed() {
@@ -995,7 +995,7 @@ export default {
         hour = minute * 60,
         day = hour * 24;
 
-      let closedate = "April 30, 2021 23:59:00",
+      let closedate = "December 31, 2021 23:59:59",
       //let closedate = "March 25, 2021 17:21:00",
       countDown = new Date(closedate).getTime(),
       x = setInterval(function() {    
@@ -1160,7 +1160,7 @@ export default {
                     display: block;
                     font-size: 2rem;
                     font-weight: 600;
-                    line-height:100px;
+                    line-height:80px;
                     margin: 0 auto;
                     text-align: center;
                     @media (min-width: 500px) {
@@ -1174,8 +1174,8 @@ export default {
                   border-color: rgba(0,0,0,0.3);
                   border-style: solid;
                   color:#000;
-                  width:100px;
-                  height:100px;
+                  width:80px;
+                  height:80px;
                   background: rgba(255,255,255,0.7);
                   
                  
