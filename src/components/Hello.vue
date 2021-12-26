@@ -84,11 +84,11 @@
           </b-col>
 
           <b-col  v-if="!closed" class="col-12 col-md-6 mt-4 mb-3 mb-md-4 text-center" id="countdown">
-            <h4 class="mb-3 mb-md-4">Early bird pris slutar gälla om:</h4>
+            <h4 class="mb-3 mb-md-4">Early birdie-pris slutar om:</h4>
             <b-row align-h="center">
             <b-col  class="col-3  p-0">
               <span id="days" class="blink-fast red days timenumbers">01</span>
-          <p class="timeRefDays timedescription">dag</p>
+          <p class="timeRefDays timedescription">dagar</p>
             </b-col>
             <b-col class="col-3  p-0">
               <span id="hours" class="hours timenumbers">00</span>
@@ -98,7 +98,7 @@
               <span id="minutes" class="minutes timenumbers">00</span>
           <p class="timeRefMinutes timedescription">minuter</p>
             </b-col>
-            <b-col class="col-3  p-0">
+            <b-col class="col-3 p-0 hidden">
               <span id="seconds" class="seconds timenumbers">00</span>
           <p class="timeRefSeconds timedescription">sekunder</p>
             </b-col>
@@ -178,7 +178,7 @@
                 :class="isMobile ? 'w-100' : ''"
                 class="btn btn-success text-white mt-2 mr-2"
 
-              >JUST NU EARLY BIRDIE PRIS</a>
+              >JUST NU EARLY BIRDIE-PRIS</a>
               <router-link
                 v-if="isAuthenticated"
                 class="btn blue-bg btn-md text-white mt-2 mr-2"
@@ -328,7 +328,7 @@
               <strong>{{price2}} kr</strong> (exkl. moms) för företag.
             </p>
             <p>
-              Nu kör vi Early Birdie priser fram till den 31 december!
+              Nu kör vi Early Birdie-priser fram till den 31 december!
               Anmälningskostnad per lag 
               <strong class="text-dark">{{price4}} kr</strong> (ordinarie pris {{price1 + 100 }} kr) för privatpersoner och
               <strong>{{price2}} kr</strong> (exkl. moms) för företag.
