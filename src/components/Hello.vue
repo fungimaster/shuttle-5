@@ -86,7 +86,7 @@
           <b-col  v-if="!closed" class="col-12 col-md-6 mt-4 mb-3 mb-md-4 text-center" id="countdown">
             <h4 class="mb-3 mb-md-4">Early birdie-pris slutar om:</h4>
             <b-row align-h="center">
-            <b-col  class="col-3  p-0">
+            <b-col hidden class="col-3  p-0">
               <span id="days" class="blink-fast red days timenumbers">01</span>
           <p class="timeRefDays timedescription">dagar</p>
             </b-col>
@@ -98,7 +98,7 @@
               <span id="minutes" class="minutes timenumbers">00</span>
           <p class="timeRefMinutes timedescription">minuter</p>
             </b-col>
-            <b-col class="col-3 p-0 hidden">
+            <b-col class="col-3 p-0 ">
               <span id="seconds" class="seconds timenumbers">00</span>
           <p class="timeRefSeconds timedescription">sekunder</p>
             </b-col>
