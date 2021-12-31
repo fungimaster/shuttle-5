@@ -86,12 +86,12 @@
           <b-col  v-if="!closed" class="col-12 col-md-6 mt-4 mb-3 mb-md-4 text-center" id="countdown">
             <h4 class="mb-3 mb-md-4">Early bird pris slutar gälla om:</h4>
             <b-row align-h="center">
-            <b-col  class="col-3  p-0">
-              <span id="days" class="blink-fast red days timenumbers">01</span>
+            <b-col hidden  class="col-3  p-0">
+              <span id="days" class=" days timenumbers">01</span>
           <p class="timeRefDays timedescription">dag</p>
             </b-col>
             <b-col class="col-3  p-0">
-              <span id="hours" class="hours timenumbers">00</span>
+              <span id="hours" class="blink-fast red hours timenumbers">00</span>
           <p class="timeRefHours timedescription">timmar</p>
             </b-col>
             <b-col class="col-3 p-0">
