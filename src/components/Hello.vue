@@ -171,9 +171,9 @@
               </b-row>
             </div>
 
-              <p v-if="closed && !isAuthenticated">Anmälan till årets tävling har tyvärr stängt, välkommen tillbaka nästa år, anmälan öppnar i december 2021.</p>
+              <p v-if="!closed && !isAuthenticated">Anmälan till årets tävling har tyvärr stängt, välkommen tillbaka nästa år, anmälan öppnar i december 2021.</p>
               
-              <a
+              <a hidden
                 href="#earlyBirdie"
                 :class="isMobile ? 'w-100' : ''"
                 class="btn btn-success text-white mt-2 mr-2"
