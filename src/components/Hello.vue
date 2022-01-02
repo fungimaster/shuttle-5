@@ -83,7 +83,7 @@
 
           </b-col>
 
-          <b-col  v-if="!closed" class="col-12 col-md-6 mt-4 mb-3 mb-md-4 text-center" id="countdown">
+          <b-col hidden v-if="!closed" class="col-12 col-md-6 mt-4 mb-3 mb-md-4 text-center" id="countdown">
             <h4 class="mb-3 mb-md-4">Early birdie-pris slutar om:</h4>
             <b-row align-h="center">
             <b-col hidden class="col-3  p-0">
@@ -171,7 +171,7 @@
               </b-row>
             </div>
 
-              <p v-if="!closed && !isAuthenticated">Anmälan till årets tävling har tyvärr stängt, välkommen tillbaka nästa år, anmälan öppnar i december 2021.</p>
+              <p v-if="closed && !isAuthenticated">Anmälan till årets tävling har tyvärr stängt, välkommen tillbaka nästa år, anmälan öppnar i december 2021.</p>
               
               <a hidden
                 href="#earlyBirdie"
@@ -317,17 +317,18 @@
             >Matchplay är en matchspelstävling för par med officiellt handicap. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.</p>
             <p
             >Tävlingen spelas mellan maj-september i olika omgångar fram till Sverigefinalen och sedan vidare utomlands!</p>
+            
           </b-col>
           <b-col v-if="!closed && competitionFetched" class="col-12">
             <h1 v-if="!closed" class="teaser-header orange mb-3 text-left text-md-center">Anmäl ditt lag till Matchplay 2022</h1>
-            <p>Hela tävlingen är numera digitaliserad där vi kontrollerar Golf-ID, hcp, slope mm för att kunna applicera våra hcputräkningar inför varje match. Ni använder vårt digitala scorekort för att föra score och vänner/familj kan följa matcherna live!</p>
+            <p>Hela tävlingen är numera digitaliserad där vi kontrollerar Golf-ID, hcp, slope mm för att kunna applicera våra hcputräkningar inför varje match. Ni använder vårt digitala scorekort för att föra score och vänner/familj kan följa matcherna live! Tävlingen startar i maj/juni beroende på väder och när majoriteten av landets golfbanor öppnar.</p>
             <p hidden>Sista anmälningsdag är den <strong>30 april</strong> och tävlingens första omgång börjar den <strong>2 maj</strong> och slutar den <strong>30 maj</strong>.</p>
-            <p hidden>
+            <p>
               Anmälningskostnad per lag 
               <strong>{{price1}} kr</strong> för privatpersoner och
               <strong>{{price2}} kr</strong> (exkl. moms) för företag.
             </p>
-            <p>
+            <p hidden>
               Nu kör vi Early Birdie-priser fram till den 31 december!
               Anmälningskostnad per lag 
               <strong class="text-dark">{{price4}} kr</strong> (ordinarie pris {{price1 + 100 }} kr) för privatpersoner och
@@ -428,7 +429,7 @@
         </b-row>
 
         
-        <hr class="mt-5" >
+        <hr class="mt-5" v-if="latestTeam && !closed" >
         <b-row align-h="center" class="mt-5 mb-5">
           <b-col v-if="latestTeam && !closed" class="col-12 col-md-6">
             
@@ -987,7 +988,7 @@ export default {
       },
 
     countdown() {
-
+return;
       let parentvue = this;
 
   const second = 1000,
