@@ -111,14 +111,14 @@
               <b-alert hidden variant="info" class="small mt-3">Lag från mer än 50% av Sveriges golfklubbar finns nu representerade i tävlingen!</b-alert>              
             </p>
             <p
-              class="mt-3 mt-md-0 pb-3 pb-md-5"
-            >Matchplay är en matchspelstävling för par med officiellt handicap. <span hidden>Par kan vara män, kvinnor eller mix. </span> </p>
+              class="mt-3 mt-md-0"
+            >Matchplay är en matchspelstävling för par med officiellt handicap som spelas på klubbar anslutna till Svenska golfförbundet. <span hidden>Lag från mer än <strong>100 svenska golfklubbar</strong> är redan anmälda!</span> </p>
             
             <p hidden
               class="mt-3 mt-md-0"
             >Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.</p>
-            <p hidden
-              v-if="!closed"
+            <p 
+              v-if="!closed" class="pb-3 pb-md-2"
             >Tävlingen spelas mellan maj-september i olika omgångar fram till Sverigefinalen och sedan vidare utomlands!</p>
             
             
@@ -315,13 +315,13 @@
             <p
               class="mt-3 mt-md-0"
             >Matchplay är en matchspelstävling för par med officiellt handicap. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.</p>
-            <p
+            <p class="mt-0 pt-0"
             >Tävlingen spelas mellan maj-september i olika omgångar fram till Sverigefinalen och sedan vidare utomlands!</p>
             
           </b-col>
           <b-col v-if="!closed && competitionFetched" class="col-12">
             <h1 v-if="!closed" class="teaser-header orange mb-3 text-left text-md-center">Anmäl ditt lag till Matchplay 2022</h1>
-            <p>Hela tävlingen är numera digitaliserad där vi kontrollerar Golf-ID, hcp, slope mm för att kunna applicera våra hcputräkningar inför varje match. Ni använder vårt digitala scorekort för att föra score och vänner/familj kan följa matcherna live! Tävlingen startar i maj/juni beroende på väder och när majoriteten av landets golfbanor öppnar.</p>
+            <p>Hela tävlingen är digitaliserad där vi kontrollerar Golf-ID, hcp, slope mm för att kunna applicera våra hcputräkningar inför varje match. Ni använder vårt digitala scorekort för att föra score och vänner/familj kan följa matcherna live! Tävlingen startar i maj/juni beroende på väder och när majoriteten av landets golfbanor öppnar.</p>
             <p hidden>Sista anmälningsdag är den <strong>30 april</strong> och tävlingens första omgång börjar den <strong>2 maj</strong> och slutar den <strong>30 maj</strong>.</p>
             <p>
               Anmälningskostnad per lag 
@@ -444,11 +444,10 @@
             
           </b-col>
         </b-row>
-        <hr class="" /> 
+        <hr v-if="latestTeam && !closed" class="" /> 
 
         <b-row v-if="showTopClubs && !closed">
-          <b-col class="col-12 mt-3">
-            <hr />
+          <b-col class="col-12 mt-3">            
             <h3 class="white mb-3 mt-4 pt-2">Topp 3 anmälda lag</h3>
             <podium number="3"></podium>
              <a                
