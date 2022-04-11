@@ -17,7 +17,7 @@ export default new Vuex.Store({
     companies: null,
     maproom: "",
     speaker: {},
-    conferencename: "Matchplay 2021",
+    conferencename: "Matchplay 2022",
     docimage:
       "https://res.cloudinary.com/dn3hzwewp/image/upload/v1573118127/matchplay/matchplay-new-logo-2020.png",
     userInfo: "Logga in",

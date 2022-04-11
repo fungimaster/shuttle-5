@@ -52,7 +52,7 @@
              </div>
             </div> 
       
-             <div class="d-block d-md-none  text-center openForBusinessMobile"> 
+             <div class="d-none d-md-none  text-center openForBusinessMobile"> 
              <div class="pt-3 pb-4">
                  <b-img
                   class="w-25 pb-4"
@@ -67,11 +67,11 @@
       <b-container class="pl-4 pr-4">
         
         <b-row align-h="center">
-          <b-col class="col-12 col-md-12 mt-4 pt-2 pb-0 pb-md-5">
+          <b-col class="col-12 col-md-12 mt-1 mt-md-4 pt-1 pt-md-2 pb-0 pb-md-5">
             <!-- <h2 class="d-none d-md-block line1">Anmälan är öppen!</h2> -->
             <br>
-            <h2>VÄLKOMMEN TILL MATCHPLAY 2022</h2>
-            <h2 class=mb-3>- GOLFTÄVLINGEN FÖR BÅDE PRIVATPERSONER OCH FÖRETAG</h2>
+            <h2 >VÄLKOMMEN TILL MATCHPLAY 2022</h2>
+            <h4 class="mb-3">- GOLFTÄVLINGEN FÖR BÅDE PRIVATPERSONER OCH FÖRETAG</h4>
              <a
                 hidden
                 v-if="!isAuthenticated"
@@ -83,22 +83,22 @@
 
           </b-col>
 
-          <b-col hidden v-if="!closed" class="col-12 col-md-6 mt-4 mb-3 mb-md-4 text-center" id="countdown">
-            <h4 class="mb-3 mb-md-4">Early birdie-pris slutar om:</h4>
+          <b-col v-if="!closed" class="col-12 col-md-6 mt-4 mb-3 mb-md-4 text-center" id="countdown">
+            <h4 class="mb-3 mb-md-4">Sista anmälningsdag</h4>
             <b-row align-h="center">
-            <b-col hidden class="col-3  p-0">
+            <b-col class="col-3  p-0">
               <span id="days" class="blink-fast red days timenumbers">01</span>
           <p class="timeRefDays timedescription">dagar</p>
             </b-col>
             <b-col class="col-3  p-0">
-              <span id="hours" class="blink-fast red hours timenumbers">00</span>
+              <span id="hours" class="hours timenumbers">00</span>
           <p class="timeRefHours timedescription">timmar</p>
             </b-col>
             <b-col class="col-3 p-0">
               <span id="minutes" class="minutes timenumbers">00</span>
           <p class="timeRefMinutes timedescription">minuter</p>
             </b-col>
-            <b-col class="col-3 p-0 ">
+            <b-col hidden class="col-3 p-0 ">
               <span id="seconds" class="seconds timenumbers">00</span>
           <p class="timeRefSeconds timedescription">sekunder</p>
             </b-col>
@@ -155,7 +155,7 @@
 
               >Vill du veta mer?</a>
 
-            <div v-if="closed" class="mt-3 mb-3">
+            <div hidden v-if="closed" class="mt-3 mb-3">
               <b-row>
                 <b-col class="col-7 col-md-12 pr-0 pr-md-3">
               <h3 class="">Statistik 2021</h3>
@@ -303,7 +303,7 @@
     <b-jumbotron container-fluid class="white mb-0">
       <b-container>
         <b-row v-if="!isAuthenticated" >
-            <b-col hidden v-if="closed" class="col-12">
+            <b-col hidden class="col-12">
               <h1>Statistik 2021</h1>
               Anmälda lag: 523<br>
               Snittålder: 43<br>
@@ -322,9 +322,9 @@
           <b-col v-if="!closed && competitionFetched" class="col-12">
             <h1 v-if="!closed" class="teaser-header orange mb-3 text-left text-md-center">Anmäl ditt lag till Matchplay 2022</h1>
             <p>Hela tävlingen är digitaliserad där vi kontrollerar Golf-ID, hcp, slope mm för att kunna applicera våra hcputräkningar inför varje match. Ni använder vårt digitala scorekort för att föra score och vänner/familj kan följa matcherna live! Tävlingen startar i maj/juni beroende på väder och när majoriteten av landets golfbanor öppnar.</p>
-            <p hidden>Sista anmälningsdag är den <strong>30 april</strong> och tävlingens första omgång börjar den <strong>2 maj</strong> och slutar den <strong>30 maj</strong>.</p>
+            <p>Sista anmälningsdag är den <strong>30 april</strong> och tävlingens första omgång börjar kort efter att lottningen är gjord.</p>
             <p>
-              Anmälningskostnad per lag 
+              Anmälningskostnad per lag är
               <strong>{{price1}} kr</strong> för privatpersoner och
               <strong>{{price2}} kr</strong> (exkl. moms) för företag.
             </p>
@@ -987,7 +987,7 @@ export default {
       },
 
     countdown() {
-return;
+
       let parentvue = this;
 
   const second = 1000,
@@ -995,7 +995,7 @@ return;
         hour = minute * 60,
         day = hour * 24;
 
-      let closedate = "December 31, 2021 23:59:59",
+      let closedate = "April 30, 2022 23:59:59",
       //let closedate = "March 25, 2021 17:21:00",
       countDown = new Date(closedate).getTime(),
       x = setInterval(function() {    
