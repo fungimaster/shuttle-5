@@ -323,7 +323,7 @@
           <b-col v-if="!closed && competitionFetched" class="col-12">
             <h1 v-if="!closed" class="teaser-header orange mb-3 text-left text-md-center">Anmäl ditt lag till Matchplay 2022</h1>
             <p>Hela tävlingen är digitaliserad där vi kontrollerar Golf-ID, hcp, slope mm för att kunna applicera våra hcputräkningar inför varje match. Ni använder vårt digitala scorekort för att föra score och vänner/familj kan följa matcherna live! Tävlingen startar i maj/juni beroende på väder och när majoriteten av landets golfbanor öppnar.</p>
-            <p>Sista anmälningsdag är den <strong>30 april</strong> och tävlingens första omgång börjar kort efter att lottningen är gjord.</p>
+            <p>Sista anmälningsdag är den <strong>15 maj</strong> och tävlingens första omgång börjar kort efter att lottningen är gjord.</p>
             <p>
               Anmälningskostnad per lag är
               <strong>{{price1}} kr</strong> för privatpersoner och
