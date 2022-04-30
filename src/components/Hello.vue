@@ -67,11 +67,11 @@
       <b-container class="pl-4 pr-4">
         
         <b-row align-h="center">
-          <b-col class="col-12 col-md-12 mt-1 mt-md-4 pt-1 pt-md-2 pb-0 pb-md-5">
+          <b-col class="col-12 col-md-12 mt-1 mt-md-4 pt-1 pt-md-2 pb-0 pb-md-3 text-center">
             <!-- <h2 class="d-none d-md-block line1">Anmälan är öppen!</h2> -->
             <br>
             <h2 >VÄLKOMMEN TILL MATCHPLAY 2022</h2>
-            <h4 class="mb-3">- GOLFTÄVLINGEN FÖR BÅDE PRIVATPERSONER OCH FÖRETAG</h4>
+            <h4 class="mb-3">GOLFTÄVLINGEN FÖR BÅDE PRIVATPERSONER OCH FÖRETAG</h4>
              <a
                 hidden
                 v-if="!isAuthenticated"
@@ -84,8 +84,9 @@
           </b-col>
 
           <b-col v-if="!closed" class="col-12 col-md-6 mt-4 mb-3 mb-md-4 text-center" id="countdown">
-            <h4 class="mb-3 mb-md-4">Sista anmälningsdag</h4>
-            <b-row align-h="center">
+            <h4 class="mb-2 mb-md-3">Sista anmälningsdag</h4>
+            <p>Vi vill att fler ska få chansen att uppleva vår fantastiska golftävling så vi förlänger anmälningstiden med 2 veckor till den 15:e maj!</p>
+            <b-row align-h="center mt-4">
             <b-col class="col-3  p-0">
               <span id="days" class="blink-fast red days timenumbers">01</span>
           <p class="timeRefDays timedescription">dagar</p>
@@ -995,7 +996,7 @@ export default {
         hour = minute * 60,
         day = hour * 24;
 
-      let closedate = "April 30, 2022 23:59:59",
+      let closedate = "May 15, 2022 23:59:59",
       //let closedate = "March 25, 2021 17:21:00",
       countDown = new Date(closedate).getTime(),
       x = setInterval(function() {    
@@ -1163,6 +1164,7 @@ export default {
                     line-height:80px;
                     margin: 0 auto;
                     text-align: center;
+                    padding-right:2px;
                     @media (min-width: 500px) {
                         font-size:2rem;
                     }
