@@ -1162,11 +1162,10 @@
 
                                 <h3 class="mt-5">Tips 1 (Ladda upp en bild)</h3>
                                 När er match är startad kan ni ta en bild på lagen i en gruppbild som kan postas upp till vår resultatsida så att folk som följer matchen kan se hur kul ni har det :)
-                                Tänk dock på Corona och håll bra avstånd.
-                            
+                                                            
 
                                 <h3 class="mt-5">Tips 2 (Speltid och plats)</h3>
-                                När din match i varje omgång är lottad syns den på denna sidan och är ni lottade som hemmalag, ta så fort som möjligt kontakt med era motståndare för att bestämma spelplats och tid. Det är viktigt att hemmalaget lägger upp tid och plats för matchen så att det blir rätt på resultsidorna på matchplay.se.
+                                När din match i varje omgång är lottad syns den på denna sidan och är ni lottade som hemmalag, ta så fort som möjligt kontakt med era motståndare för att bestämma spelplats och tid. Det är viktigt att hemmalaget lägger upp tid och plats för matchen så att det blir rätt på resultatsidorna på matchplay.se.
                             
                      
                                  <h3 class="mt-4">Tips 3 (Reserv)</h3>
@@ -1430,7 +1429,7 @@
                 <b-col>
                    <p>
                        <ol class="small importantlist">
-                            <li style="color:red;">
+                            <li hidden style="color:red;">
                                Spela coronasäkert: Håll avstånd - inga handslag - låt flaggan stå - följ klubbarnas regler kring avstånd/maxantal etc.
                            </li>
                            <li>

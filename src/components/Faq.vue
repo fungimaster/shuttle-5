@@ -311,13 +311,13 @@ export default {
             imgurl2: null,
             category: 3,
           },
-          {
+          /* {
             headline: "Minimiantal",
             text: "Vi utgår från att vi blir fullt tillräckligt med antal företags- och privatlag lag under 2022, men reserverar oss för händelser helt utanför vår kontroll, som kan innebära att deltagarantalet blir alldeles för litet för att genomföra tävlingen.  <br/> <br/> Om detta skulle ske <strong>återbetalas</strong> hela beloppet till respektive lag samma dag beslutet tas. Då vi står helt ovetandes inför alla beslut som tas gällande Corona, så vill vi här betona garantin att om tävlingen av olika anledningar inte skulle gå eller få spelas, så återbetalas alla deltagaravgifter till 100%.",
             imgurl1: null,
             imgurl2: null,
             category: 6,
-          },
+          }, */
           {
             headline: "Handicap",
             text: "För att spela matcher från 1 juli 2022 krävs att deltagande spelare ska ha minst 3 HCP-ronder korrekt registrerade under innevarande år i GIT innan match i tävlingen spelas. Detta gäller även reserverna.  <br/> <br/> Vårt system är uppkopplat mot GIT och ni kommer att bli påminda om ej registrerade ronder om ni skulle logga in för spel och ej uppfyllt dessa kriterier. Man kan alltså inte starta spelet och logga in om detta inte efterföljs. Laget kan spela med en spelare eller ta in reserv som uppfyller kraven. Deltager spelare trots allt i matchen (använder pappers scorekort) blir laget diskvalificerat. <br/> <br/> För lag som går till Sverigefinal gäller att minst 4 HCP-ronder ska vara korrekt registrerade i GIT. Vi vill påpeka att det är varje spelares skyldighet att se till att spela på det HCP som visar spelarens normala spelstandard. Oavsett om inga handicapgrundande ronder är noterade är man som spelare skyldig att revidera sitt handicap med sin klubbs hcp-kommitté.   <br/> <br/> Klubbarnas HCP-kommittéer är utredande/dömande part i ett eventuellt HCP-ärende. Matchplay följer alltid dom från berörd HCP-kommitté. Spel på ett för högt HCP innebär att laget diskvalificeras från tävlingen.",

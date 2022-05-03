@@ -477,7 +477,7 @@
     
     <app-year-in-review :isMobile="isMobile" :year="2021" :compid="prevcompid"></app-year-in-review>
 
-    <b-jumbotron v-if="closed" container-fluid style="background-color: white">
+    <b-jumbotron hidden v-if="closed" container-fluid style="background-color: white">
       <b-container>
         <b-row>
           <b-col class="col-12">
