@@ -971,12 +971,71 @@
                                             variant="success"
                                             :unchecked-value="false"
                                         >
-                                        <strong :class="useDiscount ? 'text-success' : 'text-primary'">Använd intjänad rabatt ({{ userdetails.referrals * 50 }} kr) ?</strong>
+                                        <strong :class="useDiscount ? 'text-success' : 'text-primary'">Använd intjänad rabatt ({{ userdetails.referrals * 50 }}:-)</strong>
                                         </b-form-checkbox>
+                                        <!-- coupon -->
+                                         <b-form-checkbox
+                                    id="checkbox-2"
+                                    v-model="useCoupon"
+                                    @change="disableCoupon()"
+                                    name="checkbox-2"
+                                    :value="true"
+                                    variant="success"
+                                    :unchecked-value="false"
+                                     class="pb-1"
+                                >
+                                   <strong :class="team.usedcoupon ? 'text-success' : 'text-success'">Använd rabattkod</strong>
+                                  </b-form-checkbox>
+                                <!-- Coupon -->
+                                <span v-if="useCoupon">
+                                 
+                            <b-form-group v-if="useCoupon">
+                              <b-form-input
+                                @focus="team.validatecoupon = true"                               
+                                aria-describedby="no-coupon"
+                                :disabled="team.usedcoupon"                         
+                                id="coupon"
+                                v-model="team.coupon"
+                                required
+                                placeholder="Skriv in din rabattkod här"
+                                :state="validate_coupon"
+                              >
+                              </b-form-input>
+                              <b-button
+                                pill
+                                :disabled="!validate_coupon || team.usedcoupon"
+                                show
+                                @click="checkCoupon()"
+                                variant="info"
+                                size="sm"
+                                class="float-right mt-1"
+                              >
+                                <b-spinner
+                                  v-if="showspinner_coupon"
+                                  small
+                                  class="mr-2 mb-1"
+                                ></b-spinner
+                                >Använd
+                              </b-button>
+                              <b-form-invalid-feedback
+                                v-if="team.coupon != ''"
+                                id="no-coupon"
+                              >
+                                Din rabattkod är inte giltig.
+                              </b-form-invalid-feedback>
+                              <b-form-valid-feedback
+                                v-if="team.coupon != '' && team.couponvalue"
+                                id="coupon"
+                              >
+                                Grattis, du fick {{team.couponvalue}}:- i rabatt!
+                              </b-form-valid-feedback>
+                            </b-form-group>
 
+                                </span>
+                            <!-- Coupon -->
                                     <b-form-radio v-if="team.type === 'Private'" v-model="team.payment" name="some-radios" value="A">Swish</b-form-radio>
                                     <b-form-radio v-if="team.type === 'Company'" v-model="team.payment" name="some-radios" value="B">Faktura</b-form-radio>
-                                    <b-form-radio v-if="team.type === 'Private'" v-model="team.payment" name="some-radios" value="C">Voucher/Kod</b-form-radio>
+                                    <b-form-radio v-if="team.type === 'Private'" v-model="team.payment" name="some-radios" value="C">Voucher</b-form-radio>
                                 </b-form-group>
 
                                 <b-form-group fluid class="mb-3" v-if="team.payment === 'A'">
@@ -1667,6 +1726,7 @@ export default {
             showspinner_swish: false,
             showspinner_voucher: false,
             showspinner_invoice: false,
+            showspinner_coupon: false,
             clubcount: null,
             clublogo: null,
             teamoptions: [{
@@ -1686,6 +1746,9 @@ export default {
                 step: 0,
                 completemode: false,
                 voucher: '',
+                coupon: "",
+                couponvalue: null,
+                usedcoupon: false,
                 swish: {
                     mobile: ''
                 },
@@ -1841,6 +1904,7 @@ export default {
                 name: '',
                 uniquename: true,
                 validatevoucher: true,
+                validatecoupon: true,
                 shirts: '',
                 payment: 'A',
                 paid: ''
@@ -1875,6 +1939,7 @@ export default {
             },
             doctitle: 'Mina sidor',
             file: null,
+            useCoupon: false,
             progress: 0,
             uploading: false,
             previousteam:null,
@@ -2036,6 +2101,9 @@ export default {
         //STEP 3 VALIDATION
         validate_voucher() {
             return this.team.voucher !== '' && this.team.validatevoucher;
+        },
+        validate_coupon() {
+            return this.team.coupon !== "" && this.team.validatecoupon;
         },
         validate_invoicename() {
             return this.team.invoice.invoicename !== '';
@@ -3108,6 +3176,63 @@ export default {
                     console.log(error);
                 });
         },
+        disableCoupon: function() {
+      if (!this.useCoupon) {
+        this.team.usedcoupon = false;
+        this.team.couponvalue = null;
+        this.team.price_private = this.team.price_private_org;   
+        this.team.validatecoupon = true;
+      }
+    },
+
+    checkCoupon: function () {
+       this.showspinner_coupon = true;
+       let coupon = this.team.coupon;
+
+      //TEST
+       if(coupon === 'ONTEE75' || coupon === 'OOB75' || coupon === 'GOLF75') {
+        this.team.price_private_org = this.team.price_private;
+        this.team.couponvalue = 75;
+        this.team.price_private = this.team.price_private - this.team.couponvalue;
+        this.team.usedcoupon = true;
+        this.team.validatecoupon = true;
+        this.showspinner_coupon = false;
+       } else {
+           this.team.validatecoupon = false;
+           this.showspinner_coupon = false;
+       }
+       return;    
+      //END TEST
+       
+     this.axios
+        .post(globalState.admin_url + "payCoupon", {
+          competition: globalState.upcomingCompid,
+          team: this.team._id,
+          code: coupon,
+        })
+        .then((response) => {
+          if (response.data.couponstatus === "DECLINED") {
+            //console.log("error");
+            this.showspinner_coupon = false;
+            this.team.validatecoupon = false;            
+            return;
+          } else if (response.data.couponstatus === "ACCEPTED") {                       
+            this.team.price_private_org = this.team.price_private; // save org price for disabling
+            this.team.couponvalue = response.data.amount;
+            this.team.price_private = this.team.price_private - this.team.couponvalue;
+            this.showspinner_coupon = false;
+            this.team.validatecoupon = true;
+            this.team.usedcoupon = true;
+           
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+       
+       
+      
+    },
         payVoucher: function () {
             this.showspinner_voucher = true;
             let voucher = this.team.voucher;
