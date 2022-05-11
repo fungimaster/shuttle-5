@@ -212,24 +212,29 @@
 
 						<!-- TEAM 1 CONTAINER -->
 						<div v-if="activeHole===1" class="sponsor mb-3 text-center">							
-							<b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,h_40,q_auto,e_colorize:100,co_rgb:ffffff/v1620295332/matchplay/logos/cellsolar.png"></b-img>
-						</div>
-
-						<div v-if="activeHole===3" class="sponsor mb-3 text-center">							
 							<b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,h_40,q_auto,e_colorize:100,co_rgb:ffffff/v1612367112/matchplay/logos/Logo_Colburn.png"></b-img>
+						</div>
+					
+						<div v-if="activeHole===3" class="sponsor mb-3 text-center">							
+							<b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,h_40,q_auto/v1612334969/matchplay/logos/fsidesrpxcu1bljhxpxo.png"></b-img>
 						</div>
 
 						<div v-if="activeHole===5" class="sponsor mb-3 text-center">
-							<b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,h_40,q_auto,e_colorize:100,co_rgb:ffffff/v1620295831/matchplay/logos/506_bild-0.png"></b-img>
+							<b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,h_40,q_auto/v1647639944/matchplay/logos/fefwqznr5uuace2ingcn.png"></b-img>
 						</div>
 						
 						<div v-if="activeHole===7" class="sponsor mb-3 text-center">
-							<b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,h_40,q_auto/v1614084963/matchplay/logos/prosak.png"></b-img>
+							<b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,h_40,q_auto/v1614790192/matchplay/logos/gleipnergruppen.png"></b-img>
 						</div>
 
 						<div v-if="activeHole===9" class="sponsor mb-3 text-center">
 							<b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,h_40,q_auto,e_colorize:100,co_rgb:ffffff/v1620295945/matchplay/logos/spc_moyl9g.png"></b-img>
-						</div>						
+						</div>			
+
+						<div v-if="activeHole===11" class="sponsor mb-3 text-center">
+							<b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,h_40,q_auto/v1650225113/matchplay/logos/avpvs06elxonjrlwmw1b.png"></b-img>
+						</div>	
+									
 
 						<div
 							class="team1ScoreCard pt-2 pb-2"
@@ -1123,12 +1128,7 @@
 				uploading: false,
 				progress:0,
 				images: [],
-				 sponsors: [
-					{
-					title: 'PING',
-					url: 'https://eu.ping.com/sv-se',
-					image: 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_150,q_auto/v1619248516/matchplay/sponsors/ping.png'
-				},
+				 sponsors: [					
 				{
 					title: 'Future IT',
 					url: 'https://futureitpartner.se/',
@@ -1143,12 +1143,7 @@
 					title: 'Colburn',
 					url: 'https://www.colburn.se/',
 					image: 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_150,q_auto/v1619248516/matchplay/sponsors/Logo_Colburn.png'
-				},
-				{ 
-					title: 'Easygreen',
-					url: 'http://www.easygreen.se/',
-					image: 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_150,q_auto/v1617614504/matchplay/sponsors/easygreen.png'
-				},
+				},				
 					{ 
 					title: 'Professionell Säkerhet',
 					url: 'https://professionellsakerhet.se/',

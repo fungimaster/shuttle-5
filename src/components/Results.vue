@@ -250,13 +250,13 @@
                                  </b-col>                                
                              </b-row>
                              <b-row>
-                               <b-col class="col-5 pr-0 text-right">                                
+                               <b-col class="col-5 pr-0 text-center">                                
                                <img v-if="game.hometeamtype === 'Company'" class="pt-3 pb-3" :src="getLogoImage(game.hometeamlogourl)">
                                </b-col>
                                <b-col class="col-2 p-0 m-0">
                                 
                                </b-col>
-                               <b-col class="col-5 pl-0 text-left">
+                               <b-col class="col-5 pl-0 text-center">
                                 <img v-if="game.awayteamtype === 'Company'" class="pt-3 pb-3" :src="getLogoImage(game.awayteamlogourl)">
                                </b-col>
                              </b-row>
@@ -340,13 +340,13 @@
                                  </b-col>                                
                              </b-row>
                              <b-row>
-                               <b-col class="col-5 pr-0 text-right">
+                               <b-col class="col-5 pr-0 text-center">
                                 <img v-if="game.hometeamtype === 'Company'" class="pt-3 pb-3" :src="getLogoImage(game.hometeamlogourl)">
                                </b-col>
                                <b-col class="col-2 p-0 m-0">
                                 
                                </b-col>
-                               <b-col class="col-5 pl-0 text-left">
+                               <b-col class="col-5 pl-0 text-center">
                                 <img v-if="game.awayteamtype === 'Company'" class="pt-3 pb-3" :src="getLogoImage(game.awayteamlogourl)">
                                </b-col>
                              </b-row>
@@ -379,16 +379,15 @@
                         <b-row class="mb-3 mt-2">
                           <b-col>
                              <b-button hidden size="sm" v-on:click="updategames()" variant="primary">update</b-button>
-                            <b-button hidden size="sm" v-on:click="getGamesFinished('button','all')" variant="primary">Alla</b-button>
-                           
-                            <b-button  size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','1')" variant="primary">Omgång 1</b-button>                           
-                            <b-button  size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','2')" variant="primary">Omgång 2</b-button> 
-                            <b-button  size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','3')" variant="primary">Omgång 3</b-button>
-                            <b-button  size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','4')" variant="primary">Omgång 4</b-button>
-                            <b-button  size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','5')" variant="primary">Omgång 5</b-button>
-                            <b-button  size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','6')" variant="primary">Omgång 6</b-button>
-                            <b-button size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','7')" variant="primary">Omgång 7</b-button>
-                            <b-button size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Sverigefinalen SEMI')" variant="primary">Sverigefinalen SEMI</b-button>
+                            <b-button hidden size="sm" v-on:click="getGamesFinished('button','all')" variant="primary">Alla</b-button>                           
+                            <b-button v-if="currentRound>1"  size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','1')" variant="primary">Omgång 1</b-button>                           
+                            <b-button v-if="currentRound>2" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','2')" variant="primary">Omgång 2</b-button> 
+                            <b-button v-if="currentRound>3" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','3')" variant="primary">Omgång 3</b-button>
+                            <b-button v-if="currentRound>4" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','4')" variant="primary">Omgång 4</b-button>
+                            <b-button v-if="currentRound>5" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','5')" variant="primary">Omgång 5</b-button>
+                            <b-button v-if="currentRound>6" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','6')" variant="primary">Omgång 6</b-button>
+                            <b-button v-if="currentRound>7" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','7')" variant="primary">Omgång 7</b-button>
+                            <b-button v-if="currentRound>8" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Sverigefinalen SEMI')" variant="primary">Sverigefinalen SEMI</b-button>
                             <b-button v-if="currentRound==='Sverigefinal'" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Sverigefinal')" variant="primary">Sverigefinal</b-button>
                             
                             
@@ -447,13 +446,13 @@
                                  </b-col>                                
                              </b-row>
                              <b-row>
-                               <b-col class="col-5 pr-0 text-right">
+                               <b-col class="col-5 pr-0 text-center">
                                 <img v-if="game.hometeamtype === 'Company'" class="pt-3 pb-3" :src="getLogoImage(game.hometeamlogourl)">
                                </b-col>
                                <b-col class="col-2 p-0 m-0">
                                 
                                </b-col>
-                               <b-col class="col-5 pl-0 text-left">
+                               <b-col class="col-5 pl-0 text-center">
                                 <img v-if="game.awayteamtype === 'Company'" class="pt-3 pb-3" :src="getLogoImage(game.awayteamlogourl)">
                                </b-col>
                              </b-row>
@@ -595,8 +594,8 @@ export default {
     this.axios
       .post(globalState.admin_url + "getCompetition", {id: globalState.compid})
       .then((response) => {
-        this.currentRound = "Sverigefinal" //response.data.currentround;      
-        this.active_round =  "Sverigefinal" //this.currentRound;
+        this.currentRound = response.data.currentround;      
+        this.active_round = this.currentRound;
        // console.log('created current round',this.currentRound);
          this.getGamesInprogress('initial');
         //this.getGamesFinished();
@@ -800,7 +799,7 @@ export default {
       }
 
       this.axios
-        .post(globalState.admin_url + "allGameImages", {competition: '8dmNL5K5ypaHbTbEM'})
+        .post(globalState.admin_url + "allGameImages", {competition: 'hXcmBwqmfWC2tYcxR'})
         .then((response) => {
           this.$store.dispatch('setAllImages', response.data)
           this.allGameImages = response.data
@@ -900,7 +899,7 @@ export default {
     },
       getLogoImage(logourl) {      
             var first_url = logourl.split("/upload/").pop();           
-            return 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_200,q_auto,c_scale/' + first_url;
+            return 'https://res.cloudinary.com/dn3hzwewp/image/upload/h_50,q_auto,c_scale/' + first_url;
             },
     getClubLogo(id) {
       if (!this.getClubLogosUrls) {
