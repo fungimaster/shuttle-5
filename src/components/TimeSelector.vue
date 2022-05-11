@@ -171,6 +171,7 @@ export default {
         _id: gameid,
         proposeddates: this.proposedDates,
       };
+      console.log(data)
       this.axios
         .post(globalState.admin_url + "updateGame", data)
         .then(() => {

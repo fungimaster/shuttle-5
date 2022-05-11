@@ -170,7 +170,7 @@
                     Era nya hcp samt slag per hål ser ni i nästa steg.
                   </b-alert>
                     <b-alert hidden dismissible v-if="form.slinga" show class="mt-3 mb-0 small" variant="danger">
-                    Ny regel 2021: Herrar spelar på klubbens rekommenderade tee för herrar och damer spelar på klubbens rekommenderade tee för damer.
+                    Viktigt: Herrar spelar på klubbens rekommenderade tee för herrar och damer spelar på klubbens rekommenderade tee för damer.
                   </b-alert>
                   <b-alert
                     v-if="form.slinga && max28"

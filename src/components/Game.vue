@@ -7,7 +7,7 @@
         <b-col md="6" class="text-center">
           <h1 class="mt-5 mb-2 strong">
             <i class="far fa-golf-club mr-2"></i>Match
-          </h1>
+          </h1>         
         </b-col>
       </b-row>
 
@@ -121,6 +121,7 @@
                     </template>
 
                     <div v-if="!isteamleader && status != 'Finished'">
+                       status {{status}} - gamedate {{gamedate}}
                       <div v-if="gamedate">
                         {{ getgamedate() }} {{ gametime }}
                       </div>
@@ -340,7 +341,7 @@
                       variant="info"
                     >
                       Hemmalaget (ni) bokar bana och speltid i samråd med
-                      bortalaget. Se kontaktuppgifter under kontaktfliken. Kom först överens om tid för spel och boka
+                      bortalaget. Se kontaktuppgifter under kontaktfliken eller använd "hitta speltidfunktionen". Kom först överens om tid för spel och boka
                       sen tid på banan med tex Min Golf Bokning. Skriv därefter in datum, tid och bana för matchen här ovan!
                     </b-alert>
                         </b-col>
@@ -779,18 +780,17 @@
                   </b-tab>
                   <!-- HITTA TID  -->
 
-                  <b-tab v-if="status !== 'Finished' && !gamedate">
+                  <b-tab title-link-class="ml-1 p-2" v-if="status !== 'Finished' && !gamedate">
                     <template v-slot:title>
-                        <span class="my-nav-item">Hitta speltid</span>
+                        <span class="my-nav-item hitta-speltid">Hitta speltid</span>
                     </template> 
 
                         <!-- 1. Time-picker -->
-                         <div v-if="isteamleader && !proposeddatesSanitized.length">
-                          <hr>
+                         <div v-if="isteamleader && !proposeddatesSanitized.length">                          
                             <b-container class="mt-1">            
                             <b-row class="justify-content-center" align-h="center">
-                              <b-col class="col-12 col-md-6 mt-1 mb-5">
-                                <app-time-selector :roundstartdate="'2022-03-01T00:00:00.000Z'" :roundenddate="'2022-04-01T00:00:00.000Z'" @updateDate="updateDate"></app-time-selector>
+                              <b-col class="col-12 col-md-6 mt-1 mb-5">                                
+                                <app-time-selector :roundstartdate="roundstartdate" :roundenddate="roundenddate" @updateDate="updateDate"></app-time-selector>
                               </b-col>
                             </b-row>
                             </b-container>
@@ -798,7 +798,7 @@
                         </div>
 
                         <!-- 2. show proposed times to home team -->
-                         <div v-if="isteamleader && proposeddatesSanitized.length && !accepteddatesSanitized.length" class="pt-3">
+                         <div v-if="isteamleader && proposeddatesSanitized.length && !accepteddatesSanitized.length" class="pt-2 pt-md-3">
                           <small>Föreslagna tider (inväntar svar från bortalag).</small>
                           <small
                               v-for="date in proposeddates"
@@ -817,7 +817,7 @@
                           
                             <small>Nedan finner du förslag från hemmalaget på speltillfällen. Markera de tillfällen ni kan spela och skicka bekräftelse.</small>
                           <b-form-group
-                          class="pt-3"
+                          class="pt-2 pt-md-3"
                               label=""
                               v-slot="{ ariaDescribedby }"
                             >
@@ -878,10 +878,13 @@
 
                       <!--6. show accepted Dates  -->
 
-                         <div v-if="accepteddates.length && !gamedate && isteamleader" class="pt-3 d-flex justify-content-center flex-wrap">
+                         <div v-if="accepteddates.length && !gamedate && isteamleader" class="pt-2 pt-md-3 d-flex justify-content-center flex-wrap">
 
                           <div class="w-100">
-                            <small class="d-block">Accepterade tider</small>
+                            <h3 class="d-block">Accepterade tider</h3>
+                            <b-alert show variant="primary" class="small">
+                              Er motståndare har accepterat nedan tid(er) och nu är det dags för er (hemmalaget) att boka tid på klubben och välja datum och exakt tid i fliken "spelplats".
+                            </b-alert>
 
                             <b-alert
                                 v-for="date in accepteddates"
@@ -1247,7 +1250,7 @@ export default {
       showStart: 0, 
       showEnd: 10,
       proposeddates: false,
-      accepteddates: false,
+      accepteddates: [],
       gametimeofday: false,
       confirmDateSpinner: false,
       bookDateSpinner: false,
@@ -1344,11 +1347,22 @@ export default {
         }
 
         this.notfound = false;
-        //console.log(response.data)
+        console.log(response.data)
         //POPULATE VARS
-        this.proposeddates = response.data.proposeddates
-        this.accepteddates = response.data.accepteddates
-        this.gametimeofday = response.data.gametimeofday
+        if (response.data.hasOwnProperty("proposeddates")) {
+          this.proposeddates = response.data.proposeddates
+        }
+
+        if (response.data.hasOwnProperty("accepteddates")) {
+           this.accepteddates = response.data.accepteddates
+        }
+
+        if (response.data.hasOwnProperty("gametimeofday")) {
+           this.gametimeofday = response.data.gametimeofday
+        }
+        
+       
+        
 
         this.hometeamname = response.data.hometeamname;
         this.awayteamname = response.data.awayteamname;
@@ -2225,13 +2239,22 @@ p {
 }
 
 .my-nav-item {
-  font-size: 0.85em;
+  font-size: 0.85em;  
+}
+
+@media only screen and (max-width: 400px) {
+  /* iphone 5/se */
+  .my-nav-item {
+    font-size: 0.6em;    
+    padding-left:0 !important;
+    padding-right:0 !important;
+  }
 }
 
 @media only screen and (max-width: 330px) {
   /* iphone 5/se */
   .my-nav-item {
-    font-size: 0.7em;
+    font-size: 0.6em;
   }
 }
 </style>
