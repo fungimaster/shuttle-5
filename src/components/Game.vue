@@ -145,6 +145,24 @@
                     <div v-if="isteamleader">
                       <b-container class="mt-3">
                         <b-row class="justify-content-center" align-h="center">
+
+                      <!-- HITTA TID  -->
+
+                          <b-col class="col-12 mb-2" v-if="accepteddates.length">
+                            <small class="text-left d-block">Accepterad tid:</small>
+                              <small
+                                v-for="date in accepteddates"
+                                :key="date.index"
+                                :value="date.value"
+                                class="text-uppercase mt-1 d-block text-left"
+                                show
+                              >
+                                <i class="material-icons">event_available</i>
+                                <span>{{ formatDateLong(date) }}</span>
+                              </small>
+                          </b-col>
+                          <!-- HITTA TID END  -->
+
                           <b-col class="col-6 text-left">
                             <b-form-group class="">
                               <label for="gamedate">Datum</label>
@@ -759,6 +777,132 @@
                       </b-row>
                     </b-container>
                   </b-tab>
+                  <!-- HITTA TID  -->
+
+                  <b-tab v-if="status !== 'Finished' && !gamedate">
+                    <template v-slot:title>
+                        <span class="my-nav-item">Hitta speltid</span>
+                    </template> 
+
+                        <!-- 1. Time-picker -->
+                         <div v-if="isteamleader && !proposeddatesSanitized.length">
+                          <hr>
+                            <b-container class="mt-1">            
+                            <b-row class="justify-content-center" align-h="center">
+                              <b-col class="col-12 col-md-6 mt-1 mb-5">
+                                <app-time-selector :roundstartdate="'2022-03-01T00:00:00.000Z'" :roundenddate="'2022-04-01T00:00:00.000Z'" @updateDate="updateDate"></app-time-selector>
+                              </b-col>
+                            </b-row>
+                            </b-container>
+                            <hr>
+                        </div>
+
+                        <!-- 2. show proposed times to home team -->
+                         <div v-if="isteamleader && proposeddatesSanitized.length && !accepteddatesSanitized.length" class="pt-3">
+                          <small>Föreslagna tider (inväntar svar från bortalag).</small>
+                          <small
+                              v-for="date in proposeddates"
+                              :key="date.index"
+                              :value="date.value"
+                              class="d-block text-left text-uppercase position-relative pl-4 pt-1"
+                            >
+                              <i class="material-icons">event_available</i>
+                              <span>{{ formatDateLong(date) }}</span>
+                              <hr/>
+                            </small>
+                        </div> 
+                        
+                        <!-- 3. show proposed times to AWAY team -->
+                        <div v-if="!isteamleader && proposeddatesSanitized.length && !accepteddates.length" class="">
+                          
+                            <small>Nedan finner du förslag från hemmalaget på speltillfällen. Markera de tillfällen ni kan spela och skicka bekräftelse.</small>
+                          <b-form-group
+                          class="pt-3"
+                              label=""
+                              v-slot="{ ariaDescribedby }"
+                            >
+                              <b-form-radio-group
+                              v-model="selectedDate"
+                                :aria-describedby="ariaDescribedby"
+                                stacked
+                                buttons
+                                button-variant="outline-warning"
+
+                              >
+                               <b-form-radio
+                                v-for="date in proposeddatesSanitized.slice(0, showEnd)"
+                                :key="date.index"
+                                :value="date.value"
+                        
+                              >
+                                <span v-if="date.weekday === 7" class="text-danger"
+                                  >{{ date.text }}
+                                </span>
+                                <span  v-else class="text-dark">{{ date.text }} </span>
+                              </b-form-radio>
+                              
+                              
+                              </b-form-radio-group>
+                            </b-form-group>
+                      
+                          <div class="text-center">
+                            <b-button v-if="selectedDate" @click="confirmDates" :disabled="confirmDateSpinner || selectedDate.length">
+                              <b-spinner v-if="confirmDateSpinner" small type="grow"></b-spinner>
+                              Skicka tid <i class="material-icons">send</i></b-button
+                            >
+                          </div>
+                              <hr />
+                        </div>
+
+                        <!-- 4 Away team: no date sent -->
+                        <div  v-if="gamedate && !isteamleader && !proposeddatesSanitized.length">
+                          <p>När hemmalaget skickat förslag på speldatum får ni ett mail och kan välja här.</p>
+                        </div>
+
+                        <!-- 5 Away team: dates accepted but not confirmed -->
+                        <div  v-if="!gamedate && !isteamleader && accepteddates.length">
+                          <p>Hemmalaget tar hand om att boka exakt tid.</p>
+                          <p>Ni har accepterat följande tid:</p>
+                            <b-alert
+                                v-for="date in accepteddates"
+                                :key="date.index"
+                                variant="outline-primary"
+                                :value="date.value"
+                                class="text-uppercase mt-1"
+                                show
+                              >
+                                <i class="material-icons">event_available</i>
+                                <span>{{ formatDateLong(date) }}</span>
+                              </b-alert>
+                        </div>
+
+                      <!--6. show accepted Dates  -->
+
+                         <div v-if="accepteddates.length && !gamedate && isteamleader" class="pt-3 d-flex justify-content-center flex-wrap">
+
+                          <div class="w-100">
+                            <small class="d-block">Accepterade tider</small>
+
+                            <b-alert
+                                v-for="date in accepteddates"
+                                :key="date.index"
+                                variant="outline-primary"
+                                :value="date.value"
+                                class="text-uppercase mt-1"
+                                show
+                              >
+                                <i class="material-icons">event_available</i>
+                                <span>{{ formatDateLong(date) }}</span>
+                              </b-alert>
+                              <div v-if="bookDateSpinner" class="d-flex justify-content-center mt-2">
+                                <b-spinner  variant="warning" type="grow" label="Spinning"></b-spinner>
+                              </div>
+
+                          </div> 
+                        </div> 
+                  </b-tab>
+                  <!-- HITTA TID  END -->
+
                 </b-tabs>
 
                 <div v-if="showresult && isteamleader && status != 'Finished'">
@@ -992,6 +1136,8 @@ import moment from "moment";
 import { globalState } from "../main.js";
 import VueTimepicker from "vue2-timepicker";
 import "vue2-timepicker/dist/VueTimepicker.css";
+import AppTimeSelector from './TimeSelector.vue'
+
 
 export default {
   name: "game",
@@ -1000,6 +1146,7 @@ export default {
     "v-calender": Calendar,
     "v-date-picker": DatePicker,
     "vue-timepicker": VueTimepicker,
+    AppTimeSelector
   },
   data() {
     let clubs = [];
@@ -1095,20 +1242,60 @@ export default {
       game_id: "",
       game_url: "",
       doctitle: "Match - " + this.$store.state.conferencename,
+      //HITTA TID ---->
+      selectedDate: [],
+      showStart: 0, 
+      showEnd: 10,
+      proposeddates: false,
+      accepteddates: false,
+      gametimeofday: false,
+      confirmDateSpinner: false,
+      bookDateSpinner: false,
+      //HITTA TID END
     };
   },
   computed: {
   validateTime() {
         var timeFormat = /^([0-9]{2})\:([0-9]{2})$/;
-if(timeFormat.test(this.gametime) == false)
-{
-    //console.log('Time one is wrong');
-    return false;
-} else {
-  return true;
-}
+      if(timeFormat.test(this.gametime) == false)
+      {
+          //console.log('Time one is wrong');
+          return false;
+      } else {
+        return true;
+      }
 
-      }
+      },
+//HITTA TID 
+  proposeddatesSanitized() {
+        if (!this.proposeddates) {
+          return []
+        }
+        return this.proposeddates.reduce((array, e) => {
+          const timeOfDay = this.formatDate(e.date)
+          const d = moment(e.date).format("ddd DD MMM - ") + timeOfDay
+          const weekday = moment(e.date).isoWeekday()
+          const week = moment(e.date).week()
+          const obj = { text: d, value: e, weekday, week };
+          array.push(obj);
+          return array;
+        }, []);
+     },
+     accepteddatesSanitized() {
+        if (!this.accepteddates) {
+          return []
+        }
+        return this.accepteddates.reduce((array, e) => {
+          const timeOfDay = this.formatDate(e.date)
+          const d = moment(e.date).format("ddd DD MMM - ") + timeOfDay
+          const weekday = moment(e.date).isoWeekday()
+          const week = moment(e.date).week()
+          const obj = { text: d, value: e, weekday, week };
+          array.push(obj);
+          return array;
+        }, []);
+     }
+     //HITTA TID END
   },
   created() {
     //scroll to top
@@ -1159,6 +1346,9 @@ if(timeFormat.test(this.gametime) == false)
         this.notfound = false;
         //console.log(response.data)
         //POPULATE VARS
+        this.proposeddates = response.data.proposeddates
+        this.accepteddates = response.data.accepteddates
+        this.gametimeofday = response.data.gametimeofday
 
         this.hometeamname = response.data.hometeamname;
         this.awayteamname = response.data.awayteamname;
@@ -1288,7 +1478,7 @@ if(timeFormat.test(this.gametime) == false)
         //GET SCORE
 
         //set gamedate:
-        if (response.data.hasOwnProperty("gamedate")) {
+        if (response.data.hasOwnProperty("gamedate") && response.data.gamedate ) {
           this.gamedate = new Date(response.data.gamedate);
         } else {
           //console.log('no game date')
@@ -1343,6 +1533,135 @@ if(timeFormat.test(this.gametime) == false)
   },
 
   methods: {
+    //HITTA TID ---Z
+    formatDate(date) {
+      const currentHour = moment(date).format("HH");
+
+      if (currentHour >= 3 && currentHour < 12) {
+        return "FM";
+      } else if (currentHour >= 12 && currentHour < 15) {
+        return "EM";
+      } else {
+        return "KV.";
+      }
+    },
+     formatDateLong(date) {
+        const timeOfDay = this.formatDate(date.date)
+        return moment(date.date).format("ddd DD MMM - ") + timeOfDay;
+     },
+      updateDate(obj) {
+       console.log("obj", obj)
+       this.gamedate = obj.gamedate;
+       this.gametime = obj.gametime;
+       this.proposeddates = obj.proposeddates
+     }, 
+     confirmDates() {
+        this.confirmDateSpinner = true
+        let gameid = this.$route.query.id;
+        if (!gameid) {
+          this.$bvToast.toast("Error", {
+            title: "Något gick fel",
+            autoHideDelay: 5000,
+            variant: "danger",
+            solid: true,
+          });
+          return;
+        }
+
+       const obj = {
+         _id: gameid, 
+         accepteddates: [this.selectedDate]
+       }
+       this.axios.post(globalState.admin_url + "updateGame", obj)
+          .then(() => {     
+             this.axios.post(globalState.admin_url+'getGameData', {
+                    id: gameid,
+                }).then((response)=> {
+                  this.accepteddates = response.data.accepteddates
+                  console.log("this.accepteddates", response.data.accepteddates)
+                })    
+            this.$bvToast.toast(
+              "Accepterade tider skickade. När hemmalaget valt en tid får ni ett mail.",
+              {
+                title: "Klart!",
+                autoHideDelay: 5000,
+                variant: "success",
+                solid: true,
+              }
+            ); 
+           this.confirmDateSpinner = false
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+
+      }, 
+      bookDate(date) {
+        
+        const day = moment(date.date).format("dddd")
+        const dt = moment(date.date).format("DD")
+        const month = moment(date.date).format("MMMM")
+        const gametimeofday = this.formatDate(date.date)
+        const gametimeofdayParsed = gametimeofday === 'FM' ? 'förmiddagen' : gametimeofday === 'EM' ? 'eftermiddagen' : 'kvällen'
+
+
+        this.$bvModal
+        .msgBoxConfirm(`Boka ${day} den ${dt} ${month} på ${gametimeofdayParsed}?`)
+        .then((value) => {
+          if (!value) {
+            return;
+          }
+          
+          this.bookDateSpinner = true
+            let gameid = this.$route.query.id;
+            if (!gameid) {
+              this.$bvToast.toast("Error", {
+                title: "Något gick fel",
+                autoHideDelay: 5000,
+                variant: "danger",
+                solid: true,
+              });
+              return;
+            }
+          
+          const gamedate = moment(date.date).format("YYYY-MM-DD")
+
+          const obj = {
+            _id: gameid, 
+            gamedate,
+            confirmDates: true,
+            gametimeofday
+          }
+
+          this.axios.post(globalState.admin_url + "updateGame", obj)
+              .then(() => {    
+                this.myKey = false 
+                this.axios.post(globalState.admin_url+'getGameData', {
+                        id: gameid,
+                    }).then((res)=> {
+                      this.gamedate = new Date(date.date)
+                      this.gametimeofday = res.data.gametimeofday
+                    })    
+                this.$bvToast.toast(
+                  "Ett mail har skickats till matchens samtliga spelare",
+                  {
+                    title: "Match bokad!",
+                    autoHideDelay: 5000,
+                    variant: "success",
+                    solid: true,
+                  }
+                ); 
+              this.bookDateSpinner = false
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+        })
+        .catch((err) => {
+          // An error occurred
+        });
+      }, 
+      //HITTA TID END
     clear() {
       this.boxTwo = "";
       this.$bvModal
