@@ -416,8 +416,9 @@
         </b-row>
     
 
-        <b-row v-if="closed">
-          <b-col class="col-12 mb-3 mt-3">
+        <b-row v-if="!closed">
+          <b-col class="col-12 mb-3 mt-5">
+            <h3>Omgångar 2022</h3>
               <app-rounds-grafic
               class="mt-3"
               style="height: 300px"
@@ -426,6 +427,7 @@
               stagefill="black"
               :condensed="false"
             ></app-rounds-grafic>
+            <p class="small text-right mt-2"><i>Klicka på diagrammet ovan för att se omgångsdatum.</i></p>
           </b-col>
         </b-row>
 

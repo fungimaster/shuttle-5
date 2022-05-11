@@ -125,38 +125,37 @@
    
             <b-row>
                 <b-col>
-                   <p>
-                    
-                       <ul class="roundlist">
+                   <p>                   
+                        <ul class="roundlist">
                           <li v-bind:class="{ active: currentRound === 1}">
-                            Omgång 1: 2 maj - 30 maj
+                            Omgång 1: 18 maj - 12 juni
                           </li>
                            <li v-bind:class="{ active: currentRound === 2}">
-                            Omgång 2: 31 maj - 20 juni
+                            Omgång 2: 13 juni - 26 juni
                           </li>
                             <li v-bind:class="{ active: currentRound === 3}">
-                            Omgång 3: 21 juni - 4 juli
+                            Omgång 3: 27 juni - 10 juli
                           </li>
                             <li v-bind:class="{ active: currentRound === 4}">
-                            Omgång 4: 5 juli - 18 juli
+                            Omgång 4: 11 juli - 24 juli
                           </li>
                             <li v-bind:class="{ active: currentRound === 5}">
-                            Omgång 5: 19 juli - 1 aug
+                            Omgång 5: 25 juli - 7 aug
                           </li>
                             <li v-bind:class="{ active: currentRound === 6}">
-                            Omgång 6: 2 aug -  15 aug
+                            Omgång 6: 8 aug -  21 aug
                           </li>
                            <li v-bind:class="{ active: currentRound === 7}">
-                            Omgång 7: 16 aug - 29 aug
+                            Omgång 7: 22 aug - 4 sep
                           </li>
                            <li v-bind:class="{ active: currentRound === 8}">
-                            Sverigefinal (3-5 sep)
+                            Sverigefinal (16-18 sep)
                           </li>
                            <li v-bind:class="{ active: currentRound === 9}">
                             Final (November)
                           </li>
-                       </ul>
-                   </p>
+                       </ul>                       
+                   </p>                   
                 </b-col>
             </b-row>
 
