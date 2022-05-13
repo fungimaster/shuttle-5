@@ -120,8 +120,7 @@
                       <span class="my-nav-item">Spelplats</span>
                     </template>
 
-                    <div v-if="!isteamleader && status != 'Finished'">
-                       status {{status}} - gamedate {{gamedate}}
+                    <div v-if="!isteamleader && status != 'Finished'">                      
                       <div v-if="gamedate">
                         {{ getgamedate() }} {{ gametime }}
                       </div>
@@ -785,6 +784,10 @@
                         <span class="my-nav-item hitta-speltid">Hitta speltid</span>
                     </template> 
 
+                    <b-alert show v-if="!isteamleader && !proposeddatesSanitized.length && !accepteddates.length" class="small">
+                      Hemmalaget kan föreslå datum och tid på dagen till er då dom kan spela. Om hemmalaget inte har skickat ett par dagar efter omgången har startat rek. vi er att ta kontakt med dom med uppg. under kontaktfliken för en vänlig påminnelse :)
+                    </b-alert>
+
                         <!-- 1. Time-picker -->
                          <div v-if="isteamleader && !proposeddatesSanitized.length">                          
                             <b-container class="mt-1">            
@@ -792,9 +795,9 @@
                               <b-col class="col-12 col-md-6 mt-1 mb-5">                                
                                 <app-time-selector :roundstartdate="roundstartdate" :roundenddate="roundenddate" @updateDate="updateDate"></app-time-selector>
                               </b-col>
-                            </b-row>
+                            </b-row>                            
                             </b-container>
-                            <hr>
+                            
                         </div>
 
                         <!-- 2. show proposed times to home team -->
@@ -815,7 +818,7 @@
                         <!-- 3. show proposed times to AWAY team -->
                         <div v-if="!isteamleader && proposeddatesSanitized.length && !accepteddates.length" class="">
                           
-                            <small>Nedan finner du förslag från hemmalaget på speltillfällen. Markera de tillfällen ni kan spela och skicka bekräftelse.</small>
+                            <small>Nedan finner du förslag från hemmalaget på speltillfällen. Markera ETT tillfälle ni kan spela och skicka bekräftelse till hemmalaget.</small>
                           <b-form-group
                           class="pt-2 pt-md-3"
                               label=""
@@ -844,6 +847,10 @@
                               
                               </b-form-radio-group>
                             </b-form-group>
+
+                             <p class="small mt-3">        
+        FM = 06-12 | EM = 12-17 | KV = 17-21<br> 
+     OBS! Tiderna är en indikation på ungefär när ni kan spela.</p> 
                       
                           <div class="text-center">
                             <b-button v-if="selectedDate" @click="confirmDates" :disabled="confirmDateSpinner || selectedDate.length">
@@ -883,9 +890,9 @@
                           <div class="w-100">
                             <h3 class="d-block">Accepterade tider</h3>
                             <b-alert show variant="primary" class="small">
-                              Er motståndare har accepterat nedan tid(er) och nu är det dags för er (hemmalaget) att boka tid på klubben och välja datum och exakt tid i fliken "spelplats".
+                              Er motståndare har accepterat nedan tid och nu är det dags för er (hemmalaget) att boka tid på klubben och välja datum och exakt tid i fliken "spelplats".
                             </b-alert>
-
+    
                             <b-alert
                                 v-for="date in accepteddates"
                                 :key="date.index"
@@ -897,6 +904,13 @@
                                 <i class="material-icons">event_available</i>
                                 <span>{{ formatDateLong(date) }}</span>
                               </b-alert>
+
+
+<p class="small mt-3">        
+        FM = 06-12 | EM = 12-17 | KV = 17-21<br> 
+     OBS! Tiderna är en indikation på ungefär när ni kan spela.</p> 
+                            
+
                               <div v-if="bookDateSpinner" class="d-flex justify-content-center mt-2">
                                 <b-spinner  variant="warning" type="grow" label="Spinning"></b-spinner>
                               </div>

@@ -91,10 +91,14 @@
       <i class="material-icons">event_available</i>
       <span>{{ formatDateLong(date) }}</span>
       <span class="float-right mr-3" @click="selectMeeting(date)">
-        <i class="material-icons h6">close</i>
+        <i class="material-icons h6" style="cursor:pointer;">close</i>
       </span>
-      <hr class="underline" />
+      
     </small>
+
+      <p class="small mt-3">        
+        FM = 06-12 | EM = 12-17 | KV = 17-21<br> 
+     OBS! Tiderna är en indikation på ungefär när ni kan spela.</p>  
 
     <b-button variant="outline-primary" size="sm" @click="confirmDates"
       ><small>Skicka datum</small></b-button

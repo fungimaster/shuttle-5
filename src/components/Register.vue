@@ -6,7 +6,7 @@
         <b-alert !show
           variant="warning small form-text text-muted mb-4"
         >Denna efterhandsregistrering är bara till för spelare som redan är med som lagmedlem i ett lag men som inte har kopplats till ett lag. Efter din registrering kommer du kopplas till rätt lag (baserat på ditt golf-id).</b-alert>
-          <p v-if="this.player==='player2' && closed" class="mb-4">
+          <p v-if="this.player==='player2' && !closed" class="mb-4">
               Din kompis
               <span v-if="captain" style="font-weight:bold;color:green;">{{captain}}</span> har skapat ett lag i tävlingen och för att
               <strong>göra laget komplett</strong> behöver du registrera dig som spelare här på matchplay! Följ instruktionerna nedan.
@@ -46,7 +46,9 @@
         </b-row>
 
         <b-row class="mb-3 mt-0">
+
           <b-col md="12" class="teaser-content" ref="success" id="success">
+
             <h5 v-if="showqualified" class="mt-0 mb-4">
               Ditt HCP är under 36 och du kan vara med i tävlingen
             </h5>
@@ -700,6 +702,7 @@ components: {
           console.log(error);
         });
     },
+
     onSubmit(evt) {
       evt.preventDefault();
 
@@ -785,7 +788,7 @@ trylogin()
    let userinfo = server.collections.users[0].profile;
    localStorage.setItem('userinfo',JSON.stringify(userinfo));
    this.showspinnerregisteruser = false;
-   this.$router.push({ path: "mymatchplay" });
+   this.$router.push({ path: "/mymatchplay" });
    //this.setuserinfoform();
 })
 .then((output) => {
