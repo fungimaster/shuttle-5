@@ -3,10 +3,10 @@
     <b-row class="justify-content-center" align-h="center">
       <b-col md="8" id="register" class="mt-4 mt-md-5">
         <h2 class="teaser-header orange">Anmäl dig som spelare</h2>
-        <b-alert !show
+        <b-alert show v-if="closed"
           variant="warning small form-text text-muted mb-4"
         >Denna efterhandsregistrering är bara till för spelare som redan är med som lagmedlem i ett lag men som inte har kopplats till ett lag. Efter din registrering kommer du kopplas till rätt lag (baserat på ditt golf-id).</b-alert>
-          <p v-if="this.player==='player2' && !closed" class="mb-4">
+          <p v-if="this.player==='player2'" class="mb-3 mt-3">
               Din kompis
               <span v-if="captain" style="font-weight:bold;color:green;">{{captain}}</span> har skapat ett lag i tävlingen och för att
               <strong>göra laget komplett</strong> behöver du registrera dig som spelare här på matchplay! Följ instruktionerna nedan.
