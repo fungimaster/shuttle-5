@@ -166,13 +166,13 @@
               Snittålder: <strong>42.8 år</strong><br> -->
               
                 </b-col>
-                <b-col class="col-5 col-md-12 pl-0 pl-md-3">
+                <b-col class="col-12 col-md-12">
                   <b-button to="/results" class="text-white mt-3 mt-md-1" variant="primary" size="sm">Följ årets matcher</b-button>
                 </b-col>
               </b-row>
             </div>
 
-              <p v-if="closed && !isAuthenticated">Anmälan till årets tävling har tyvärr stängt, välkommen tillbaka nästa år, anmälan öppnar i novemnber/december 2022.</p>
+              <p v-if="closed && !isAuthenticated">Anmälan till årets tävling har tyvärr stängt, välkommen tillbaka nästa år, anmälan öppnar i december 2022.</p>
               
               <a hidden
                 href="#earlyBirdie"
