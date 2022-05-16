@@ -107,8 +107,8 @@
           </b-col>
 
           <b-col class="col-12 col-md-8">
-            <p hidden v-if="!closed" class="mt-3 mt-md-0">
-             Omgång 1 startar  <strong>söndagen den 2 maj</strong> och pågår till  <strong>söndagen den 30 maj</strong> (ändrat för att fler i mellersta och norra Sverige ska kunna delta pga av kall vinter/vår).
+            <p v-if="closed" class="mt-3 mt-md-0">
+             Omgång 1 startar  <strong>onsdagen den 18 maj</strong> och pågår till  <strong>söndagen den 12 juni</strong>
               <b-alert hidden variant="info" class="small mt-3">Lag från mer än 50% av Sveriges golfklubbar finns nu representerade i tävlingen!</b-alert>              
             </p>
             <p
@@ -156,23 +156,23 @@
 
               >Vill du veta mer?</a>
 
-            <div hidden v-if="closed" class="mt-3 mb-3">
+            <div v-if="closed" class="mt-3 mb-3">
               <b-row>
-                <b-col class="col-7 col-md-12 pr-0 pr-md-3">
-              <h3 class="">Statistik 2021</h3>
-              Anmälda lag: <strong>712</strong><br>
-              Repr. klubbar: <strong>232</strong><br>
+                <b-col hidden class="col-7 col-md-12 pr-0 pr-md-3">
+              <h3 class="">Statistik 2022</h3>
+              Anmälda lag: <strong>416</strong><br>
+              Repr. klubbar: <strong>184</strong><!-- <br>
               Snitthcp: <strong>12.1</strong><br>
-              Snittålder: <strong>42.8 år</strong><br>
+              Snittålder: <strong>42.8 år</strong><br> -->
               
                 </b-col>
                 <b-col class="col-5 col-md-12 pl-0 pl-md-3">
-                  <b-button to="/results" class="text-white mt-5 mt-md-3" variant="primary" size="sm">Följ årets matcher</b-button>
+                  <b-button to="/results" class="text-white mt-3 mt-md-1" variant="primary" size="sm">Följ årets matcher</b-button>
                 </b-col>
               </b-row>
             </div>
 
-              <p v-if="closed && !isAuthenticated">Anmälan till årets tävling har tyvärr stängt, välkommen tillbaka nästa år, anmälan öppnar i december 2021.</p>
+              <p v-if="closed && !isAuthenticated">Anmälan till årets tävling har tyvärr stängt, välkommen tillbaka nästa år, anmälan öppnar i novemnber/december 2022.</p>
               
               <a hidden
                 href="#earlyBirdie"
@@ -416,7 +416,7 @@
         </b-row>
     
 
-        <b-row v-if="!closed">
+        <b-row v-if="closed">
           <b-col class="col-12 mb-3 mt-5">
             <h3>Omgångar 2022</h3>
               <app-rounds-grafic
@@ -990,7 +990,7 @@ export default {
       },
 
     countdown() {
-
+return;
       let parentvue = this;
 
   const second = 1000,

@@ -43,7 +43,7 @@ export const globalState = new Vue({
     admin_url: 'https://admin.matchplay.se/methods/',
     compid: 'hXcmBwqmfWC2tYcxR', //2020 'sFAc3dvrn2P9pXHAz',
     prevcompid: '8dmNL5K5ypaHbTbEM', //2020 'sFAc3dvrn2P9pXHAz',
-    closed: false,
+    closed: true,
     showTopClubs: true
   }
 })
