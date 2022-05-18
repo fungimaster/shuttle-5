@@ -141,32 +141,8 @@
                         kontaktuppgifter under kontaktfliken.
                       </b-alert>
                     </div>
-
-                    <div v-if="isteamleader">
-                      <b-container class="mt-3">
-                        <b-row class="justify-content-center" align-h="center">
-
-                      <!-- HITTA TID  -->
-
-                          <b-col class="col-12 mb-2" v-if="accepteddates.length">
-                            <small class="text-left d-block">Accepterad tid:</small>
-                              <small
-                                v-for="date in accepteddates"
-                                :key="date.index"
-                                :value="date.value"
-                                class="text-uppercase mt-1 d-block text-left"
-                                show
-                              >
-                                <i class="material-icons">event_available</i>
-                                <span>{{ formatDateLong(date) }}</span>
-                              </small>
-                          </b-col>
-                          <!-- HITTA TID END  -->
-
-                          <div v-if="status !== 'Finished' && !gamedate">
-                           <b-alert show v-if="!isteamleader && !proposeddatesSanitized.length && !accepteddates.length" class="small">
-                      Hemmalaget kan föreslå datum och tid på dagen till er då dom kan spela. Om hemmalaget inte har skickat ett par dagar efter omgången har startat rek. vi er att ta kontakt med dom med uppg. under kontaktfliken för en vänlig påminnelse :)
-                    </b-alert>
+                    
+                    <!-- start hitta tid -->
 
                         <!-- 1. Time-picker -->
                          <div v-if="isteamleader && !proposeddatesSanitized.length">                          
@@ -197,7 +173,7 @@
                         
                         <!-- 3. show proposed times to AWAY team -->
                         <div v-if="!isteamleader && proposeddatesSanitized.length && !accepteddates.length" class="">
-                          
+                          <br>
                             <small>Nedan finner du förslag från hemmalaget på speltillfällen. Markera ETT tillfälle ni kan spela och skicka bekräftelse till hemmalaget.</small>
                           <b-form-group
                           class="pt-2 pt-md-3"
@@ -297,6 +273,34 @@
 
                           </div> 
                         </div> 
+                    <!-- end hitta tid -->
+
+                    <div v-if="isteamleader">
+                      <b-container class="mt-3">
+                        <b-row class="justify-content-center" align-h="center">
+
+                      <!-- HITTA TID  -->
+
+                          <b-col class="col-12 mb-2" v-if="accepteddates.length">
+                            <small class="text-left d-block">Accepterad tid:</small>
+                              <small
+                                v-for="date in accepteddates"
+                                :key="date.index"
+                                :value="date.value"
+                                class="text-uppercase mt-1 d-block text-left"
+                                show
+                              >
+                                <i class="material-icons">event_available</i>
+                                <span>{{ formatDateLong(date) }}</span>
+                              </small>
+                          </b-col>
+                          <!-- HITTA TID END  -->
+
+                          <div v-if="status !== 'Finished' && !gamedate">
+                           <b-alert show v-if="!isteamleader && !proposeddatesSanitized.length && !accepteddates.length" class="small">
+                      Hemmalaget kan föreslå datum och tid på dagen till er då dom kan spela. Om hemmalaget inte har skickat ett par dagar efter omgången har startat rek. vi er att ta kontakt med dom med uppg. under kontaktfliken för en vänlig påminnelse :)
+                    </b-alert>
+
                           </div>
 
                           <b-col class="col-6 text-left">
