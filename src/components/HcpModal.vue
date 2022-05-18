@@ -330,17 +330,17 @@
 
 	.btn.btn-primary,
 	.btn-btn-primary:disabled {
-		background-color: #195a3a !important;
+		background-color: #286245 !important; //#195a3a
 		border-radius: 50px !important;
 		box-shadow: 0 !important;
-		border-color: #195a3a !important;
+		border-color: #286245 !important;
 	}
 
 	.btn.btn-primary.active,
 	.btn.btn-primary:active {
-		background-color: #195a3a !important;
+		background-color: #286245 !important;
 		transform: scale(0.95) !important;
-		border-color: #195a3a !important;
+		border-color: #286245 !important;
 	}
 
 	.nav-item {

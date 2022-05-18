@@ -155,6 +155,10 @@
                  Laddar bilder från våra härliga matchspelare!
                </div>
 
+               <div v-if="!allGameImages.length && !loadingimages">
+                 Inga bilder har laddats upp än men kolla här längre in i omgången för härliga bilder på våra glada golfspelare :)
+               </div>
+
              <b-jumbotron container-fluid class="p-0 m-0">               
         <app-image-collage class="bg-image-collage d-flex justify-content-center" v-if="allGameImages.length" :numberOfImages="numberOfImages" :images="allGameImages"></app-image-collage>               
     </b-jumbotron>
@@ -596,6 +600,9 @@ export default {
       .then((response) => {
         this.currentRound = response.data.currentround;      
         this.active_round = this.currentRound;
+        if (this.currentRound>0 && this.currentRound < 10) {
+          this.active_round = 'Omgång ' + this.currentRound;
+        }
        // console.log('created current round',this.currentRound);
          this.getGamesInprogress('initial');
         //this.getGamesFinished();
@@ -609,7 +616,7 @@ export default {
       }); 
   }   
 
-    this.gamescount3 = this.numberOfGames3 || null
+    this.gamescount3 = this.numberOfGames3 || 0
 
     window.addEventListener("resize", this.handleResize);
   },

@@ -2686,7 +2686,7 @@
 	/*  Särspel och vinnargrejor */
 	.winnerJumbotron {
 		border-radius: 10px;
-		background-color: #195a3a;
+		background-color: #286245;
 		padding: 10px;
 		margin-bottom: 10px;
 		-webkit-box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.19);
@@ -2820,7 +2820,7 @@
 	.leaderBoardPlayers {
 		margin-top: 40px;
 		text-align: left;
-		background: #195a3a;
+		background: #286245;
 		color: white;
 		border-radius: 4px;
 		padding-top: 20px;
@@ -2888,15 +2888,15 @@
 	}
 
 	tr:nth-child(1) {
-		background: #195a3a;
+		background: #286245;
 		color: white;
 	}
 	tr:nth-child(2) {
-		background: #195a3a;
+		background: #286245;
 		color: white;
 	}
 	tr:nth-child(3) {
-		background: #195a3a;
+		background: #286245;
 		color: white;
 	}
 	td {
@@ -3086,7 +3086,7 @@
 		height: 54px;
 		color: white;
 		font-weight: 900;
-		background-color: #195a3a;
+		background-color: #286245;
 		border: 0;
 		font-size: 25px;
 	}
@@ -3099,10 +3099,10 @@
 
 	.btn.btn-primary.active,
 	.btn.btn-primary:active {
-		background-color: #195a3a !important;
+		background-color: #286245 !important;
 		transform: scale(0.95) !important;
 		border: 0 !important;
-		border-color: #195a3a !important;
+		border-color: #286245 !important;
 	}
 	.btn-secondary,
 	.btn-secondary:hover,
@@ -3110,7 +3110,7 @@
 	.btn-secondary:visited,
 	.btn-secondary:focus,
 	.btn-secondary:disabled {
-		background-color: #195a3a !important;
+		background-color: #286245 !important;
 		color: white !important;
 		border: 0 !important;
 		box-shadow: 0 !important;
@@ -3121,10 +3121,10 @@
 	}
 	.btn.btn-primary,
 	.btn-btn-primary:disabled {
-		background-color: #195a3a !important;
+		background-color: #286245 !important;
 		border-radius: 50px !important;
 		box-shadow: 0 !important;
-		border-color: #195a3a !important;
+		border-color: #286245 !important;
 	}
 	/* LEADER SECTION  */
 	.dormy {
@@ -3161,7 +3161,8 @@
 		color: #fff;
 		font-weight: 900;
 		line-height: 44px;
-		margin-left:-1px;	
+		margin-left:-1px;
+		padding-bottom: 1px;
 	}
 
 	.scoreTeam2 {
@@ -3170,6 +3171,7 @@
 		color: #fff;
 		font-weight: 900;
 		line-height: 44px;
+		padding-bottom: 1px;
 	}
 
 	.leaderTeam1 {
@@ -3280,7 +3282,7 @@
 
 	table {
     border-collapse: collapse;
-  border-radius: 0.4em;
+  //border-radius: 0.4em;
   overflow: hidden;
 }
 

@@ -7,8 +7,8 @@
 					<p class>
 						Hål:
 						<strong>{{ activehole }}</strong>
-						| Par:
-						<strong>{{ par }}</strong> |
+						<i class="fa fa-circle mb-1" style="font-size:0.3em;vertical-align:middle;"></i> Par:
+						<strong>{{ par }}</strong> <i class="fa fa-circle mb-1" style="font-size:0.3em;vertical-align:middle;"></i>
 						Index:
 						<strong>{{ indexProp }}</strong>
 					</p>
@@ -72,8 +72,8 @@
 					<p class>
 						Hål:
 						<strong>{{ activehole }}</strong>
-						| Par:
-						<strong>{{ par }}</strong> |
+						<i class="fa fa-circle mb-1" style="font-size:0.3em;vertical-align:middle;"></i> Par:
+						<strong>{{ par }}</strong> <i class="fa fa-circle mb-1" style="font-size:0.3em;vertical-align:middle;"></i>
 						Index:
 						<strong>{{ indexProp }}</strong>
 					</p>
@@ -141,8 +141,8 @@
 					<p class>
 						Hål:
 						<strong>{{ activehole }}</strong>
-						| Par:
-						<strong>{{ par }}</strong> |
+						<i class="fa fa-circle mb-1" style="font-size:0.3em;vertical-align:middle;"></i> Par:
+						<strong>{{ par }}</strong> <i class="fa fa-circle mb-1" style="font-size:0.3em;vertical-align:middle;"></i>
 						Index:
 						<strong>{{ indexProp }}</strong>
 					</p>
@@ -210,8 +210,8 @@
 					<p class>
 						Hål:
 						<strong>{{ activehole }}</strong>
-						| Par:
-						<strong>{{ par }}</strong> |
+						<i class="fa fa-circle mb-1" style="font-size:0.3em;vertical-align:middle;"></i> Par:
+						<strong>{{ par }}</strong> <i class="fa fa-circle mb-1" style="font-size:0.3em;vertical-align:middle;"></i>
 						Index:
 						<strong>{{ indexProp }}</strong>
 					</p>
@@ -425,13 +425,16 @@
 	}
 
 	.activePlayer {
-		border-color: #000 !important;
+		border-color: #555 !important;
+		border-width:3px;
+		border-style: dashed;
 	}
 	.overviewParagraph {
 		border-radius: 7px;
 		margin: 1px;
 		text-align: center;
 		background-color: #19a2b82e;
+		padding-top: 6px;
 	}
 	.btn-info {
 		height: 52px !important;
@@ -459,7 +462,7 @@
 
 	.btn-team1 {
 		background: $team1;
-		border-color: $team1;
+		border-color: $team1;	
 	}
 
 	.btn-team2 {

@@ -163,6 +163,142 @@
                           </b-col>
                           <!-- HITTA TID END  -->
 
+                          <div v-if="status !== 'Finished' && !gamedate">
+                           <b-alert show v-if="!isteamleader && !proposeddatesSanitized.length && !accepteddates.length" class="small">
+                      Hemmalaget kan föreslå datum och tid på dagen till er då dom kan spela. Om hemmalaget inte har skickat ett par dagar efter omgången har startat rek. vi er att ta kontakt med dom med uppg. under kontaktfliken för en vänlig påminnelse :)
+                    </b-alert>
+
+                        <!-- 1. Time-picker -->
+                         <div v-if="isteamleader && !proposeddatesSanitized.length">                          
+                            <b-container class="mt-1">            
+                            <b-row class="justify-content-center" align-h="center">
+                              <b-col class="col-12 col-md-6 mt-1 mb-5">                                
+                                <app-time-selector :roundstartdate="roundstartdate" :roundenddate="roundenddate" @updateDate="updateDate"></app-time-selector>
+                              </b-col>
+                            </b-row>                            
+                            </b-container>
+                            
+                        </div>
+
+                        <!-- 2. show proposed times to home team -->
+                         <div v-if="isteamleader && proposeddatesSanitized.length && !accepteddatesSanitized.length" class="pt-2 pt-md-3">
+                          <small>Föreslagna tider (inväntar svar från bortalag).</small>
+                          <small
+                              v-for="date in proposeddates"
+                              :key="date.index"
+                              :value="date.value"
+                              class="d-block text-left text-uppercase position-relative pl-4 pt-1"
+                            >
+                              <i class="material-icons">event_available</i>
+                              <span>{{ formatDateLong(date) }}</span>
+                              <hr/>
+                            </small>
+                        </div> 
+                        
+                        <!-- 3. show proposed times to AWAY team -->
+                        <div v-if="!isteamleader && proposeddatesSanitized.length && !accepteddates.length" class="">
+                          
+                            <small>Nedan finner du förslag från hemmalaget på speltillfällen. Markera ETT tillfälle ni kan spela och skicka bekräftelse till hemmalaget.</small>
+                          <b-form-group
+                          class="pt-2 pt-md-3"
+                              label=""
+                              v-slot="{ ariaDescribedby }"
+                            >
+                              <b-form-radio-group
+                              v-model="selectedDate"
+                                :aria-describedby="ariaDescribedby"
+                                stacked
+                                buttons
+                                button-variant="outline-warning"
+
+                              >
+                               <b-form-radio
+                                v-for="date in proposeddatesSanitized.slice(0, showEnd)"
+                                :key="date.index"
+                                :value="date.value"
+                        
+                              >
+                                <span v-if="date.weekday === 7" class="text-danger"
+                                  >{{ date.text }}
+                                </span>
+                                <span  v-else class="text-dark">{{ date.text }} </span>
+                              </b-form-radio>
+                              
+                              
+                              </b-form-radio-group>
+                            </b-form-group>
+
+                             <p class="small mt-3">        
+        FM = 06-12 | EM = 12-17 | KV = 17-21<br> 
+     OBS! Tiderna är en indikation på ungefär när ni kan spela.</p> 
+                      
+                          <div class="text-center">
+                            <b-button v-if="selectedDate" @click="confirmDates" :disabled="confirmDateSpinner || selectedDate.length">
+                              <b-spinner v-if="confirmDateSpinner" small type="grow"></b-spinner>
+                              Skicka tid <i class="material-icons">send</i></b-button
+                            >
+                          </div>
+                              <hr />
+                        </div>
+
+                        <!-- 4 Away team: no date sent -->
+                        <div  v-if="gamedate && !isteamleader && !proposeddatesSanitized.length">
+                          <p>När hemmalaget skickat förslag på speldatum får ni ett mail och kan välja här.</p>
+                        </div>
+
+                        <!-- 5 Away team: dates accepted but not confirmed -->
+                        <div  v-if="!gamedate && !isteamleader && accepteddates.length">
+                          <p>Hemmalaget tar hand om att boka exakt tid.</p>
+                          <p>Ni har accepterat följande tid:</p>
+                            <b-alert
+                                v-for="date in accepteddates"
+                                :key="date.index"
+                                variant="outline-primary"
+                                :value="date.value"
+                                class="text-uppercase mt-1"
+                                show
+                              >
+                                <i class="material-icons">event_available</i>
+                                <span>{{ formatDateLong(date) }}</span>
+                              </b-alert>
+                        </div>
+
+                      <!--6. show accepted Dates  -->
+
+                         <div v-if="accepteddates.length && !gamedate && isteamleader" class="pt-2 pt-md-3 d-flex justify-content-center flex-wrap">
+
+                          <div class="w-100">
+                            <h3 class="d-block">Accepterade tider</h3>
+                            <b-alert show variant="primary" class="small">
+                              Er motståndare har accepterat nedan tid och nu är det dags för er (hemmalaget) att boka tid på klubben och välja datum och exakt tid i fliken "spelplats".
+                            </b-alert>
+    
+                            <b-alert
+                                v-for="date in accepteddates"
+                                :key="date.index"
+                                variant="outline-primary"
+                                :value="date.value"
+                                class="text-uppercase mt-1"
+                                show
+                              >
+                                <i class="material-icons">event_available</i>
+                                <span>{{ formatDateLong(date) }}</span>
+                              </b-alert>
+
+
+<p class="small mt-3">        
+        FM = 06-12 | EM = 12-17 | KV = 17-21<br> 
+     OBS! Tiderna är en indikation på ungefär när ni kan spela.</p> 
+                            
+
+                              <div v-if="bookDateSpinner" class="d-flex justify-content-center mt-2">
+                                <b-spinner  variant="warning" type="grow" label="Spinning"></b-spinner>
+                              </div>
+
+                          </div> 
+                        </div> 
+                          </div>
+
                           <b-col class="col-6 text-left">
                             <b-form-group class="">
                               <label for="gamedate">Datum</label>
@@ -399,7 +535,7 @@
                             <b-popover :target="'popover-help-game2-'+game_id" variant="warning" triggers="focus" placement="topleft">
                               <template #title>Hur startas matchen?</template>                               
                              <span v-if="isteamleader && status === 'Pending'">Klicka på knappen
-                            <strong>STARTA MATCH</strong> nedanför för att välja
+                            <strong>STARTA MATCH</strong> ovanför för att välja
                             klubb/slinga/tee för spelarna när det är dags att
                             spela golf!</span>
                             <span v-if="!isteamleader && status === 'Pending'">Endast hemmalaget kan starta matchen.</span>
@@ -779,145 +915,14 @@
                   </b-tab>
                   <!-- HITTA TID  -->
 
-                  <b-tab title-link-class="ml-1 p-2" v-if="status !== 'Finished' && !gamedate">
+            <!--       <b-tab hidden title-link-class="ml-1 p-2" v-if="status !== 'Finished' && !gamedate">
                     <template v-slot:title>
                         <span class="my-nav-item hitta-speltid">Hitta speltid</span>
                     </template> 
 
-                    <b-alert show v-if="!isteamleader && !proposeddatesSanitized.length && !accepteddates.length" class="small">
-                      Hemmalaget kan föreslå datum och tid på dagen till er då dom kan spela. Om hemmalaget inte har skickat ett par dagar efter omgången har startat rek. vi er att ta kontakt med dom med uppg. under kontaktfliken för en vänlig påminnelse :)
-                    </b-alert>
-
-                        <!-- 1. Time-picker -->
-                         <div v-if="isteamleader && !proposeddatesSanitized.length">                          
-                            <b-container class="mt-1">            
-                            <b-row class="justify-content-center" align-h="center">
-                              <b-col class="col-12 col-md-6 mt-1 mb-5">                                
-                                <app-time-selector :roundstartdate="roundstartdate" :roundenddate="roundenddate" @updateDate="updateDate"></app-time-selector>
-                              </b-col>
-                            </b-row>                            
-                            </b-container>
-                            
-                        </div>
-
-                        <!-- 2. show proposed times to home team -->
-                         <div v-if="isteamleader && proposeddatesSanitized.length && !accepteddatesSanitized.length" class="pt-2 pt-md-3">
-                          <small>Föreslagna tider (inväntar svar från bortalag).</small>
-                          <small
-                              v-for="date in proposeddates"
-                              :key="date.index"
-                              :value="date.value"
-                              class="d-block text-left text-uppercase position-relative pl-4 pt-1"
-                            >
-                              <i class="material-icons">event_available</i>
-                              <span>{{ formatDateLong(date) }}</span>
-                              <hr/>
-                            </small>
-                        </div> 
-                        
-                        <!-- 3. show proposed times to AWAY team -->
-                        <div v-if="!isteamleader && proposeddatesSanitized.length && !accepteddates.length" class="">
-                          
-                            <small>Nedan finner du förslag från hemmalaget på speltillfällen. Markera ETT tillfälle ni kan spela och skicka bekräftelse till hemmalaget.</small>
-                          <b-form-group
-                          class="pt-2 pt-md-3"
-                              label=""
-                              v-slot="{ ariaDescribedby }"
-                            >
-                              <b-form-radio-group
-                              v-model="selectedDate"
-                                :aria-describedby="ariaDescribedby"
-                                stacked
-                                buttons
-                                button-variant="outline-warning"
-
-                              >
-                               <b-form-radio
-                                v-for="date in proposeddatesSanitized.slice(0, showEnd)"
-                                :key="date.index"
-                                :value="date.value"
-                        
-                              >
-                                <span v-if="date.weekday === 7" class="text-danger"
-                                  >{{ date.text }}
-                                </span>
-                                <span  v-else class="text-dark">{{ date.text }} </span>
-                              </b-form-radio>
-                              
-                              
-                              </b-form-radio-group>
-                            </b-form-group>
-
-                             <p class="small mt-3">        
-        FM = 06-12 | EM = 12-17 | KV = 17-21<br> 
-     OBS! Tiderna är en indikation på ungefär när ni kan spela.</p> 
-                      
-                          <div class="text-center">
-                            <b-button v-if="selectedDate" @click="confirmDates" :disabled="confirmDateSpinner || selectedDate.length">
-                              <b-spinner v-if="confirmDateSpinner" small type="grow"></b-spinner>
-                              Skicka tid <i class="material-icons">send</i></b-button
-                            >
-                          </div>
-                              <hr />
-                        </div>
-
-                        <!-- 4 Away team: no date sent -->
-                        <div  v-if="gamedate && !isteamleader && !proposeddatesSanitized.length">
-                          <p>När hemmalaget skickat förslag på speldatum får ni ett mail och kan välja här.</p>
-                        </div>
-
-                        <!-- 5 Away team: dates accepted but not confirmed -->
-                        <div  v-if="!gamedate && !isteamleader && accepteddates.length">
-                          <p>Hemmalaget tar hand om att boka exakt tid.</p>
-                          <p>Ni har accepterat följande tid:</p>
-                            <b-alert
-                                v-for="date in accepteddates"
-                                :key="date.index"
-                                variant="outline-primary"
-                                :value="date.value"
-                                class="text-uppercase mt-1"
-                                show
-                              >
-                                <i class="material-icons">event_available</i>
-                                <span>{{ formatDateLong(date) }}</span>
-                              </b-alert>
-                        </div>
-
-                      <!--6. show accepted Dates  -->
-
-                         <div v-if="accepteddates.length && !gamedate && isteamleader" class="pt-2 pt-md-3 d-flex justify-content-center flex-wrap">
-
-                          <div class="w-100">
-                            <h3 class="d-block">Accepterade tider</h3>
-                            <b-alert show variant="primary" class="small">
-                              Er motståndare har accepterat nedan tid och nu är det dags för er (hemmalaget) att boka tid på klubben och välja datum och exakt tid i fliken "spelplats".
-                            </b-alert>
-    
-                            <b-alert
-                                v-for="date in accepteddates"
-                                :key="date.index"
-                                variant="outline-primary"
-                                :value="date.value"
-                                class="text-uppercase mt-1"
-                                show
-                              >
-                                <i class="material-icons">event_available</i>
-                                <span>{{ formatDateLong(date) }}</span>
-                              </b-alert>
-
-
-<p class="small mt-3">        
-        FM = 06-12 | EM = 12-17 | KV = 17-21<br> 
-     OBS! Tiderna är en indikation på ungefär när ni kan spela.</p> 
-                            
-
-                              <div v-if="bookDateSpinner" class="d-flex justify-content-center mt-2">
-                                <b-spinner  variant="warning" type="grow" label="Spinning"></b-spinner>
-                              </div>
-
-                          </div> 
-                        </div> 
-                  </b-tab>
+                    flyttat till spelplats istället
+                   
+                  </b-tab> -->
                   <!-- HITTA TID  END -->
 
                 </b-tabs>
@@ -1318,6 +1323,9 @@ export default {
     //scroll to top
     window.scrollTo(0, 0);
 
+
+
+
     //check logged in
     let userinfo = localStorage.getItem("userinfo");
 
@@ -1361,7 +1369,27 @@ export default {
         }
 
         this.notfound = false;
-        console.log(response.data)
+        //console.log(response.data)
+
+        //show hitta speltid toast
+        if (response.data.hasOwnProperty("roundname")) {
+          if (response.data.roundname === 'Omgång 1') {
+            
+            
+             this.$bvToast.toast(
+              "Missa inte vår nya funktion för att enkelt hitta speltid, finns under fliken spelplats och initieras av hemmalaget.",
+              {
+                title: "Ny funktion!",
+                autoHideDelay: 5000,
+                variant: "info",
+                solid: true,
+              }
+            ); 
+            
+
+            }
+            }
+
         //POPULATE VARS
         if (response.data.hasOwnProperty("proposeddates")) {
           this.proposeddates = response.data.proposeddates
@@ -2259,7 +2287,7 @@ p {
 @media only screen and (max-width: 400px) {
   /* iphone 5/se */
   .my-nav-item {
-    font-size: 0.6em;    
+    font-size: 0.8em;    
     padding-left:0 !important;
     padding-right:0 !important;
   }

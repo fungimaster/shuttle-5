@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<b-container>
+		<b-container class="numpad">
 			<b-row>
 				<b-col cols="12">
 					<!-- 1 -->
@@ -10,7 +10,8 @@
 						class="pb-2 btn btn-warning"
 						@click="holes.hole === activehole ? (holes.strokes = 1) : null, buttonActions(activehole, player, 'btn1')"
 					>
-					1
+					<span class="number">1</span>
+					<div class="string">&nbsp;</div>
 					</button>
 
 					<!-- 2 -->
@@ -20,9 +21,12 @@
 						class="pb-2 btn btn-warning"
 						@click="holes.hole === activehole ? (holes.strokes = 2) : null, buttonActions(activehole, player, 'btn2')"
 					>
+						<span class="number">2</span>
+						<div class="string">
+						{{ par - par === 0 ? "&nbsp;" : null }}
 						{{ par - 1 === 2 ? "Birdie" : null }}
 						{{ par - 2 === 2 ? "Eagle" : null }}
-						2
+						</div>
 					</button>
 
 					<!--3  -->
@@ -32,11 +36,14 @@
 						class="pb-2 btn btn-warning"
 						@click="holes.hole === activehole ? (holes.strokes = 3) : null, buttonActions(activehole, player, 'btn3')"
 					>
+						<span class="number">3</span>
+						<div class="string">
 						{{ par === 3 ? "Par" : null }}
 						{{ par - 2 === 3 ? "Eagle" : null }}
 						{{ par - 1 === 3 ? "Birdie" : null }}
 						{{ par + 1 === 3 ? "Bogey" : null }}
-						3
+						</div>
+						
 					</button>
 				</b-col>
 			</b-row>
@@ -50,11 +57,14 @@
 						class="pb-2 btn btn-warning"
 						@click="holes.hole === activehole ? (holes.strokes = 4) : null, buttonActions(activehole, player, 'btn4')"
 					>
+						<span class="number">4</span>
+						<div class="string">
 						{{ par === 4 ? "par" : null }}
 						{{ par - 1 === 4 ? "Birdie" : null }}
 						{{ par + 1 === 4 ? "Bogey" : null }}
-						{{ par + 2 === 4 ? "Double Bogey" : null }}
-						4
+						{{ par + 2 === 4 ? "Dubbelbogey" : null }}
+						</div>
+						
 					</button>
 					<!-- 5 -->
 					<button
@@ -63,11 +73,14 @@
 						class="pb-2 btn btn-warning"
 						@click="holes.hole === activehole ? (holes.strokes = 5) : null, buttonActions(activehole, player, 'btn5')"
 					>
+						<span class="number">5</span>
+						<div class="string">
 						{{ par === 5 ? "par" : null }}
 						{{ par - 1 === 5 ? "Birdie" : null }}
 						{{ par + 1 === 5 ? "Bogey" : null }}
-						{{ par + 2 === 5 ? "Double Bogey" : null }}
-						5
+						{{ par + 2 === 5 ? "Dubbelbogey" : null }}
+						</div>
+						
 					</button>
 
 					<!-- 6 -->
@@ -77,11 +90,14 @@
 						class="pb-2 btn btn-warning"
 						@click="holes.hole === activehole ? (holes.strokes = 6) : null, buttonActions(activehole, player, 'btn6')"
 					>
+						<span class="number">6</span>
+						<div class="string">
 						{{ par === 6 ? "par" : null }}
 						{{ par - 1 === 6 ? "Birdie" : null }}
 						{{ par + 1 === 6 ? "Bogey" : null }}
-						{{ par + 2 === 6 ? "Double Bogey" : null }}
-						6
+						{{ par + 2 === 6 ? "Dubbelbogey" : null }}
+						</div>
+						
 					</button>
 				</b-col>
 			</b-row>
@@ -95,11 +111,14 @@
 						class="pb-2 btn btn-warning"
 						@click="holes.hole === activehole ? (holes.strokes = 7) : null, buttonActions(activehole, player, 'btn7')"
 					>
+						<span class="number">7</span>
+						<div class="string">
 						{{ par === 7 ? "par" : null }}
 						{{ par - 1 === 7 ? "Birdie" : null }}
 						{{ par + 1 === 7 ? "Bogey" : null }}
-						{{ par + 2 === 7 ? "Double Bogey" : null }}
-						7
+						{{ par + 2 === 7 ? "Dubbelbogey" : null }}
+						</div>
+						
 					</button>
 
 					<!-- 8 -->
@@ -108,7 +127,12 @@
 						:class="{'pressedButton':display&& activeButton === 'btn8'}"
 						class="pb-2 btn btn-warning"
 						@click="holes.hole === activehole ? (holes.strokes = 8) : null, buttonActions(activehole, player, 'btn8')"
-					>8</button>
+					>
+					<span class="number">8</span>
+					<div class="string">
+						&nbsp;
+					</div>
+					</button>
 
 					<!-- 9 -->
 					<button
@@ -116,7 +140,12 @@
 						:class="{'pressedButton':display&& activeButton === 'btn9'}"
 						class="pb-2 btn btn-warning"
 						@click="holes.hole === activehole ? (holes.strokes = 9) : null, buttonActions(activehole, player, 'btn9')"
-					>9</button>
+					>
+					<span class="number">9</span>
+					<div class="string">
+						&nbsp;
+					</div>
+					</button>
 				</b-col>
 			</b-row>
 			<b-row align-h="center">
@@ -127,7 +156,11 @@
 						:class="{'pressedButton':display&& activeButton === 'btn0'}"
 						class="pb-2 btn btn-warning"
 						@click="holes.hole === activehole ? (holes.strokes = NaN) : null, buttonActions(activehole, player, 'btn0')"
-					>-/0</button>
+					>	<span class="number">-</span>
+						<div class="string">
+							Strecka hålet
+						</div>
+					</button>
 				</b-col>
 			</b-row>
 		</b-container>
@@ -169,6 +202,10 @@
 <style lang="scss" scoped>
 	@import "../styles/variables.scss";
 
+	.numpad .col-12 {
+		padding-bottom:0.4em;
+	}
+
 	.btn {
 		touch-action: manipulation;
 	}
@@ -185,8 +222,25 @@
 		margin: 2px;
 		font-size: 14px;
 	}
-	.par {
+
+	span.number {
+		display:block;
+		font-size:1.5em;
+	}
+	div.string {
+		margin-top:0em;
+		font-size:0.6em;
+		line-height: 1.2em;
+	}
+
+	/* .par {
 		border-bottom: 8px solid $pink;
+	} */
+
+	.par {
+		//background: $pink;
+		background: #3f9b6d;
+		border:none;
 	}
 
 	.pressedButton {
