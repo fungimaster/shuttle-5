@@ -1788,9 +1788,11 @@
 				//var gamedate2 = '"' + gamedate + '"' + ' ' + gametime; //return moment(gamedate2, "YYYY-MM-DD hh:mm").add(3, 'hours').fromNow();
 			},
 			 getLogoImage(logourl,preset) {
-				 if (logourl)
-				var first_url = logourl.split("/upload/").pop();           
-				return 'https://res.cloudinary.com/dn3hzwewp/image/upload/' + preset + '/' + first_url;
+				 if (logourl) {
+					var first_url = logourl.split("/upload/").pop();           
+					return 'https://res.cloudinary.com/dn3hzwewp/image/upload/' + preset + '/' + first_url;
+				 }
+				return ''
             },
 			    getImageUrl(url, stringToAdd) {
 					if (!url) {

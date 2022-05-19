@@ -904,10 +904,12 @@ export default {
        
       return 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_80,ar_1:1,c_fill,g_auto/' + first_url;      
     },
-      getLogoImage(logourl) {      
+    getLogoImage(logourl) { 
+      if (logourl) {
             var first_url = logourl.split("/upload/").pop();           
             return 'https://res.cloudinary.com/dn3hzwewp/image/upload/h_50,q_auto,c_scale/' + first_url;
-            },
+        }             
+    },
     getClubLogo(id) {
       if (!this.getClubLogosUrls) {
         return
