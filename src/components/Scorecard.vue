@@ -617,21 +617,21 @@
 				<!--  TABELL HÅL 1-9 --> 
 				<table class="table9" v-if="showfront9">
 					
-					<tr>
-						<th>Hål:</th>
+					<tr class="headerrow">
+						<th>Hål</th>
 						<td @click="showMatch(hole.hole)" v-for="hole in course.slice(0, 9)" :key="hole.index">{{ hole.hole }}</td>
-					</tr>
-					<tr>
-						<th>Par:</th>
-						<td @click="showMatch(hole.hole)" v-for="hole in course.slice(0, 9)" :key="hole.index">{{ hole.par }}</td>
-					</tr>
-					<tr>
-						<th>Ind:</th>
+					</tr>					
+					<tr class="headerrow">
+						<th>Index</th>
 						<td @click="showMatch(hole.hole)" v-for="hole in course.slice(0, 9)" :key="hole.index">{{ hole.index }}</td>
+					</tr>
+					<tr class="headerrow">
+						<th>Par</th>
+						<td @click="showMatch(hole.hole)" v-for="hole in course.slice(0, 9)" :key="hole.index">{{ hole.par }}</td>
 					</tr>
 
 					<!--  SPELARE 1 -->
-					<tr class="scorecard-row" v-for="player in players.slice(0, 1)" :key="player.index">
+					<tr class="scorecard-row headerrow" v-for="player in players.slice(0, 1)" :key="player.index">
 						<th v-initials class="initialsTeam1">{{ player.name }}</th>
 						<td class="align-top" @click="showMatch(index+1)"
 							:class="[{'showWinnerOverviewTeam1' : isInWinningHoleTeam(0)[index] && valueOfLowestScoreInTeam(index,0) }]"
@@ -652,7 +652,7 @@
 					</tr>
 
 					<!-- SPELARE 2 -->
-					<tr class="scorecard-row" v-for="player in players.slice(1, 2)" :key="player.index">
+					<tr class="scorecard-row headerrow" v-for="player in players.slice(1, 2)" :key="player.index">
 						<th v-initials class="initialsTeam1">{{ player.name }}</th>
 						<td class="align-top" @click="showMatch(index+1)"
 							:class="[{'showWinnerOverviewTeam1' : isInWinningHoleTeam(1)[index] && valueOfLowestScoreInTeam(index,1)}]"
@@ -680,7 +680,7 @@
 					</tr>
 
 					<!-- SPELARE 3 -->
-					<tr class="scorecard-row" v-for="player in players.slice(2, 3)" :key="player.index">
+					<tr class="scorecard-row headerrow" v-for="player in players.slice(2, 3)" :key="player.index">
 						<th v-initials class="initialsTeam2">{{ player.name }}</th>
 						<td class="align-top" @click="showMatch(index+1)"
 							:class="[{'showWinnerOverviewTeam2' : isInWinningHoleTeam(2)[index] && valueOfLowestScoreInTeam(index,2)}]"
@@ -703,7 +703,7 @@
 					</tr>
 
 					<!-- SPELARE 4 -->
-					<tr class="scorecard-row" v-for="player in players.slice(3, 4)" :key="player.index">
+					<tr class="scorecard-row headerrow" v-for="player in players.slice(3, 4)" :key="player.index">
 						<th v-initials class="initialsTeam2">{{ player.name }}</th>
 						<td class="align-top" @click="showMatch(index+1)"
 							:class="[{'showWinnerOverviewTeam2' : isInWinningHoleTeam(3)[index] && valueOfLowestScoreInTeam(index,3)}]"
@@ -728,23 +728,23 @@
 
 				<!--  TABELL HÅL 10-18 -->
 				<table class="table18" v-if="showback9">
-					<tr>
-						<th>Hål:</th>
+					<tr class="headerrow">
+						<th>Hål<link rel="stylesheet" href=""></th>
 						<td @click="showMatch(hole.hole)" v-for="hole in course.slice(9, 18)" :key="hole.index">{{ hole.hole }}</td>
 						
+					</tr>					
+					<tr class="headerrow">
+						<th>Index</th>
+						<td @click="showMatch(hole.hole)" v-for="hole in course.slice(9, 18)" :key="hole.index">{{ hole.index }}</td>
 					</tr>
-					<tr>
-						<th>Par:</th>
+					<tr class="headerrow">
+						<th>Par</th>
 						<td @click="showMatch(hole.hole)" v-for="hole in course.slice(9, 18)" :key="hole.index">{{ hole.par }}</td>
 						
 					</tr>
-					<tr>
-						<th>Ind:</th>
-						<td @click="showMatch(hole.hole)" v-for="hole in course.slice(9, 18)" :key="hole.index">{{ hole.index }}</td>
-					</tr>
 
 					<!-- SPELARE 1 -->
-					<tr class="scorecard-row" v-for="player in players.slice(0, 1)" :key="player.index">
+					<tr class="scorecard-row headerrow" v-for="player in players.slice(0, 1)" :key="player.index">
 						<th v-initials class="initialsTeam1">{{ player.name }}</th>
 						<td class="align-top" @click="showMatch(index+10)"
 							:class="[{'showWinnerOverviewTeam1' : isInWinningHoleTeam(0)[index + 9] && valueOfLowestScoreInTeam(index + 9,0)}]"
@@ -762,7 +762,7 @@
 					</tr>
 
 					<!-- SPELARE 2 -->
-					<tr class="scorecard-row" v-for="player in players.slice(1, 2)" :key="player.index">
+					<tr class="scorecard-row headerrow" v-for="player in players.slice(1, 2)" :key="player.index">
 						<th v-initials class="initialsTeam1">{{ player.name }}</th>
 						<td class="align-top" @click="showMatch(index+10)"
 							:class="[{'showWinnerOverviewTeam1' : isInWinningHoleTeam(1)[index + 9] && valueOfLowestScoreInTeam(index + 9,1)}]"
@@ -780,12 +780,11 @@
 					</tr>
 
 					<tr class="emptyRow">
-						<td class="emptyRow">
-							<p></p>
+						<td class="emptyRow">						
 						</td>
 					</tr>
 					<!-- SPELARE 3 -->
-					<tr class="scorecard-row" v-for="player in players.slice(2, 3)" :key="player.index">
+					<tr class="scorecard-row headerrow" v-for="player in players.slice(2, 3)" :key="player.index">
 						<th v-initials class="initialsTeam2">{{ player.name }}</th>
 						<td class="align-top" @click="showMatch(index+10)"
 							:class="[{'showWinnerOverviewTeam2' : isInWinningHoleTeam(2)[index + 9] && valueOfLowestScoreInTeam(index + 9,2)}]"
@@ -803,7 +802,7 @@
 					</tr>
 
 					<!-- SPELARE 4 -->
-					<tr class="scorecard-row" v-for="player in players.slice(3, 4)" :key="player.index">
+					<tr class="scorecard-row headerrow" v-for="player in players.slice(3, 4)" :key="player.index">
 						<th v-initials class="initialsTeam2">{{ player.name }}</th>
 						<td class="align-top" @click="showMatch(index+10)"
 							:class="[{'showWinnerOverviewTeam2' : isInWinningHoleTeam(3)[index + 9] && valueOfLowestScoreInTeam(index + 9,3)}]"
@@ -2635,13 +2634,17 @@
 
 	.scorecard-row td {
 		font-size:1em;
-		padding-top:0.7em;
-		padding-bottom:0.5em;
-		padding-left: 0px;
-    	padding-right: 0px;
+		padding-top:0.7em !important;
+		padding-bottom:0.5em !important;
+		padding-left: 0px !important;
+    	padding-right: 0px !important;
     	margin-left: 0px;
     	margin-right: 0px;
-		position:relative;
+		position:relative;		
+	}
+
+	.scorecard-row {
+		background: white;
 	}
 
 	.eagle {		
@@ -2845,7 +2848,10 @@
 	}	
 
 	.table9, .table18 {
-		background:rgba(255,255,255,0.88)
+		//background:rgba(255,255,255,0.88);
+		background: #286245;
+		border-top-left-radius: 0.5em;
+    	border-top-right-radius: 0.5em;
 	}
 
 	.tableClubAndLoop{
@@ -2869,17 +2875,22 @@
 		width: 100%;
 		margin: 10px auto;
 		/* border-collapse: inherit; */
-		font-size: 12px;
+		font-size: 10px;		
 	}
 
-	th,
+	.headerrow th, .headerrow td {
+		border: 1px solid #286245;
+		padding:6px;
+	}
+	
 	td {
 		border: 1px solid #ccc;
 		padding:3px;
 	}
 
 	.emptyRow {
-		border: none;
+		   border: none;
+		   padding: 1px;
 	}
 
 	.tableClubAndLoop tr, .tableClubAndLoop th, .tableClubAndLoop td {
@@ -2892,12 +2903,14 @@
 		color: white;
 	}
 	tr:nth-child(2) {
-		background: #286245;
-		color: white;
+		//background: #286245;
+		background: #e1e1e1;
+		color: black;
 	}
 	tr:nth-child(3) {
-		background: #286245;
-		color: white;
+		//background: #286245;
+		background: #e1e1e1;
+		color: black;
 	}
 	td {
 		padding: 3px;

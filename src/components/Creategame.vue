@@ -172,6 +172,7 @@
             <b-button
               v-if="!errorMSG"
               class="teOff btn btn-success btn-sm text-white mt-3 mr-md-2"
+              :class="{'pulse-button': allTeesSelected}"
               @click="teeOff"
               variant="primary"
               :disabled="!allTeesSelected"
@@ -965,6 +966,7 @@ export default {
       let player = this.players.find((player) => player.shcp === null);
       if (!player) {
         this.allTeesSelected = true;
+        window.scrollTo(0, document.body.scrollHeight);
       } else {
         this.allTeesSelected = false;
       }

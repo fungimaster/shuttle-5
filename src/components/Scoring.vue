@@ -20,7 +20,7 @@
 							:class="hole.hole != activehole ? { classDisplayNone: active } : null">
 							<b-col cols="xs">
 								<button
-									:class="{'activePlayer': index === 0, 'btn-team1': index < 2, 'btn-team2': index > 1}"
+									:class="{'activePlayer pulse-button': index === 0, 'btn-team1': index < 2, 'btn-team2': index > 1}"
 									class="btn btn-info"
 									@click="$bvModal.show(`modal-${index+1}`, $bvModal.hide(`modal-${counter}`) , updateCounter(index+1))"
 								>
@@ -89,7 +89,7 @@
 						>
 							<b-col cols="xs">
 								<button
-									:class="{'activePlayer': index === 1, 'btn-team1': index < 2, 'btn-team2': index > 1}"
+									:class="{'activePlayer pulse-button': index === 1, 'btn-team1': index < 2, 'btn-team2': index > 1}"
 									class="btn btn-info"
 									@click="$bvModal.show(`modal-${index+1}`, $bvModal.hide(`modal-${counter}`) , updateCounter(index+1))"
 								>
@@ -158,7 +158,7 @@
 						>
 							<b-col cols="xs">
 								<button
-									:class="{'activePlayer': index === 2, 'btn-team1': index < 2, 'btn-team2': index > 1}"
+									:class="{'activePlayer pulse-button': index === 2, 'btn-team1': index < 2, 'btn-team2': index > 1}"
 									class="btn btn-info"
 									@click="$bvModal.show(`modal-${index+1}`, $bvModal.hide(`modal-${counter}`) , updateCounter(index+1))"
 								>
@@ -221,19 +221,16 @@
 						<div
 							class="scoresOverview"
 							v-for="hole in holes"
-							:class="
-            hole.hole != activehole ? { classDisplayNone: active } : null
-          "
-						>
+							:class="hole.hole != activehole ? { classDisplayNone: active } : null">
 							<b-col cols="xs">
 								<button
-									:class="{'activePlayer': index === 3, 'btn-team1': index < 2, 'btn-team2': index > 1}"
+									:class="{'activePlayer pulse-button': index === 3, 'btn-team1': index < 2, 'btn-team2': index > 1}"
 									class="btn btn-info"
 									@click="$bvModal.show(`modal-${index+1}`, $bvModal.hide(`modal-${counter}`) , updateCounter(index+1))"
 								>
 									<span v-initials>{{name}}</span>
 									<span hidden class="material-icons">person</span>
-								</button>
+								</button>								
 							</b-col>
 							<b-col cols="xs">
 								<p v-changeNan:arguments="{score: hole.strokes}" class="overviewParagraph">{{hole.strokes}}</p>

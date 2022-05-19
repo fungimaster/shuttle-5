@@ -120,32 +120,12 @@
                       <span class="my-nav-item">Spelplats</span>
                     </template>
 
-                    <div v-if="!isteamleader && status != 'Finished'">                      
-                      <div v-if="gamedate">
-                        {{ getgamedate() }} {{ gametime }}
-                      </div>
-                      <div v-else>Speltid är inte bestämd än</div>
-                      <div v-if="query">@ {{ query }}</div>
-                      <div v-else>@ (Golfbana saknas)</div>
-                      <div v-if="slinganame">{{ slinganame }}</div>
-                      <div v-else>(Slinga saknas)</div>
-
-                      <b-alert
-                        v-if="status != 'Finished'"
-                        show
-                        dismissible
-                        class="mt-3 mb-0 small"
-                        variant="info"
-                      >
-                        Båda lagen är ansvariga för att kontakta sina motståndare för att komma överens om datum för spel. Se
-                        kontaktuppgifter under kontaktfliken.
-                      </b-alert>
-                    </div>
+              
                     
                     <!-- start hitta tid -->
 
-                        <!-- 1. Time-picker -->
-                         <div v-if="isteamleader && !proposeddatesSanitized.length">                          
+                        <!-- 1. Time-picker -->                        
+                         <div v-if="isteamleader && !proposeddatesSanitized.length && !gamedate && !gametime && !query" class="hittatid">                          
                             <b-container class="mt-1">            
                             <b-row class="justify-content-center" align-h="center">
                               <b-col class="col-12 col-md-6 mt-1 mb-5">                                
@@ -157,7 +137,7 @@
                         </div>
 
                         <!-- 2. show proposed times to home team -->
-                         <div v-if="isteamleader && proposeddatesSanitized.length && !accepteddatesSanitized.length" class="pt-2 pt-md-3">
+                         <div v-if="isteamleader && proposeddatesSanitized.length && !accepteddatesSanitized.length" class="pt-2 pt-md-3 hittatid">
                           <small>Föreslagna tider (inväntar svar från bortalag).</small>
                           <small
                               v-for="date in proposeddates"
@@ -172,7 +152,7 @@
                         </div> 
                         
                         <!-- 3. show proposed times to AWAY team -->
-                        <div v-if="!isteamleader && proposeddatesSanitized.length && !accepteddates.length" class="">
+                        <div v-if="!isteamleader && proposeddatesSanitized.length && !accepteddates.length" class="hittatid">
                           <br>
                             <small>Nedan finner du förslag från hemmalaget på speltillfällen. Markera ETT tillfälle ni kan spela och skicka bekräftelse till hemmalaget.</small>
                           <b-form-group
@@ -218,12 +198,12 @@
                         </div>
 
                         <!-- 4 Away team: no date sent -->
-                        <div  v-if="gamedate && !isteamleader && !proposeddatesSanitized.length">
+                        <div v-if="!gamedate && !gametime && !isteamleader && !proposeddatesSanitized.length" class="hittatid">
                           <p>När hemmalaget skickat förslag på speldatum får ni ett mail och kan välja här.</p>
                         </div>
 
                         <!-- 5 Away team: dates accepted but not confirmed -->
-                        <div  v-if="!gamedate && !isteamleader && accepteddates.length">
+                        <div v-if="!gamedate && !isteamleader && accepteddates.length" class="hittatid">
                           <p>Hemmalaget tar hand om att boka exakt tid.</p>
                           <p>Ni har accepterat följande tid:</p>
                             <b-alert
@@ -274,6 +254,28 @@
                           </div> 
                         </div> 
                     <!-- end hitta tid -->
+
+                          <div v-if="!isteamleader && status != 'Finished'">                      
+                      <div v-if="gamedate">
+                        {{ getgamedate() }} {{ gametime }}
+                      </div>
+                      <div v-else>Speltid är inte bestämd än</div>
+                      <div v-if="query">@ {{ query }}</div>
+                      <div v-else>@ (Golfbana saknas)</div>
+                      <div v-if="slinganame">{{ slinganame }}</div>
+                      <div v-else>(Slinga saknas)</div>
+                    <b-alert
+                        v-if="status != 'Finished' && !gamedate && !gametime && !clubid"
+                        show
+                        dismissible
+                        class="mt-3 mb-0 small"
+                        variant="info"
+                      >
+                        Båda lagen är ansvariga för att kontakta sina motståndare för att komma överens om datum för spel. Se
+                        kontaktuppgifter under kontaktfliken.
+                      </b-alert>
+                      
+                    </div>
 
                     <div v-if="isteamleader">
                       <b-container class="mt-3">
@@ -524,6 +526,12 @@
                             ><i class="material-icons mr-2"
                               >play_circle_filled</i
                             >Visa scorekortet</b-button
+                          >
+                           <b-alert
+                            v-if="!isteamleader && status === 'Pending'"                                                  
+                            variant="info" show
+                            class="mr-1 mt-2 small">
+                           Scorekortet startas och  förs av hemmalaget. När matchen har startat kan ni på denna fliken öppna scorekortet för visning.</b-alert
                           >
                           <hr />
                            <b-button :id="'popover-help-game1-'+game_id" href="#" tabindex="0" class="btn btn-secondary btn-sm text-white mb-2">Vem för score?</b-button>
@@ -1375,25 +1383,6 @@ export default {
         this.notfound = false;
         //console.log(response.data)
 
-        //show hitta speltid toast
-        if (response.data.hasOwnProperty("roundname")) {
-          if (response.data.roundname === 'Omgång 1') {
-            
-            
-             this.$bvToast.toast(
-              "Missa inte vår nya funktion för att enkelt hitta speltid, finns under fliken spelplats och initieras av hemmalaget.",
-              {
-                title: "Ny funktion!",
-                autoHideDelay: 5000,
-                variant: "info",
-                solid: true,
-              }
-            ); 
-            
-
-            }
-            }
-
         //POPULATE VARS
         if (response.data.hasOwnProperty("proposeddates")) {
           this.proposeddates = response.data.proposeddates
@@ -1406,8 +1395,6 @@ export default {
         if (response.data.hasOwnProperty("gametimeofday")) {
            this.gametimeofday = response.data.gametimeofday
         }
-        
-       
         
 
         this.hometeamname = response.data.hometeamname;
@@ -1577,6 +1564,23 @@ export default {
           this.loadingCourse == 2;
         } else {
           //console.log('no game date')
+        }
+
+        //show hitta speltid toast
+        if (response.data.hasOwnProperty("roundname")) {
+          if (response.data.roundname === 'Omgång 1' && !this.gamedate && !this.gametime) {            
+            
+             this.$bvToast.toast(
+              "Missa inte vår nya funktion för att enkelt hitta speltid, finns under fliken spelplats och initieras av hemmalaget.",
+              {
+                title: "Ny funktion!",
+                autoHideDelay: 5000,
+                variant: "info",
+                solid: true,
+              }
+            );           
+
+            }
         }
 
         this.loading = false;
@@ -2286,6 +2290,10 @@ p {
 
 .my-nav-item {
   font-size: 0.85em;  
+}
+
+.hittatid {
+      background: #f7fafc;
 }
 
 @media only screen and (max-width: 400px) {
