@@ -137,7 +137,7 @@
                         </div>
 
                         <!-- 2. show proposed times to home team -->
-                         <div v-if="isteamleader && proposeddatesSanitized.length && !accepteddatesSanitized.length" class="pt-2 pt-md-3 hittatid">
+                         <div v-if="isteamleader && proposeddatesSanitized.length && !accepteddatesSanitized.length && !gametime && !gamedate" class="pt-2 pt-md-3 hittatid">
                           <small>Föreslagna tider (inväntar svar från bortalag).</small>
                           <small
                               v-for="date in proposeddates"
@@ -152,7 +152,7 @@
                         </div> 
                         
                         <!-- 3. show proposed times to AWAY team -->
-                        <div v-if="!isteamleader && proposeddatesSanitized.length && !accepteddates.length" class="hittatid">
+                        <div v-if="!isteamleader && proposeddatesSanitized.length && !accepteddates.length && !gametime && !gamedate" class="hittatid">
                           <br>
                             <small>Nedan finner du förslag från hemmalaget på speltillfällen. Markera ETT tillfälle ni kan spela och skicka bekräftelse till hemmalaget.</small>
                           <b-form-group

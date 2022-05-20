@@ -43,8 +43,8 @@
     </b-modal>-->
 
     <div  class="hero herobg0 position-relative" ref="slider">
-            <div  class="d-none d-md-block position-absolute float-left pl-2 pt-2 pb-5 pr-5  openForBusiness"> 
-             <div class="pt-3 ">
+            <div v-if="!closed"  class="d-none d-md-block position-absolute float-left pl-2 pt-2 pb-5 pr-5  openForBusiness"> 
+             <div class="pt-3">
                 <span class="line1">ANMÄLAN ÄR</span>
                 <br>
                 <span class="line2">ÖPPEN!</span>
@@ -52,7 +52,7 @@
              </div>
             </div> 
       
-             <div class="d-none d-md-none  text-center openForBusinessMobile"> 
+             <div v-if="!closed" class="d-none d-md-none  text-center openForBusinessMobile"> 
              <div class="pt-3 pb-4">
                  <b-img
                   class="w-25 pb-4"

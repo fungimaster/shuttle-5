@@ -319,10 +319,13 @@
                           <b-col v-for="(game,idx2) in games2" :key="idx2" xs="12" sm="12" class="pt-3 pb-3 pl-md-2 pr-md-2 game mb-3" :class="idx1 % 2 === 0 ? 'whitebg' : 'whitebg'">                            
                              <b-row>
                                  <b-col class="gameheader col-12 text-center mb-4">
+                                  
+                                  
                                    <img v-if="getClubLogo(game.club)" class="" :src="getClubLogo(game.club)">                                                                                                                           
                                    <span class="d-block mt-2" v-if="game.clubname">{{game.clubname}}</span>
                                    <span hidden v-if="!game.clubname">Golfklubb saknas</span>
-                                     <span class="small d-block mt-2" v-if="game.roundname">{{game.roundname}}</span>
+                                   <span class="small d-block mt-2" v-if="game.roundname">{{game.roundname}}</span>  
+                                                                 
                                  </b-col>
                              </b-row>
                              <b-row>                              
@@ -358,7 +361,7 @@
                                 <b-col class="col-12 text-center mt-4">
                                 <span v-if="game.status === 'In progress' && !game.winner"><b-spinner small type="grow" class="mr-2 mb-1 red"></b-spinner>LIVE <span v-if="game.holesleft">efter {{18-game.holesleft}} hål</span>                              
                                 </span>                                                                
-                                   <span v-if="game.status === 'Pending' && game.gamedate"><i class="material-icons mr-2 mb-1">schedule</i>{{getgamedate2(game.gamedate,game.gametime)}}</span>
+                                   <span v-if="game.status === 'Pending' && game.gamedate"><i class="material-icons mr-2 mb-1">schedule</i>{{getgamedate2(game.gamedate,game.gametime)}} </span><span class="small" v-if="game.gametime">({{game.gametime}})</span>
                                 </b-col>
                              </b-row>                             
                           </b-col>
@@ -380,7 +383,7 @@
                        <h4>Spelade - {{active_round}} <span v-if="updating3"><b-spinner small type="grow" class="ml-2 mr-1 mb-1 red"></b-spinner>...</span><span v-else>({{gamescount3}})</span></h4>
                         <p hidden>Inom kort kommer bokade matcher visas här samt annan information om lagen!</p>
                       
-                        <b-row class="mb-3 mt-2">
+                        <b-row v-if="currentRound>1" class="mb-3 mt-2">
                           <b-col>
                              <b-button hidden size="sm" v-on:click="updategames()" variant="primary">update</b-button>
                             <b-button hidden size="sm" v-on:click="getGamesFinished('button','all')" variant="primary">Alla</b-button>                           
@@ -393,9 +396,7 @@
                             <b-button v-if="currentRound>7" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','7')" variant="primary">Omgång 7</b-button>
                             <b-button v-if="currentRound>8" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Sverigefinalen SEMI')" variant="primary">Sverigefinalen SEMI</b-button>
                             <b-button v-if="currentRound==='Sverigefinal'" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Sverigefinal')" variant="primary">Sverigefinal</b-button>
-                            
-                            
-                                                
+                                                                            
                             <b-button hidden size="sm" v-on:click="getGamesFinished('button','Omgång 3')" variant="primary">Omgång 2 AC</b-button>                            
                           </b-col>
                         </b-row>
@@ -640,7 +641,7 @@ export default {
     numberOfGames3: {
       handler: function () {
         this.gamescount3 = this.numberOfGames3
-        console.log(this.gamescount3)
+        //console.log(this.gamescount3)
       }   
     }
          
@@ -676,7 +677,7 @@ export default {
       gamescount: 0,
 
       //TABS
-      tabIndex: 0, //0=bilder, 1=pågående
+      tabIndex: 1, //0=bilder, 1=pågående
       active_round: "Sverigefinal",     
       //PENDING GAMES
       loadinggames2: false,
@@ -1158,7 +1159,7 @@ export default {
         //LOAD FINISHED
         if (type === "initial") {
           this.updating3 = true;          
-          console.log(this.active_round)
+          //console.log(this.active_round)
           this.getGamesFinished("loader", this.currentRound);
         }
  
@@ -1187,7 +1188,7 @@ export default {
     },
     getGamesFinished(origin, round) {
       //loading
-      console.log('inital load',this.currentRound)
+      //console.log('inital load',this.currentRound)
       this.updating3 = true;
 
       if (origin === "loader") {
