@@ -150,12 +150,12 @@
                 
                             </template> 
 
-<div v-if="loadingimages">
+              <div v-if="loadingimages">
                  <b-spinner small type="grow" class="ml-0 pl-0 mr-1 mb-1"></b-spinner>
                  Laddar bilder från våra härliga matchspelare!
                </div>
 
-               <div v-if="!allGameImages.length && !loadingimages">
+               <div v-if="allGameImages.length<2 && !loadingimages">
                  Inga bilder har laddats upp än men kolla här längre in i omgången för härliga bilder på våra glada golfspelare :)
                </div>
 
