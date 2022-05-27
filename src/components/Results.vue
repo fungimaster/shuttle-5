@@ -908,7 +908,7 @@ export default {
     getLogoImage(logourl) { 
       if (logourl) {
             var first_url = logourl.split("/upload/").pop();           
-            return 'https://res.cloudinary.com/dn3hzwewp/image/upload/h_50,q_auto,c_scale/' + first_url;
+            return 'https://res.cloudinary.com/dn3hzwewp/image/upload/h_100,q_auto,c_scale/' + first_url;
         }             
     },
     getClubLogo(id) {
