@@ -94,31 +94,52 @@
         </b-row>   -->
         <b-row  class="p-0 m-0 mt-4 pt-sm-4">      
             <b-col class="col-3 col-md-3 text-center p-1">
-                <div class="stats pt-2 pl-1 pr-1 pb-0" variant="primary">
-                  <label class="d-block">Lag:</label>
+                <div class="stats pt-2 pl-1 pr-1 pb-0" variant="primary" id="tooltip-target-1">                 
+                  <label class="d-block">Lag:                                 
+                  </label>
                   <span v-if="!loadingstats" class="d-inline">{{this.team.total}}</span>
-                   <span v-else class="d-inline"><b-spinner small type="grow" class="ml-0 pl-0 mr-1 mb-1"></b-spinner></span>
+                   <span v-else class="d-inline"><b-spinner small type="grow" class="ml-0 pl-0 mr-1 mb-1"></b-spinner></span>                   
+               
+                    <b-tooltip target="tooltip-target-1" triggers="hover" placement="bottom">
+                      Totalt antal lag i tävlingen vid start
+                    </b-tooltip>  
+
                 </div>
             </b-col>
              <b-col class="col-3 col-md-3 text-center p-1">
-                <div class="stats stats_green pt-2 pl-1 pr-1 pb-0" variant="primary">
+                <div class="stats stats_green pt-2 pl-1 pr-1 pb-0" variant="primary" id="tooltip-target-2">
                   <label class="d-block">HT:</label>
                   <span v-if="!loadingstats" class="d-inline">{{this.team.winner}}</span>
                   <span v-else class="d-inline"><b-spinner small type="grow" class="ml-0 pl-0 mr-1 mb-1"></b-spinner></span>
+
+                  <b-tooltip target="tooltip-target-2" triggers="hover" placement="bottom">
+                      Antal lag kvar i huvudtävlingen
+                  </b-tooltip> 
+
                 </div>
             </b-col> 
              <b-col class="col-3 col-md-3 text-center p-1">
-                <div class="stats stats_orange pt-2 pl-1 pr-1 pb-0" variant="primary">
+                <div class="stats stats_orange pt-2 pl-1 pr-1 pb-0" variant="primary" id="tooltip-target-3">
                   <label class="d-block">AC:</label>
                   <span v-if="!loadingstats" class="d-inline">{{this.team.secondchance}}</span>
                   <span v-else class="d-inline"><b-spinner small type="grow" class="ml-0 pl-0 mr-1 mb-1"></b-spinner></span>
+                   
+                   <b-tooltip target="tooltip-target-3" triggers="hover" placement="bottom">
+                      Antal lag kvar i andra chansen
+                  </b-tooltip> 
+
                 </div>
             </b-col> 
              <b-col class="col-3 col-md-3 text-center p-1">
-                <div class="stats stats_red pt-2 pl-1 pr-1 pb-0" variant="primary">
+                <div class="stats stats_red pt-2 pl-1 pr-1 pb-0" variant="primary" id="tooltip-target-4">
                   <label class="d-block">Utslagna:</label>
                   <span v-if="!loadingstats" class="d-inline">{{this.team.defeated}}</span>
                    <span v-else class="d-inline"><b-spinner small type="grow" class="ml-0 pl-0 mr-1 mb-1"></b-spinner></span>
+
+                  <b-tooltip target="tooltip-target-4" triggers="hover" placement="bottom">
+                      Antal utslagna lag
+                  </b-tooltip> 
+
                 </div>
             </b-col>  
           <!-- <b-col class="col-3 p-0 m-0"><div class="statcard">Lag:<br> {{this.team.total}}</div></b-col>
@@ -379,7 +400,7 @@
                                    <!--FINISHED GAMES -->
                       <b-col xs="12" sm="12" class="mt-4 mt-md-4">
 
-                        <span hidden class="float-right" style="cursor:pointer;" v-on:click="updategames()"><i class="far fa-sync-alt"></i></span>
+                        <span class="float-right" style="cursor:pointer;" v-on:click="getGamesFinished()"><i class="far fa-sync-alt" v-bind:class="{'fa-spin': loadinggames}"></i></span>
                        <h4>Spelade - {{active_round}} <span v-if="updating3"><b-spinner small type="grow" class="ml-2 mr-1 mb-1 red"></b-spinner>...</span><span v-else>({{gamescount3}})</span></h4>
                         <p hidden>Inom kort kommer bokade matcher visas här samt annan information om lagen!</p>
                       
@@ -510,10 +531,10 @@
 
                       <app-birdie-ligan></app-birdie-ligan>
 
-                      <hr>
+                      
                       </div>
 
-                        <h5 class="mt-4">
+                        <h5 class="mt-5">
                           Toppklubbar (spelade matcher)
                         </h5>
                        <p class="mt-3">
@@ -527,12 +548,12 @@
                             <strong>Antal</strong>
                           </b-col>                                
                         </b-row>
-                         <b-row v-for="(club,idx) in clubs" :key="idx" class="mb-2" v-bind:class="{ greybg: idx % 2 === 0 }">
+                         <b-row v-for="(club,idx) in clubs" :key="idx" class="list mb-2" v-bind:class="{ gre1ybg: idx % 2 === 0 }">
                           <b-col class="col-10 col-md-10 mr-0 pr-0" v-bind:class="{no1: idx === 0, no2: idx === 1, no3: idx === 2 }">
                               <span class="line" >{{idx+1}}. {{truncate(club.club)}}</span>
                           </b-col>
                           <b-col class="col-2 col-md-2 text-right" v-bind:class="{no1: idx === 0, no2: idx === 1, no3: idx === 2 }">          
-                            <span class="line">({{club.count}})</span>
+                            <span class="line">{{club.count}}</span>
                           </b-col>                         
                         </b-row>
                                                             
@@ -1189,6 +1210,7 @@ export default {
     getGamesFinished(origin, round) {
       //loading
       //console.log('inital load',this.currentRound)
+      this.loadinggames = true;
       this.updating3 = true;
 
       if (origin === "loader") {
@@ -1243,12 +1265,14 @@ export default {
           );
           this.games3 = games3
           this.$store.dispatch('setGames3', games3)
-          handleResponse()
+          handleResponse();
+          this.loadinggames = false;
        
         })
         .catch((error) => {
           console.log(error);
           this.loadinggames3 = false;
+          this.loadinggames = false;
         });
     },
     getGames() {
@@ -1408,6 +1432,10 @@ export default {
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
 
+.list.row {
+  border-bottom:1px solid grey;
+}
+
 .stats {
     // background: lighten($blue, 5%);
     border-radius:0.2em;
@@ -1504,6 +1532,8 @@ padding:0rem !important;
 
 .no1 {
   background-color: $gold;
+  padding-top:0.5em;
+  padding-bottom:0.25em;
 }
 
 p.inactive-round {
@@ -1561,9 +1591,9 @@ p.inactive-round {
 
 .greybg {
  background: #f6f6f6;
-  border-radius: 0.3em;
-  -webkit-box-shadow: 0px 0px 7px 0px #DBDBDB; 
-  box-shadow: 0px 0px 7px 0px #DBDBDB;
+  //border-radius: 0.3em;
+  //-webkit-box-shadow: 0px 0px 7px 0px #DBDBDB; 
+  //box-shadow: 0px 0px 7px 0px #DBDBDB;
 }
 
 .whitebg {

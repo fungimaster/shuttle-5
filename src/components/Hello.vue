@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div>
     <vue-headful :title="doctitle" />
     <div class="hidden theme text-center">
       <div class="container">
@@ -16,7 +16,11 @@
       ok-variant="secondary"
       ok-title="Cancel"
     >
-      <p>Bland de första 50 registrerade och betalda lagen lottar vi ut en golfweekend till Lydinge Resort (Skåne) med 3-rätters middag, övernattning och greenfee för 2 personer.</p>
+      <p>
+        Bland de första 50 registrerade och betalda lagen lottar vi ut en
+        golfweekend till Lydinge Resort (Skåne) med 3-rätters middag,
+        övernattning och greenfee för 2 personer.
+      </p>
       <p>Det vinnande laget meddelas per mail samt på våra sociala konton.</p>
       <p class="text-center d-block d-md-none">
         <img
@@ -28,13 +32,23 @@
           src="https://res.cloudinary.com/dn3hzwewp/image/upload/h_300/v1608315326/matchplay/Early_Birdie_2021_mobil.jpg"
         />
       </p>
-      <b-button class="mt-3" block @click="$bvModal.hide('earlyBirdie')">Tack för infon!</b-button>
+      <b-button class="mt-3" block @click="$bvModal.hide('earlyBirdie')"
+        >Tack för infon!</b-button
+      >
       <template #modal-footer="{ ok, cancel, hide }">
         <!-- Emulate built in modal footer ok and cancel button actions -->
         <b-button hidden size="sm" variant="success" @click="ok()">OK</b-button>
-        <b-button hidden size="sm" variant="danger" @click="cancel()">Tack för infon!</b-button>
+        <b-button hidden size="sm" variant="danger" @click="cancel()"
+          >Tack för infon!</b-button
+        >
         <!-- Button with custom close trigger value -->
-        <b-button hidden size="sm" variant="outline-secondary" @click="hide('forget')">Forget it</b-button>
+        <b-button
+          hidden
+          size="sm"
+          variant="outline-secondary"
+          @click="hide('forget')"
+          >Forget it</b-button
+        >
       </template>
     </b-modal>
 
@@ -42,170 +56,239 @@
       <router-view> </router-view>
     </b-modal>-->
 
-    <div  class="hero herobg0 position-relative" ref="slider">
-            <div v-if="!closed"  class="d-none d-md-block position-absolute float-left pl-2 pt-2 pb-5 pr-5  openForBusiness"> 
-             <div class="pt-3">
-                <span class="line1">ANMÄLAN ÄR</span>
-                <br>
-                <span class="line2">ÖPPEN!</span>
-                <br>                
-             </div>
-            </div> 
-      
-             <div v-if="!closed" class="d-none d-md-none  text-center openForBusinessMobile"> 
-             <div class="pt-3 pb-4">
-                 <b-img
-                  class="w-25 pb-4"
-                    src="https://res.cloudinary.com/dn3hzwewp/image/upload/e_colorize,co_rgb:fff/v1573118127/matchplay/matchplay-new-logo-2020.png"
-                    alt
-                  ></b-img>
-                  <br>
-                <span class="line3">ANMÄLAN ÄR ÖPPEN!</span>
-                                
-             </div>
-            </div>
+    <div class="hero herobg0 position-relative" ref="slider">
+      <div
+        v-if="!closed"
+        class="
+          d-none d-md-block
+          position-absolute
+          float-left
+          pl-2
+          pt-2
+          pb-5
+          pr-5
+          openForBusiness
+        "
+      >
+        <div class="pt-3">
+          <span class="line1">ANMÄLAN ÄR</span>
+          <br />
+          <span class="line2">ÖPPEN!</span>
+          <br />
+        </div>
+      </div>
+
+      <div
+        v-if="!closed"
+        class="d-none d-md-none text-center openForBusinessMobile"
+      >
+        <div class="pt-3 pb-4">
+          <b-img
+            class="w-25 pb-4"
+            src="https://res.cloudinary.com/dn3hzwewp/image/upload/e_colorize,co_rgb:fff/v1573118127/matchplay/matchplay-new-logo-2020.png"
+            alt
+          ></b-img>
+          <br />
+          <span class="line3">ANMÄLAN ÄR ÖPPEN!</span>
+        </div>
+      </div>
       <b-container class="pl-4 pr-4">
-        
         <b-row align-h="center">
-          <b-col class="col-12 col-md-12 mt-1 mt-md-4 pt-1 pt-md-2 pb-0 pb-md-3 text-center">
+          <b-col
+            class="
+              col-12 col-md-12
+              mt-1 mt-md-4
+              pt-1 pt-md-2
+              pb-0 pb-md-3
+              text-center
+            "
+          >
             <!-- <h2 class="d-none d-md-block line1">Anmälan är öppen!</h2> -->
-            <br>
-            <h2 >VÄLKOMMEN TILL MATCHPLAY 2022</h2>
-            <h4 class="mb-3">GOLFTÄVLINGEN FÖR BÅDE PRIVATPERSONER OCH FÖRETAG</h4>
-             <a
-                hidden
-                v-if="!isAuthenticated"
-                href="/register"
-                class="btn blue-bg btn-md text-white mt-2 mr-2"
-              >Anmälan</a>
+            <br />
+            <h2>VÄLKOMMEN TILL MATCHPLAY 2022</h2>
+            <h4 class="mb-3">
+              GOLFTÄVLINGEN FÖR BÅDE PRIVATPERSONER OCH FÖRETAG
+            </h4>
+            <a
+              hidden
+              v-if="!isAuthenticated"
+              href="/register"
+              class="btn blue-bg btn-md text-white mt-2 mr-2"
+              >Anmälan</a
+            >
 
             <!-- <b-button variant="success" size="sm" v-if="isEarlyBirdie" class=" p-1 pt-2 rounded bg-success">JUST NU EARLY BIRDIE PRIS</b-button>  -->
-
           </b-col>
 
-          <b-col v-if="!closed" class="col-12 col-md-6 mt-4 mb-3 mb-md-4 text-center" id="countdown">
+          <b-col
+            v-if="!closed"
+            class="col-12 col-md-6 mt-4 mb-3 mb-md-4 text-center"
+            id="countdown"
+          >
             <h4 class="mb-2 mb-md-3">Sista anmälningsdag</h4>
-            <p>Vi vill att fler ska få chansen att uppleva vår fantastiska golftävling så vi förlänger anmälningstiden med 2 veckor till den 15:e maj!</p>
+            <p>
+              Vi vill att fler ska få chansen att uppleva vår fantastiska
+              golftävling så vi förlänger anmälningstiden med 2 veckor till den
+              15:e maj!
+            </p>
             <b-row align-h="center mt-4">
-            <b-col class="col-3  p-0">
-              <span id="days" class="blink-fast red days timenumbers">01</span>
-          <p class="timeRefDays timedescription">dagar</p>
-            </b-col>
-            <b-col class="col-3  p-0">
-              <span id="hours" class="hours timenumbers">00</span>
-          <p class="timeRefHours timedescription">timmar</p>
-            </b-col>
-            <b-col class="col-3 p-0">
-              <span id="minutes" class="minutes timenumbers">00</span>
-          <p class="timeRefMinutes timedescription">minuter</p>
-            </b-col>
-            <b-col hidden class="col-3 p-0 ">
-              <span id="seconds" class="seconds timenumbers">00</span>
-          <p class="timeRefSeconds timedescription">sekunder</p>
-            </b-col>
+              <b-col class="col-3 p-0">
+                <span id="days" class="blink-fast red days timenumbers"
+                  >01</span
+                >
+                <p class="timeRefDays timedescription">dagar</p>
+              </b-col>
+              <b-col class="col-3 p-0">
+                <span id="hours" class="hours timenumbers">00</span>
+                <p class="timeRefHours timedescription">timmar</p>
+              </b-col>
+              <b-col class="col-3 p-0">
+                <span id="minutes" class="minutes timenumbers">00</span>
+                <p class="timeRefMinutes timedescription">minuter</p>
+              </b-col>
+              <b-col hidden class="col-3 p-0">
+                <span id="seconds" class="seconds timenumbers">00</span>
+                <p class="timeRefSeconds timedescription">sekunder</p>
+              </b-col>
             </b-row>
           </b-col>
 
           <b-col class="col-12 col-md-8">
             <p v-if="closed" class="mt-3 mt-md-0">
-             Omgång 1 startar  <strong>onsdagen den 18 maj</strong> och pågår till  <strong>söndagen den 12 juni</strong>
-              <b-alert hidden variant="info" class="small mt-3">Lag från mer än 50% av Sveriges golfklubbar finns nu representerade i tävlingen!</b-alert>              
+              Omgång 1 startar <strong>onsdagen den 18 maj</strong> och pågår
+              till <strong>söndagen den 12 juni</strong>
+              <b-alert hidden variant="info" class="small mt-3"
+                >Lag från mer än 50% av Sveriges golfklubbar finns nu
+                representerade i tävlingen!</b-alert
+              >
             </p>
-            <p
-              class="mt-3 mt-md-0"
-            >Matchplay är en matchspelstävling för par med officiellt handicap som spelas på klubbar anslutna till Svenska golfförbundet. <span hidden>Lag från mer än <strong>100 svenska golfklubbar</strong> är redan anmälda!</span> </p>
-            
-            <p hidden
-              class="mt-3 mt-md-0"
-            >Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.</p>
-            <p 
-              v-if="!closed" class="pb-3 pb-md-2"
-            >Tävlingen spelas mellan maj-september i olika omgångar fram till Sverigefinalen och sedan vidare utomlands!</p>
-            
-            
-             <div v-if="closed && gamescount > 0 && !loadinggames" class="mt-3 mb-4">
-                <b-spinner small type="grow" class="mr-2 mb-1 red"></b-spinner><router-link to="/results" class="text-white">LIVE - Just nu spelas matcher, följ dom här!</router-link>
-              </div>
-            
-            <p hidden v-if="!closed">2020 spelades 358 matcher på nästan 100 golfklubbar.</p>
-            <p
-              hidden
-              v-if="closed"
-            >I helgen (30-31 maj) lottas första omgången. Den 1 juni startar tävlingen!</p>
+            <p class="mt-3 mt-md-0">
+              Matchplay är en matchspelstävling för par med officiellt handicap
+              som spelas på klubbar anslutna till Svenska golfförbundet.
+              <span hidden
+                >Lag från mer än <strong>100 svenska golfklubbar</strong> är
+                redan anmälda!</span
+              >
+            </p>
 
+            <p hidden class="mt-3 mt-md-0">
+              Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska
+              Golfförbundet.
+            </p>
+            <p v-if="!closed" class="pb-3 pb-md-2">
+              Tävlingen spelas mellan maj-september i olika omgångar fram till
+              Sverigefinalen och sedan vidare utomlands!
+            </p>
+
+            <div
+              v-if="closed && gamescount > 0 && !loadinggames"
+              class="mt-3 mb-4"
+            >
+              <b-spinner small type="grow" class="mr-2 mb-1 red"></b-spinner
+              ><router-link to="/results" class="text-white"
+                >LIVE - Just nu spelas matcher, följ dom här!</router-link
+              >
+            </div>
+
+            <p hidden v-if="!closed">
+              2020 spelades 358 matcher på nästan 100 golfklubbar.
+            </p>
+            <p hidden v-if="closed">
+              I helgen (30-31 maj) lottas första omgången. Den 1 juni startar
+              tävlingen!
+            </p>
 
             <div class="buttons text-left">
               <router-link
-                v-if="!closed && !isAuthenticated"
-                class="btn blue-bg btn-md text-white mt-2 mr-2 "
+                v-if="!closed && !isAuthenticated"
+                class="btn blue-bg btn-md text-white mt-2 mr-2"
                 :class="isMobile ? 'w-100' : ''"
                 to="/register"
-              >Anmälan</router-link>
+                >Anmälan</router-link
+              >
               <a
                 hidden
                 v-if="!isAuthenticated"
                 href="/register"
                 class="btn blue-bg btn-md text-white mt-2 mr-2"
-              >Anmälan</a>
+                >Anmälan</a
+              >
               <a
                 hidden
                 v-if="!isAuthenticated && !closed"
                 href="#more"
                 class="btn blue-bg btn-md text-white mt-2 mr-2"
-                                :class="isMobile ? 'w-100' : ''"
+                :class="isMobile ? 'w-100' : ''"
+                >Vill du veta mer?</a
+              >
 
-              >Vill du veta mer?</a>
-
-            <div v-if="closed" class="mt-3 mb-3">
-              <b-row>
-                <b-col hidden class="col-7 col-md-12 pr-0 pr-md-3">
-              <h3 class="">Statistik 2022</h3>
-              Anmälda lag: <strong>416</strong><br>
-              Repr. klubbar: <strong>184</strong><!-- <br>
+              <div v-if="closed" class="mt-3 mb-3">
+                <b-row>
+                  <b-col hidden class="col-7 col-md-12 pr-0 pr-md-3">
+                    <h3 class="">Statistik 2022</h3>
+                    Anmälda lag: <strong>416</strong><br />
+                    Repr. klubbar: <strong>184</strong
+                    ><!-- <br>
               Snitthcp: <strong>12.1</strong><br>
               Snittålder: <strong>42.8 år</strong><br> -->
-              
-                </b-col>
-                <b-col class="col-12 col-md-12">
-                  <b-button to="/results" class="text-white mt-3 mt-md-1" variant="primary" size="sm">Följ årets matcher</b-button>
-                </b-col>
-              </b-row>
-            </div>
+                  </b-col>
+                  <b-col class="col-12 col-md-12">
+                    <b-button
+                      to="/results"
+                      class="text-white mt-3 mt-md-1"
+                      variant="primary"
+                      size="sm"
+                      >Följ årets matcher</b-button
+                    >
+                  </b-col>
+                </b-row>
+              </div>
 
-              <p v-if="closed && !isAuthenticated">Anmälan till årets tävling har tyvärr stängt, välkommen tillbaka nästa år, anmälan öppnar i december 2022.</p>
-              
-              <a hidden
+              <p v-if="closed && !isAuthenticated">
+                Anmälan till årets tävling har tyvärr stängt, välkommen tillbaka
+                nästa år, anmälan öppnar i december 2022.
+              </p>
+
+              <a
+                hidden
                 href="#earlyBirdie"
                 :class="isMobile ? 'w-100' : ''"
                 class="btn btn-success text-white mt-2 mr-2"
-
-              >JUST NU EARLY BIRDIE-PRIS</a>
+                >JUST NU EARLY BIRDIE-PRIS</a
+              >
               <router-link
                 v-if="isAuthenticated"
                 class="btn blue-bg btn-md text-white mt-2 mr-2"
                 :class="isMobile ? 'w-100' : ''"
                 to="/mymatchplay"
-              >Lag- och matchhantering</router-link>
+                >Lag- och matchhantering</router-link
+              >
               <router-link
-              hidden
+                hidden
                 v-if="!isAuthenticated"
                 class="btn btn-danger btn-md text-white mt-2 mr-2"
                 to="/register"
-              >registrering</router-link>
+                >registrering</router-link
+              >
               <b-alert variant="danger" class="mt-3">
-                På grund av väldigt hög aktivitet av våra härliga golfspelare här på sajten går servern på knäna och vi jobbar på att fixa problemen, kolla in på sajten imorgon igen för bättre prestanda!!!
-              </b-alert>              
+                På grund av väldigt hög aktivitet av våra härliga golfspelare
+                här på sajten går servern på knäna och vi jobbar på att fixa
+                problemen, kolla in på sajten imorgon igen för bättre
+                prestanda!!!
+              </b-alert>
               <a
                 hidden
                 v-if="isAuthenticated"
                 href="/mymatchplay"
                 class="btn blue-bg btn-md text-white mt-2"
-              >Lag- och matchhantering</a>
+                >Lag- och matchhantering</a
+              >
               <a
                 hidden
                 href="/register"
                 class="btn btn-warning btn-md text-white mt-2"
-              >Efterhandsregistrera spelare</a>
+                >Efterhandsregistrera spelare</a
+              >
             </div>
 
             <!-- ALERTS FRÅN BACKEND -->
@@ -216,31 +299,46 @@
               v-for="message in messages"
               :key="message.index"
             >
-              <h6><strong>{{message.title}}</strong></h6>
+              <h6>
+                <strong>{{ message.title }}</strong>
+              </h6>
               <span v-html="message.message"></span>
             </b-alert>
-
           </b-col>
-          
-
-          <b-col class="col-12 d-block d-md-none pl-2 justify-content-center align-self-center p-5">
-            <b-img
-              src="https://res.cloudinary.com/dn3hzwewp/image/upload/e_colorize,co_rgb:fff/v1573118127/matchplay/matchplay-new-logo-2020.png"
-              alt
-            ></b-img>
-          </b-col>        
-
 
           <b-col
-            class="col-md-4 d-none d-md-block pl-2 justify-content-center align-self-center p-3"
+            class="
+              col-12
+              d-block d-md-none
+              pl-2
+              justify-content-center
+              align-self-center
+              p-5
+            "
           >
             <b-img
               src="https://res.cloudinary.com/dn3hzwewp/image/upload/e_colorize,co_rgb:fff/v1573118127/matchplay/matchplay-new-logo-2020.png"
               alt
             ></b-img>
-          </b-col> 
+          </b-col>
+
+          <b-col
+            class="
+              col-md-4
+              d-none d-md-block
+              pl-2
+              justify-content-center
+              align-self-center
+              p-3
+            "
+          >
+            <b-img
+              src="https://res.cloudinary.com/dn3hzwewp/image/upload/e_colorize,co_rgb:fff/v1573118127/matchplay/matchplay-new-logo-2020.png"
+              alt
+            ></b-img>
+          </b-col>
         </b-row>
-   <!--      <b-row v-if="closed" align-h="center" class="mt-0 mt-sm-4 pt-0 pt-sm-4">
+        <!--      <b-row v-if="closed" align-h="center" class="mt-0 mt-sm-4 pt-0 pt-sm-4">
           <b-col cols="6" md="4" class="d-flex justify-content-center" >
             <vue-ellipse-progress 
              :progress="gameRoundCount ? (gameRoundCount.htroundwinners/gameRoundCount.winner*100) : 0"
@@ -294,84 +392,124 @@
       </b-container>
     </div>
     <!-- TEMP HIDDEN -->
-        
-    
+
     <div id="earlyBirdie"></div>
-    <div v-if="!competitionFetched && isAuthenticated" class="text-center pt-5 pb-5">
+    <div
+      v-if="!competitionFetched && isAuthenticated"
+      class="text-center pt-5 pb-5"
+    >
       <b-spinner variant="success" type="grow" label="Spinning"></b-spinner>
     </div>
 
     <b-jumbotron container-fluid class="white mb-0">
       <b-container>
-        <b-row v-if="!isAuthenticated" >
-            <b-col hidden class="col-12">
-              <h1>Statistik 2021</h1>
-              Anmälda lag: 523<br>
-              Snittålder: 43<br>
-              Snitthcp: 12.2<br>
-
-
-            </b-col>
+        <b-row v-if="!isAuthenticated">
+          <b-col hidden class="col-12">
+            <h1>Statistik 2021</h1>
+            Anmälda lag: 523<br />
+            Snittålder: 43<br />
+            Snitthcp: 12.2<br />
+          </b-col>
           <b-col v-if="closed" class="col-12">
-            <p
-              class="mt-3 mt-md-0"
-            >Matchplay är en matchspelstävling för par med officiellt handicap. Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på golfklubbar anslutna till Svenska Golfförbundet.</p>
-            <p class="mt-0 pt-0"
-            >Tävlingen spelas mellan maj-september i olika omgångar fram till Sverigefinalen och sedan vidare utomlands!</p>
-            
+            <p class="mt-3 mt-md-0">
+              Matchplay är en matchspelstävling för par med officiellt handicap.
+              Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på
+              golfklubbar anslutna till Svenska Golfförbundet.
+            </p>
+            <p class="mt-0 pt-0">
+              Tävlingen spelas mellan maj-september i olika omgångar fram till
+              Sverigefinalen och sedan vidare utomlands!
+            </p>
           </b-col>
           <b-col v-if="!closed && competitionFetched" class="col-12">
-            <h1 v-if="!closed" class="teaser-header orange mb-3 text-left text-md-center">Anmäl ditt lag till Matchplay 2022</h1>
-            <p>Hela tävlingen är digitaliserad där vi kontrollerar Golf-ID, hcp, slope mm för att kunna applicera våra hcputräkningar inför varje match. Ni använder vårt digitala scorekort för att föra score och vänner/familj kan följa matcherna live! Tävlingen startar i maj/juni beroende på väder och när majoriteten av landets golfbanor öppnar.</p>
-            <p>Sista anmälningsdag är den <strong>15 maj</strong> och tävlingens första omgång börjar kort efter att lottningen är gjord.</p>
+            <h1
+              v-if="!closed"
+              class="teaser-header orange mb-3 text-left text-md-center"
+            >
+              Anmäl ditt lag till Matchplay 2022
+            </h1>
+            <p>
+              Hela tävlingen är digitaliserad där vi kontrollerar Golf-ID, hcp,
+              slope mm för att kunna applicera våra hcputräkningar inför varje
+              match. Ni använder vårt digitala scorekort för att föra score och
+              vänner/familj kan följa matcherna live! Tävlingen startar i
+              maj/juni beroende på väder och när majoriteten av landets
+              golfbanor öppnar.
+            </p>
+            <p>
+              Sista anmälningsdag är den <strong>15 maj</strong> och tävlingens
+              första omgång börjar kort efter att lottningen är gjord.
+            </p>
             <p>
               Anmälningskostnad per lag är
-              <strong>{{price1}} kr</strong> för privatpersoner och
-              <strong>{{price2}} kr</strong> (exkl. moms) för företag.
+              <strong>{{ price1 }} kr</strong> för privatpersoner och
+              <strong>{{ price2 }} kr</strong> (exkl. moms) för företag.
             </p>
             <p hidden>
               Nu kör vi Early Birdie-priser fram till den 31 december!
-              Anmälningskostnad per lag 
-              <strong class="text-dark">{{price4}} kr</strong> (ordinarie pris {{price1 + 100 }} kr) för privatpersoner och
-              <strong>{{price2}} kr</strong> (exkl. moms) för företag.
+              Anmälningskostnad per lag
+              <strong class="text-dark">{{ price4 }} kr</strong> (ordinarie pris
+              {{ price1 + 100 }} kr) för privatpersoner och
+              <strong>{{ price2 }} kr</strong> (exkl. moms) för företag.
             </p>
-            <b-alert show variant="warning" class="mt-3 mb-3 small text-dark">Glöm inte att anmälningsavgiften kan användas som <strong>friskvårdsbidrag</strong>. Golftävlingar är godkända som bidrag sedan 2020. <strong>Kvitto</strong> erhålls automatiskt efter betalning.</b-alert>
-            <router-link class="btn blue-bg btn-md text-white mt-2 mr-2" to="/register">
-              <i class="pb-1 mr-2 material-icons">thumb_up</i>Steg 1 - Skriv in ditt Golf-ID
+            <b-alert show variant="warning" class="mt-3 mb-3 small text-dark"
+              >Glöm inte att anmälningsavgiften kan användas som
+              <strong>friskvårdsbidrag</strong>. Golftävlingar är godkända som
+              bidrag sedan 2020. <strong>Kvitto</strong> erhålls automatiskt
+              efter betalning.</b-alert
+            >
+            <router-link
+              class="btn blue-bg btn-md text-white mt-2 mr-2"
+              to="/register"
+            >
+              <i class="pb-1 mr-2 material-icons">thumb_up</i>Steg 1 - Skriv in
+              ditt Golf-ID
             </router-link>
           </b-col>
         </b-row>
-        
-        <div v-if="!competitionFetched && !isAuthenticated" class="text-center pt-5 pb-5">
+
+        <div
+          v-if="!competitionFetched && !isAuthenticated"
+          class="text-center pt-5 pb-5"
+        >
           <b-spinner variant="success" type="grow" label="Spinning"></b-spinner>
         </div>
 
-
-        <b-row v-if="isAuthenticated && user && competitionFetched" id="earlyBirdie" >
+        <b-row
+          v-if="isAuthenticated && user && competitionFetched"
+          id="earlyBirdie"
+        >
           <b-col class="col-12">
-            <h3 class="teaser-header orange mb-3">Hej {{user.firstname}}!</h3>
+            <h3 class="teaser-header orange mb-3">Hej {{ user.firstname }}!</h3>
 
-            <p v-if="user.teams && currentround<numberofrounds">
-              Du kan hantera ditt lag 
-              <router-link to="/mymatchplay">här</router-link>. Lycka till i tävlingen!
+            <p v-if="user.teams && currentround < numberofrounds">
+              Du kan hantera ditt lag
+              <router-link to="/mymatchplay">här</router-link>. Lycka till i
+              tävlingen!
             </p>
-     
+
             <div v-if="user.teams">
-              <div v-if="user.teams.length>0">
+              <div v-if="user.teams.length > 0">
                 <!-- kommande match -->
-                <div v-if="user.teams[0].games.length>0">
-                  <div v-if="user.teams[0].games[0].status === 'Pending' && user.teams[0].games[0].gamedate">
+                <div v-if="user.teams[0].games.length > 0">
+                  <div
+                    v-if="
+                      user.teams[0].games[0].status === 'Pending' &&
+                      user.teams[0].games[0].gamedate
+                    "
+                  >
                     <p>
-                      Din nästa match: {{user.teams[0].games[0].gamedate}} {{user.teams[0].games[0].gametime}}
-                      <span
-                        v-if="user.teams[0].games[0].clubname"
-                      >på {{user.teams[0].games[0].clubname}}.</span>
+                      Din nästa match: {{ user.teams[0].games[0].gamedate }}
+                      {{ user.teams[0].games[0].gametime }}
+                      <span v-if="user.teams[0].games[0].clubname"
+                        >på {{ user.teams[0].games[0].clubname }}.</span
+                      >
                       <span v-else>.</span>
                     </p>
                   </div>
                 </div>
                 <!-- pågående match -->
-                <div v-if="user.teams[0].games.length>0">
+                <div v-if="user.teams[0].games.length > 0">
                   <div v-if="user.teams[0].games[0].status === 'In progress'">
                     <p>
                       Du har en pågående match!
@@ -380,46 +518,55 @@
                         show
                         variant="primary"
                         class="pulse-button mt-2 mt-md-0"
-                      >Visa scorekortet</b-button>
+                        >Visa scorekortet</b-button
+                      >
                     </p>
                   </div>
                 </div>
-         
               </div>
             </div>
-            <strong v-if="isEarlyBirdie" 
-            >Just nu har vi vårt Early Birdie erbjudande. Istället för {{price1 +100}} kr betalar du {{price1}} kr fram till den sista december.</strong>
-            <p
-              v-if="!user.teams"
-            >Du har ännu inget lag i Sveriges roligaste golftävling, skapa ett på knappen nedan.</p>
+            <strong v-if="isEarlyBirdie"
+              >Just nu har vi vårt Early Birdie erbjudande. Istället för
+              {{ price1 + 100 }} kr betalar du {{ price1 }} kr fram till den
+              sista december.</strong
+            >
+            <p v-if="!user.teams">
+              Du har ännu inget lag i Sveriges roligaste golftävling, skapa ett
+              på knappen nedan.
+            </p>
             <div v-if="user.teams && competitionFetched" class="mt-3">
               <p v-if="!user.teams[0].paid">
                 Anmälningskostnad per lag är
-                <strong>{{price1}} kr</strong> för privatpersoner och
-                <strong>{{price2}} kr</strong> (exkl. moms) för företag.
+                <strong>{{ price1 }} kr</strong> för privatpersoner och
+                <strong>{{ price2 }} kr</strong> (exkl. moms) för företag.
               </p>
             </div>
             <router-link
-                v-if="!closed && isAuthenticated && user.teams.length && !user.teams[0].paid"
-                class="btn blue-bg btn-md text-white mt-2 mr-2 "
-                :class="isMobile ? 'w-100' : ''"
-                to="/mymatchplay"
-              >Gå till lagasida</router-link>
-            
-        
+              v-if="
+                !closed &&
+                isAuthenticated &&
+                user.teams.length &&
+                !user.teams[0].paid
+              "
+              class="btn blue-bg btn-md text-white mt-2 mr-2"
+              :class="isMobile ? 'w-100' : ''"
+              to="/mymatchplay"
+              >Gå till lagasida</router-link
+            >
+
             <router-link
               v-if="!user.teams"
               class="btn blue-bg btn-md text-white mt-2 mr-2"
               to="/mymatchplay"
-            >Skapa ett lag</router-link>
+              >Skapa ett lag</router-link
+            >
           </b-col>
         </b-row>
-    
 
         <b-row v-if="closed">
           <b-col class="col-12 mb-3 mt-5">
             <h3>Omgångar 2022</h3>
-              <app-rounds-grafic
+            <app-rounds-grafic
               class="mt-3"
               style="height: 300px"
               linecolor="#808080"
@@ -427,59 +574,61 @@
               stagefill="black"
               :condensed="false"
             ></app-rounds-grafic>
-            <p class="small text-right mt-2"><i>Klicka på diagrammet ovan för att se omgångsdatum.</i></p>
+            <p class="small text-right mt-2">
+              <i>Klicka på diagrammet ovan för att se omgångsdatum.</i>
+            </p>
           </b-col>
         </b-row>
 
-        
-        <hr class="mt-5" v-if="latestTeam && !closed" >
+        <b-row v-if="closed">
+          <b-col class="col-12 mb-3 mt-5">            
+            <app-birdie-ligan></app-birdie-ligan>
+          </b-col>
+        </b-row>
+
+        <hr class="mt-5" v-if="latestTeam && !closed" />
         <b-row align-h="center" class="mt-5 mb-5">
           <b-col v-if="latestTeam && !closed" class="col-12 col-md-6">
-            
             <b-row align-h="center" class="align-items-center h-100">
-              <b-col class="col-3 mx-auto text-center text-md-right pl-0 pr-0">                              
-                  <b-img class="" :src="getClubImage2(latestTeamLogo)"></b-img> 
-            </b-col>
+              <b-col class="col-3 mx-auto text-center text-md-right pl-0 pr-0">
+                <b-img class="" :src="getClubImage2(latestTeamLogo)"></b-img>
+              </b-col>
               <b-col class="col-7 small mx-auto pl-0 pr-0 text-left">
-                {{latestTeam}} <router-link hidden to="/klubbar">Lag från mer än 50% av Sveriges golfklubbar är nu representerade i tävlingen!</router-link>
+                {{ latestTeam }}
+                <router-link hidden to="/klubbar"
+                  >Lag från mer än 50% av Sveriges golfklubbar är nu
+                  representerade i tävlingen!</router-link
+                >
               </b-col>
             </b-row>
-            
           </b-col>
         </b-row>
-        <hr v-if="latestTeam && !closed" class="" /> 
+        <hr v-if="latestTeam && !closed" class="" />
 
         <b-row v-if="showTopClubs && !closed">
-          <b-col class="col-12 mt-3">            
+          <b-col class="col-12 mt-3">
             <h3 class="white mb-3 mt-4 pt-2">Topp 3 anmälda lag</h3>
             <podium number="3"></podium>
-             <a                
-                href="#podium2"
-                class="btn blue-bg btn-sm text-white mt-4"
-              >Se fler klubbar</a>
+            <a href="#podium2" class="btn blue-bg btn-sm text-white mt-4"
+              >Se fler klubbar</a
+            >
           </b-col>
         </b-row>
       </b-container>
     </b-jumbotron>
 
     <howitworks v-if="!closed && (!isAuthenticated || !user)"></howitworks>
-    
-    <b-jumbotron v-if="!closed" container-fluid class="white mb-0">
-      <b-container>
-        <b-row>
-          <b-col class="col-12 text-left text-md-center">
-            <h1 class="orange">Deltagarröster</h1>
-            <testimonials :number=5 :register=true></testimonials>
-          </b-col>
-        </b-row>
-      </b-container>
-    </b-jumbotron>
-  
-    <app-call-to-action v-if="!isAuthenticated"/>
-    
-    <app-year-in-review :isMobile="isMobile" :year="2021" :compid="prevcompid"></app-year-in-review>
 
-    <b-jumbotron hidden v-if="closed" container-fluid style="background-color: white">
+    <app-call-to-action v-if="!isAuthenticated" />
+
+    <!--  <app-year-in-review :isMobile="isMobile" :year="2021" :compid="prevcompid"></app-year-in-review> -->
+
+    <b-jumbotron
+      hidden
+      v-if="closed"
+      container-fluid
+      style="background-color: white"
+    >
       <b-container>
         <b-row>
           <b-col class="col-12">
@@ -487,8 +636,8 @@
               <b-col class="col-12 mb-3 mt-4">
                 <h1>Spela coronasäkert</h1>
                 <p>
-                  Vår underbara sport kan bedrivas säkert som sällskapsspel. Vi är
-                  utomhus, utan kontakt, med stora ytor att röra oss på.
+                  Vår underbara sport kan bedrivas säkert som sällskapsspel. Vi
+                  är utomhus, utan kontakt, med stora ytor att röra oss på.
                 </p>
                 <p>Att tänka på inför matchstart:</p>
                 <ul>
@@ -505,29 +654,55 @@
     </b-jumbotron>
 
     <b-jumbotron container-fluid class="bg-image-collage p-0 m-0">
-        <app-image-collage class="bg-image-collage d-flex justify-content-center" v-if="allGameImages.length" :numberOfImages="numberOfImages" :images="allGameImages"></app-image-collage>               
+      <app-image-collage
+        class="bg-image-collage d-flex justify-content-center"
+        v-if="allGameImages.length"
+        :numberOfImages="numberOfImages"
+        :images="allGameImages"
+      ></app-image-collage>
     </b-jumbotron>
 
-    <b-jumbotron hidden container-fluid class="gradient mb-3" >
-      <b-container class="mb-4 mt-4">      
+     <b-jumbotron v-if="closed" container-fluid class="white mb-0">
+      <b-container>
+        <b-row>
+          <b-col class="col-12 text-left text-md-center">
+            <h1 class="orange">Deltagarröster</h1>
+            <testimonials :number="5" :register="true"></testimonials>
+          </b-col>
+        </b-row>
+      </b-container>
+    </b-jumbotron>
+
+    <b-jumbotron hidden container-fluid class="gradient mb-3">
+      <b-container class="mb-4 mt-4">
         <b-row align-h="center">
           <b-col class="col-12 col-md-10 col-lg-10">
             <b-row align-h="center">
-          <b-col class="col-12 col-md-12">
-            <h1 class="mb-5 text-white text-left text-md-center">Sverigefinalen 2021 är avgjord</h1>            
-          </b-col>
+              <b-col class="col-12 col-md-12">
+                <h1 class="mb-5 text-white text-left text-md-center">
+                  Sverigefinalen 2021 är avgjord
+                </h1>
+              </b-col>
             </b-row>
             <b-row align-h="center">
-          <b-col class="col-12 col-md-8">
-            <p>Åtta lag gick till Sverigefinalen som spelas 3-5 september på Allerum Golfklubb, strax utanför Helsingborg. Hotell inklusive frukost, inspel och bankett på lördagskvällen för de 8 deltagande lagen ingick. Semifinal och för de fyra vinnande lagen samt final spelades på söndagen. De två lagen som vann respektive match på söndagen blir bjudna på den stora finalen på Los Naranjos i Spanien.</p>
-          </b-col>
-          <b-col class="col-12 col-md-4 text-center mt-3 mt-md-0">
-            <img
-              src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_150,e_colorize:100,co_rgb:FFFFFF/v1599032379/matchplay/logo.png"
-            />
-          </b-col>
+              <b-col class="col-12 col-md-8">
+                <p>
+                  Åtta lag gick till Sverigefinalen som spelas 3-5 september på
+                  Allerum Golfklubb, strax utanför Helsingborg. Hotell inklusive
+                  frukost, inspel och bankett på lördagskvällen för de 8
+                  deltagande lagen ingick. Semifinal och för de fyra vinnande
+                  lagen samt final spelades på söndagen. De två lagen som vann
+                  respektive match på söndagen blir bjudna på den stora finalen
+                  på Los Naranjos i Spanien.
+                </p>
+              </b-col>
+              <b-col class="col-12 col-md-4 text-center mt-3 mt-md-0">
+                <img
+                  src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_150,e_colorize:100,co_rgb:FFFFFF/v1599032379/matchplay/logo.png"
+                />
+              </b-col>
             </b-row>
-        </b-col>
+          </b-col>
         </b-row>
       </b-container>
     </b-jumbotron>
@@ -547,12 +722,17 @@
       <b-container>
         <b-row>
           <b-col class="col-12">
-            <h1 class="mb-4 teaser-header orange text-left text-md-center">Finalparen från Matchplay 2020 klara för Spanien</h1>
+            <h1 class="mb-4 teaser-header orange text-left text-md-center">
+              Finalparen från Matchplay 2020 klara för Spanien
+            </h1>
             <p>
-              Vi säger stort grattis till våra finalpar som är klara för den stora Matchplayfinalen på Los Naranjos i Spanien mellan den 7-11 februari 2021.
-              <span
-                class="red"
-              >Pga av Corona och inställda flyg kommer finalen 2020 spelas samtidigt som finalen för 2021 avgörs (7-11 nov).</span>
+              Vi säger stort grattis till våra finalpar som är klara för den
+              stora Matchplayfinalen på Los Naranjos i Spanien mellan den 7-11
+              februari 2021.
+              <span class="red"
+                >Pga av Corona och inställda flyg kommer finalen 2020 spelas
+                samtidigt som finalen för 2021 avgörs (7-11 nov).</span
+              >
             </p>
           </b-col>
         </b-row>
@@ -567,7 +747,8 @@
               target="_blank"
               class="btn blue-bg btn-md text-white mt-0"
               href="https://fb.watch/1mv7rhBfNC/"
-            >länk till segerintervju</a>
+              >länk till segerintervju</a
+            >
           </b-col>
           <b-col class="col-12 col-md-6 pt-3 pt-md-0">
             <img
@@ -579,56 +760,55 @@
               target="_blank"
               class="btn blue-bg btn-md text-white mt-0"
               href="https://fb.watch/1mveFbmDox/"
-            >länk till segerintervju</a>
+              >länk till segerintervju</a
+            >
           </b-col>
         </b-row>
       </b-container>
     </b-jumbotron>
 
-
-
-     <b-jumbotron v-if="!closed && !isAuthenticated" container-fluid class="white mb-0">
+    <b-jumbotron
+      v-if="!closed && !isAuthenticated"
+      container-fluid
+      class="white mb-0"
+    >
       <b-container>
         <b-row>
           <b-col class="col-12 text-left text-md-center mt-4 mb-4">
             <h1 class="orange">Vårt digitala scorekort</h1>
-            <ScorecardExplainer ></ScorecardExplainer>
+            <ScorecardExplainer></ScorecardExplainer>
           </b-col>
         </b-row>
       </b-container>
     </b-jumbotron>
     <b-container>
-       <b-row align-h="center">
-          <b-col  class="col-12 mt-3 d-flex justify-content-center">
-            <a
-              class="btn orange-bg btn-md text-white mt-2 mr-2 "
-              href="https://www.facebook.com/matchplaysweden/"
-              target="_blank"
-            >
-              <i class="material-icons mr-2">facebook</i>Facebook
-            </a>
-            <a
-              class="btn orange-bg btn-md text-white mt-2"
-              href="https://www.instagram.com/matchplay_sweden/"
-              target="_blank"
-            >
-              <i class="material-icons mr-2">camera_alt</i>Instagram
-            </a>    
-          </b-col>
-        </b-row>
       <b-row align-h="center">
-          <b-col cols="10" md="6" class="mt-3 ">
-              <p class="mt-4 small ">
-                Se till att följa oss på våra
-                <strong>sociala medier</strong> för nyheter och tävlingar!
-              </p>
-          </b-col>
-        </b-row>
-
+        <b-col class="col-12 mt-3 d-flex justify-content-center">
+          <a
+            class="btn orange-bg btn-md text-white mt-2 mr-2"
+            href="https://www.facebook.com/matchplaysweden/"
+            target="_blank"
+          >
+            <i class="material-icons mr-2">facebook</i>Facebook
+          </a>
+          <a
+            class="btn orange-bg btn-md text-white mt-2"
+            href="https://www.instagram.com/matchplay_sweden/"
+            target="_blank"
+          >
+            <i class="material-icons mr-2">camera_alt</i>Instagram
+          </a>
+        </b-col>
+      </b-row>
+      <b-row align-h="center">
+        <b-col cols="10" md="6" class="mt-3">
+          <p class="mt-4 small">
+            Se till att följa oss på våra
+            <strong>sociala medier</strong> för nyheter och tävlingar!
+          </p>
+        </b-col>
+      </b-row>
     </b-container>
-     
-     
-
   </div>
 </template>
 
@@ -638,6 +818,7 @@
 import { mapGetters } from "vuex";
 import { tagsMixin } from "../mixins/tagsMixin";
 import AppRoundsGrafic from "./RoundsGrafic";
+import AppBirdieLigan from "./BirdieLigan";
 import Testimonials from "./Testimonials";
 import Howitworks from "./Howitworks";
 import ScorecardExplainer from "./ScorecardExplainer";
@@ -670,59 +851,57 @@ moment.updateLocale("sv", {
 
 let options = {};
 
-
-
 export default {
   mounted() {
-  this.countdown();
-  this.getGamesInprogress();   
+    this.countdown();
+    this.getGamesInprogress();
   },
   destroyed() {
     window.removeEventListener("resize", this.handleResize);
   },
   created() {
-    const promise = this.$store.dispatch('getCompetition', globalState.compid)
+    const promise = this.$store.dispatch("getCompetition", globalState.compid);
     promise.then(() => {
-      this.competitionFetched = true
-    })
+      this.competitionFetched = true;
+    });
     window.addEventListener("resize", this.handleResize);
 
-    this.gameImages()
-    if (this.$route.query.sponsor === 'gm') {
-      localStorage.setItem('sponsor','gm');     
+    this.gameImages();
+    if (this.$route.query.sponsor === "gm") {
+      localStorage.setItem("sponsor", "gm");
     }
 
-  
-
     //this.getTopListClubs();
-/* 
+    /* 
      setTimeout(() => {
     this.showModal();                        
   }, 2000);  */
- /*  var i;
+    /*  var i;
   for (i = 0; i < this.images.length; i++) {
   this.preloadImage(this.images[i])
   } */
 
-   //BG CHANGE 
-  var bg_change = setInterval(this.changeBg, 8000);
+    //BG CHANGE
+    var bg_change = setInterval(this.changeBg, 8000);
 
-   /* if (!localStorage.getItem('morethan50')) {
+    /* if (!localStorage.getItem('morethan50')) {
     this.makeToast();
     localStorage.setItem('morethan50',1)
    } */
 
-  if (!globalState.compid) {
-    return  
-  } else {
-    this.axios
-      .post(globalState.admin_url + "getCompetition", {id: globalState.compid})
-      .then((response) => {
+    if (!globalState.compid) {
+      return;
+    } else {
+      this.axios
+        .post(globalState.admin_url + "getCompetition", {
+          id: globalState.compid,
+        })
+        .then((response) => {
           this.currentround = response.data.currentround;
-          this.numberofrounds = response.data.numberofrounds;          
+          this.numberofrounds = response.data.numberofrounds;
 
-        //show modal if gamedate is today
-/* 
+          //show modal if gamedate is today
+          /* 
         if (this.isAuthenticated && this.user) {
             if (this.user.teams) {
               if (this.user.teams[0].games) {
@@ -755,30 +934,30 @@ export default {
               }
             }
         } */
-        
-        //end
-        this.getTeamsCount()
-        
-        if (!response.data.competitionmessages || !response.data.competitionmessages.length) {
-          return
-        }
-        this.messages = response.data.competitionmessages
-          .sort((a, b) => new Date(a.sortorder) - new Date(b.sortorder))
-          .filter((message) => message.active === true )
-      })
-      .catch((error) => {
-        console.log(error);
-      }); 
-  }     
 
-  //Show latest team toast
+          //end
+          this.getTeamsCount();
 
-  //let latestTeam = localStorage.getItem('latestTeam');
-  this.latestTeam = null;
-  this.getlatestteam()  
-  
-       
-    
+          if (
+            !response.data.competitionmessages ||
+            !response.data.competitionmessages.length
+          ) {
+            return;
+          }
+          this.messages = response.data.competitionmessages
+            .sort((a, b) => new Date(a.sortorder) - new Date(b.sortorder))
+            .filter((message) => message.active === true);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+
+    //Show latest team toast
+
+    //let latestTeam = localStorage.getItem('latestTeam');
+    this.latestTeam = null;
+    this.getlatestteam();
   },
   watch: {
     $route(newVal, oldVal) {
@@ -796,19 +975,20 @@ export default {
   components: {
     //'phone':VuePhoneNumberInput,
     // 'phone':VueTelInput,    ,
-    AppRoundsGrafic, 
-    Testimonials, 
-    Podium, 
-    Howitworks, 
+    AppRoundsGrafic,
+    AppBirdieLigan,
+    Testimonials,
+    Podium,
+    Howitworks,
     ScorecardExplainer,
     AppImageCollage,
     AppYearInReview,
-    AppCallToAction
+    AppCallToAction,
   },
   data() {
     return {
       loadinggames: true,
-      gamescount:0,
+      gamescount: 0,
       game: {},
       games: [],
       latestTeam: null,
@@ -819,35 +999,34 @@ export default {
       showTopClubs: globalState.showTopClubs,
       modalShow: false,
       closed: globalState.closed,
-      leader: "",     
-       //IMAGES
+      leader: "",
+      //IMAGES
       images: [
-           // 'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_auto,q_auto,e_colorize:10,co_rgb:000000/v1608122032/matchplay/MPI-1825.jpg',
-            //'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_auto,q_auto,e_colorize:10,co_rgb:000000/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg',
-            //'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_auto,q_auto,e_colorize:40,co_rgb:000000/v1608219772/matchplay/bg_matchplay.jpg',
-            //'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_auto,q_auto,e_colorize:50,co_rgb:000000/v1608122570/matchplay/IMG_1232.jpg'
-            ],
+        // 'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_auto,q_auto,e_colorize:10,co_rgb:000000/v1608122032/matchplay/MPI-1825.jpg',
+        //'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_auto,q_auto,e_colorize:10,co_rgb:000000/v1572963227/matchplay/c640cf_76573b7e69c04dc2bb0592399d738a17_mv2_d_4006_3000_s_4_2.jpg',
+        //'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_auto,q_auto,e_colorize:40,co_rgb:000000/v1608219772/matchplay/bg_matchplay.jpg',
+        //'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_auto,q_auto,e_colorize:50,co_rgb:000000/v1608122570/matchplay/IMG_1232.jpg'
+      ],
       bgImageCount: 0,
       clubs: 0,
-      birdies: 0,    
-      showhelper: false,  
+      birdies: 0,
+      showhelper: false,
       doctitle: this.$store.state.conferencename,
-     
-      allGameImages:[],
+
+      allGameImages: [],
       numberOfImages: 0,
       currentRound: null,
       numberofrounds: null,
       gameRoundCount: null,
-      loadingGameRoundCount: true,  
+      loadingGameRoundCount: true,
       windowWidth: window.innerWidth,
       prevcompid: globalState.prevcompid,
-      competitionFetched: false
-
+      competitionFetched: false,
     };
   },
 
   computed: {
-        ...mapGetters([
+    ...mapGetters([
       "user",
       "isAuthenticated",
       "getAllImages",
@@ -855,37 +1034,39 @@ export default {
       "price1",
       "price2",
       "price3",
-      "price4"
-      ]),
+      "price4",
+    ]),
     isMobile() {
-        if (this.windowWidth <= 576) {
-          return true
-        }
-      return false
-    } 
+      if (this.windowWidth <= 576) {
+        return true;
+      }
+      return false;
+    },
   },
   mixins: [tagsMixin],
-  
-  methods: {
-      handleResize() {
-        this.windowWidth = window.innerWidth;
-      },
-      getTeamsCount(){
-         this.axios
-          .post(globalState.admin_url + "getTeamsCount", {competition: globalState.compid, roundnumber: this.currentRound})
-          .then((response) => {
-            this.gameRoundCount = response.data
-            this.loadingGameRoundCount = false
-          })
-          .catch((error) => {
-            console.log(error);
-          }); 
-      },
-      getGamesInprogress() {
 
+  methods: {
+    handleResize() {
+      this.windowWidth = window.innerWidth;
+    },
+    getTeamsCount() {
+      this.axios
+        .post(globalState.admin_url + "getTeamsCount", {
+          competition: globalState.compid,
+          roundnumber: this.currentRound,
+        })
+        .then((response) => {
+          this.gameRoundCount = response.data;
+          this.loadingGameRoundCount = false;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    getGamesInprogress() {
       this.loadinggames = true;
       this.gamescount = 0;
-      
+
       this.axios
         .post(globalState.admin_url + "getGamesAdvanced2", {
           competition: globalState.compid,
@@ -899,7 +1080,6 @@ export default {
             this.game = response.data[0];
           }
           this.loadinggames = false;
-          
         })
         .catch((error) => {
           console.log(error);
@@ -909,25 +1089,29 @@ export default {
     gameImages() {
       if (this.getAllImages) {
         //create an even number of images for component
-        this.allGameImages = this.getAllImages
-          if(this.allGameImages.length % 2 == 0) {
-              this.numberOfImages = this.allGameImages.length
-          } else {
-             this.numberOfImages = this.allGameImages.length -1
-          }
-        return
+        this.allGameImages = this.getAllImages;
+        if (this.allGameImages.length % 2 == 0) {
+          this.numberOfImages = this.allGameImages.length;
+        } else {
+          this.numberOfImages = this.allGameImages.length - 1;
+        }
+        return;
       }
 
+      //2021: 8dmNL5K5ypaHbTbEM
+      //2022:
       this.axios
-        .post(globalState.admin_url + "allGameImages", {competition: '8dmNL5K5ypaHbTbEM'})
+        .post(globalState.admin_url + "allGameImages", {
+          competition: "hXcmBwqmfWC2tYcxR",
+        })
         .then((response) => {
-          this.$store.dispatch('setAllImages', response.data)
-          this.allGameImages = response.data
+          this.$store.dispatch("setAllImages", response.data);
+          this.allGameImages = response.data;
           //create an even number of images for component
-          if(response.data.length % 2 == 0) {
-              this.numberOfImages = response.data.length
+          if (response.data.length % 2 == 0) {
+            this.numberOfImages = response.data.length;
           } else {
-             this.numberOfImages = response.data.length -1
+            this.numberOfImages = response.data.length - 1;
           }
         })
         .catch((error) => {
@@ -935,97 +1119,111 @@ export default {
         });
     },
     getlatestteam() {
-     this.axios
-      .post(globalState.admin_url + "getLatestPaidTeam")
-      .then((response) => {
-          
-        if (response.data) {
-          
-          let paidAt = moment(response.data.paidAt).add(0, 'hour').format()          
-          let test = moment().diff(paidAt, 'hours');
-          let regDate = moment(paidAt, "YYYY-MM-DD hh:mm").fromNow();
-          //this.toast('b-toaster-top-center',response.data, paidAt);
-          
-          if (test < 23) {
-         
-            //if (paidAt !== latestTeam) {
+      this.axios
+        .post(globalState.admin_url + "getLatestPaidTeam")
+        .then((response) => {
+          if (response.data) {
+            let paidAt = moment(response.data.paidAt).add(0, "hour").format();
+            let test = moment().diff(paidAt, "hours");
+            let regDate = moment(paidAt, "YYYY-MM-DD hh:mm").fromNow();
+            //this.toast('b-toaster-top-center',response.data, paidAt);
 
-            if (!response.data.logourl) {
-              this.latestTeamLogo = 'v1573118127/matchplay/matchplay-new-logo-2020.png'; //failover matchplay logo
+            if (test < 23) {
+              //if (paidAt !== latestTeam) {
+
+              if (!response.data.logourl) {
+                this.latestTeamLogo =
+                  "v1573118127/matchplay/matchplay-new-logo-2020.png"; //failover matchplay logo
+              } else {
+                this.latestTeamLogo = response.data.logourl;
+              }
+
+              this.latestTeam =
+                "Ett lag från " +
+                response.data.coursename +
+                " anmäldes för " +
+                regDate +
+                " sedan av " +
+                response.data.teamleadername +
+                ".";
             } else {
-              this.latestTeamLogo = response.data.logourl;
-            }
-
-            this.latestTeam = 'Ett lag från ' + response.data.coursename + ' anmäldes för ' + regDate + ' sedan av ' + response.data.teamleadername + '.';
-            } else {            
               this.latestTeam = null;
             }
-            //localStorage.setItem('latestTeam',paidAt);  
+            //localStorage.setItem('latestTeam',paidAt);
 
-                //OLD TOAST, MOVED TO HERO
-                /* setTimeout(() => {
+            //OLD TOAST, MOVED TO HERO
+            /* setTimeout(() => {
                   this.toast('b-toaster-top-center',response.data, paidAt);
                   localStorage.setItem('latestTeam',paidAt);                  
                 }, 1500);  */
-              
-              
+
             //}
-        }
-        
-       
-        
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     makeToast(append = false) {
-        this.toastCount++
-        this.$bvToast.toast('Lag från mer än 50% av Sveriges golfklubbar finns nu representerade i Matchplay 2021!', {
-          title: 'Deltagarrekord!',
+      this.toastCount++;
+      this.$bvToast.toast(
+        "Lag från mer än 50% av Sveriges golfklubbar finns nu representerade i Matchplay 2021!",
+        {
+          title: "Deltagarrekord!",
           autoHideDelay: 5000,
-          variant:'success',
-          appendToast: append
-        })
-      },
+          variant: "success",
+          appendToast: append,
+        }
+      );
+    },
 
     countdown() {
-return;
+      return;
       let parentvue = this;
 
-  const second = 1000,
+      const second = 1000,
         minute = second * 60,
         hour = minute * 60,
         day = hour * 24;
 
       let closedate = "May 15, 2022 23:59:59",
-      //let closedate = "March 25, 2021 17:21:00",
-      countDown = new Date(closedate).getTime(),
-      x = setInterval(function() {    
-
-        let now = new Date().getTime(),
-        distance = countDown - now;
-        if (document.getElementById("days")) {
-          document.getElementById("days").innerText = Math.floor(distance / (day)),
-          document.getElementById("hours").innerText = Math.floor((distance % (day)) / (hour)),
-          document.getElementById("minutes").innerText = Math.floor((distance % (hour)) / (minute)),
-          document.getElementById("seconds").innerText = Math.floor((distance % (minute)) / second);
-        } else {
-          clearInterval(x);
-        }
-        //do something later when date is reached
-        if (distance < 0) {         
-          parentvue.closed = true;
-          clearInterval(x);
-        }
-        //seconds
-      }, 0)
-  },
+        //let closedate = "March 25, 2021 17:21:00",
+        countDown = new Date(closedate).getTime(),
+        x = setInterval(function () {
+          let now = new Date().getTime(),
+            distance = countDown - now;
+          if (document.getElementById("days")) {
+            (document.getElementById("days").innerText = Math.floor(
+              distance / day
+            )),
+              (document.getElementById("hours").innerText = Math.floor(
+                (distance % day) / hour
+              )),
+              (document.getElementById("minutes").innerText = Math.floor(
+                (distance % hour) / minute
+              )),
+              (document.getElementById("seconds").innerText = Math.floor(
+                (distance % minute) / second
+              ));
+          } else {
+            clearInterval(x);
+          }
+          //do something later when date is reached
+          if (distance < 0) {
+            parentvue.closed = true;
+            clearInterval(x);
+          }
+          //seconds
+        }, 0);
+    },
 
     getClubImage2(logourl) {
-            return 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_100,q_80,c_scale/' + logourl;
-      }, 
-     getScorecard(id) {
+      return (
+        "https://res.cloudinary.com/dn3hzwewp/image/upload/w_100,q_80,c_scale/" +
+        logourl
+      );
+    },
+    getScorecard(id) {
       location.href = "scorecard?id=" + id;
     },
     getgamedate2: function (gamedate, gametime) {
@@ -1036,51 +1234,58 @@ return;
       //console.log(moment(utcStart, "YYYY-MM-DD hh:mm").fromNow())
       return moment(utcStart, "YYYY-MM-DD hh:mm").fromNow();
     },
-    preloadImage(url)
-    {
-      var img=new Image();
-      img.src=url;
+    preloadImage(url) {
+      var img = new Image();
+      img.src = url;
     },
     showModal() {
-      if (localStorage.getItem('earlyBirdie2022') !== '2')
-      this.$refs['earlyBirdie'].show();
-      localStorage.setItem('earlyBirdie2022', '2');
+      if (localStorage.getItem("earlyBirdie2022") !== "2")
+        this.$refs["earlyBirdie"].show();
+      localStorage.setItem("earlyBirdie2022", "2");
     },
-    toast(toaster,data, paidAt, append = false) {    
-    //set delay 2-3 sekunder...
-    let regDate = moment(paidAt, "YYYY-MM-DD hh:mm").fromNow();
+    toast(toaster, data, paidAt, append = false) {
+      //set delay 2-3 sekunder...
+      let regDate = moment(paidAt, "YYYY-MM-DD hh:mm").fromNow();
 
-    let logourl;
-    if (!data.logourl) {
-      logourl = 'v1573118127/matchplay/matchplay-new-logo-2020.png'; //failover matchplay logo
-    } else {
-      logourl = data.logourl;
-    }
+      let logourl;
+      if (!data.logourl) {
+        logourl = "v1573118127/matchplay/matchplay-new-logo-2020.png"; //failover matchplay logo
+      } else {
+        logourl = data.logourl;
+      }
 
-    const h = this.$createElement;
-     const vNodesMsg = h(
-          'p',
-          { class: ['text-center', 'mb-0'] },
-          [
-            h('b-img', { class: ['text-center','d-block','toast-image', 'mb-3'], props: { src: 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_300,q_80,c_scale/'+logourl } }),
-            'Ett lag från ' + data.coursename + ' anmäldes för ' + regDate + ' sedan av ' + data.teamleadername + '.'
-          ]
-        )
-//'Ett lag från ' + data.coursename + ' anmäldes för ' + regDate + ' sedan av ' + data.teamleadername + '.'
-    this.$bvToast.toast([vNodesMsg], {
-      title: `Nyanmälda lag till Matchplay 2021`,
-      toaster: toaster,
-      autoHideDelay: 6000,
-      solid: true,         
-      appendToast: append
-    })
-
+      const h = this.$createElement;
+      const vNodesMsg = h("p", { class: ["text-center", "mb-0"] }, [
+        h("b-img", {
+          class: ["text-center", "d-block", "toast-image", "mb-3"],
+          props: {
+            src:
+              "https://res.cloudinary.com/dn3hzwewp/image/upload/w_300,q_80,c_scale/" +
+              logourl,
+          },
+        }),
+        "Ett lag från " +
+          data.coursename +
+          " anmäldes för " +
+          regDate +
+          " sedan av " +
+          data.teamleadername +
+          ".",
+      ]);
+      //'Ett lag från ' + data.coursename + ' anmäldes för ' + regDate + ' sedan av ' + data.teamleadername + '.'
+      this.$bvToast.toast([vNodesMsg], {
+        title: `Nyanmälda lag till Matchplay 2021`,
+        toaster: toaster,
+        autoHideDelay: 6000,
+        solid: true,
+        appendToast: append,
+      });
     },
 
     goRouter: function () {
       this.$router.push({ path: "line-up" });
-    },      
-    
+    },
+
     changeBg() {
       var element = this.$refs["slider"];
       if (!element) return;
@@ -1088,46 +1293,40 @@ return;
       if (this.bgImageCount === 2) {
         this.bgImageCount = -1;
         element.classList.remove("herobg2");
-      } else {        
-  element.classList.remove("herobg"+this.bgImageCount);
+      } else {
+        element.classList.remove("herobg" + this.bgImageCount);
       }
-    
-     this.bgImageCount += 1;
-      element.classList.add("herobg"+this.bgImageCount);
-      
-    
+
+      this.bgImageCount += 1;
+      element.classList.add("herobg" + this.bgImageCount);
+
       //console.log('count',this.bgImageCount);
 
-     return;
-     //'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:50,co_rgb:000000/v1608122447/matchplay/IMG_1527.jpg',
-            
-            //console.log(this.bgImageCount,this.images.length);
+      return;
+      //'https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_70,e_colorize:50,co_rgb:000000/v1608122447/matchplay/IMG_1527.jpg',
 
-            if (this.bgImageCount === this.images.length) {
-              this.bgImageCount = 0;
-            }
-            var elem = this.$refs["slider"];
-            if (elem) {
-            //var randomNumber = Math.floor(Math.random() * this.images.length);            
-            //var bgImg = 'url(' + this.images[randomNumber] + ')';
-            var bgImg = 'url(' + this.images[this.bgImageCount] + ')';
-            
-            if (this.bgImageCount === 3) {
-              elem.style.backgroundPosition = 'right center';
-            } else {
-               elem.style.backgroundPosition = 'center center';
-            }
+      //console.log(this.bgImageCount,this.images.length);
 
-           
-            elem.style.backgroundImage = bgImg;
-            this.bgImageCount += 1;
+      if (this.bgImageCount === this.images.length) {
+        this.bgImageCount = 0;
+      }
+      var elem = this.$refs["slider"];
+      if (elem) {
+        //var randomNumber = Math.floor(Math.random() * this.images.length);
+        //var bgImg = 'url(' + this.images[randomNumber] + ')';
+        var bgImg = "url(" + this.images[this.bgImageCount] + ")";
 
-            }
+        if (this.bgImageCount === 3) {
+          elem.style.backgroundPosition = "right center";
+        } else {
+          elem.style.backgroundPosition = "center center";
+        }
 
+        elem.style.backgroundImage = bgImg;
+        this.bgImageCount += 1;
+      }
     },
-    
   },
-
 };
 </script>
 
@@ -1143,61 +1342,58 @@ return;
 }
 
 .stats {
-    background: lighten($blue, 5%);
-    border-radius:0.2em;
-    color:#FFF;
-    border: 1px solid darken(#999, 3%);
+  background: lighten($blue, 5%);
+  border-radius: 0.2em;
+  color: #fff;
+  border: 1px solid darken(#999, 3%);
 }
 
 .stats label {
-    font-size:0.7em;
-    text-transform:uppercase;
-    border-bottom: 1px solid white;
+  font-size: 0.7em;
+  text-transform: uppercase;
+  border-bottom: 1px solid white;
 }
 
 .stats span {
-    font-size:2em;
+  font-size: 2em;
 }
 
-                .timenumbers {
-                    display: block;
-                    font-size: 2rem;
-                    font-weight: 600;
-                    line-height:80px;
-                    margin: 0 auto;
-                    text-align: center;
-                    padding-right:2px;
-                    @media (min-width: 500px) {
-                        font-size:2rem;
-                    }
-                }
+.timenumbers {
+  display: block;
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 80px;
+  margin: 0 auto;
+  text-align: center;
+  padding-right: 2px;
+  @media (min-width: 500px) {
+    font-size: 2rem;
+  }
+}
 
-                .timenumbers {
-                  border-radius:50%;
-                  border-width: 5px;
-                  border-color: rgba(0,0,0,0.3);
-                  border-style: solid;
-                  color:#000;
-                  width:80px;
-                  height:80px;
-                  background: rgba(255,255,255,0.7);
-                  
-                 
-                }
+.timenumbers {
+  border-radius: 50%;
+  border-width: 5px;
+  border-color: rgba(0, 0, 0, 0.3);
+  border-style: solid;
+  color: #000;
+  width: 80px;
+  height: 80px;
+  background: rgba(255, 255, 255, 0.7);
+}
 
-                p.timedescription {
-                    font-size: 1.2rem;
-                    font-variant: small-caps;
-                    line-height: 1.5rem;
-                    margin: 0 auto;
-                    text-align: center;
-                    position: relative;
-                    top: 5px;
-                     @media (min-width: 500px) {
-                        font-size:1rem;
-                    }
-                }
-
+p.timedescription {
+  font-size: 1.2rem;
+  font-variant: small-caps;
+  line-height: 1.5rem;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  top: 5px;
+  @media (min-width: 500px) {
+    font-size: 1rem;
+  }
+}
 
 .toast-image {
   max-width: 100px;
@@ -1461,20 +1657,21 @@ img {
   }
 }
 
-.herobg0, .herobg1, .herobg2 {
+.herobg0,
+.herobg1,
+.herobg2 {
   background-size: cover !important;
   background-repeat: no-repeat !important;
-  
 }
 
 .herobg0 {
-   background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_auto,e_colorize:50,co_rgb:000000/v1634639604/matchplay/241623315_297370888855635_7137633828161165670_n.jpg);
-   background-position: right center;
+  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_auto,e_colorize:50,co_rgb:000000/v1634639604/matchplay/241623315_297370888855635_7137633828161165670_n.jpg);
+  background-position: right center;
 }
 
 .herobg1 {
   background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_auto,e_colorize:50,co_rgb:000000/v1608219772/matchplay/bg_matchplay.jpg);
-   background-position: center center;
+  background-position: center center;
 }
 
 .herobg2 {
@@ -1542,21 +1739,18 @@ img {
   }
 }
 .openForBusiness {
-  top:0;
-  left:0;
+  top: 0;
+  left: 0;
   border-bottom-right-radius: 130px;
   background-color: #d08a3f7c;
-  color: white; 
-
-
+  color: white;
 }
 .openForBusinessMobile {
-  top: 0; 
-  left: 0; 
-  width: 100%; 
+  top: 0;
+  left: 0;
+  width: 100%;
   background-color: #d08a3f7c;
-  color: white; 
-
+  color: white;
 }
 .line1 {
   font-size: 0.6rem;
@@ -1568,5 +1762,4 @@ img {
 .line3 {
   font-size: 1.4rem;
 }
-
 </style>
