@@ -622,6 +622,8 @@ export default {
       .then((response) => {
         this.currentRound = response.data.currentround;      
         this.active_round = this.currentRound;
+        
+        
         if (this.currentRound>0 && this.currentRound < 10) {
           this.active_round = 'Omgång ' + this.currentRound;
         }
@@ -1359,12 +1361,14 @@ export default {
       //loading
 
       this.axios
+      
         .post(globalState.admin_url + "getTeamsCount", {
-          //getclubstoplist
+          //getclubstoplist          
           competition: globalState.compid,
           roundnumber: this.currentRound
         })
         .then((response) => {
+          console.log(response)
           this.gameRoundCount = response.data    
           this.team.total = response.data.total;
           this.team.defeated = response.data.defeated;
