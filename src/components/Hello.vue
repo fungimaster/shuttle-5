@@ -155,8 +155,8 @@
 
           <b-col class="col-12 col-md-8">
             <p v-if="closed" class="mt-3 mt-md-0">
-              Omgång 1 startar <strong>onsdagen den 18 maj</strong> och pågår
-              till <strong>söndagen den 12 juni</strong>
+              Omgång 2 lottas <strong>måndagen den 13 juni</strong> och pågår
+              till <strong>söndagen den 26 juni</strong>
               <b-alert hidden variant="info" class="small mt-3"
                 >Lag från mer än 50% av Sveriges golfklubbar finns nu
                 representerade i tävlingen!</b-alert
