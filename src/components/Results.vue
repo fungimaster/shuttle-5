@@ -243,7 +243,7 @@
                                    <img v-if="getClubLogo(game.club)" class="" :src="getClubLogo(game.club)">                                                                                                                         
                                    <span class="d-block mt-2" v-if="game.clubname">{{game.clubname}}</span>
                                    <span hidden v-if="!game.clubname">Golfklubb saknas</span>
-                                    <span class="small d-block mt-2" v-if="game.roundname">{{game.roundname}}</span>
+                                    <span class="pt-2 small mt-2 badge badge-warning" v-if="game.roundname">{{game.roundname}}</span>
                                     <hr hidden class="mt-3 mb-1" />
                                  </b-col>
                              </b-row>
@@ -345,7 +345,7 @@
                                    <img v-if="getClubLogo(game.club)" class="" :src="getClubLogo(game.club)">                                                                                                                           
                                    <span class="d-block mt-2" v-if="game.clubname">{{game.clubname}}</span>
                                    <span hidden v-if="!game.clubname">Golfklubb saknas</span>
-                                   <span class="small d-block mt-2" v-if="game.roundname">{{game.roundname}}</span>  
+                                   <span class="pt-2 small mt-2 badge badge-warning" v-if="game.roundname">{{game.roundname}}</span>  
                                                                  
                                  </b-col>
                              </b-row>
@@ -446,7 +446,7 @@
                                    <img v-if="getClubLogo(game.club)" class="" :src="getClubLogo(game.club)">                                                                                                                                  
                                    <span class="d-block mt-2" v-if="game.clubname">{{game.clubname}}</span>
                                    <span hidden v-if="!game.clubname">Golfklubb saknas</span>
-                                     <span class="small d-block mt-2" v-if="game.roundname">{{game.roundname}}</span>
+                                     <span class="pt-2 small mt-2 badge badge-warning" v-if="game.roundname">{{game.roundname}}</span>
                                  </b-col>
                              </b-row>
                              <b-row>                              
@@ -942,7 +942,7 @@ export default {
 
       if (club) {
         if (club.logoURL) {
-          return  'https://res.cloudinary.com/dn3hzwewp/image/upload/h_50,q_auto,c_scale/' + club.logoURL;
+          return  'https://res.cloudinary.com/dn3hzwewp/image/upload/h_70,q_auto,c_scale/' + club.logoURL;
         }
       } else {
         return false
@@ -1615,6 +1615,9 @@ p.inactive-round {
 .gameheader {
   font-size: 1.2em;
   text-transform: uppercase;
+  img {
+    max-height:70px;
+  }
 }
 
 .box {
