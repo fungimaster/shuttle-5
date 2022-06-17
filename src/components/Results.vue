@@ -16,6 +16,7 @@
     </b-alert>  
 
     <b-container class="mt-3 ml-0 mr-0 p-0 pt-sm-4">    
+      {{this.active_round}}
     <!--    <b-row  align-h="center" class="mt-0 mt-sm-4 pt-0 pt-sm-4">
       
           <b-col cols="4" md="4" class="d-flex justify-content-center p-0" >
@@ -409,7 +410,7 @@
                              <b-button hidden size="sm" v-on:click="updategames()" variant="primary">update</b-button>
                             <b-button hidden size="sm" v-on:click="getGamesFinished('button','all')" variant="primary">Alla</b-button>                           
                             <b-button v-if="currentRound>1"  size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','1')" variant="primary">Omgång 1</b-button>                           
-                            <b-button v-if="currentRound>2" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','2')" variant="primary">Omgång 2</b-button> 
+                            <b-button v-if="currentRound>1" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','2')" variant="primary">Omgång 2</b-button> 
                             <b-button v-if="currentRound>3" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','3')" variant="primary">Omgång 3</b-button>
                             <b-button v-if="currentRound>4" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','4')" variant="primary">Omgång 4</b-button>
                             <b-button v-if="currentRound>5" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','5')" variant="primary">Omgång 5</b-button>
@@ -701,7 +702,7 @@ export default {
 
       //TABS
       tabIndex: 1, //0=bilder, 1=pågående
-      active_round: "Sverigefinal",     
+      active_round: "Omgång 2",     
       //PENDING GAMES
       loadinggames2: false,
       updating2: false,
@@ -1207,7 +1208,7 @@ export default {
     updategames() {
       this.updating1 = false;
       //this.getGamesFinished("loader", this.active_round);
-      this.getGamesFinished("loader", "Sverigefinal");
+      this.getGamesFinished("loader", 'Omgång 2');
     },
     getGamesFinished(origin, round) {
       //loading
@@ -1218,7 +1219,7 @@ export default {
       if (origin === "loader") {
         //if (localStorage.getItem('active_round') !== null) {
         if (localStorage.hasOwnProperty("active_round")) {
-          this.active_round = "Sverigefinal" //localStorage.getItem("active_round");
+          this.active_round = "Omgång 2" //localStorage.getItem("active_round");
         }
       }
 
