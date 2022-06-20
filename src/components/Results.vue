@@ -16,7 +16,7 @@
     </b-alert>  
 
     <b-container class="mt-3 ml-0 mr-0 p-0 pt-sm-4">    
-      {{this.active_round}}
+      
     <!--    <b-row  align-h="center" class="mt-0 mt-sm-4 pt-0 pt-sm-4">
       
           <b-col cols="4" md="4" class="d-flex justify-content-center p-0" >
