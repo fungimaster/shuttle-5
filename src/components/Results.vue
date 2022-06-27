@@ -702,7 +702,7 @@ export default {
 
       //TABS
       tabIndex: 1, //0=bilder, 1=pågående
-      active_round: "Omgång 2",     
+      active_round: "Omgång 3",     
       //PENDING GAMES
       loadinggames2: false,
       updating2: false,
@@ -1208,7 +1208,7 @@ export default {
     updategames() {
       this.updating1 = false;
       //this.getGamesFinished("loader", this.active_round);
-      this.getGamesFinished("loader", 'Omgång 2');
+      this.getGamesFinished("loader", 'Omgång 3');
     },
     getGamesFinished(origin, round) {
       //loading
@@ -1219,7 +1219,7 @@ export default {
       if (origin === "loader") {
         //if (localStorage.getItem('active_round') !== null) {
         if (localStorage.hasOwnProperty("active_round")) {
-          this.active_round = "Omgång 2" //localStorage.getItem("active_round");
+          this.active_round = "Omgång 3" //localStorage.getItem("active_round");
         }
       }
 
