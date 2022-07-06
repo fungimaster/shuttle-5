@@ -411,12 +411,12 @@
                             <b-button hidden size="sm" v-on:click="getGamesFinished('button','all')" variant="primary">Alla</b-button>                           
                             <b-button v-if="currentRound>1"  size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','1')" variant="primary">Omgång 1</b-button>                           
                             <b-button v-if="currentRound>1" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','2')" variant="primary">Omgång 2</b-button> 
-                            <b-button v-if="currentRound>3" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','3')" variant="primary">Omgång 3</b-button>
-                            <b-button v-if="currentRound>4" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','4')" variant="primary">Omgång 4</b-button>
-                            <b-button v-if="currentRound>5" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','5')" variant="primary">Omgång 5</b-button>
-                            <b-button v-if="currentRound>6" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','6')" variant="primary">Omgång 6</b-button>
-                            <b-button v-if="currentRound>7" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','7')" variant="primary">Omgång 7</b-button>
-                            <b-button v-if="currentRound>8" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Sverigefinalen SEMI')" variant="primary">Sverigefinalen SEMI</b-button>
+                            <b-button v-if="currentRound>2" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','3')" variant="primary">Omgång 3</b-button>
+                            <b-button v-if="currentRound>3" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','4')" variant="primary">Omgång 4</b-button>
+                            <b-button v-if="currentRound>4" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','5')" variant="primary">Omgång 5</b-button>
+                            <b-button v-if="currentRound>5" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','6')" variant="primary">Omgång 6</b-button>
+                            <b-button v-if="currentRound>6" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','7')" variant="primary">Omgång 7</b-button>
+                            <b-button v-if="currentRound>7" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Sverigefinalen SEMI')" variant="primary">Sverigefinalen SEMI</b-button>
                             <b-button v-if="currentRound==='Sverigefinal'" size="sm" class="mt-2 mt-md-0" v-on:click="getGamesFinished('button','Sverigefinal')" variant="primary">Sverigefinal</b-button>
                                                                             
                             <b-button hidden size="sm" v-on:click="getGamesFinished('button','Omgång 3')" variant="primary">Omgång 2 AC</b-button>                            
@@ -439,8 +439,13 @@
                            </b-col>
                          </b-row>
                        
+                       <b-row v-if="loadinggames">
+                         <b-col xs="12" sm="12" class="pt-3 pb-3 pl-md-2 pr-md-2 mb-3">
+                           <b-spinner small type="grow" class="ml-0 pl-0 mr-1 mb-1"></b-spinner>Laddar spelade matcher omgång: {{active_round}}
+                         </b-col>
+                       </b-row>
 
-                         <b-row v-if="gamescount3 > 0" class="">
+                         <b-row v-if="gamescount3 > 0 && !loadinggames" class="">
                           <b-col v-for="(game,idx1) in games3" :key="idx1" xs="12" sm="12" class="pt-3 pb-3 pl-md-2 pr-md-2 game mb-3" :class="idx1 % 2 === 0 ? 'whitebg' : 'whitebg'">                            
                              <b-row>
                                  <b-col class="gameheader col-12 text-center mb-4"> 
