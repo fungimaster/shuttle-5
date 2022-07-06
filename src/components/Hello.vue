@@ -156,7 +156,7 @@
           <b-col class="col-12 col-md-8">
             <p v-if="closed" class="mt-3 mt-md-0">
               Omgång 3 lottas <strong>måndagen den 27 juni</strong> och pågår
-              till <strong>söndagen den 10 juli</strong>
+              till <strong>söndagen den 10 juli.</strong>
               <b-alert hidden variant="info" class="small mt-3"
                 >Lag från mer än 50% av Sveriges golfklubbar finns nu
                 representerade i tävlingen!</b-alert

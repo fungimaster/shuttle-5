@@ -61,7 +61,7 @@ import { LightGallery } from "vue-light-gallery";
 export default {
   created() {
     window.addEventListener("resize", this.handleResize);
-    this.columnLength = this.imagesInColumn || 12
+    this.columnLength = this.imagesInColumn || 24
   },
   destroyed() {
     window.removeEventListener("resize", this.handleResize);

@@ -19,6 +19,7 @@ import Receipt from '@/components/Receipt'
 import Game from '@/components/Game'
 import Register from '@/components/Register'
 import Results from '@/components/Results'
+import Images from '@/components/Images'
 
 Vue.use(Router)
 
@@ -50,6 +51,11 @@ export default new Router({
       path: '/mymatchplay',
       name: 'MyMatchplay',
       component: MyMatchplay
+    },
+    {
+      path: '/images',
+      name: 'Images',
+      component: Images
     },
     {
       path: '/creategame',
