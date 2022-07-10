@@ -156,7 +156,7 @@
           <b-col class="col-12 col-md-8">
             <p v-if="closed" class="mt-3 mt-md-0">
               Omgång 4 startar <strong>måndagen den 11 juli</strong> och pågår
-              till <strong>söndagen den 24 juli.</strong>
+              till <strong>söndagen den 31 juli.</strong>
               <b-alert hidden variant="info" class="small mt-3"
                 >Lag från mer än 50% av Sveriges golfklubbar finns nu
                 representerade i tävlingen!</b-alert
