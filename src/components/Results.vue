@@ -155,8 +155,8 @@
 <b-row>
 <b-col class="col-12 mt-5">
   <h1>Sverigefinal!</h1>
-   <p>Nu i helgen, 3-5 september, spelas äntligen Sverigefinalen i Matchplay 2021.
-    I år spelar vi på Allerum Golfklubb strax utanför Helsingborg där 8 lag gör upp om 2 finalplatser till Spanien senare i år. De 12 lag som är kvar i andra chansen kommer spela kval under fredagen den 3:e där de 2 bästa lagen får plats till lördagens spel och har samma chanser att gå vidare till söndagens spel som de 6 lagen från huvudtävlingen. Lycka till alla spelare!
+   <p>Nu i helgen, 16-18 september, spelas äntligen Sverigefinalen i Matchplay 2022.
+    I år spelar vi på Allerum Golfklubb strax utanför Helsingborg där 8 lag gör upp om 2 finalplatser till Spanien senare i år. De 13 lag som är kvar i andra chansen kommer spela kval (greensome) under fredagen den 16:e där det bästa laget får en plats till lördagens spel och har samma chanser att gå vidare till söndagens spel som de 7 lagen från huvudtävlingen. Lycka till alla spelare!
   </p>
 </b-col>
 </b-row>
