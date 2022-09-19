@@ -563,7 +563,7 @@
           </b-col>
         </b-row>
 
-        <b-row hidden v-if="closed">
+        <b-row v-if="closed">
           <b-col class="col-12 mb-3 mt-5">
             <h3>Omgångar 2022</h3>
             <app-rounds-grafic
