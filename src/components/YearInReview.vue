@@ -58,7 +58,9 @@
                     }}</small>
                   </div>
                        <small class="text-light">Runner up </small>
-
+                        <small class="d-block color-yellow">
+                      TBA
+                    </small>
                   <div
                     v-for="second in competition.second"
                     :key="second.index"
@@ -68,10 +70,11 @@
                     }}</small>
                   </div>
                 </b-col>
-                <b-col cols="6" v-if="birdies">
+                <b-col cols="6" v-if="total">
+                 
                   <small class="text-light"> Birdieligan</small>
                   <div
-                    v-for="(birdie, index) in birdies"
+                    v-for="(birdie, index) in total"
                     :key="birdie.index"
                     class="white-space"
                   >
@@ -94,7 +97,7 @@
                   <small class="text-light"
                     >Spelade <br class="custom-br" />Matcher</small
                   >
-                  <h1 class="color-yellow">1054</h1>
+                  <h1 class="color-yellow">602</h1>
                 </b-col>
               </b-row>
               <b-row class="pt-4" v-if="user && user._id && !loading">
@@ -140,7 +143,7 @@
           <b-button
             variant="light"
             class="d-block align-self-end w-100 rounded-bottom"
-            @click="$router.push('/tavlingar/2021')"
+            @click="$router.push('/tavlingar/2022')"
             >Gå Till Årssida</b-button
           >
         </div>
@@ -158,7 +161,8 @@ export default {
   props: ["isMobile", "year", "compid"],
   created() {
     this.competition = this.$store.getters["getCompetition"](this.year);
-    this.getBirdies();
+    //this.getBirdies();
+     this.getTotal();
     if (this.user) {
       this.getAchievementDataPlayer();
     }
@@ -167,13 +171,14 @@ export default {
   data() {
     return {
       competition: null,
-      totaltBirdies: 2486,
-      totalTeams: 712,
-      totalPlayers: 1424,
+      totaltBirdies: 1302,
+      totalTeams: 412,
+      totalPlayers: 824,
       playerBirdie: null,
       playerBirdiePercentage: null,
       loading: false,
       birdies: null,
+      total: null
     };
   },
   methods: {
@@ -204,6 +209,27 @@ export default {
         })
         .catch((e) => {
           console.log(e);
+        });
+    },
+        getTotal() {
+      //loading
+      this.value = 5;
+
+      this.axios
+        .post(globalState.admin_url + "getAchievementTotal", {
+          //getclubstoplist
+          competition: this.competitionid
+            ? this.competitionid
+            : globalState.compid,
+          //type: "eagle",
+          no: 5
+        })
+        .then((response) => {
+         
+          this.total = response.data;
+        })
+        .catch((error) => {
+          console.log(error);
         });
     },
     getBirdies() {

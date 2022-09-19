@@ -18,7 +18,7 @@
                 justify-content-center
                 position-relative
               "
-            >
+            > 
               <b-img
                 fluid
                 :src="

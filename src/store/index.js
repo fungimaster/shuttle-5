@@ -29,7 +29,106 @@ export default new Vuex.Store({
     games3: [],
     clublogosurl: null,
     images: null,
-    competitions: [{
+    competitions: [
+      {
+        _id: "hXcmBwqmfWC2tYcxR",
+        hcps: hcps,
+        competitionname: "2022",
+        competitionpictureurl_old:
+          "https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_auto,e_colorize:60,co_rgb:000000,e_blur:300/v1631006181/matchplay/vinnare.jpg",
+        competitionpictureurl:
+        "https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_auto,e_colorize:60,co_rgb:000000,e_blur:300/v1638199895/matchplay/IMG_5205.jpg",
+        finalteams: [
+          {
+            club: "Araslöv Golf & Resort",
+            name: "Lahger/Andersson"
+          },
+          {
+            club: "Örstad Golf Väderstad",
+            name: "Danielsson/Andersson"
+          },
+          {
+            club: "Växjö Golfklubb",
+            name: "Ermanius/Trueldsson"
+          },
+          {
+            club: "Söderåsens GK",
+            name: "Gustavsson/Samuelsson"
+          },
+          {
+            club: "Kävlinge Golfklubb",
+            name: "Anderberg/Fast"
+          },
+          {
+            club: "Säters GK",
+            name: "Söderström/Söderström"
+          }
+        ],
+        presentation: "Sverigefinalen 2022 på Allerum GK är avgjord och 2 förväntansfulla lag ska ge sig av till Spanien och Rio Real i Marbella Spanien i början av november. Mer info från finaldagarna där nere kommer dyka upp här efter hemkomst. Finalen kan följas live på vår facebooksida.",
+        presentation2:
+          "Matchplay Sweden 2022 är avgjort för detta året och vi säger stort grattis till vinnarna! Från Huvudtävlingen till Andra Chansen - ett stort tack för ert deltagande och på återseende nästa år.",
+        special1a: {
+          ingress:
+            "Plötsligt händer det - och här är ett exempel! Martin Ljunggren spelade sin match på Borås Norra bana och på hål 15, ett par 4 så hände det vi många enbart kommer att drömma om. Martin berättar",
+          text: "Under gårdagens match mellan mig och Carl Lejon mot Markus Andersson och Peter Lindeberg hade jag lyckan att göra en HIO på hål nummer 15 på Borås norra banan. Slaget skedde med driver och hålet spelades strax över 300 m med tanke på flaggplacering och teeplacering. När vi inte kunde hitta bollen i närheten av green gick jag och tittade i koppen och chocken var total när bollen låg där",
+          url: "https://res.cloudinary.com/dn3hzwewp/image/upload/v1631006701/matchplay/hole_in_one.jpg",
+        },
+        special2b: {
+          ingress:
+            "Gunnar Sivertsen - STORT GRATTIS till din HIO på Delsjö Golfklubb, hål 17 🏆 Tillsammans med Mike Dahl, Andreas Norrman och Christian Andersson som bevittnade det hela, så sällar sig nu Gunnar till den ärofulla klubben i Matchplays historia.",
+          text: null,
+          url: "https://res.cloudinary.com/dn3hzwewp/image/upload/v1631283520/matchplay/hio.png",
+        },
+        stats: {
+          age: 44,
+          clubs: 179,
+          hcp: 11.6,
+          teams: 412,
+        },
+        video1: {
+          bgimage: "https://res.cloudinary.com/dn3hzwewp/image/upload/w_800,q_70/v1663587720/matchplay/final1.jpg",
+          headline: "Lind / Strömberg avgör match 2 inkl segerintervju",
+          text: "Sverigefinalen 2022 spelades på Allerums GK. Matcherna gick att följa live på hemsidan och på Facebook publicerades livesändningar likt denna.",
+          url: "https://www.facebook.com/plugins/video.php?height=314&href=https://fb.watch/fE1x2uK-do/"
+        },
+        video2: {
+          bgimage: "https://res.cloudinary.com/dn3hzwewp/image/upload/w_800,q_70/v1663588749/matchplay/final2.jpg",
+          headline: "Segerintervju Henriksson x2",
+          text: "All square in för sista och avgörande hålet! Tobias H bränner birdieputten men säkrar ändå vinsten när en koppsnurr för delning avgör matchen.",
+          url: "https://www.facebook.com/plugins/video.php?height=314&href=https://fb.watch/fE4b04dEd4/"
+        },
+        winnersSF: [
+          {
+            club: "Norrby GK",
+            name: "Henriksson/Henriksson",
+            image: "https://scontent-arn2-1.xx.fbcdn.net/v/t39.30808-6/307639774_538617694730952_7172196426813008089_n.jpg?stp=cp6_dst-jpg_p180x540&_nc_cat=111&ccb=1-7&_nc_sid=8bfeb9&_nc_ohc=u26RSCGNhUkAX_Py835&tn=DskGxDO1ze-r2rgj&_nc_ht=scontent-arn2-1.xx&oh=00_AT8y9vjzKaJsgQjaTJbRBbXVUI0xPU6oZKFOj2lwhYZxLQ&oe=632C8B74"
+          },
+          {
+            club: "Borås GK",
+            name: "Lind/Strömberg",
+            image: "https://scontent-arn2-2.xx.fbcdn.net/v/t39.30808-6/307319890_538615058064549_1684830204157133725_n.jpg?stp=cp6_dst-jpg_p180x540&_nc_cat=105&ccb=1-7&_nc_sid=8bfeb9&_nc_ohc=2e-E-uon42sAX_Yl8-a&_nc_ht=scontent-arn2-2.xx&oh=00_AT9Z9fB9-uOIs43sfaDYH5GpZm3h23hlC2sdVyzdtJ3-vA&oe=632C6C35"
+          },
+        ],
+        winners: [
+          {
+            club: "Avgörs i Spanien i början av november.",
+            name: "TBA"
+          }
+        ],
+        second1: [
+          {
+            club: "Kårsta GK",
+            name: "Carlsson/Lindström"
+          }
+        ],
+        price:
+        {
+          imageurl: "https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_auto,q_auto,e_colorize:10,co_rgb:000000/v1631698312/matchplay/price2021text.png",
+          destination: "Rio Real i Spanien den 20-25 november",
+          text: "Inspel måndag och finalspel tisdag den 22/11. Sedan bankett på OCCO på kvällen."
+        },
+      },
+      {
       _id: "8dmNL5K5ypaHbTbEM",
       hcps: hcps,
       competitionname: "2021",

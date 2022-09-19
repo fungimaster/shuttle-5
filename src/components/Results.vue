@@ -629,6 +629,7 @@ export default {
       .then((response) => {
         this.currentRound = response.data.currentround;      
         this.active_round = this.currentRound;
+        
 
         if (this.active_round===7) {
           this.active_round = 'Semifinal Sverigefinalen 2022';

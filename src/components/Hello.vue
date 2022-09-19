@@ -154,7 +154,9 @@
           </b-col>
 
           <b-col class="col-12 col-md-8">
-            <p v-if="closed" class="mt-3 mt-md-0">
+             <h4 v-if="closed" class="mt-3 mt-md-0 mb-3">
+              Sverigefinalen 2022 är avgjord och ni kan läsa allt, se segerintervjuer mm på vår årssida som du hittar <a href="/tavlingar/2022">här!</a></h4>
+            <p hidden v-if="closed" class="mt-3 mt-md-0">
                Snart vankas Sverigefinal på Allerum Golfklubb utanför Helsingborg! Finalerna spelas 16-18 september, följ matcherna här på sajten!
               <b-alert hidden variant="info" class="small mt-3"
                 >Lag från mer än 50% av Sveriges golfklubbar finns nu
@@ -237,15 +239,14 @@
                       class="text-white mt-3 mt-md-1"
                       variant="primary"
                       size="sm"
-                      >Följ årets matcher</b-button
+                      >Alla 602 matcher 2022</b-button
                     >
                   </b-col>
                 </b-row>
               </div>
 
-              <p v-if="closed && !isAuthenticated">
-                Anmälan till årets tävling har tyvärr stängt, välkommen tillbaka
-                nästa år, anmälan öppnar i december 2022.
+              <p v-if="closed">
+               Anmälan till Matchplay 2023 öppnar i januari 2023.
               </p>
 
               <a
@@ -562,7 +563,7 @@
           </b-col>
         </b-row>
 
-        <b-row v-if="closed">
+        <b-row hidden v-if="closed">
           <b-col class="col-12 mb-3 mt-5">
             <h3>Omgångar 2022</h3>
             <app-rounds-grafic
@@ -579,12 +580,18 @@
           </b-col>
         </b-row>
 
-        <b-row v-if="closed">
+        <b-row hidden v-if="closed">
           <b-col class="col-12 mb-3 mt-5">            
-            <app-birdie-ligan></app-birdie-ligan>
+            <!-- <app-birdie-ligan></app-birdie-ligan> -->
           </b-col>
         </b-row>
 
+  <b-row v-if="closed">
+          <b-col class="col-12 mb-3 mt-5">  
+          
+         <app-year-in-review :isMobile="isMobile" :year="2022" :compid="prevcompid"></app-year-in-review>
+ </b-col>
+        </b-row>
         <hr class="mt-5" v-if="latestTeam && !closed" />
         <b-row align-h="center" class="mt-5 mb-5">
           <b-col v-if="latestTeam && !closed" class="col-12 col-md-6">

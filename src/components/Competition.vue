@@ -41,7 +41,7 @@
     </div>
 
     <!-- WINNERS -->
-    <div class="wallpaperContainer1 p-0 m-0" v-if="competition.winners">
+    <div class="wallpaperContainer1 p-0 m-0 pb-5" v-if="competition.winners">
       <div class="pt-5 pb-5">
         <h2>Årets Vinnare Spanien</h2>
         <div
@@ -61,10 +61,13 @@
           :key="winners.index"
         >
         <div>
-          <h5 class="mb-0">
+          <h5 class="mb-0 mt-3">
             <strong class="mb-0"> {{ winners.name }} </strong>
           </h5>
           <small class="mt-0 mb-5 clear">{{ winners.club }}</small>
+          <div>
+            <b-img fluid class="p-md-3 p-5" :src="winners.image"></b-img>
+          </div>
         </div>
         </div>
     </div>
@@ -87,6 +90,18 @@
           <small class="mt-0">{{ players.club }}</small>
         </div>
       </div>
+
+      <!-- VIDEO  -->
+    <app-video-block v-if="competition.video1" :video="competition.video1">
+    </app-video-block>
+
+    <!-- VIDEO 2 -->
+    <app-video-block
+      v-if="competition.video2"
+      :video="competition.video2"
+      :flip="true"
+    >
+    </app-video-block>
 
     <!-- Price -->
     <div class="wallpaperContainer5" v-if="competition.price">
@@ -155,9 +170,7 @@
       </div>
     </div>
 
-    <!-- VIDEO  -->
-    <app-video-block v-if="competition.video1" :video="competition.video1">
-    </app-video-block>
+    
 
     <!-- IMAGES -->
     <div class="wallpaperContainer3 p-0 m-0" v-if="allGameImages.length">
@@ -165,18 +178,12 @@
         class="bg-image-collage d-flex justify-content-center"
         v-if="allGameImages.length"
         :numberOfImages="numberOfImages"
-        :imagesInColumn="10"
+        :imagesInColumn="100"
         :images="allGameImages"
       ></app-image-collage>
     </div>
 
-    <!-- VIDEO 2 -->
-    <app-video-block
-      v-if="competition.video2"
-      :video="competition.video2"
-      :flip="true"
-    >
-    </app-video-block>
+    
 
     <!-- GO TO INFO -->
     <div class="divider-blue p-4">
@@ -279,7 +286,7 @@
     <app-call-to-action></app-call-to-action>
 
     <!-- Henke ⚽️ ⚽️ ⚽️ -->
-    <app-henke-larsson> </app-henke-larsson>
+   <!--  <app-henke-larsson> </app-henke-larsson> -->
   </div>
 </template>
 
@@ -325,7 +332,12 @@ export default {
       } else if (competitionYear === "2021") {
         this.competition =
           this.$store.getters["getCompetition"](competitionYear);
-      } else {
+      }
+       else if (competitionYear === "2022") {
+        this.competition =
+          this.$store.getters["getCompetition"](competitionYear);
+      }
+       else {
         this.$router.push("/tavlingar");
       }
     },

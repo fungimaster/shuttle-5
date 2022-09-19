@@ -20,10 +20,9 @@
         "
       >
         <b-button
-          disabled
           variant="light"
           size="lg"
-          @click="$router.push('tavlingar/2022')"
+          to="/tavlingar/2022"
         >
           <span class="text-reset">2022</span>
         </b-button>

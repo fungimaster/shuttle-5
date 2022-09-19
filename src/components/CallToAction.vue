@@ -14,7 +14,7 @@
         </div>
 
         <h4 v-if="closed" class="text-warning text-center pt-4">
-          Anmälan är stängd och öppnar i december.
+          Anmälan är stängd och öppnar i januari 2023.
         </h4>
         <h6 v-if="closed" class="text-warning text-center p-4">
           Följ oss på
@@ -35,7 +35,7 @@
           </b-button>
         </div>
       </div>
-      <b-row align-v="center" class="text-center stats pt-4">
+      <b-row hidden align-v="center" class="text-center stats pt-4">
         <b-col md="4" cols="12" class="pt-3">
           <h5>1904</h5>
           <small class="text-light">Golfälskande deltagare</small>
