@@ -1,7 +1,7 @@
 <template> 
   <div
     v-if="
-      ['Scorecard', 'CreateGame', 'CreateGame_free', 'Game', 'MyMatchplay', 'Receipt'].indexOf(
+      ['Scorecard','Igg', 'CreateGame', 'CreateGame_free', 'Game', 'MyMatchplay', 'Receipt'].indexOf(
         $route.name
       ) === -1">
   

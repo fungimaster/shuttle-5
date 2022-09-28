@@ -101,12 +101,12 @@ export default new Vuex.Store({
           {
             club: "Norrby GK",
             name: "Henriksson/Henriksson",
-            image: "https://scontent-arn2-1.xx.fbcdn.net/v/t39.30808-6/307639774_538617694730952_7172196426813008089_n.jpg?stp=cp6_dst-jpg_p180x540&_nc_cat=111&ccb=1-7&_nc_sid=8bfeb9&_nc_ohc=u26RSCGNhUkAX_Py835&tn=DskGxDO1ze-r2rgj&_nc_ht=scontent-arn2-1.xx&oh=00_AT8y9vjzKaJsgQjaTJbRBbXVUI0xPU6oZKFOj2lwhYZxLQ&oe=632C8B74"
+            image: "https://res.cloudinary.com/dn3hzwewp/image/upload/v1664210357/matchplay/henriksson.jpg"
           },
           {
             club: "Borås GK",
             name: "Lind/Strömberg",
-            image: "https://scontent-arn2-2.xx.fbcdn.net/v/t39.30808-6/307319890_538615058064549_1684830204157133725_n.jpg?stp=cp6_dst-jpg_p180x540&_nc_cat=105&ccb=1-7&_nc_sid=8bfeb9&_nc_ohc=2e-E-uon42sAX_Yl8-a&_nc_ht=scontent-arn2-2.xx&oh=00_AT9Z9fB9-uOIs43sfaDYH5GpZm3h23hlC2sdVyzdtJ3-vA&oe=632C6C35"
+            image: "https://res.cloudinary.com/dn3hzwewp/image/upload/v1664210357/matchplay/lind-stromberg.jpg"
           },
         ],
         winners: [

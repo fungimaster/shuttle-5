@@ -20,6 +20,7 @@ import Game from '@/components/Game'
 import Register from '@/components/Register'
 import Results from '@/components/Results'
 import Images from '@/components/Images'
+import Igg from '@/components/Igg'
 
 Vue.use(Router)
 
@@ -98,6 +99,11 @@ export default new Router({
       path: '/club',
       name: 'Club',
       component: Club
+    },
+    {
+      path: '/igg',
+      name: 'Igg',
+      component: Igg
     },
     {
       path: '/klubbar',

@@ -915,7 +915,7 @@ export default {
     // Get info from GIT
     getCourse: function (gitID) {
       this.axios
-        .post("https://admin.matchplay.se/methods/getCourseInfoData", {
+       .post("https://admin.matchplay.se/methods/getCourseInfoData", {
           id: gitID,
         })
         .then((response) => {
