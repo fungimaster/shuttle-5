@@ -1,9 +1,9 @@
 <template>
-  <b-container class ref="register">
+  <b-container class ref="register"  v-bind:class="{ igg : igg }">
     <b-row class="justify-content-center" align-h="center">
-      <b-col md="8" id="register" class="mt-4 mt-md-5">
+      <b-col md="10" id="register" class="mt-4 mt-md-5">
         <h2 class="teaser-header orange">Anmäl dig som spelare</h2>
-        <b-alert show v-if="closed"
+        <b-alert show v-if="closed && !igg"
           variant="warning small form-text text-muted mb-4"
         >Denna efterhandsregistrering är bara till för spelare som redan är med som lagmedlem i ett lag men som inte har kopplats till ett lag. Efter din registrering kommer du kopplas till rätt lag (baserat på ditt golf-id).</b-alert>
           <p v-if="this.player==='player2'" class="mb-3 mt-3">
@@ -111,6 +111,7 @@
                   size="md"
                   variant="primary"
                   class="btn blue-bg btn-special ml-0 mt-1 ml-sm-2 mt-sm-0"
+                  v-bind:class="{ 'btn-igg': igg }"
                 >
                   <b-spinner v-if="showloadgolfid" small type="grow" class="mr-2"></b-spinner>
                   {{ contbutton1 }}                  
@@ -133,13 +134,16 @@
                 :show="dismissCountDown2"
                 variant="warning"
               >
-                <p
-                  v-if="this.player==='player1'"
-                >Du finns redan med i Matchplay som en registrerad spelare. Logga in på knappen nedan för att skapa ett lag för Matchplay 2022!</p>
-                <p
-                  v-if="this.player==='player2'"
-                >Du finns redan med i Matchplay som en registrerad spelare. Logga in på knappen nedan för att ansluta till ett skapat lag!</p>
-                <a href="/mymatchplay" class="btn blue-bg text-white mb-3">Logga in</a>
+              <p v-if="this.player==='player1' && igg">
+                Du finns redan med i Matchplay som en registrerad spelare. Logga in på knappen nedan för att skapa ett lag för Indoor 2023!
+                </p>
+                <p v-if="this.player==='player1' && !igg">
+                  Du finns redan med i Matchplay som en registrerad spelare. Logga in på knappen nedan för att skapa ett lag för Matchplay 2022!
+                </p>
+                <p v-if="this.player==='player2' && !igg">
+                  Du finns redan med i Matchplay som en registrerad spelare. Logga in på knappen nedan för att ansluta till ett skapat lag!
+                </p>
+                <a href="/mymatchplay" class="btn blue-bg text-white mb-3"  v-bind:class="{ 'btn-igg': igg, 'white':igg }">Logga in</a>
               </b-alert>
 
               <b-alert
@@ -159,8 +163,8 @@
                 ></b-progress>
               </b-alert>
   
-<hr class="mt-5" />
-              <testimonials :number=5 :register=false></testimonials>
+<hr v-if="!igg" class="mt-5" />
+              <testimonials v-if="!igg" :number=5 :register=false></testimonials>
             </div>
 
             <div>
@@ -371,10 +375,11 @@
                       type="submit"
                       variant="primary"
                       class="btn blue-bg ml-1"
+                       v-bind:class="{ 'btn-igg': igg }"
                     >
                       <b-spinner v-if="showspinnerregisteruser" small type="grow" class="mr-2"></b-spinner>Registrera dig
                     </b-button>
-                    <b-button type="reset" variant="danger" @click="editMobile = false, editEmail = false">Avbryt</b-button>
+                    <b-button  v-bind:class="{ 'btn-igg': igg }" type="reset" variant="danger" @click="editMobile = false, editEmail = false">Avbryt</b-button>
                   </b-col>
                 </b-row>
                
@@ -406,6 +411,12 @@ import Testimonials from "./Testimonials";
 
 
 export default {
+   props: {
+  igg: {
+    default: false,
+    type: Boolean
+  }
+},
   name: "hello",
 components: {   
       //'phone':VuePhoneNumberInput,
@@ -416,6 +427,8 @@ components: {
     return {
 
       //PRICE
+      test: this.test,
+      
 
       closed: globalState.closed,
    
@@ -625,14 +638,14 @@ components: {
             xlen += '*'
           }
 
-          this.form.firstname = response.data.firstname.substring(0, 2) + xlen;
+          this.form.firstname = response.data.firstname.substring(0, 3) + xlen;
 
           xlen = '*';         
           for (var i = 0; i < response.data.lastname.length-3; i++) {
             xlen += '*'
           }
           
-          this.form.lastname = response.data.lastname.substring(0, 2) + xlen;
+          this.form.lastname = response.data.lastname.substring(0, 3) + xlen;
 
 
           // xlen = '*';
