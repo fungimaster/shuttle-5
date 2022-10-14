@@ -7,7 +7,7 @@
         <b-col md="6" class="text-center">
           <h1 class="mt-5 mb-2 strong">
             <i class="far fa-golf-club mr-2"></i>Match
-          </h1>         
+          </h1>
         </b-col>
       </b-row>
 
@@ -19,7 +19,7 @@
                 big
                 type="grow"
                 class="m-5"
-                style="width: 5rem; height: 5rem;"
+                style="width: 5rem; height: 5rem"
               ></b-spinner>
               <p>Hämtar matchen...</p>
             </b-col>
@@ -120,142 +120,223 @@
                       <span class="my-nav-item">Spelplats</span>
                     </template>
 
-              
-                    
                     <!-- start hitta tid -->
 
-                        <!-- 1. Time-picker -->                        
-                         <div v-if="isteamleader && !proposeddatesSanitized.length && !gamedate && !gametime && !query" class="hittatid">                          
-                            <b-container class="mt-1">            
-                            <b-row class="justify-content-center" align-h="center">
-                              <b-col class="col-12 col-md-6 mt-1 mb-5">                                
-                                <app-time-selector :roundstartdate="roundstartdate" :roundenddate="roundenddate" @updateDate="updateDate"></app-time-selector>
-                              </b-col>
-                            </b-row>                            
-                            </b-container>
-                            
+                    <!-- 1. Time-picker -->
+                    <div
+                      v-if="
+                        isteamleader &&
+                        !proposeddatesSanitized.length &&
+                        !gamedate &&
+                        !gametime &&
+                        !query
+                      "
+                      class="hittatid"
+                    >
+                      <b-container class="mt-1">
+                        <b-row class="justify-content-center" align-h="center">
+                          <b-col class="col-12 col-md-6 mt-1 mb-5">
+                            <app-time-selector
+                              :roundstartdate="roundstartdate"
+                              :roundenddate="roundenddate"
+                              @updateDate="updateDate"
+                            ></app-time-selector>
+                          </b-col>
+                        </b-row>
+                      </b-container>
+                    </div>
+
+                    <!-- 2. show proposed times to home team -->
+                    <div
+                      v-if="
+                        isteamleader &&
+                        proposeddatesSanitized.length &&
+                        !accepteddatesSanitized.length &&
+                        !gametime &&
+                        !gamedate
+                      "
+                      class="pt-2 pt-md-3 hittatid"
+                    >
+                      <small
+                        >Föreslagna tider (inväntar svar från bortalag).</small
+                      >
+                      <small
+                        v-for="date in proposeddates"
+                        :key="date.index"
+                        :value="date.value"
+                        class="
+                          d-block
+                          text-left text-uppercase
+                          position-relative
+                          pl-4
+                          pt-1
+                        "
+                      >
+                        <i class="material-icons">event_available</i>
+                        <span>{{ formatDateLong(date) }}</span>
+                        <hr />
+                      </small>
+                    </div>
+
+                    <!-- 3. show proposed times to AWAY team -->
+                    <div
+                      v-if="
+                        !isteamleader &&
+                        proposeddatesSanitized.length &&
+                        !accepteddates.length &&
+                        !gametime &&
+                        !gamedate
+                      "
+                      class="hittatid"
+                    >
+                      <br />
+                      <small
+                        >Nedan finner du förslag från hemmalaget på
+                        speltillfällen. Markera ETT tillfälle ni kan spela och
+                        skicka bekräftelse till hemmalaget.</small
+                      >
+                      <b-form-group
+                        class="pt-2 pt-md-3"
+                        label=""
+                        v-slot="{ ariaDescribedby }"
+                      >
+                        <b-form-radio-group
+                          v-model="selectedDate"
+                          :aria-describedby="ariaDescribedby"
+                          stacked
+                          buttons
+                          button-variant="outline-warning"
+                        >
+                          <b-form-radio
+                            v-for="date in proposeddatesSanitized.slice(
+                              0,
+                              showEnd
+                            )"
+                            :key="date.index"
+                            :value="date.value"
+                          >
+                            <span v-if="date.weekday === 7" class="text-danger"
+                              >{{ date.text }}
+                            </span>
+                            <span v-else class="text-dark"
+                              >{{ date.text }}
+                            </span>
+                          </b-form-radio>
+                        </b-form-radio-group>
+                      </b-form-group>
+
+                      <p class="small mt-3">
+                        FM = 06-12 | EM = 12-17 | KV = 17-21<br />
+                        OBS! Tiderna är en indikation på ungefär när ni kan
+                        spela.
+                      </p>
+
+                      <div class="text-center">
+                        <b-button
+                          v-if="selectedDate"
+                          @click="confirmDates"
+                          :disabled="confirmDateSpinner || selectedDate.length"
+                        >
+                          <b-spinner
+                            v-if="confirmDateSpinner"
+                            small
+                            type="grow"
+                          ></b-spinner>
+                          Skicka tid
+                          <i class="material-icons">send</i></b-button
+                        >
+                      </div>
+                      <hr />
+                    </div>
+
+                    <!-- 4 Away team: no date sent -->
+                    <div
+                      v-if="
+                        !gamedate &&
+                        !gametime &&
+                        !isteamleader &&
+                        !proposeddatesSanitized.length
+                      "
+                      class="hittatid"
+                    >
+                      <p>
+                        När hemmalaget skickat förslag på speldatum får ni ett
+                        mail och kan välja här.
+                      </p>
+                    </div>
+
+                    <!-- 5 Away team: dates accepted but not confirmed -->
+                    <div
+                      v-if="!gamedate && !isteamleader && accepteddates.length"
+                      class="hittatid"
+                    >
+                      <p>Hemmalaget tar hand om att boka exakt tid.</p>
+                      <p>Ni har accepterat följande tid:</p>
+                      <b-alert
+                        v-for="date in accepteddates"
+                        :key="date.index"
+                        variant="outline-primary"
+                        :value="date.value"
+                        class="text-uppercase mt-1"
+                        show
+                      >
+                        <i class="material-icons">event_available</i>
+                        <span>{{ formatDateLong(date) }}</span>
+                      </b-alert>
+                    </div>
+
+                    <!--6. show accepted Dates  -->
+
+                    <div
+                      v-if="accepteddates.length && !gamedate && isteamleader"
+                      class="
+                        pt-2 pt-md-3
+                        d-flex
+                        justify-content-center
+                        flex-wrap
+                      "
+                    >
+                      <div class="w-100">
+                        <h3 class="d-block">Accepterade tider</h3>
+                        <b-alert show variant="primary" class="small">
+                          Er motståndare har accepterat nedan tid och nu är det
+                          dags för er (hemmalaget) att boka tid på klubben och
+                          välja datum och exakt tid i fliken "spelplats".
+                        </b-alert>
+
+                        <b-alert
+                          v-for="date in accepteddates"
+                          :key="date.index"
+                          variant="outline-primary"
+                          :value="date.value"
+                          class="text-uppercase mt-1"
+                          show
+                        >
+                          <i class="material-icons">event_available</i>
+                          <span>{{ formatDateLong(date) }}</span>
+                        </b-alert>
+
+                        <p class="small mt-3">
+                          FM = 06-12 | EM = 12-17 | KV = 17-21<br />
+                          OBS! Tiderna är en indikation på ungefär när ni kan
+                          spela.
+                        </p>
+
+                        <div
+                          v-if="bookDateSpinner"
+                          class="d-flex justify-content-center mt-2"
+                        >
+                          <b-spinner
+                            variant="warning"
+                            type="grow"
+                            label="Spinning"
+                          ></b-spinner>
                         </div>
-
-                        <!-- 2. show proposed times to home team -->
-                         <div v-if="isteamleader && proposeddatesSanitized.length && !accepteddatesSanitized.length && !gametime && !gamedate" class="pt-2 pt-md-3 hittatid">
-                          <small>Föreslagna tider (inväntar svar från bortalag).</small>
-                          <small
-                              v-for="date in proposeddates"
-                              :key="date.index"
-                              :value="date.value"
-                              class="d-block text-left text-uppercase position-relative pl-4 pt-1"
-                            >
-                              <i class="material-icons">event_available</i>
-                              <span>{{ formatDateLong(date) }}</span>
-                              <hr/>
-                            </small>
-                        </div> 
-                        
-                        <!-- 3. show proposed times to AWAY team -->
-                        <div v-if="!isteamleader && proposeddatesSanitized.length && !accepteddates.length && !gametime && !gamedate" class="hittatid">
-                          <br>
-                            <small>Nedan finner du förslag från hemmalaget på speltillfällen. Markera ETT tillfälle ni kan spela och skicka bekräftelse till hemmalaget.</small>
-                          <b-form-group
-                          class="pt-2 pt-md-3"
-                              label=""
-                              v-slot="{ ariaDescribedby }"
-                            >
-                              <b-form-radio-group
-                              v-model="selectedDate"
-                                :aria-describedby="ariaDescribedby"
-                                stacked
-                                buttons
-                                button-variant="outline-warning"
-
-                              >
-                               <b-form-radio
-                                v-for="date in proposeddatesSanitized.slice(0, showEnd)"
-                                :key="date.index"
-                                :value="date.value"
-                        
-                              >
-                                <span v-if="date.weekday === 7" class="text-danger"
-                                  >{{ date.text }}
-                                </span>
-                                <span  v-else class="text-dark">{{ date.text }} </span>
-                              </b-form-radio>
-                              
-                              
-                              </b-form-radio-group>
-                            </b-form-group>
-
-                             <p class="small mt-3">        
-        FM = 06-12 | EM = 12-17 | KV = 17-21<br> 
-     OBS! Tiderna är en indikation på ungefär när ni kan spela.</p> 
-                      
-                          <div class="text-center">
-                            <b-button v-if="selectedDate" @click="confirmDates" :disabled="confirmDateSpinner || selectedDate.length">
-                              <b-spinner v-if="confirmDateSpinner" small type="grow"></b-spinner>
-                              Skicka tid <i class="material-icons">send</i></b-button
-                            >
-                          </div>
-                              <hr />
-                        </div>
-
-                        <!-- 4 Away team: no date sent -->
-                        <div v-if="!gamedate && !gametime && !isteamleader && !proposeddatesSanitized.length" class="hittatid">
-                          <p>När hemmalaget skickat förslag på speldatum får ni ett mail och kan välja här.</p>
-                        </div>
-
-                        <!-- 5 Away team: dates accepted but not confirmed -->
-                        <div v-if="!gamedate && !isteamleader && accepteddates.length" class="hittatid">
-                          <p>Hemmalaget tar hand om att boka exakt tid.</p>
-                          <p>Ni har accepterat följande tid:</p>
-                            <b-alert
-                                v-for="date in accepteddates"
-                                :key="date.index"
-                                variant="outline-primary"
-                                :value="date.value"
-                                class="text-uppercase mt-1"
-                                show
-                              >
-                                <i class="material-icons">event_available</i>
-                                <span>{{ formatDateLong(date) }}</span>
-                              </b-alert>
-                        </div>
-
-                      <!--6. show accepted Dates  -->
-
-                         <div v-if="accepteddates.length && !gamedate && isteamleader" class="pt-2 pt-md-3 d-flex justify-content-center flex-wrap">
-
-                          <div class="w-100">
-                            <h3 class="d-block">Accepterade tider</h3>
-                            <b-alert show variant="primary" class="small">
-                              Er motståndare har accepterat nedan tid och nu är det dags för er (hemmalaget) att boka tid på klubben och välja datum och exakt tid i fliken "spelplats".
-                            </b-alert>
-    
-                            <b-alert
-                                v-for="date in accepteddates"
-                                :key="date.index"
-                                variant="outline-primary"
-                                :value="date.value"
-                                class="text-uppercase mt-1"
-                                show
-                              >
-                                <i class="material-icons">event_available</i>
-                                <span>{{ formatDateLong(date) }}</span>
-                              </b-alert>
-
-
-<p class="small mt-3">        
-        FM = 06-12 | EM = 12-17 | KV = 17-21<br> 
-     OBS! Tiderna är en indikation på ungefär när ni kan spela.</p> 
-                            
-
-                              <div v-if="bookDateSpinner" class="d-flex justify-content-center mt-2">
-                                <b-spinner  variant="warning" type="grow" label="Spinning"></b-spinner>
-                              </div>
-
-                          </div> 
-                        </div> 
+                      </div>
+                    </div>
                     <!-- end hitta tid -->
 
-                          <div v-if="!isteamleader && status != 'Finished'">                      
+                    <div v-if="!isteamleader && status != 'Finished'">
                       <div v-if="gamedate">
                         {{ getgamedate() }} {{ gametime }}
                       </div>
@@ -264,45 +345,65 @@
                       <div v-else>@ (Golfbana saknas)</div>
                       <div v-if="slinganame">{{ slinganame }}</div>
                       <div v-else>(Slinga saknas)</div>
-                    <b-alert
-                        v-if="status != 'Finished' && !gamedate && !gametime && !clubid"
+                      <b-alert
+                        v-if="
+                          status != 'Finished' &&
+                          !gamedate &&
+                          !gametime &&
+                          !clubid
+                        "
                         show
                         dismissible
                         class="mt-3 mb-0 small"
                         variant="info"
                       >
-                        Båda lagen är ansvariga för att kontakta sina motståndare för att komma överens om datum för spel. Se
+                        Båda lagen är ansvariga för att kontakta sina
+                        motståndare för att komma överens om datum för spel. Se
                         kontaktuppgifter under kontaktfliken.
                       </b-alert>
-                      
                     </div>
 
                     <div v-if="isteamleader">
                       <b-container class="mt-3">
                         <b-row class="justify-content-center" align-h="center">
+                          <!-- HITTA TID  -->
 
-                      <!-- HITTA TID  -->
-
-                          <b-col class="col-12 mb-2" v-if="accepteddates.length">
-                            <small class="text-left d-block">Accepterad tid:</small>
-                              <small
-                                v-for="date in accepteddates"
-                                :key="date.index"
-                                :value="date.value"
-                                class="text-uppercase mt-1 d-block text-left"
-                                show
-                              >
-                                <i class="material-icons">event_available</i>
-                                <span>{{ formatDateLong(date) }}</span>
-                              </small>
+                          <b-col
+                            class="col-12 mb-2"
+                            v-if="accepteddates.length"
+                          >
+                            <small class="text-left d-block"
+                              >Accepterad tid:</small
+                            >
+                            <small
+                              v-for="date in accepteddates"
+                              :key="date.index"
+                              :value="date.value"
+                              class="text-uppercase mt-1 d-block text-left"
+                              show
+                            >
+                              <i class="material-icons">event_available</i>
+                              <span>{{ formatDateLong(date) }}</span>
+                            </small>
                           </b-col>
                           <!-- HITTA TID END  -->
 
                           <div v-if="status !== 'Finished' && !gamedate">
-                           <b-alert show v-if="!isteamleader && !proposeddatesSanitized.length && !accepteddates.length" class="small">
-                      Hemmalaget kan föreslå datum och tid på dagen till er då dom kan spela. Om hemmalaget inte har skickat ett par dagar efter omgången har startat rek. vi er att ta kontakt med dom med uppg. under kontaktfliken för en vänlig påminnelse :)
-                    </b-alert>
-
+                            <b-alert
+                              show
+                              v-if="
+                                !isteamleader &&
+                                !proposeddatesSanitized.length &&
+                                !accepteddates.length
+                              "
+                              class="small"
+                            >
+                              Hemmalaget kan föreslå datum och tid på dagen till
+                              er då dom kan spela. Om hemmalaget inte har
+                              skickat ett par dagar efter omgången har startat
+                              rek. vi er att ta kontakt med dom med uppg. under
+                              kontaktfliken för en vänlig påminnelse :)
+                            </b-alert>
                           </div>
 
                           <b-col class="col-6 text-left">
@@ -321,11 +422,11 @@
                                 v-model="gametime"
                                 placeholder="Tex 08:10"
                                 :state="validateTime"
-                                id='gametime'
+                                id="gametime"
                               ></b-form-input>
-                               <b-form-invalid-feedback :state="validateTime">
-                                    Format: xx:xx
-                                </b-form-invalid-feedback>
+                              <b-form-invalid-feedback :state="validateTime">
+                                Format: xx:xx
+                              </b-form-invalid-feedback>
                             </b-form-group>
                           </b-col>
 
@@ -347,19 +448,44 @@
                             </b-form-group>
                           </b-col>
                           <b-col class="col-12 text-left">
-                            <b-form-group class="">
-                              <label for="query">Var spelas matchen?<i href="#" tabindex="0" id="game_info_1" class="fas fa-question-circle ml-1 mr-1 mb-1"></i></label>
-                               <b-popover target="game_info_1" variant="info" triggers="focus" placement="topleft">
-                                                <template #title>Information</template>
-                                                  Vi godkänner endast spel på 18-hålsbanor ansluta till Svenska Golfförbundet.
-                                            </b-popover>
+
+                            <!-- IS IGG SELECT -->
+                            <b-form-group class="" v-if="is_igg">
+                              <label for="query">Var spelas matchen?</label>
+                              <b-form-select
+                                v-model="selected_igg"
+                                v-bind="options_igg"
+                                v-on:change="onSearchItemSelected"
+                                :options="options_igg"
+                              ></b-form-select>
+                            </b-form-group>
+                            <!-- IS NOT IGG SELECT -->
+                            <b-form-group class="" v-if="!is_igg">
+                              <label for="query"
+                                >Var spelas matchen?<i
+                                  href="#"
+                                  tabindex="0"
+                                  id="game_info_1"
+                                  class="fas fa-question-circle ml-1 mr-1 mb-1"
+                                ></i
+                              ></label>
+                              <b-popover
+                                target="game_info_1"
+                                variant="info"
+                                triggers="focus"
+                                placement="topleft"
+                              >
+                                <template #title>Information</template>
+                                Vi godkänner endast spel på 18-hålsbanor ansluta
+                                till Svenska Golfförbundet.
+                              </b-popover>
                               <suggestions
                                 v-model="query"
                                 id="query"
                                 :options="options"
                                 :onInputChange="onCountryInputChange"
                                 :onItemSelected="onSearchItemSelected"
-                                style="width: 100%;"
+                                style="width: 100%"
                               >
                                 <div
                                   slot="item"
@@ -379,7 +505,13 @@
                                 placeholder="Id på klubben"
                               >
                               </b-form-input>
-                              <b-alert small show v-if="ninehole" variant="danger" class="mt-3">
+                              <b-alert
+                                small
+                                show
+                                v-if="ninehole"
+                                variant="danger"
+                                class="mt-3"
+                              >
                                 Endast 18-hålsbanor kan användas i tävlingen!
                               </b-alert>
                             </b-form-group>
@@ -466,40 +598,44 @@
                                 >Skicka sms med info</span
                               ></a
                             >
-                           
                           </b-col>
                         </b-row>
                       </b-container>
                       <b-container class="mt-3">
-                      <b-row class="justify-content-center" align-h="center">
-                        <b-col class="col-12 text-left">
-
-                    <b-alert
-                      v-if="isteamleader && status != 'Finished'"
-                      show
-                      dismissible
-                     class="mt-1 small"
-                      variant="info"
-                    >
-                      Hemmalaget (ni) bokar bana och speltid i samråd med
-                      bortalaget. Se kontaktuppgifter under kontaktfliken eller använd "hitta speltidfunktionen". Kom först överens om tid för spel och boka
-                      sen tid på banan med tex Min Golf Bokning. Skriv därefter in datum, tid och bana för matchen här ovan!
-                    </b-alert>
-                        </b-col>
-                      </b-row>
-</b-container>
+                        <b-row class="justify-content-center" align-h="center">
+                          <b-col class="col-12 text-left">
+                            <b-alert
+                              v-if="isteamleader && status != 'Finished'"
+                              show
+                              dismissible
+                              class="mt-1 small"
+                              variant="info"
+                            >
+                              Hemmalaget (ni) bokar bana och speltid i samråd
+                              med bortalaget. Se kontaktuppgifter under
+                              kontaktfliken eller använd "hitta
+                              speltidfunktionen". Kom först överens om tid för
+                              spel och boka sen tid på banan med tex Min Golf
+                              Bokning. Skriv därefter in datum, tid och bana för
+                              matchen här ovan!
+                            </b-alert>
+                          </b-col>
+                        </b-row>
+                      </b-container>
                     </div>
                   </b-tab>
-                  <b-tab title-link-class="ml-1 p-2" v-if="isteamleader || isteammember">
+                  <b-tab
+                    title-link-class="ml-1 p-2"
+                    v-if="isteamleader || isteammember"
+                  >
                     <template v-slot:title>
                       <span class="my-nav-item">Scorekort</span>
                     </template>
 
                     <b-container class="mt-3">
                       <b-row class="justify-content-center" align-h="center">
-                        <b-col class="col-12 text-left">        
-
-                           <b-button
+                        <b-col class="col-12 text-left">
+                          <b-button
                             v-if="isteamleader && status === 'Pending'"
                             :disabled="status === 'Finished'"
                             :to="`/creategame?id=${game_id}`"
@@ -511,7 +647,7 @@
                           >
                           <b-button
                             v-if="status === 'In progress'"
-                           :to="`/scorecard?id=${game_id}`"
+                            :to="`/scorecard?id=${game_id}`"
                             variant="success"
                             class="mr-1 mt-2 text-white"
                             ><i class="material-icons mr-2"
@@ -527,62 +663,136 @@
                               >play_circle_filled</i
                             >Visa scorekortet</b-button
                           >
-                           <b-alert
-                            v-if="!isteamleader && status === 'Pending'"                                                  
-                            variant="info" show
-                            class="mr-1 mt-2 small">
-                           Scorekortet startas och  förs av hemmalaget. När matchen har startat kan ni på denna fliken öppna scorekortet för visning.</b-alert
+                          <b-alert
+                            v-if="!isteamleader && status === 'Pending'"
+                            variant="info"
+                            show
+                            class="mr-1 mt-2 small"
+                          >
+                            Scorekortet startas och förs av hemmalaget. När
+                            matchen har startat kan ni på denna fliken öppna
+                            scorekortet för visning.</b-alert
                           >
                           <hr />
-                           <b-button :id="'popover-help-game1-'+game_id" href="#" tabindex="0" class="btn btn-secondary btn-sm text-white mb-2">Vem för score?</b-button>
-                            <b-popover :target="'popover-help-game1-'+game_id" variant="warning" triggers="focus" placement="topleft">
-                              <template #title>Vem för score?</template>                               
-                             <span>Hemmalaget ansvarar för att starta och föra score för matchen
-                            via vårt system! Rätt hcp-regler används och vi
-                            hämtar aktuella hcp/slope/tee från Svenska
-                            Golfförbundet.</span>
-                            </b-popover>   
+                          <b-button
+                            :id="'popover-help-game1-' + game_id"
+                            href="#"
+                            tabindex="0"
+                            class="btn btn-secondary btn-sm text-white mb-2"
+                            >Vem för score?</b-button
+                          >
+                          <b-popover
+                            :target="'popover-help-game1-' + game_id"
+                            variant="warning"
+                            triggers="focus"
+                            placement="topleft"
+                          >
+                            <template #title>Vem för score?</template>
+                            <span
+                              >Hemmalaget ansvarar för att starta och föra score
+                              för matchen via vårt system! Rätt hcp-regler
+                              används och vi hämtar aktuella hcp/slope/tee från
+                              Svenska Golfförbundet.</span
+                            >
+                          </b-popover>
 
-                            <b-button v-if="status === 'Pending'"  :id="'popover-help-game2-'+game_id" href="#" tabindex="1" class="btn btn-secondary btn-sm text-white mb-2">Hur startas matchen?</b-button>
-                            <b-popover :target="'popover-help-game2-'+game_id" variant="warning" triggers="focus" placement="topleft">
-                              <template #title>Hur startas matchen?</template>                               
-                             <span v-if="isteamleader && status === 'Pending'">Klicka på knappen
-                            <strong>STARTA MATCH</strong> ovanför för att välja
-                            klubb/slinga/tee för spelarna när det är dags att
-                            spela golf!</span>
-                            <span v-if="!isteamleader && status === 'Pending'">Endast hemmalaget kan starta matchen.</span>
-                            </b-popover>       
+                          <b-button
+                            v-if="status === 'Pending'"
+                            :id="'popover-help-game2-' + game_id"
+                            href="#"
+                            tabindex="1"
+                            class="btn btn-secondary btn-sm text-white mb-2"
+                            >Hur startas matchen?</b-button
+                          >
+                          <b-popover
+                            :target="'popover-help-game2-' + game_id"
+                            variant="warning"
+                            triggers="focus"
+                            placement="topleft"
+                          >
+                            <template #title>Hur startas matchen?</template>
+                            <span v-if="isteamleader && status === 'Pending'"
+                              >Klicka på knappen
+                              <strong>STARTA MATCH</strong> ovanför för att
+                              välja klubb/slinga/tee för spelarna när det är
+                              dags att spela golf!</span
+                            >
+                            <span v-if="!isteamleader && status === 'Pending'"
+                              >Endast hemmalaget kan starta matchen.</span
+                            >
+                          </b-popover>
 
-                            
-                            <b-button :id="'popover-help-game3-'+game_id" href="#" tabindex="1" class="btn btn-secondary btn-sm text-white mb-2">Reserv?</b-button>
-                            <b-popover :target="'popover-help-game3-'+game_id" variant="warning" triggers="focus" placement="topleft">
-                              <template #title>Reserv?</template>                               
-                             <span>Om laget har en reserv tillgänglig för spel kan hemmalaget, när ni träffas innan spel, välja denna person i samband med att tee väljs innan matchen startar. Laget måste ha en reserv anmäld (på lagsidan) i god tid innan matchen ska startas.</span>                           
-                            </b-popover>  
+                          <b-button
+                            :id="'popover-help-game3-' + game_id"
+                            href="#"
+                            tabindex="1"
+                            class="btn btn-secondary btn-sm text-white mb-2"
+                            >Reserv?</b-button
+                          >
+                          <b-popover
+                            :target="'popover-help-game3-' + game_id"
+                            variant="warning"
+                            triggers="focus"
+                            placement="topleft"
+                          >
+                            <template #title>Reserv?</template>
+                            <span
+                              >Om laget har en reserv tillgänglig för spel kan
+                              hemmalaget, när ni träffas innan spel, välja denna
+                              person i samband med att tee väljs innan matchen
+                              startar. Laget måste ha en reserv anmäld (på
+                              lagsidan) i god tid innan matchen ska
+                              startas.</span
+                            >
+                          </b-popover>
 
-                             <b-button :id="'popover-help-game4-'+game_id" href="#" tabindex="1" class="btn btn-secondary btn-sm text-white mb-2">Funkar inte scorekortet?</b-button>
-                            <b-popover :target="'popover-help-game4-'+game_id" variant="warning" triggers="focus" placement="topleft">
-                              <template #title>Funkar inte scorekortet?</template>                               
-                             <span>Om scorekortet av någon anledning inte fungerar när matchen ska spelas görs beräkningen enligt följande:<br>
-                            1. Gällande slopehcp på bana efter val av tee<br>
-                            2. Dra av 10% (tex hcp 14 får -1.4 = 12.6)<br>
-                            3. Nolla den lägsta hcp oavsett lag och dra av (eller lägg på för +hcp) skillnaden från övrigas hcp<br>
-                            4. Avrunda till närmsta heltal<br>
-                            5. Spela matchen och rapportera in resultatet till oss på info@matchplay.se<br><br>
-                            OBS! Ett lag får max ha 28 (innan slope) tillsammans. Tex: Om spelare A har 16 i hcp och spelare B har 19 i hcp blir detta 35 sammanlagt, vilket innebär att spelare A och B får 3.5 slag färre och kommer få nytt exakt hcp på 12.5 och 15.5 som sedan slope och matchspeluträkningar baseras på. Detta görs för att få så rättvisa matcher som möjligt mellan lagen.</span>                           
-                            </b-popover>       
+                          <b-button
+                            :id="'popover-help-game4-' + game_id"
+                            href="#"
+                            tabindex="1"
+                            class="btn btn-secondary btn-sm text-white mb-2"
+                            >Funkar inte scorekortet?</b-button
+                          >
+                          <b-popover
+                            :target="'popover-help-game4-' + game_id"
+                            variant="warning"
+                            triggers="focus"
+                            placement="topleft"
+                          >
+                            <template #title>Funkar inte scorekortet?</template>
+                            <span
+                              >Om scorekortet av någon anledning inte fungerar
+                              när matchen ska spelas görs beräkningen enligt
+                              följande:<br />
+                              1. Gällande slopehcp på bana efter val av tee<br />
+                              2. Dra av 10% (tex hcp 14 får -1.4 = 12.6)<br />
+                              3. Nolla den lägsta hcp oavsett lag och dra av
+                              (eller lägg på för +hcp) skillnaden från övrigas
+                              hcp<br />
+                              4. Avrunda till närmsta heltal<br />
+                              5. Spela matchen och rapportera in resultatet till
+                              oss på info@matchplay.se<br /><br />
+                              OBS! Ett lag får max ha 28 (innan slope)
+                              tillsammans. Tex: Om spelare A har 16 i hcp och
+                              spelare B har 19 i hcp blir detta 35 sammanlagt,
+                              vilket innebär att spelare A och B får 3.5 slag
+                              färre och kommer få nytt exakt hcp på 12.5 och
+                              15.5 som sedan slope och matchspeluträkningar
+                              baseras på. Detta görs för att få så rättvisa
+                              matcher som möjligt mellan lagen.</span
+                            >
+                          </b-popover>
 
                           <b-alert
-                            v-if="isteammember && status != 'Finished'"                            
+                            v-if="isteammember && status != 'Finished'"
                             dismissible
                             class="mt-1 mb-0 small"
                             variant="warning"
                           >
-                           
                           </b-alert>
 
                           <b-alert
-                            v-if="isteamleader && status === 'Pending'"                            
+                            v-if="isteamleader && status === 'Pending'"
                             dismissible
                             class="mt-1 mb-0 small"
                             variant="warning"
@@ -592,9 +802,9 @@
                             klubb/slinga/tee för spelarna när det är dags att
                             spela golf!
                           </b-alert>
-                         
-                           <b-alert
-                            v-if="status !== 'Finished'"                            
+
+                          <b-alert
+                            v-if="status !== 'Finished'"
                             dismissible
                             class="mt-3 small"
                             variant="info"
@@ -604,29 +814,54 @@
                             hämtar aktuella hcp/slope/tee från Svenska
                             Golfförbundet.
                           </b-alert>
-                           <b-alert dismissible class="small mt-3" variant="info">
-                              <h5>Information om reserver</h5>
-                                           Om laget har en reserv tillgänglig för spel kan hemmalaget, när ni träffas innan spel, välja denna person i samband med att tee väljs innan matchen startar.
-                                 </b-alert>
-                           <b-alert
-                            v-if="(isteamleader || isteammember) && status != 'Finished'"                            
+                          <b-alert
+                            dismissible
+                            class="small mt-3"
+                            variant="info"
+                          >
+                            <h5>Information om reserver</h5>
+                            Om laget har en reserv tillgänglig för spel kan
+                            hemmalaget, när ni träffas innan spel, välja denna
+                            person i samband med att tee väljs innan matchen
+                            startar.
+                          </b-alert>
+                          <b-alert
+                            v-if="
+                              (isteamleader || isteammember) &&
+                              status != 'Finished'
+                            "
                             dismissible
                             class="mt-3 mb-0 small"
                             variant="danger"
                           >
-                            Om scorekortet av någon anledning inte fungerar när matchen ska spelas görs beräkningen enligt följande:<br>
-                            1. Gällande slopehcp på bana efter val av tee<br>
-                            2. Dra av 10% (tex hcp 14 får -1.4 = 12.6)<br>
-                            3. Nolla den lägsta hcp oavsett lag och dra av (eller lägg på för +hcp) skillnaden från övrigas hcp<br>
-                            4. Avrunda till närmsta heltal<br>
-                            5. Spela matchen och rapportera in resultatet till oss på info@matchplay.se<br><br>
-                            OBS! Ett lag får max ha 28 (innan slope) tillsammans. Tex: Om spelare A har 16 i hcp och spelare B har 19 i hcp blir detta 35 sammanlagt, vilket innebär att spelare A och B får 3.5 slag färre och kommer få nytt exakt hcp på 12.5 och 15.5 som sedan slope och matchspeluträkningar baseras på. Detta görs för att få så rättvisa matcher som möjligt mellan lagen.
+                            Om scorekortet av någon anledning inte fungerar när
+                            matchen ska spelas görs beräkningen enligt
+                            följande:<br />
+                            1. Gällande slopehcp på bana efter val av tee<br />
+                            2. Dra av 10% (tex hcp 14 får -1.4 = 12.6)<br />
+                            3. Nolla den lägsta hcp oavsett lag och dra av
+                            (eller lägg på för +hcp) skillnaden från övrigas
+                            hcp<br />
+                            4. Avrunda till närmsta heltal<br />
+                            5. Spela matchen och rapportera in resultatet till
+                            oss på info@matchplay.se<br /><br />
+                            OBS! Ett lag får max ha 28 (innan slope)
+                            tillsammans. Tex: Om spelare A har 16 i hcp och
+                            spelare B har 19 i hcp blir detta 35 sammanlagt,
+                            vilket innebär att spelare A och B får 3.5 slag
+                            färre och kommer få nytt exakt hcp på 12.5 och 15.5
+                            som sedan slope och matchspeluträkningar baseras på.
+                            Detta görs för att få så rättvisa matcher som
+                            möjligt mellan lagen.
                           </b-alert>
                         </b-col>
                       </b-row>
                     </b-container>
                   </b-tab>
-                  <b-tab title-link-class="ml-1 p-2" v-if="isteamleader || isteammember">
+                  <b-tab
+                    title-link-class="ml-1 p-2"
+                    v-if="isteamleader || isteammember"
+                  >
                     <template v-slot:title>
                       <span class="my-nav-item">Kontakt</span>
                     </template>
@@ -645,7 +880,14 @@
                             v-if="hometeamleadermobile"
                             :href="'tel:' + hometeamleadermobile"
                             ><span
-                              class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"
+                              class="
+                                btn btn-info
+                                text-white
+                                btn-sm
+                                mt-2
+                                pl-2
+                                pr-0
+                              "
                               ><i class="material-icons mr-1">phone</i
                               >&nbsp;</span
                             ></a
@@ -654,7 +896,14 @@
                             v-if="hometeamleadermobile"
                             :href="'sms://' + hometeamleadermobile"
                             ><span
-                              class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"
+                              class="
+                                btn btn-info
+                                text-white
+                                btn-sm
+                                mt-2
+                                pl-2
+                                pr-0
+                              "
                               ><i class="material-icons mr-1">textsms</i
                               >&nbsp;</span
                             ></a
@@ -663,7 +912,14 @@
                             v-if="hometeamleaderemail"
                             :href="'mailto:' + hometeamleaderemail"
                             ><span
-                              class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"
+                              class="
+                                btn btn-info
+                                text-white
+                                btn-sm
+                                mt-2
+                                pl-2
+                                pr-0
+                              "
                               ><i class="material-icons mr-1">alternate_email</i
                               >&nbsp;</span
                             ></a
@@ -691,7 +947,14 @@
                             v-if="hometeammembermobile"
                             :href="'tel:' + hometeammembermobile"
                             ><span
-                              class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"
+                              class="
+                                btn btn-info
+                                text-white
+                                btn-sm
+                                mt-2
+                                pl-2
+                                pr-0
+                              "
                               ><i class="material-icons mr-1">phone</i
                               >&nbsp;</span
                             ></a
@@ -700,7 +963,14 @@
                             v-if="hometeammembermobile"
                             :href="'sms://' + hometeammembermobile"
                             ><span
-                              class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"
+                              class="
+                                btn btn-info
+                                text-white
+                                btn-sm
+                                mt-2
+                                pl-2
+                                pr-0
+                              "
                               ><i class="material-icons mr-1">textsms</i
                               >&nbsp;</span
                             ></a
@@ -709,7 +979,14 @@
                             v-if="hometeammemberemail"
                             :href="'mailto:' + hometeammemberemail"
                             ><span
-                              class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"
+                              class="
+                                btn btn-info
+                                text-white
+                                btn-sm
+                                mt-2
+                                pl-2
+                                pr-0
+                              "
                               ><i class="material-icons mr-1">alternate_email</i
                               >&nbsp;</span
                             ></a
@@ -738,7 +1015,14 @@
                             v-if="hometeamreservemobile"
                             :href="'tel:' + hometeamreservemobile"
                             ><span
-                              class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"
+                              class="
+                                btn btn-info
+                                text-white
+                                btn-sm
+                                mt-2
+                                pl-2
+                                pr-0
+                              "
                               ><i class="material-icons mr-1">phone</i
                               >&nbsp;</span
                             ></a
@@ -747,7 +1031,14 @@
                             v-if="hometeamreservemobile"
                             :href="'sms://' + hometeamreservemobile"
                             ><span
-                              class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"
+                              class="
+                                btn btn-info
+                                text-white
+                                btn-sm
+                                mt-2
+                                pl-2
+                                pr-0
+                              "
                               ><i class="material-icons mr-1">textsms</i
                               >&nbsp;</span
                             ></a
@@ -756,7 +1047,14 @@
                             v-if="hometeamreserveemail"
                             :href="'mailto:' + hometeamreserveemail"
                             ><span
-                              class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"
+                              class="
+                                btn btn-info
+                                text-white
+                                btn-sm
+                                mt-2
+                                pl-2
+                                pr-0
+                              "
                               ><i class="material-icons mr-1">alternate_email</i
                               >&nbsp;</span
                             ></a
@@ -786,7 +1084,14 @@
                             v-if="awayteamleadermobile"
                             :href="'tel:' + awayteamleadermobile"
                             ><span
-                              class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"
+                              class="
+                                btn btn-info
+                                text-white
+                                btn-sm
+                                mt-2
+                                pl-2
+                                pr-0
+                              "
                               ><i class="material-icons mr-1">phone</i
                               >&nbsp;</span
                             ></a
@@ -795,7 +1100,14 @@
                             v-if="awayteamleadermobile"
                             :href="'sms://' + awayteamleadermobile"
                             ><span
-                              class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"
+                              class="
+                                btn btn-info
+                                text-white
+                                btn-sm
+                                mt-2
+                                pl-2
+                                pr-0
+                              "
                               ><i class="material-icons mr-1">textsms</i
                               >&nbsp;</span
                             ></a
@@ -804,7 +1116,14 @@
                             v-if="awayteamleaderemail"
                             :href="'mailto:' + awayteamleaderemail"
                             ><span
-                              class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"
+                              class="
+                                btn btn-info
+                                text-white
+                                btn-sm
+                                mt-2
+                                pl-2
+                                pr-0
+                              "
                               ><i class="material-icons mr-1">alternate_email</i
                               >&nbsp;</span
                             ></a
@@ -834,7 +1153,14 @@
                             v-if="awayteammembermobile"
                             :href="'tel:' + awayteammembermobile"
                             ><span
-                              class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"
+                              class="
+                                btn btn-info
+                                text-white
+                                btn-sm
+                                mt-2
+                                pl-2
+                                pr-0
+                              "
                               ><i class="material-icons mr-1">phone</i
                               >&nbsp;</span
                             ></a
@@ -843,7 +1169,14 @@
                             v-if="awayteammembermobile"
                             :href="'sms://' + awayteammembermobile"
                             ><span
-                              class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"
+                              class="
+                                btn btn-info
+                                text-white
+                                btn-sm
+                                mt-2
+                                pl-2
+                                pr-0
+                              "
                               ><i class="material-icons mr-1">textsms</i
                               >&nbsp;</span
                             ></a
@@ -852,7 +1185,14 @@
                             v-if="awayteammemberemail"
                             :href="'mailto:' + awayteammemberemail"
                             ><span
-                              class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"
+                              class="
+                                btn btn-info
+                                text-white
+                                btn-sm
+                                mt-2
+                                pl-2
+                                pr-0
+                              "
                               ><i class="material-icons mr-1">alternate_email</i
                               >&nbsp;</span
                             ></a
@@ -882,7 +1222,14 @@
                             v-if="awayteamreservemobile"
                             :href="'tel:' + awayteamreservemobile"
                             ><span
-                              class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"
+                              class="
+                                btn btn-info
+                                text-white
+                                btn-sm
+                                mt-2
+                                pl-2
+                                pr-0
+                              "
                               ><i class="material-icons mr-1">phone</i
                               >&nbsp;</span
                             ></a
@@ -891,7 +1238,14 @@
                             v-if="awayteamreservemobile"
                             :href="'sms://' + awayteamreservemobile"
                             ><span
-                              class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"
+                              class="
+                                btn btn-info
+                                text-white
+                                btn-sm
+                                mt-2
+                                pl-2
+                                pr-0
+                              "
                               ><i class="material-icons mr-1">textsms</i
                               >&nbsp;</span
                             ></a
@@ -900,7 +1254,14 @@
                             v-if="awayteamreserveemail"
                             :href="'mailto:' + awayteamreserveemail"
                             ><span
-                              class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"
+                              class="
+                                btn btn-info
+                                text-white
+                                btn-sm
+                                mt-2
+                                pl-2
+                                pr-0
+                              "
                               ><i class="material-icons mr-1">alternate_email</i
                               >&nbsp;</span
                             ></a
@@ -913,21 +1274,29 @@
                             }}</a>
                           </p>
                         </b-col>
-
                       </b-row>
                       <b-row>
                         <b-col>
-                            <b-alert show dismissible class="text-left small mt-3" variant="info">
-                              <h5>Information om reserver</h5>
-                                           Om laget har en reserv tillgänglig för spel kan hemmalaget, när ni träffas innan spel, välja denna person i samband med att tee väljs innan matchen startar. Aktuell hcp hämtas alltid direkt från GIT innan matchen startas.
-                                 </b-alert>
+                          <b-alert
+                            show
+                            dismissible
+                            class="text-left small mt-3"
+                            variant="info"
+                          >
+                            <h5>Information om reserver</h5>
+                            Om laget har en reserv tillgänglig för spel kan
+                            hemmalaget, när ni träffas innan spel, välja denna
+                            person i samband med att tee väljs innan matchen
+                            startar. Aktuell hcp hämtas alltid direkt från GIT
+                            innan matchen startas.
+                          </b-alert>
                         </b-col>
                       </b-row>
                     </b-container>
                   </b-tab>
                   <!-- HITTA TID  -->
 
-            <!--       <b-tab hidden title-link-class="ml-1 p-2" v-if="status !== 'Finished' && !gamedate">
+                  <!--       <b-tab hidden title-link-class="ml-1 p-2" v-if="status !== 'Finished' && !gamedate">
                     <template v-slot:title>
                         <span class="my-nav-item hitta-speltid">Hitta speltid</span>
                     </template> 
@@ -936,7 +1305,6 @@
                    
                   </b-tab> -->
                   <!-- HITTA TID  END -->
-
                 </b-tabs>
 
                 <div v-if="showresult && isteamleader && status != 'Finished'">
@@ -1016,7 +1384,7 @@
             <b-row class="justify-content-center" align-h="center">
               <b-col class="col-12 text-center p-0 m-0">
                 <b-button
-                  v-if="(isteamleader || isteammember)"
+                  v-if="isteamleader || isteammember"
                   @click="showContacts()"
                   variant="info"
                   class="mt-1"
@@ -1042,21 +1410,42 @@
                         }}</span>
                         <a :href="'tel:' + hometeamleadermobile"
                           ><span
-                            class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"
+                            class="
+                              btn btn-info
+                              text-white
+                              btn-sm
+                              mt-2
+                              pl-2
+                              pr-0
+                            "
                             ><i class="material-icons mr-1">phone</i
                             >&nbsp;</span
                           ></a
                         >
                         <a :href="'sms://' + hometeamleadermobile"
                           ><span
-                            class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"
+                            class="
+                              btn btn-info
+                              text-white
+                              btn-sm
+                              mt-2
+                              pl-2
+                              pr-0
+                            "
                             ><i class="material-icons mr-1">textsms</i
                             >&nbsp;</span
                           ></a
                         >
                         <a :href="'mailto:' + hometeamleaderemail"
                           ><span
-                            class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"
+                            class="
+                              btn btn-info
+                              text-white
+                              btn-sm
+                              mt-2
+                              pl-2
+                              pr-0
+                            "
                             ><i class="material-icons mr-1">alternate_email</i
                             >&nbsp;</span
                           ></a
@@ -1079,21 +1468,42 @@
                         }}</span>
                         <a :href="'tel:' + awayteamleadermobile"
                           ><span
-                            class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"
+                            class="
+                              btn btn-info
+                              text-white
+                              btn-sm
+                              mt-2
+                              pl-2
+                              pr-0
+                            "
                             ><i class="material-icons mr-1">phone</i
                             >&nbsp;</span
                           ></a
                         >
                         <a :href="'sms://' + awayteamleadermobile"
                           ><span
-                            class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"
+                            class="
+                              btn btn-info
+                              text-white
+                              btn-sm
+                              mt-2
+                              pl-2
+                              pr-0
+                            "
                             ><i class="material-icons mr-1">textsms</i
                             >&nbsp;</span
                           ></a
                         >
                         <a :href="'mailto:' + awayteamleaderemail"
                           ><span
-                            class="btn btn-info text-white btn-sm mt-2 pl-2 pr-0"
+                            class="
+                              btn btn-info
+                              text-white
+                              btn-sm
+                              mt-2
+                              pl-2
+                              pr-0
+                            "
                             ><i class="material-icons mr-1">alternate_email</i
                             >&nbsp;</span
                           ></a
@@ -1135,10 +1545,9 @@
               align-h="center"
             >
               <b-col class="col-6 text-center p-0 m-0">
-                <router-link               
-                to="/mymatchplay"
-              >Tillbaka</router-link>
-                <a hidden
+                <router-link to="/mymatchplay">Tillbaka</router-link>
+                <a
+                  hidden
                   :href="`/mymatchplay`"
                   class="btn btn-light btn-sm mt-3 mr-md-2"
                   >Tillbaka</a
@@ -1170,8 +1579,7 @@ import moment from "moment";
 import { globalState } from "../main.js";
 import VueTimepicker from "vue2-timepicker";
 import "vue2-timepicker/dist/VueTimepicker.css";
-import AppTimeSelector from './TimeSelector.vue'
-
+import AppTimeSelector from "./TimeSelector.vue";
 
 export default {
   name: "game",
@@ -1180,12 +1588,16 @@ export default {
     "v-calender": Calendar,
     "v-date-picker": DatePicker,
     "vue-timepicker": VueTimepicker,
-    AppTimeSelector
+    AppTimeSelector,
   },
   data() {
     let clubs = [];
 
     return {
+      is_igg: false,
+      //SELECT IGG CLUBS
+      selected_igg: null,
+      options_igg: [{ value: null, text: "Välj anläggning", default: true }],
       clearData: false,
       ninehole: false,
       tabIndex: 0,
@@ -1242,34 +1654,34 @@ export default {
       hometeamleadergolfid: "",
       hometeamleadermobile: "",
       hometeamleaderemail: "",
-            
+
       //home team member
-      hometeammembername: "",      
+      hometeammembername: "",
       hometeammembergolfid: "",
       hometeammembermobile: "",
       hometeammemberemail: "",
-      
+
       //home team reserve
-      hometeamreservename: "",      
+      hometeamreservename: "",
       hometeamreservegolfid: "",
       hometeamreservemobile: "",
       hometeamreserveemail: "",
 
       //away team leader
       awayteamleadername: "",
-      awayteamleadergolfid: "",  
+      awayteamleadergolfid: "",
       awayteamleadermobile: "",
-      awayteamleaderemail: "",   
+      awayteamleaderemail: "",
 
       //away team member
       awayteammembername: "",
-      awayteammembergolfid: "",      
+      awayteammembergolfid: "",
       awayteammembermobile: "",
       awayteammemberemail: "",
 
-       //away team reserve
+      //away team reserve
       awayteamreservename: "",
-      awayteamreservegolfid: "",      
+      awayteamreservegolfid: "",
       awayteamreservemobile: "",
       awayteamreserveemail: "",
 
@@ -1278,7 +1690,7 @@ export default {
       doctitle: "Match - " + this.$store.state.conferencename,
       //HITTA TID ---->
       selectedDate: [],
-      showStart: 0, 
+      showStart: 0,
       showEnd: 10,
       proposeddates: false,
       accepteddates: [],
@@ -1288,55 +1700,67 @@ export default {
       //HITTA TID END
     };
   },
-  computed: {
-  validateTime() {
-        var timeFormat = /^([0-9]{2})\:([0-9]{2})$/;
-      if(timeFormat.test(this.gametime) == false)
-      {
-          //console.log('Time one is wrong');
-          return false;
+  computed: {
+    validateTime() {
+      var timeFormat = /^([0-9]{2})\:([0-9]{2})$/;
+      if (timeFormat.test(this.gametime) == false) {
+        //console.log('Time one is wrong');
+        return false;
       } else {
         return true;
       }
-
-      },
-//HITTA TID 
-  proposeddatesSanitized() {
-        if (!this.proposeddates) {
-          return []
-        }
-        return this.proposeddates.reduce((array, e) => {
-          const timeOfDay = this.formatDate(e.date)
-          const d = moment(e.date).format("ddd DD MMM - ") + timeOfDay
-          const weekday = moment(e.date).isoWeekday()
-          const week = moment(e.date).week()
-          const obj = { text: d, value: e, weekday, week };
-          array.push(obj);
-          return array;
-        }, []);
-     },
-     accepteddatesSanitized() {
-        if (!this.accepteddates) {
-          return []
-        }
-        return this.accepteddates.reduce((array, e) => {
-          const timeOfDay = this.formatDate(e.date)
-          const d = moment(e.date).format("ddd DD MMM - ") + timeOfDay
-          const weekday = moment(e.date).isoWeekday()
-          const week = moment(e.date).week()
-          const obj = { text: d, value: e, weekday, week };
-          array.push(obj);
-          return array;
-        }, []);
-     }
-     //HITTA TID END
+    },
+    //HITTA TID
+    proposeddatesSanitized() {
+      if (!this.proposeddates) {
+        return [];
+      }
+      return this.proposeddates.reduce((array, e) => {
+        const timeOfDay = this.formatDate(e.date);
+        const d = moment(e.date).format("ddd DD MMM - ") + timeOfDay;
+        const weekday = moment(e.date).isoWeekday();
+        const week = moment(e.date).week();
+        const obj = { text: d, value: e, weekday, week };
+        array.push(obj);
+        return array;
+      }, []);
+    },
+    accepteddatesSanitized() {
+      if (!this.accepteddates) {
+        return [];
+      }
+      return this.accepteddates.reduce((array, e) => {
+        const timeOfDay = this.formatDate(e.date);
+        const d = moment(e.date).format("ddd DD MMM - ") + timeOfDay;
+        const weekday = moment(e.date).isoWeekday();
+        const week = moment(e.date).week();
+        const obj = { text: d, value: e, weekday, week };
+        array.push(obj);
+        return array;
+      }, []);
+    },
+    //HITTA TID END
   },
   created() {
     //scroll to top
     window.scrollTo(0, 0);
 
-
-
+    //get competition
+    this.axios
+      .post(globalState.admin_url + "getCompetition", {
+        id: globalState.compid_igg,
+      })
+      .then((response) => {
+        if (response.data.competitiontype == "Indoor") {
+          //IGG
+          this.is_igg = true;
+          this.closed = this.closed_igg;
+        }
+      })
+      .catch((error) => {
+        //this.player_1_error = "Golfaren hittades inte... prova att skriva in golfid igen.";
+        console.log(error);
+      });
 
     //check logged in
     let userinfo = localStorage.getItem("userinfo");
@@ -1349,7 +1773,7 @@ export default {
 
     //get userinfo localstorage object json
     userinfo = JSON.parse(userinfo);
-   // console.log(userinfo)
+    // console.log(userinfo)
 
     //get id from parameter
     let gameid = this.$route.query.id;
@@ -1385,17 +1809,16 @@ export default {
 
         //POPULATE VARS
         if (response.data.hasOwnProperty("proposeddates")) {
-          this.proposeddates = response.data.proposeddates
+          this.proposeddates = response.data.proposeddates;
         }
 
         if (response.data.hasOwnProperty("accepteddates")) {
-           this.accepteddates = response.data.accepteddates
+          this.accepteddates = response.data.accepteddates;
         }
 
         if (response.data.hasOwnProperty("gametimeofday")) {
-           this.gametimeofday = response.data.gametimeofday
+          this.gametimeofday = response.data.gametimeofday;
         }
-        
 
         this.hometeamname = response.data.hometeamname;
         this.awayteamname = response.data.awayteamname;
@@ -1418,7 +1841,7 @@ export default {
           this.hometeammembername = response.data.hometeammembername;
         }
 
-         if (response.data.hasOwnProperty("hometeamreservename")) {
+        if (response.data.hasOwnProperty("hometeamreservename")) {
           this.hometeamreservename = response.data.hometeamreservename;
         }
 
@@ -1426,7 +1849,7 @@ export default {
           this.awayteammembername = response.data.awayteammembername;
         }
 
-        if (response.data.hasOwnProperty("awayteamreservename")) {          
+        if (response.data.hasOwnProperty("awayteamreservename")) {
           this.awayteamreservename = response.data.awayteamreservename;
         }
 
@@ -1445,7 +1868,6 @@ export default {
         this.hometeamleadermobile = response.data.hometeamleadermobile;
         this.hometeamleaderemail = response.data.hometeamleaderemail;
 
-
         //HOME TEAM MEMBER
         if (response.data.hasOwnProperty("hometeammemberemail")) {
           this.hometeammemberemail = response.data.hometeammemberemail;
@@ -1455,7 +1877,7 @@ export default {
           this.hometeammembermobile = response.data.hometeammembermobile;
         }
 
-         //HOME TEAM RESERVE
+        //HOME TEAM RESERVE
         if (response.data.hasOwnProperty("hometeamreservegolfid")) {
           this.hometeamreservegolfid = response.data.hometeamreservegolfid;
         }
@@ -1487,7 +1909,7 @@ export default {
 
         //away team reserve
 
-        if (response.data.hasOwnProperty("awayteamreservegolfid")) {          
+        if (response.data.hasOwnProperty("awayteamreservegolfid")) {
           this.awayteamreservegolfid = response.data.awayteamreservegolfid;
         }
 
@@ -1525,7 +1947,10 @@ export default {
         //GET SCORE
 
         //set gamedate:
-        if (response.data.hasOwnProperty("gamedate") && response.data.gamedate ) {
+        if (
+          response.data.hasOwnProperty("gamedate") &&
+          response.data.gamedate
+        ) {
           this.gamedate = new Date(response.data.gamedate);
         } else {
           //console.log('no game date')
@@ -1547,19 +1972,22 @@ export default {
 
         //set club:
         if (response.data.hasOwnProperty("club")) {
+          console.log(response)
           this.clubid = response.data.clubid;
           this.query = response.data.clubname;
+          this.selected_igg = response.data.club;
+          
         } else {
           //console.log('no game date')
         }
 
         //set loop
-        if (response.data.hasOwnProperty("loop")) {          
+        if (response.data.hasOwnProperty("loop")) {
           this.slinga = response.data.loop;
           if (response.data.hasOwnProperty("loopname")) {
             this.slinganame = response.data.loopname;
           }
-          
+
           this.slingaOptions = { name: this.slinganame };
           this.loadingCourse == 2;
         } else {
@@ -1568,9 +1996,12 @@ export default {
 
         //show hitta speltid toast
         if (response.data.hasOwnProperty("roundname")) {
-          if (response.data.roundname === 'Omgång 1' && !this.gamedate && !this.gametime) {            
-            
-             this.$bvToast.toast(
+          if (
+            response.data.roundname === "Omgång 1" &&
+            !this.gamedate &&
+            !this.gametime
+          ) {
+            this.$bvToast.toast(
               "Missa inte vår nya funktion för att enkelt hitta speltid, finns under fliken spelplats och initieras av hemmalaget.",
               {
                 title: "Ny funktion!",
@@ -1578,9 +2009,8 @@ export default {
                 variant: "info",
                 solid: true,
               }
-            );           
-
-            }
+            );
+          }
         }
 
         this.loading = false;
@@ -1609,123 +2039,133 @@ export default {
         return "KV.";
       }
     },
-     formatDateLong(date) {
-        const timeOfDay = this.formatDate(date.date)
-        return moment(date.date).format("ddd DD MMM - ") + timeOfDay;
-     },
-      updateDate(obj) {
-       console.log("obj", obj)
-       this.gamedate = obj.gamedate;
-       this.gametime = obj.gametime;
-       this.proposeddates = obj.proposeddates
-     }, 
-     confirmDates() {
-        this.confirmDateSpinner = true
-        let gameid = this.$route.query.id;
-        if (!gameid) {
-          this.$bvToast.toast("Error", {
-            title: "Något gick fel",
-            autoHideDelay: 5000,
-            variant: "danger",
-            solid: true,
-          });
-          return;
-        }
+    formatDateLong(date) {
+      const timeOfDay = this.formatDate(date.date);
+      return moment(date.date).format("ddd DD MMM - ") + timeOfDay;
+    },
+    updateDate(obj) {
+      console.log("obj", obj);
+      this.gamedate = obj.gamedate;
+      this.gametime = obj.gametime;
+      this.proposeddates = obj.proposeddates;
+    },
+    confirmDates() {
+      this.confirmDateSpinner = true;
+      let gameid = this.$route.query.id;
+      if (!gameid) {
+        this.$bvToast.toast("Error", {
+          title: "Något gick fel",
+          autoHideDelay: 5000,
+          variant: "danger",
+          solid: true,
+        });
+        return;
+      }
 
-       const obj = {
-         _id: gameid, 
-         accepteddates: [this.selectedDate]
-       }
-       this.axios.post(globalState.admin_url + "updateGame", obj)
-          .then(() => {     
-             this.axios.post(globalState.admin_url+'getGameData', {
-                    id: gameid,
-                }).then((response)=> {
-                  this.accepteddates = response.data.accepteddates
-                  console.log("this.accepteddates", response.data.accepteddates)
-                })    
-            this.$bvToast.toast(
-              "Accepterade tider skickade. När hemmalaget valt en tid får ni ett mail.",
-              {
-                title: "Klart!",
-                autoHideDelay: 5000,
-                variant: "success",
-                solid: true,
-              }
-            ); 
-           this.confirmDateSpinner = false
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+      const obj = {
+        _id: gameid,
+        accepteddates: [this.selectedDate],
+      };
+      this.axios
+        .post(globalState.admin_url + "updateGame", obj)
+        .then(() => {
+          this.axios
+            .post(globalState.admin_url + "getGameData", {
+              id: gameid,
+            })
+            .then((response) => {
+              this.accepteddates = response.data.accepteddates;
+              console.log("this.accepteddates", response.data.accepteddates);
+            });
+          this.$bvToast.toast(
+            "Accepterade tider skickade. När hemmalaget valt en tid får ni ett mail.",
+            {
+              title: "Klart!",
+              autoHideDelay: 5000,
+              variant: "success",
+              solid: true,
+            }
+          );
+          this.confirmDateSpinner = false;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    bookDate(date) {
+      const day = moment(date.date).format("dddd");
+      const dt = moment(date.date).format("DD");
+      const month = moment(date.date).format("MMMM");
+      const gametimeofday = this.formatDate(date.date);
+      const gametimeofdayParsed =
+        gametimeofday === "FM"
+          ? "förmiddagen"
+          : gametimeofday === "EM"
+          ? "eftermiddagen"
+          : "kvällen";
 
-      }, 
-      bookDate(date) {
-        
-        const day = moment(date.date).format("dddd")
-        const dt = moment(date.date).format("DD")
-        const month = moment(date.date).format("MMMM")
-        const gametimeofday = this.formatDate(date.date)
-        const gametimeofdayParsed = gametimeofday === 'FM' ? 'förmiddagen' : gametimeofday === 'EM' ? 'eftermiddagen' : 'kvällen'
-
-
-        this.$bvModal
-        .msgBoxConfirm(`Boka ${day} den ${dt} ${month} på ${gametimeofdayParsed}?`)
+      this.$bvModal
+        .msgBoxConfirm(
+          `Boka ${day} den ${dt} ${month} på ${gametimeofdayParsed}?`
+        )
         .then((value) => {
           if (!value) {
             return;
           }
-          
-          this.bookDateSpinner = true
-            let gameid = this.$route.query.id;
-            if (!gameid) {
-              this.$bvToast.toast("Error", {
-                title: "Något gick fel",
-                autoHideDelay: 5000,
-                variant: "danger",
-                solid: true,
-              });
-              return;
-            }
-          
-          const gamedate = moment(date.date).format("YYYY-MM-DD")
 
-          const obj = {
-            _id: gameid, 
-            gamedate,
-            confirmDates: true,
-            gametimeofday
+          this.bookDateSpinner = true;
+          let gameid = this.$route.query.id;
+          if (!gameid) {
+            this.$bvToast.toast("Error", {
+              title: "Något gick fel",
+              autoHideDelay: 5000,
+              variant: "danger",
+              solid: true,
+            });
+            return;
           }
 
-          this.axios.post(globalState.admin_url + "updateGame", obj)
-              .then(() => {    
-                this.myKey = false 
-                this.axios.post(globalState.admin_url+'getGameData', {
-                        id: gameid,
-                    }).then((res)=> {
-                      this.gamedate = new Date(date.date)
-                      this.gametimeofday = res.data.gametimeofday
-                    })    
-                this.$bvToast.toast(
-                  "Ett mail har skickats till matchens samtliga spelare",
-                  {
-                    title: "Match bokad!",
-                    autoHideDelay: 5000,
-                    variant: "success",
-                    solid: true,
-                  }
-                ); 
-              this.bookDateSpinner = false
-              })
-              .catch((error) => {
-                console.log(error);
-              });
+          const gamedate = moment(date.date).format("YYYY-MM-DD");
+
+          const obj = {
+            _id: gameid,
+            gamedate,
+            confirmDates: true,
+            gametimeofday,
+          };
+
+          this.axios
+            .post(globalState.admin_url + "updateGame", obj)
+            .then(() => {
+              this.myKey = false;
+              this.axios
+                .post(globalState.admin_url + "getGameData", {
+                  id: gameid,
+                })
+                .then((res) => {
+                  this.gamedate = new Date(date.date);
+                  this.gametimeofday = res.data.gametimeofday;
+                });
+              this.$bvToast.toast(
+                "Ett mail har skickats till matchens samtliga spelare",
+                {
+                  title: "Match bokad!",
+                  autoHideDelay: 5000,
+                  variant: "success",
+                  solid: true,
+                }
+              );
+              this.bookDateSpinner = false;
+            })
+            .catch((error) => {
+              console.log(error);
+            });
         })
         .catch((err) => {
           // An error occurred
         });
-      }, 
-      //HITTA TID END
+    },
+    //HITTA TID END
     clear() {
       this.boxTwo = "";
       this.$bvModal
@@ -1747,11 +2187,11 @@ export default {
           if (value) {
             this.query = "";
             this.slingaOptions = [];
-            this.slinga = '';
-            this.gamedate = '';
-            this.clubid = '';
-            document.getElementById('gametime').value = '';            
-            this.gametime  ='';
+            this.slinga = "";
+            this.gamedate = "";
+            this.clubid = "";
+            document.getElementById("gametime").value = "";
+            this.gametime = "";
             this.slinganame = "";
             this.loadingCourse = 0;
             this.clearData = true;
@@ -1762,8 +2202,8 @@ export default {
           // An error occurred
         });
     },
-    setLoopname(id) {     
-      let result = this.slingaOptions.find((item) => item.value == id);     
+    setLoopname(id) {
+      let result = this.slingaOptions.find((item) => item.value == id);
       this.slinganame = result.text;
     },
     // Get info from GIT
@@ -1785,7 +2225,10 @@ export default {
     parseCourse: function (course) {
       let parsedLoop = [];
       course.forEach((courseItem) => {
-         if (courseItem.IsNineHoleCourse == "false" || courseItem.Name === "Björkhagens GK") {
+        if (
+          courseItem.IsNineHoleCourse == "false" ||
+          courseItem.Name === "Björkhagens GK"
+        ) {
           courseItem.Loops.forEach((loop) => {
             if (Array.isArray(loop)) {
               loop.forEach((item) => {
@@ -1805,11 +2248,11 @@ export default {
       });
 
       this.slingaOptions = parsedLoop;
-      
+
       if (this.slingaOptions.length === 0) {
         this.ninehole = true;
         this.loadingCourse = false;
-        this.query = '';
+        this.query = "";
         return;
       }
       this.ninehole = false;
@@ -1889,11 +2332,28 @@ export default {
       };
     },
     getGolfClubs: function () {
+      if (this.is_igg) {
+        var compid = globalState.compid_igg;
+      } else {
+        var compid = globalState.compid;
+      }
+
       this.axios
-        .post(globalState.admin_url + "getGolfclubs")
+        .post(globalState.admin_url + "getGolfclubs", {
+          id: compid,
+        })
         .then((response) => {
           this.clubs = response.data;
           this.clubs = this.clubs.sort(this.compareValues("name", "asc"));
+
+          if (this.is_igg) {
+            response.data.forEach((club) => {
+              this.options_igg.push({
+                text: club.title,
+                value: club._id,
+              });
+            });
+          }
           //console.log(this.clubs)
         })
         .catch((error) => {
@@ -1907,16 +2367,25 @@ export default {
       });
     },
     onSearchItemSelected(item) {
-      this.loadingCourse = 1;
-      this.slinga = "";
-      this.slinganame = "";
-      this.getCourse(item.gitID); //get loops
+      if (this.is_igg) {
+        this.clubid = item;
+        var findIndex = this.options_igg.findIndex(function (x) {
+          return x.value === item;
+        });
+        if (findIndex > -1) {
+          this.clubname = this.options_igg[findIndex].title;
+        }
+      } else {
+        this.loadingCourse = 1;
+        this.slinga = "";
+        this.slinganame = "";
+        this.getCourse(item.gitID); //get loops
 
-      this.selectedSearchItem = item.title;
-      this.query = item.title;
-      this.clubid = item._id;
-      this.clubname = item.title;
-
+        this.selectedSearchItem = item.title;
+        this.query = item.title;
+        this.clubid = item._id;
+        this.clubname = item.title;
+      }
       //this.saveResult()
 
       /*
@@ -2052,22 +2521,20 @@ export default {
       location.href = "scorecard?id=" + this.game_id;
     },
     saveResult() {
-                
-      
-      if (!this.clearData) { //if clear data by user, don't stop here...
+      if (!this.clearData) {
+        //if clear data by user, don't stop here...
         let element = document.querySelector("#gametime");
-        if (element.classList.contains("is-invalid")) {            
+        if (element.classList.contains("is-invalid")) {
           return;
         }
       }
 
       let gamedate;
       if (!this.clearData) {
-       gamedate = moment(this.gamedate).format("YYYY-MM-DD")
+        gamedate = moment(this.gamedate).format("YYYY-MM-DD");
       } else {
-        gamedate = '';
+        gamedate = "";
       }
- 
 
       //if (this.lastsaved !== moment().format('HH:mm')) {
       this.isSaving = true;
@@ -2289,19 +2756,19 @@ p {
 }
 
 .my-nav-item {
-  font-size: 0.85em;  
+  font-size: 0.85em;
 }
 
 .hittatid {
-      background: #f7fafc;
+  background: #f7fafc;
 }
 
 @media only screen and (max-width: 400px) {
   /* iphone 5/se */
   .my-nav-item {
-    font-size: 0.8em;    
-    padding-left:0 !important;
-    padding-right:0 !important;
+    font-size: 0.8em;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 }
 

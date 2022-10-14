@@ -95,7 +95,7 @@
       <b-container class="pl-4 pr-4">
         <b-row align-h="center">
           <b-col
-            class="
+            class="hidden 
               col-12 col-md-12
               mt-1 mt-md-4
               pt-1 pt-md-2
@@ -106,6 +106,32 @@
             <!-- <h2 class="d-none d-md-block line1">Anmälan är öppen!</h2> -->
             <br />
             <h2>VÄLKOMMEN TILL MATCHPLAY 2022</h2>
+            <h4 class="mb-3">
+              GOLFTÄVLINGEN FÖR BÅDE PRIVATPERSONER OCH FÖRETAG
+            </h4>
+            <a
+              hidden
+              v-if="!isAuthenticated"
+              href="/register"
+              class="btn blue-bg btn-md text-white mt-2 mr-2"
+              >Anmälan</a
+            >
+
+            <!-- <b-button variant="success" size="sm" v-if="isEarlyBirdie" class=" p-1 pt-2 rounded bg-success">JUST NU EARLY BIRDIE PRIS</b-button>  -->
+          </b-col>
+
+          <b-col
+            class="
+              col-12 col-md-12
+              mt-1 mt-md-4
+              pt-1 pt-md-2
+              pb-0 pb-md-3
+              text-center
+            "
+          >
+            <!-- <h2 class="d-none d-md-block line1">Anmälan är öppen!</h2> -->
+            <br />
+            <h2>MATCHPLAY INDOOR 2023</h2>
             <h4 class="mb-3">
               GOLFTÄVLINGEN FÖR BÅDE PRIVATPERSONER OCH FÖRETAG
             </h4>
@@ -154,7 +180,7 @@
           </b-col>
 
           <b-col class="col-12 col-md-8">
-             <h4 v-if="closed" class="mt-3 mt-md-0 mb-3">
+             <h4 hidden v-if="closed" class="mt-3 mt-md-0 mb-3">
               Sverigefinalen 2022 är avgjord och ni kan läsa allt, se segerintervjuer mm på vår årssida som du hittar <a href="/tavlingar/2022">här!</a></h4>
             <p hidden v-if="closed" class="mt-3 mt-md-0">
                Snart vankas Sverigefinal på Allerum Golfklubb utanför Helsingborg! Finalerna spelas 16-18 september, följ matcherna här på sajten!
@@ -163,13 +189,19 @@
                 representerade i tävlingen!</b-alert
               >
             </p>
-            <p class="mt-3 mt-md-0">
+            <p class="mt-3 mt-md-0 hidden">
               Matchplay är en matchspelstävling för par med officiellt handicap
               som spelas på klubbar anslutna till Svenska golfförbundet.
               <span hidden
                 >Lag från mer än <strong>100 svenska golfklubbar</strong> är
                 redan anmälda!</span
               >
+            </p>
+
+              <p class="mt-3 mt-md-0">
+               Matchplay skapar ännu en tävling för alla som vill hålla svingen
+              och tävlandet vid liv under de mörka månaderna. Mellan 1 januari
+              och 15 april 2023 spelas tävlingen på 30 inomhusanläggningar över hela Sverige.
             </p>
 
             <p hidden class="mt-3 mt-md-0">
@@ -233,7 +265,7 @@
               Snitthcp: <strong>12.1</strong><br>
               Snittålder: <strong>42.8 år</strong><br> -->
                   </b-col>
-                  <b-col class="col-12 col-md-12">
+                  <b-col class="hidden col-12 col-md-12">
                     <b-button
                       to="/results"
                       class="text-white mt-3 mt-md-1"
@@ -245,9 +277,15 @@
                 </b-row>
               </div>
 
-              <p v-if="closed">
-               Anmälan till Matchplay 2023 öppnar i januari 2023.
+              <p v-if="closed" hidden>
+               Anmälan till nästa års tävling öppnar i början av januari men du kan redan nu anmäla dig till Matchplay Indoor som startar i januari 2023!
               </p>
+
+                <a
+                href="/indoor"
+                class="btn btn-primary btn-igg text-white mt-2"
+                >Anmäl ditt lag till Indoor!</a
+              >
 
               <a
                 hidden
@@ -256,7 +294,7 @@
                 class="btn btn-success text-white mt-2 mr-2"
                 >JUST NU EARLY BIRDIE-PRIS</a
               >
-              <router-link
+              <router-link hidden
                 v-if="isAuthenticated"
                 class="btn blue-bg btn-md text-white mt-2 mr-2"
                 :class="isMobile ? 'w-100' : ''"
@@ -317,7 +355,8 @@
             "
           >
             <b-img
-              src="https://res.cloudinary.com/dn3hzwewp/image/upload/e_colorize,co_rgb:fff/v1573118127/matchplay/matchplay-new-logo-2020.png"
+              src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,h_200,q_auto,e_colorize:100,co_rgb:ffffff/v1665478419/matchplay/igg/Matchplay-Indoor-ruff-IGG-2023.png"
+              src2="https://res.cloudinary.com/dn3hzwewp/image/upload/e_colorize,co_rgb:fff/v1573118127/matchplay/matchplay-new-logo-2020.png"
               alt
             ></b-img>
           </b-col>
@@ -333,7 +372,8 @@
             "
           >
             <b-img
-              src="https://res.cloudinary.com/dn3hzwewp/image/upload/e_colorize,co_rgb:fff/v1573118127/matchplay/matchplay-new-logo-2020.png"
+              src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,h_200,q_auto,e_colorize:100,co_rgb:ffffff/v1665478419/matchplay/igg/Matchplay-Indoor-ruff-IGG-2023.png"
+              src2="https://res.cloudinary.com/dn3hzwewp/image/upload/e_colorize,co_rgb:fff/v1573118127/matchplay/matchplay-new-logo-2020.png"
               alt
             ></b-img>
           </b-col>
@@ -534,7 +574,7 @@
               Du har ännu inget lag i Sveriges roligaste golftävling, skapa ett
               på knappen nedan.
             </p>
-            <div v-if="user.teams && competitionFetched" class="mt-3">
+            <div v-if="user.teams && competitionFetched && !closed" class="mt-3">
               <p v-if="!user.teams[0].paid">
                 Anmälningskostnad per lag är
                 <strong>{{ price1 }} kr</strong> för privatpersoner och
@@ -563,7 +603,7 @@
           </b-col>
         </b-row>
 
-        <b-row v-if="closed">
+        <b-row hidden v-if="closed">
           <b-col class="col-12 mb-3 mt-5">
             <h3>Omgångar 2022</h3>
             <app-rounds-grafic
@@ -586,9 +626,9 @@
           </b-col>
         </b-row>
 
-  <b-row v-if="closed">
+  <b-row hidden>
           <b-col class="col-12 mb-3 mt-5">  
-          
+
          <app-year-in-review :isMobile="isMobile" :year="2022" :compid="prevcompid"></app-year-in-review>
  </b-col>
         </b-row>
@@ -614,7 +654,7 @@
         <b-row v-if="showTopClubs && !closed">
           <b-col class="col-12 mt-3">
             <h3 class="white mb-3 mt-4 pt-2">Topp 3 anmälda lag</h3>
-            <podium number="3"></podium>
+            <podium number="3" prevCompetitionId="hXcmBwqmfWC2tYcxR"></podium>
             <a href="#podium2" class="btn blue-bg btn-sm text-white mt-4"
               >Se fler klubbar</a
             >
@@ -658,6 +698,30 @@
         </b-row>
       </b-container>
     </b-jumbotron>
+
+     <!-- RUFF/IGG -->
+   
+      <b-jumbotron fluid class="black mb-0">
+        <b-row>
+          <b-col class="text-center col-6">
+            <b-img
+              src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1665478570/matchplay/igg/-_RUFF-Text-White.png"
+            >
+            </b-img>
+          </b-col>
+          <b-col col="6" class="text-center col-6">
+            <!-- e_colorize,co_rgb:fff -->
+            <b-img
+              src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1665597995/matchplay/igg/logo_igg_white.png"
+            >
+            </b-img>
+          </b-col>
+        </b-row>
+      </b-jumbotron>
+
+       <!-- HOW IT WORKS -->
+   <howitworks2 :headline="'Så här fungerar tävlingen'"  v-if="!loading" />
+
 
     <b-jumbotron container-fluid class="bg-image-collage p-0 m-0">
       <app-image-collage
@@ -718,7 +782,7 @@
         <b-row>
           <b-col class="col-12">
             <h3 class="teaser-header orange mb-4">Anmälda lag per klubb</h3>
-            <podium></podium>
+            <podium number="3"></podium>
           </b-col>
         </b-row>
       </b-container>
@@ -827,6 +891,7 @@ import AppRoundsGrafic from "./RoundsGrafic";
 import AppBirdieLigan from "./BirdieLigan";
 import Testimonials from "./Testimonials";
 import Howitworks from "./Howitworks";
+import Howitworks2 from "./Howitworks2";
 import ScorecardExplainer from "./ScorecardExplainer";
 import AppImageCollage from "./ImageCollage";
 import AppYearInReview from "./YearInReview";
@@ -986,6 +1051,7 @@ export default {
     Testimonials,
     Podium,
     Howitworks,
+    Howitworks2,
     ScorecardExplainer,
     AppImageCollage,
     AppYearInReview,
@@ -1341,6 +1407,10 @@ export default {
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
 
+.black {
+  background: #000;
+}
+
 .bg-image-collage {
   background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1500,q_auto,e_colorize:70,co_rgb:000000/v1608122032/matchplay/MPI-1825.jpg);
   background-repeat: no-repeat;
@@ -1671,18 +1741,21 @@ img {
 }
 
 .herobg0 {
-  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_auto,e_colorize:50,co_rgb:000000/v1634639604/matchplay/241623315_297370888855635_7137633828161165670_n.jpg);
+  //background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_auto,e_colorize:50,co_rgb:000000/v1634639604/matchplay/241623315_297370888855635_7137633828161165670_n.jpg);
   background-position: right center;
+  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_auto,e_colorize:50,co_rgb:000000/v1663921938/matchplay/igg/DSC09580.jpg);
 }
 
 .herobg1 {
-  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_auto,e_colorize:50,co_rgb:000000/v1608219772/matchplay/bg_matchplay.jpg);
+  //background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_auto,e_colorize:50,co_rgb:000000/v1608219772/matchplay/bg_matchplay.jpg);
   background-position: center center;
+  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_auto,e_colorize:50,co_rgb:000000/v1665562702/matchplay/igg/_DSC7983.jpg);
 }
 
 .herobg2 {
-  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_auto,e_colorize:50,co_rgb:000000/v1608122032/matchplay/MPI-1825.jpg);
+  //background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_auto,e_colorize:50,co_rgb:000000/v1608122032/matchplay/MPI-1825.jpg);
   background-position: center center;
+  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_auto,e_colorize:50,co_rgb:000000/v1665562700/matchplay/igg/_DSC7041.jpg);
 }
 
 .hero h2 {

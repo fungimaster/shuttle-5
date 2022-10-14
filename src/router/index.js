@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Hello from '@/components/Hello'
 import MyMatchplay from '@/components/MyMatchplay'
 import Faq from '@/components/Faq'
+import FaqIndoor from '@/components/FaqIndoor'
 import Cookies from '@/components/Cookies'
 import Club from '@/components/Club'
 import Klubbar from '@/components/Klubbar'
@@ -20,7 +21,7 @@ import Game from '@/components/Game'
 import Register from '@/components/Register'
 import Results from '@/components/Results'
 import Images from '@/components/Images'
-import Igg from '@/components/Igg'
+import Indoor from '@/components/Indoor'
 
 Vue.use(Router)
 
@@ -76,7 +77,8 @@ export default new Router({
     {
       path: '/register',
       name: 'Register',
-      component: Register
+      component: Register,
+      props: { igg: true }
     },
     {
       path: '/scorecard',
@@ -101,9 +103,9 @@ export default new Router({
       component: Club
     },
     {
-      path: '/igg',
-      name: 'Igg',
-      component: Igg
+      path: '/indoor',
+      name: 'Indoor',
+      component: Indoor
     },
     {
       path: '/klubbar',
@@ -124,6 +126,11 @@ export default new Router({
       path: '/info',
       name: 'Faq',
       component: Faq
+    },
+    {
+      path: '/info_indoor',
+      name: 'FaqIndoor',
+      component: FaqIndoor
     },
     {
       path: '/cookies',

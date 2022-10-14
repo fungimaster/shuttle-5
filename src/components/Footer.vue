@@ -23,6 +23,22 @@
           </b-row>
 
           <b-row no-gutters>
+             <b-col md="6" class="gold p-5 text-center">
+              <a href="https://ruff.se/" target="_blank">
+                <img
+                  src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_300,q_auto/v1665478570/matchplay/igg/logo_ruff.png"
+                  alt
+                />
+              </a>
+            </b-col>
+             <b-col md="6" class="gold p-5 text-center">
+              <a href="https://futureitpartner.se/" target="_blank">
+                <img
+                  src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_300,q_auto/v1663921954/matchplay/igg/logo_igg.png"
+                  alt
+                />
+              </a>
+            </b-col>
             <b-col md="6" class="gold p-5 text-center">
               <a href="https://futureitpartner.se/" target="_blank">
                 <img
@@ -40,7 +56,7 @@
               </a>
             </b-col>           
           </b-row>
-          <b-row no-gutters>
+          <b-row hidden no-gutters>
             <b-col md="4" class="silver p-1 text-center">
               <a href="https://scandic.se/" target="_blank">
                 <img

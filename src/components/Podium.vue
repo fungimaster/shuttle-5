@@ -94,13 +94,14 @@ export default {
          }
       this.loadingclubs = true;  
       this.clubcount = number;
+      
       this.axios
         .post("https://matchplay.meteorapp.com/methods/" + "getTopClubs", {
           //getclubstoplist
           competition: this.prevCompetitionId ? this.prevCompetitionId : globalState.compid,
           no: number,
         })
-        .then((response) => {         
+        .then((response) => {
           this.clubs = response.data;
           this.topclub = this.clubs[0].count;
           this.loadingclubs = false;

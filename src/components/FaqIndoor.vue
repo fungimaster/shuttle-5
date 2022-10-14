@@ -1,15 +1,16 @@
 <template>
-  <div class="info">
+  <div class="info_indoor">
     <vue-headful :title="doctitle" />
 
     <div class="hero">
       <b-container>
         <b-row>
-          <b-col md="10">
+          <b-col md="12" class="text-center">
             <h2>REGLER & ÖVRIG INFO</h2>
-            <p class>All nödvändig information kring tävlingen Matchplay</p>
+            <p class>All nödvändig information kring tävlingen Matchplay Indoor</p>
+            <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,h_200,q_auto,e_colorize:100,co_rgb:ffffff/v1665478419/matchplay/igg/Matchplay-Indoor-ruff-IGG-2023.png">
+            </b-img>
           </b-col>
-          <b-col md="2" class></b-col>
         </b-row>
       </b-container>
     </div>
@@ -65,18 +66,13 @@
               <i hidden class="material-icons">ballot</i>
               <i class="fa fa-ballot"></i>
               <p>Lottning</p>
-            </a>
-            <a href="#19" v-b-toggle="'collapse-' + 19">
-              <i hidden class="material-icons">accessible</i>
-              <i class="fa fa-wheelchair"></i>
-              <p>HJÄLPMEDEL</p>
-            </a>
+            </a>            
           </div>
         </b-col>
       </b-row>
     </b-container>
 
-    <howitworks :headline="'lathund: så fungerar tävlingen'" />
+    <howitworks2 :headline="'lathund: så fungerar tävlingen'" />
 
     <b-container v-if="competitionFetched">
       <b-row>
@@ -86,12 +82,7 @@
           <div class="pt-4 pb-2 first" id="1">
             <h3>LÖPANDE INFO & Kommunikation</h3>
             <p>
-              Matchplay är en tävling som enbart marknadsförs främst på sociala
-              medier och därför är det vår största informationskanal mot alla
-              våra deltagare. Följ oss gärna där för snabbast info gällande allt
-              som rör tävlingen. Alla deltagare finns även med sina adresser i
-              vårt nyhetsbrev och kommer där få information inför uppstart och
-              Sverigefinal.
+              Matchplay Indoor är en tävling som återger info till deltagare främst via nyhetsbrev och på våra sociala medier. Följ oss gärna där för snabbast info gällande allt som rör tävlingen.
             </p>
           </div>
           <hr />
@@ -122,51 +113,25 @@
             :icon="'fa fa-ballot'"
             :information="category4"
           ></app-faq-card>
-          <app-faq-card
-            :headline="'Hjälpmedel'"
-            :icon="'fa fa-wheelchair'"
-            :information="category5"
-          ></app-faq-card>
-
-          <div class="section">
-            <h3>
-              Vi önskar alla deltagande lag lycka till och varmt välkomna till
-              tävlingen!
-            </h3>
-            <p>
-              Hittar du inte den information du söker kontakta oss på:
-              <a href="mailto:info@matchplay.se">info@matchplay.se</a>
-            </p>
-
-            <div class="mt-5 video-container">
-              <iframe
-                src="https://www.youtube.com/embed/SLk3r_sbdg0"
-                frameborder="0"
-                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-              ></iframe>
-            </div>
-          </div>
+         
+          
         </b-col>
       </b-row>
-    </b-container>
-    <app-henke-larsson class="mt-5" />
+    </b-container>    
   </div>
 </template>
 
 <script>
 import { globalState } from "../main.js";
-import Howitworks from "./Howitworks";
+import Howitworks2 from "./Howitworks2";
 import AppFaqCard from "./FaqCard";
-import AppHenkeLarsson from "./HenkeLarsson";
 import { mapGetters } from "vuex";
 
 export default {
-  name: "faq",
+  name: "faqindoor",
   components: {
-    Howitworks,
-    AppFaqCard,
-    AppHenkeLarsson,
+    Howitworks2,
+    AppFaqCard    
   },
    created() {
     const promise = this.$store.dispatch('getCompetition', globalState.compid)
@@ -192,8 +157,8 @@ export default {
     information () {
      return  [
           {
-            headline: "Regioner Matchplay 2022",
-            text: "Matchplay spelas i hela Sverige. Längre resväg kan förekomma vid få registrerade lag i vissa regioner av Sverige. Värt att poängtera är att lottningen alltid sker med geografiskt utgångsläge som prioritering för minimera reslängd.",
+            headline: "Regioner Matchplay Indoor",
+            text: "Matchplay Indoor spelas över hela Sverige. Då alla lag har valt sin egen Indooranläggning som hemmabana, så kommer lottningen alltid* innebära spel på den närmsta Indooranläggningen för er del. <br><br>*Tänk på att vid ojämnt antal lag på samma anläggning och omgång, så kommer ett lag lottas mot närmsta annan anläggning och motståndare där.",
             imgurl1: null,
             imgurl2: null,
             category: 6,
@@ -208,9 +173,9 @@ export default {
           {
             headline: "Betalning",
             text:
-              "Privatlag betalar via Swish medans företagslag betalar via faktura som skickas till angiven mailadress. Priset per lag är " +
+              "Privatlag betalar via Swish medan företagslag betalar via faktura som skickas till angiven mailadress. Priset per lag är " +
               this.price1 +
-              " för privatpersoner och " +
+              " kr för privatpersoner och " +
               this.price2 +
               " (exkl. moms) för företag.",
             imgurl1: null,
@@ -226,21 +191,21 @@ export default {
           },
           {
             headline: "ÅLDERSGRÄNS FÖR DELTAGANDE",
-            text: " Båda spelarna måste fylla minst 18 år innan tävlingsstart. Undantaget är när en deltagare under 18 registreras tillsammans med målsman, som då är bunden att medverka vid eventuell utlandsfinal.",
+            text: "Båda spelarna måste fylla minst 18 år innan tävlingsstart. Undantaget är när en deltagare under 18 registreras tillsammans med målsman, som då är bunden att medverka vid eventuell utlandsfinal.",
             imgurl1: null,
             imgurl2: null,
             category: 1,
           },
           {
             headline: "Handicapgräns",
-            text: "Officellt handicap (36.0) krävs för deltagande. Högsta HCP i matchspel är 28.0 och har laget tillsammans högre än 28.0 i hcp kommer spelarna i laget dela på reduceringen. <br/> <br/> Tex: Om spelare A har 16 i hcp och spelare B har 19 i hcp blir detta 35 sammanlagt, vilket innebär att spelare A och B får 3.5 slag färre och kommer få nytt exakt hcp på 12.5 och 15.5 som sedan slope och matchspeluträkningar baseras på. När en match påbörjas räknas allt ut automatiskt och information om uträkningen finns tillgänglig i scorekortet.",
+            text: "Officiellt handicap (36.0) krävs för deltagande. Högsta HCP i matchspel är 28.0 och har laget tillsammans högre än 28.0 i HCP kommer spelarna i laget dela på reduceringen.<br><br>Tex: Om spelare A har 16 i hcp och spelare B har 19 i hcp blir detta 35 sammanlagt, vilket innebär att spelare A och B får 3.5 slag färre och kommer få nytt exakt hcp på 12.5 och 15.5 som sedan slope och matchspeluträkningar baseras på. När en match påbörjas räknas allt ut automatiskt och information om uträkningen finns tillgänglig i scorekortet.",
             imgurl1: null,
             imgurl2: null,
             category: 1,
           },
           {
-            headline: "Tävlingsklasser 2022",
-            text: "Matchplay spelas i en klass.",
+            headline: "Tävlingsklasser",
+            text: "Matchplay Indoor spelas i en klass.",
             imgurl1: null,
             imgurl2: null,
             category: 3,
@@ -283,14 +248,14 @@ export default {
           },
           {
             headline: "Spelplatser",
-            text: "Vårt lottningssystem är utformat för att ge en så rättvis fördelning som möjligt sett till spelplats.  <br/> <br/> Hemmalag/bortalag fördelas jämnt mellan omgångarna och lottas fram i första omgången. Detta innebär att man kan välja sin hemmabana men kan också komma överens med motståndarna om annan bana. Lagkaptenerna i respektive lag ansvarar för att föra score för alla spelare. Eventuell greenfee under kvalomgångarna innan semifinal och final betalas av respektive lag. <br/> <br/> Matchen avgörs över 18 hål utan särspel. OBS! Endast klubbar med 18 hål kan och ska användas under spelet. Om ett (eller flera) hål på banan är avstängt hoppar man över detta hål och matchen avgörs då över de hål som är spelbara.  <br/> <br/> Sverigefinalen spelas runt september 2022 på Allerum Golfklubb strax utanför Helsingborg. Spelformen är samma under Sverigefinalen som i grundomgången. Alla deltagare i Sverigefinalen har redan kvalificerat sig för spel nästkommande år utan kostnad. Vinnarna går vidare till finalspelet som sker utomlands (oktober 2022), på plats som meddelas januari 2022.",
+            text: "Vårt lottningssystem är utformat för att ge en så rättvis fördelning som möjligt sett till spelplats.  <br/> <br/> Hemmalag/bortalag fördelas jämnt mellan omgångarna och lottas fram i första omgången. Detta innebär att man kan välja sin hemmabana men kan också komma överens med motståndarna om annan bana. Lagkaptenerna i respektive lag ansvarar för att föra score för alla spelare. Eventuell greenfee under kvalomgångarna innan semifinal och final betalas av respektive lag. <br/> <br/> Matchen avgörs över 18 hål utan särspel.<br/> <br/>Sverigefinalen spelas 14-16 april där Andra Chansen spelar poängtävling den 14/4 och Huvudtävlingens deltagare spelar finalspelet 15-16/4 på IGG i Nacka utanför Stockholm. Alla deltagare i Sverigefinalen har redan kvalificerat sig för spel nästkommande år utan kostnad. Vinnarna får en resa tillsammans med vinnarna från Matchplay Sweden till solkusten under samma tävlingsår.",
             imgurl1: null,
             imgurl2: null,
             category: 4,
           },
           {
             headline: "Ersättare/reserv",
-            text: "I Matchplay är det okej att använda sig av en reserv. <br/> <br/> Reserv anmäler ni under LAGFLIKEN på din sida. Om reserv finns väljs denna in i samband med att matchen startas (görs av hemmalaget). <br/>  <br/> När scorekortet startas inför match av hemmalaget, så kommer alla deltagare upp. Ska deltagare ersättas med reserv så klicka på knappen under deltagaren ”välj reserv”  och fyll i dennes golf id. Då hämtas dagsaktuellt HCP och uträkningen blir rätt. <br/> <br/> Är inte reserv anmäld i systemet och laget spelar med reserv kan laget bli diskvalificerat. Reservinträde skall också meddelas motståndarna innan spel, när reserv deltager i tävlingen. Man får bara använda sig av en reserv (samma person). Denna reserv kan komplettera laget vid behov under hela tävlingen.  <br/> <br/> Observera att reserv inte får spela i annat deltagande lag som fortfarande är med i tävlingen. Har man åkt ur tävlingen kan och får man gå in som reserv i annat lag.",
+            text: "I Matchplay Indoor är det okej att använda sig av en reserv.<br><br>Reserv anmäler ni under LAGFLIKEN på din sida. Om reserv finns väljs denna in i samband med att matchen startas (görs av hemmalaget).<br><br>När scorekortet startas inför match av hemmalaget, så kommer alla deltagare upp. Ska deltagare ersättas med reserv så klicka på knappen under deltagaren ”välj reserv” och fyll i dennes golf id. Då hämtas dagsaktuellt HCP och uträkningen blir rätt.<br><br>Är inte reserv anmäld i systemet och laget spelar med reserv kan laget bli diskvalificerat. Reservinträde skall också meddelas motståndarna innan spel, när reserv deltager i tävlingen. Man får bara använda sig av en reserv (samma person). Denna reserv kan komplettera laget vid behov under hela tävlingen.<br><br>Observera att reserv inte får spela i annat deltagande lag som fortfarande är med i tävlingen. Har man åkt ur tävlingen kan och får man gå in som reserv i annat lag.",
             imgurl1: null,
             imgurl2: null,
             category: 1,
@@ -306,7 +271,7 @@ export default {
           },
           {
             headline: "Tävlingsdomare",
-            text: "Tävlingsansvarig Mikael Gräntz finns på plats tillsammans med andra knutna till Matchplay under både Sverige- och utlandsfinal. Under grundspelet ansvarar alla deltagare för regler gällande matchspel. Vi finns alltid tillgängliga på telefon under tävlingstiden, så har ni frågor eller funderingar så kontakta oss direkt.",
+            text: "Tävlingsansvarig från Matchplay samt Indoor Golf Group finns på plats under Sverigefinalen. Under grundspelet ansvarar alla deltagare för regler gällande matchspel. Vi finns alltid tillgängliga på telefon och mail under tävlingstiden, så har ni frågor eller funderingar så kontakta oss direkt.",
             imgurl1: null,
             imgurl2: null,
             category: 3,
@@ -331,14 +296,7 @@ export default {
             imgurl1: null,
             imgurl2: null,
             category: 3,
-          },
-          {
-            headline: "Hjälpmedel",
-            text: "I Matchplay är det tillåtet med alla på marknaden olika avståndsmätare. Utrustning för att mäta vindförhållanden är dock ej tillåtna. Golfbil är tillåtet för de som kan uppvisa läkarintyg på plats innan spel.  <br/> <br/> Om bägge lagen kommer överens om att använda golfbil, oavsett läkarintyg eller ej, så är det upp till lagen själva. Om golfbil enbart används av en i laget som har läkarintyg, får medspelaren inte på något sätt använda sig av bilen under själva tävlingsspelet. Caddy är tillåten under alla omgångar i tävlingen.",
-            imgurl1: null,
-            imgurl2: null,
-            category: 5,
-          },
+          },         
           {
             headline: "Spelschema",
             text: "Matchplay består av en ”Huvudtävling” och en ”Andra Chansen” vilka skapas efter den första omgången, där förlorarna får en andra chans att nå finalspelet. Lag och vägen från Andra Chansen till finalen kommer att vara aningens svårare, då färre lag går vidare än från Huvudtävlingen. <br/> <br/> När Andra Chansen nått omgång 5-6 (beroende på antal deltagare 2022) så bjuds alla kvarvarande lag till en gemensam tävling som spelas dagen innan och på samma bana som de sex kvalificerade lagen från huvudtävlingen i Sverigefinalen. De två bästa lagen här tar de två sista av de åtta platserna för lördagens semifinal och söndagens final. Allt spel och boende här står Matchplay för.",
@@ -385,17 +343,17 @@ export default {
 @import "../styles/variables.scss";
 
 .hero {
-  background: url("https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_auto,e_colorize:50,co_rgb:000000/v1572963227/matchplay/matchplay_bg.jpg");
-
+  //background: url("https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_auto,e_colorize:50,co_rgb:000000/v1572963227/matchplay/matchplay_bg.jpg");
+  background: url("https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1900,q_auto,e_colorize:50,co_rgb:000000/v1663921938/matchplay/igg/DSC09580.jpg");
   background-repeat: no-repeat;
   /*background-position: bottom 30% right 0;*/
   background-size: cover;
   color: #fff;
-  padding: 180px 0 180px 0;
+  padding: 120px 0 120px 0;
   background-position: right 0px top 0px;
-  min-height: 500px;
+  min-height: 300px;
   @media (min-width: 320px) {
-    padding: 12rem 0 5rem 0;
+    padding: 6rem 0 5rem 0;
     /*background-position: bottom 10% right 0;*/
   }
   @media (min-width: 480px) {

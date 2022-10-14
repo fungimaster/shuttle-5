@@ -1,6 +1,6 @@
 <template>
  
-<div class="my-matchplay">
+<div class="my-matchplay" v-bind:class="{ 'igg': is_igg}">
     <vue-headful :title="doctitle" />
     <div v-if="loading" class="d-flex justify-content-center mb-3">
         <b-container>
@@ -120,7 +120,7 @@
                     </b-col>
                     <b-col hidden md="12" class="mt-3">
                         <h2>Skapa ditt blivande mästarlag</h2>
-                        <p v-if="!closed" class="mt-3" >Nu är det dags att skapa ditt lag för matchplay 2022. Klicka på knappen nedan och följ instruktionerna.</p>
+                        <p v-if="!closed && !is_igg" class="mt-3" >Nu är det dags att skapa ditt lag för matchplay 2023. Klicka på knappen nedan och följ instruktionerna.</p>
                     </b-col>
                     <b-col hidden md="12" class="pt-1 text-center mt-3 mb-5">
                         <b-button variant="primary" class="blue-bg mt-5 mb-3 pulse-button btn-lg" v-on:click="create_team('new')"><i class="material-icons">sports_golf</i> Skapa ditt lag</b-button>
@@ -452,18 +452,32 @@
   </b-modal>
 
 
-            <b-container class="mt-3 mt-md-5" v-if="team.step === 0">        
+            <b-container class="mt-3 mt-md-4" v-if="team.step === 0">        
                 <b-row align-h="center" v-if="teams.length === 0 || !teams.length || !closed">
                         <b-col md="12" class="mt-2">                       
                             <h2 hidden>Skapa ditt blivande mästarlag</h2>
-                            <p v-if="closed" class="mt-3">Om inga lag syns här har något blivit fel med lagkopplingen, se kontaktuppg. längst ner på sidan.</p>
+                            <p v-if="closed && closed_igg" class="mt-3">Om inga lag syns här har något blivit fel med lagkopplingen, se kontaktuppg. längst ner på sidan.</p>
                         
-                            <p v-if="!closed && teams.length === 0 || (!teams.length && !closed)" class="mt-3" >Nu är det dags att skapa ditt lag för matchplay 2022. Klicka på knappen nedan och följ instruktionerna.</p>
+                            <p v-if="!closed && teams.length === 0 && !is_igg || (!teams.length && !closed && !is_igg)" class="mt-3" >Nu är det dags att skapa ditt lag för matchplay 2023. Klicka på knappen nedan och följ instruktionerna.</p>
                         </b-col>
-                        <b-col v-if="!closed && teams.length === 0 || (!teams.length && !closed)" md="12" class="pt-1 text-center mt-2 mb-3">
-                            <b-button variant="primary" class="blue-bg mt-3 mb-3 pulse-button btn-lg" v-on:click="create_team('new')"><i class="material-icons">sports_golf</i> Skapa ditt lag</b-button>
+                        <b-col v-if="!closed && teams.length === 0 && !is_igg || (!teams.length && !closed && !is_igg)" md="12" class="pt-1 text-center mt-2 mb-3">
+                            <b-button variant="primary" class="blue-bg mt-3 mb-3 pulse-button btn-lg" v-on:click="create_team('new')"><i class="material-icons">sports_golf</i>Skapa ditt lag</b-button>
                         </b-col>
                 </b-row>
+                <!-- IGG SPECIAL -->
+                <b-row class="igg" v-if="(!teams.length && !closed_igg)">
+                    <b-col class="col-12 mt-0">
+                        <b-img fluid left class="mr-3 mb-2" src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_80,q_70/v1663921954/matchplay/igg/logo.png"></b-img>
+                     <p class="small">                        
+                            Matchplay skapar ännu en tävling för alla som vill hålla svingen och tävlandet vid liv under de mörka månaderna. Mellan 1 januari och 15 april 2023 spelas tävlingen på 23 olika inomhusanläggningar runtom i Sverige.
+                            <strong>Pris per lag är {{team.price_igg}} kr</strong>.                            
+                            </p>
+                    </b-col>
+                    <b-col class="col-12 text-center">
+                         <b-button pill class="btn-igg pulse-button-igg mt-3 mb-3 btn-sm" v-on:click="is_igg=true,create_team('new')"><i class="material-icons">sports_golf</i> Skapa ditt lag</b-button>
+                    </b-col>
+                </b-row>
+                <!-- END IGG SPECIAL -->
                
             </b-container>              
             <b-container v-if="showteamslist && team.step === 0" class="">
@@ -487,7 +501,6 @@
                                 
                             </b-card-title>
                             <b-card-text class="mt-0">
-                             
                                 <div class="pt-0 pb-3">
                                     <span :id="'tooltip-teamleader-' + idx">
                                         <i class="material-icons mr-2">person_pin</i>{{team.teamleadername}} (c)
@@ -518,15 +531,15 @@
 
                                 </div>
 
-                                <div v-if="!team.teammembername && !team.teammembergolfid" class="pt-0 pb-3">
-                                <div v-if="!team.teammemberemail && !team.teammembergolfid && !closed">
-                                     <i class="material-icons mr-0 red">error</i>
-                                    <b-button hidden size="sm" v-if="!team.invoice" @click="goToStep(team, 2)" variant="success" class="ml-0">Bjud in lagkamrat</b-button>
-                                    <span @click="goToStep(team, 2)" class="invitemember">Bjud in lagkamrat</span>
-                                </div>
+                                <div v-if="!team.teammembername && !team.teammembergolfid && !closed_igg" class="pt-0 pb-3">                                    
+                                    <div ><!-- v-if="!team.teammemberemail && !team.teammembergolfid && !closed" -->
+                                        <i class="material-icons mr-0 red">error</i>
+                                        <b-button hidden size="sm" v-if="!team.invoice" @click="goToStep(team, 2)" variant="success" class="ml-0">Bjud in lagkamrat</b-button>
+                                        <span @click="goToStep(team, 2)" class="invitemember">Bjud in lagkamrat</span>
+                                    </div>
                                 </div>
 
-                                <div v-if="team.teamreservegolfid" class="pt-0 pb-3">
+                                <div v-if="team.teamreservegolfid" class="pt-0 pb-3">                                    
                                      <span :id="'tooltip-teammember3-' + idx">
                                         <i class="material-icons mr-2">person_pin</i>Reserv: 
                                         <span v-if="team.teamreservename">{{team.teamreservename}}</span>
@@ -558,10 +571,11 @@
                                     </span>
                                     <div show variant="info" v-if="clubcount > 0" class="small mt-3 mb-0 p-2 m-0">
                                         <hr class="pt-0 mt-0" />                                        
-                                         <b-img v-if="clublogo" class="mt-1 mt-md-0 mr-3 mb-2 pb-1 float-left" :src="getClubImage(clublogo)"></b-img>
+                                         <b-img v-if="clublogo" class="mt-1 mt-md-0 mr-3 mb-2 pb-1 float-left" :src="getClubImage(clublogo)"></b-img> 
                                            <p class="mb-0 d-table-cell">{{team.coursename}} representeras just nu av <strong>{{clubcount}}</strong> lag.
                                            <span v-if="team.paid && clubcount > 1"> Välkommen till gänget!</span>
-                                           <span v-if="team.paid && clubcount < 2"> Sprid gärna budskapet om Matchplay på din klubb!</span>
+                                           <span v-if="team.paid && clubcount < 2 && !is_igg"> Sprid gärna budskapet om Matchplay på din klubb!</span>
+                                           <span v-if="team.paid && clubcount < 2 && is_igg"> Sprid gärna budskapet om Matchplay Indoor!</span>
                                            <span v-if="!team.paid">({{clubcount+1}} när ert lag är betalt).</span>
                                            </p>
                                         </div>
@@ -575,7 +589,7 @@
                                         <i class="material-icons">create</i>
                                         <span class="invitemember" @click="goToStep(team, 1)">Redigera laget</span>                                        
                                     </span>
-                                    <b-alert v-if="team.type==='Private'" show variant="info" class="small mt-3">
+                                    <b-alert v-if="team.type==='Private' && !is_igg && !loading" show variant="info" class="small mt-3">
                                         Glöm inte att du kan utnyttja tävlingsavgiften som friskvårdsbidrag mot din arbetsgivare. Sedan 2020 godkänns golftävlingar som friskvårdsbidrag. Kvitto erhålls efter betalning.
                                     </b-alert>
                                 </div>
@@ -639,10 +653,10 @@
 
                 <!-- STEP 1 -->
                 <div v-if="team.step > 0">
-                    <b-container class="mb-3 mb-md-5">
+                    <b-container class="mb-3 mb-md-3">
                         <b-row align-h="center">
                             <b-col md="6">
-                                <b-alert v-if="!fetchingPrevData && !previousteam" class="w-100 mt-2 text-dark" show variant="warning"> 
+                                <b-alert v-if="!fetchingPrevData && !previousteam" class="w-100 mt-2 text-dark" hidden variant="warning"> 
                                     <b-spinner small></b-spinner> Kollar efter sparade lag.
                                     <small class="d-block">Data från tidigare lag används för autofylla formuläret</small>
                                 </b-alert>
@@ -665,14 +679,16 @@
                                     </div>
 
                                 </div>
-                                <b-card class="mt-0 mb-1 pt-0" no-body>
-                                    <b-card-header>
-                                        <span v-if="team.name != ''">{{team.name}}</span>
-                                        <span v-if="team.name === ''">Ditt lag</span>                                      
+                                <b-card hidden class="mt-0 mb-1 pt-0" no-body v-if="team.course && team.type">
+                                    <b-card-header v-if="team.type === 'Company'">
+                                        <!-- <span v-if="team.name != ''">{{team.name}}</span>
+                                        <span v-if="team.name === ''">Ditt lag</span>     -->                                  
                                         <img class="overview-logo" v-bind:src="team.logo" v-if="team.type === 'Company'" />
+                                    
                                     </b-card-header>
-                                    <b-card-body>
-                                        <b-card-text class="mt-1">
+                                    <b-card-body class="pt-2">
+                                        <b-card-text class="mt-0 pt-0">
+
                                             <div hidden class="pt-0 pb-3">
                                                 <span id="tooltip-teamleader">
                                                     <i class="material-icons mr-2">supervised_user_circle</i> {{userdetails.firstname}} {{userdetails.lastname}}<span v-if="team.player_2_name"> & {{team.player_2_name}}</span>
@@ -682,7 +698,7 @@
                                                 </span>
                                             </div>
 
-                                            <div v-if="team.type" class="pt-0 pb-1">
+                                            <div v-if="team.type ==='Company'" class="pt-0 pb-2">
                                                 <span id="tooltip-team-type">
                                                     <i class="material-icons mr-2">label</i>
                                                     <span v-if="team.type === 'Private'">Privat</span>
@@ -699,15 +715,6 @@
                                                     <i class="material-icons mr-2">golf_course</i> {{team.course}}
                                                     <b-tooltip target="tooltip-course" triggers="hover" placement="top">
                                                         Hemmaklubb för matcher
-                                                    </b-tooltip>
-                                                </span>
-                                            </div>
-                                            <div v-if="team.shirtPicker.player1.shirt || team.shirtPicker.player2.shirt" class="pt-0 pb-3">
-                                                <span id="tooltip-pike">
-                                                    <b-img v-if="team.shirtPicker.player1.shirt" class="mr-2" id="shirtimage1" :src="getShirtImg(team.shirtPicker.player1.shirt)"></b-img> {{team.shirtPicker.player1.size}}<br>
-                                                    <b-img v-if="team.shirtPicker.player2.shirt" class="mr-2" id="shirtimage1" :src="getShirtImg(team.shirtPicker.player2.shirt)"></b-img> {{team.shirtPicker.player2.size}}
-                                                    <b-tooltip target="tooltip-pike" triggers="hover" placement="top">
-                                                        Pikétröjor
                                                     </b-tooltip>
                                                 </span>
                                             </div>
@@ -738,19 +745,22 @@
                         </b-row>
                     </b-container>
                 </div>
-                <div v-if="team.step ===1">
+                <div v-if="team.step ===1" >
 
                     <b-container>
                         <b-row align-h="center">
                             <b-col md="6">
-                                <b-form-group class="mb-3">
+                                <b-form-group class="mb-3 mt-0">
                                     <p v-if="!team.type">Vill du anmäla ett Privatlag eller Företagslag?</p>
                                     <label for="type">Välj lagtyp:</label>
                                     <b-form-select v-bind:disabled="team.is_readonly" id="type" v-model="team.type" :options="teamoptions" :state="validation_type" required>
                                     </b-form-select>
                                 </b-form-group>
+                                 <b-alert hidden v-if="team.type==='Private' && is_igg" variant="warning" class="small">                                   
+                                    <p class="mb-0"><small>Priset för <strong>ett lag</strong> i tävlingen är {{team.price_igg}} kr.</small></p>
+                                </b-alert>
                                 <b-alert show v-if="team.type==='Company'" variant="warning" class="small">                                   
-                                <p>I vårt <strong>företagspaket</strong> ({{team.price_company}}:-) för företag ingår:</p>
+                                <p class="mb-0">I vårt <strong>företagspaket</strong> ({{team.price_company}}:-) för företag ingår:</p>
                                 <ol>
                                     <li>
                                         Ett lag i tävlingen
@@ -762,7 +772,7 @@
                     
                             
            
-     <p class="pt-3"><strong>Faktureras: </strong><span v-if="team.company_big">{{team.price_company2}}:- (exkl. moms)</span>
+     <p class="pt-3 mb-0"><strong>Faktureras: </strong><span v-if="team.company_big">{{team.price_company2}}:- (exkl. moms)</span>
      <span v-else>{{team.price_company}}:- (exkl. moms)</span>
      </p>
                                 </b-alert>
@@ -813,7 +823,14 @@
                         <!-- Course -->
                         <b-row align-h="center">
                             <b-col md="6">
-                                <b-form-group class="mb-1" v-if="team.type != null && !team.is_readonly">
+                                <!-- IS IGG SELECT -->
+                                 <b-form-group class="mb-1" v-if="team.type != null && !team.is_readonly && is_igg">
+                                      <label for="query">Välj anläggning för matcher<i v-b-popover.hover.top="'Välj den anläggning som du bor närmast och där du vill spela ditt lags matcher.'" title="Hjälp" class="help material-icons mr-2">help_outline</i></label>
+                                     <b-form-select v-model="selected_igg" v-on:change="onSearchItemSelected" :options="options_igg" ></b-form-select>
+                                 </b-form-group> 
+                                 
+                                 <!-- NOT IGG -->
+                                <b-form-group class="mb-1" v-if="team.type != null && !team.is_readonly && !is_igg">
                                     <label for="query">Välj hemmaklubb för matcher<i v-b-popover.hover.top="'Välj klubben du är medlem i eller som ligger nära där du bor eller tänkt spela dina matcher på. OBS! 9-hålsbanor kan anges som hemmabana men endast 18-hålsbanor kan användas när tävlingen startar och matcher ska avgöras.'" title="Hjälp" class="help material-icons mr-2">help_outline</i></label>
                                     <suggestions v-model="query" id="query" :options="options" :onInputChange="onCountryInputChange" required :onItemSelected="onSearchItemSelected" style="width:100%;">
                                         <div slot="item" slot-scope="props" class="single-item">
@@ -846,7 +863,12 @@
                                 <b-button v-if="!team.teammembergolfid" :disabled="team.clubid === ''" size="sm" class="mt-0 mt-sm-0 float-right" @click.prevent="next()" variant="success">
                                     <b-spinner v-if="showloginspinner" size="sm" small type="grow" class="mr-2"></b-spinner>Välj lagkamrat<i v-if="!showloginspinner" class="ml-2 material-icons">arrow_forward_ios</i>
                                 </b-button>
-                                 <b-button v-if="team.teammembergolfid" size="sm" class="mt-0 mt-sm-0 float-right" @click.prevent="update_team()" variant="success">
+                                
+                                <b-button hidden :disabled="team.teammembergolfid === ''" size="sm" class="mt-0 mt-sm-0 float-right" @click.prevent="goToStep(team,3)" variant="success">
+                                    <b-spinner v-if="showloginspinner" small type="grow" class="mr-2"></b-spinner>Betala<i class="ml-2 material-icons">arrow_forward_ios</i>
+                                </b-button>
+
+                                 <b-button v-if="team.teammembergolfid && team.completemode" size="sm" class="mt-0 mt-sm-0 float-right" @click.prevent="update_team()" variant="success">
                                     <b-spinner v-if="showloginspinner" small type="grow" class="mr-2"></b-spinner>Spara<i class="ml-2 material-icons">save</i>
                                 </b-button>
                             </b-col>
@@ -854,7 +876,7 @@
                     </b-container>
                 </div>
 
-                <!-- ######################### CHOSE TEAMMATE #####################-->
+                <!-- ######################### CHOOSE TEAMMATE #####################-->
                 <div v-if="team.step === 2">
                     <b-container>
                         <b-row class="mt-4" align-h="center">
@@ -983,6 +1005,7 @@
                                     variant="success"
                                     :unchecked-value="false"
                                      class="pb-1"
+                                     v-if="!is_igg"
                                 >
                                    <strong :class="team.usedcoupon ? 'text-success' : 'text-success'">Använd rabattkod</strong>
                                   </b-form-checkbox>
@@ -1154,7 +1177,7 @@
                             </b-col>
 
                         </b-row>
-                        <b-row align-h="center">
+                        <b-row align-h="center" class="mb-5">
                             <b-col v-if="this.paymentstatus != ''" md="6" class="text-center">
                                 <b-button href="/Mymatchplay" size="lg" variant="success text-white mt-4">
                                     <i class="material-icons">
@@ -1176,7 +1199,7 @@
             <b-row v-if="closed" class="mb-2" align-h="center">
                 <b-col sm="12" lg="10" class="m-0 p-0">
                     <app-rounds-grafic
-                            class="mt-3"
+                            class="mt-3 hidden"
                             style="height: 50px"
                             linecolor="#808080"
                             opacity="1"
@@ -1492,10 +1515,10 @@
                                Spela coronasäkert: Håll avstånd - inga handslag - låt flaggan stå - följ klubbarnas regler kring avstånd/maxantal etc.
                            </li>
                            <li>
-                               Båda lagen är ansvariga för att kontakta sina motståndare för att komma överens om datum för spel. Kontaktuppgifter finns under resp. matchsida. Hemmalaget har fördel av att välja golfbana för spelet.
+                               Båda lagen är ansvariga för att kontakta sina motståndare för att komma överens om datum för spel. Kontaktuppgifter finns under resp. matchsida. <span v-if="!is_igg">Hemmalaget har fördel av att välja golfbana för spelet.</span>
                            </li>
                            <li>
-                               Boka först tid via tex. Min Golf bokning och skriv sedan in datum, tid och plats för matchen på matchsidan. Viktigt för våra resultatsidor!
+                               <span v-if="!is_igg">Boka först tid via tex. Min Golf bokning och skriv sedan in datum, tid och plats för matchen på matchsidan.</span><span v-if="is_igg">Boka först tid i tex sweetspot för inomhusanläggningen och skriv sedan in tid och plats för matchen på matchsidan.</span> Viktigt för våra resultatsidor!
                            </li>
                            <li>
                                Använd alltid det digitala scorekortet för er match (hemmalaget för score).
@@ -1604,6 +1627,8 @@ export default {
         let clubs = [];
         let countries = ['Afghanistan', 'Åland Islands', 'Albania', 'Algeria', 'American Samoa', 'AndorrA', 'Angola', 'Anguilla', 'Antarctica', 'Antigua and Barbuda', 'Argentina', 'Armenia', 'Aruba', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bermuda', 'Bhutan', 'Bolivia', 'Bosnia and Herzegovina', 'Botswana', 'Bouvet Island', 'Brazil', 'British Indian Ocean Territory', 'Brunei Darussalam', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Cape Verde', 'Cayman Islands', 'Central African Republic', 'Chad', 'Chile', 'China', 'Christmas Island', 'Cocos (Keeling) Islands', 'Colombia', 'Comoros', 'Congo', 'Congo, The Democratic Republic of the', 'Cook Islands', 'Costa Rica', 'Cote D\'Ivoire', 'Croatia', 'Cuba', 'Cyprus', 'Czech Republic', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic', 'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Eritrea', 'Estonia', 'Ethiopia', 'Falkland Islands (Malvinas)', 'Faroe Islands', 'Fiji', 'Finland', 'France', 'French Guiana', 'French Polynesia', 'French Southern Territories', 'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana', 'Gibraltar', 'Greece', 'Greenland', 'Grenada', 'Guadeloupe', 'Guam', 'Guatemala', 'Guernsey', 'Guinea', 'Guinea-Bissau', 'Guyana', 'Haiti', 'Heard Island and Mcdonald Islands', 'Holy See (Vatican City State)', 'Honduras', 'Hong Kong', 'Hungary', 'Iceland', 'India'];
         return {
+            is_igg: false,
+            competitiontype: null,
             status_important: false,
             game0: false,
             game1: false,
@@ -1617,7 +1642,8 @@ export default {
             ninehole: false,
             clubinfo_first: 'Du är först ut med ett lag från denna klubb, sprid gärna budskapet om tävlingen på din klubb! Lottning sker mot lag från andra klubbar nära vald klubb för att minimera avstånden och ge er nya golfupplevelser.',
             choosereserve: false,
-            closed: globalState.closed,       
+            closed: globalState.closed,
+            closed_igg: globalState.closed_igg,      
             tabIndex: 0,
             games:0,
             teamscount:0,
@@ -1666,6 +1692,11 @@ export default {
                 placeholder: 'Välj hemmaklubb för laget',
                 inputClass: 'form-control course'
             },
+            //SELECT IGG CLUBS    
+            selected_igg: null,        
+            options_igg: [
+            { value: null, text: 'Välj anläggning' }            
+            ],
             //GENERAL
             userinfo: {},
             teams: 0,
@@ -1865,6 +1896,7 @@ export default {
                     ],
                 },               
                 _id: '',
+                price_igg: this.price_igg,
                 price_private: this.price1,
                 pricereduc: 0,               
                 price_company: this.price2,
@@ -2352,10 +2384,16 @@ export default {
        },
     getTopListClubs(course) {
       //this.clubcount = 0;
+
+        var thecompid = globalState.compid;
+        if (this.is_igg) {
+            thecompid = globalState.compid_igg;
+        }
+
       this.axios
         .post("https://matchplay.meteorapp.com/methods/" + "getTopClubs", {
           //getclubstoplist
-          competition: globalState.compid,
+          competition: thecompid,
           course: course       
         })
         .then((response) => {
@@ -2425,10 +2463,14 @@ export default {
 
              //console.log(this.team._id)
                 
-                let url = globalState.admin_url + 'updateTeam'              
+                let url = globalState.admin_url + 'updateTeam' ;
+                 var thecompid = globalState.compid;
+                    if (this.is_igg) {
+                        thecompid = globalState.compid_igg;
+                    }             
                 
                 this.axios.post(url, {
-                        "competition": globalState.compid,                        
+                        "competition": thecompid,                        
                         "_id": this.team._id,                       
                         "teamreserveemail": this.team.teamreserveemail,                       
                         "teamreservegolfid": this.team.teamreservegolfid                       
@@ -2578,7 +2620,8 @@ export default {
         },
         setTeamProperties(team) {                  
             this.getGolfClubs();
-            this.team.completemode = true;
+            
+           
             this.team._id = team._id;
             this.showcreateteam = true;
             this.team.is_readonly = false;
@@ -2592,6 +2635,11 @@ export default {
             this.team.logo = team.logourl;            
             this.query = team.coursename;
             this.team.clubid = team.course;
+            this.team.completemode = true;
+
+            if (this.is_igg) {
+                this.selected_igg = this.team.clubid;
+            }
      
 
         },
@@ -2646,9 +2694,13 @@ export default {
 
         },
         checkTeamNameUnique(name) {
+             var thecompid = globalState.compid;
+        if (this.is_igg) {
+            thecompid = globalState.compid_igg;
+        }
             let url = globalState.admin_url + 'checkTeamNameUnique'
             this.axios.post(url, {
-                    "competition": globalState.compid,
+                    "competition": thecompid,
                     "teamnamecompany": name
                 })
                 .then(response => {
@@ -2808,8 +2860,13 @@ export default {
                     action = 'update'
                 }
 
+                 var thecompid = globalState.compid;
+                    if (this.is_igg) {
+                        thecompid = globalState.compid_igg;
+                    }
+
                 this.axios.post(url, {
-                        "competition": globalState.compid,
+                        "competition": thecompid,
                         "course": this.team.clubid,
                         "_id": this.team._id,
                         "type": this.team.type,
@@ -2860,9 +2917,13 @@ export default {
                         return;
                     }
                 }
-                let url = globalState.admin_url + 'updateTeam'
+                let url = globalState.admin_url + 'updateTeam';
+                var thecompid = globalState.compid;
+                    if (this.is_igg) {
+                        thecompid = globalState.compid_igg;
+                    }
                 this.axios.post(url, {
-                        "competition": globalState.compid,
+                        "competition": thecompid,
                         "_id": this.team._id,
                         "teammembergolfid": this.team.teammembergolfid,
                         "teammemberemail": this.team.teammemberemail,
@@ -2935,10 +2996,15 @@ export default {
                 let action = '';
 
                 url = globalState.admin_url + 'updateTeam'
-                action = 'update'
+                action = 'update';
+
+                var thecompid = globalState.compid;
+                    if (this.is_igg) {
+                        thecompid = globalState.compid_igg;
+                    }
 
                 this.axios.post(url, {
-                        "competition": globalState.compid,
+                        "competition": thecompid,
                         "_id": this.team._id,
                         "sponsormerch": true,
                         "item01": this.team.shirtPicker.player1.shirt,
@@ -3005,8 +3071,13 @@ export default {
 
             this.showloginspinner = true;
 
+             var thecompid = globalState.compid;
+                    if (this.is_igg) {
+                        thecompid = globalState.compid_igg;
+                    }
+
             this.axios.post(globalState.admin_url + 'updateTeam', {
-                    "competition": globalState.compid,
+                    "competition": thecompid,
                     "_id": this.team._id,
                     "sponsormerch": true,
                     "item01": this.team.shirtPicker.player1.shirt,
@@ -3045,10 +3116,16 @@ export default {
             if (!id) {
                 id = this.userinfo._id;
             }
+
+             var thecompid = globalState.compid;
+            if (this.is_igg) {
+                thecompid = globalState.compid_igg;
+            }
+
             
             this.axios.post(globalState.admin_url + 'getPlayerData', {
                     "id": id,
-                    "competition": globalState.compid
+                    "competition": thecompid
                 })
                 .then(response => {
                     if (response.data.hasOwnProperty('error')) {
@@ -3080,7 +3157,8 @@ export default {
 
         },
         getPrevTeamData(id) { 
-            this.axios.post(globalState.admin_url + 'getPlayerData', {
+            //DISABLED
+ /*            this.axios.post(globalState.admin_url + 'getPlayerData', {
                     "id": id ? id : this.userinfo._id,
                     "competition": globalState.prevcompid
                 })
@@ -3090,7 +3168,7 @@ export default {
                 })
                 .catch(error => {
                     console.log(error);
-                });
+                }); */
 
         },
         populateTeamsForm() { 
@@ -3234,10 +3312,16 @@ export default {
       
     },
         payVoucher: function () {
+
+            var thecompid = globalState.compid;
+            if (this.is_igg) {
+                thecompid = globalState.compid_igg;
+            }
+            
             this.showspinner_voucher = true;
             let voucher = this.team.voucher;
             this.axios.post(globalState.admin_url + 'payVoucher', {
-                    "competition": globalState.compid,
+                    "competition": thecompid,
                     "team": this.team._id,
                     "code": voucher
                 })
@@ -3274,10 +3358,15 @@ export default {
                 invprice = invprice - this.userdetails.referrals * 50
             }
 
+              var thecompid = globalState.compid;
+            if (this.is_igg) {
+                thecompid = globalState.compid_igg;
+            }
+
             this.showspinner_invoice = true;
             this.axios.post(globalState.admin_url + 'payInvoice', {
                     //this.axios.post('http://localhost:3000/methods/payInvoice', {
-                    "competition": globalState.compid,
+                    "competition": thecompid,
                     //"competition": "YmweRj2PeatWfHEdM",
                     "team": this.team._id,
                     //"team": 'ns3ezQPncvt53cTmS',
@@ -3334,8 +3423,13 @@ export default {
                 amount = 1
             }
 
+              var thecompid = globalState.compid;
+            if (this.is_igg) {
+                      thecompid = globalState.compid_igg;
+            }
+
             this.axios.post(globalState.admin_url + 'swish', {
-                    "competition": globalState.compid,
+                    "competition": thecompid,
                     "team": this.team._id,
                     "amount": amount,
                     "payer": mobile
@@ -3386,12 +3480,29 @@ export default {
 
         },
         getGolfClubs: function () {
+
+            if (this.is_igg) {
+                var compid = globalState.compid_igg;
+            } else {
+                var compid = globalState.compid;
+            }
+
             this.axios
-                .post(
-                    globalState.admin_url + "getGolfclubs"
-                )
+                .post(globalState.admin_url + "getGolfclubs", {
+                     id: compid,
+                 })
                 .then(response => {
                     this.clubs = response.data;
+
+                    if (this.is_igg) {                        
+                           response.data.forEach((club) => {
+                            this.options_igg.push({
+                            text: club.title,
+                            value: club._id,
+                            });
+                        });
+                    }
+
 
                 })
                 .catch(error => {
@@ -3400,7 +3511,7 @@ export default {
                 });
         },
         onCountryInputChange(query) {
-
+            
             if (query.trim().length === 0) {
                 var x = document.getElementsByClassName("course");
                 var i;
@@ -3416,17 +3527,29 @@ export default {
             })
         },
         onSearchItemSelected(item) {
-
-            this.ninehole = false;
-            this.selectedSearchItem = item.title;
-            this.query = item.title;
-            this.team.clubid = item._id;
-            this.team.course = item.title;
-            if (item.hasOwnProperty('isnineholes')) {
-                if (item.isnineholes){
-                    this.ninehole = true;               
-                }                
+            
+            if (this.is_igg) {                
+                 this.team.clubid = item;
+                 var findIndex = this.options_igg.findIndex(function (x) {
+                  return x.value === item;
+                  })
+                  if (findIndex>-1) {                   
+                   this.team.course = this.options_igg[findIndex].title;
+                  }
+            } else {
+                this.ninehole = false;
+                this.selectedSearchItem = item.title;
+                this.query = item.title;
+                this.team.clubid = item._id;
+                this.team.course = item.title;
+                if (item.hasOwnProperty('isnineholes')) {
+                    if (item.isnineholes){
+                        this.ninehole = true;               
+                    }                
+                }
             }
+
+            
 
 
             var x = document.getElementsByClassName("course");
@@ -3524,8 +3647,13 @@ export default {
             let userinfo = localStorage.getItem('userinfo');
             userinfo = JSON.parse(userinfo);
 
+              var thecompid = globalState.compid;
+            if (this.is_igg) {
+                      thecompid = globalState.compid_igg;
+            }
+
             this.axios.post(globalState.admin_url + 'addTeam', {
-                    "competition": globalState.compid,
+                    "competition": thecompid,
                     "course": this.team.clubid,
                     "type": this.team.type,
                     "paid": false,
@@ -3559,9 +3687,14 @@ export default {
         },
         update_team() {
 
+
+            var thecompid = globalState.compid;
+            if (this.is_igg) {
+                      thecompid = globalState.compid_igg;
+            }
                 var url = globalState.admin_url + 'updateTeam'
                 this.axios.post(url, {
-                        "competition": globalState.compid,
+                        "competition":  thecompid,
                         "course": this.team.clubid,
                         "_id": this.team._id,
                         "type": this.team.type,
@@ -3592,8 +3725,13 @@ export default {
             let userinfo = localStorage.getItem('userinfo');
             userinfo = JSON.parse(userinfo);
 
+            var thecompid = globalState.compid;
+            if (this.is_igg) {
+                      thecompid = globalState.compid_igg;
+            }
+
             this.axios.post(globalState.admin_url + 'addTeam', {
-                    "competition": globalState.compid,
+                    "competition": thecompid,
                     "course": this.team.clubid,
                     "type": this.team.type,
                     "paid": false,
@@ -4011,14 +4149,58 @@ export default {
         //window.scrollTo(0, 0);
     },
     created() {
-        if (localStorage.getItem('earlyBirdie2022') !== '1') {
-            this.showEarlyBirdie = true
-        }
-    const promise = this.$store.dispatch('getCompetition', globalState.compid)
+        //if (localStorage.getItem('earlyBirdie2022') !== '1') {
+            //this.showEarlyBirdie = true
+        //}            
+
+
+        
+            this.axios
+                .post(globalState.admin_url + "getCompetition", {
+                     id: globalState.compid_igg,
+                 })
+                .then(response => {
+                    this.team.price_private = response.data.price1
+                    this.team.price_company = response.data.price2
+                    this.team.price_company2 = response.data.price3
+                    //this.team.price_igg = response.data.price1
+                    //this.team.price_igg_company = response.data.price2
+                  
+                            
+                    if (localStorage.getItem('sponsor')) {
+                        if (localStorage.getItem('sponsor') === 'gm') {
+                            this.team.pricereduc = 50;            
+                        } else {
+                            this.team.pricereduc = 0;
+                        }
+                        this.team.price_private =  this.team.price_private-this.team.pricereduc;
+                    }
+                    
+                    if (response.data.competitiontype == 'Indoor') { //IGG       
+                        this.is_igg = true;
+                        this.team.price_igg = response.data.price1;
+                        this.team.price_igg_company = response.data.price2;
+                        this.closed = this.closed_igg;
+                    }
+
+                     this.getGolfClubs();
+
+                    })
+                .catch(error => {
+                    //this.player_1_error = "Golfaren hittades inte... prova att skriva in golfid igen.";   
+                    console.log(error);
+                });
+                
+        
+
+/*     const promise = this.$store.dispatch('getCompetition', globalState.compid)
         promise.then(() => {
         this.team.price_private = this.price1
         this.team.price_company = this.price2
         this.team.price_company2 = this.price3
+        this.team.price_igg = this.price1
+        this.team.price_igg_company = this.price2
+        tjoo = this.competitiontype
                   
         if (localStorage.getItem('sponsor')) {
             if (localStorage.getItem('sponsor') === 'gm') {
@@ -4028,15 +4210,29 @@ export default {
             }
             this.team.price_private =  this.team.price_private-this.team.pricereduc;
         }
+        console.log(tjoo)
+        if (tjoo.competitiontype == 'Indoor') { //IGG       
+            this.is_igg = true;
+             this.team.price_igg = this.price1
+             this.team.price_igg_company = this.price2
+        }
 
-    })
+    }) */
+
+//IGG
+/*         const promise2 = this.$store.dispatch('getCompetition', globalState.compid_igg)
+        promise2.then(() => {
+        this.team.price_igg = this.price1
+        this.team.price_igg_company = this.price2
+
+    }) */
         
-       this.getGolfClubs();
+      
        
        this.$store.dispatch("tryAutoLogin").then(() => {
             if (this.isAuthenticated) {
-            console.log("isAuthenticated")
-            console.log(this.$store.state.user)
+            //console.log("isAuthenticated")
+           // console.log(this.$store.state.user)
                 
                 var sim_id;
                 sim_id = localStorage.getItem('userId');
@@ -4355,7 +4551,7 @@ img.overview-logo {
     border: none;
     box-shadow: 0 0 0 0 rgba(105, 179, 254, 1);
     background-color: #69b3fe !important;
-    background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/173024/jonathanlarradet_copy.png);
+    //background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/173024/jonathanlarradet_copy.png);
     background-size: cover;
     background-repeat: no-repeat;
     cursor: pointer;

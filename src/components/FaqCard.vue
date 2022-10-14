@@ -35,9 +35,9 @@
               <b-card-text>
                 <p v-html="info.text"></p>
 
-                <span v-if="index === 2">
+                <span v-if="index === 0">
                   <router-link to="/register">Klicka här</router-link> för att
-                  komma dit direkt.
+                  komma till anmälan direkt.
                 </span>
                 <div class="d-flex justify-content-center">
                   <b-img

@@ -849,7 +849,7 @@ export default {
       }
 
       this.axios
-        .post(globalState.admin_url + "allGameImages", {competition: 'hXcmBwqmfWC2tYcxR'})
+        .post(globalState.admin_url + "allGameImages", {competition: globalState.compid})
         .then((response) => {
           this.$store.dispatch('setAllImages', response.data)
           this.allGameImages = response.data
@@ -1387,7 +1387,7 @@ export default {
           roundnumber: this.currentRound
         })
         .then((response) => {
-          console.log(response)
+          //console.log(response)
           this.gameRoundCount = response.data    
           this.team.total = response.data.total;
           this.team.defeated = response.data.defeated;

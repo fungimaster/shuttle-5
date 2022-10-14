@@ -3,7 +3,7 @@
     <b-row class="justify-content-center" align-h="center">
       <b-col md="10" id="register" class="mt-4 mt-md-5">
         <h2 class="teaser-header orange">Anmäl dig som spelare</h2>
-        <b-alert show v-if="closed && !igg"
+        <b-alert hidden v-if="closed && !igg"
           variant="warning small form-text text-muted mb-4"
         >Denna efterhandsregistrering är bara till för spelare som redan är med som lagmedlem i ett lag men som inte har kopplats till ett lag. Efter din registrering kommer du kopplas till rätt lag (baserat på ditt golf-id).</b-alert>
           <p v-if="this.player==='player2'" class="mb-3 mt-3">
@@ -110,11 +110,22 @@
                   type="submit"
                   size="md"
                   variant="primary"
-                  class="btn blue-bg btn-special ml-0 mt-1 ml-sm-2 mt-sm-0"
+                  class="btn blue-bg btn-special ml-0 mt-1 ml-sm-2 mt-sm-0 d-none d-sm-block"
                   v-bind:class="{ 'btn-igg': igg }"
                 >
                   <b-spinner v-if="showloadgolfid" small type="grow" class="mr-2"></b-spinner>
-                  {{ contbutton1 }}                  
+                  {{ contbutton1 }}                
+                </b-button>
+
+                 <b-button
+                  type="submit"
+                  size="md"
+                  variant="primary"
+                  class="btn blue-bg btn-special ml-0 mt-1 ml-sm-2 mt-sm-0 d-block d-sm-none"
+                  v-bind:class="{ 'btn-igg': igg }"
+                >
+                  <b-spinner v-if="showloadgolfid" small type="grow" class="mr-2"></b-spinner>
+                  <i class="fa fa-chevron-right"></i>        
                 </b-button>
                 
                 <b-form-invalid-feedback
@@ -559,6 +570,7 @@ components: {
     },
   mixins: [tagsMixin],
   created() {
+    
         if (this.$route.query.referral) {
           this.referral = this.$route.query.referral;
         } 

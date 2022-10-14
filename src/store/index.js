@@ -347,7 +347,7 @@ export default new Vuex.Store({
     },
     isEarlyBirdie: (state) => {
       return state.isEarlyBirdie
-    },
+    }
   },
   mutations: {
     SET_AUTHENTICATION: (state, { token, userId }) => {

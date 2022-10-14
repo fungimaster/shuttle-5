@@ -29,7 +29,18 @@
 
               <!-- VÄLJA KLUBB -->
 
-              <b-form-group label="Välj klubb från listan:" class="inputField">
+              <!-- IS IGG SELECT -->
+                            <b-form-group class="" v-if="is_igg">
+                              <label for="query">Var spelas matchen?</label>
+                              <b-form-select
+                                v-model="selected_igg"
+                                v-bind="options_igg"
+                                v-on:change="clubSelected"
+                                :options="options_igg"
+                              ></b-form-select>
+                            </b-form-group>
+
+              <b-form-group v-if="!is_igg" label="Välj klubb från listan:" class="inputField">
                 <suggestions
                   v-model="form.course"
                   :options="options"
@@ -224,6 +235,26 @@ export default {
       },
 		},
   created() {
+
+
+    //SET IGG
+    //get competition
+    this.axios
+      .post(globalState.admin_url + "getCompetition", {
+        id: globalState.compid_igg,
+      })
+      .then((response) => {
+        if (response.data.competitiontype == "Indoor") {
+          //IGG
+          this.is_igg = true;
+        }
+      })
+      .catch((error) => {
+        //this.player_1_error = "Golfaren hittades inte... prova att skriva in golfid igen.";
+        console.log(error);
+      });
+
+
     //Kolla så att vi har med ett match id i URL:en
     this.gameID = this.$route.query.id;
     if (!this.gameID) {
@@ -453,8 +484,17 @@ export default {
     }
     //Hämta alla golfklubbar
     try {
+
+      if (this.is_igg) {
+        var compid = globalState.compid_igg;
+      } else {
+        var compid = globalState.compid;
+      }
+
       this.axios
-        .post(globalState.admin_url + "getGolfclubs")
+        .post(globalState.admin_url + "getGolfclubs", {
+          id: compid,
+        })
         .then((response) => {
           this.courses = response.data;
 
@@ -469,6 +509,17 @@ export default {
                 id: course._id,
               });
           });
+
+          //IGG
+          if (this.is_igg) {
+            response.data.forEach((club) => {
+              this.options_igg.push({
+                text: club.title,
+                value: club._id,
+              });
+            });
+          }
+
           this.loading = false;
           //Ladda sparad data
           if (this.savedclubId) {
@@ -486,6 +537,10 @@ export default {
  
   data() {
     return {
+      is_igg: false,
+      //SELECT IGG CLUBS
+      selected_igg: null,
+      options_igg: [{ value: null, text: "Välj anläggning", default: true }],
       gameinprogress: false,
       ninehole: false,
       max28: false,
@@ -570,10 +625,27 @@ export default {
       //Visa spinner
 
       this.loadingCourse = 1;
-      this.form.course = item.title;
-      this.form.courseID = item.id;
+      
 
-      this.getCourse(item.gitID);
+      if (this.is_igg) {
+
+        var findIndex = this.options_igg.findIndex(function (x) {
+                  return x.value === item;
+                  })
+                  if (findIndex>-1) {                   
+                   this.form.course = this.options_igg[findIndex].text;
+        }
+
+        this.form.courseID = item;
+      
+        this.getIndoorCourse();
+      } else {
+        this.form.course = item.title;
+        this.form.courseID = item.id;
+        this.getCourse(item.gitID);
+      }
+      
+
     },
     createPlayers: function (data) {
       if (
@@ -787,6 +859,20 @@ export default {
           console.log(error);
         });
     },
+    getIndoorCourse: function() {
+            this.axios
+        .post("https://admin.matchplay.se/methods/getIndoorCourses", {
+          id: globalState.compid_igg,
+        })
+        .then((response) => {
+          this.parseCourse(response.data);
+        })
+        .catch((error) => {
+          //this.errorMSG = "Something went wrong (No course found)";          
+          console.log(error);
+        });
+
+    },
 
     // Hämta alla loops och hål från en bana
     parseCourse: function (course) {
@@ -797,7 +883,7 @@ export default {
           courseItem.IsNineHoleCourse == "false" ||
           courseItem.Name === "Björkhagens GK"
         ) {
-          
+          //console.log(courseItem)
           courseItem.Loops.forEach((loop) => {            
             if (Array.isArray(loop)) {
               loop.forEach((item) => {

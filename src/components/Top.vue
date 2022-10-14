@@ -6,8 +6,14 @@
     <b-navbar toggleable="lg" ref="top">
       <b-navbar-brand>
         <router-link class to="/">
-          <img
+        <!-- v-if="['Indoor'].indexOf($route.name) === -1" --> 
+          <img v-if="['Indoor'].indexOf($route.name) === -1"
             src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_100/v1573118127/matchplay/matchplay-new-logo-2020.png"
+            alt
+          />
+          <!-- v-if="['Indoor'].indexOf($route.name) > -1" -->
+           <img v-if="['Indoor'].indexOf($route.name) > -1"           
+            src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_100/v1665478419/matchplay/igg/Matchplay-Indoor-ruff-IGG-2023.png"
             alt
           />
         </router-link>
@@ -24,21 +30,34 @@
         </div>
         <b-navbar-nav class="ml-auto">
           <!-- <b-nav-item :to="{path: '/line-up', query: {tags:$route.query.tags, day:$route.query.day}}">Line-up</b-nav-item> -->
-          <b-nav-item v-if="!closed" to="/register"> Registrering</b-nav-item>
-          <b-nav-item v-if="closed" to="/results"
+          
+           <b-nav-item to="/indoor"
+            >Matchplay indoor
+            <b-img hidden src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_30,q_70/v1665478419/matchplay/igg/Matchplay-Indoor-ruff-IGG-2023.png"></b-img>
+            <b-img hidden src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_30,q_70/v1663921954/matchplay/igg/logo_igg.png"></b-img>
+            <b-badge hidden class="new" pill variant="danger"
+              ><i v-if="type=='indoor'" class="fa fa-golf-ball"></i></b-badge
+          >
+          </b-nav-item>
+          <b-nav-item to="/register">Registrering</b-nav-item>
+          <b-nav-item v-if="!type=='indoor' && closed" to="/results"
             >Resultat
             <b-badge hidden class="new" pill variant="danger"
-              ><i class="fa fa-circle"></i></b-badge
+              ><i class="fa fa-circle"></i>
+              </b-badge
           ></b-nav-item>
-          <b-nav-item to="/klubbar"
+          <b-nav-item hidden to="/klubbar"
             >Klubbar
             <b-badge hidden class="new" pill variant="danger"
               ><i class="fa fa-heart"></i></b-badge
           ></b-nav-item>
+           
           <b-nav-item hidden v-if="companies" to="/business">Företagslag</b-nav-item>
-          <b-nav-item to="/info">Om tävlingen</b-nav-item>
+          <!-- normal comp -->
+          <b-nav-item v-if="!type=='indoor'" to="/info">Om tävlingen</b-nav-item>
+          <b-nav-item v-if="type=='indoor'" to="/info_indoor">Om tävlingen</b-nav-item>
 
-          <b-nav-item  to="/tavlingar"
+          <b-nav-item v-if="!type=='indoor'"  to="/tavlingar"
             >Tidigare tävlingar
           </b-nav-item>          
 
@@ -104,11 +123,12 @@ import { globalState } from "../main.js";
 export default {
   name: "top",
   created() {
-    this.getCompanies();
+    //this.getCompanies();
   },
   data() {
     return {
       closed: globalState.closed,
+      type: globalState.type
     };
   },
   computed: {

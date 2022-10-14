@@ -41,11 +41,13 @@ Vue.component('vue-headful', vueHeadful);
 export const globalState = new Vue({
   data: {
     admin_url: 'https://admin.matchplay.se/methods/',
-    compid: 'hXcmBwqmfWC2tYcxR', //2022 'hXcmBwqmfWC2tYcxR',
+    compid: 'PQaoNvjjckFDT6B8T', //2022 'hXcmBwqmfWC2tYcxR',
+    type: 'indoor',
     prevcompid: 'hXcmBwqmfWC2tYcxR', //2022 'sFAc3dvrn2P9pXHAz',
     compid_igg: 'PQaoNvjjckFDT6B8T', //IGG 2023 comp id in admin
     closed: true,
     closed_igg: false,
+    
     showTopClubs: false //activate once teams pay
   }
 })
