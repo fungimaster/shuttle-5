@@ -211,7 +211,7 @@ export default {
     return {
       compid: globalState.compid_igg,
       price_private: this.price_1,
-      doctitle: "IGG 2023",
+      doctitle: "Matchplay Indoor 2023",
       loading: true,
       closed_igg: globalState.closed_igg,
       clubs: [],
