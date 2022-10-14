@@ -72,7 +72,7 @@
 
     <!-- RUFF/IGG -->
     <b-container fluid class="no-padding" v-if="!loading">
-      <b-jumbotron fluid class="black">
+      <b-jumbotron fluid style="background:#000;">
         <b-row>
           <b-col class="text-center col-6">
             <b-img
@@ -126,7 +126,7 @@
 
     <!-- RUFF/IGG -->
     <b-container fluid class="no-padding mt-5" v-if="!loading">
-      <b-jumbotron fluid class="white-bg">
+      <b-jumbotron fluid style="background:#fff;">
         <b-row>
           <b-col class="text-center col-12">
             <h2 class="mb-5">Vill du veta mer innan du bestämmer dig?</h2>
