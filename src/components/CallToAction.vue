@@ -13,9 +13,16 @@
           </p>
         </div>
 
-        <h4 v-if="closed" class="text-warning text-center pt-4">
-          Anmälan är stängd och öppnar i januari 2023.
+        <h4 v-if="closed && !closed_igg" class="text-warning text-center pt-4">
+          Anmälan är stängd och öppnar i januari 2023, MEN, delta med ditt lag i Matchplay Indoor, anmälan är öppen fram till 28 december 2022.       
         </h4>
+          <p>
+           <a
+                href="/indoor"
+                class="btn btn-primary btn-igg text-white mt-2"
+                >Anmäl ditt lag till Indoor!</a
+              >
+              </p>
         <h6 v-if="closed" class="text-warning text-center p-4">
           Följ oss på
           <a href="https://www.facebook.com/matchplaysweden/" target="_blank"

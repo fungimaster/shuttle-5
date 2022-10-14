@@ -284,7 +284,7 @@
                 <a
                 href="/indoor"
                 class="btn btn-primary btn-igg text-white mt-2"
-                >Anmäl ditt lag till Indoor!</a
+                >Anmäl ditt lag!</a
               >
 
               <a
@@ -451,12 +451,28 @@
             Snitthcp: 12.2<br />
           </b-col>
           <b-col v-if="closed" class="col-12">
-            <p class="mt-3 mt-md-0">
+            <p hidden class="mt-3 mt-md-0">
               Matchplay är en matchspelstävling för par med officiellt handicap.
               Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på
               golfklubbar anslutna till Svenska Golfförbundet.
             </p>
+               <p class="mt-3 mt-md-0">
+              Matchplay Indoor är en matchspelstävling för par med officiellt handicap.
+              Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på
+              inomhusanläggningar tillhörande RUFF eller Indoor Golf Group. Vi är kopplade till svenska golfförbundets system (GIT) för kontroll av handicap mm.
+            </p>
             <p class="mt-0 pt-0">
+              Tävlingen spelas mellan januari-april i olika omgångar fram till
+              Sverigefinalen och vinnande laget följer med oss till Spanien 2023! Vår ordinarie tävling, Matchplay Sweden öppnar anmälan under tidig vår 2023.              
+            </p>
+            <p v-if="!closed_igg">
+                  <a
+                href="/indoor"
+                class="btn btn-primary btn-igg text-white mt-2"
+                >Anmäl ditt lag!</a
+              >
+            </p>
+            <p hidden class="mt-0 pt-0">
               Tävlingen spelas mellan maj-september i olika omgångar fram till
               Sverigefinalen och sedan vidare utomlands!
             </p>
@@ -665,7 +681,7 @@
 
     <howitworks v-if="!closed && (!isAuthenticated || !user)"></howitworks>
 
-    <app-call-to-action v-if="!isAuthenticated" />
+  
 
     <!--  <app-year-in-review :isMobile="isMobile" :year="2021" :compid="prevcompid"></app-year-in-review> -->
 
@@ -718,6 +734,8 @@
           </b-col>
         </b-row>
       </b-jumbotron>
+
+        <app-call-to-action v-if="!isAuthenticated" />
 
        <!-- HOW IT WORKS -->
    <howitworks2 :headline="'Så här fungerar tävlingen'"  v-if="!loading" />
@@ -1749,7 +1767,7 @@ img {
 .herobg1 {
   //background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_auto,e_colorize:50,co_rgb:000000/v1608219772/matchplay/bg_matchplay.jpg);
   background-position: center center;
-  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_auto,e_colorize:50,co_rgb:000000/v1665562702/matchplay/igg/_DSC7983.jpg);
+  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,g_south,w_1200,q_auto,e_colorize:50,co_rgb:000000/v1665562702/matchplay/igg/_DSC7983.jpg);
 }
 
 .herobg2 {
