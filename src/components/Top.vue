@@ -8,7 +8,8 @@
         <router-link class to="/">
         <!-- v-if="['Indoor'].indexOf($route.name) === -1" --> 
           <img v-if="['Indoor'].indexOf($route.name) === -1"
-            src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_100/v1573118127/matchplay/matchplay-new-logo-2020.png"
+            src2="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_100/v1573118127/matchplay/matchplay-new-logo-2020.png"
+            src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_100/v1665478419/matchplay/igg/Matchplay-Indoor-ruff-IGG-2023.png"
             alt
           />
           <!-- v-if="['Indoor'].indexOf($route.name) > -1" -->
