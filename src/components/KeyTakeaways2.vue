@@ -23,7 +23,7 @@
         class="mb-2"
       >
         <b-card-text>
-          Vinnarna av finalen följer med Matchplay Sweden till <strong>fantastisk golfresa</strong> utomlands hösten 2023.
+          Vinnarna av finalen följer med Matchplay Sweden på en <strong>fantastisk golfresa</strong> utomlands hösten 2023.
         </b-card-text>
       </b-card>
     </b-col>
