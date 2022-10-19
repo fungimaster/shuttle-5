@@ -478,7 +478,7 @@
             </p>
             <p class="mt-0 pt-0">
               Tävlingen spelas mellan januari-april i olika omgångar fram till
-              Sverigefinalen och vinnande laget följer med oss till Spanien
+              Sverigefinalen och vinnande laget följer med oss på golfresa utomlands
               2023! Vår ordinarie tävling, Matchplay Sweden öppnar anmälan under
               tidig vår 2023.
             </p>

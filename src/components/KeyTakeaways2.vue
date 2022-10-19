@@ -15,7 +15,7 @@
     <!-- COL 2 -->
     <b-col class="col-12 col-md-4 text-center">
       <b-card
-        title="Spanienresa"
+        title="Golfresa utomlands"
         img-src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_200,c_fill,ar_1:1,g_auto,r_max/v1572942209/matchplay/c640cf_402261724c71433c9662662c3114e5b8_mv2_d_4500_3000_s_4_2.jpg"
         img-alt="Image"
         img-top
