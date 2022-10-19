@@ -61,6 +61,49 @@
       </b-jumbotron>
     </b-container>
 
+    <b-container v-if="!loading" class="mt-5">
+       <keytakeaways2></keytakeaways2>
+    </b-container>
+
+ <b-container fluid v-if="!loading" class="no-padding hidden">
+     
+      <video style="max-width:100%;"      
+         controls
+          muted="muted"
+          loop="loop"
+        >
+          <source            
+            src="https://res.cloudinary.com/dn3hzwewp/video/upload/q_auto,vc_h265/v1666169001/matchplay/igg/Matchplay_Indoor_Homepage_movie_v2.mp4"
+            type="video/mp4"
+          />
+        </video>
+
+  <!-- <b-embed type="video" aspect="16by9" controls  muted="muted">    
+    <source src="https://res.cloudinary.com/dn3hzwewp/video/upload/q_auto,vc_h265/v1666166321/matchplay/igg/Matchplay_Indoor_Homepage_movie.mp4" type="video/mp4">
+  </b-embed> -->
+
+ </b-container>
+
+
+    <b-container fluid v-if="!loading" class="hidden">
+        <b-jumbotron fluid style="background:#000;">
+       <div class="videocontainer">       
+       <video
+          playsinline="playsinline"
+          autoplay="autoplay"
+          muted="muted"
+          loop="loop"
+        >
+          <source
+            src="https://res.cloudinary.com/dn3hzwewp/video/upload/q_auto,vc_h265/v1666166321/matchplay/igg/Matchplay_Indoor_Homepage_movie.mp4"
+            type="video/mp4"
+          />
+        </video>
+       </div>
+        </b-jumbotron>
+    </b-container>
+
+
     <!-- REGISTER -->
     <b-container ref="register" v-if="!loading" class="mb-5">
       <b-row class="justify-content-center" align-h="center">
@@ -71,7 +114,7 @@
     </b-container>
 
     <!-- RUFF/IGG -->
-    <b-container fluid class="no-padding" v-if="!loading">
+    <b-container fluid class="no-padding black" v-if="!loading">
       <b-jumbotron fluid style="background:#000;">
         <b-row>
           <b-col class="text-center col-6">
@@ -203,10 +246,12 @@ import { globalState } from "../main.js";
 import { mapGetters } from "vuex";
 import register from "./Register";
 import Howitworks2 from "./Howitworks2";
+import Keytakeaways2 from './KeyTakeaways2.vue';
+
 
 export default {
   name: "indoor",
-  components: { register, Howitworks2 },
+  components: { register, Howitworks2,Keytakeaways2 },
   data() {
     return {
       compid: globalState.compid_igg,
@@ -307,4 +352,46 @@ export default {
     }
   }
 }
+
+
+.videocontainer {
+  position: relative;
+  background-color: black;
+  height: 75vh;
+  min-height: 25rem;
+  width: 100%;
+  overflow: hidden;
+}
+
+.videocontainer video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: 0;
+  -ms-transform: translateX(-50%) translateY(-50%);
+  -moz-transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.videocontainer .container {
+  position: relative;
+  z-index: 2;
+}
+
+.videocontainer .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: black;
+  opacity: 0.8;
+  z-index: 1;
+}
+
 </style>

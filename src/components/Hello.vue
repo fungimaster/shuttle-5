@@ -95,7 +95,8 @@
       <b-container class="pl-4 pr-4">
         <b-row align-h="center">
           <b-col
-            class="hidden 
+            class="
+              hidden
               col-12 col-md-12
               mt-1 mt-md-4
               pt-1 pt-md-2
@@ -180,10 +181,15 @@
           </b-col>
 
           <b-col class="col-12 col-md-8">
-             <h4 hidden v-if="closed" class="mt-3 mt-md-0 mb-3">
-              Sverigefinalen 2022 är avgjord och ni kan läsa allt, se segerintervjuer mm på vår årssida som du hittar <a href="/tavlingar/2022">här!</a></h4>
+            <h4 hidden v-if="closed" class="mt-3 mt-md-0 mb-3">
+              Sverigefinalen 2022 är avgjord och ni kan läsa allt, se
+              segerintervjuer mm på vår årssida som du hittar
+              <a href="/tavlingar/2022">här!</a>
+            </h4>
             <p hidden v-if="closed" class="mt-3 mt-md-0">
-               Snart vankas Sverigefinal på Allerum Golfklubb utanför Helsingborg! Finalerna spelas 16-18 september, följ matcherna här på sajten!
+              Snart vankas Sverigefinal på Allerum Golfklubb utanför
+              Helsingborg! Finalerna spelas 16-18 september, följ matcherna här
+              på sajten!
               <b-alert hidden variant="info" class="small mt-3"
                 >Lag från mer än 50% av Sveriges golfklubbar finns nu
                 representerade i tävlingen!</b-alert
@@ -198,10 +204,11 @@
               >
             </p>
 
-              <p class="mt-3 mt-md-0">
-               Matchplay skapar ännu en tävling för alla som vill hålla svingen
+            <p class="mt-3 mt-md-0">
+              Matchplay skapar ännu en tävling för alla som vill hålla svingen
               och tävlandet vid liv under de mörka månaderna. Mellan 1 januari
-              och 15 april 2023 spelas tävlingen på 30 inomhusanläggningar över hela Sverige.
+              och 15 april 2023 spelas tävlingen på 30 inomhusanläggningar över
+              hela Sverige.
             </p>
 
             <p hidden class="mt-3 mt-md-0">
@@ -278,12 +285,12 @@
               </div>
 
               <p v-if="closed" hidden>
-               Anmälan till nästa års tävling öppnar i början av januari men du kan redan nu anmäla dig till Matchplay Indoor som startar i januari 2023!
+                Anmälan till nästa års tävling öppnar i början av januari men du
+                kan redan nu anmäla dig till Matchplay Indoor som startar i
+                januari 2023!
               </p>
 
-                <a
-                href="/indoor"
-                class="btn btn-primary btn-igg text-white mt-2"
+              <a href="/indoor" class="btn btn-primary btn-igg text-white mt-2"
                 >Anmäl ditt lag!</a
               >
 
@@ -294,7 +301,8 @@
                 class="btn btn-success text-white mt-2 mr-2"
                 >JUST NU EARLY BIRDIE-PRIS</a
               >
-              <router-link hidden
+              <router-link
+                hidden
                 v-if="isAuthenticated"
                 class="btn blue-bg btn-md text-white mt-2 mr-2"
                 :class="isMobile ? 'w-100' : ''"
@@ -443,6 +451,10 @@
 
     <b-jumbotron container-fluid class="white mb-0">
       <b-container>
+        <div v-if="!isAuthenticated" class="mt-3 mb-5">          
+        <keytakeaways2></keytakeaways2>
+        </div>
+
         <b-row v-if="!isAuthenticated">
           <b-col hidden class="col-12">
             <h1>Statistik 2021</h1>
@@ -450,25 +462,28 @@
             Snittålder: 43<br />
             Snitthcp: 12.2<br />
           </b-col>
+
           <b-col v-if="closed" class="col-12">
             <p hidden class="mt-3 mt-md-0">
               Matchplay är en matchspelstävling för par med officiellt handicap.
               Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på
               golfklubbar anslutna till Svenska Golfförbundet.
             </p>
-               <p class="mt-3 mt-md-0">
-              Matchplay Indoor är en matchspelstävling för par med officiellt handicap.
-              Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på
-              inomhusanläggningar tillhörande RUFF eller Indoor Golf Group. Vi är kopplade till svenska golfförbundets system (GIT) för kontroll av handicap mm.
+            <p class="mt-3 mt-md-0">
+              Matchplay Indoor är en matchspelstävling för par med officiellt
+              handicap. Par kan vara män, kvinnor eller mix. Tävlingen spelas i
+              Sverige på inomhusanläggningar tillhörande RUFF eller Indoor Golf
+              Group. Vi är kopplade till svenska golfförbundets system (GIT) för
+              kontroll av handicap mm.
             </p>
             <p class="mt-0 pt-0">
               Tävlingen spelas mellan januari-april i olika omgångar fram till
-              Sverigefinalen och vinnande laget följer med oss till Spanien 2023! Vår ordinarie tävling, Matchplay Sweden öppnar anmälan under tidig vår 2023.              
+              Sverigefinalen och vinnande laget följer med oss till Spanien
+              2023! Vår ordinarie tävling, Matchplay Sweden öppnar anmälan under
+              tidig vår 2023.
             </p>
             <p v-if="!closed_igg">
-                  <a
-                href="/indoor"
-                class="btn btn-primary btn-igg text-white mt-2"
+              <a href="/indoor" class="btn btn-primary btn-igg text-white mt-2"
                 >Anmäl ditt lag!</a
               >
             </p>
@@ -590,7 +605,10 @@
               Du har ännu inget lag i Sveriges roligaste golftävling, skapa ett
               på knappen nedan.
             </p>
-            <div v-if="user.teams && competitionFetched && !closed" class="mt-3">
+            <div
+              v-if="user.teams && competitionFetched && !closed"
+              class="mt-3"
+            >
               <p v-if="!user.teams[0].paid">
                 Anmälningskostnad per lag är
                 <strong>{{ price1 }} kr</strong> för privatpersoner och
@@ -637,16 +655,19 @@
         </b-row>
 
         <b-row hidden v-if="closed">
-          <b-col class="col-12 mb-3 mt-5">            
+          <b-col class="col-12 mb-3 mt-5">
             <!-- <app-birdie-ligan></app-birdie-ligan> -->
           </b-col>
         </b-row>
 
-  <b-row hidden>
-          <b-col class="col-12 mb-3 mt-5">  
-
-         <app-year-in-review :isMobile="isMobile" :year="2022" :compid="prevcompid"></app-year-in-review>
- </b-col>
+        <b-row hidden>
+          <b-col class="col-12 mb-3 mt-5">
+            <app-year-in-review
+              :isMobile="isMobile"
+              :year="2022"
+              :compid="prevcompid"
+            ></app-year-in-review>
+          </b-col>
         </b-row>
         <hr class="mt-5" v-if="latestTeam && !closed" />
         <b-row align-h="center" class="mt-5 mb-5">
@@ -681,8 +702,6 @@
 
     <howitworks v-if="!closed && (!isAuthenticated || !user)"></howitworks>
 
-  
-
     <!--  <app-year-in-review :isMobile="isMobile" :year="2021" :compid="prevcompid"></app-year-in-review> -->
 
     <b-jumbotron
@@ -715,31 +734,30 @@
       </b-container>
     </b-jumbotron>
 
-     <!-- RUFF/IGG -->
-   
-      <b-jumbotron fluid class="black mb-0">
-        <b-row>
-          <b-col class="text-center col-6">
-            <b-img
-              src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1665478570/matchplay/igg/-_RUFF-Text-White.png"
-            >
-            </b-img>
-          </b-col>
-          <b-col col="6" class="text-center col-6">
-            <!-- e_colorize,co_rgb:fff -->
-            <b-img
-              src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1665597995/matchplay/igg/logo_igg_white.png"
-            >
-            </b-img>
-          </b-col>
-        </b-row>
-      </b-jumbotron>
+    <!-- RUFF/IGG -->
 
-        <app-call-to-action v-if="!isAuthenticated" />
+    <b-jumbotron fluid class="black mb-0">
+      <b-row>
+        <b-col class="text-center col-6">
+          <b-img
+            src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1665478570/matchplay/igg/-_RUFF-Text-White.png"
+          >
+          </b-img>
+        </b-col>
+        <b-col col="6" class="text-center col-6">
+          <!-- e_colorize,co_rgb:fff -->
+          <b-img
+            src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1665597995/matchplay/igg/logo_igg_white.png"
+          >
+          </b-img>
+        </b-col>
+      </b-row>
+    </b-jumbotron>
 
-       <!-- HOW IT WORKS -->
-   <howitworks2 :headline="'Så här fungerar tävlingen'"  v-if="!loading" />
+    <app-call-to-action v-if="!isAuthenticated" />
 
+    <!-- HOW IT WORKS -->
+    <howitworks2 :headline="'Så här fungerar tävlingen'" v-if="!loading" />
 
     <b-jumbotron container-fluid class="bg-image-collage p-0 m-0">
       <app-image-collage
@@ -750,7 +768,7 @@
       ></app-image-collage>
     </b-jumbotron>
 
-     <b-jumbotron v-if="closed" container-fluid class="white mb-0">
+    <b-jumbotron v-if="closed" container-fluid class="white mb-0">
       <b-container>
         <b-row>
           <b-col class="col-12 text-left text-md-center">
@@ -919,6 +937,7 @@ import { globalState } from "../main.js";
 
 import moment from "moment";
 import VueMoment from "vue-moment";
+import Keytakeaways2 from './KeyTakeaways2.vue';
 moment.locale("sv");
 moment.updateLocale("sv", {
   relativeTime: {
@@ -1074,6 +1093,7 @@ export default {
     AppImageCollage,
     AppYearInReview,
     AppCallToAction,
+    Keytakeaways2
   },
   data() {
     return {
