@@ -208,7 +208,7 @@
               Matchplay skapar ännu en tävling för alla som vill hålla svingen
               och tävlandet vid liv under de mörka månaderna. Mellan 1 januari
               och 15 april 2023 spelas tävlingen på 30 inomhusanläggningar över
-              hela Sverige.
+              hela Sverige!
             </p>
 
             <p hidden class="mt-3 mt-md-0">
