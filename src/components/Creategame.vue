@@ -1129,7 +1129,7 @@ export default {
 @import "../styles/variables.scss";
 
 * {
-  font-family: Eurostile LT Std, Arial, sans-serif;
+  font-family: Poppins, Arial, sans-serif;
 }
 .container {
   padding-top: 40px;

@@ -375,7 +375,7 @@ export default {
 
 .hero h2 {
   color: #fff;
-  font-family: "Eurostile LT Std Demi", Arial, sans-serif;
+  font-family: "Poppins", Arial, sans-serif;
   font-weight: normal;
   font-style: normal;
 }

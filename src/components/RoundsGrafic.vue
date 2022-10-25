@@ -271,7 +271,7 @@ export default {
 <style scoped>
 
 .active {
-  font-family: "Eurostile LT Std Bold";
+  font-family: "Poppins";
 }
 
 .roundlist {

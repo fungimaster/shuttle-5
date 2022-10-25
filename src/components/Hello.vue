@@ -290,7 +290,7 @@
                 januari 2023!
               </p>
 
-              <a href="/indoor" class="btn btn-primary btn-igg text-white mt-2"
+              <a href="/register" class="btn btn-primary btn-igg text-white mt-2"
                 >Anmäl ditt lag!</a
               >
 
@@ -441,6 +441,8 @@
     </div>
     <!-- TEMP HIDDEN -->
 
+    
+
     <div id="earlyBirdie"></div>
     <div
       v-if="!competitionFetched && isAuthenticated"
@@ -451,24 +453,15 @@
 
     <b-jumbotron container-fluid class="white mb-0">
       <b-container>
-        <div v-if="!isAuthenticated" class="mt-3 mb-5">          
+        <div v-if="!isAuthenticated" class="mt-3 mb-5">   
+                 
         <keytakeaways2></keytakeaways2>
         </div>
 
         <b-row v-if="!isAuthenticated">
-          <b-col hidden class="col-12">
-            <h1>Statistik 2021</h1>
-            Anmälda lag: 523<br />
-            Snittålder: 43<br />
-            Snitthcp: 12.2<br />
-          </b-col>
-
+        
           <b-col v-if="closed" class="col-12">
-            <p hidden class="mt-3 mt-md-0">
-              Matchplay är en matchspelstävling för par med officiellt handicap.
-              Par kan vara män, kvinnor eller mix. Tävlingen spelas i Sverige på
-              golfklubbar anslutna till Svenska Golfförbundet.
-            </p>
+         
             <p class="mt-3 mt-md-0">
               Matchplay Indoor är en matchspelstävling för par med officiellt
               handicap. Par kan vara män, kvinnor eller mix. Tävlingen spelas i
@@ -483,14 +476,11 @@
               tidig vår 2023.
             </p>
             <p v-if="!closed_igg">
-              <a href="/indoor" class="btn btn-primary btn-igg text-white mt-2"
+              <a href="/register" class="btn btn-primary btn-igg text-white mt-2"
                 >Anmäl ditt lag!</a
               >
             </p>
-            <p hidden class="mt-0 pt-0">
-              Tävlingen spelas mellan maj-september i olika omgångar fram till
-              Sverigefinalen och sedan vidare utomlands!
-            </p>
+          
           </b-col>
           <b-col v-if="!closed && competitionFetched" class="col-12">
             <h1
@@ -637,6 +627,34 @@
           </b-col>
         </b-row>
 
+         <b-container class="pt-3"  v-if="!loading">
+      <b-row
+        ref="clubs"
+        class="justify-content-center mt-3 mb-5"
+        align-h="center"
+      >
+        <b-col class="col-12 col-md-12">
+          <h2 class="mb-4">Anslutna inomhusanläggningar</h2>
+          <b-badge
+            class="p-2 m-2"
+            variant="secondary"
+            v-for="club in clubs"
+            :key="club.index"
+          >
+            {{ club.title }}
+          </b-badge>
+        </b-col>
+        <b-col class="hidden col-12 col-md-4 mt-5 mt-md-0 pt-5">
+          <b-img
+            rounded="circle"
+            src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_500,h_500,c_fill,g_south_east,q_70/v1665562700/matchplay/igg/_DSC7827.jpg"
+            src2="https://res.cloudinary.com/dn3hzwewp/image/upload/w_500,h_500,c_fill,g_south_west,q_70/v1663921938/matchplay/igg/DSC00224.jpg"
+            fluid
+          ></b-img>
+        </b-col>
+      </b-row>
+    </b-container>
+
         <b-row hidden v-if="closed">
           <b-col class="col-12 mb-3 mt-5">
             <h3>Omgångar 2022</h3>
@@ -754,30 +772,12 @@
       </b-row>
     </b-jumbotron>
 
-    <app-call-to-action v-if="!isAuthenticated" />
-
+  
     <!-- HOW IT WORKS -->
     <howitworks2 :headline="'Så här fungerar tävlingen'" v-if="!loading" />
 
-    <b-jumbotron container-fluid class="bg-image-collage p-0 m-0">
-      <app-image-collage
-        class="bg-image-collage d-flex justify-content-center"
-        v-if="allGameImages.length"
-        :numberOfImages="numberOfImages"
-        :images="allGameImages"
-      ></app-image-collage>
-    </b-jumbotron>
+   
 
-    <b-jumbotron v-if="closed" container-fluid class="white mb-0">
-      <b-container>
-        <b-row>
-          <b-col class="col-12 text-left text-md-center">
-            <h1 class="orange">Deltagarröster</h1>
-            <testimonials :number="5" :register="true"></testimonials>
-          </b-col>
-        </b-row>
-      </b-container>
-    </b-jumbotron>
 
     <b-jumbotron hidden container-fluid class="gradient mb-3">
       <b-container class="mb-4 mt-4">
@@ -888,7 +888,7 @@
       </b-container>
     </b-jumbotron>
     <b-container>
-      <b-row align-h="center">
+      <b-row align-h="center" class="mt-5">
         <b-col class="col-12 mt-3 d-flex justify-content-center">
           <a
             class="btn orange-bg btn-md text-white mt-2 mr-2"
@@ -907,7 +907,7 @@
         </b-col>
       </b-row>
       <b-row align-h="center">
-        <b-col cols="10" md="6" class="mt-3">
+        <b-col cols="10" md="6" class="mt-">
           <p class="mt-4 small">
             Se till att följa oss på våra
             <strong>sociala medier</strong> för nyheter och tävlingar!
@@ -974,10 +974,33 @@ export default {
     });
     window.addEventListener("resize", this.handleResize);
 
-    this.gameImages();
+  /*   this.gameImages();
     if (this.$route.query.sponsor === "gm") {
       localStorage.setItem("sponsor", "gm");
-    }
+    } */
+
+    this.axios
+      .post(globalState.admin_url + "getGolfclubs", {
+        id: globalState.compid,
+      })
+      .then((response) => {
+        //this.parseCourse(response.data);
+        // console.log(response.data);
+        this.clubs = response.data;
+
+        //LOAD COMP DATA
+        const promise = this.$store.dispatch(
+          "getCompetition",
+          globalState.compid
+        );
+        promise.then(() => {
+          (this.price_private = this.price1), (this.loading = false);
+        });
+      })
+      .catch((error) => {
+        // this.errorMSG = "Something went wrong (No course found)";
+        console.log(error);
+      });
 
     //this.getTopListClubs();
     /* 
@@ -1097,6 +1120,7 @@ export default {
   },
   data() {
     return {
+      clubs: [],
       loadinggames: true,
       gamescount: 0,
       game: {},
@@ -1798,7 +1822,7 @@ img {
 
 .hero h2 {
   color: #fff;
-  font-family: "Eurostile LT Std Demi", Arial, sans-serif;
+  font-family: "Poppins", Arial, sans-serif;
   font-weight: normal;
   font-style: normal;
 }

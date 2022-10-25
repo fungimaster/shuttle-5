@@ -98,7 +98,7 @@ button {
   touch-action: manipulation !important; 
 }
 
-@font-face {
+/* @font-face {
   font-family: "Montserrat";
   src: url("../static/fonts/Montserrat-Regular.ttf") format("truetype");
   font-weight: normal;
@@ -117,9 +117,9 @@ button {
   src: url("../static/fonts/Montserrat-Bold.ttf") format("truetype");
   font-weight: bold;
   font-style: normal;
-}
+} */
 
-@font-face {
+/* @font-face {
   font-family: "Eurostile LT Std";
   src: url("../static/fonts/EurostileLTStd.ttf") format("truetype");
   font-weight: 500;
@@ -138,7 +138,7 @@ button {
   src: url("../static/fonts/EurostileLTStd-Bold.ttf") format("truetype");
   font-weight: bold;
   font-style: normal;
-}
+} */
 
 @font-face {
   font-family: "Tenby Four";
@@ -234,11 +234,11 @@ strong {
 
 body {
   font-size: 1.1rem !important;
-  font-family: "Eurostile LT Std", Arial, sans-serif !important;
+  font-family: "Poppins", Arial, sans-serif !important;
 }
 
 strong {
-  font-family: "Eurostile LT Std Bold";
+  font-family: "Poppins Bold";
 }
 
 .jumbotron {

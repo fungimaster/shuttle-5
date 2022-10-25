@@ -21,7 +21,7 @@ import Game from '@/components/Game'
 import Register from '@/components/Register'
 import Results from '@/components/Results'
 import Images from '@/components/Images'
-import Indoor from '@/components/Indoor'
+
 
 Vue.use(Router)
 
@@ -101,11 +101,6 @@ export default new Router({
       path: '/club',
       name: 'Club',
       component: Club
-    },
-    {
-      path: '/indoor',
-      name: 'Indoor',
-      component: Indoor
     },
     {
       path: '/klubbar',

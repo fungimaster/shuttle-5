@@ -2606,7 +2606,7 @@ export default {
 
 .time-picker {
   background-color: #fff;
-  font-family: "Eurostile LT Std";
+  font-family: "Poppins";
   font-size: 16px;
   line-height: 20px;
 }

@@ -6,14 +6,7 @@
     <b-navbar toggleable="lg" ref="top">
       <b-navbar-brand>
         <router-link class to="/">
-        <!-- v-if="['Indoor'].indexOf($route.name) === -1" --> 
-          <img v-if="['Indoor'].indexOf($route.name) === -1"
-            src2="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_100/v1573118127/matchplay/matchplay-new-logo-2020.png"
-            src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_100/v1665478419/matchplay/igg/Matchplay-Indoor-ruff-IGG-2023.png"
-            alt
-          />
-          <!-- v-if="['Indoor'].indexOf($route.name) > -1" -->
-           <img v-if="['Indoor'].indexOf($route.name) > -1"           
+           <img       
             src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_100/v1665478419/matchplay/igg/Matchplay-Indoor-ruff-IGG-2023.png"
             alt
           />
@@ -32,16 +25,8 @@
         <b-navbar-nav class="ml-auto">
           <!-- <b-nav-item :to="{path: '/line-up', query: {tags:$route.query.tags, day:$route.query.day}}">Line-up</b-nav-item> -->
           
-           <b-nav-item to="/indoor"
-            >Matchplay indoor
-            <b-img hidden src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_30,q_70/v1665478419/matchplay/igg/Matchplay-Indoor-ruff-IGG-2023.png"></b-img>
-            <b-img hidden src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_30,q_70/v1663921954/matchplay/igg/logo_igg.png"></b-img>
-            <b-badge hidden class="new" pill variant="danger"
-              ><i v-if="type=='indoor'" class="fa fa-golf-ball"></i></b-badge
-          >
-          </b-nav-item>
           <b-nav-item to="/register">Registrering</b-nav-item>
-          <b-nav-item v-if="!type=='indoor' && closed" to="/results"
+          <b-nav-item v-if="closed" to="/results"
             >Resultat
             <b-badge hidden class="new" pill variant="danger"
               ><i class="fa fa-circle"></i>
@@ -55,14 +40,13 @@
            
           <b-nav-item hidden v-if="companies" to="/business">Företagslag</b-nav-item>
           <!-- normal comp -->
-          <b-nav-item v-if="!type=='indoor'" to="/info">Om tävlingen</b-nav-item>
-          <b-nav-item v-if="type=='indoor'" to="/info_indoor">Om tävlingen</b-nav-item>
+          <b-nav-item to="/info_indoor">Om tävlingen</b-nav-item>
 
-          <b-nav-item v-if="!type=='indoor'"  to="/tavlingar"
+          <b-nav-item hidden to="/tavlingar"
             >Tidigare tävlingar
           </b-nav-item>          
 
-          <b-nav-item hidden to="/ping">PING</b-nav-item>
+     
           <!--a class="nav-item nav-link text-dark show-search-button nav-link" href="#search" data-toggle="collapse" aria-expanded="false" aria-controls="search"><i class="material-icons mobile-search">search</i></a-->
           <b-nav-item
             show
