@@ -32,7 +32,7 @@
               </a>
             </b-col>
              <b-col md="6" class="gold p-5 text-center">
-              <a href="https://futureitpartner.se/" target="_blank">
+              <a href="https://indoorgolfgroup.se/" target="_blank">
                 <img
                   src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_300,q_auto/v1663921954/matchplay/igg/logo_igg.png"
                   alt
