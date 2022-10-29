@@ -475,7 +475,7 @@
               2023! Vår ordinarie tävling, Matchplay Sweden öppnar anmälan under
               tidig vår 2023.
             </p>
-            <p v-if="!closed_igg">
+            <p v-if="!closed">
               <a href="/register" class="btn btn-primary btn-igg text-white mt-2"
                 >Anmäl ditt lag!</a
               >

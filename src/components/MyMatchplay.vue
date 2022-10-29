@@ -249,7 +249,7 @@
                                                   För varje lag som följt din länk du delat och där ett lag skapas får du 50kr rabatt på nästa års anmälningsavgift.
                                             </b-popover>
                   
-                   <b-input v-if="!closed" id="ref_link" class="mt-2" :value="'https://matchplay.se/register?referral='+ userdetails.userId"></b-input>
+                   <b-input v-if="!closed" id="ref_link" class="mt-2" :value="'https://indoor.matchplay.se/register?referral='+ userdetails.userId"></b-input>
                    <b-button v-if="!closed" class="mt-3" size="sm" variant="primary" @click="copyLink('ref_link')">Kopiera länk</b-button>
                  
                             </div>
@@ -456,7 +456,7 @@
                 <b-row align-h="center" v-if="teams.length === 0 || !teams.length || !closed">
                         <b-col md="12" class="mt-2">                       
                             <h2 hidden>Skapa ditt blivande mästarlag</h2>
-                            <p v-if="closed && closed_igg" class="mt-3">Om inga lag syns här har något blivit fel med lagkopplingen, se kontaktuppg. längst ner på sidan.</p>
+                            <p v-if="closed" class="mt-3">Om inga lag syns här har något blivit fel med lagkopplingen, se kontaktuppg. längst ner på sidan.</p>
                         
                             <p v-if="!closed && teams.length === 0 && !is_igg || (!teams.length && !closed && !is_igg)" class="mt-3" >Nu är det dags att skapa ditt lag för matchplay 2023. Klicka på knappen nedan och följ instruktionerna.</p>
                         </b-col>
@@ -465,11 +465,11 @@
                         </b-col>
                 </b-row>
                 <!-- IGG SPECIAL -->
-                <b-row class="igg" v-if="(!teams.length && !closed_igg)"><!-- v-if="(!teams.length && !closed_igg)" -->
+                <b-row class="igg" v-if="(!teams.length && !closed)">
                     <b-col class="col-12 mt-0">
                         <b-img fluid left class="mr-3 mb-2" src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,h_80,q_auto/v1665478419/matchplay/igg/Matchplay-Indoor-ruff-IGG-2023.png"></b-img>
                      <p class="small">                        
-                            Matchplay skapar ännu en tävling för alla som vill hålla svingen och tävlandet vid liv under de mörka månaderna. Mellan 1 januari och 15 april 2023 spelas tävlingen på 23 olika inomhusanläggningar runtom i Sverige.
+                            Matchplay skapar ännu en tävling för alla som vill hålla svingen och tävlandet vid liv under de mörka månaderna. Mellan 1 januari och 15 april 2023 spelas tävlingen på 30 olika inomhusanläggningar runtom i Sverige.
                             <strong>Pris per lag är {{team.price_igg}} kr</strong>.                            
                             </p>
                     </b-col>
@@ -531,7 +531,7 @@
 
                                 </div>
 
-                                <div v-if="!team.teammembername && !team.teammembergolfid && !closed_igg" class="pt-0 pb-3">                                    
+                                <div v-if="!team.teammembername && !team.teammembergolfid && !closed" class="pt-0 pb-3">                                    
                                     <div ><!-- v-if="!team.teammemberemail && !team.teammembergolfid && !closed" -->
                                         <i class="material-icons mr-0 red">error</i>
                                         <b-button hidden size="sm" v-if="!team.invoice" @click="goToStep(team, 2)" variant="success" class="ml-0">Bjud in lagkamrat</b-button>
@@ -784,7 +784,7 @@
                                         Nätverksträff i slutet av augusti på en golfklubb (bestäms inom kort) inkl. golfspel, bankett och övernattning
                                     </li>                                     
                                     <li>
-                                        Synlighet på matchplay.se som företagssponsor
+                                        Synlighet på indoor.matchplay.se som företagssponsor
                                     </li>
                                 </ol>
                                 <p>Pris:{{team.price_company2}}:- (exkl. moms)</p>
@@ -1148,7 +1148,7 @@
                                 <h2 class="text-center"><i class="pb-1 material-icons">favorite_border</i> Tack! <i class="pb-1 material-icons">favorite_border</i></h2>
                                 <p>Ditt lag är betalt och klart. Vi återkommer med information om lottning och matcher i god tid innan tävlingen startar!</p>
                                 <p>Dela gärna på Facebook för att utmana andra samt ta chansen att vinna fina priser!</p>
-                                <p><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.matchplay.se" class="btn blue-bg btn-md text-white mb-3">Dela på Facebook</a></p>
+                                <p><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.indoor.matchplay.se" class="btn blue-bg btn-md text-white mb-3">Dela på Facebook</a></p>
                                 <p>Hälsningar Matchplay <i class="pb-0 mr-2 material-icons red">favorite</i></p>
                             </b-col>
                             <b-col v-if="this.paymentstatus === 'DECLINED'" md="6">
@@ -1247,7 +1247,7 @@
                                                             
 
                                 <h3 class="mt-5">Tips 2 (Speltid och plats)</h3>
-                                När din match i varje omgång är lottad syns den på denna sidan och är ni lottade som hemmalag, ta så fort som möjligt kontakt med era motståndare för att bestämma spelplats och tid. Det är viktigt att hemmalaget lägger upp tid och plats för matchen så att det blir rätt på resultatsidorna på matchplay.se.
+                                När din match i varje omgång är lottad syns den på denna sidan och är ni lottade som hemmalag, ta så fort som möjligt kontakt med era motståndare för att bestämma spelplats och tid. Det är viktigt att hemmalaget lägger upp tid och plats för matchen så att det blir rätt på resultatsidorna på indoor.matchplay.se.
                             
                      
                                  <h3 class="mt-4">Tips 3 (Reserv)</h3>
@@ -1489,7 +1489,7 @@
                         Länken finns också på din profilflik.
                     </p>
                     <p>
-                         <b-input id="ref_link2" class="mt-3" :value="'https://matchplay.se/register?referral='+ userdetails.userId"></b-input>
+                         <b-input id="ref_link2" class="mt-3" :value="'https://indoor.matchplay.se/register?referral='+ userdetails.userId"></b-input>
                    <b-button class="mt-3" size="sm" variant="primary" @click="copyLink('ref_link2')">Kopiera länk</b-button>
                     </p>
                 </b-col>
@@ -1642,8 +1642,7 @@ export default {
             ninehole: false,
             clubinfo_first: 'Du är först ut med ett lag från denna klubb, sprid gärna budskapet om tävlingen på din klubb! Lottning sker mot lag från andra klubbar nära vald klubb för att minimera avstånden och ge er nya golfupplevelser.',
             choosereserve: false,
-            closed: globalState.closed,
-            closed_igg: globalState.closed_igg,      
+            closed: globalState.closed,  
             tabIndex: 0,
             games:0,
             teamscount:0,
@@ -4183,7 +4182,7 @@ export default {
                         this.is_igg = true;
                         this.team.price_igg = response.data.price1;
                         this.team.price_igg_company = response.data.price2;
-                        this.closed = this.closed_igg;
+                        this.closed = this.closed;
                     }
 
                      this.getGolfClubs();

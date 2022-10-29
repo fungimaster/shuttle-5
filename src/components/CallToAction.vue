@@ -13,7 +13,7 @@
           </p>
         </div>
 
-        <h4 v-if="closed && !closed_igg" class="text-warning text-center pt-4">
+        <h4 v-if="closed && !closed" class="text-warning text-center pt-4">
           Anmälan är stängd och öppnar i januari 2023, MEN, delta med ditt lag i Matchplay Indoor, anmälan är öppen fram till 28 december 2022.       
         </h4>
           <p>

@@ -34,7 +34,7 @@
 
           <h5 class="mt-3">GÄSTER: {{ players }}</h5>
           <h5 class>MATCHPROGNOS*: {{ games }} st</h5>
-          <h5 class>LAGBILJETT 2022**: {{ tickets }}</h5>
+          <h5 class>LAGBILJETT 2024**: {{ tickets }}</h5>
           <small class="d-block text-black-50 mb-2"
             >* Uträkningen antar {{ totaltTeams }} deltagande lag
             och {{ rounds }} spelrundor. 2021 deltog 780 lag och 8 rundor spelas.
@@ -177,7 +177,7 @@
               med information om tävlingen att sätta i receptionen
             </li>
             <li>Lägg ut en länk till tävlingen på er hemsida</li>
-            <li>Dela matchplay.se i era sociala kanaler</li>
+            <li>Dela indoor.matchplay.se i era sociala kanaler</li>
           </ul>
         </b-col>
 

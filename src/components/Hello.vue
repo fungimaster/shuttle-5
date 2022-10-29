@@ -61,8 +61,25 @@
       </b-jumbotron>
     </b-container>
 
+  <b-container v-if="latestTeam && !closed && !loading" class="mt-5">
+        <b-row align-h="center" class="mt-5 mb-5">
+          <b-col  class="col-12 col-md-6">
+            <b-row align-h="center" class="align-items-center h-100">
+              <b-col class="col-3 mx-auto text-center text-md-right pl-0 pr-0">
+                <b-img class="" :src="getClubImage2(latestTeamLogo)"></b-img>
+              </b-col>
+              <b-col class="col-7 small mx-auto pl-0 pr-0 text-left">
+                {{ latestTeam }}
+              </b-col>
+            </b-row>
+          </b-col>
+        </b-row>
+         <hr class="mt-5" v-if="latestTeam" />
+  </b-container>
+
     <b-container v-if="!loading" class="mt-5">
        <keytakeaways2></keytakeaways2>
+       <hr class="mt-5" />
     </b-container>
 
  <b-container fluid v-if="!loading" class="no-padding hidden">
@@ -247,6 +264,26 @@ import { mapGetters } from "vuex";
 import register from "./Register";
 import Howitworks2 from "./Howitworks2";
 import Keytakeaways2 from './KeyTakeaways2.vue';
+import moment from "moment";
+
+moment.locale("sv");
+moment.updateLocale("sv", {
+  relativeTime: {
+    future: "om %s",
+    past: "%s",
+    ss: "%d sek",
+    m: "1 minut",
+    mm: "%d min",
+    h: "en timme",
+    hh: "%d timmar",
+    d: "en dag",
+    dd: "%d dagar",
+    M: "en månad",
+    MM: "%d mån",
+    y: "ett år",
+    yy: "%d år",
+  },
+});
 
 
 export default {
@@ -254,11 +291,12 @@ export default {
   components: { register, Howitworks2,Keytakeaways2 },
   data() {
     return {
+      latestTeam: null,
       compid: globalState.compid_igg,
       price_private: this.price_1,
       doctitle: "Matchplay Indoor 2023",
       loading: true,
-      closed_igg: globalState.closed_igg,
+      closed: globalState.closed,
       clubs: [],
     };
   },
@@ -301,6 +339,9 @@ export default {
       }); */
 
     //
+
+    this.latestTeam = null;
+    this.getlatestteam();
   },
 
   mounted() {},
@@ -308,6 +349,60 @@ export default {
     ...mapGetters(["price1"]),
   },
   methods: {
+       getlatestteam() {
+      this.axios
+        .post(globalState.admin_url + "getLatestPaidTeam")
+        .then((response) => {
+          if (response.data) {
+            let paidAt = moment(response.data.paidAt).add(0, "hour").format();
+            let test = moment().diff(paidAt, "hours");
+            let regDate = moment(paidAt, "YYYY-MM-DD hh:mm").fromNow();
+            //this.toast('b-toaster-top-center',response.data, paidAt);
+            //console.log(response.data)
+            if (test < 23) {
+              //if (paidAt !== latestTeam) {
+               
+              if (!response.data.logourl) {
+                this.latestTeamLogo =
+                  "v1573118127/matchplay/matchplay-new-logo-2020.png"; //failover matchplay logo
+              } else {
+                this.latestTeamLogo = response.data.logourl;
+              }
+
+              this.latestTeam =
+                "Ett lag från " +
+                response.data.coursename +
+                " anmäldes för " +
+                regDate +
+                " sedan av " +
+                response.data.teamleadername +
+                ".";
+            } else {
+              this.latestTeam = null;
+            }
+
+          
+            //localStorage.setItem('latestTeam',paidAt);
+
+            //OLD TOAST, MOVED TO HERO
+            /* setTimeout(() => {
+                  this.toast('b-toaster-top-center',response.data, paidAt);
+                  localStorage.setItem('latestTeam',paidAt);                  
+                }, 1500);  */
+
+            //}
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+        getClubImage2(logourl) {
+      return (
+        "https://res.cloudinary.com/dn3hzwewp/image/upload/w_100,q_80,c_scale/" +
+        logourl
+      );
+    },
     scrollToAnchorPoint(refName) {
       const el = this.$refs[refName];
       el.scrollIntoView({ behavior: "smooth" });

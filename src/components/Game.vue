@@ -1754,7 +1754,7 @@ export default {
         if (response.data.competitiontype == "Indoor") {
           //IGG
           this.is_igg = true;
-          this.closed = this.closed_igg;
+          this.closed = this.closed;
         }
       })
       .catch((error) => {
