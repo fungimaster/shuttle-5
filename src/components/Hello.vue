@@ -48,11 +48,19 @@
             </p>
             <p class="mt-3 text-center">
               <b-button
+              hidden
                 variant="primary"
                 @click="scrollToAnchorPoint('clubs')"
                 size="md"
                 class="btn-igg"
                 >Se våra {{ clubs.length }} anläggningar</b-button
+              >
+               <b-button              
+                variant="primary"
+                to="/prisbord"
+                size="md"
+                class="btn-igg"
+                >Utforska prisbordet!</b-button
               >
             </p>
           </b-col>
@@ -161,7 +169,7 @@
         <b-col class="col-12 col-md-12">
           <h2 class="mb-4">Anslutna inomhusanläggningar</h2>
           <b-badge
-            class="p-2 m-2"
+            class="p-2 m-2 indoor"
             variant="secondary"
             v-for="club in clubs"
             :key="club.index"
@@ -196,6 +204,13 @@
                 to="/info_indoor">
             Läs vår FAQ
           </b-button>
+           <b-button              
+                variant="primary"
+                to="/prisbord"
+                size="md"
+                class="btn-igg"
+                >Prisbordet!</b-button
+              >
           </b-col>
         </b-row>
       </b-jumbotron>
@@ -414,6 +429,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
 @import "../styles/variables.scss";
+
+
 
 .herobg0 {
   background-size: cover !important;

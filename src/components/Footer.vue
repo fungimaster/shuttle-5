@@ -137,7 +137,7 @@
                   <p class="links mb-5">
                     <router-link hidden to="/ping" class>PING</router-link
                     >&nbsp;
-                    <router-link to="/info" class>Om tävlingen</router-link
+                    <router-link to="/info_indoor" class>Om tävlingen</router-link
                     >&nbsp;|
                     <router-link to="/cookies" class>Cookies/Data</router-link>
                   </p>

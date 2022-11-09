@@ -7,6 +7,7 @@ import FaqIndoor from '@/components/FaqIndoor'
 import Cookies from '@/components/Cookies'
 import Club from '@/components/Club'
 import Klubbar from '@/components/Klubbar'
+import Prizes from '@/components/Prizes'
 import Business from '@/components/Business'
 import Privacy from '@/components/Privacy'
 import Competition from '@/components/Competition'
@@ -107,6 +108,11 @@ export default new Router({
       name: 'klubbar',
       component: Klubbar
     },  
+    {
+      path: '/prisbord',
+      name: 'prisbord',
+      component: Prizes
+    }, 
     {
       path: '/business',
       name: 'business',

@@ -25,6 +25,12 @@
         <b-navbar-nav class="ml-auto">
           <!-- <b-nav-item :to="{path: '/line-up', query: {tags:$route.query.tags, day:$route.query.day}}">Line-up</b-nav-item> -->
           
+          <b-nav-item to="/prisbord">Prisbordet
+          <b-badge class="new" pill variant="danger"
+              ><i class="fa fa-trophy"></i></b-badge
+          >
+          </b-nav-item>
+
           <b-nav-item to="/register">Registrering</b-nav-item>
           <b-nav-item hidden v-if="closed" to="/results"
             >Resultat

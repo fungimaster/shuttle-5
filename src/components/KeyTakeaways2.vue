@@ -40,6 +40,14 @@
       >
         <b-card-text>
           Förutom <strong>20% rabatt</strong> på er simulatorhyra kommer ni få fina <strong>erbjudanden</strong> från alla våra samarbetspartners.
+           <b-button              
+                variant="primary"
+                class="mt-2"
+                to="/prisbord"
+                size="md"
+                style="color:#FFF !important"
+                >Utforska prisbordet!</b-button
+              >
         </b-card-text>
       </b-card>
     </b-col>
