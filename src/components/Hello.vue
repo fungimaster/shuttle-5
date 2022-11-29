@@ -366,7 +366,9 @@ export default {
   methods: {
        getlatestteam() {
       this.axios
-        .post(globalState.admin_url + "getLatestPaidTeam")
+        .post(globalState.admin_url + "getLatestPaidTeam", {
+          competition: globalState.compid_igg
+        })
         .then((response) => {
           if (response.data) {
             let paidAt = moment(response.data.paidAt).add(0, "hour").format();
