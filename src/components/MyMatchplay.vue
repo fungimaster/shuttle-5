@@ -3267,9 +3267,9 @@ export default {
        let coupon = this.team.coupon;
 
       //TEST
-       if(coupon === 'ONTEE75' || coupon === 'OOB75' || coupon === 'GOLF75') {
+       if(coupon === 'golf100') { //coupon === 'ontee100' || coupon === 'oob100' || 
         this.team.price_private_org = this.team.price_private;
-        this.team.couponvalue = 75;
+        this.team.couponvalue = 100;
         this.team.price_private = this.team.price_private - this.team.couponvalue;
         this.team.usedcoupon = true;
         this.team.validatecoupon = true;
