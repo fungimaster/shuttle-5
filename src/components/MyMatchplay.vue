@@ -1005,7 +1005,6 @@
                                     variant="success"
                                     :unchecked-value="false"
                                      class="pb-1"
-                                     v-if="!is_igg"
                                 >
                                    <strong :class="team.usedcoupon ? 'text-success' : 'text-success'">Använd rabattkod</strong>
                                   </b-form-checkbox>
