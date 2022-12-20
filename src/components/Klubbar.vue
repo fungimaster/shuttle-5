@@ -18,7 +18,7 @@
              </b-col>              
                     </b-row>
                     
-                    <b-row v-if="clubno>111 && !maxsize">
+                    <b-row hidden v-if="clubno>111 && !maxsize">
                       <b-col>
                         <hr />
                       </b-col>
@@ -93,7 +93,7 @@
                 <b-tooltip :target="'tooltip-course-' + idx" triggers="hover" placement="top">
                                             {{club.club}} - {{club.count}} lag
                                         </b-tooltip>
-               <span v-if="!club.logourl">{{club.club}}</span> 
+               <span>{{club.club}}</span> 
                              
                 </b-col>
                 

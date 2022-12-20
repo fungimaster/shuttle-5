@@ -469,7 +469,7 @@
                     <b-col class="col-12 mt-0">
                         <b-img fluid left class="mr-3 mb-2" src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,h_80,q_auto/v1665478419/matchplay/igg/Matchplay-Indoor-ruff-IGG-2023.png"></b-img>
                      <p class="small">                        
-                            Matchplay skapar ännu en tävling för alla som vill hålla svingen och tävlandet vid liv under de mörka månaderna. Mellan 1 januari och 15 april 2023 spelas tävlingen på 30 olika inomhusanläggningar runtom i Sverige.
+                            Matchplay skapar ännu en tävling för alla som vill hålla svingen och tävlandet vid liv under de mörka månaderna. Mellan 8 januari och 15 april 2023 spelas tävlingen på 30 olika inomhusanläggningar runtom i Sverige.
                             <strong>Pris per lag är {{team.price_igg}} kr</strong>.                            
                             </p>
                     </b-col>
