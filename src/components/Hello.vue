@@ -188,6 +188,17 @@
       </b-row>
     </b-container>
 
+        <b-jumbotron v-if="showTopClubs" container-fluid class="" id="podium2">
+      <b-container>
+        <b-row>
+          <b-col class="col-12">
+            <h3 class="teaser-header orange mb-4">Topp 3 anläggningar</h3>
+            <podium number="3"></podium>
+          </b-col>
+        </b-row>
+      </b-container>
+    </b-jumbotron>
+
 
     <!-- HOW IT WORKS -->
    <howitworks2 :headline="'Så här fungerar tävlingen'"  v-if="!loading" />
@@ -280,6 +291,7 @@ import register from "./Register";
 import Howitworks2 from "./Howitworks2";
 import Keytakeaways2 from './KeyTakeaways2.vue';
 import moment from "moment";
+import Podium from "./Podium";
 
 moment.locale("sv");
 moment.updateLocale("sv", {
@@ -303,10 +315,11 @@ moment.updateLocale("sv", {
 
 export default {
   name: "indoor",
-  components: { register, Howitworks2,Keytakeaways2 },
+  components: { register, Howitworks2,Keytakeaways2,Podium },
   data() {
     return {
       latestTeam: null,
+      showTopClubs: globalState.showTopClubs,
       compid: globalState.compid_igg,
       price_private: this.price_1,
       doctitle: "Matchplay Indoor 2023",
