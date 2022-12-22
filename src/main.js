@@ -46,7 +46,7 @@ export const globalState = new Vue({
     prevcompid: 'hXcmBwqmfWC2tYcxR', //2022 'sFAc3dvrn2P9pXHAz',
     compid_igg: 'PQaoNvjjckFDT6B8T', //IGG 2023 comp id in admin
     closed: false,
-    showTopClubs: false //activate once teams pay
+    showTopClubs: true //activate once teams pay
   }
 })
 
