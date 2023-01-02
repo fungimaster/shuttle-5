@@ -299,7 +299,7 @@ export default {
           },         
           {
             headline: "Spelschema",
-            text: "Matchplay består av en ”Huvudtävling” och en ”Andra Chansen” vilka skapas efter den första omgången, där förlorarna får en andra chans att nå finalspelet. Lag och vägen från Andra Chansen till finalen kommer att vara aningens svårare, då färre lag går vidare än från Huvudtävlingen. <br/> <br/> När Andra Chansen nått omgång 5-6 (beroende på antal deltagare 2022) så bjuds alla kvarvarande lag till en gemensam tävling som spelas dagen innan och på samma bana som de sex kvalificerade lagen från huvudtävlingen i Sverigefinalen. De två bästa lagen här tar de två sista av de åtta platserna för lördagens semifinal och söndagens final. Allt spel och boende här står Matchplay för.",
+            text: "Matchplay består av en ”Huvudtävling” och en ”Andra Chansen” vilka skapas efter den första omgången, där förlorarna får en andra chans att nå finalspelet. Lag och vägen från Andra Chansen till finalen kommer att vara aningens svårare, då färre lag går vidare än från Huvudtävlingen.",
             imgurl1: null,
             imgurl2: null,
             category: 4,

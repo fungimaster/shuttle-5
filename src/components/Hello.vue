@@ -35,7 +35,7 @@
               och tävlandet vid liv under de mörka månaderna. Mellan 8 januari
               och 15 april 2023 spelas tävlingen på
               <strong>{{ clubs.length }}</strong> olika inomhusanläggningar
-              runtom i Sverige.
+              runtom i Sverige. Matcherna kan spelas på samma anläggning om kort resväg eller digitalt på 2 olika anläggningar.
             </p>
             <p class="mt-5 text-center">
               <b-button
@@ -140,7 +140,7 @@
 
     <!-- RUFF/IGG -->
     <b-container fluid class="no-padding black" v-if="!loading">
-      <b-jumbotron fluid style="background:#000;">
+      <b-jumbotron fluid style="background:#000;" class="mb-0">
         <b-row>
           <b-col class="text-center col-6">
             <b-img
@@ -160,6 +160,18 @@
     </b-container>
 
     <!-- ANLÄGGNINGAR -->
+
+ <b-jumbotron v-if="showTopClubs && !loading" container-fluid class="mt-0" id="podium2">
+      <b-container>
+        <b-row>
+          <b-col class="col-12">
+            <h3 class="teaser-header orange mb-4">Topp 3 anläggningar</h3>
+            <podium number="3"></podium>
+          </b-col>
+        </b-row>
+      </b-container>
+    </b-jumbotron>
+
     <b-container class="pt-3"  v-if="!loading">
       <b-row
         ref="clubs"
@@ -188,16 +200,7 @@
       </b-row>
     </b-container>
 
-        <b-jumbotron v-if="showTopClubs" container-fluid class="" id="podium2">
-      <b-container>
-        <b-row>
-          <b-col class="col-12">
-            <h3 class="teaser-header orange mb-4">Topp 3 anläggningar</h3>
-            <podium number="3"></podium>
-          </b-col>
-        </b-row>
-      </b-container>
-    </b-jumbotron>
+       
 
 
     <!-- HOW IT WORKS -->
