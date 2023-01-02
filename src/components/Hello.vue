@@ -169,6 +169,12 @@
             <podium number="3"></podium>
           </b-col>
         </b-row>
+        <b-row class="mt-5">
+          <b-col class="col-12">
+            <b-button class="white" to="/klubbar">Se alla anläggningar</b-button>
+          </b-col>
+        </b-row>
+        
       </b-container>
     </b-jumbotron>
 

@@ -38,9 +38,9 @@
               ><i class="fa fa-circle"></i>
               </b-badge
           ></b-nav-item>
-          <b-nav-item hidden to="/klubbar"
-            >Klubbar
-            <b-badge hidden class="new" pill variant="danger"
+          <b-nav-item to="/klubbar"
+            >Anläggningar
+            <b-badge class="new" pill variant="danger"
               ><i class="fa fa-heart"></i></b-badge
           ></b-nav-item>
            

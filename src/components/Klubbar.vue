@@ -5,7 +5,7 @@
     >
         <b-row v-if="!loadingclubs && !maxsize">
             <b-col class="col-12">
-                <h1 v-if="!maxsize">Golfklubbar 2023</h1>
+                <h1 v-if="!maxsize">inomhusanläggningar 2023</h1>
                 <h5 v-if="!maxsize" class="mt-4">Följande 
                     <span v-if="loadingclubs">
                         <b-spinner type="grow" small class="ml-0 pl-0 mr-1 mb-1"></b-spinner>                        
