@@ -18,14 +18,14 @@
              </b-col>              
                     </b-row>
                     
-                    <b-row hidden v-if="clubno>111 && !maxsize">
+                    <b-row v-if="clubno>20 && !maxsize">
                       <b-col>
                         <hr />
                       </b-col>
                        <b-col class="col-12 mt-2">
-                    <b-progress height="1.8rem" :value="clubno" :max="448" show-value animated variant="success"></b-progress>
-                    <p v-if="!closed" class="mt-1" style="font-size:0.8em;">Just nu har vi deltagande lag från ca {{clubnopercent}}% av Sveriges 448 golfklubbar.</p>
-                    <p v-else class="mt-1" style="font-size:0.8em;">I årets tävling har vi deltagande lag från ca {{clubnopercent}}% av Sveriges 448 golfklubbar.</p>
+                    <b-progress height="1.8rem" :value="clubno" :max="31" show-value animated variant="success"></b-progress>
+                    <p v-if="!closed" class="mt-1" style="font-size:0.8em;">Just nu har vi deltagande lag från ca {{clubnopercent}}% av de 31 medverkande anläggningarna.</p>
+                    <p v-else class="mt-1" style="font-size:0.8em;">I årets tävling har vi deltagande lag från ca {{clubnopercent}}% av de 31 medverkande anläggningarna.</p>
                     </b-col>
                     </b-row>
 
@@ -133,6 +133,7 @@ moment.updateLocale("sv", {
       return {
         maxsize: false,
         closed: globalState.closed,
+        compid: globalState.compid_igg,
         doctitle: 'Klubbar med deltagande lag',
         search: '',
         clubs: [],
@@ -140,7 +141,7 @@ moment.updateLocale("sv", {
         clubno: 0,
         clubnopercent: 0,
         topclub: 0,
-        clubcount: 450,        
+        clubcount: 31,        
         loadingclubs: true,
         latestTeam: null,
         latestTeamLogo: null,
@@ -195,7 +196,9 @@ moment.updateLocale("sv", {
         }
 
    this.axios
-      .post(globalState.admin_url + "getLatestPaidTeam")
+       .post(globalState.admin_url + "getLatestPaidTeam", {
+          competition: globalState.compid_igg
+        })
       .then((response) => {
       
         
@@ -249,7 +252,7 @@ moment.updateLocale("sv", {
         }
         const distinctAbc = [...new Set(this.abc)];
         this.abc = distinctAbc;           
-        this.clubnopercent = Math.round((this.clubno/448)*100);
+        this.clubnopercent = Math.round((this.clubno/31)*100);
 
         //fix sorting
         distinctAbc.sort( (a, b) => a.localeCompare(b, 'sv', {ignorePunctuation: true}));    
