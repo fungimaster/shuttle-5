@@ -13,7 +13,7 @@
                         <span v-else>
                             <strong>{{clubno}}</strong>
                         </span> 
-                         golfklubbar finns <strong v-if="!closed">HITTILLS</strong> representerade med deltagande lag i årets tävling</h5>
+                         inomhusanläggningar finns <strong v-if="!closed">HITTILLS</strong> representerade med deltagande lag i årets tävling</h5>
                    
              </b-col>              
                     </b-row>
