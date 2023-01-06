@@ -456,7 +456,7 @@
                 <b-row align-h="center" v-if="teams.length === 0 || !teams.length || !closed">
                         <b-col md="12" class="mt-2">                       
                             <h2 hidden>Skapa ditt blivande mästarlag</h2>
-                            <p v-if="closed" class="mt-3">Om inga lag syns här har något blivit fel med lagkopplingen, se kontaktuppg. längst ner på sidan.</p>
+                            <p v-if="closed" class="mt-3">Om inga lag syns här har något blivit fel med lagkopplingen eller så har registreringen stängt, se kontaktuppg. längst ner på sidan.</p>
                         
                             <p v-if="!closed && teams.length === 0 && !is_igg || (!teams.length && !closed && !is_igg)" class="mt-3" >Nu är det dags att skapa ditt lag för matchplay 2023. Klicka på knappen nedan och följ instruktionerna.</p>
                         </b-col>

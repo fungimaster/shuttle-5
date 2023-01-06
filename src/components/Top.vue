@@ -31,7 +31,7 @@
           >
           </b-nav-item>
 
-          <b-nav-item to="/register">Registrering</b-nav-item>
+          <b-nav-item v-if="!closed" to="/register">Registrering</b-nav-item>
           <b-nav-item hidden v-if="closed" to="/results"
             >Resultat
             <b-badge hidden class="new" pill variant="danger"
@@ -40,7 +40,7 @@
           ></b-nav-item>
           <b-nav-item to="/klubbar"
             >Anläggningar
-            <b-badge class="new" pill variant="danger"
+            <b-badge v-if="!closed" class="new" pill variant="danger"
               ><i class="fa fa-heart"></i></b-badge
           ></b-nav-item>
            

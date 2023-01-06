@@ -46,8 +46,8 @@
                   <b-button variant="primary" @click="next()">
                     <i class="fa fa-arrow-right"></i>
                   </b-button>
-                  <b-button variant="primary" class="text-white" to="/register">
-                  Anmälan
+                  <b-button v-if="!closed" variant="primary" class="text-white" to="/register">
+                  Anmälan {{closed}}
                   </b-button>
                 </div>
              
@@ -59,11 +59,12 @@
 </template>
 
 <script>
-
+import { globalState } from "../main.js";
 export default {
   props: ["number", "headline"],
   data() {
     return {
+      closed: globalState.closed,
       slide:0,
       swipe_visible: false,
       swipe_show_once: false,

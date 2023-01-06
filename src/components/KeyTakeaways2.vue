@@ -40,7 +40,8 @@
       >
         <b-card-text>
           Förutom <strong>20% rabatt</strong> på er simulatorhyra kommer ni få fina <strong>erbjudanden</strong> från alla våra samarbetspartners.
-           <b-button              
+           <b-button             
+                v-if="!closed"    
                 variant="primary"
                 class="mt-2"
                 to="/prisbord"
@@ -55,9 +56,11 @@
 </template>
 
 <script>
+import { globalState } from "../main.js";
 export default {  
   data() {
     return {    
+      closed: globalState.closed,
     };
   },
   mounted: function () {

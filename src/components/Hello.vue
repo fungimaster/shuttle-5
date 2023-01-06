@@ -38,7 +38,9 @@
               runtom i Sverige. Matcherna kan spelas på samma anläggning om kort resväg eller digitalt på 2 olika anläggningar.
             </p>
             <p class="mt-5 text-center">
+              <div class="text-center" v-if="closed"><h3>- Anmälan till tävlingen är nu stängd -</h3></div>
               <b-button
+                v-if="!closed"
                 variant="primary"
                 @click="scrollToAnchorPoint('register')"
                 size="md"
@@ -55,7 +57,8 @@
                 class="btn-igg"
                 >Se våra {{ clubs.length }} anläggningar</b-button
               >
-               <b-button              
+               <b-button     
+                v-if="!closed"         
                 variant="primary"
                 to="/prisbord"
                 size="md"
@@ -85,9 +88,9 @@
          <hr class="mt-5" v-if="latestTeam" />
   </b-container>
 
-    <b-container v-if="!loading" class="mt-5">
+    <b-container v-if="!loading" class="mt-5 mb-4">
        <keytakeaways2></keytakeaways2>
-       <hr class="mt-5" />
+       <hr v-if="!closed" class="mt-5" />
     </b-container>
 
  <b-container fluid v-if="!loading" class="no-padding hidden">
@@ -130,7 +133,7 @@
 
 
     <!-- REGISTER -->
-    <b-container ref="register" v-if="!loading" class="mb-5">
+    <b-container ref="register" v-if="!loading && !closed" class="mb-5">
       <b-row class="justify-content-center" align-h="center">
         <b-col class="col-12 mb-2">
           <register :igg="true"></register>
@@ -213,7 +216,7 @@
    <howitworks2 :headline="'Så här fungerar tävlingen'"  v-if="!loading" />
 
     <!-- RUFF/IGG -->
-    <b-container fluid class="no-padding mt-5" v-if="!loading">
+    <b-container fluid class="no-padding mt-5" v-if="!loading && !closed">
       <b-jumbotron fluid style="background:#fff;">
         <b-row>
           <b-col class="text-center col-12">
