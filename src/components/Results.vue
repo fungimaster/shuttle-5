@@ -545,7 +545,7 @@
                           Toppklubbar (spelade matcher)
                         </h5>
                        <p class="mt-3">
-                         Vilka golfklubbar kommer in på <strong>topp-20-listan</strong> över spelade matcher på sina banor? Se nedan <i class="fal fa-smile"></i>                         
+                         Vilka anläggningar kommer in på <strong>topp-10-listan</strong> över spelade matcher? Se nedan <i class="fal fa-smile"></i>                         
                        </p>                                     
                         <b-row class="mt-3">                          
                              <b-col class="col-10 col-md-10 mr-0 pr-0 mb-2">
@@ -1073,7 +1073,7 @@ export default {
     },
 
     truncate: function (club) {
-      let len = 30;
+      let len = 20;
       if (club.length > len) return club.substring(0, len) + "...";
       else return club;
     },

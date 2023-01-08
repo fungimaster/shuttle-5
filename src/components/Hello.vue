@@ -88,6 +88,25 @@
          <hr class="mt-5" v-if="latestTeam" />
   </b-container>
 
+ <b-container v-if="!loading" class="mt-5 mb-4">
+   <b-row v-if="closed">
+          <b-col class="col-12 mb-3 mt-5">
+            <h3>Omgångar 2023</h3>
+            <app-rounds-grafic
+              class="mt-3"
+              style="height: 300px"
+              linecolor="#808080"
+              opacity="1"
+              stagefill="black"
+              :condensed="false"
+            ></app-rounds-grafic>
+            <p class="small text-right mt-2">
+              <i>Klicka på diagrammet ovan för att se omgångsdatum.</i>
+            </p>
+          </b-col>
+        </b-row>
+ </b-container>
+
     <b-container v-if="!loading" class="mt-5 mb-4">
        <keytakeaways2></keytakeaways2>
        <hr v-if="!closed" class="mt-5" />
@@ -304,6 +323,8 @@ import Howitworks2 from "./Howitworks2";
 import Keytakeaways2 from './KeyTakeaways2.vue';
 import moment from "moment";
 import Podium from "./Podium";
+import AppRoundsGrafic from "./RoundsGrafic";
+
 
 moment.locale("sv");
 moment.updateLocale("sv", {
@@ -327,7 +348,7 @@ moment.updateLocale("sv", {
 
 export default {
   name: "indoor",
-  components: { register, Howitworks2,Keytakeaways2,Podium },
+  components: { register, Howitworks2,Keytakeaways2,Podium, AppRoundsGrafic },
   data() {
     return {
       latestTeam: null,

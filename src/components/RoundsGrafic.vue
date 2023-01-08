@@ -13,9 +13,8 @@
         <p class="text-center">
           <span v-if="windowWidth < 1000">
             {{
-              index === numberOfRounds - 2
-                ? "SF"
-                : index === numberOfRounds - 1
+             
+              index === numberOfRounds - 1
                 ? "F"
                 : `R${index + 1}`
             }}
@@ -23,9 +22,7 @@
 
           <span v-else>
             {{
-              index === numberOfRounds - 2
-                ? "S-FINAL"
-                : index === numberOfRounds - 1
+             index === numberOfRounds - 1
                 ? "FINAL"
                 : `R${index + 1}`
             }}
@@ -102,18 +99,14 @@
         v-if="!condensed && currentRound < index + 1"
         :class="{ 'stage-fill-white': stagefill === 'white' }"
         class="stage-fill stage p-2 d-flex justify-content-center align-items-center"
-        :style="{ height: `${100 - height(index) - 10}%` }"
+        :style="{ height: `${100 - height(index) - 8}%` }"
       >
         <i
           v-if="index === numberOfRounds - 1"
           class="material-icons icons-size-final"
-          >flight_takeoff</i
+          >emoji_events</i
         >
-        <i
-          v-else-if="index === numberOfRounds - 2"
-          class="material-icons icons-size-final"
-          >golf_course</i
-        >
+       
 
       </div>
   
@@ -128,29 +121,22 @@
                    <p>                   
                         <ul class="roundlist">
                           <li v-bind:class="{ active: currentRound === 1}">
-                            Omgång 1: 18 maj - 12 juni
+                            Omgång 1: 7 januari - 28 januari
                           </li>
                            <li v-bind:class="{ active: currentRound === 2}">
-                            Omgång 2: 13 juni - 26 juni
+                            Omgång 2: 28 januari - 18 februari
                           </li>
                             <li v-bind:class="{ active: currentRound === 3}">
-                            Omgång 3: 27 juni - 10 juli
+                            Omgång 3: 18 februari - 11 mars
                           </li>
                             <li v-bind:class="{ active: currentRound === 4}">
-                            Omgång 4: 11 juli - 31 juli
+                            Omgång 4: 11 mars - 1 april
                           </li>
                             <li v-bind:class="{ active: currentRound === 5}">
-                            Omgång 5: 1 aug - 21 aug
+                            Final: 15-16 april
                           </li>
-                            <li v-bind:class="{ active: currentRound === 6}">
-                            Omgång 6: 22 aug - 11 sep
-                          </li>                          
-                           <li v-bind:class="{ active: currentRound === 7}">
-                            Sverigefinal (16-18 sep)
-                          </li>
-                           <li v-bind:class="{ active: currentRound === 8}">
-                            Final (November)
-                          </li>
+                                                  
+                          
                        </ul>                       
                    </p>                   
                 </b-col>
@@ -271,7 +257,8 @@ export default {
 <style scoped>
 
 .active {
-  font-family: "Poppins";
+  font-family: "Poppins bold";
+  font-weight: 600;
 }
 
 .roundlist {

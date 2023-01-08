@@ -32,7 +32,7 @@
           </b-nav-item>
 
           <b-nav-item v-if="!closed" to="/register">Registrering</b-nav-item>
-          <b-nav-item hidden v-if="closed" to="/results"
+          <b-nav-item v-if="closed" to="/results"
             >Resultat
             <b-badge hidden class="new" pill variant="danger"
               ><i class="fa fa-circle"></i>
