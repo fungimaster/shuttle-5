@@ -29,12 +29,12 @@
 
 		<b-modal id="modal-legend" title="Välkommen till matchen!" ok-only ref="modal-legend">
 			
-			Se till att registrera scoren fortlöpande på väg till nästa tee eller innan ni slår ut på nästa så att dom som följer matchen ser de uppdaterade resultaten.
+			Se till att registrera scoren fortlöpande när ni ser resultaten på duken eller innan ni slår ut på nästa så att dom som följer matchen ser de uppdaterade resultaten.
 			<br><br>
 			<span class="red">När er match är avgjord är det viktigt att trycka på knappen <strong>avsluta matchen</strong> som blinkar rött högst upp på scorekortet!</span>
 			<br><br>
 			<div v-if="!freeplay">
-				Ta gärna ett foto på ditt lag eller hela gänget nu innan ni slår ut på första tee: <label v-if="authorized" for="file"><span class=" pulse-button btn btn-primary"><span style="font-size:1.5em;" class="material-icons mr-0">add_a_photo</span></span></label>
+				Ta gärna ett foto på ditt lag eller hela gänget nu innan ni slår ut på första hålet: <label v-if="authorized" for="file"><span class=" pulse-button btn btn-primary"><span style="font-size:1.5em;" class="material-icons mr-0">add_a_photo</span></span></label>
 						<br><span class="small">Bilden kommer visas på resultatsidan.</span>
 			</div>
 			<h5 class="mt-4 mb-3">Symbolförklaring</h5>
