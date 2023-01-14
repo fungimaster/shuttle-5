@@ -37,8 +37,16 @@
               <strong>{{ clubs.length }}</strong> olika inomhusanläggningar
               runtom i Sverige. Matcherna kan spelas på samma anläggning om kort resväg eller digitalt på 2 olika anläggningar.
             </p>
-            <p class="mt-5 text-center">
-              <div class="text-center" v-if="closed"><h3>- Anmälan till tävlingen är nu stängd -</h3></div>
+            <div class="mt-5 text-center">
+              <div hidden class="text-center" v-if="closed"><h3>- Anmälan till tävlingen är nu stängd -</h3></div>
+               <b-button
+                v-if="closed"
+                variant="primary"
+                to="results"
+                size="md"
+                class="btn-igg"
+                >Följ årets matcher</b-button
+              >
               <b-button
                 v-if="!closed"
                 variant="primary"
@@ -47,7 +55,7 @@
                 class="btn-igg"
                 >Anmäl ditt lag nu för endast {{ price_private }} kr</b-button
               >
-            </p>
+            </div>
             <p class="mt-3 text-center">
               <b-button
               hidden
@@ -107,7 +115,7 @@
         </b-row>
  </b-container>
 
-    <b-container v-if="!loading" class="mt-5 mb-4">
+    <b-container hidden v-if="!loading" class="mt-5 mb-4">
        <keytakeaways2></keytakeaways2>
        <hr v-if="!closed" class="mt-5" />
     </b-container>
@@ -183,7 +191,7 @@
 
     <!-- ANLÄGGNINGAR -->
 
- <b-jumbotron v-if="showTopClubs && !loading" container-fluid class="mt-0" id="podium2">
+ <b-jumbotron v-if="showTopClubs && !loading" container-fluid class="mt-0 mb-0" id="podium2">
       <b-container>
         <b-row>
           <b-col class="col-12">
@@ -200,13 +208,13 @@
       </b-container>
     </b-jumbotron>
 
-    <b-container class="pt-3"  v-if="!loading">
+    <b-container class="pt-3"  v-if="!loading && !closed">
       <b-row
         ref="clubs"
         class="justify-content-center mt-3 mb-5"
         align-h="center"
       >
-        <b-col class="col-12 col-md-12">
+        <b-col  class="col-12 col-md-12">
           <h2 class="mb-4">Anslutna inomhusanläggningar</h2>
           <b-badge
             class="p-2 m-2 indoor"
@@ -486,7 +494,7 @@ export default {
 }
 
 .herobg0 {
-  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_auto,e_colorize:50,co_rgb:000000/v1663921938/matchplay/igg/DSC09580.jpg);
+  background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_auto,e_colorize:40,co_rgb:000000/v1663921938/matchplay/igg/DSC09580.jpg);
   //background: url(https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_1200,q_auto,e_colorize:50,co_rgb:000000/v1634639604/matchplay/241623315_297370888855635_7137633828161165670_n.jpg);
   background-position: right center;
   color: #fff;
