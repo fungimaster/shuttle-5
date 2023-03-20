@@ -130,11 +130,8 @@
                             Omgång 3: 18 februari - 11 mars
                           </li>
                             <li v-bind:class="{ active: currentRound === 4}">
-                            Omgång 4: 11 mars - 1 april
-                          </li>
-                            <li v-bind:class="{ active: currentRound === 5}">
-                            Final: 15-16 april
-                          </li>
+                             Final: 15-16 april
+                          </li>                            
                                                   
                           
                        </ul>                       
