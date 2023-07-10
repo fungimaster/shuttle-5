@@ -32,7 +32,7 @@
               ><i class="fa fa-circle"></i>
               </b-badge
           ></b-nav-item>
-          <b-nav-item to="/klubbar"
+          <b-nav-item hidden to="/klubbar"
             >Anläggningar
             <b-badge hidden v-if="!closed" class="new" pill variant="danger"
               ><i class="fa fa-heart"></i></b-badge
@@ -40,7 +40,7 @@
            
           <b-nav-item hidden v-if="companies" to="/business">Företagslag</b-nav-item>
           <!-- normal comp -->
-          <b-nav-item to="/info_indoor">Om tävlingen</b-nav-item>
+          <b-nav-item to="/info">Om tävlingen</b-nav-item>
 
           <b-nav-item hidden to="/tavlingar"
             >Tidigare tävlingar

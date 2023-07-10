@@ -97,25 +97,7 @@
     </b-container>
 
 
-    <b-container fluid v-if="!loading" class="hidden">
-        <b-jumbotron fluid style="background:#000;">
-       <div class="videocontainer">       
-       <video
-          playsinline="playsinline"
-          autoplay="autoplay"
-          muted="muted"
-          loop="loop"
-        >
-          <source
-            src="https://res.cloudinary.com/dn3hzwewp/video/upload/q_auto,vc_h265/v1666166321/matchplay/igg/Matchplay_Indoor_Homepage_movie.mp4"
-            type="video/mp4"
-          />
-        </video>
-       </div>
-        </b-jumbotron>
-    </b-container>
-
-
+   
     <!-- REGISTER -->
     <b-container ref="register" v-if="!loading && !closed" class="mb-5">
       <b-row class="justify-content-center" align-h="center">
@@ -125,47 +107,7 @@
       </b-row>
     </b-container>
 
-    <!-- RUFF/IGG -->
-    <b-container fluid class="no-padding black" v-if="!loading">
-      <b-jumbotron fluid style="background:#000;" class="mb-0">
-        <b-row>
-          <b-col class="text-center col-6">
-            <b-img
-              src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1665478570/matchplay/igg/-_RUFF-Text-White.png"
-            >
-            </b-img>
-          </b-col>
-          <b-col col="6" class="text-center col-6">
-            <!-- e_colorize,co_rgb:fff -->
-            <b-img
-              src="https://res.cloudinary.com/dn3hzwewp/image/upload/v1665597995/matchplay/igg/logo_igg_white.png"
-            >
-            </b-img>
-          </b-col>
-        </b-row>
-      </b-jumbotron>
-    </b-container>
-
-    <!-- ANLÄGGNINGAR -->
-
- <b-jumbotron v-if="showTopClubs && !loading" container-fluid class="mt-0 mb-0" id="podium2">
-      <b-container>
-        <b-row>
-          <b-col class="col-12">
-            <h3 class="teaser-header orange mb-4">Topp 3 anläggningar</h3>
-            <podium number="3"></podium>
-          </b-col>
-        </b-row>
-        <b-row class="mt-5">
-          <b-col class="col-12">
-            <b-button class="white" to="/klubbar">Se alla anläggningar</b-button>
-          </b-col>
-        </b-row>
-        
-      </b-container>
-    </b-jumbotron>
-      
-
+    
 
     <!-- HOW IT WORKS -->
    <howitworks :headline="'Så här fungerar tävlingen'"  v-if="!loading" />
