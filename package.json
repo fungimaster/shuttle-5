@@ -24,8 +24,7 @@
     "simpleddp": "^2.2.4",
     "simpleddp-plugin-login": "^4.0.2",
     "v-calendar": "^1.0.6",
-    "v-suggestions": "^1.1.1",
-    
+    "v-suggestions": "^1.1.1",    
     "vue": "^2.6.12",
     "vue-cookie-accept-decline": "^5.4.0",
     "vue-custom-range-slider": "^0.2.3",
