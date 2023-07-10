@@ -307,7 +307,9 @@ h5,
   text-transform: uppercase;
 }
 h1 {
-  color: $orange;
+
+  font-size:3.5rem;
+  
   @media (max-width: 767px) {
     font-size: 1.65rem !important;
   }

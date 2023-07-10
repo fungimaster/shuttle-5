@@ -7,7 +7,7 @@
       <b-navbar-brand>
         <router-link class to="/">
            <img       
-            src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_100/v1665478419/matchplay/igg/Matchplay-Indoor-ruff-IGG-2023.png"
+            src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_100/v1688979193/matchplay/local/Matchplay_logo_PNG_2023.png"
             alt
           />
         </router-link>
@@ -24,13 +24,7 @@
         </div>
         <b-navbar-nav class="ml-auto">
           <!-- <b-nav-item :to="{path: '/line-up', query: {tags:$route.query.tags, day:$route.query.day}}">Line-up</b-nav-item> -->
-          
-          <b-nav-item to="/prisbord">Prisbordet
-          <b-badge class="new" pill variant="danger"
-              ><i class="fa fa-trophy"></i></b-badge
-          >
-          </b-nav-item>
-
+                
           <b-nav-item v-if="!closed" to="/register">Registrering</b-nav-item>
           <b-nav-item v-if="closed" to="/results"
             >Resultat
@@ -40,7 +34,7 @@
           ></b-nav-item>
           <b-nav-item to="/klubbar"
             >Anläggningar
-            <b-badge v-if="!closed" class="new" pill variant="danger"
+            <b-badge hidden v-if="!closed" class="new" pill variant="danger"
               ><i class="fa fa-heart"></i></b-badge
           ></b-nav-item>
            

@@ -177,7 +177,7 @@
               med information om tävlingen att sätta i receptionen
             </li>
             <li>Lägg ut en länk till tävlingen på er hemsida</li>
-            <li>Dela indoor.matchplay.se i era sociala kanaler</li>
+            <li>Dela local.matchplay.se i era sociala kanaler</li>
           </ul>
         </b-col>
 

@@ -7,7 +7,7 @@
         <b-row>
           <b-col md="12" class="text-center">
             <h2>REGLER & ÖVRIG INFO</h2>
-            <p class>All nödvändig information kring tävlingen Matchplay Indoor</p>
+            <p class>All nödvändig information kring tävlingen Matchplay Local</p>
             <b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,h_200,q_auto,e_colorize:100,co_rgb:ffffff/v1665478419/matchplay/igg/Matchplay-Indoor-ruff-IGG-2023.png">
             </b-img>
           </b-col>

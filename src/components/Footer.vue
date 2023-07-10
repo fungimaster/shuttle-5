@@ -11,7 +11,7 @@
   </b-button>
   </ScrollTopComponent>
 
-    <b-container class="sponsors">
+    <b-container hidden class="sponsors">
       <hr hidden class="mb-5" />
 
       <b-row>
@@ -122,11 +122,11 @@
         <b-row>
           <b-col xl="2" class="left"></b-col>
           <b-col>
-            <b-container>
+            <b-container class="mt-5">
               <b-row>
                 <b-col xl="2"></b-col>
                 <b-col>
-                  <h3>Matchplay Sweden</h3>
+                  <h3>Matchplay Local Series</h3>
                   <div class="hidden newsletter mt-3 mb-5"></div>
                   <br />
                   <p class="hidden">Matchplay AB</p>
