@@ -7,7 +7,7 @@
         <b-row>
           <b-col md="10">
             <h2>REGLER & ÖVRIG INFO</h2>
-            <p class>All nödvändig information kring tävlingen Matchplay</p>
+            <p class>All nödvändig information kring tävlingen Matchplay Local Series</p>
           </b-col>
           <b-col md="2" class></b-col>
         </b-row>
@@ -86,12 +86,7 @@
           <div class="pt-4 pb-2 first" id="1">
             <h3>LÖPANDE INFO & Kommunikation</h3>
             <p>
-              Matchplay är en tävling som enbart marknadsförs främst på sociala
-              medier och därför är det vår största informationskanal mot alla
-              våra deltagare. Följ oss gärna där för snabbast info gällande allt
-              som rör tävlingen. Alla deltagare finns även med sina adresser i
-              vårt nyhetsbrev och kommer där få information inför uppstart och
-              Sverigefinal.
+             Matchplay är en tävling som enbart marknadsförs främst på sociala medier och därför är det vår största informationskanal mot alla våra deltagare. Följ oss gärna där för snabbast info gällande allt som rör tävlingen. Alla deltagare finns även med sina adresser i vårt nyhetsbrev och kommer där få information inför uppstart och grundomgångar.
             </p>
           </div>
           <hr />
@@ -138,19 +133,10 @@
               <a href="mailto:info@matchplay.se">info@matchplay.se</a>
             </p>
 
-            <div class="mt-5 video-container">
-              <iframe
-                src="https://www.youtube.com/embed/SLk3r_sbdg0"
-                frameborder="0"
-                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-              ></iframe>
-            </div>
           </div>
         </b-col>
       </b-row>
-    </b-container>
-    <app-henke-larsson class="mt-5" />
+    </b-container>    
   </div>
 </template>
 
@@ -158,15 +144,13 @@
 import { globalState } from "../main.js";
 import Howitworks from "./Howitworks";
 import AppFaqCard from "./FaqCard";
-import AppHenkeLarsson from "./HenkeLarsson";
 import { mapGetters } from "vuex";
 
 export default {
   name: "faq",
   components: {
     Howitworks,
-    AppFaqCard,
-    AppHenkeLarsson,
+    AppFaqCard    
   },
    created() {
     const promise = this.$store.dispatch('getCompetition', globalState.compid)
@@ -192,8 +176,8 @@ export default {
     information () {
      return  [
           {
-            headline: "Regioner Matchplay 2022",
-            text: "Matchplay spelas i hela Sverige. Längre resväg kan förekomma vid få registrerade lag i vissa regioner av Sverige. Värt att poängtera är att lottningen alltid sker med geografiskt utgångsläge som prioritering för minimera reslängd.",
+            headline: "Regioner Matchplay Local Series 2023",
+            text: "Matchplay Local Series spelas Stockholm, Göteborg och Malmö. Målsättningen är att deltagarna ska ha en så kort ressträcka som möjligt till en match, helst max 50km som längst. Tyvärr kan det förekomma att någon kan behöva åka lite längre än så men lottningarna utgår från att optimera restiden.",
             imgurl1: null,
             imgurl2: null,
             category: 6,
@@ -208,43 +192,41 @@ export default {
           {
             headline: "Betalning",
             text:
-              "Privatlag betalar via Swish medans företagslag betalar via faktura som skickas till angiven mailadress. Priset per lag är " +
+              "Lag betalar via Swish. Priset per lag är " +
               this.price1 +
-              " för privatpersoner och " +
-              this.price2 +
-              " (exkl. moms) för företag.",
+              " kr.",
             imgurl1: null,
             imgurl2: null,
             category: 1,
           },
           {
             headline: "Deltagare/lag",
-            text: "Matchplay spelas i 2-mannalag (herrlag, damlag eller mixade lag) Alla deltagare måste ha officiellt HCP. Man behöver inte vara anställd av ett företag man representerar i ett företagslag.",
+            text: "Matchplay spelas i 2-mannalag (herrlag, damlag eller mixade lag) Alla deltagare måste ha officiellt HCP.",
             imgurl1: null,
             imgurl2: null,
             category: 1,
           },
           {
             headline: "ÅLDERSGRÄNS FÖR DELTAGANDE",
-            text: " Båda spelarna måste fylla minst 18 år innan tävlingsstart. Undantaget är när en deltagare under 18 registreras tillsammans med målsman, som då är bunden att medverka vid eventuell utlandsfinal.",
+            text: "Båda spelarna måste fylla minst 18 år innan tävlingsstart. Undantaget är när en deltagare under 18 registreras tillsammans med målsman, som då är bunden att medverka vid eventuell utlandsfinal.",
             imgurl1: null,
             imgurl2: null,
             category: 1,
           },
           {
             headline: "Handicapgräns",
-            text: "Officellt handicap (36.0) krävs för deltagande. Högsta HCP i matchspel är 28.0 och har laget tillsammans högre än 28.0 i hcp kommer spelarna i laget dela på reduceringen. <br/> <br/> Tex: Om spelare A har 16 i hcp och spelare B har 19 i hcp blir detta 35 sammanlagt, vilket innebär att spelare A och B får 3.5 slag färre och kommer få nytt exakt hcp på 12.5 och 15.5 som sedan slope och matchspeluträkningar baseras på. När en match påbörjas räknas allt ut automatiskt och information om uträkningen finns tillgänglig i scorekortet.",
+            text: "Officellt handicap (36.0) krävs för deltagande. Högsta HCP i matchspel är 28.0 och har laget tillsammans högre än 28.0 i hcp kommer spelarna i laget dela på reduceringen.",
             imgurl1: null,
             imgurl2: null,
             category: 1,
           },
-          {
+         /*  {
             headline: "Tävlingsklasser 2022",
             text: "Matchplay spelas i en klass.",
             imgurl1: null,
             imgurl2: null,
             category: 3,
-          },
+          }, */
           {
             headline: "Spelform",
             text: "Alla matcher spelas som 4-boll, Match/Bästboll. De 2 spelarna i lagen som har bästa score på respektive hål, mäts mot varandra. Bästa score vinner hålet till laget.  <br/> <br/> Är bästa score samma hos bägge lagen delas hålet. Efter att slopen räknats in reduceras respektive spelares HCP med 10%. De tre spelarna med högst reducerat spelhandicap får i matchen slag motsvarande skillnaden till den spelaren som har lägst spelhandicap. Spelaren med lägst reducerat spelhandicap spelar med 0 i spelhandicap. Till sist sker avrundning till närmaste heltal (uppåt vid 0.5, 1.5, 2.5 osv).<br/><br/> <strong> OBS! Vårt digitala scorekort räknar ut detta till er innan match! </strong> De erhållna slagen för matchen gäller från index 1 och uppåt. Vi hänvisar samtidigt till SGF:s Spel- och Tävlingshandbok. Erhållna slag utdelas på samma hål som ursprungsmatchen.",
@@ -252,6 +234,13 @@ export default {
               "https://res.cloudinary.com/dn3hzwewp/image/upload/v1591952386/matchplay/hcp.png",
             imgurl2: null,
             category: 2,
+          },
+          {
+            headline: "Spelform under finalen",
+            text: "Lagen från respektive Local Series spelar en matchspelsserie mot varandra. Vinst ger tre poäng och oavgjord en poäng. Dag 1 – Lag A möter Lag B Dag 2 – Lag B möter Lag C Dag 3 – Lag C möter Lag A. Vid lika poäng efter sista omgången så sker särspel för att urskilja en vinnare.",
+            imgurl1: null,
+            imgurl2: null,
+            category:2
           },
           {
             headline: "Särspel",
@@ -262,7 +251,7 @@ export default {
           },
           {
             headline: "Andra chansen",
-            text: "Alla lag i Matchplay garanteras minst två matcher. Vid förlust i första omgången hamnar man i Andra Chansen. Här har man fortfarande chansen att nå både final i Sverige och utomlands, men vägen är lite svårare.  <br/> <br/> Vid omgång 5-6 (beroende på antalet anmälda lag totalt) kommer en gemensam tävling anordnas för kvarvarande lag i Andra Chansen, där de två bästa lagen tar sig till Sverigefinalen och in i huvudtävlingen igen. Tävlingsformen under denna dag kommer att vara poängbaserad. <br/> <br/> OBS! Om en match vinns eller förloras genom walk over eller lottning, så räknas även detta som spelad match.",
+            text: "Alla lag i Matchplay garanteras minst två matcher. Vid förlust i första omgången hamnar man i Andra Chansen. Slutvinnaren i andra chansen vinner ett golfweekend-paket i Portugal (boende och greenfee ingår). <br><br>OBS! Om en match vinns eller förloras genom walk over eller lottning, så räknas även detta som spelad match.",
             imgurl1: null,
             imgurl2: null,
             category: 4,
@@ -283,7 +272,7 @@ export default {
           },
           {
             headline: "Spelplatser",
-            text: "Vårt lottningssystem är utformat för att ge en så rättvis fördelning som möjligt sett till spelplats.  <br/> <br/> Hemmalag/bortalag fördelas jämnt mellan omgångarna och lottas fram i första omgången. Detta innebär att man kan välja sin hemmabana men kan också komma överens med motståndarna om annan bana. Lagkaptenerna i respektive lag ansvarar för att föra score för alla spelare. Eventuell greenfee under kvalomgångarna innan semifinal och final betalas av respektive lag. <br/> <br/> Matchen avgörs över 18 hål utan särspel. OBS! Endast klubbar med 18 hål kan och ska användas under spelet. Om ett (eller flera) hål på banan är avstängt hoppar man över detta hål och matchen avgörs då över de hål som är spelbara.  <br/> <br/> Sverigefinalen spelas runt september 2022 på Allerum Golfklubb strax utanför Helsingborg. Spelformen är samma under Sverigefinalen som i grundomgången. Alla deltagare i Sverigefinalen har redan kvalificerat sig för spel nästkommande år utan kostnad. Vinnarna går vidare till finalspelet som sker utomlands (oktober 2022), på plats som meddelas januari 2022.",
+            text: "Vårt lottningssystem är utformat för att ge en så rättvis fördelning som möjligt sett till spelplats.  <br/> <br/> Hemmalag/bortalag fördelas jämnt mellan omgångarna och lottas fram i första omgången. Detta innebär att man kan välja sin hemmabana men kan också komma överens med motståndarna om annan bana. Lagkaptenerna i respektive lag ansvarar för att föra score för alla spelare. Eventuell greenfee under kvalomgångarna innan semifinal och final betalas av respektive lag. <br/> <br/> Matchen avgörs över 18 hål utan särspel. OBS! Endast klubbar med 18 hål kan och ska användas under spelet. Om ett (eller flera) hål på banan är avstängt hoppar man över detta hål och matchen avgörs då över de hål som är spelbara.  <br/> <br/> Finalen spelas 22-26 oktober på Golf Le Fonti i Bologna, Italien. De tre vinnande lagen från Local Series Stockholm, Local Series Göteborg och Local Series Malmö spelar en greensome poängbogey mot varandra och där de två lag med mest poäng efter 18 hål går in i huvudfinalen. Spelformen för huvudfinalen är samma som i grundomgången. Alla deltagare i finalen har redan kvalificerat sig för spel nästkommande år utan kostnad.",
             imgurl1: null,
             imgurl2: null,
             category: 4,
@@ -304,13 +293,13 @@ export default {
               "https://res.cloudinary.com/dn3hzwewp/image/upload/v1612601969/matchplay/scorekort2.png",
             category: 2,
           },
-          {
+         /*  {
             headline: "Tävlingsdomare",
             text: "Tävlingsansvarig Mikael Gräntz finns på plats tillsammans med andra knutna till Matchplay under både Sverige- och utlandsfinal. Under grundspelet ansvarar alla deltagare för regler gällande matchspel. Vi finns alltid tillgängliga på telefon under tävlingstiden, så har ni frågor eller funderingar så kontakta oss direkt.",
             imgurl1: null,
             imgurl2: null,
             category: 3,
-          },
+          }, */
           /* {
             headline: "Minimiantal",
             text: "Vi utgår från att vi blir fullt tillräckligt med antal företags- och privatlag lag under 2022, men reserverar oss för händelser helt utanför vår kontroll, som kan innebära att deltagarantalet blir alldeles för litet för att genomföra tävlingen.  <br/> <br/> Om detta skulle ske <strong>återbetalas</strong> hela beloppet till respektive lag samma dag beslutet tas. Då vi står helt ovetandes inför alla beslut som tas gällande Corona, så vill vi här betona garantin att om tävlingen av olika anledningar inte skulle gå eller få spelas, så återbetalas alla deltagaravgifter till 100%.",
@@ -320,7 +309,7 @@ export default {
           }, */
           {
             headline: "Handicap",
-            text: "För att spela matcher från 1 juli 2022 krävs att deltagande spelare ska ha minst 3 HCP-ronder korrekt registrerade under innevarande år i GIT innan match i tävlingen spelas. Detta gäller även reserverna.  <br/> <br/> Vårt system är uppkopplat mot GIT och ni kommer att bli påminda om ej registrerade ronder om ni skulle logga in för spel och ej uppfyllt dessa kriterier. Man kan alltså inte starta spelet och logga in om detta inte efterföljs. Laget kan spela med en spelare eller ta in reserv som uppfyller kraven. Deltager spelare trots allt i matchen (använder pappers scorekort) blir laget diskvalificerat. <br/> <br/> För lag som går till Sverigefinal gäller att minst 4 HCP-ronder ska vara korrekt registrerade i GIT. Vi vill påpeka att det är varje spelares skyldighet att se till att spela på det HCP som visar spelarens normala spelstandard. Oavsett om inga handicapgrundande ronder är noterade är man som spelare skyldig att revidera sitt handicap med sin klubbs hcp-kommitté.   <br/> <br/> Klubbarnas HCP-kommittéer är utredande/dömande part i ett eventuellt HCP-ärende. Matchplay följer alltid dom från berörd HCP-kommitté. Spel på ett för högt HCP innebär att laget diskvalificeras från tävlingen.",
+            text: "För att spela matcher från 1 juli 2023 krävs att deltagande spelare ska ha minst 3 HCP-ronder korrekt registrerade under innevarande år i GIT innan match i tävlingen spelas. Detta gäller även reserverna.  <br/> <br/> Vårt system är uppkopplat mot GIT och ni kommer att bli påminda om ej registrerade ronder om ni skulle logga in för spel och ej uppfyllt dessa kriterier. Man kan alltså inte starta spelet och logga in om detta inte efterföljs. Laget kan spela med en spelare eller ta in reserv som uppfyller kraven. Deltager spelare trots allt i matchen (använder pappers scorekort) blir laget diskvalificerat. <br/> <br/> För lag som går till finalen i Italien gäller att minst 4 HCP-ronder ska vara korrekt registrerade i GIT. Vi vill påpeka att det är varje spelares skyldighet att se till att spela på det HCP som visar spelarens normala spelstandard. Oavsett om inga handicapgrundande ronder är noterade är man som spelare skyldig att revidera sitt handicap med sin klubbs hcp-kommitté.   <br/> <br/> Klubbarnas HCP-kommittéer är utredande/dömande part i ett eventuellt HCP-ärende. Matchplay följer alltid dom från berörd HCP-kommitté. Spel på ett för högt HCP innebär att laget diskvalificeras från tävlingen.",
             imgurl1: null,
             imgurl2: null,
             category: 3,

@@ -120,7 +120,7 @@
                     </b-col>
                     <b-col hidden md="12" class="mt-3">
                         <h2>Skapa ditt blivande mästarlag</h2>
-                        <p v-if="!closed && !is_igg" class="mt-3" >Nu är det dags att skapa ditt lag för matchplay 2023. Klicka på knappen nedan och följ instruktionerna.</p>
+                        <p v-if="!closed" class="mt-3" >Nu är det dags att skapa ditt lag för matchplay local series 2023. Klicka på knappen nedan och följ instruktionerna.</p>
                     </b-col>
                     <b-col hidden md="12" class="pt-1 text-center mt-3 mb-5">
                         <b-button variant="primary" class="blue-bg mt-5 mb-3 pulse-button btn-lg" v-on:click="create_team('new')"><i class="material-icons">sports_golf</i> Skapa ditt lag</b-button>
@@ -238,7 +238,7 @@
                                 <span v-else><b-skeleton class="d-inline-block mt-1" width="50%"></b-skeleton> </span>    
                             </div>
                             
-                            <div>
+                            <div class="hidden">
                                 <label for="input-ref" class="d-inline">Intjänad rabatt:</label>
                                 <span v-if="userdetails.referrals" class="d-inline">{{userdetails.referrals*50}} kr</span>
                                 <span v-if="userdetails.referrals===0">{{userdetails.referrals}}:-</span>
@@ -249,7 +249,7 @@
                                                   För varje lag som följt din länk du delat och där ett lag skapas får du 50kr rabatt på nästa års anmälningsavgift.
                                             </b-popover>
                   
-                   <b-input v-if="!closed" id="ref_link" class="mt-2" :value="'https://indoor.matchplay.se/register?referral='+ userdetails.userId"></b-input>
+                   <b-input v-if="!closed" id="ref_link" class="mt-2" :value="'https://local.matchplay.se/register?referral='+ userdetails.userId"></b-input>
                    <b-button v-if="!closed" class="mt-3" size="sm" variant="primary" @click="copyLink('ref_link')">Kopiera länk</b-button>
                  
                             </div>
@@ -453,34 +453,44 @@
 
 
             <b-container class="mt-3 mt-md-4" v-if="team.step === 0">        
-                <b-row align-h="center" v-if="teams.length === 0 || !teams.length || !closed">
+                <b-row hidden align-h="center" v-if="teams.length === 0 || !teams.length || !closed">
                         <b-col md="12" class="mt-2">                       
                             <h2 hidden>Skapa ditt blivande mästarlag</h2>
                             <p v-if="closed" class="mt-3">Om inga lag syns här har något blivit fel med lagkopplingen eller så har registreringen stängt, se kontaktuppg. längst ner på sidan.</p>
                         
-                            <p v-if="!closed && teams.length === 0 && !is_igg || (!teams.length && !closed && !is_igg)" class="mt-3" >Nu är det dags att skapa ditt lag för matchplay 2023. Klicka på knappen nedan och följ instruktionerna.</p>
+                            <p v-if="!closed && teams.length === 0 || (!teams.length && !closed)" class="mt-3 mb-5" > Vinnande lag i Local Series Stockholm, Local Series Göteborg och Local Series Malmö får åka till Golf Le Fonti och tävla om titeln i Matchplay Local Series 2023. Matchplay står för flyg, transfer, boende, middag och golf på plats. Finalen spelas mellan 22-26 oktober.</p>
                         </b-col>
                         <b-col v-if="!closed && teams.length === 0 && !is_igg || (!teams.length && !closed && !is_igg)" md="12" class="pt-1 text-center mt-2 mb-3">
                             <b-button variant="primary" class="blue-bg mt-3 mb-3 pulse-button btn-lg" v-on:click="create_team('new')"><i class="material-icons">sports_golf</i>Skapa ditt lag</b-button>
                         </b-col>
                 </b-row>
                 <!-- IGG SPECIAL -->
-                <b-row class="igg" v-if="(!teams.length && !closed)">
+                <b-row class="igg" v-if="(!teams.length && !closed && !fetchingPlayerData)">
                     <b-col class="col-12 mt-0">
-                        <b-img fluid left class="mr-3 mb-2" src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,h_80,q_auto/v1665478419/matchplay/igg/Matchplay-Indoor-ruff-IGG-2023.png"></b-img>
+                        <b-img fluid left class="mr-3 mb-2" src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,h_80/v1688979193/matchplay/local/Matchplay_logo_PNG_2023.png"></b-img>
                      <p class="small">                        
-                            Matchplay skapar ännu en tävling för alla som vill hålla svingen och tävlandet vid liv under de mörka månaderna. Mellan 8 januari och 15 april 2023 spelas tävlingen på 30 olika inomhusanläggningar runtom i Sverige.
-                            <strong>Pris per lag är {{team.price_igg}} kr</strong>.                            
+                           Vinnande lag i Local Series <strong>Stockholm</strong>, Local Series <strong>Göteborg</strong> och Local Series <strong>Malmö</strong> får åka till Golf Le Fonti och tävla om titeln i Matchplay Local Series 2023. Matchplay står för flyg, transfer, boende, middag och golf på plats. Finalen spelas mellan 22-26 oktober.
+                            <strong>Pris per lag är {{team.price_private}} kr</strong>.                            
                             </p>
                     </b-col>
-                    <b-col class="col-12 text-center">
-                         <b-button pill class="btn-igg pulse-button-igg mt-3 mb-3 btn-sm" v-on:click="is_igg=true,create_team('new')"><i class="material-icons">sports_golf</i> Skapa ditt lag</b-button>
+                    <b-col class="col-4 text-center mt-md-5 mt-3">
+                        Local Series <br><strong>STOCKHOLM</strong><br>
+                          <b-button variant="primary" class="blue-bg mt-3 mb-3 btn-md" v-on:click="create_team('new',null,'iHv4PtxyoTHLJQSJZ','Stockholm')"><i class="material-icons">sports_golf</i>Skapa ditt lag</b-button>
+                         <span class="hidden d-block">12/64</span>
+                    </b-col>
+                    <b-col class="col-4 text-center mt-md-5 mt-3">
+                        Local Series <br><strong>GÖTEBORG</strong><br>
+                          <b-button variant="primary" class="blue-bg mt-3 mb-3 btn-md" v-on:click="create_team('new',null,'NPiNmtGS9RZ9ry7zY','Göteborg')"><i class="material-icons">sports_golf</i>Skapa ditt lag</b-button>
+                    </b-col>
+                    <b-col class="col-4 text-center mt-md-5 mt-3">
+                        Local Series <br><strong>MALMÖ</strong><br>
+                          <b-button variant="primary" class="blue-bg mt-3 mb-3 btn-md" v-on:click="create_team('new',null,'9SPfjtNpvKenZCmDB','Malmö')"><i class="material-icons">sports_golf</i>Skapa ditt lag</b-button>
                     </b-col>
                 </b-row>
                 <!-- END IGG SPECIAL -->
                
             </b-container>              
-            <b-container v-if="showteamslist && team.step === 0" class="">
+            <b-container v-if="showteamslist && team.step === 0 && !fetchingPlayerData">
                 <b-row align-h="center">
                     <b-col cols="12" lg="10" class="pl-1 pr-1">
                         <b-alert dismissible  @dismissed="setCookie" v-if="!team.paid && isEarlyBirdie && showEarlyBirdie" show variant="warning" class="text-dark">Glöm inte bort att just nu har vi vårt Early Birdie erbjudande med ett reducerat ordinarie pris med 100 kr.</b-alert>
@@ -497,7 +507,7 @@
                                 <span v-if="team.type === 'Company'" class="pr-2">{{team.teamname}}</span>
                                 <img v-if="team.type === 'Company'" class="mt-2 pt-3 pb-3 mb-4 d-block teamimage" :src="getTeamLogo(team.logourl)">
 
-                                <span v-else class="pr-2 mt-2">Ditt lag</span>                                
+                                <span v-else class="pr-2 mt-2">{{team.competitionname}}</span>                                
                                 
                             </b-card-title>
                             <b-card-text class="mt-0">
@@ -645,7 +655,12 @@
                   
             </b-container>
             <b-row align-h="center pt-2 pb-2" v-if="fetchingPlayerData">
+                <b-col class="col-12 text-center">
                 <b-spinner></b-spinner>
+                </b-col>
+                <b-col class="col-12 text-center">
+                {{loading_comp}}
+                </b-col>
             </b-row>
             
             <!--   -->
@@ -748,12 +763,17 @@
                 <div v-if="team.step ===1" >
 
                     <b-container>
-                        <b-row align-h="center">
+                         <b-row align-h="center">                           
+                            <b-col md="6">
+                                <strong>Matchplay Local Series {{team.competitionname}}</strong><br><br>
+                            </b-col>
+                         </b-row>
+                        <b-row align-h="center">                           
                             <b-col md="6">
                                 <b-form-group class="mb-3 mt-0">
                                     <p v-if="!team.type">Vill du anmäla ett Privatlag eller Företagslag?</p>
                                     <label for="type">Välj lagtyp:</label>
-                                    <b-form-select v-bind:disabled="team.is_readonly" id="type" v-model="team.type" :options="teamoptions" :state="validation_type" required>
+                                    <b-form-select v-bind:disabled="team.is_readonly" id="type" v-model="team.type" :options="teamoptions" :state="validation_type">
                                     </b-form-select>
                                 </b-form-group>
                                  <b-alert hidden v-if="team.type==='Private' && is_igg" variant="warning" class="small">                                   
@@ -989,6 +1009,7 @@
                                             id="checkbox-1"
                                             v-model="useDiscount"
                                             name="checkbox-1"
+                                            class="hidden"
                                             :value="true"
                                             variant="success"
                                             :unchecked-value="false"
@@ -1000,11 +1021,11 @@
                                     id="checkbox-2"
                                     v-model="useCoupon"
                                     @change="disableCoupon()"
-                                    name="checkbox-2"
+                                    name="checkbox-2"                                    
                                     :value="true"
                                     variant="success"
                                     :unchecked-value="false"
-                                     class="pb-1"
+                                     class="pb-1 hidden"
                                 >
                                    <strong :class="team.usedcoupon ? 'text-success' : 'text-success'">Använd rabattkod</strong>
                                   </b-form-checkbox>
@@ -1113,6 +1134,7 @@
                                     <b-button :disabled="!validate_voucher" show @click="payVoucher()" variant="info" size="sm" class="float-right mt-1">
                                         <b-spinner v-if="showspinner_voucher" small type="grow" class="mr-2"></b-spinner>Betala
                                     </b-button>
+                                    <span>{{local_comp}}</span>
                                     <b-form-invalid-feedback v-if="team.voucher != ''" id="no-voucher">
                                         Din voucherkod är inte giltig.
                                     </b-form-invalid-feedback>
@@ -1643,6 +1665,8 @@ export default {
             choosereserve: false,
             closed: globalState.closed,  
             tabIndex: 0,
+            local_comp: null,
+            loading_comp: null,
             games:0,
             teamscount:0,
             gamescount:0,
@@ -1762,10 +1786,10 @@ export default {
                     value: null,
                     text: 'Vänligen välj ett alternativ'
                 },
-                {
+              /*   {
                     value: 'Company',
                     text: 'Företag'
-                },               
+                },   */             
                 {
                     value: 'Private',
                     text: 'Privat'
@@ -1893,8 +1917,7 @@ export default {
                         }
                     ],
                 },               
-                _id: '',
-                price_igg: this.price_igg,
+                _id: '',                
                 price_private: this.price1,
                 pricereduc: 0,               
                 price_company: this.price2,
@@ -1915,8 +1938,8 @@ export default {
                 player_3_name: '',
                 player_3_hcp: '',
                 player_3_exists: false,
-                is_readonly: false,
-                type: null,
+                is_readonly: true,
+                type: 'Private',
                 file: null,
                 logo: null,
                 company: '',
@@ -2187,6 +2210,7 @@ export default {
                 .then((response) => {
 
                     const sim_id = localStorage.getItem('userId');
+                    console.log('getplayerdata3')    
                     this.getPlayerData(sim_id);
                         
                     this.progress = 100;
@@ -2383,10 +2407,7 @@ export default {
     getTopListClubs(course) {
       //this.clubcount = 0;
 
-        var thecompid = globalState.compid;
-        if (this.is_igg) {
-            thecompid = globalState.compid_igg;
-        }
+        var thecompid = globalState.compid;       
 
       this.axios
         .post("https://matchplay.meteorapp.com/methods/" + "getTopClubs", {
@@ -2464,7 +2485,7 @@ export default {
                 let url = globalState.admin_url + 'updateTeam' ;
                  var thecompid = globalState.compid;
                     if (this.is_igg) {
-                        thecompid = globalState.compid_igg;
+                        thecompid = globalState.compid;
                     }             
                 
                 this.axios.post(url, {
@@ -2600,9 +2621,12 @@ export default {
                             return;
                         } else if (response.data.status === 'ok') {
                             this.showloginspinner = false;
+                            this.fetchingPlayerData = true;
+                            //console.log('getplayerdata4')    
                             this.getPlayerData();
                             this.teamscount = 0;
                         } else {
+                            //console.log('getplayerdata5')    
                             this.getPlayerData();
 
                         }
@@ -2694,7 +2718,7 @@ export default {
         checkTeamNameUnique(name) {
              var thecompid = globalState.compid;
         if (this.is_igg) {
-            thecompid = globalState.compid_igg;
+            thecompid = globalState.compid;
         }
             let url = globalState.admin_url + 'checkTeamNameUnique'
             this.axios.post(url, {
@@ -2858,10 +2882,12 @@ export default {
                     action = 'update'
                 }
 
-                 var thecompid = globalState.compid;
-                    if (this.is_igg) {
-                        thecompid = globalState.compid_igg;
-                    }
+                 if (this.local_comp) {
+                    var thecompid = this.local_comp //new
+                    console.log(this.local_comp)
+                } else {
+                    console.log('ERROR COMP ID 1')
+                }
 
                 this.axios.post(url, {
                         "competition": thecompid,
@@ -2916,10 +2942,14 @@ export default {
                     }
                 }
                 let url = globalState.admin_url + 'updateTeam';
-                var thecompid = globalState.compid;
-                    if (this.is_igg) {
-                        thecompid = globalState.compid_igg;
-                    }
+                //var thecompid = globalState.compid;
+                  if (this.local_comp) {
+                    var thecompid = this.local_comp //new
+                    console.log(this.local_comp)
+                } else {
+                    console.log('ERROR COMP ID 2')
+                }
+
                 this.axios.post(url, {
                         "competition": thecompid,
                         "_id": this.team._id,
@@ -2939,6 +2969,7 @@ export default {
                             if (this.team.completemode) {
                                 this.showloginspinner = false;
                                 this.team.completemode = false;
+                                console.log('getplayerdata6')    
                                 this.getPlayerData();
                                 this.team.step = 0;
                             } else {
@@ -2996,10 +3027,13 @@ export default {
                 url = globalState.admin_url + 'updateTeam'
                 action = 'update';
 
-                var thecompid = globalState.compid;
-                    if (this.is_igg) {
-                        thecompid = globalState.compid_igg;
-                    }
+                //var thecompid = globalState.compid;
+                if (this.local_comp) {
+                    var thecompid = this.local_comp //new
+                    console.log(this.local_comp)
+                } else {
+                    console.log('ERROR COMP ID 3')
+                }
 
                 this.axios.post(url, {
                         "competition": thecompid,
@@ -3035,91 +3069,18 @@ export default {
 
             }
 
-        },
-        shirtComplete() {
-            let element;
-            this.team.giveaway.shirtwarning = false;
-
-            if (this.team.shirtPicker.player1.shirt === '' || this.team.shirtPicker.player2.shirt === '' || !this.team.shirtPicker.player1.size || !this.team.shirtPicker.player2.size) {
-                this.team.giveaway.shirtwarning = true;
-                return;
-            }
-
-            element = document.querySelector("#sponsname");
-            if (element.classList.contains("is-invalid")) {
-                return;
-            }
-
-            element = document.querySelector("#sponsaddress");
-            if (element.classList.contains("is-invalid")) {
-                return;
-            }
-
-            element = document.querySelector("#sponszipcode");
-            if (element.classList.contains("is-invalid")) {
-                return;
-            }
-
-            element = document.querySelector("#sponscity");
-            if (element.classList.contains("is-invalid")) {
-                return;
-            }
-
-            //SAVE TEAM BEHIND THE SCENES
-
-            this.showloginspinner = true;
-
-             var thecompid = globalState.compid;
-                    if (this.is_igg) {
-                        thecompid = globalState.compid_igg;
-                    }
-
-            this.axios.post(globalState.admin_url + 'updateTeam', {
-                    "competition": thecompid,
-                    "_id": this.team._id,
-                    "sponsormerch": true,
-                    "item01": this.team.shirtPicker.player1.shirt,
-                    "item02": this.team.shirtPicker.player2.shirt,
-                    "property01": this.team.shirtPicker.player1.size,
-                    "property02": this.team.shirtPicker.player2.size,
-                    "sponsname": this.team.giveaway.sponsname,
-                    "sponsaddress": this.team.giveaway.sponsaddress,
-                    "sponszipcode": this.team.giveaway.sponszipcode,
-                    "sponscity": this.team.giveaway.sponscity,
-                    "uistep": this.team.step
-                })
-                .then(response => {
-
-                    if (response.data.status === 'error') {
-                        console.log("error");
-                        return;
-                    }
-
-                    if (response.data.status === 'ok') {
-                        this.showloginspinner = false;
-                        this.team.completemode = false;
-                        this.getPlayerData();
-                        this.team.step = 0;
-                        window.scrollTo(0, 0);
-                    }
-
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-        },
+        },      
         getPlayerData(id) {
+            //console.log('local comp id',compid)
+            
             this.fetchingPlayerData = true
             
             if (!id) {
                 id = this.userinfo._id;
             }
 
-             var thecompid = globalState.compid;
-            if (this.is_igg) {
-                thecompid = globalState.compid_igg;
-            }
-
+            var thecompid = globalState.compid;      
+            this.loading_comp = 'Läser data från lokal liga Stockholm';            
             
             this.axios.post(globalState.admin_url + 'getPlayerData', {
                     "id": id,
@@ -3133,11 +3094,13 @@ export default {
                     let userinfo = response.data;
                     this.userinfo = userinfo;
                     this.teams = this.userinfo.teams;
-                    this.teamscount = this.teams.length;                    
+                    this.teamscount = this.teams.length;
+                    
                     
                     //console.log(this.teamscount,this.userinfo);
                     if (this.teamcount || this.teams) {
-                        this.showteamslist = true;                        
+                        this.showteamslist = true;
+                        this.local_comp = this.teams[0].competition;                        
                     } else {
                         this.teamscount = 0;
                     }
@@ -3145,7 +3108,106 @@ export default {
                     localStorage.setItem('userinfo', JSON.stringify(userinfo));
                     this.$store.dispatch('setUser', userinfo);
                     this.setuserinfoform();
-                    this.fetchingPlayerData = false
+                    //this.fetchingPlayerData = false
+
+
+                    //if no teams, check göteborg
+                   // this.getPlayerData(id,'NPiNmtGS9RZ9ry7zY');
+                   //console.log(this.teamscount + ' for sthlm')
+                   this.loading_comp = 'Läser data från lokal liga Göteborg';   
+                   if (this.teamscount == 0) {
+                        this.axios.post(globalState.admin_url + 'getPlayerData', {
+                            "id": id,
+                            "competition": 'NPiNmtGS9RZ9ry7zY'
+                        })
+                        .then(response => {
+                            if (response.data.hasOwnProperty('error')) {
+                                console.log("error")
+                                return;
+                            }
+                            let userinfo = response.data;
+                            this.userinfo = userinfo;
+                            this.teams = this.userinfo.teams;
+                            this.teamscount = this.teams.length;
+
+                            
+                            //console.log(this.teamscount,this.userinfo);
+                            if (this.teamcount || this.teams) {
+                                this.showteamslist = true;  
+                                this.local_comp = this.teams[0].competition;                       
+                            } else {
+                                this.teamscount = 0;
+                            }
+                            
+                            localStorage.setItem('userinfo', JSON.stringify(userinfo));
+                            this.$store.dispatch('setUser', userinfo);
+                            this.setuserinfoform();
+                            //this.fetchingPlayerData = false
+                             
+
+
+                            //if no teams, check malmö                   
+                   //console.log(this.teamscount + ' for gbg')
+                   this.loading_comp = 'Läser data från lokal liga Malmö';   
+                   if (this.teamscount == 0) {
+                        this.axios.post(globalState.admin_url + 'getPlayerData', {
+                            "id": id,
+                            "competition": '9SPfjtNpvKenZCmDB'
+                        })
+                        .then(response => {
+                            if (response.data.hasOwnProperty('error')) {
+                                console.log("error")
+                                return;
+                            }
+                            let userinfo = response.data;
+                            this.userinfo = userinfo;
+                            this.teams = this.userinfo.teams;
+                            this.teamscount = this.teams.length;
+
+                            
+                            //console.log(this.teamscount,this.userinfo);
+                            if (this.teamcount || this.teams) {
+                                this.showteamslist = true;     
+                                this.local_comp = this.teams[0].competition;                        
+                            } else {
+                                this.teamscount = 0;
+                            }
+                            
+                            localStorage.setItem('userinfo', JSON.stringify(userinfo));
+                            this.$store.dispatch('setUser', userinfo);
+                            this.setuserinfoform();
+                            this.fetchingPlayerData = false;
+                            
+                            //console.log(this.teams[0].competition);
+
+                            return;
+                        })
+                        .catch(error => {
+                            this.fetchingPlayerData = false
+                            console.log(error);
+                        });
+                    }
+                    else {
+                        this.fetchingPlayerData = false
+                    }
+                   //end malmö
+
+
+                            return;
+                        })
+                        .catch(error => {
+                            this.fetchingPlayerData = false
+                            console.log(error);
+                        });
+                    }
+                    else {
+                        this.fetchingPlayerData = false;
+                       
+                    }
+                   //end göteborg
+
+                    
+
                     return;
                 })
                 .catch(error => {
@@ -3311,10 +3373,9 @@ export default {
     },
         payVoucher: function () {
 
-            var thecompid = globalState.compid;
-            if (this.is_igg) {
-                thecompid = globalState.compid_igg;
-            }
+            //var thecompid = globalState.compid;
+            var thecompid = this.local_comp;
+           
             
             this.showspinner_voucher = true;
             let voucher = this.team.voucher;
@@ -3358,7 +3419,7 @@ export default {
 
               var thecompid = globalState.compid;
             if (this.is_igg) {
-                thecompid = globalState.compid_igg;
+                thecompid = globalState.compid;
             }
 
             this.showspinner_invoice = true;
@@ -3423,7 +3484,7 @@ export default {
 
               var thecompid = globalState.compid;
             if (this.is_igg) {
-                      thecompid = globalState.compid_igg;
+                      thecompid = globalState.compid;
             }
 
             this.axios.post(globalState.admin_url + 'swish', {
@@ -3480,7 +3541,7 @@ export default {
         getGolfClubs: function () {
 
             if (this.is_igg) {
-                var compid = globalState.compid_igg;
+                var compid = globalState.compid;
             } else {
                 var compid = globalState.compid;
             }
@@ -3596,7 +3657,10 @@ export default {
             }
 
         },
-        create_team(action, eventObj) {
+        create_team(action, eventObj, comp, compname) {
+            //console.log(action,eventObj,comp)
+            this.team.competitionname = compname;
+            this.local_comp = comp;
             this.tabIndex = 1; //lag tab
             this.showcreateteamhelper = false;
             window.scrollTo(0, 0);
@@ -3648,10 +3712,14 @@ export default {
             let userinfo = localStorage.getItem('userinfo');
             userinfo = JSON.parse(userinfo);
 
-              var thecompid = globalState.compid;
-            if (this.is_igg) {
-                      thecompid = globalState.compid_igg;
-            }
+              //var thecompid = globalState.compid; //old
+              if (this.local_comp) {
+                var thecompid = this.local_comp //new
+                console.log(this.local_comp)
+              } else {
+                console.log('ERROR COMP ID 5')
+              }
+            
 
             this.axios.post(globalState.admin_url + 'addTeam', {
                     "competition": thecompid,
@@ -3688,10 +3756,10 @@ export default {
         },
         update_team() {
 
-
+console.log('update team')
             var thecompid = globalState.compid;
             if (this.is_igg) {
-                      thecompid = globalState.compid_igg;
+                      thecompid = globalState.compid;
             }
                 var url = globalState.admin_url + 'updateTeam'
                 this.axios.post(url, {
@@ -3726,10 +3794,14 @@ export default {
             let userinfo = localStorage.getItem('userinfo');
             userinfo = JSON.parse(userinfo);
 
-            var thecompid = globalState.compid;
-            if (this.is_igg) {
-                      thecompid = globalState.compid_igg;
-            }
+            //var thecompid = globalState.compid;
+             if (this.local_comp) {
+                var thecompid = this.local_comp //new
+                console.log(this.local_comp)
+              } else {
+                console.log('ERROR COMP ID 6')
+              }
+           
 
             this.axios.post(globalState.admin_url + 'addTeam', {
                     "competition": thecompid,
@@ -3777,7 +3849,8 @@ export default {
                     parentVue.showloginspinner = false;
                     parentVue.doctitle = 'My matchplay';
                     
-                    this.$store.dispatch('setAuthentication', {token: server.token, userId: server.userId})                    
+                    this.$store.dispatch('setAuthentication', {token: server.token, userId: server.userId})   
+                    console.log('getplayerdata1')                 
                     this.getPlayerData(server.userId)
                 })
                 .then((output) => {
@@ -4155,19 +4228,22 @@ export default {
         //}            
 
 
+            //hämta alla lokala tävlingar
+            //sthlm iHv4PtxyoTHLJQSJZ //default
+            //gbg NPiNmtGS9RZ9ry7zY
+            //mlm 9SPfjtNpvKenZCmDB
+
         
             this.axios
                 .post(globalState.admin_url + "getCompetition", {
-                     id: globalState.compid_igg,
+                     id: globalState.compid, //sthlm
                  })
                 .then(response => {
                     this.team.price_private = response.data.price1
                     this.team.price_company = response.data.price2
                     this.team.price_company2 = response.data.price3
-                    //this.team.price_igg = response.data.price1
-                    //this.team.price_igg_company = response.data.price2
-                  
-                            
+                                     
+          /*                   
                     if (localStorage.getItem('sponsor')) {
                         if (localStorage.getItem('sponsor') === 'gm') {
                             this.team.pricereduc = 50;            
@@ -4175,16 +4251,12 @@ export default {
                             this.team.pricereduc = 0;
                         }
                         this.team.price_private =  this.team.price_private-this.team.pricereduc;
-                    }
+                    } */
                     
-                    if (response.data.competitiontype == 'Indoor') { //IGG       
-                        this.is_igg = true;
-                        this.team.price_igg = response.data.price1;
-                        this.team.price_igg_company = response.data.price2;
-                        this.closed = this.closed;
-                    }
+                  
 
                      this.getGolfClubs();
+
 
                     })
                 .catch(error => {
@@ -4220,18 +4292,10 @@ export default {
 
     }) */
 
-//IGG
-/*         const promise2 = this.$store.dispatch('getCompetition', globalState.compid_igg)
-        promise2.then(() => {
-        this.team.price_igg = this.price1
-        this.team.price_igg_company = this.price2
-
-    }) */
         
       
-       
-       this.$store.dispatch("tryAutoLogin").then(() => {
-            if (this.isAuthenticated) {
+  this.$store.dispatch("tryAutoLogin").then(() => {
+            if (this.isAuthenticated) {                
             //console.log("isAuthenticated")
            // console.log(this.$store.state.user)
                 
@@ -4249,13 +4313,15 @@ export default {
                     sim_id = this.$route.query.sim_id;   
                 }
                 
-                this.getPrevTeamData(sim_id)
+                //this.getPrevTeamData(sim_id)
 
                
 
                 //check data is in store --> then dont fetch
                 if (!this.$store.state.user) {
+                    console.log('getplayerdata2');
                     this.getPlayerData(sim_id);
+                            
                 }
 
                 if (this.$store.state.user) {
@@ -4274,16 +4340,16 @@ export default {
                     localStorage.setItem('userinfo', JSON.stringify(userinfo));
                     this.$store.dispatch('setUser', userinfo);
                     this.setuserinfoform();
-                    this.loading = false;
+                    this.loading = false;                    
 
                 }
 
                 this.tabIndex = Number(localStorage.getItem('active_tab'));     
                 
                 //INITIATE POLL
-                setTimeout(() => {
+               /*  setTimeout(() => {
                     this.showPoll();                        
-                }, 1000);
+                }, 1000); */
              
 
             } else {
@@ -4291,6 +4357,8 @@ export default {
                 this.loading = false;
             }
        })
+       
+     
        
     },
     watch: {

@@ -98,7 +98,7 @@ button {
   touch-action: manipulation !important; 
 }
 
-/* @font-face {
+ @font-face {
   font-family: "Montserrat";
   src: url("../static/fonts/Montserrat-Regular.ttf") format("truetype");
   font-weight: normal;
@@ -117,9 +117,9 @@ button {
   src: url("../static/fonts/Montserrat-Bold.ttf") format("truetype");
   font-weight: bold;
   font-style: normal;
-} */
+} 
 
-/* @font-face {
+ @font-face {
   font-family: "Eurostile LT Std";
   src: url("../static/fonts/EurostileLTStd.ttf") format("truetype");
   font-weight: 500;
@@ -138,7 +138,7 @@ button {
   src: url("../static/fonts/EurostileLTStd-Bold.ttf") format("truetype");
   font-weight: bold;
   font-style: normal;
-} */
+} 
 
 @font-face {
   font-family: "Tenby Four";
@@ -147,98 +147,17 @@ button {
   font-style: normal;
 }
 
-//IGG FONTS
-@font-face {
-  font-family: "Poppins";
-  src: url("../static/fonts/Poppins-Regular.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Poppins bold";
-  src: url("../static/fonts/Poppins-SemiBold.ttf") format("truetype");
-  font-weight: bold;
-  font-style: normal;
-}
 
 
-.igg {
-  
-  font-family: "Poppins" !important;
 
-  .no-padding {
-    padding:0;
-  }
-
-  h1,h2,h3,h4 {
-    text-transform:initial;
-    
-  }
-
-  .white {
-    color:white !important;
-  }
-
-.pulse-button-igg {
-    position: relative;
-    /*width: 100px;
-  height: 100px;*/
-	overflow:hidden;
-    //border: none;
-    box-shadow: 0 0 0 0 rgba(242, 131, 73, 1);
-    background-color: $igg;
-    background-size: cover;
-    background-repeat: no-repeat;
-    cursor: pointer;
-    -webkit-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
-    -moz-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
-    -ms-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
-    animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
-}
-
-
-  p {
-    font-size: 16px;
-
-    @media (max-width: 600px) {
-    font-size: 0.9em;
-  }
-  }
-
-  .btn-igg {
-    background-color: #f28349 !important;
-    border-color: #f28349 !important;
-    color: #ffffff !important;
-    font-weight:bold;
-    font-size:13px;
-    padding: 1em 2.25em;
-    border-radius: 50rem!important;
-  }
-
-  .btn-igg:hover {
-    background-color: #000000 !important;
-    border-color: #000000 !important;
-    transition: all;
-  }
-
-  
-strong {
-  font-family: "Poppins bold" !important;
-}
-
-
-}
-
-//END IGG
 
 body {
   font-size: 1.1rem !important;
-  font-family: "Poppins", Arial, sans-serif !important;
+  font-family: "Eurostile LT Std", Arial, sans-serif !important;
 }
 
 strong {
-  font-family: "Poppins Bold";
+   font-family: "Eurostile LT Std Bold";
 }
 
 .jumbotron {

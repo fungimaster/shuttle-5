@@ -133,7 +133,7 @@ moment.updateLocale("sv", {
       return {
         maxsize: false,
         closed: globalState.closed,
-        compid: globalState.compid_igg,
+        compid: globalState.compid,
         doctitle: 'Klubbar med deltagande lag',
         search: '',
         clubs: [],
@@ -197,7 +197,7 @@ moment.updateLocale("sv", {
 
    this.axios
        .post(globalState.admin_url + "getLatestPaidTeam", {
-          competition: globalState.compid_igg
+          competition: globalState.compid
         })
       .then((response) => {
       

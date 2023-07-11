@@ -6,12 +6,13 @@
       :style="stageBorder"
       v-for="(number, index) in numberOfRounds"
       :key="number.index"
-    >
+    >    
       <!-- Text-diven har en height på 10% så att den alltid står för sig själv -->
       <div class="h-10">
         <!-- Window width under 1000px -->
         <p class="text-center">
-          <span v-if="windowWidth < 1000">
+          <span>R{{index + 1}}</span>
+         <!--  <span v-if="windowWidth < 1000">
             {{
              
               index === numberOfRounds - 1
@@ -26,7 +27,7 @@
                 ? "FINAL"
                 : `R${index + 1}`
             }}
-          </span>
+          </span> -->
           <!-- SYMBOLS CONDSNED-->
           <span v-if="condensed">
             <span
@@ -121,18 +122,26 @@
                    <p>                   
                         <ul class="roundlist">
                           <li v-bind:class="{ active: currentRound === 1}">
-                            Omgång 1: 7 januari - 28 januari
+                            Omgång 1: 15 aug - 28 aug
                           </li>
                            <li v-bind:class="{ active: currentRound === 2}">
-                            Omgång 2: 28 januari - 18 februari
+                            Omgång 2: 29 aug - 11 sep
                           </li>
                             <li v-bind:class="{ active: currentRound === 3}">
-                            Omgång 3: 18 februari - 11 mars
+                            Omgång 3: 12 sep - 21 sep
+                          </li>                           
+                          <li v-bind:class="{ active: currentRound === 4}">
+                            Omgång 4: 22 sep - 28 sep
                           </li>
-                            <li v-bind:class="{ active: currentRound === 4}">
-                             Final: 15-16 april
+                          <li v-bind:class="{ active: currentRound === 5}">
+                            Omgång 5: 29 sep - 5 okt
+                          </li>
+                            <li v-bind:class="{ active: currentRound === 6}">
+                             Omgång 6: 6 okt - 15 okt
                           </li>                            
-                                                  
+                                   <li>
+                             Resan till Italien: 22-26 okt
+                          </li>                      
                           
                        </ul>                       
                    </p>                   

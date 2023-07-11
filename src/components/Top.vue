@@ -40,8 +40,15 @@
            
           <b-nav-item hidden v-if="companies" to="/business">Företagslag</b-nav-item>
           <!-- normal comp -->
-          <b-nav-item to="/info">Om tävlingen</b-nav-item>
 
+            <b-nav-item to="/info">Om tävlingen</b-nav-item>
+
+           <b-nav-item to="/final"
+            >Finalresan
+             <i class="fa fa-plane text-success"></i>
+          </b-nav-item>   
+
+        
           <b-nav-item hidden to="/tavlingar"
             >Tidigare tävlingar
           </b-nav-item>          

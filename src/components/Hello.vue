@@ -20,11 +20,11 @@
           <b-col class="col-12 col-md-12
               mt-1 mt-md-4
               pt-1 pt-md-2
-              pb-0 pb-md-3
+              pb-0 pb-md-0
               text-center">
             <h1 class="mb-3 white">64 LAG</h1>
             <h1 class="mb-3 white">6 MATCHER*</h1>
-            <h1 class="mb-3 white">FINAL I ITALIEN</h1>
+            <h1 class="mb-0 white">FINAL I ITALIEN</h1>
            
           </b-col>
 
@@ -40,13 +40,8 @@
                 class="btn"
                 >Följ årets matcher</b-button
               >
-              <b-button
-                v-if="!closed"
-                variant="primary"
-                @click="scrollToAnchorPoint('register')"
-                size="md"
-                class="btn"
-                >Anmäl ditt lag</b-button
+             <a href="/register" class="btn btn-primary btn-lg text-white"
+                >Anmäl ditt lag</a
               >
               <p class="mt-3">* Alla utslagningsmatcher spelas i ditt lokalområde</p>
             </div>
@@ -72,8 +67,38 @@
          <hr class="mt-5" v-if="latestTeam" />
   </b-container>
 
- <b-container v-if="!loading" class="mt-5 mb-4">
-   <b-row v-if="closed">
+ 
+
+    <b-container hidden v-if="!loading" class="mt-5 mb-4">
+       <keytakeaways2></keytakeaways2>
+       <hr v-if="!closed" class="mt-5" />
+    </b-container>
+
+
+    <!-- INFO TEXT -->
+    <b-container v-if="!loading" class="mb-5">
+       <b-row class="justify-content-center" align-h="center">
+        <b-col class="col-12 mb-2">
+        <p><strong>Matchplay Local Series</strong> är en matchspelstävling med <strong>64 startande lag</strong> och där det vinnande laget från respektive Local Series (Stockholm, Göteborg och Malmö) gör upp om titeln i en matchspelsserie mellan 22-26 oktober på Golf Le Fonti i Bologna, Italien.</p>
+<p>De sex grundomgångarna spelas mellan datumen 15 augusti och 15 oktober. Vinnaren i omgång sex från respektive Local Series får åka till den italienska finalen.</p>
+<p>En av uppsidorna i Local Series är att resandet till en match inte är för långt. Vi försöker att styra upp alla matcher på ett sätt där deltagarna inte behöver åka mer än 50km för att spela sin match.</p>
+<p>Förlorande lag i första omgången går automatiskt till Andra Chansen, ett nytt matchspelsträd, där vinnande laget vinner en weekend i Portugal. 
+Genom Andra Chansen så är alla lag som deltar i Matchplay Local Series garanterade minst två matcher.</p>
+<p hidden>
+Vinnande lag i Local Series Stockholm, Local Series Göteborg och Local Series Malmö får åka till Golf Le Fonti och tävla om titeln i Matchplay Local Series 2023. Matchplay står för flyg, transfer, boende, middag och golf på plats. Finalen spelas mellan 22-26 oktober.
+</p>
+<p>Priset för ett lag är endast <strong>750:-</strong> och ni betalar enkelt med swish.</p>
+
+ <a href="/register" class="btn btn-primary text-white mt-2"
+                >Anmäl ditt lag</a
+              >
+
+        </b-col>
+      </b-row>
+    </b-container>
+
+    <b-container v-if="!loading" class="mt-5 mb-4">
+   <b-row>
           <b-col class="col-12 mb-3 mt-5">
             <h3>Omgångar 2023</h3>
             <app-rounds-grafic
@@ -90,24 +115,55 @@
           </b-col>
         </b-row>
  </b-container>
-
-    <b-container hidden v-if="!loading" class="mt-5 mb-4">
-       <keytakeaways2></keytakeaways2>
-       <hr v-if="!closed" class="mt-5" />
-    </b-container>
-
-
    
     <!-- REGISTER -->
-    <b-container ref="register" v-if="!loading && !closed" class="mb-5">
+   <!--  <b-container ref="register" v-if="!loading && !closed" class="mb-5">
       <b-row class="justify-content-center" align-h="center">
         <b-col class="col-12 mb-2">
           <register :igg="true"></register>
         </b-col>
       </b-row>
-    </b-container>
+    </b-container> -->
 
-    
+  <!-- FINALRESAN -->
+
+ <b-container ref="final" v-if="!loading && !closed" class="mb-5">
+  <b-row class="mt-5">
+    <b-col class="col-12">
+      <hr class="mb-5" />
+      <h2></h2>
+        <p>
+         Vinnaren i Local Series Stockholm, Local Series Göteborg och Local Series Malmö får åka till Golf Le Fonti och tävla om titeln i Matchplay Local Series 2023. Matchplay står för flyg, transfer, boende, middag och golf på plats. Finalen spelas mellan 22-26 oktober.
+        </p>
+    </b-col>
+     <b-col class="col-12 text-center">
+         <video
+        class="video-fluid d-block d-md-none"
+        src="https://res.cloudinary.com/dn3hzwewp/video/upload/c_fill,w_400,q_auto:eco,so_1.8/v1678972618/matchplay/final2023/Golf_Club_le_fonti__Matchplay_2023.mp4"            
+        muted
+        loop
+        allowfullscreen
+        controls
+      ></video>
+        <video
+        class="video-fluid d-none d-md-block"
+        src="https://res.cloudinary.com/dn3hzwewp/video/upload/c_fill,w_1200,q_auto:eco,so_1.8/v1678972618/matchplay/final2023/Golf_Club_le_fonti__Matchplay_2023.mp4"            
+        muted
+        loop
+        allowfullscreen
+        controls
+      ></video>
+     </b-col>
+     <b-col class="col-12 mt-4 text-center">
+      <router-link
+              class="btn btn-success btn-md text-white mt-2 mr-2"
+              to="/final"
+            >
+              <i class="pb-1 mr-2 material-icons">flight</i>Läs mer om resan här
+            </router-link>
+     </b-col>
+  </b-row>
+ </b-container>
 
     <!-- HOW IT WORKS -->
    <howitworks :headline="'Så här fungerar tävlingen'"  v-if="!loading" />
@@ -149,15 +205,15 @@ moment.updateLocale("sv", {
 
 
 export default {
-  name: "indoor",
+  name: "local",
   components: { register, Howitworks,Podium, AppRoundsGrafic },
   data() {
     return {
       latestTeam: null,
       showTopClubs: globalState.showTopClubs,
-      compid: globalState.compid_igg,
+      compid: globalState.compid,
       price_private: this.price_1,
-      doctitle: "Matchplay Indoor 2023",
+      doctitle: "Matchplay Local Series 2023",
       loading: true,
       closed: globalState.closed,
       clubs: [],
@@ -166,7 +222,7 @@ export default {
   created() {
     this.axios
       .post(globalState.admin_url + "getGolfclubs", {
-        id: globalState.compid_igg,
+        id: globalState.compid,
       })
       .then((response) => {
         //this.parseCourse(response.data);
@@ -176,7 +232,7 @@ export default {
         //LOAD COMP DATA
         const promise = this.$store.dispatch(
           "getCompetition",
-          globalState.compid_igg
+          globalState.compid
         );
         promise.then(() => {
           (this.price_private = this.price1), (this.loading = false);
@@ -187,22 +243,7 @@ export default {
         console.log(error);
       });
 
-    //TEST GET COURSES
-    /*     this.axios
-      .post(globalState.admin_url + "getIndoorCourses", {
-        id: globalState.compid_igg,
-      })
-      .then((response) => {
-        //this.parseCourse(response.data);
-        console.log(response.data);
-      })
-      .catch((error) => {
-        // this.errorMSG = "Something went wrong (No course found)";
-        console.log(error);
-      }); */
-
-    //
-
+  
     this.latestTeam = null;
     this.getlatestteam();
   },
@@ -212,10 +253,10 @@ export default {
     ...mapGetters(["price1"]),
   },
   methods: {
-       getlatestteam() {
+       getlatestteam() {        
       this.axios
         .post(globalState.admin_url + "getLatestPaidTeam", {
-          competition: globalState.compid_igg
+          competition: globalState.compid
         })
         .then((response) => {
           if (response.data) {
@@ -280,7 +321,17 @@ export default {
 <style lang="scss">
 @import "../styles/variables.scss";
 
+video {
+  width:100%;
+}
 
+.video-container iframe {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
 
 .herobg0 {
   background-size: cover !important;

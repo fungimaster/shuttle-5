@@ -1748,7 +1748,7 @@ export default {
     //get competition
     this.axios
       .post(globalState.admin_url + "getCompetition", {
-        id: globalState.compid_igg,
+        id: globalState.compid,
       })
       .then((response) => {
         if (response.data.competitiontype == "Indoor") {
@@ -2333,7 +2333,7 @@ export default {
     },
     getGolfClubs: function () {
       if (this.is_igg) {
-        var compid = globalState.compid_igg;
+        var compid = globalState.compid;
       } else {
         var compid = globalState.compid;
       }

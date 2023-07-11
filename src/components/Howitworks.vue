@@ -69,12 +69,12 @@ export default {
       swipe_show_once: false,
  //explainer
       explainer: [      
-        { icon: 'clipboard-check',title:'Anmälan', message: "Steg 1 är att anmäla dig som spelare under 'Anmälan' där du direkt får besked om du är kvalificerad. Du blir sedan inloggad för att påbörja ditt lagbygge. <strong>Inget</strong> förbinder dig att betala för ditt lag i detta läge. Anmälan stänger den 15 maj." },
-        { icon: 'user-friends', title: 'Skapa ditt lag', message: "Nu ska du som lagkapten skapa ditt lag och väljer typ av lag (privat/företag) och lagmedlem. Du måste veta din lagkamrats golfid för att kunna välja lagkamrat. I sista steget betalar du med swish (privatpersoner), voucher eller faktura (företag)." },
-        { icon: 'dice', title: 'Lottning', message: "Under maj görs lottningen för den första omgången och där det tas hänsyn till att alla lag ska få så kort resa som möjligt. Du kommer få information via mail samt på  när lottningen är klar och du kan då se vilket lag ni kommer möta." },
-        { icon: 'golf-ball', title: 'Spela matcher', message: "Varje match måste spelas inom den period som anges för den lottande omgången. På matchplay.se kommer du kunna se vilket lag ni ska möta samt kontaktuppgifter. Fram till Sverigefinalen betalar ni själva ev. greenfee. All score förs med vårt digitala scorekort." },
-        { icon: 'trophy', title: 'Sverigefinal', message: "Sverigefinalen 2022 spelades 3-5 september på Allerum GK utanför Helsingborg i Skåne och vart finalen går 2022 kommer att bestämmas under vintern. Även Andra Chansens kvartsfinaler kommer att spelas under Sverigefinalens datum 2022." },
-        { icon: 'plane-departure', title: 'Finalen', message: "De 2 vinnande lagen i Sverigefinalen åker med Matchplay till solkusten för att göra upp om titeln. Flyg, hotell och allt spel ingår för de bägge lagen." }
+        { icon: 'clipboard-check',title:'Anmälan', message: "Steg 1 är att anmäla dig som spelare under 'Anmälan' där du direkt får besked om du är kvalificerad. Du blir sedan inloggad för att påbörja ditt lagbygge. Inget förbinder dig att betala för ditt lag i detta läge. Anmälan stänger den 12 augusti." },
+        { icon: 'user-friends', title: 'Skapa ditt lag', message: "Nu ska du som lagkapten skapa ditt lag och välja lagmedlem samt välja vilket område ni vill spela i. Du måste veta din lagkamrats golfid för att kunna välja lagkamrat. I sista steget betalar du med swish." },
+        { icon: 'dice', title: 'Lottning', message: "Den 13 augusti görs lottningen för den första omgången och där det tas hänsyn till att alla lag ska få så kort resa som möjligt. Du kommer få information via mail samt på matchplay.se när lottningen är klar och du kan då se vilket lag ni kommer möta." },
+        { icon: 'golf-ball', title: 'Spela matcher', message: "Varje match måste spelas inom den period som anges för den lottande omgången. På matchplay.se kommer du kunna se vilket lag ni ska möta samt kontaktuppgifter. Fram till Italienfinalen betalar ni själva eventuell greenfee. All score förs med vårt digitala scorekort." },
+        { icon: 'trophy', title: 'Vinnande lag', message: "De vinnande lagen Local Series Stockholm, Local Series Göteborg och Local Series Malmö åker med Matchplay till Golf Le Fonti, Bologna, för att göra upp om titeln. Flyg, hotell och allt spel ingår för all lagen." },
+        { icon: 'second', title: 'Andra chansen', message: "De lag som förlorar i första omgången hamnar automatiskt i andra chansen där de spelar om ett fint tröstpris, en weekend i Portugal (boende och greenfee ingår)." }
         //{ icon: 'calendar-exclamation', title: 'Sista anmälningsdag', message: "Anmälan och betalning stänger i slutet av april." },
       ],
     };
@@ -454,6 +454,10 @@ export default {
 
 .plane-departure:before {
     content: "\f5b0";   
+}
+
+.second:before {
+    content: "\f559";   
 }
 
 

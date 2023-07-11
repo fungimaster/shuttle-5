@@ -11,35 +11,30 @@
   </b-button>
   </ScrollTopComponent>
 
-    <b-container hidden class="sponsors">
+  <b-container class="sponsors">
       <hr hidden class="mb-5" />
 
       <b-row>
         <b-col>
           <b-row>
             <b-col>
-              <h2>Partners</h2>
+              <hr />
             </b-col>
           </b-row>
 
-          <b-row no-gutters>
-             <b-col md="6" class="gold p-5 text-center">
-              <a href="https://ruff.se/" target="_blank">
+<b-row no-gutters>
+            <b-col md="12" class="gold p-4 text-center" align-self="center">
+              <a href="https://golfamore.com/sv" target="_blank">
                 <img
-                  src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_300,q_auto/v1665478570/matchplay/igg/logo_ruff.png"
+                  src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_300,q_auto/v1688993265/matchplay/local/golfamore.png"
                   alt
                 />
               </a>
-            </b-col>
-             <b-col md="6" class="gold p-5 text-center">
-              <a href="https://indoorgolfgroup.se/" target="_blank">
-                <img
-                  src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_300,q_auto/v1663921954/matchplay/igg/logo_igg.png"
-                  alt
-                />
-              </a>
-            </b-col>
-            <b-col md="6" class="gold p-5 text-center">
+            </b-col>                  
+          </b-row>
+          <b-row no-gutters >
+            
+            <b-col md="6" class="gold p-4 text-center" align-self="center">
               <a href="https://futureitpartner.se/" target="_blank">
                 <img
                   src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_300,q_auto/v1573315610/matchplay/future_logo.png"
@@ -47,7 +42,7 @@
                 />
               </a>
             </b-col>
-            <b-col md="6" class="gold p-2 pt-5 text-center">
+            <b-col md="6" class="gold p-4 text-center" align-self="center">
               <a href="https://colburn.se" target="_blank">
                 <img
                   src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_300,q_auto/v1573315623/matchplay/Logo_Colburn.png"
@@ -56,34 +51,8 @@
               </a>
             </b-col>           
           </b-row>
-          <b-row hidden no-gutters>
-            <b-col md="4" class="silver p-1 text-center">
-              <a href="https://scandic.se/" target="_blank">
-                <img
-                  src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_150,q_auto/v1614942462/matchplay/sponsors/scandic.png"
-                  alt
-                />
-              </a>
-            </b-col>
-            <b-col md="4" class="silver p-1 text-center">
-              <a href="https://prosak.se" target="_blank">
-                <img
-                  src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_150,q_auto/v1614942462/matchplay/sponsors/prosak_logo_2016.png"
-                  alt
-                />
-              </a>
-            </b-col>
-            <b-col md="4" class="silver p-1 mt-2 text-center">
-              <a href="https://elgiganten.se" target="_blank">
-                <b-img
-                  alt="elgiganten"
-                  src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_150,q_auto/v1614942462/matchplay/sponsors/Vinn-Elgiganten-Phonehouse.png"
-                ></b-img>
-              </a>
-            </b-col>            
-          </b-row>
-        </b-col>
-        <b-col xl="1"></b-col>
+          
+        </b-col>       
       </b-row>
     </b-container>
 
@@ -137,7 +106,7 @@
                   <p class="links mb-5">
                     <router-link hidden to="/ping" class>PING</router-link
                     >&nbsp;
-                    <router-link to="/info_indoor" class>Om tävlingen</router-link
+                    <router-link to="/info" class>Om tävlingen</router-link
                     >&nbsp;|
                     <router-link to="/cookies" class>Cookies/Data</router-link>
                   </p>

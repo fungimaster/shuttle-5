@@ -110,8 +110,7 @@
                   type="submit"
                   size="md"
                   variant="primary"
-                  class="btn blue-bg btn-special ml-0 mt-1 ml-sm-2 mt-sm-0 d-none d-sm-block"
-                  v-bind:class="{ 'btn-igg': igg }"
+                  class="btn blue-bg btn-special ml-0 mt-1 ml-sm-2 mt-sm-0 d-none d-sm-block"                 
                 >
                   <b-spinner v-if="showloadgolfid" small type="grow" class="mr-2"></b-spinner>
                   {{ contbutton1 }}                
@@ -121,8 +120,7 @@
                   type="submit"
                   size="md"
                   variant="primary"
-                  class="btn blue-bg btn-special ml-0 mt-1 ml-sm-2 mt-sm-0 d-block d-sm-none"
-                  v-bind:class="{ 'btn-igg': igg }"
+                  class="btn blue-bg btn-special ml-0 mt-1 ml-sm-2 mt-sm-0 d-block d-sm-none"                  
                 >
                   <b-spinner v-if="showloadgolfid" small type="grow" class="mr-2"></b-spinner>
                   <i class="fa fa-chevron-right"></i>        
@@ -145,16 +143,14 @@
                 :show="dismissCountDown2"
                 variant="warning"
               >
-              <p v-if="this.player==='player1' && igg">
-                Du finns redan med i Matchplay som en registrerad spelare. Logga in på knappen nedan för att skapa ett lag för Indoor 2023!
-                </p>
-                <p v-if="this.player==='player1' && !igg">
+             
+                <p v-if="this.player==='player1'">
                   Du finns redan med i Matchplay som en registrerad spelare. Logga in på knappen nedan för att skapa ett lag för Matchplay 2022!
                 </p>
-                <p v-if="this.player==='player2' && !igg">
+                <p v-if="this.player==='player2'">
                   Du finns redan med i Matchplay som en registrerad spelare. Logga in på knappen nedan för att ansluta till ett skapat lag!
                 </p>
-                <a href="/mymatchplay" class="btn blue-bg text-white mb-3"  v-bind:class="{ 'btn-igg': igg, 'white':igg }">Logga in</a>
+                <a href="/mymatchplay" class="btn blue-bg text-white mb-3">Logga in</a>
               </b-alert>
 
               <b-alert

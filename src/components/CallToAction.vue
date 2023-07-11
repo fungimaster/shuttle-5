@@ -18,7 +18,7 @@
         </h4>
           <p>
            <a
-                href="/indoor"
+                href="/register"
                 class="btn btn-primary btn-igg text-white mt-2"
                 >Anmäl ditt lag till Indoor!</a
               >

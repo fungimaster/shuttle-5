@@ -15,6 +15,7 @@ import Competitions from '@/components/Competitions'
 import NotFound from '@/components/NotFound'
 import CreateGame from '@/components/Creategame'
 import CreateGame_free from '@/components/Creategame_free'
+import Final from '@/components/Final'
 import Freeplay from '@/components/Freeplay'
 import Scorecard from '@/components/Scorecard'
 import Receipt from '@/components/Receipt'
@@ -59,6 +60,11 @@ export default new Router({
       path: '/images',
       name: 'Images',
       component: Images
+    },
+    {
+      path: '/final',
+      name: 'Final',
+      component: Final
     },
     {
       path: '/creategame',
