@@ -60,7 +60,7 @@ export default {
        scorecard_slide: 0,
       slides: [
          {
-         message: 'När ni har träffats på klubben (eller inomhusanläggning om Indoortävling) och det är dags för spel startar hemmalaget (som ansvarar för att föra score) matchen från indoor.matchplay.se och matchsidan. Aktuell hcp hämtas direkt från GIT och val av tee görs.',
+         message: 'När ni har träffats på klubben (eller inomhusanläggning om Indoortävling) och det är dags för spel startar hemmalaget (som ansvarar för att föra score) matchen från local.matchplay.se och matchsidan. Aktuell hcp hämtas direkt från GIT och val av tee görs.',
          image: 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_380,q_auto/v1613126296/matchplay/scorecard1.jpg'       
        },
        {
@@ -72,7 +72,7 @@ export default {
        image: 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_380,q_auto/v1613126296/matchplay/scorecard2.jpg'
        },
        
-      { message: 'På resp. hål förs varje spelares score in genom ett enkelt gränssnitt, det tar i snitt 3-5 sekunder att mata in scoren för ett hål och sedan gå vidare till nästa. Familj och vänner kan följa matchen på indoor.matchplay.se. Behövs särspel efter 18:e hålet vinner laget med lägst sammanlagd hcp.',
+      { message: 'På resp. hål förs varje spelares score in genom ett enkelt gränssnitt, det tar i snitt 3-5 sekunder att mata in scoren för ett hål och sedan gå vidare till nästa. Familj och vänner kan följa matchen på local.matchplay.se. Behövs särspel efter 18:e hålet vinner laget med lägst sammanlagd hcp.',
         image: 'https://res.cloudinary.com/dn3hzwewp/image/upload/w_380,q_auto/v1613126296/matchplay/scorecard3.jpg'
         },
         

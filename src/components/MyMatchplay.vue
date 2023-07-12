@@ -579,13 +579,12 @@
                                             Hemmaklubb för matcher
                                         </b-tooltip>
                                     </span>
-                                    <div show variant="info" v-if="clubcount > 0" class="small mt-3 mb-0 p-2 m-0">
-                                        <hr class="pt-0 mt-0" />                                        
+                                    <div hidden variant="info" class="small mt-3 mb-0 p-2 m-0"> <!-- v-if="clubcount > 0" -->
+                                        <hr class="pt-0 mt-0" />                                                                        
                                          <b-img v-if="clublogo" class="mt-1 mt-md-0 mr-3 mb-2 pb-1 float-left" :src="getClubImage(clublogo)"></b-img> 
                                            <p class="mb-0 d-table-cell">{{team.coursename}} representeras just nu av <strong>{{clubcount}}</strong> lag.
                                            <span v-if="team.paid && clubcount > 1"> Välkommen till gänget!</span>
-                                           <span v-if="team.paid && clubcount < 2 && !is_igg"> Sprid gärna budskapet om Matchplay på din klubb!</span>
-                                           <span v-if="team.paid && clubcount < 2 && is_igg"> Sprid gärna budskapet om Matchplay Indoor!</span>
+                                           <span v-if="team.paid && clubcount < 2"> Sprid gärna budskapet om Matchplay på din klubb!</span>                                         
                                            <span v-if="!team.paid">({{clubcount+1}} när ert lag är betalt).</span>
                                            </p>
                                         </div>
@@ -804,7 +803,7 @@
                                         Nätverksträff i slutet av augusti på en golfklubb (bestäms inom kort) inkl. golfspel, bankett och övernattning
                                     </li>                                     
                                     <li>
-                                        Synlighet på indoor.matchplay.se som företagssponsor
+                                        Synlighet på local.matchplay.se som företagssponsor
                                     </li>
                                 </ol>
                                 <p>Pris:{{team.price_company2}}:- (exkl. moms)</p>
@@ -842,15 +841,8 @@
 
                         <!-- Course -->
                         <b-row align-h="center">
-                            <b-col md="6">
-                                <!-- IS IGG SELECT -->
-                                 <b-form-group class="mb-1" v-if="team.type != null && !team.is_readonly && is_igg">
-                                      <label for="query">Välj anläggning för matcher<i v-b-popover.hover.top="'Välj den anläggning som du bor närmast och där du vill spela ditt lags matcher.'" title="Hjälp" class="help material-icons mr-2">help_outline</i></label>
-                                     <b-form-select v-model="selected_igg" v-on:change="onSearchItemSelected" :options="options_igg" ></b-form-select>
-                                 </b-form-group> 
-                                 
-                                 <!-- NOT IGG -->
-                                <b-form-group class="mb-1" v-if="team.type != null && !team.is_readonly && !is_igg">
+                            <b-col md="6">                                
+                                <b-form-group class="mb-1" v-if="team.type != null && !team.is_readonly">
                                     <label for="query">Välj hemmaklubb för matcher<i v-b-popover.hover.top="'Välj klubben du är medlem i eller som ligger nära där du bor eller tänkt spela dina matcher på. OBS! 9-hålsbanor kan anges som hemmabana men endast 18-hålsbanor kan användas när tävlingen startar och matcher ska avgöras.'" title="Hjälp" class="help material-icons mr-2">help_outline</i></label>
                                     <suggestions v-model="query" id="query" :options="options" :onInputChange="onCountryInputChange" required :onItemSelected="onSearchItemSelected" style="width:100%;">
                                         <div slot="item" slot-scope="props" class="single-item">
@@ -1169,7 +1161,7 @@
                                 <h2 class="text-center"><i class="pb-1 material-icons">favorite_border</i> Tack! <i class="pb-1 material-icons">favorite_border</i></h2>
                                 <p>Ditt lag är betalt och klart. Vi återkommer med information om lottning och matcher i god tid innan tävlingen startar!</p>
                                 <p>Dela gärna på Facebook för att utmana andra samt ta chansen att vinna fina priser!</p>
-                                <p><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.indoor.matchplay.se" class="btn blue-bg btn-md text-white mb-3">Dela på Facebook</a></p>
+                                <p><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.local.matchplay.se" class="btn blue-bg btn-md text-white mb-3">Dela på Facebook</a></p>
                                 <p>Hälsningar Matchplay <i class="pb-0 mr-2 material-icons red">favorite</i></p>
                             </b-col>
                             <b-col v-if="this.paymentstatus === 'DECLINED'" md="6">
@@ -1268,7 +1260,7 @@
                                                             
 
                                 <h3 class="mt-5">Tips 2 (Speltid och plats)</h3>
-                                När din match i varje omgång är lottad syns den på denna sidan och är ni lottade som hemmalag, ta så fort som möjligt kontakt med era motståndare för att bestämma spelplats och tid. Det är viktigt att hemmalaget lägger upp tid och plats för matchen så att det blir rätt på resultatsidorna på indoor.matchplay.se.
+                                När din match i varje omgång är lottad syns den på denna sidan och är ni lottade som hemmalag, ta så fort som möjligt kontakt med era motståndare för att bestämma spelplats och tid. Det är viktigt att hemmalaget lägger upp tid och plats för matchen så att det blir rätt på resultatsidorna på local.matchplay.se.
                             
                      
                                  <h3 class="mt-4">Tips 3 (Reserv)</h3>
@@ -1510,7 +1502,7 @@
                         Länken finns också på din profilflik.
                     </p>
                     <p>
-                         <b-input id="ref_link2" class="mt-3" :value="'https://indoor.matchplay.se/register?referral='+ userdetails.userId"></b-input>
+                         <b-input id="ref_link2" class="mt-3" :value="'https://local.matchplay.se/register?referral='+ userdetails.userId"></b-input>
                    <b-button class="mt-3" size="sm" variant="primary" @click="copyLink('ref_link2')">Kopiera länk</b-button>
                     </p>
                 </b-col>
@@ -1713,12 +1705,7 @@ export default {
             options: {
                 placeholder: 'Välj hemmaklubb för laget',
                 inputClass: 'form-control course'
-            },
-            //SELECT IGG CLUBS    
-            selected_igg: null,        
-            options_igg: [
-            { value: null, text: 'Välj anläggning' }            
-            ],
+            },           
             //GENERAL
             userinfo: {},
             teams: 0,
@@ -3540,16 +3527,9 @@ export default {
         },
         getGolfClubs: function () {
 
-            if (this.is_igg) {
-                var compid = globalState.compid;
-            } else {
-                var compid = globalState.compid;
-            }
-
-            if (this.options_igg.length > 1) { //dont load twice quick fix
-                return;
-            }
-
+           
+            var compid = globalState.compid;
+          
             this.axios
                 .post(globalState.admin_url + "getGolfclubs", {
                      id: compid,
@@ -3558,7 +3538,7 @@ export default {
                     this.clubs = response.data;                   
                     if (this.is_igg) {                        
                            response.data.forEach((club) => {
-                            this.options_igg.push({
+                            this.options.push({
                             text: club.title,
                             value: club._id,
                             });
@@ -3592,11 +3572,11 @@ export default {
             
             if (this.is_igg) {                
                  this.team.clubid = item;
-                 var findIndex = this.options_igg.findIndex(function (x) {
+                 var findIndex = this.options.findIndex(function (x) {
                   return x.value === item;
                   })
                   if (findIndex>-1) {                   
-                   this.team.course = this.options_igg[findIndex].title;
+                   this.team.course = this.options[findIndex].title;
                   }
             } else {
                 this.ninehole = false;
@@ -3622,7 +3602,7 @@ export default {
             }
             
             if (this.team.clubid !== '') {
-                this.getTopListClubs(this.team.clubid);
+                //this.getTopListClubs(this.team.clubid);
             }
 
         },
@@ -3852,11 +3832,12 @@ console.log('update team')
                     this.$store.dispatch('setAuthentication', {token: server.token, userId: server.userId})   
                     console.log('getplayerdata1')                 
                     this.getPlayerData(server.userId)
+
                 })
-                .then((output) => {
+                .then((output) => {                    
                     this.setuserinfoform();
                 })
-                .then(() => {
+                .then(() => {                    
                     this.showlogin = false;
                 })
                 .catch(() => {
@@ -3864,7 +3845,7 @@ console.log('update team')
                     parentVue.showloginspinner = false;
                 });
 
-            async function trylogin() { // (1)
+            async function trylogin() { // (1)            
                 let response = await server.login({
                     password,
                     user: {
@@ -4318,13 +4299,13 @@ console.log('update team')
                
 
                 //check data is in store --> then dont fetch
-                if (!this.$store.state.user) {
+                //if (!this.$store.state.user) {
                     console.log('getplayerdata2');
                     this.getPlayerData(sim_id);
                             
-                }
+                //}
 
-                if (this.$store.state.user) {
+/*                 if (this.$store.state.user) {                    
                     let userinfo = this.$store.state.user
                     this.userinfo = userinfo;
                     this.teams = this.userinfo.teams;
@@ -4335,14 +4316,13 @@ console.log('update team')
                         this.showteamslist = true;                        
                     } else {
                         this.teamscount = 0;
-                    }
-                    
+                    }                    
                     localStorage.setItem('userinfo', JSON.stringify(userinfo));
                     this.$store.dispatch('setUser', userinfo);
                     this.setuserinfoform();
                     this.loading = false;                    
 
-                }
+                } */
 
                 this.tabIndex = Number(localStorage.getItem('active_tab'));     
                 

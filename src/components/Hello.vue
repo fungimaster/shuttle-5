@@ -87,7 +87,7 @@ Genom Andra Chansen så är alla lag som deltar i Matchplay Local Series garante
 <p hidden>
 Vinnande lag i Local Series Stockholm, Local Series Göteborg och Local Series Malmö får åka till Golf Le Fonti och tävla om titeln i Matchplay Local Series 2023. Matchplay står för flyg, transfer, boende, middag och golf på plats. Finalen spelas mellan 22-26 oktober.
 </p>
-<p>Priset för ett lag är endast <strong>750:-</strong> och ni betalar enkelt med swish.</p>
+<p>Priset för ett lag är endast <strong>450:-</strong> och ni betalar enkelt med swish.</p>
 
  <a href="/register" class="btn btn-primary text-white mt-2"
                 >Anmäl ditt lag</a
@@ -209,7 +209,7 @@ export default {
   components: { register, Howitworks,Podium, AppRoundsGrafic },
   data() {
     return {
-      latestTeam: null,
+      latestTeam: null,      
       showTopClubs: globalState.showTopClubs,
       compid: globalState.compid,
       price_private: this.price_1,
@@ -245,7 +245,10 @@ export default {
 
   
     this.latestTeam = null;
-    this.getlatestteam();
+/*     this.getlatestteam('iHv4PtxyoTHLJQSJZ');    
+    this.getlatestteam('NPiNmtGS9RZ9ry7zY');    
+    this.getlatestteam('9SPfjtNpvKenZCmDB');    */
+    
   },
 
   mounted() {},
@@ -253,21 +256,21 @@ export default {
     ...mapGetters(["price1"]),
   },
   methods: {
-       getlatestteam() {        
+       getlatestteam(compid) {  
       this.axios
         .post(globalState.admin_url + "getLatestPaidTeam", {
-          competition: globalState.compid
+          competition: compid
         })
         .then((response) => {
           if (response.data) {
-            let paidAt = moment(response.data.paidAt).add(0, "hour").format();
+
+            if (!response.data.paidAt) return; //no correct return
+            
+            let paidAt = moment(response.data.paidAt).add(0, "hour").format();            
             let test = moment().diff(paidAt, "hours");
             let regDate = moment(paidAt, "YYYY-MM-DD hh:mm").fromNow();
-            //this.toast('b-toaster-top-center',response.data, paidAt);
-            //console.log(response.data)
-            if (test < 23) {
-              //if (paidAt !== latestTeam) {
-               
+         
+            if (test < 23) {               
               if (!response.data.logourl) {
                 this.latestTeamLogo =
                   "v1573118127/matchplay/matchplay-new-logo-2020.png"; //failover matchplay logo
@@ -286,17 +289,7 @@ export default {
             } else {
               this.latestTeam = null;
             }
-
-          
-            //localStorage.setItem('latestTeam',paidAt);
-
-            //OLD TOAST, MOVED TO HERO
-            /* setTimeout(() => {
-                  this.toast('b-toaster-top-center',response.data, paidAt);
-                  localStorage.setItem('latestTeam',paidAt);                  
-                }, 1500);  */
-
-            //}
+         
           }
         })
         .catch((error) => {
