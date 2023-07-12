@@ -476,15 +476,17 @@
                     <b-col class="col-4 text-center mt-md-5 mt-3">
                         Local Series <br><strong>STOCKHOLM</strong><br>
                           <b-button variant="primary" class="blue-bg mt-3 mb-3 btn-md" v-on:click="create_team('new',null,'iHv4PtxyoTHLJQSJZ','Stockholm')"><i class="material-icons">sports_golf</i>Skapa ditt lag</b-button>
-                         <span class="hidden d-block">12/64</span>
+                          <div class="text-danger" v-if="count_sthlm > 32">Få platser kvar!</div>
                     </b-col>
                     <b-col class="col-4 text-center mt-md-5 mt-3">
                         Local Series <br><strong>GÖTEBORG</strong><br>
                           <b-button variant="primary" class="blue-bg mt-3 mb-3 btn-md" v-on:click="create_team('new',null,'NPiNmtGS9RZ9ry7zY','Göteborg')"><i class="material-icons">sports_golf</i>Skapa ditt lag</b-button>
+                           <div class="text-danger" v-if="count_gbg > 32">Få platser kvar!</div>
                     </b-col>
                     <b-col class="col-4 text-center mt-md-5 mt-3">
                         Local Series <br><strong>MALMÖ</strong><br>
                           <b-button variant="primary" class="blue-bg mt-3 mb-3 btn-md" v-on:click="create_team('new',null,'9SPfjtNpvKenZCmDB','Malmö')"><i class="material-icons">sports_golf</i>Skapa ditt lag</b-button>
+                           <div class="text-danger" v-if="count_mlm > 32">Få platser kvar!</div>
                     </b-col>
                 </b-row>
                 <!-- END IGG SPECIAL -->
@@ -1640,6 +1642,9 @@ export default {
         let clubs = [];
         let countries = ['Afghanistan', 'Åland Islands', 'Albania', 'Algeria', 'American Samoa', 'AndorrA', 'Angola', 'Anguilla', 'Antarctica', 'Antigua and Barbuda', 'Argentina', 'Armenia', 'Aruba', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bermuda', 'Bhutan', 'Bolivia', 'Bosnia and Herzegovina', 'Botswana', 'Bouvet Island', 'Brazil', 'British Indian Ocean Territory', 'Brunei Darussalam', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Cape Verde', 'Cayman Islands', 'Central African Republic', 'Chad', 'Chile', 'China', 'Christmas Island', 'Cocos (Keeling) Islands', 'Colombia', 'Comoros', 'Congo', 'Congo, The Democratic Republic of the', 'Cook Islands', 'Costa Rica', 'Cote D\'Ivoire', 'Croatia', 'Cuba', 'Cyprus', 'Czech Republic', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic', 'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Eritrea', 'Estonia', 'Ethiopia', 'Falkland Islands (Malvinas)', 'Faroe Islands', 'Fiji', 'Finland', 'France', 'French Guiana', 'French Polynesia', 'French Southern Territories', 'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana', 'Gibraltar', 'Greece', 'Greenland', 'Grenada', 'Guadeloupe', 'Guam', 'Guatemala', 'Guernsey', 'Guinea', 'Guinea-Bissau', 'Guyana', 'Haiti', 'Heard Island and Mcdonald Islands', 'Holy See (Vatican City State)', 'Honduras', 'Hong Kong', 'Hungary', 'Iceland', 'India'];
         return {
+            count_sthlm: 0,
+            count_gbg: 0,
+            count_mlm: 0,
             is_igg: false,
             competitiontype: null,
             status_important: false,
@@ -2162,6 +2167,42 @@ export default {
   
     mixins: [tagsMixin],
     methods: {
+         getTeamsCount(city) {
+      //loading
+
+      var compid;
+
+
+      if (city == 'sthlm') {
+        compid = 'iHv4PtxyoTHLJQSJZ';        
+      }
+
+      if (city == 'gbg') {
+        compid = 'NPiNmtGS9RZ9ry7zY';        
+      }
+
+      if (city == 'mlm') {
+        compid = '9SPfjtNpvKenZCmDB';        
+      }
+
+ 
+      this.axios
+      
+        .post(globalState.admin_url + "getTeamsCount", {
+          //getclubstoplist          
+          competition: compid,
+          roundnumber: 0
+        })
+        .then((response) => {         
+                
+            this['count_'+city] = response.data.total
+                            
+
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
         setCookie() {
             localStorage.setItem('earlyBirdie2022', '1');
         },
@@ -2197,7 +2238,7 @@ export default {
                 .then((response) => {
 
                     const sim_id = localStorage.getItem('userId');
-                    console.log('getplayerdata3')    
+                    //console.log('getplayerdata3')    
                     this.getPlayerData(sim_id);
                         
                     this.progress = 100;
@@ -2956,7 +2997,7 @@ export default {
                             if (this.team.completemode) {
                                 this.showloginspinner = false;
                                 this.team.completemode = false;
-                                console.log('getplayerdata6')    
+                               // console.log('getplayerdata6')    
                                 this.getPlayerData();
                                 this.team.step = 0;
                             } else {
@@ -3060,7 +3101,7 @@ export default {
         getPlayerData(id) {
             //console.log('local comp id',compid)
             
-            this.fetchingPlayerData = true
+            this.fetchingPlayerData = true;
             
             if (!id) {
                 id = this.userinfo._id;
@@ -3166,6 +3207,14 @@ export default {
                             this.fetchingPlayerData = false;
                             
                             //console.log(this.teams[0].competition);
+
+                            if (this.teamscount==0) {
+                                //console.log('no teams exist, show places left')
+                                this.getTeamsCount('sthlm'); //sthlm
+                                this.getTeamsCount('gbg'); //gbg
+                                this.getTeamsCount('mlm'); //mlm
+
+                            }
 
                             return;
                         })
@@ -3535,15 +3584,18 @@ export default {
                      id: compid,
                  })
                 .then(response => {
-                    this.clubs = response.data;                   
-                    if (this.is_igg) {                        
+                    this.clubs = response.data;                    
+                    
+                   
+                    
+                    /*  if (this.is_igg) {                    
                            response.data.forEach((club) => {
                             this.options.push({
                             text: club.title,
                             value: club._id,
                             });
                         });
-                    }
+                    } */
 
 
                 })
@@ -3553,6 +3605,13 @@ export default {
                 });
         },
         onCountryInputChange(query) {
+
+            var district = null;
+            if (this.local_comp == 'iHv4PtxyoTHLJQSJZ') district = 'Stockholm';
+            if (this.local_comp == 'NPiNmtGS9RZ9ry7zY') district = 'Göteborg';
+            if (this.local_comp == '9SPfjtNpvKenZCmDB') district = 'Skåne';
+
+            console.log(district)
             
             if (query.trim().length === 0) {
                 var x = document.getElementsByClassName("course");
@@ -3563,9 +3622,15 @@ export default {
                 }
                 return null;
             }
-            // return the matching countries as an array
+            // return the matching clubs as an array
             return this.clubs.filter((club) => {
-                return club.title.toLowerCase().includes(query.toLowerCase())
+                if (district) {
+                    if (club.district == district) {                                   
+                        return club.title.toLowerCase().includes(query.toLowerCase())
+                    }
+                } else {
+                    return club.title.toLowerCase().includes(query.toLowerCase())
+                }
             })
         },
         onSearchItemSelected(item) {
@@ -3695,9 +3760,9 @@ export default {
               //var thecompid = globalState.compid; //old
               if (this.local_comp) {
                 var thecompid = this.local_comp //new
-                console.log(this.local_comp)
+                //console.log(this.local_comp)
               } else {
-                console.log('ERROR COMP ID 5')
+                //console.log('ERROR COMP ID 5')
               }
             
 
@@ -3830,7 +3895,7 @@ console.log('update team')
                     parentVue.doctitle = 'My matchplay';
                     
                     this.$store.dispatch('setAuthentication', {token: server.token, userId: server.userId})   
-                    console.log('getplayerdata1')                 
+                    //console.log('getplayerdata1')                 
                     this.getPlayerData(server.userId)
 
                 })
