@@ -260,7 +260,8 @@
                     </b-row>
                     <b-row align-h="center" v-if="teams.length === 0 || !teams.length && !closed">
                           <b-col sm="10" lg="6" class="mt-3">                        
-                            <b-button variant="primary" class="blue-bg mt-3" @click="create_team('new')">Skapa ett lag</b-button>
+                            <b-button hidden variant="primary" class="blue-bg mt-3" @click="create_team('new')">Skapa ett lag</b-button>
+                            <b-button variant="primary" class="blue-bg mt-3" @click="tabIndex=1">Skapa ett lag</b-button>
                         </b-col>
                     </b-row>
                      <b-row align-h="center">
@@ -474,12 +475,12 @@
                             </p>
                     </b-col>
                     <b-col class="col-4 text-center mt-md-5 mt-3">
-                        Local Series <br><strong>STOCKHOLM</strong><br>
+                        Local Series <br><strong>STHLM</strong><br>
                           <b-button variant="primary" class="blue-bg mt-3 mb-3 btn-md" v-on:click="create_team('new',null,'iHv4PtxyoTHLJQSJZ','Stockholm')"><i class="material-icons">sports_golf</i>Skapa ditt lag</b-button>
                           <div class="text-danger" v-if="count_sthlm > 32">Få platser kvar!</div>
                     </b-col>
                     <b-col class="col-4 text-center mt-md-5 mt-3">
-                        Local Series <br><strong>GÖTEBORG</strong><br>
+                        Local Series <br><strong>GBG</strong><br>
                           <b-button variant="primary" class="blue-bg mt-3 mb-3 btn-md" v-on:click="create_team('new',null,'NPiNmtGS9RZ9ry7zY','Göteborg')"><i class="material-icons">sports_golf</i>Skapa ditt lag</b-button>
                            <div class="text-danger" v-if="count_gbg > 32">Få platser kvar!</div>
                     </b-col>
