@@ -28,6 +28,36 @@
            
           </b-col>
 
+           <b-col            
+            class="col-12 col-md-6 mt-4 mb-3 mb-md-4 text-center"
+            id="countdown"
+          >
+            <h4 class="mb-2 mb-md-3">Sista anmälningsdag 12 aug.</h4>
+            <p hidden>
+              Missa inte att anmäla ert lag till årets roligaste golftävling, anmälan stänger 14 maj 23.59.
+            </p>
+            <b-row align-h="center mt-4">
+              <b-col class="col-3 p-0">
+                <span id="days" class="blink-fast red days timenumbers"
+                  >01</span
+                >
+                <p class="timeRefDays timedescription">dagar</p>
+              </b-col>
+              <b-col class="col-3 p-0">
+                <span id="hours" class="hours timenumbers">00</span>
+                <p class="timeRefHours timedescription">timmar</p>
+              </b-col>
+              <b-col class="col-3 p-0">
+                <span id="minutes" class="minutes timenumbers">00</span>
+                <p class="timeRefMinutes timedescription">minuter</p>
+              </b-col>
+              <b-col hidden class="col-3 p-0">
+                <span id="seconds" class="seconds timenumbers">00</span>
+                <p class="timeRefSeconds timedescription">sekunder</p>
+              </b-col>
+            </b-row>
+          </b-col>
+
           <b-col class="col-md-10">
           
             <div class="mt-5 text-center">
@@ -67,15 +97,7 @@
          <hr class="mt-5" v-if="latestTeam" />
   </b-container>
 
- 
-
-    <b-container hidden v-if="!loading" class="mt-5 mb-4">
-       <keytakeaways2></keytakeaways2>
-       <hr v-if="!closed" class="mt-5" />
-    </b-container>
-
-
-    <!-- INFO TEXT -->
+     <!-- INFO TEXT -->
     <b-container v-if="!loading" class="mb-5">
        <b-row class="justify-content-center" align-h="center">
         <b-col class="col-12 mb-2">
@@ -219,6 +241,9 @@ export default {
       clubs: [],
     };
   },
+  mounted() {
+   
+  },
   created() {
     this.axios
       .post(globalState.admin_url + "getGolfclubs", {
@@ -235,7 +260,7 @@ export default {
           globalState.compid
         );
         promise.then(() => {
-          (this.price_private = this.price1), (this.loading = false);
+          (this.price_private = this.price1), (this.loading = false), this.countdown() ;
         });
       })
       .catch((error) => {
@@ -251,11 +276,49 @@ export default {
     
   },
 
-  mounted() {},
+  
   computed: {
     ...mapGetters(["price1"]),
   },
   methods: {
+    countdown() {      
+      let parentvue = this;
+
+      const second = 1000,
+        minute = second * 60,
+        hour = minute * 60,
+        day = hour * 24;
+
+      let closedate = "August 12, 2023 23:59:59",
+        //let closedate = "March 25, 2021 17:21:00",
+        countDown = new Date(closedate).getTime(),
+        x = setInterval(function () {
+          let now = new Date().getTime(),
+            distance = countDown - now;
+          if (document.getElementById("days")) {            
+            (document.getElementById("days").innerText = Math.floor(
+              distance / day
+            )),
+              (document.getElementById("hours").innerText = Math.floor(
+                (distance % day) / hour
+              )),
+              (document.getElementById("minutes").innerText = Math.floor(
+                (distance % hour) / minute
+              )),
+              (document.getElementById("seconds").innerText = Math.floor(
+                (distance % minute) / second
+              ));
+          } else {
+            clearInterval(x);
+          }
+          //do something later when date is reached
+          if (distance < 0) {
+            parentvue.closed = true;
+            clearInterval(x);
+          }
+          //seconds
+        }, 0);
+    },
        getlatestteam(compid) {  
       this.axios
         .post(globalState.admin_url + "getLatestPaidTeam", {
@@ -348,6 +411,44 @@ video {
 
 .white-bg {
   background: #fff;
+}
+
+
+.timenumbers {
+  display: block;
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 80px;
+  margin: 0 auto;
+  text-align: center;
+  padding-right: 2px;
+  @media (min-width: 500px) {
+    font-size: 2rem;
+  }
+}
+
+.timenumbers {
+  border-radius: 50%;
+  border-width: 5px;
+  border-color: rgba(0, 0, 0, 0.3);
+  border-style: solid;
+  color: #000;
+  width: 80px;
+  height: 80px;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+p.timedescription {
+  font-size: 1.2rem;
+  font-variant: small-caps;
+  line-height: 1.5rem;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  top: 5px;
+  @media (min-width: 500px) {
+    font-size: 1rem;
+  }
 }
 
 @media only screen and (max-width: 768px) {
