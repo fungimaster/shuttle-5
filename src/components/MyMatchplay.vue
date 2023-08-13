@@ -466,6 +466,15 @@
                         </b-col>
                 </b-row>
                 <!-- IGG SPECIAL -->
+                <b-row v-if="(!teams.length && closed && !fetchingPlayerData)">
+                    <b-col>
+                        <b-alert show variant="danger">         
+                            <p>                   
+                        <h2>Vi tar tyvärr inte emot fler anmälningar just nu</h2>
+                            </p>
+                        </b-alert>
+                    </b-col>
+                </b-row>
                 <b-row class="igg" v-if="(!teams.length && !closed && !fetchingPlayerData)">
                     <b-col class="col-12 mt-0">
                         <b-img fluid left class="mr-3 mb-2" src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,h_80/v1688979193/matchplay/local/Matchplay_logo_PNG_2023.png"></b-img>
@@ -476,18 +485,21 @@
                     </b-col>
                     <b-col class="col-4 text-center mt-md-5 mt-3">
                         Local Series <br><strong>STHLM</strong><br>
-                          <b-button variant="primary" class="blue-bg mt-3 mb-3 btn-md" v-on:click="create_team('new',null,'iHv4PtxyoTHLJQSJZ','Stockholm')"><i class="material-icons">sports_golf</i>Skapa ditt lag</b-button>
-                          <div class="text-danger" v-if="count_sthlm > 32">Få platser kvar!</div>
+                          <b-button variant="primary" :disabled="count_sthlm > 63" class="blue-bg mt-3 mb-3 btn-md" v-on:click="create_team('new',null,'iHv4PtxyoTHLJQSJZ','Stockholm')"><i class="material-icons">sports_golf</i>Skapa ditt lag</b-button>
+                          <div class="text-danger" v-if="count_sthlm > 32 && count_sthlm < 64">Få platser kvar!</div>
+                          <div class="text-danger" v-if="count_sthlm > 63">Slutsåld!</div>
                     </b-col>
                     <b-col class="col-4 text-center mt-md-5 mt-3">
                         Local Series <br><strong>GBG</strong><br>
-                          <b-button variant="primary" class="blue-bg mt-3 mb-3 btn-md" v-on:click="create_team('new',null,'NPiNmtGS9RZ9ry7zY','Göteborg')"><i class="material-icons">sports_golf</i>Skapa ditt lag</b-button>
-                           <div class="text-danger" v-if="count_gbg > 32">Få platser kvar!</div>
+                          <b-button variant="primary" :disabled="count_gbg > 63" class="blue-bg mt-3 mb-3 btn-md" v-on:click="create_team('new',null,'NPiNmtGS9RZ9ry7zY','Göteborg')"><i class="material-icons">sports_golf</i>Skapa ditt lag</b-button>
+                           <div class="text-danger" v-if="count_gbg > 32 && count_gbg < 64">Få platser kvar!</div>
+                          <div class="text-danger" v-if="count_gbg > 63">Slutsåld!</div>
                     </b-col>
                     <b-col class="col-4 text-center mt-md-5 mt-3">
                         Local Series <br><strong>MALMÖ</strong><br>
-                          <b-button variant="primary" class="blue-bg mt-3 mb-3 btn-md" v-on:click="create_team('new',null,'9SPfjtNpvKenZCmDB','Malmö')"><i class="material-icons">sports_golf</i>Skapa ditt lag</b-button>
-                           <div class="text-danger" v-if="count_mlm > 32">Få platser kvar!</div>
+                          <b-button variant="primary" :disabled="count_mlm > 63" class="blue-bg mt-3 mb-3 btn-md" v-on:click="create_team('new',null,'9SPfjtNpvKenZCmDB','Malmö')"><i class="material-icons">sports_golf</i>Skapa ditt lag</b-button>
+                            <div class="text-danger" v-if="count_mlm > 32 && count_mlm < 64">Få platser kvar!</div>
+                          <div class="text-danger" v-if="count_mlm > 63">Slutsåld!</div>
                     </b-col>
                 </b-row>
                 <!-- END IGG SPECIAL -->
@@ -1089,7 +1101,11 @@
 
                                     <vue-tel-input v-model="team.swish.mobile" v-bind="bindProps"></vue-tel-input>
 
-                                    <b-button :disabled="showspinner_swish || team.swish.mobile === ''" show @click="swish()" variant="success" size="lg" class="w-100 float-right mt-3">
+                                    <b-alert show v-if="comp_full" variant="danger" class="mt-3">
+                                        Tyvärr har tävlingens alla 64 platser betalats, håll utkik efter nästa tävling från Matchplay på våra sociala medier!
+                                    </b-alert>
+
+                                    <b-button :disabled="showspinner_swish || team.swish.mobile === '' || comp_full" show @click="swish()" variant="success" size="lg" class="w-100 float-right mt-3">
                                         <b-spinner v-if="showspinner_swish" small type="grow" class="mr-2"></b-spinner>Betala
                                     </b-button>
                                     <br>
@@ -1763,13 +1779,14 @@ export default {
                 paidteam: 'Laget är betalt',
                 not_paidteam: 'Laget är inte betalt'
             },
+            comp_full: false,
             showcreateteam: true,
             showteamslist: false,
             showcreateteamhelper: false,
             showspinner_1: false,
             showspinner_2: false,
             showspinner_3: false,
-            showspinner_swish: false,
+            showspinner_swish: false,            
             showspinner_voucher: false,
             showspinner_invoice: false,
             showspinner_coupon: false,
@@ -2172,7 +2189,6 @@ export default {
       //loading
 
       var compid;
-
 
       if (city == 'sthlm') {
         compid = 'iHv4PtxyoTHLJQSJZ';        
@@ -2670,8 +2686,7 @@ export default {
 
         },
         setTeamProperties(team) {                  
-            this.getGolfClubs();
-            
+            this.getGolfClubs();                     
            
             this.team._id = team._id;
             this.showcreateteam = true;
@@ -3213,8 +3228,7 @@ export default {
                                 //console.log('no teams exist, show places left')
                                 this.getTeamsCount('sthlm'); //sthlm
                                 this.getTeamsCount('gbg'); //gbg
-                                this.getTeamsCount('mlm'); //mlm
-
+                                this.getTeamsCount('mlm'); //mlm                                
                             }
 
                             return;
@@ -3497,6 +3511,24 @@ export default {
                 });
         },
         swish: function () {
+
+        
+            //check team count before enabling pay
+            if (this.local_comp) {
+                this.axios
+        
+                .post(globalState.admin_url + "getTeamsCount", {
+                //getclubstoplist          
+                competition: this.local_comp,
+                roundnumber: 0
+                })
+                .then((response) => {         
+                        
+                   if (response.data.total > 63) {
+                    this.comp_full = true;
+                    return;
+                   } else { //do the normal stuff
+
             this.showspinner_swish = true;
             let mobile = this.team.swish.mobile;
             mobile = mobile.replace(/\s/g, "");
@@ -3540,6 +3572,17 @@ export default {
                     this.showloginspinner = false;
 
                 });
+                   }
+                                    
+
+                })
+                .catch((error) => {
+                console.log(error);
+                });
+            }
+           
+            //end
+
         },
 
         uploadCloudinary: function () {

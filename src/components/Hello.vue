@@ -28,7 +28,7 @@
            
           </b-col>
 
-           <b-col            
+           <b-col v-if="!closed"            
             class="col-12 col-md-6 mt-4 mb-3 mb-md-4 text-center"
             id="countdown"
           >
@@ -60,8 +60,8 @@
 
           <b-col class="col-md-10">
           
-            <div class="mt-5 text-center">
-              <div hidden class="text-center" v-if="closed"><h3>- Anmälan till tävlingen är nu stängd -</h3></div>
+            <div class="hidden mt-5 text-center">
+              <div class="text-center" v-if="closed"><h3>- Anmälan till tävlingen är nu stängd -</h3></div>
                <b-button
                 v-if="closed"
                 variant="primary"
