@@ -122,7 +122,7 @@
                    <p>                   
                         <ul class="roundlist">
                           <li v-bind:class="{ active: currentRound === 1}">
-                            Omgång 1: 15 aug - 28 aug
+                            Omgång 1: 20 aug - 28 aug
                           </li>
                            <li v-bind:class="{ active: currentRound === 2}">
                             Omgång 2: 29 aug - 11 sep

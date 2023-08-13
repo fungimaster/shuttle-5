@@ -22,19 +22,19 @@
               pt-1 pt-md-2
               pb-0 pb-md-0
               text-center">
-            <h1 class="mb-3 white">64 LAG</h1>
+            <h1 class="mb-3 white">32 LAG</h1>
             <h1 class="mb-3 white">6 MATCHER*</h1>
             <h1 class="mb-0 white">FINAL I ITALIEN</h1>
            
           </b-col>
 
-           <b-col v-if="!closed"            
+           <b-col            
             class="col-12 col-md-6 mt-4 mb-3 mb-md-4 text-center"
             id="countdown"
           >
-            <h4 class="mb-2 mb-md-3">Sista anmälningsdag 12 aug.</h4>
-            <p hidden>
-              Missa inte att anmäla ert lag till årets roligaste golftävling, anmälan stänger 14 maj 23.59.
+            <h4 class="mb-2 mb-md-3">Sista anmälningsdag 20 aug.</h4>
+            <p>
+              Missa inte att anmäla ert lag till årets roligaste golftävling, anmälan stänger 20 maj 23.59.
             </p>
             <b-row align-h="center mt-4">
               <b-col class="col-3 p-0">
@@ -101,13 +101,13 @@
     <b-container v-if="!loading" class="mb-5">
        <b-row class="justify-content-center" align-h="center">
         <b-col class="col-12 mb-2">
-        <p><strong>Matchplay Local Series</strong> är en matchspelstävling med <strong>64 startande lag</strong> och där det vinnande laget från respektive Local Series (Stockholm, Göteborg och Malmö) gör upp om titeln i en matchspelsserie mellan 22-26 oktober på Golf Le Fonti i Bologna, Italien.</p>
-<p>De sex grundomgångarna spelas mellan datumen 15 augusti och 15 oktober. Vinnaren i omgång sex från respektive Local Series får åka till den italienska finalen.</p>
+        <p><strong>Matchplay Local Series</strong> är en matchspelstävling med <strong>32 startande lag</strong> och där det vinnande laget från respektive Local Series (Stockholm och Malmö) gör upp om titeln i en matchspelsserie mellan 22-26 oktober på Golf Le Fonti i Bologna, Italien.</p>
+<p>De sex grundomgångarna spelas mellan datumen 21 augusti och 15 oktober. Vinnaren i omgång sex från respektive Local Series får åka till den italienska finalen.</p>
 <p>En av uppsidorna i Local Series är att resandet till en match inte är för långt. Vi försöker att styra upp alla matcher på ett sätt där deltagarna inte behöver åka mer än 50km för att spela sin match.</p>
 <p>Förlorande lag i första omgången går automatiskt till Andra Chansen, ett nytt matchspelsträd, där vinnande laget vinner en weekend i Portugal. 
 Genom Andra Chansen så är alla lag som deltar i Matchplay Local Series garanterade minst två matcher.</p>
 <p hidden>
-Vinnande lag i Local Series Stockholm, Local Series Göteborg och Local Series Malmö får åka till Golf Le Fonti och tävla om titeln i Matchplay Local Series 2023. Matchplay står för flyg, transfer, boende, middag och golf på plats. Finalen spelas mellan 22-26 oktober.
+Vinnande lag i Local Series Stockholm och Local Series Malmö får åka till Golf Le Fonti och tävla om titeln i Matchplay Local Series 2023. Matchplay står för flyg, transfer, boende, middag och golf på plats. Finalen spelas mellan 22-26 oktober.
 </p>
 <p>Priset för ett lag är endast <strong>450:-</strong> och ni betalar enkelt med swish.</p>
 
@@ -155,7 +155,7 @@ Vinnande lag i Local Series Stockholm, Local Series Göteborg och Local Series M
       <hr class="mb-5" />
       <h2></h2>
         <p>
-         Vinnaren i Local Series Stockholm, Local Series Göteborg och Local Series Malmö får åka till Golf Le Fonti och tävla om titeln i Matchplay Local Series 2023. Matchplay står för flyg, transfer, boende, middag och golf på plats. Finalen spelas mellan 22-26 oktober.
+         Vinnaren i Local Series Stockholm och Local Series Malmö får åka till Golf Le Fonti och tävla om titeln i Matchplay Local Series 2023. Matchplay står för flyg, transfer, boende, middag och golf på plats. Finalen spelas mellan 22-26 oktober.
         </p>
     </b-col>
      <b-col class="col-12 text-center">
@@ -289,7 +289,7 @@ export default {
         hour = minute * 60,
         day = hour * 24;
 
-      let closedate = "August 12, 2023 23:59:59",
+      let closedate = "August 20, 2023 23:59:59",
         //let closedate = "March 25, 2021 17:21:00",
         countDown = new Date(closedate).getTime(),
         x = setInterval(function () {

@@ -479,27 +479,27 @@
                     <b-col class="col-12 mt-0">
                         <b-img fluid left class="mr-3 mb-2" src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,h_80/v1688979193/matchplay/local/Matchplay_logo_PNG_2023.png"></b-img>
                      <p class="small">                        
-                           Vinnande lag i Local Series <strong>Stockholm</strong>, Local Series <strong>Göteborg</strong> och Local Series <strong>Malmö</strong> får åka till Golf Le Fonti och tävla om titeln i Matchplay Local Series 2023. Matchplay står för flyg, transfer, boende, middag och golf på plats. Finalen spelas mellan 22-26 oktober.
+                           Vinnande lag i Local Series <strong>Stockholm</strong> och Local Series <strong>Malmö</strong> får åka till Golf Le Fonti och tävla om titeln i Matchplay Local Series 2023. Matchplay står för flyg, transfer, boende, middag och golf på plats. Finalen spelas mellan 22-26 oktober.
                             <strong>Pris per lag är {{team.price_private}} kr</strong>.                            
                             </p>
                     </b-col>
-                    <b-col class="col-4 text-center mt-md-5 mt-3">
+                    <b-col class="col-6 text-center mt-md-5 mt-3">
                         Local Series <br><strong>STHLM</strong><br>
-                          <b-button variant="primary" :disabled="count_sthlm > 63" class="blue-bg mt-3 mb-3 btn-md" v-on:click="create_team('new',null,'iHv4PtxyoTHLJQSJZ','Stockholm')"><i class="material-icons">sports_golf</i>Skapa ditt lag</b-button>
-                          <div class="text-danger" v-if="count_sthlm > 32 && count_sthlm < 64">Få platser kvar!</div>
-                          <div class="text-danger" v-if="count_sthlm > 63">Slutsåld!</div>
+                          <b-button variant="primary" :disabled="count_sthlm > 31" class="blue-bg mt-3 mb-3 btn-md" v-on:click="create_team('new',null,'iHv4PtxyoTHLJQSJZ','Stockholm')"><i class="material-icons">sports_golf</i>Skapa ditt lag</b-button>
+                          <div class="text-danger" v-if="count_sthlm > 28 && count_sthlm < 32">Få platser kvar!</div>
+                          <div class="text-danger" v-if="count_sthlm > 31">Slutsåld!</div>
                     </b-col>
-                    <b-col class="col-4 text-center mt-md-5 mt-3">
+                    <b-col hidden class="col-4 text-center mt-md-5 mt-3">
                         Local Series <br><strong>GBG</strong><br>
                           <b-button variant="primary" :disabled="count_gbg > 63" class="blue-bg mt-3 mb-3 btn-md" v-on:click="create_team('new',null,'NPiNmtGS9RZ9ry7zY','Göteborg')"><i class="material-icons">sports_golf</i>Skapa ditt lag</b-button>
                            <div class="text-danger" v-if="count_gbg > 32 && count_gbg < 64">Få platser kvar!</div>
                           <div class="text-danger" v-if="count_gbg > 63">Slutsåld!</div>
                     </b-col>
-                    <b-col class="col-4 text-center mt-md-5 mt-3">
+                    <b-col class="col-6 text-center mt-md-5 mt-3">
                         Local Series <br><strong>MALMÖ</strong><br>
-                          <b-button variant="primary" :disabled="count_mlm > 63" class="blue-bg mt-3 mb-3 btn-md" v-on:click="create_team('new',null,'9SPfjtNpvKenZCmDB','Malmö')"><i class="material-icons">sports_golf</i>Skapa ditt lag</b-button>
-                            <div class="text-danger" v-if="count_mlm > 32 && count_mlm < 64">Få platser kvar!</div>
-                          <div class="text-danger" v-if="count_mlm > 63">Slutsåld!</div>
+                          <b-button variant="primary" :disabled="count_mlm > 31" class="blue-bg mt-3 mb-3 btn-md" v-on:click="create_team('new',null,'9SPfjtNpvKenZCmDB','Malmö')"><i class="material-icons">sports_golf</i>Skapa ditt lag</b-button>
+                            <div class="text-danger" v-if="count_mlm > 26 && count_mlm < 32">Få platser kvar!</div>
+                          <div class="text-danger" v-if="count_mlm > 31">Slutsåld!</div>
                     </b-col>
                 </b-row>
                 <!-- END IGG SPECIAL -->
@@ -1102,7 +1102,7 @@
                                     <vue-tel-input v-model="team.swish.mobile" v-bind="bindProps"></vue-tel-input>
 
                                     <b-alert show v-if="comp_full" variant="danger" class="mt-3">
-                                        Tyvärr har tävlingens alla 64 platser betalats, håll utkik efter nästa tävling från Matchplay på våra sociala medier!
+                                        Tyvärr har tävlingens alla 32 platser betalats, håll utkik efter nästa tävling från Matchplay på våra sociala medier!
                                     </b-alert>
 
                                     <b-button :disabled="showspinner_swish || team.swish.mobile === '' || comp_full" show @click="swish()" variant="success" size="lg" class="w-100 float-right mt-3">
@@ -3524,7 +3524,7 @@ export default {
                 })
                 .then((response) => {         
                         
-                   if (response.data.total > 63) {
+                   if (response.data.total > 31) {
                     this.comp_full = true;
                     return;
                    } else { //do the normal stuff

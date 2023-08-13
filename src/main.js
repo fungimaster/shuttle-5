@@ -43,7 +43,7 @@ export const globalState = new Vue({
     admin_url: 'https://admin.matchplay.se/methods/',
     compid: 'iHv4PtxyoTHLJQSJZ', //2023 local sthlm
     prevcompid: 'hXcmBwqmfWC2tYcxR', //2022 'sFAc3dvrn2P9pXHAz',    
-    closed: true,
+    closed: false,
     showTopClubs: true //activate once teams pay
   }
 })

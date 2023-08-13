@@ -177,7 +177,7 @@ export default {
      return  [
           {
             headline: "Regioner Matchplay Local Series 2023",
-            text: "Matchplay Local Series spelas Stockholm, Göteborg och Malmö. Målsättningen är att deltagarna ska ha en så kort ressträcka som möjligt till en match, helst max 50km som längst. Tyvärr kan det förekomma att någon kan behöva åka lite längre än så men lottningarna utgår från att optimera restiden.",
+            text: "Matchplay Local Series spelas Stockholm och Malmö. Målsättningen är att deltagarna ska ha en så kort ressträcka som möjligt till en match, helst max 50km som längst. Tyvärr kan det förekomma att någon kan behöva åka lite längre än så men lottningarna utgår från att optimera restiden.",
             imgurl1: null,
             imgurl2: null,
             category: 6,
@@ -272,7 +272,7 @@ export default {
           },
           {
             headline: "Spelplatser",
-            text: "Vårt lottningssystem är utformat för att ge en så rättvis fördelning som möjligt sett till spelplats.  <br/> <br/> Hemmalag/bortalag fördelas jämnt mellan omgångarna och lottas fram i första omgången. Detta innebär att man kan välja sin hemmabana men kan också komma överens med motståndarna om annan bana. Lagkaptenerna i respektive lag ansvarar för att föra score för alla spelare. Eventuell greenfee under kvalomgångarna innan semifinal och final betalas av respektive lag. <br/> <br/> Matchen avgörs över 18 hål utan särspel. OBS! Endast klubbar med 18 hål kan och ska användas under spelet. Om ett (eller flera) hål på banan är avstängt hoppar man över detta hål och matchen avgörs då över de hål som är spelbara.  <br/> <br/> Finalen spelas 22-26 oktober på Golf Le Fonti i Bologna, Italien. De tre vinnande lagen från Local Series Stockholm, Local Series Göteborg och Local Series Malmö spelar en greensome poängbogey mot varandra och där de två lag med mest poäng efter 18 hål går in i huvudfinalen. Spelformen för huvudfinalen är samma som i grundomgången. Alla deltagare i finalen har redan kvalificerat sig för spel nästkommande år utan kostnad.",
+            text: "Vårt lottningssystem är utformat för att ge en så rättvis fördelning som möjligt sett till spelplats.  <br/> <br/> Hemmalag/bortalag fördelas jämnt mellan omgångarna och lottas fram i första omgången. Detta innebär att man kan välja sin hemmabana men kan också komma överens med motståndarna om annan bana. Lagkaptenerna i respektive lag ansvarar för att föra score för alla spelare. Eventuell greenfee under kvalomgångarna innan semifinal och final betalas av respektive lag. <br/> <br/> Matchen avgörs över 18 hål utan särspel. OBS! Endast klubbar med 18 hål kan och ska användas under spelet. Om ett (eller flera) hål på banan är avstängt hoppar man över detta hål och matchen avgörs då över de hål som är spelbara.  <br/> <br/> Finalen spelas 22-26 oktober på Golf Le Fonti i Bologna, Italien. De tre vinnande lagen från Local Series Stockholm och Local Series Malmö spelar en greensome poängbogey mot varandra och där de två lag med mest poäng efter 18 hål går in i huvudfinalen. Spelformen för huvudfinalen är samma som i grundomgången. Alla deltagare i finalen har redan kvalificerat sig för spel nästkommande år utan kostnad.",
             imgurl1: null,
             imgurl2: null,
             category: 4,
