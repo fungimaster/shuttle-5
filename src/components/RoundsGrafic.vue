@@ -122,23 +122,20 @@
                    <p>                   
                         <ul class="roundlist">
                           <li v-bind:class="{ active: currentRound === 1}">
-                            Omgång 1: 20 aug - 28 aug
+                            Omgång 1: 21 aug - 31 aug
                           </li>
                            <li v-bind:class="{ active: currentRound === 2}">
-                            Omgång 2: 29 aug - 11 sep
+                            Omgång 2: 1 sep - 11 sep
                           </li>
                             <li v-bind:class="{ active: currentRound === 3}">
-                            Omgång 3: 12 sep - 21 sep
+                            Omgång 3: 12 sep - 22 sep
                           </li>                           
                           <li v-bind:class="{ active: currentRound === 4}">
-                            Omgång 4: 22 sep - 28 sep
+                            Omgång 4: 23 sep - 3 okt
                           </li>
                           <li v-bind:class="{ active: currentRound === 5}">
-                            Omgång 5: 29 sep - 5 okt
-                          </li>
-                            <li v-bind:class="{ active: currentRound === 6}">
-                             Omgång 6: 6 okt - 15 okt
-                          </li>                            
+                            Omgång 5: 5 okt - 15 okt
+                          </li>                        
                                    <li>
                              Resan till Italien: 22-26 okt
                           </li>                      

@@ -23,7 +23,7 @@
               pb-0 pb-md-0
               text-center">
             <h1 class="mb-3 white">32 LAG</h1>
-            <h1 class="mb-3 white">6 MATCHER*</h1>
+            <h1 class="mb-3 white">5 MATCHER*</h1>
             <h1 class="mb-0 white">FINAL I ITALIEN</h1>
            
           </b-col>
@@ -60,7 +60,7 @@
 
           <b-col class="col-md-10">
           
-            <div class="hidden mt-5 text-center">
+            <div class="mt-5 text-center">
               <div class="text-center" v-if="closed"><h3>- Anmälan till tävlingen är nu stängd -</h3></div>
                <b-button
                 v-if="closed"
