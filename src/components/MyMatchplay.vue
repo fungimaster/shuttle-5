@@ -459,7 +459,7 @@
                             <h2 hidden>Skapa ditt blivande mästarlag</h2>
                             <p v-if="closed" class="mt-3">Om inga lag syns här har något blivit fel med lagkopplingen eller så har registreringen stängt, se kontaktuppg. längst ner på sidan.</p>
                         
-                            <p v-if="!closed && teams.length === 0 || (!teams.length && !closed)" class="mt-3 mb-5" > Vinnande lag i Local Series Stockholm, Local Series Göteborg och Local Series Malmö får åka till Golf Le Fonti och tävla om titeln i Matchplay Local Series 2023. Matchplay står för flyg, transfer, boende, middag och golf på plats. Finalen spelas mellan 22-26 oktober.</p>
+                            <p v-if="!closed && teams.length === 0 || (!teams.length && !closed)" class="mt-3 mb-5" > Vinnande lag i Local Series Stockholm, Local Series Göteborg och Local Series Skåne får åka till Golf Le Fonti och tävla om titeln i Matchplay Local Series 2023. Matchplay står för flyg, transfer, boende, middag och golf på plats. Finalen spelas mellan 22-26 oktober.</p>
                         </b-col>
                         <b-col v-if="!closed && teams.length === 0 && !is_igg || (!teams.length && !closed && !is_igg)" md="12" class="pt-1 text-center mt-2 mb-3">
                             <b-button variant="primary" class="blue-bg mt-3 mb-3 pulse-button btn-lg" v-on:click="create_team('new')"><i class="material-icons">sports_golf</i>Skapa ditt lag</b-button>
@@ -479,7 +479,7 @@
                     <b-col class="col-12 mt-0">
                         <b-img fluid left class="mr-3 mb-2" src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,h_80/v1688979193/matchplay/local/Matchplay_logo_PNG_2023.png"></b-img>
                      <p class="small">                        
-                           Vinnande lag i Local Series <strong>Stockholm</strong> och Local Series <strong>Malmö</strong> får åka till Golf Le Fonti och tävla om titeln i Matchplay Local Series 2023. Matchplay står för flyg, transfer, boende, middag och golf på plats. Finalen spelas mellan 22-26 oktober.
+                           Vinnande lag i Local Series <strong>Stockholm</strong> och Local Series <strong>Skåne</strong> får åka till Golf Le Fonti och tävla om titeln i Matchplay Local Series 2023. Matchplay står för flyg, transfer, boende, middag och golf på plats. Finalen spelas mellan 22-26 oktober.
                             <strong>Pris per lag är {{team.price_private}} kr</strong>.                            
                             </p>
                     </b-col>
@@ -496,8 +496,8 @@
                           <div class="text-danger" v-if="count_gbg > 63">Slutsåld!</div>
                     </b-col>
                     <b-col class="col-6 text-center mt-md-5 mt-3">
-                        Local Series <br><strong>MALMÖ</strong><br>
-                          <b-button variant="primary" :disabled="count_mlm > 31" class="blue-bg mt-3 mb-3 btn-md" v-on:click="create_team('new',null,'9SPfjtNpvKenZCmDB','Malmö')"><i class="material-icons">sports_golf</i>Skapa ditt lag</b-button>
+                        Local Series <br><strong>SKÅNE</strong><br>
+                          <b-button variant="primary" :disabled="count_mlm > 31" class="blue-bg mt-3 mb-3 btn-md" v-on:click="create_team('new',null,'9SPfjtNpvKenZCmDB','Skåne')"><i class="material-icons">sports_golf</i>Skapa ditt lag</b-button>
                             <div class="text-danger" v-if="count_mlm > 26 && count_mlm < 32">Få platser kvar!</div>
                           <div class="text-danger" v-if="count_mlm > 31">Slutsåld!</div>
                     </b-col>
@@ -3192,7 +3192,7 @@ export default {
 
                             //if no teams, check malmö                   
                    //console.log(this.teamscount + ' for gbg')
-                   this.loading_comp = 'Läser data från lokal liga Malmö';   
+                   this.loading_comp = 'Läser data från lokal liga Skåne';   
                    if (this.teamscount == 0) {
                         this.axios.post(globalState.admin_url + 'getPlayerData', {
                             "id": id,

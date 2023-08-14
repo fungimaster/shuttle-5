@@ -7,7 +7,7 @@
         <b-col class="col-12 mt-5 mb-3">
           <h1>Finalresa Matchplay 2023</h1>
           <p>
-            Vinnande lag i Local Series Stockholm och Local Series Malmö får åka till Golf Le Fonti och tävla mot lag från Matchsplays nationella matchspelstävling i kampen om att bli vinnaren av Matchplay 2023. Matchplay står för flyg, transfer, boende, middag och golf på plats. Finalen spelas mellan 22-26 oktober.
+            Vinnande lag i Local Series Stockholm och Local Series Skåne får åka till Golf Le Fonti och tävla mot lag från Matchsplays nationella matchspelstävling i kampen om att bli vinnaren av Matchplay 2023. Matchplay står för flyg, transfer, boende, middag och golf på plats. Finalen spelas mellan 22-26 oktober.
           </p>
         </b-col>
       </b-row>
