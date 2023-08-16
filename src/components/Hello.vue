@@ -102,7 +102,7 @@
        <b-row class="justify-content-center" align-h="center">
         <b-col class="col-12 mb-2">
         <p><strong>Matchplay Local Series</strong> är en matchspelstävling med <strong>32 startande lag</strong> och där det vinnande laget från respektive Local Series (Stockholm och Skåne) gör upp om titeln i en matchspelsserie mellan 22-26 oktober på Golf Le Fonti i Bologna, Italien.</p>
-<p>De sex grundomgångarna spelas mellan datumen 21 augusti och 15 oktober. Vinnaren i omgång sex från respektive Local Series får åka till den italienska finalen.</p>
+<p>De fem grundomgångarna spelas mellan datumen 21 augusti och 15 oktober. Vinnaren i omgång fem från respektive Local Series får åka till den italienska finalen.</p>
 <p>En av uppsidorna i Local Series är att resandet till en match inte är för långt. Vi försöker att styra upp alla matcher på ett sätt där deltagarna inte behöver åka mer än 50km för att spela sin match.</p>
 <p>Förlorande lag i första omgången går automatiskt till Andra Chansen, ett nytt matchspelsträd, där vinnande laget vinner en weekend i Portugal. 
 Genom Andra Chansen så är alla lag som deltar i Matchplay Local Series garanterade minst två matcher.</p>
