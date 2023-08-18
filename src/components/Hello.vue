@@ -32,7 +32,7 @@
             class="col-12 col-md-6 mt-4 mb-3 mb-md-4 text-center"
             id="countdown"
           >
-            <h4 class="mb-2 mb-md-3">Sista anmälningsdag 20 aug</h4>
+            <h4 v-if="!closed" class="mb-2 mb-md-3">Sista anmälningsdag 20 aug</h4>
             <p hidden>
               Missa inte att anmäla ert lag till årets roligaste golftävling, anmälan stänger 20 maj 23.59.
             </p>
