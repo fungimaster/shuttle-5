@@ -100,7 +100,7 @@
                   <br />
                   <p class="hidden">Matchplay AB</p>
                   <p>Ängelholm</p>
-                  <p>Telefon: 010 - 522 00 07</p>
+                  <p>Telefon: 08-120 050 10</p>
                   <p><a href="https://www.facebook.com/matchplaysweden/" target="_blank"><i class="material-icons mr-2">facebook</i>Facebook</a> |
                   <a href="https://www.instagram.com/matchplay_sweden/" target="_blank"><i class="material-icons mr-2">camera_alt</i>Instagram</a></p>
                   <p class="links mb-5">
