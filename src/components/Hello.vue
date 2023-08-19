@@ -30,7 +30,7 @@
 
            <b-col            
             class="col-12 col-md-6 mt-4 mb-3 mb-md-4 text-center"
-            id="countdown"
+            id="countdown" v-if="!closed"
           >
             <h4 v-if="!closed" class="mb-2 mb-md-3">Sista anmälningsdag 20 aug</h4>
             <p hidden>
@@ -67,10 +67,10 @@
                 variant="primary"
                 to="results"
                 size="md"
-                class="btn"
+                class="btn btn-lg text-white"
                 >Följ årets matcher</b-button
               >
-             <a href="/register" class="btn btn-primary btn-lg text-white"
+             <a v-if="!closed" href="/register" class="btn btn-primary btn-lg text-white"
                 >Anmäl ditt lag</a
               >
               <p class="mt-3">* Alla utslagningsmatcher spelas i ditt lokalområde</p>
@@ -111,7 +111,7 @@ Vinnande lag i Local Series Stockholm och Local Series Skåne får åka till Gol
 </p>
 <p>Priset för ett lag är endast <strong>450:-</strong> och ni betalar enkelt med swish.</p>
 
- <a href="/register" class="btn btn-primary text-white mt-2"
+ <a v-if="!closed" href="/register" class="btn btn-primary text-white mt-2"
                 >Anmäl ditt lag</a
               >
 
