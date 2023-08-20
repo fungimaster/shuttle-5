@@ -8,7 +8,7 @@
          <b-col md="6" class="text-center">
                  <b-spinner big type="grow" class="m-3" style="width: 5rem; height: 5rem;"></b-spinner>
                  <p class="text-center mb-3"><i class="far fa-robot fa-4x"></i></p>
-                 <p>Hämtar lag och matcher...</p>
+                 <p>Hämtar lag... vänligen vänta</p>
                  <p hidden class="small">Testa att <a href="/mymatchplay">ladda om sidan</a> om denna sidan fastnar längre än 10 sekunder</p>
                   </b-col>
         </b-row>
@@ -1228,10 +1228,10 @@
       </template>
 
   <b-container>                           
-            <b-row v-if="closed" class="mb-2" align-h="center">
+            <b-row v-if="closed && !fetchingPlayerData" class="mb-2" align-h="center">
                 <b-col sm="12" lg="10" class="m-0 p-0">
                     <app-rounds-grafic
-                            class="mt-3 hidden"
+                            class="mt-3"
                             style="height: 50px"
                             linecolor="#808080"
                             opacity="1"
@@ -1249,8 +1249,15 @@
     <span v-if="teams[0].status==='Defeated'">Utslagna</span>
     </b-col>
 </b-row>
+
+<b-row v-if="fetchingPlayerData" align-h="center">
+    <b-col sm="10" lg="6">
+          <b-spinner small type="grow" class="mr-2"></b-spinner>
+         Laddar data, vänligen vänta...
+    </b-col>
+</b-row>
                 
-            <b-row v-if="games.length === 0 || !games.length" align-h="center">
+            <b-row v-if="(games.length === 0 || !games.length) && !fetchingPlayerData" align-h="center">
                 <b-col sm="10" lg="6">
 
                     <p class="text-center mt-2 mb-3"><i class="far fa-robot fa-3x"></i></p>                             

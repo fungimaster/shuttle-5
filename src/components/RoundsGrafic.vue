@@ -62,7 +62,7 @@
               <i
                 v-else-if="index === numberOfRounds - 2"
                 class="material-icons d-inline-block incomplete"
-                >golf_course</i
+                >check_circle</i
               >
 
               <em class="material-icons d-inline-block incomplete" v-else

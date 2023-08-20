@@ -6,7 +6,8 @@
       <b-row>
         <b-col class="col-12 mt-5 mb-5 p-5 text-center">
           <span v-if="loading">
-            <b-spinner type="grow" class="p-5"></b-spinner>
+            <b-spinner type="grow" class="p-5"></b-spinner><br>
+            Laddar data, vänligen vänta några sekunder...
           </span>
         </b-col>
       </b-row>
@@ -23,7 +24,7 @@
               pb-0 pb-md-0
               text-center">
             <h1 class="mb-3 white">32 LAG</h1>
-            <h1 class="mb-3 white">5 MATCHER*</h1>
+            <h1 class="mb-3 white">5 MATCHER</h1>
             <h1 class="mb-0 white">FINAL I ITALIEN</h1>
            
           </b-col>
@@ -73,7 +74,7 @@
              <a v-if="!closed" href="/register" class="btn btn-primary btn-lg text-white"
                 >Anmäl ditt lag</a
               >
-              <p class="mt-3">* Alla utslagningsmatcher spelas i ditt lokalområde</p>
+              <p class="mt-3" v-if="!closed">* Alla utslagningsmatcher spelas i ditt lokalområde</p>
             </div>
           </b-col>
          
