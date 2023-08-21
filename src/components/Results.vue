@@ -93,6 +93,14 @@
           </vue-ellipse-progress>
           </b-col> 
         </b-row>   -->
+          <b-row  class="p-0 m-0 mt-4 pt-sm-4">      
+            <b-col class="col-12 col-md-12 text-center p-1">
+              <h2 v-if="activeComp=='iHv4PtxyoTHLJQSJZ'">Local Series Stockholm</h2>
+              <h2 v-else>Local Series Skåne</h2>
+              <b-button :variant="activeComp != 'iHv4PtxyoTHLJQSJZ' ? 'secondary' : 'success'" @click="setComp('iHv4PtxyoTHLJQSJZ')">Stockholm</b-button>
+              <b-button :variant="activeComp != '9SPfjtNpvKenZCmDB' ? 'secondary' : 'success'" @click="setComp('9SPfjtNpvKenZCmDB')">Skåne</b-button>
+            </b-col>
+            </b-row>
         <b-row  class="p-0 m-0 mt-4 pt-sm-4">      
             <b-col class="col-3 col-md-3 text-center p-1">
                 <div class="stats pt-2 pl-1 pr-1 pb-0" variant="primary" id="tooltip-target-1">                 
@@ -536,7 +544,7 @@
                       <div>
                                         
 
-                      <app-birdie-ligan></app-birdie-ligan>
+                     <!--  <app-birdie-ligan></app-birdie-ligan> -->
 
                       
                       </div>
@@ -625,14 +633,15 @@ export default {
     return  
   } else {
     this.axios
-      .post(globalState.admin_url + "getCompetition", {id: globalState.compid})
+      //.post(globalState.admin_url + "getCompetition", {id: globalState.compid})
+      .post(globalState.admin_url + "getCompetition", {id: this.activeComp})
       .then((response) => {
         this.currentRound = response.data.currentround;      
         this.active_round = this.currentRound;
         
 
         if (this.active_round===7) {
-          this.active_round = 'Semifinal Sverigefinalen 2022';
+          this.active_round = 'Semifinal Sverigefinalen 2023';
           //this.active_round = 'Omgång ' + this.currentRound;
         }
 
@@ -696,6 +705,7 @@ export default {
   },
   data() {
     return {
+      activeComp: 'iHv4PtxyoTHLJQSJZ',
       loadingimages: true,
       loadingstats: true,
       allGameImages:[],
@@ -833,6 +843,47 @@ export default {
   mixins: [tagsMixin],
   
   methods: {
+      setComp (comp) {
+        this.activeComp = comp;
+
+this.axios
+      //.post(globalState.admin_url + "getCompetition", {id: globalState.compid})
+      .post(globalState.admin_url + "getCompetition", {id: this.activeComp})
+      .then((response) => {
+        this.currentRound = response.data.currentround;      
+        this.active_round = this.currentRound;
+        
+
+        if (this.active_round===7) {
+          this.active_round = 'Semifinal Sverigefinalen 2023';
+          //this.active_round = 'Omgång ' + this.currentRound;
+        }
+
+        if (this.active_round===8) {
+          this.active_round = 'Sverigefinalen 2022';
+          //this.active_round = 'Omgång ' + this.currentRound;
+        }
+        
+        
+        if (this.currentRound>0 && this.currentRound < 6) {
+          
+          //this.active_round = 'Omgång ' + this.currentRound;
+        }
+       // console.log('created current round',this.currentRound);
+         this.getGamesInprogress('initial');
+        //this.getGamesFinished();
+        this.getGolfclubsLogoUrl();
+        this.getTopListClubsPlayed(); //top list clubs played
+        this.getTeamsCount();
+        this.getGamesPending("not-initial");
+  
+      })
+      .catch((error) => {
+        console.log(error);
+      }); 
+
+
+      },
       handleResize() {
         this.windowWidth = window.innerWidth;
       },
@@ -849,7 +900,8 @@ export default {
       }
 
       this.axios
-        .post(globalState.admin_url + "allGameImages", {competition: globalState.compid})
+       // .post(globalState.admin_url + "allGameImages", {competition: globalState.compid})
+        .post(globalState.admin_url + "allGameImages", {competition: this.activeComp})
         .then((response) => {
           this.$store.dispatch('setAllImages', response.data)
           this.allGameImages = response.data
@@ -1143,7 +1195,8 @@ export default {
 
       this.axios
         .post(globalState.admin_url + "getGamesAdvanced2", {
-          competition: globalState.compid,
+          //competition: globalState.compid,
+          competition: this.activeComp,
           status: "In progress",
           //"from": today + " " + today_h,
           //"to": today + " 23:59",
@@ -1192,11 +1245,11 @@ export default {
       }
 
       //* check if data in stores. Then skip fetch.
-      if(this.getGames2.length) {      
+     /*  if(this.getGames2.length) {      
         this.games2 = this.getGames2
         handleResponse()
         return
-      }
+      } */
 
         //LOAD FINISHED
         if (type === "initial") {
@@ -1207,7 +1260,8 @@ export default {
  
       this.axios
         .post(globalState.admin_url + "getGamesAdvanced2", {
-          competition: globalState.compid,
+          //competition: globalState.compid,
+          competition: this.activeComp,
           status: "Pending",
           from: today + " " + today_h,
           //"to": today + " 23:59",
@@ -1306,7 +1360,8 @@ export default {
 
       this.axios
         .post(globalState.admin_url + "getGamesAdvanced2", {
-          competition: globalState.compid,
+          //competition: globalState.compid,
+          competition: this.activeComp,
           status: "Finished",
           //"from": today + " " + today_h,
           //"to": today + " 23:59",
@@ -1322,7 +1377,8 @@ export default {
           let finishedgames = [];
           this.axios
             .post(globalState.admin_url + "getGamesAdvanced2", {
-              competition: globalState.compid,
+              //competition: globalState.compid,
+              competition: this.activeComp,
               status: "Finished",
               //"from": today + " " + today_h,
               //"to": today + " 23:59",
@@ -1344,7 +1400,8 @@ export default {
               let upcominggames = [];
               this.axios
                 .post(globalState.admin_url + "getGamesAdvanced2", {
-                  competition: globalState.compid,
+                  //competition: globalState.compid,
+                  competition: this.activeComp,
                   status: "Pending",
                   from: today + " " + today_h,
                   to: today + " 23:59",
@@ -1383,7 +1440,8 @@ export default {
       
         .post(globalState.admin_url + "getTeamsCount", {
           //getclubstoplist          
-          competition: globalState.compid,
+          //competition: globalState.compid,
+          competition: this.activeComp,
           roundnumber: this.currentRound
         })
         .then((response) => {
@@ -1409,7 +1467,8 @@ export default {
       this.axios
         .post("https://matchplay.meteorapp.com/methods/" + "getTopClubs", {
           //getclubstoplist
-          competition: globalState.compid,
+          //competition: globalState.compid,
+          competition: this.activeComp,
           no: 40,
         })
         .then((response) => {
@@ -1429,7 +1488,8 @@ export default {
           "https://matchplay.meteorapp.com/methods/" + "getTopClubsPlayed",
           {
             //getclubstoplist
-            competition: globalState.compid,
+            //competition: globalState.compid,
+             competition: this.activeComp,
             no: 20,
           }
         )
