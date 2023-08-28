@@ -876,11 +876,76 @@ this.axios
         this.getTopListClubsPlayed(); //top list clubs played
         this.getTeamsCount();
         this.getGamesPending("not-initial");
+        this.gameImages();
+        //finished
+         options["competition"] = this.activeComp;
+        options["status"] = "Finished";
+        options["round"] = this.active_round;
+      
+              this.axios
+        .post(globalState.admin_url + "getGamesAdvanced2", options)
+        .then((response) => {
+          let finishedgames = response.data;
+          let games3 = finishedgames.sort(
+            this.compareValues("finishedAt", "desc")
+          );
+          this.games3 = games3
+          this.$store.dispatch('setGames3', games3)         
+          this.loadinggames = false;
+       
+        })
+        .catch((error) => {
+          console.log(error);
+          this.loadinggames3 = false;
+          this.loadinggames = false;
+        });
+        //end finished
   
       })
       .catch((error) => {
         console.log(error);
       }); 
+
+
+    
+
+this.axios
+      //.post(globalState.admin_url + "getCompetition", {id: globalState.compid})
+      .post(globalState.admin_url + "getCompetition", {id: this.activeComp})
+      .then((response) => {
+        this.currentRound = response.data.currentround;      
+        this.active_round = this.currentRound;
+        
+
+        if (this.active_round===7) {
+          this.active_round = 'Semifinal Sverigefinalen 2023';
+          //this.active_round = 'Omgång ' + this.currentRound;
+        }
+
+        if (this.active_round===8) {
+          this.active_round = 'Sverigefinalen 2022';
+          //this.active_round = 'Omgång ' + this.currentRound;
+        }
+        
+        
+        if (this.currentRound>0 && this.currentRound < 6) {
+          
+          //this.active_round = 'Omgång ' + this.currentRound;
+        }
+       // console.log('created current round',this.currentRound);
+         this.getGamesInprogress('initial');
+        //this.getGamesFinished();
+        this.getGolfclubsLogoUrl();
+        this.getTopListClubsPlayed(); //top list clubs played
+        this.getTeamsCount();
+        this.getGamesPending("not-initial");
+  
+      })
+      .catch((error) => {
+        console.log(error);
+      }); 
+
+      
 
 
       },

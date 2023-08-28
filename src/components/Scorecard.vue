@@ -211,7 +211,7 @@
 						<!-- SÄRSPEL SLUT -->
 
 						<!-- TEAM 1 CONTAINER -->
-						<div v-if="activeHole===1" class="sponsor mb-3 text-center">							
+						<!-- <div v-if="activeHole===1" class="sponsor mb-3 text-center">							
 							<b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,h_40,q_auto,e_colorize:100,co_rgb:ffffff/v1612367112/matchplay/logos/Logo_Colburn.png"></b-img>
 						</div>
 					
@@ -227,13 +227,9 @@
 							<b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,h_40,q_auto/v1614790192/matchplay/logos/gleipnergruppen.png"></b-img>
 						</div>
 
-						<div v-if="activeHole===9" class="sponsor mb-3 text-center">
-							<b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,h_40,q_auto,e_colorize:100,co_rgb:ffffff/v1620295945/matchplay/logos/spc_moyl9g.png"></b-img>
-						</div>			
-
 						<div v-if="activeHole===11" class="sponsor mb-3 text-center">
 							<b-img src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,h_40,q_auto/v1650225113/matchplay/logos/avpvs06elxonjrlwmw1b.png"></b-img>
-						</div>	
+						</div>	 -->
 									
 
 						<div
