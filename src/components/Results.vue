@@ -871,7 +871,7 @@ this.axios
         }
        // console.log('created current round',this.currentRound);
          this.getGamesInprogress('initial');
-        //this.getGamesFinished();
+        this.getGamesFinished();
         this.getGolfclubsLogoUrl();
         this.getTopListClubsPlayed(); //top list clubs played
         this.getTeamsCount();
