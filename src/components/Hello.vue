@@ -7,7 +7,7 @@
         <b-col class="col-12 mt-5 mb-5 p-5 text-center">
           <span v-if="loading">
             <b-spinner type="grow" class="p-5"></b-spinner><br>
-            Laddar data, vänligen vänta några sekunder...
+            Laddar data, vänligen vänta några sekunder... 123
           </span>
         </b-col>
       </b-row>
