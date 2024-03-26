@@ -24,31 +24,16 @@
 
 <b-row no-gutters>
             <b-col md="12" class="gold p-4 text-center" align-self="center">
-              <a href="https://golfamore.com/sv" target="_blank">
-                <img
-                  src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_300,q_auto/v1688993265/matchplay/local/golfamore.png"
-                  alt
-                />
-              </a>
+              
             </b-col>                  
           </b-row>
           <b-row no-gutters >
             
             <b-col md="6" class="gold p-4 text-center" align-self="center">
-              <a href="https://futureitpartner.se/" target="_blank">
-                <img
-                  src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_300,q_auto/v1573315610/matchplay/future_logo.png"
-                  alt
-                />
-              </a>
+              
             </b-col>
             <b-col md="6" class="gold p-4 text-center" align-self="center">
-              <a href="https://colburn.se" target="_blank">
-                <img
-                  src="https://res.cloudinary.com/dn3hzwewp/image/upload/w_300,q_auto/v1573315623/matchplay/Logo_Colburn.png"
-                  alt
-                />
-              </a>
+           
             </b-col>           
           </b-row>
           
@@ -95,21 +80,7 @@
               <b-row>
                 <b-col xl="2"></b-col>
                 <b-col>
-                  <h3>Matchplay Local Series</h3>
-                  <div class="hidden newsletter mt-3 mb-5"></div>
-                  <br />
-                  <p class="hidden">Matchplay AB</p>
-                  <p>Ängelholm</p>
-                  <p>Telefon: 08-120 050 10</p>
-                  <p><a href="https://www.facebook.com/matchplaysweden/" target="_blank"><i class="material-icons mr-2">facebook</i>Facebook</a> |
-                  <a href="https://www.instagram.com/matchplay_sweden/" target="_blank"><i class="material-icons mr-2">camera_alt</i>Instagram</a></p>
-                  <p class="links mb-5">
-                    <router-link hidden to="/ping" class>PING</router-link
-                    >&nbsp;
-                    <router-link to="/info" class>Om tävlingen</router-link
-                    >&nbsp;|
-                    <router-link to="/cookies" class>Cookies/Data</router-link>
-                  </p>
+                 FOOTER
                 </b-col>
                 <b-col xl="2"></b-col>
               </b-row>

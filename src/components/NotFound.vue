@@ -1,14 +1,14 @@
 <template>
   <div>
     <vue-headful :title="doctitle" />
-    <div class="container mt-4">
-      <h1>Sidan kunde inte hittas</h1>
+    <div class="container mt-5 mb-5">
+      <h2>No such page, try something else?</h2>
       <p>
-        Tyvärr kunde vi inte hitta sidan du letar efter... gå till
-        <router-link to="/">startsidan</router-link>?
+        Couldn't find the requested page, go to 
+        <router-link to="/">startpage</router-link>?
       </p>
       <router-link to="/">
-         <p class="text-center mt-2 mb-3"><i class="far fa-robot fa-3x"></i></p> 
+         <p class="text-center mt-2 mb-3"></p> 
       </router-link>
     </div>
   </div>

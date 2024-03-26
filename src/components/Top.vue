@@ -6,8 +6,9 @@
     <b-navbar toggleable="lg" ref="top">
       <b-navbar-brand>
         <router-link class to="/">
-           <img       
-            src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,w_100/v1688979193/matchplay/local/Matchplay_logo_PNG_2023.png"
+           <img           
+           
+            src="https://res.cloudinary.com/dn3hzwewp/image/upload/c_scale,h_70/v1710237483/Allerum/dormy_open_2024.png"
             alt
           />
         </router-link>
@@ -20,88 +21,14 @@
       <b-collapse id="nav-collapse" is-nav class="text-center">
         <div class="d-lg-none mt-5 mb-2">
           <h1 class="hidden theme">Psyched</h1>
-          <p class="hidden text-uppercase">Matchplay 2021</p>
+          <p class="hidden text-uppercase">Dormy Open Helsingborg Shuttle Service</p>
         </div>
         <b-navbar-nav class="ml-auto">
           <!-- <b-nav-item :to="{path: '/line-up', query: {tags:$route.query.tags, day:$route.query.day}}">Line-up</b-nav-item> -->
                 
-          <b-nav-item v-if="!closed" to="/register">Registrering</b-nav-item>
-          <b-nav-item v-if="closed" to="/results"
-            >Resultat
-            <b-badge hidden class="new" pill variant="danger"
-              ><i class="fa fa-circle"></i>
-              </b-badge
-          ></b-nav-item>
-          <b-nav-item hidden to="/klubbar"
-            >Anläggningar
-            <b-badge hidden v-if="!closed" class="new" pill variant="danger"
-              ><i class="fa fa-heart"></i></b-badge
-          ></b-nav-item>
-           
-          <b-nav-item hidden v-if="companies" to="/business">Företagslag</b-nav-item>
-          <!-- normal comp -->
-
-            <b-nav-item to="/info">Om tävlingen</b-nav-item>
-
-           <b-nav-item to="/final"
-            >Finalresan
-             <i class="fa fa-plane text-success"></i>
-          </b-nav-item>   
-
-        
-          <b-nav-item hidden to="/tavlingar"
-            >Tidigare tävlingar
-          </b-nav-item>          
-
-     
-          <!--a class="nav-item nav-link text-dark show-search-button nav-link" href="#search" data-toggle="collapse" aria-expanded="false" aria-controls="search"><i class="material-icons mobile-search">search</i></a-->
-          <b-nav-item
-            show
-            title="login"
-            to="/mymatchplay"
-            v-if="isAuthenticated"
-          >
-            <b-avatar
-              v-if="user && user.profilepicture"
-              :src="user.profilepicture"
-            >
-            </b-avatar>
-            <i v-else class="material-icons mr-1" style="vertical-align: bottom"
-              >supervised_user_circle</i
-            >
-            <span v-if="!user">
-              <b-spinner
-                small
-                variant="primary"
-                label="Small Spinner"
-                type="grow"
-              ></b-spinner>
-              <b-spinner
-                small
-                variant="primary"
-                label="Small Spinner"
-                type="grow"
-              ></b-spinner>
-              <b-spinner
-                small
-                variant="primary"
-                label="Small Spinner"
-                type="grow"
-              ></b-spinner>
-            </span>
-            <span v-if="user">{{ user.firstname }} </span>
-          </b-nav-item>
-          <b-nav-item
-            show
-            title="login"
-            to="/mymatchplay"
-            v-if="!isAuthenticated"
-          >
-            <i class="material-icons mr-1" style="vertical-align: bottom"
-              >supervised_user_circle</i
-            >
-            Logga in
-          </b-nav-item>
+          <b-nav-item hidden v-if="!closed" to="/register">About</b-nav-item>
+                 
+         
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
@@ -118,38 +45,14 @@ export default {
     //this.getCompanies();
   },
   data() {
-    return {
-      closed: globalState.closed,
-      type: globalState.type
+    return {    
+      
     };
   },
   computed: {
-    ...mapGetters(["user", "isAuthenticated", "companies"]),
+    ...mapGetters([]),
   },
   methods: {
-    getCompanies() {
-      const handleResponse = (response) => {
-        if (response.data.length) {
-          this.$store.dispatch("setCompanies", response.data);
-        }
-      };
-
-      if (this.fetchedcompanies) {
-        handleResponse(this.$store.state.companies);
-        return;
-      }
-
-      this.axios
-        .post(globalState.admin_url + "getPaidCompanyTeams", {
-          id: globalState.compid,
-        })
-        .then((response) => {
-          handleResponse(response);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
   },
 };
 </script>

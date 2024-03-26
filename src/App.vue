@@ -141,8 +141,15 @@ button {
 } 
 
 @font-face {
-  font-family: "Tenby Four";
-  src: url("../static/fonts/TenbyFour.ttf") format("truetype");
+  font-family: "Poppins";
+  src: url("../static/fonts/Poppins-Medium.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Poppins SemiBold";
+  src: url("../static/fonts/Poppins-SemiBold.ttf") format("truetype");
   font-weight: bold;
   font-style: normal;
 }
@@ -151,13 +158,14 @@ button {
 
 
 
+
 body {
   font-size: 1.1rem !important;
-  font-family: "Eurostile LT Std", Arial, sans-serif !important;
+  font-family: "Poppins", Arial, sans-serif !important;
 }
 
 strong {
-   font-family: "Eurostile LT Std Bold";
+   font-family: "Poppins SemiBold";   
 }
 
 .jumbotron {
