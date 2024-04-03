@@ -54,6 +54,7 @@ import moment from "moment";
 
 
 
+
 moment.locale("sv");
 moment.updateLocale("sv", {
   relativeTime: {
@@ -78,23 +79,64 @@ export default {
   name: "local",
   components: {  },
   data() {
-    return {
-      latestTeam: null,      
-      showTopClubs: globalState.showTopClubs,
-      compid: globalState.compid,
-      price_private: this.price_1,
-      doctitle: "Matchplay Local Series 2023",
-      loading: true,
-      closed: globalState.closed,
-      clubs: [],
+    return {         
+      doctitle: "Shuttle Service",
+      loading: true      
     };
   },
   mounted() {
-   
+
+
+// Set default header. e.g, X-API-KEY
+//this.axios.defaults.headers['testAPIkey'] = 'W2spSuQzGd0LKkGIjJlWADsLuNdOPqnybaZ18UIg26VYmLrkQ0dcvpauIO64GYd5';
+
+
+
+
+     this.axios
+        .post(globalState.admin_url + "addPickup", {
+          //getclubstoplist
+          firstname: "from node"    
+        })
+        .then((response) => {
+          console.log(response)
+        })
+        .catch((error) => {
+          console.log(error);
+          this.loading = false;
+        });
   },
   created() {
   
   this.loading = false;
+/* 
+  //MONGODB
+// Set up Express
+const express = require('express');
+const app = express();
+
+// Connect to MongoDB with Mongoose
+const mongoose = require('mongoose');
+const db = 'mongodb+srv://jstenbeck:<password>@cluster0.juxieij.mongodb.net/';
+
+// Set up Schema and Model for collection
+const Schema = mongoose.Schema;
+
+const yourSchema = new Schema({
+  someKey: String,
+  someKey2: String
+});
+
+const YourModel = mongoose.model('YourModel', yourSchema);
+
+// Set up the Vue.js Method 
+app.get('/getData', (req, res) => {
+    YourModel.find({})
+    .then(doc => {
+      // returns the JSON object with the data
+      res.send(doc);
+    });
+}); */
 
   },
 

@@ -40,7 +40,7 @@ Vue.component('vue-headful', vueHeadful);
 
 export const globalState = new Vue({
   data: {
-    admin_url: 'https://admin.matchplay.se/methods/',
+    admin_url: 'https://eu-central-1.aws.data.mongodb-api.com/app/application-0-yrdjw/endpoint/',
     compid: 'iHv4PtxyoTHLJQSJZ', //2023 local sthlm
     prevcompid: 'hXcmBwqmfWC2tYcxR', //2022 'sFAc3dvrn2P9pXHAz',    
     closed: true,
@@ -61,3 +61,5 @@ new Vue({
   template: '<App/>',
   components: { App }
 })
+
+

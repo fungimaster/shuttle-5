@@ -34,21 +34,7 @@ export default {
     };
   },
   created() {
-    this.$store.dispatch("setEarlyBirdie")
-    this.$store.dispatch("tryAutoLogin").then(() => {
-      if (this.isAuthenticated) {
-        var sim_id;
-        sim_id = localStorage.getItem("userId");
-        if (this.$route.query.sim_id) {
-          sim_id = this.$route.query.sim_id;
-        }
-        this.getPlayerData(sim_id);
-        this.tabIndex = Number(localStorage.getItem("active_tab"));
-      } else {
-        this.showlogin = true;
-        this.loading = false;
-      }
-    });
+
     
   },
   mounted() {
@@ -63,29 +49,10 @@ export default {
     AppSpinnerRouting,
   },
   methods: {
-    getPlayerData(id) { 
-     
-      this.axios.post(globalState.admin_url + 'getPlayerData', {
-              "id": id,
-              "competition": globalState.compid
-          })
-          .then(response => {
-              if (response.data.hasOwnProperty('error')) {
-                  console.log("error")
-                  return;
-              }
-              let userinfo = response.data;
-              localStorage.setItem('userinfo', JSON.stringify(userinfo));
-              this.$store.dispatch('setUser', userinfo)
-              return;
-          })
-          .catch(error => {
-              console.log(error);
-          });
-    },
+
   },
   computed: {
-     ...mapGetters(["isAuthenticated", "getGames1", "getGames2"]),
+     ...mapGetters([]),
   
   },
 };
