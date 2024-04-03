@@ -26,7 +26,7 @@
         <b-navbar-nav class="ml-auto">
           <!-- <b-nav-item :to="{path: '/line-up', query: {tags:$route.query.tags, day:$route.query.day}}">Line-up</b-nav-item> -->
                 
-          <b-nav-item hidden v-if="!closed" to="/register">About</b-nav-item>
+          <b-nav-item hidden to="/register">About</b-nav-item>
                  
          
         </b-navbar-nav>
