@@ -4,6 +4,7 @@
     v-if="['Scorecard', 'Receipt'].indexOf($route.name) === -1"
   >
     <b-navbar toggleable="lg" ref="top">
+      <b-container  class="" v-if="!loading">
       <b-navbar-brand>
         <router-link class to="/">
            <img           
@@ -31,6 +32,7 @@
          
         </b-navbar-nav>
       </b-collapse>
+      </b-container>
     </b-navbar>
   </div>
 </template>

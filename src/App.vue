@@ -121,6 +121,19 @@ button {
   font-style: normal;
 }
 
+@font-face {
+  font-family: "Prompt";
+  src: url("../static/fonts/Prompt-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Prompt SemiBold";
+  src: url("../static/fonts/Prompt-SemiBold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
 
 
 
@@ -128,11 +141,11 @@ button {
 
 body {
   font-size: 1.1rem !important;
-  font-family: "Poppins", Arial, sans-serif !important;
+  font-family: "Prompt", Arial, sans-serif !important;
 }
 
 strong {
-   font-family: "Poppins SemiBold";   
+   font-family: "Prompt SemiBold";   
 }
 
 .jumbotron {

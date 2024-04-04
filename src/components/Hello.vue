@@ -14,7 +14,7 @@
     </b-container>
 
     <!-- CONTENT -->
-    <b-container fluid flex class="" v-if="!loading">
+    <b-container hidden flex class="" v-if="!loading">
       <b-jumbotron class="herobg0">
         <b-row align-h="center">
           <b-col
@@ -27,13 +27,15 @@
       </b-jumbotron>
     </b-container>
 
-    <!-- INFO TEXT -->
-    <b-container v-if="!loading" class="mb-5">
-      <b-row class="justify-content-center" align-h="center">
-        <b-col class="col-12 mb-2">
-          <p hidden>INFORMATION HERE, LANGUAGE? ENGLISH OR SWEDISH?</p>
-<h2>Request shuttle service pickup</h2>
-<p>Submit a request for pickup at Marina Plaza hotel in Helsingborg for transport to the golf course.</p>
+    <b-container >
+    <b-row class="justify-content-center" align-h="center">
+      <b-col md="8" class="mt-5 mt-md-5">     
+        <p hidden>INFORMATION HERE, LANGUAGE? ENGLISH OR SWEDISH?</p>
+          <h2>Request shuttle service pickup</h2>
+          <p>
+            Submit a request for pickup at Marina Plaza hotel in Helsingborg for
+            transport to the golf course.
+          </p>
           <b-form
             @submit.stop.prevent
             @submit="addPickup"
@@ -47,7 +49,6 @@
               label-cols="12"
               label-cols-lg="2"
               label-size="sm"
-              
             >
               <b-form-input
                 id="input-name"
@@ -64,7 +65,6 @@
               label-cols="12"
               label-cols-lg="2"
               label-size="sm"
-              
             >
               <vue-tel-input
                 v-model="form.mobile"
@@ -76,22 +76,29 @@
               id="input-group-pickup-day"
               label="Pickup date"
               label-for="input-date"
-               label-cols="12"
+              label-cols="12"
               label-cols-lg="2"
               label-size="sm"
             >
-             <b-form-select v-model="form.pickup_days" :options="options_days"></b-form-select>
+              <b-form-select
+                v-model="form.pickup_day"
+                :options="options_day"
+                :state="validateDay"
+              ></b-form-select>
             </b-form-group>
 
-             <b-form-group
+            <b-form-group
               id="input-group-pickup-time"
               label="Pickup time"
               label-for="input-time"
-               label-cols="12"
+              label-cols="12"
               label-cols-lg="2"
               label-size="sm"
             >
-             <b-form-select v-model="form.pickup_time" :options="options_time"></b-form-select>
+              <b-form-select
+                v-model="form.pickup_time"
+                :options="options_time"
+              ></b-form-select>
             </b-form-group>
 
             <b-button type="submit" variant="primary">Submit</b-button>
@@ -100,9 +107,11 @@
           <b-card hidden class="mt-3" header="Form Data Result">
             <pre class="m-0">{{ form }}</pre>
           </b-card>
-        </b-col>
-      </b-row>
-    </b-container>
+      </b-col>
+    </b-row>
+  </b-container>
+
+   
   </div>
 </template>
 
@@ -110,7 +119,7 @@
 import { globalState } from "../main.js";
 import { mapGetters } from "vuex";
 import moment from "moment";
-import { VueTelInput } from 'vue-tel-input';
+import { VueTelInput } from "vue-tel-input";
 
 moment.locale("sv");
 moment.updateLocale("sv", {
@@ -133,34 +142,34 @@ moment.updateLocale("sv", {
 
 export default {
   name: "local",
-  components: {VueTelInput},
+  components: { VueTelInput },
   data() {
     return {
       doctitle: "Shuttle Service",
       loading: true,
       open: true,
-      saving: false,     
-       options_days: [
-          { value: null, text: 'Please select day' },
-          { value: 'monday', text: 'Monday 27/5' },
-          { value: 'tuesday', text: 'Tuesday 27/5' },
-          { value: 'wednesday', text: 'Wednesday 27/5' },
-          { value: 'thursday', text: 'Thursday 27/5' },
-          { value: 'friday', text: 'Friday 27/5' },
-          { value: 'saturday', text: 'Saturday 27/5' },
-          { value: 'sunday', text: 'Sunday 27/5' }
-        ],
-        options_time: [
-          { value: null, text: 'Please select timeslot' },
-          { value: 'monday', text: 'Monday 27/5' },
-          { value: 'tuesday', text: 'Tuesday 27/5' },
-          { value: 'wednesday', text: 'Wednesday 27/5' },
-          { value: 'thursday', text: 'Thursday 27/5' },
-          { value: 'friday', text: 'Friday 27/5' },
-          { value: 'saturday', text: 'Saturday 27/5' },
-          { value: 'sunday', text: 'Sunday 27/5' }
-        ],
-       bindProps: {
+      saving: false,
+      options_day: [
+        { value: null, text: "Please select day" },
+        { value: "monday", text: "Monday 27/5" },
+        { value: "tuesday", text: "Tuesday 27/5" },
+        { value: "wednesday", text: "Wednesday 27/5" },
+        { value: "thursday", text: "Thursday 27/5" },
+        { value: "friday", text: "Friday 27/5" },
+        { value: "saturday", text: "Saturday 27/5" },
+        { value: "sunday", text: "Sunday 27/5" },
+      ],
+      options_time: [
+        { value: null, text: "Please select timeslot" },
+        { value: "monday", text: "Monday 27/5" },
+        { value: "tuesday", text: "Tuesday 28/5" },
+        { value: "wednesday", text: "Wednesday 29/5" },
+        { value: "thursday", text: "Thursday 30/5" },
+        { value: "friday", text: "Friday 31/5" },
+        { value: "saturday", text: "Saturday 1/6" },
+        { value: "sunday", text: "Sunday 2/6" },
+      ],
+      bindProps: {
         mode: "international",
         defaultCountry: "SE",
         disabledFetchingCountry: false,
@@ -179,16 +188,16 @@ export default {
         wrapperClasses: "",
         inputClasses: "form-control",
         dropdownOptions: {
-          disabledDialCode: false
+          disabledDialCode: false,
         },
         inputOptions: {
-          showDialCode: false
-        }
-      }, 
+          showDialCode: false,
+        },
+      },
       form: {
-        name: "",
-        mobile: "",
-        pickup_days: null,
+        name: "Anna Andersson",
+        mobile: "0709747474",
+        pickup_day: "wednesday",
         pickup_time: "",
         bags: null,
         persons: null,
@@ -233,18 +242,23 @@ app.get('/getData', (req, res) => {
 
   computed: {
     ...mapGetters([""]),
+    validateDay() {
+      console.log(this.form.pickup_day)
+      if (!this.form.pickup_day.length) {
+        console.log('invalid')
+        return;
+      }
+     
+    },
   },
   methods: {
     addPickup() {
-      console.log("inne pickup");
       this.saving = true;
-      return;
+
+      const dataObj = this.form;
 
       this.axios
-        .post(globalState.admin_url + "addPickup", {
-          //getclubstoplist
-          firstname: "from node",
-        })
+        .post(globalState.admin_url + "addPickup", dataObj)
         .then((response) => {
           console.log(response);
         })
@@ -269,17 +283,6 @@ app.get('/getData', (req, res) => {
 <style lang="scss">
 @import "../styles/variables.scss";
 
-video {
-  width: 100%;
-}
-
-.video-container iframe {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-}
 
 .herobg0 {
   background-size: cover !important;
@@ -297,97 +300,4 @@ video {
   max-width: 100%;
 }
 
-.black {
-  background: #000;
-}
-
-.white-bg {
-  background: #fff;
-}
-
-.timenumbers {
-  display: block;
-  font-size: 2rem;
-  font-weight: 600;
-  line-height: 80px;
-  margin: 0 auto;
-  text-align: center;
-  padding-right: 2px;
-  @media (min-width: 500px) {
-    font-size: 2rem;
-  }
-}
-
-.timenumbers {
-  border-radius: 50%;
-  border-width: 5px;
-  border-color: rgba(0, 0, 0, 0.3);
-  border-style: solid;
-  color: #000;
-  width: 80px;
-  height: 80px;
-  background: rgba(255, 255, 255, 0.7);
-}
-
-p.timedescription {
-  font-size: 1.2rem;
-  font-variant: small-caps;
-  line-height: 1.5rem;
-  margin: 0 auto;
-  text-align: center;
-  position: relative;
-  top: 5px;
-  @media (min-width: 500px) {
-    font-size: 1rem;
-  }
-}
-
-@media only screen and (max-width: 768px) {
-  .black {
-    img {
-      max-width: 100px;
-      height: auto;
-    }
-  }
-}
-
-.videocontainer {
-  position: relative;
-  background-color: black;
-  height: 75vh;
-  min-height: 25rem;
-  width: 100%;
-  overflow: hidden;
-}
-
-.videocontainer video {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  min-width: 100%;
-  min-height: 100%;
-  width: auto;
-  height: auto;
-  z-index: 0;
-  -ms-transform: translateX(-50%) translateY(-50%);
-  -moz-transform: translateX(-50%) translateY(-50%);
-  -webkit-transform: translateX(-50%) translateY(-50%);
-  transform: translateX(-50%) translateY(-50%);
-}
-
-.videocontainer .container {
-  position: relative;
-  z-index: 2;
-}
-
-.videocontainer .overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background-color: black;
-  opacity: 0.8;
-  z-index: 1;
-}
 </style>

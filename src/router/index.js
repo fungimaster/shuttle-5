@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Hello from '@/components/Hello'
 import NotFound from '@/components/NotFound'
+import BookedSlots from '@/components/BookedSlots'
 
 
 
@@ -15,7 +16,11 @@ export default new Router({
       name: 'Start',
       component: Hello
     },   
-   
+    {
+      path: '/schedule',
+      name: 'schedule',
+      component: BookedSlots
+    },   
     {
       // will match everything
       path: '/*',
