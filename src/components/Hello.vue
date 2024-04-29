@@ -32,9 +32,9 @@
       <b-col md="8" class="mt-5 mt-md-5">     
         <p hidden>INFORMATION HERE, LANGUAGE? ENGLISH OR SWEDISH?</p>
           <h2>Request shuttle service pickup</h2>
-          <p>
-            Submit a request for pickup at Marina Plaza hotel in Helsingborg for
-            transport to the golf course.
+          <p class="mt-4 mb-5">
+            Submit a request for pickup at <a href="https://maps.app.goo.gl/8udWteUsUJ5djmPK7" target="_blank">Marina Plaza hotel in Helsingborg</a> for
+            transport to the golf course. The ride will take approx. 25 minutes and is valid for <strong>player + caddie</strong>.
           </p>
           <b-form
             @submit.stop.prevent
@@ -53,6 +53,7 @@
               <b-form-input
                 id="input-name"
                 v-model="form.name"
+                :state="validateName"
                 placeholder="Enter your first and last name"
                 required
               ></b-form-input>
@@ -60,6 +61,7 @@
 
             <b-form-group
               id="input-group-mobile"
+              :state="validateMobile"
               label="Mobile number"
               label-for="input-1-mobile"
               label-cols="12"
@@ -98,11 +100,45 @@
               <b-form-select
                 v-model="form.pickup_time"
                 :options="options_time"
+                 :state="validateTime"
               ></b-form-select>
             </b-form-group>
 
-            <b-button type="submit" variant="primary">Submit</b-button>
-            <b-button type="reset" variant="danger">Reset</b-button>
+              <b-form-group
+              id="input-group-1"
+              label="Persons"
+              label-for="input-persons"
+              label-cols="12"
+              label-cols-lg="2"
+              label-size="sm"
+            >
+              <b-form-select
+                v-model="form.persons"
+                :options="options_persons"
+              ></b-form-select>
+            </b-form-group>
+
+
+              <b-form-group
+              id="input-group-1"
+              label="Bags"
+              label-for="input-persons"
+              label-cols="12"
+              label-cols-lg="2"
+              label-size="sm"
+            >
+              <b-form-select
+                v-model="form.bags"
+                :options="options_bags"
+              ></b-form-select>
+            </b-form-group>
+
+          <div class="mt-4 text-center">
+            <b-button type="submit" size="md" variant="primary">Submit Pickup request</b-button>
+            <b-button hidden type="reset" variant="danger">Reset</b-button>
+          </div>
+
+            
           </b-form>
           <b-card hidden class="mt-3" header="Form Data Result">
             <pre class="m-0">{{ form }}</pre>
@@ -150,24 +186,48 @@ export default {
       open: true,
       saving: false,
       options_day: [
-        { value: null, text: "Please select day" },
-        { value: "monday", text: "Monday 27/5" },
-        { value: "tuesday", text: "Tuesday 27/5" },
-        { value: "wednesday", text: "Wednesday 27/5" },
-        { value: "thursday", text: "Thursday 27/5" },
-        { value: "friday", text: "Friday 27/5" },
-        { value: "saturday", text: "Saturday 27/5" },
-        { value: "sunday", text: "Sunday 27/5" },
+        { value: null, text: "Please select day" ,disabled: true },
+        { value: "Monday", text: "Monday 27/5" },
+        { value: "Tuesday", text: "Tuesday 27/5" },
+        { value: "Wednesday", text: "Wednesday 27/5" },
+        { value: "Thursday", text: "Thursday 27/5" },
+        { value: "Friday", text: "Friday 27/5" },
+        { value: "Saturday", text: "Saturday 27/5" },
+        { value: "Sunday", text: "Sunday 27/5" },
       ],
       options_time: [
-        { value: null, text: "Please select timeslot" },
-        { value: "monday", text: "Monday 27/5" },
-        { value: "tuesday", text: "Tuesday 28/5" },
-        { value: "wednesday", text: "Wednesday 29/5" },
-        { value: "thursday", text: "Thursday 30/5" },
-        { value: "friday", text: "Friday 31/5" },
-        { value: "saturday", text: "Saturday 1/6" },
-        { value: "sunday", text: "Sunday 2/6" },
+        { value: null, text: "Please select timeslot" ,disabled: true },
+        { value: "0600", text: "06:00" },
+        { value: "0630", text: "06:30" },
+        { value: "0700", text: "07:00" },
+        { value: "0730", text: "07:30" },
+        { value: "0800", text: "08:00" },
+        { value: "0830", text: "08:30" },
+        { value: "0900", text: "09:00" },
+        { value: "0930", text: "09:30" },
+        { value: "1000", text: "10:00" },
+        { value: "1030", text: "10:30" },
+        { value: "1100", text: "11:00" },
+        { value: "1130", text: "11:30" },
+        { value: "1200", text: "12:00" },
+        { value: "1230", text: "12:30" },
+        { value: "1300", text: "13:00" },
+        { value: "1330", text: "13:30" },
+        { value: "1400", text: "14:00" },
+        { value: "1430", text: "14:30" },
+        { value: "1500", text: "15:00" }        
+      ],
+      options_persons: [
+        { value: null, text: "Please select number of persons", disabled: true },
+        { value: 1, text: "1 person" },
+        { value: 2, text: "2 persons" }        
+      ],      
+      options_bags: [
+        
+        { value: null, text: "Please select number of bags", disabled: true },
+        { value: 0, text: "No bag" },
+        { value: 1, text: "1 bag" },
+        { value: 2, text: "2 bags" }        
       ],
       bindProps: {
         mode: "international",
@@ -195,18 +255,23 @@ export default {
         },
       },
       form: {
-        name: "Anna Andersson",
-        mobile: "0709747474",
-        pickup_day: "wednesday",
+        name: "",
+        mobile: "",
+        pickup_day: "",
         pickup_time: "",
-        bags: null,
-        persons: null,
+        bags: 1,
+        persons: 1,
       },
     };
   },
   mounted() {
     // Set default header. e.g, X-API-KEY
     //this.axios.defaults.headers['testAPIkey'] = 'W2spSuQzGd0LKkGIjJlWADsLuNdOPqnybaZ18UIg26VYmLrkQ0dcvpauIO64GYd5';
+
+  //set day after tomorrow as default, if not match, set first option as default
+  const date = new Date();
+  console.log(date)
+
   },
   created() {
     this.loading = false;
@@ -242,32 +307,70 @@ app.get('/getData', (req, res) => {
 
   computed: {
     ...mapGetters([""]),
-    validateDay() {
-      console.log(this.form.pickup_day)
-      if (!this.form.pickup_day.length) {
-        console.log('invalid')
-        return;
+    validateName() {
+
+      let validation = false;
+
+      if (this.form.name.length > 3) {
+        validation = true;
       }
+
+      return validation;
+
+    },
+    validateMobile() {
+
+      let validation = false;
+
+      if (this.form.mobile.length > 3) {
+        validation = true;
+      }
+
+      return validation;
+
+    },
+    validateDay() {
+      
+      let validation = false;
+
+      if (this.form.pickup_day.length) {
+       validation = true;       
+      }
+
+      return validation
+     
+    },
+        validateTime() {
+      
+      let validation = false;
+
+      if (this.form.pickup_time.length) {
+       validation = true;       
+      }
+
+      return validation
      
     },
   },
   methods: {
     addPickup() {
       this.saving = true;
-
       const dataObj = this.form;
+
+      if (!this.form.pickup_day.length || !this.form.pickup_time.length) return false;
 
       this.axios
         .post(globalState.admin_url + "addPickup", dataObj)
         .then((response) => {
           console.log(response);
+          
         })
         .catch((error) => {
           console.log(error);
           this.loading = false;
         });
     },
-    onReset(evt) {
+    onReset(evt) {    
       console.log("reset");
     },
 

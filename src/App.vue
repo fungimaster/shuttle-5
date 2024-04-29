@@ -165,6 +165,14 @@ background: linear-gradient(49deg, rgba(51,116,182,1) 0%, rgba(47,47,47,1) 100%)
   background-color: #fff;
 }
 
+table thead th {
+  font-family: 'Prompt SemiBold';
+}
+
+table td {
+  vertical-align: middle !important;  
+} 
+
 .pink {
   color: $pink !important;
 }

@@ -4,7 +4,7 @@
     v-if="['Scorecard', 'Receipt'].indexOf($route.name) === -1"
   >
     <b-navbar toggleable="lg" ref="top">
-      <b-container  class="" v-if="!loading">
+      <b-container  class="">
       <b-navbar-brand>
         <router-link class to="/">
            <img           
@@ -13,7 +13,7 @@
             alt
           />
         </router-link>
-      </b-navbar-brand>
+      </b-navbar-brand> 
 
       <b-navbar-toggle target="nav-collapse">
         <i class="material-icons"></i>
@@ -27,7 +27,7 @@
         <b-navbar-nav class="ml-auto">
           <!-- <b-nav-item :to="{path: '/line-up', query: {tags:$route.query.tags, day:$route.query.day}}">Line-up</b-nav-item> -->
                 
-          <b-nav-item hidden to="/register">About</b-nav-item>
+          <b-nav-item to="/schedule">Schedule</b-nav-item>
                  
          
         </b-navbar-nav>
