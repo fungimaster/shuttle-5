@@ -43,35 +43,6 @@
 
     <footer class="text-center">
       
-      <vue-cookie-accept-decline
-        :ref="'myPanel1'"
-        :elementId="'myPanel1'"
-        :debug="false"
-        :position="'bottom-right'"
-        :type="'floating'"
-        :disableDecline="true"
-        :transitionName="'slideFromBottom'"
-        :showPostponeButton="false"
-        @clicked-accept="cookieClickedAccept"
-        @clicked-decline="cookieClickedDecline"
-      >
-        <!-- remove @status="cookieStatus" from above -->
-
-        <!-- Optional -->
-        <div slot="postponeContent">&times;</div>
-
-        <!-- Optional -->
-        <div slot="message">
-          Vi använder cookies för att förbättra din användarupplevelse!
-          <router-link to="cookies">Läs mer...</router-link>
-        </div>
-
-        <!-- Optional -->
-        <div slot="declineContent">OPT OUT</div>
-
-        <!-- Optional -->
-        <div slot="acceptContent">HELT OK!</div>
-      </vue-cookie-accept-decline>
       <b-container fluid class="theme-description">
         <b-row>
           <b-col xl="2" class="left"></b-col>
@@ -80,7 +51,9 @@
               <b-row>
                 <b-col xl="2"></b-col>
                 <b-col>
-                 FOOTER
+                  <b-alert class="small mt-0" show variant="info">
+            Send questions about booking (or cancellation) to: <a href="mailto:dormyhbgopen@gmail.com">dormyhbgopen@gmail.com</a>
+          </b-alert>
                 </b-col>
                 <b-col xl="2"></b-col>
               </b-row>
@@ -97,15 +70,12 @@
 </template>
 
 <script>
-//import CookieLaw from "vue-cookie-law";
-import VueCookieAcceptDecline from "vue-cookie-accept-decline";
-import "vue-cookie-accept-decline/dist/vue-cookie-accept-decline.css";
 import ScrollTopComponent from "./ScrollTopComponent";
 
 export default {
   name: "footer1",
   //components: { CookieLaw },
-  components: { VueCookieAcceptDecline,ScrollTopComponent },
+  components: { ScrollTopComponent },
   data() {
     return {
       email2: "",
@@ -115,15 +85,7 @@ export default {
   },
  
   methods: {
-    cookieStatus(status) {
-      this.status = status;
-    },
-    cookieClickedAccept() {
-      this.status = "accept";
-    },
-    cookieClickedDecline() {
-      this.status = "decline";
-    },
+   
     isEmailValid: function () {
       return this.email2 == ""
         ? ""
@@ -133,9 +95,7 @@ export default {
     },
   },
   computed: {
-    statusText() {
-      return this.status || "No cookie set";
-    },
+    
   },
 };
 </script>
@@ -222,12 +182,5 @@ footer .links a {
   font-size: 1rem;
 }
 
-//cookiebanner
-.Cookie--matchplay {
-  background: #424851;
-  color: #fff;
-  padding: 1.25em;
-  font-size: 0.9em;
-  cursor: pointer;
-}
+
 </style>

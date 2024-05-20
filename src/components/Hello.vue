@@ -36,7 +36,7 @@
             Submit a request for pickup at <a href="https://maps.app.goo.gl/8udWteUsUJ5djmPK7" target="_blank">Marina Plaza hotel in Helsingborg</a> for
             transport to the golf course. The ride will take approx. 25 minutes and is valid for <strong>player + caddie</strong>.
           </p>
-          <b-form
+          <b-form 
             @submit.stop.prevent
             @submit="addPickup"
             @reset="onReset"
@@ -134,9 +134,14 @@
             </b-form-group>
 
           <div class="mt-4 text-center">
-            <b-button type="submit" size="md" variant="primary">Submit Pickup request</b-button>
+            <b-button type="submit" :disabled="saving" size="md" variant="primary">Submit Pickup request</b-button>
             <b-button hidden type="reset" variant="danger">Reset</b-button>
+            <b-alert v-if="pickupSuccess" show variant="success" class="small mt-3 mb-3">
+              {{successMessage}}
+            </b-alert>
           </div>
+
+         
 
             
           </b-form>
@@ -185,15 +190,17 @@ export default {
       loading: true,
       open: true,
       saving: false,
+      pickupSuccess: false,
+      successMessage: '',
       options_day: [
         { value: null, text: "Please select day" ,disabled: true },
         { value: "Monday", text: "Monday 27/5" },
-        { value: "Tuesday", text: "Tuesday 27/5" },
-        { value: "Wednesday", text: "Wednesday 27/5" },
-        { value: "Thursday", text: "Thursday 27/5" },
-        { value: "Friday", text: "Friday 27/5" },
-        { value: "Saturday", text: "Saturday 27/5" },
-        { value: "Sunday", text: "Sunday 27/5" },
+        { value: "Tuesday", text: "Tuesday 28/5" },
+        { value: "Wednesday", text: "Wednesday 29/5" },
+        { value: "Thursday", text: "Thursday 30/5" },
+        { value: "Friday", text: "Friday 31/5" },
+        { value: "Saturday", text: "Saturday 1/6" },
+        { value: "Sunday", text: "Sunday 2/6" },
       ],
       options_time: [
         { value: null, text: "Please select timeslot" ,disabled: true },
@@ -362,11 +369,26 @@ app.get('/getData', (req, res) => {
       this.axios
         .post(globalState.admin_url + "addPickup", dataObj)
         .then((response) => {
-          console.log(response);
+          //console.log(response);
+          this.successMessage = "Request submitted, see you at Marina Plaza on " + this.form.pickup_day + " at " + this.form.pickup_time +'.';
+          this.pickupSuccess = true;
+          this.saving = false;
+          this.form = {
+            name: "",
+            mobile: "",
+            pickup_day: "",
+            pickup_time: "",
+            bags: 1,
+            persons: 1,
+          }
+          
+          setTimeout(() => {
+            //  this.pickupSuccess = false;
+          }, 10000);
           
         })
         .catch((error) => {
-          console.log(error);
+          //console.log(error);
           this.loading = false;
         });
     },
