@@ -15,6 +15,7 @@
             ></b-form-input>
           </b-form>
         </b-col>
+        
       </b-row>
     </b-container>
 
@@ -46,11 +47,16 @@
             v-on:change="filterDriver($event)"
           ></b-form-select>
         </b-col>
-        <b-col md="6" class="text-right">
+        <b-col md="5" class="text-right">
           <span v-if="dataUpdated" class="small text-success"
             >Data updated</span
           >
         </b-col>
+         <b-col md="1" class="text-right">
+          <b-button @click="loadTable()" variant="secondary" size="sm" v-b-tooltip.hover title="Refresh data">
+            <i class="fa fa-arrow-down"></i>
+          </b-button>
+         </b-col>
 
         <b-col md="12" id="register" class="mt-4 mt-md-5">
           <!-- <b-table striped hover :fields="fields" :items="bookedSlots"></b-table> -->
@@ -214,6 +220,7 @@ export default {
   methods: {
    
     loadTable() {
+      this.loading=true;
     this.axios
       .get(globalState.admin_url + "getSchedule")
       .then((response) => {
