@@ -12,33 +12,8 @@
   </ScrollTopComponent>
 
   <b-container class="sponsors">
-      <hr hidden class="mb-5" />
+      <hr class="" />
 
-      <b-row>
-        <b-col>
-          <b-row>
-            <b-col>
-              <hr />
-            </b-col>
-          </b-row>
-
-<b-row no-gutters>
-            <b-col md="12" class="gold p-4 text-center" align-self="center">
-              
-            </b-col>                  
-          </b-row>
-          <b-row no-gutters >
-            
-            <b-col md="6" class="gold p-4 text-center" align-self="center">
-              
-            </b-col>
-            <b-col md="6" class="gold p-4 text-center" align-self="center">
-           
-            </b-col>           
-          </b-row>
-          
-        </b-col>       
-      </b-row>
     </b-container>
 
     <footer class="text-center">
@@ -47,7 +22,7 @@
         <b-row>
           <b-col xl="2" class="left"></b-col>
           <b-col>
-            <b-container class="mt-5">
+            <b-container class="mt-0 mb-5">
               <b-row>
                 <b-col xl="2"></b-col>
                 <b-col>

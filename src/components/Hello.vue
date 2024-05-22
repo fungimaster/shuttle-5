@@ -35,7 +35,10 @@
           <p class="mt-4 mb-5">
             Submit a request for pickup at <a href="https://maps.app.goo.gl/8udWteUsUJ5djmPK7" target="_blank">Marina Plaza hotel in Helsingborg</a> for
             transport to the golf course. The ride will take approx. 25 minutes and is valid for <strong>player + caddie</strong>.
+            <br><br>
+            <strong>NOTE: </strong>Booking closes at 9pm for the upcoming day.
           </p>
+          
           <b-form 
             @submit.stop.prevent
             @submit="addPickup"
@@ -87,6 +90,9 @@
                 :options="options_day"
                 :state="validateDay"
               ></b-form-select>
+              <b-alert show variant="danger" class="small mt-3 mt-0" v-if="errorDay">
+               <span class="small">{{errorDay}}</span>
+              </b-alert>
             </b-form-group>
 
             <b-form-group
@@ -191,6 +197,7 @@ export default {
       open: true,
       saving: false,
       pickupSuccess: false,
+      errorDay: null,
       successMessage: '',
       options_day: [
         { value: null, text: "Please select day" ,disabled: true },
@@ -337,11 +344,18 @@ app.get('/getData', (req, res) => {
 
     },
     validateDay() {
-      
+      this.errorDay = null;
       let validation = false;
 
       if (this.form.pickup_day.length) {
        validation = true;       
+      }
+
+      if (this.isAfterNinePM(this.form.pickup_day)) {
+        validation = false;
+        this.errorDay = 'Shuttle booking is closed for tomorrow (closes at 9pm).'
+      } else {
+        this.errorDay = null;
       }
 
       return validation
@@ -360,11 +374,51 @@ app.get('/getData', (req, res) => {
     },
   },
   methods: {
+     isAfterNinePM(day) {
+      //console.log('pickup day = '+ day)
+    
+      const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      const today = new Date();  
+      let currentHour = today.getHours();
+
+      
+      
+      today.setDate(today.getDate() + 1);  
+      const dayOfWeek = today.getDay();
+
+
+      if (day == 'Sunday') {        
+        currentHour = parseInt(currentHour)-1
+      }
+    
+      if (days[dayOfWeek] == day && currentHour > 20) {
+        console.log('to late to book for tomorrow')
+        return true;
+      } else {
+        console.log('ok to book for tomorrow')
+        return false;
+      }
+
+//      console.log(dayOfWeek,day)
+
+      //if (tomorrow == day) {
+        //return currentHour > 20;
+      //}
+
+
+      
+
+    },
     addPickup() {
       this.saving = true;
       const dataObj = this.form;
 
       if (!this.form.pickup_day.length || !this.form.pickup_time.length) return false;
+
+      if (this.errorDay) {
+        this.saving = false;
+        return false;
+      }
 
       this.axios
         .post(globalState.admin_url + "addPickup", dataObj)
@@ -408,6 +462,9 @@ app.get('/getData', (req, res) => {
 <style lang="scss">
 @import "../styles/variables.scss";
 
+.alert {
+  margin-bottom:0;
+}
 
 .herobg0 {
   background-size: cover !important;
