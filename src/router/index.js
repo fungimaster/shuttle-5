@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Hello from '@/components/Hello'
 import NotFound from '@/components/NotFound'
 import BookedSlots from '@/components/BookedSlots'
-
+import CheckBooked from '@/components/CheckBooked'
 
 
 Vue.use(Router)
@@ -21,6 +21,11 @@ export default new Router({
       name: 'schedule',
       component: BookedSlots
     },   
+    {
+      path: '/check',
+      name: 'check',
+      component: CheckBooked
+    }, 
     {
       // will match everything
       path: '/*',

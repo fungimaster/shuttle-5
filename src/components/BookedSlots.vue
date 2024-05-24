@@ -75,6 +75,10 @@
               {{ data.value._id }}
             </template>
 
+            <template #cell(pickup_day)="data">
+              {{ stripDay(data.item.pickup_day) }}
+            </template>
+
             <!-- A virtual composite column -->
             <template #cell(driver)="data">
               <span v-if="!passwordCheck">
@@ -209,6 +213,7 @@ export default {
 
   computed: {
     ...mapGetters([]),
+   
   },
   mixins: [tagsMixin],
   created() {},
@@ -218,7 +223,9 @@ export default {
   },
 
   methods: {
-   
+    stripDay(day) {
+      return day.substring(2);
+    },
     loadTable() {
       this.loading=true;
     this.axios
