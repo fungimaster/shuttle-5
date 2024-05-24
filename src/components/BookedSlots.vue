@@ -200,13 +200,13 @@ export default {
       options_day: [
         { value: null, text: "Filter on day", disabled: true },
         { value: "all", text: "Show whole week" },
-        { value: "Monday", text: "Monday 27/5" },
-        { value: "Tuesday", text: "Tuesday 28/5" },
-        { value: "Wednesday", text: "Wednesday 29/5" },
-        { value: "Thursday", text: "Thursday 30/5" },
-        { value: "Friday", text: "Friday 31/5" },
-        { value: "Saturday", text: "Saturday 1/6" },
-        { value: "Sunday", text: "Sunday 2/6" },
+        { value: "1 Monday", text: "Monday 27/5" },
+        { value: "2 Tuesday", text: "Tuesday 28/5" },
+        { value: "3 Wednesday", text: "Wednesday 29/5" },
+        { value: "4 Thursday", text: "Thursday 30/5" },
+        { value: "5 Friday", text: "Friday 31/5" },
+        { value: "6 Saturday", text: "Saturday 1/6" },
+        { value: "7 Sunday", text: "Sunday 2/6" },
       ],
     };
   },
@@ -281,13 +281,17 @@ export default {
       }
 
 
+       day = this.stripDay(day);         
+
       this.bookedSlots = this.bookedSlotsOrg.filter((booking) => {
-        console.log(booking)
-        if (booking.pickup_day == day) {                    
+        
+        if (this.stripDay(booking.pickup_day) == day) {
+        
           if (this.driver != 'all') {            
             if (booking.driver == this.driver) return true;
-          } else {                        
-            if (booking.pickup_day == day) {             
+          } else {            
+            
+            if (this.stripDay(booking.pickup_day) == day) {             
               return true;
             }
           }
@@ -301,9 +305,10 @@ export default {
         this.bookedSlots = this.bookedSlotsOrg;
 
        //if a day is selected, use that value to filter
+       
         if (this.day != 'all') {
            this.bookedSlots = this.bookedSlotsOrg.filter((booking) => {
-            if (booking.pickup_day == this.day) return true; 
+            if (this.stripDay(booking.pickup_day) == this.stripDay(this.day)) return true; 
            })
         }
 
@@ -312,8 +317,8 @@ export default {
 
       this.bookedSlots = this.bookedSlotsOrg.filter((booking) => {
         if (booking.driver == driver) {
-          if (this.day != 'all') {
-            if (booking.pickup_day == this.day && booking.driver == driver) return true;
+          if (this.stripDay(this.day) != 'all') {
+            if (this.stripDay(booking.pickup_day) == this.stripDay(this.day) && booking.driver == driver) return true;
           } else {
             if (booking.driver == driver) return true;
           }
