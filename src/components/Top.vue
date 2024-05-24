@@ -28,7 +28,7 @@
           <!-- <b-nav-item :to="{path: '/line-up', query: {tags:$route.query.tags, day:$route.query.day}}">Line-up</b-nav-item> -->
                 
           <b-nav-item hidden to="/schedule">Schedule</b-nav-item>
-                 
+                  <b-nav-item  to="/check">Check your pickups</b-nav-item>
          
         </b-navbar-nav>
       </b-collapse>

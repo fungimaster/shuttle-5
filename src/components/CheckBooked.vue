@@ -7,7 +7,7 @@
         </b-col>                     
       </b-row>
       <b-row class="justify-content-center" align-h="center">
-         <b-col md="6" class="mt-4 mt-md-5">
+         <b-col md="8" class="mt-4 mt-md-5">
              <b-form 
             @submit.stop.prevent
             @submit="check"           
@@ -30,7 +30,7 @@
 
 
           <div class="mt-4 text-center">
-            <b-button type="submit" size="md" variant="primary">Check your bookings</b-button>
+            <b-button type="submit" size="md" variant="primary">Check your pickups</b-button>
           </div>
         
 
