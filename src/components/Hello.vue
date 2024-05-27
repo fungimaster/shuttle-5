@@ -201,7 +201,7 @@ export default {
       successMessage: '',
       options_day: [
         { value: null, text: "Please select day" ,disabled: true },
-        { value: "0 Monday", text: "Monday 27/5" },
+        { value: "0 Monday", text: "Monday 27/5", disabled:true},
         { value: "1 Tuesday", text: "Tuesday 28/5" },
         { value: "2 Wednesday", text: "Wednesday 29/5" },
         { value: "3 Thursday", text: "Thursday 30/5" },
