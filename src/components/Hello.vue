@@ -201,13 +201,13 @@ export default {
       successMessage: '',
       options_day: [
         { value: null, text: "Please select day" ,disabled: true },
-        { value: "0 Monday", text: "Monday 27/5", disabled:true},
-        { value: "1 Tuesday", text: "Tuesday 28/5" },
-        { value: "2 Wednesday", text: "Wednesday 29/5" },
-        { value: "3 Thursday", text: "Thursday 30/5" },
-        { value: "4 Friday", text: "Friday 31/5" },
-        { value: "5 Saturday", text: "Saturday 1/6" },
-        { value: "6 Sunday", text: "Sunday 2/6" },
+        { value: "0 Monday", text: "Monday 27/5", disabled: false},
+        { value: "1 Tuesday", text: "Tuesday 28/5",disabled: false },
+        { value: "2 Wednesday", text: "Wednesday 29/5" ,disabled: false},
+        { value: "3 Thursday", text: "Thursday 30/5" ,disabled: false},
+        { value: "4 Friday", text: "Friday 31/5" ,disabled: false},
+        { value: "5 Saturday", text: "Saturday 1/6",disabled: false },
+        { value: "6 Sunday", text: "Sunday 2/6" ,disabled: false},
       ],
       options_time: [
         { value: null, text: "Please select timeslot" ,disabled: true },
@@ -282,10 +282,15 @@ export default {
     // Set default header. e.g, X-API-KEY
     //this.axios.defaults.headers['testAPIkey'] = 'W2spSuQzGd0LKkGIjJlWADsLuNdOPqnybaZ18UIg26VYmLrkQ0dcvpauIO64GYd5';
 
-  //set day after tomorrow as default, if not match, set first option as default
-  const date = new Date();
-  console.log(date)
-
+  //disable things
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const today = new Date();      
+    const dayOfWeek = today.getDay();
+    
+    for (var i = 1; i <= dayOfWeek;i++) {    
+      this.options_day[i].disabled = true;
+    }
+    
   },
   created() {
     this.loading = false;
@@ -374,6 +379,9 @@ app.get('/getData', (req, res) => {
     },
   },
   methods: {
+    stripDay(day) {
+      return day.substring(2);
+    },
      isAfterNinePM(day) {
       //console.log('pickup day = '+ day)
     
@@ -390,8 +398,12 @@ app.get('/getData', (req, res) => {
       if (day == 'Sunday') {        
         currentHour = parseInt(currentHour)-1
       }
+
+      console.log('dag:' + days[dayOfWeek]);
+      console.log('dag num:' + this.stripDay(day));
+      console.log('currenthour:' + currentHour);
     
-      if (days[dayOfWeek] == day && currentHour > 20) {
+      if (days[dayOfWeek] == this.stripDay(day) && currentHour > 20) {
         console.log('to late to book for tomorrow')
         return true;
       } else {
