@@ -2,8 +2,9 @@
   <div>
     <b-container>
       <b-row class="justify-content-center" align-h="center">
-        <b-col md="12" class="mt-4 mt-md-5">
+        <b-col md="8" class="mt-4 mt-md-5">
           <h2 class="teaser-header">Check your pickups</h2>
+          <b-alert show variant="warning" class="small">Type in your mobile phone number used when booking your pickup, make sure to use the same format so we can find your booking.</b-alert>
         </b-col>                     
       </b-row>
       <b-row class="justify-content-center" align-h="center">

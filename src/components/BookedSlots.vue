@@ -100,13 +100,24 @@
             </template>
 
               <template #cell(action)="data">
-                <div class="text-center" >
+                <div class="text-center" style="min-width:100px;">
                <!--   <b-button v-if="passwordCheck" variant="danger" size="sm"
                  @click="deleteSlot(bookedSlots[data.index]._id)"
                  >
                   <i class="fa fa-trash"></i>
                  </b-button> -->
-                  <b-button v-if="passwordCheck" variant="danger" size="sm" @click="confirmDelete(bookedSlots[data.index]._id)"><i class="fa fa-trash"></i></b-button>
+                 <span v-if="passwordCheck">
+                  <b-button variant="danger" size="sm" @click="confirmDelete(bookedSlots[data.index]._id)"><i class="fa fa-trash"></i></b-button>
+                  <b-button v-if="bookedSlots[data.index].comment" v-b-tooltip.hover :title="bookedSlots[data.index].comment" variant="success" size="sm" @click="showCommentModal(bookedSlots[data.index]._id)"><i class="fa fa-comment"></i></b-button>
+                  <b-button v-else variant="secondary" size="sm" @click="showCommentModal(bookedSlots[data.index]._id)"><i class="fa fa-comment"></i></b-button>
+                 </span>
+                
+                <span v-if="!passwordCheck">
+                  <i v-if="bookedSlots[data.index].comment" v-b-tooltip.hover :title="bookedSlots[data.index].comment" class="fa fa-comment text-success"></i>
+                </span>
+
+
+
                 </div>
                  
             </template>
@@ -123,6 +134,19 @@
         </b-col>
       </b-row>
     </b-container>
+
+<b-modal id="modalPopover" title="Modal with Popover" ok-only>
+    <p>
+      This
+      <b-button v-b-popover="'Popover inside a modal!'" title="Popover">Button</b-button>
+      triggers a popover on click.
+    </p>
+    <p>
+      This <a href="#" v-b-tooltip title="Tooltip in a modal!">Link</a> will show a tooltip on
+      hover.
+    </p>
+  </b-modal>
+
   </div>
 </template>
 
@@ -138,6 +162,7 @@ export default {
   components: {},
   data() {
     return {
+      comment: 'my comment',
       day: "all",
       driver: "all",
       form: {
@@ -197,8 +222,8 @@ export default {
         "pickup_time",
         "name",
         "mobile",
-        "bags",
         "persons",
+        "bags",       
         "driver",
         "action"
       ],
@@ -241,6 +266,23 @@ export default {
         this.bookedSlotsOrg = response.data;
         //this.bookedSlots[0].driver = 'arne'
 
+        //filter away yesterday
+         const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+         const today = new Date();      
+         const dayOfWeek = today.getDay();
+
+         console.log('day of week ' + dayOfWeek)
+    
+        //for (var i = 1; i <= dayOfWeek;i++) {    
+          //this.options_day[i].disabled = true;
+          /*
+          this.bookedSlots = this.bookedSlotsOrg.filter((booking) => {
+          if (booking.day == this.driver) return true; 
+        })
+          */
+        //}
+        
+
         this.loading = false;
       })
       .catch((error) => {
@@ -248,8 +290,7 @@ export default {
         this.loading = false;
       });
     },
-    confirmDelete(id) {
-        
+    confirmDelete(id) {        
            
         this.$bvModal.msgBoxConfirm('Please confirm that you want to delete this slot.', {
           title: 'Please Confirm',
@@ -271,6 +312,66 @@ export default {
           .catch(err => {
             // An error occurred
           })
+      },
+       showCommentModal(id) {        
+
+         const h = this.$createElement        
+        // More complex structure
+
+       
+       
+        const messageVNode = h('div', { class: ['foobar'] }, [         
+          h('b-form-textarea', {
+            props: {
+              id: 'textarea',                         
+              rows: '3',
+              maxRows: '6'
+            }
+          })
+
+        ])
+
+        
+           
+        this.$bvModal.msgBoxConfirm([messageVNode], {
+          title: 'Add comment',
+          size: 'sm',
+          buttonSize: 'sm',
+          okVariant: 'success',
+          okTitle: 'Save',
+          cancelTitle: 'Cancel',
+          footerClass: 'p-2',
+          hideHeaderClose: false,
+          centered: true
+        })
+          .then(value => {
+            if (value) {                       
+              this.addComment(id,document.getElementById('textarea').value)
+            }
+             
+          })
+          .catch(err => {
+            // An error occurred
+          })
+      },
+      addComment(id,comment) {
+        this.saving = true;
+        const dataObj = { comment: comment, _id: id };
+
+        this.axios
+          .post(globalState.admin_url + "addComment", dataObj)
+          .then((response) => {
+            //console.log(response);
+            this.dataUpdated = true;
+             this.loadTable();
+            setTimeout(() => {
+              this.dataUpdated = false;
+            }, 3000);
+          })
+          .catch((error) => {
+            //console.log(error);
+            this.loading = false;
+          });
       },
     filterDay(day) {
       if (day == "all") {
