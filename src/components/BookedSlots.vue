@@ -15,7 +15,6 @@
             ></b-form-input>
           </b-form>
         </b-col>
-        
       </b-row>
     </b-container>
 
@@ -33,30 +32,43 @@
 
     <b-container v-if="!loading">
       <b-row class="justify-content-center" align-h="center">
-        <b-col md="3">
+        <b-col md="3" class="mt-1">
           <b-form-select
             v-model="day"
             :options="options_day"
             v-on:change="filterDay($event)"
           ></b-form-select>
         </b-col>
-        <b-col md="3">
+        <b-col md="3" class="mt-1">
           <b-form-select
             v-model="driver"
             :options="options_driver"
             v-on:change="filterDriver($event)"
           ></b-form-select>
         </b-col>
-        <b-col md="5" class="text-right">
+         <b-col md="3" class="mt-2">
+             <b-form-checkbox v-model="hide_old" @click="loadTable();" name="check-button" switch>
+      Hide old bookings
+    </b-form-checkbox>
+         </b-col>
+       
+        <b-col md="3" class="text-right mt-1">
+          <b-button
+            @click="loadTable()"
+            variant="secondary"
+            size="sm"
+            v-b-tooltip.hover
+            title="Refresh data"
+          >
+            <i class="fa fa-arrows-rotate"></i>
+          </b-button>
+        </b-col>
+
+         <b-col md="12" class="text-right">
           <span v-if="dataUpdated" class="small text-success"
             >Data updated</span
           >
         </b-col>
-         <b-col md="1" class="text-right">
-          <b-button @click="loadTable()" variant="secondary" size="sm" v-b-tooltip.hover title="Refresh data">
-            <i class="fa fa-arrows-rotate"></i>
-          </b-button>
-         </b-col>
 
         <b-col md="12" id="register" class="mt-4 mt-md-5">
           <!-- <b-table striped hover :fields="fields" :items="bookedSlots"></b-table> -->
@@ -99,54 +111,71 @@
               ></b-form-select>
             </template>
 
-              <template #cell(action)="data">
-                <div class="text-center" style="min-width:100px;">
-               <!--   <b-button v-if="passwordCheck" variant="danger" size="sm"
+            <template #cell(action)="data">
+              <div class="text-center" style="min-width: 100px">
+                <!--   <b-button v-if="passwordCheck" variant="danger" size="sm"
                  @click="deleteSlot(bookedSlots[data.index]._id)"
                  >
                   <i class="fa fa-trash"></i>
                  </b-button> -->
-                 <span v-if="passwordCheck">
-                  <b-button variant="danger" size="sm" @click="confirmDelete(bookedSlots[data.index]._id)"><i class="fa fa-trash"></i></b-button>
-                  <b-button v-if="bookedSlots[data.index].comment" v-b-tooltip.hover :title="bookedSlots[data.index].comment" variant="success" size="sm" @click="showCommentModal(bookedSlots[data.index]._id)"><i class="fa fa-comment"></i></b-button>
-                  <b-button v-else variant="secondary" size="sm" @click="showCommentModal(bookedSlots[data.index]._id)"><i class="fa fa-comment"></i></b-button>
-                 </span>
-                
-                <span v-if="!passwordCheck">
-                  <i v-if="bookedSlots[data.index].comment" v-b-tooltip.hover :title="bookedSlots[data.index].comment" class="fa fa-comment text-success"></i>
+                <span v-if="passwordCheck">
+                  <b-button
+                    variant="danger"
+                    size="sm"
+                    @click="confirmDelete(bookedSlots[data.index]._id)"
+                    ><i class="fa fa-trash"></i
+                  ></b-button>
+                  <b-button
+                    v-if="bookedSlots[data.index].comment"
+                    v-b-tooltip.hover
+                    :title="bookedSlots[data.index].comment"
+                    variant="success"
+                    size="sm"
+                    @click="showCommentModal(bookedSlots[data.index]._id)"
+                    ><i class="fa fa-comment"></i
+                  ></b-button>
+                  <b-button
+                    v-else
+                    variant="secondary"
+                    size="sm"
+                    @click="showCommentModal(bookedSlots[data.index]._id)"
+                    ><i class="fa fa-comment"></i
+                  ></b-button>
                 </span>
 
-
-
-                </div>
-                 
+                <span v-if="!passwordCheck">
+                  <i
+                    v-if="bookedSlots[data.index].comment"
+                    v-b-tooltip.hover
+                    :title="bookedSlots[data.index].comment"
+                    class="fa fa-comment text-success"
+                  ></i>
+                </span>
+              </div>
             </template>
 
-        
             <!-- Optional default data cell scoped slot -->
             <template #cell()="data">
               {{ data.value }}
-            </template> 
-
-
-
+            </template>
           </b-table>
         </b-col>
       </b-row>
     </b-container>
 
-<b-modal id="modalPopover" title="Modal with Popover" ok-only>
-    <p>
-      This
-      <b-button v-b-popover="'Popover inside a modal!'" title="Popover">Button</b-button>
-      triggers a popover on click.
-    </p>
-    <p>
-      This <a href="#" v-b-tooltip title="Tooltip in a modal!">Link</a> will show a tooltip on
-      hover.
-    </p>
-  </b-modal>
-
+    <b-modal id="modalPopover" title="Modal with Popover" ok-only>
+      <p>
+        This
+        <b-button v-b-popover="'Popover inside a modal!'" title="Popover"
+          >Button</b-button
+        >
+        triggers a popover on click.
+      </p>
+      <p>
+        This <a href="#" v-b-tooltip title="Tooltip in a modal!">Link</a> will
+        show a tooltip on hover.
+      </p>
+    </b-modal>
   </div>
 </template>
 
@@ -162,13 +191,14 @@ export default {
   components: {},
   data() {
     return {
-      comment: 'my comment',
+      hide_old: true,
+      comment: "my comment",
       day: "all",
       driver: "all",
       form: {
         password: null,
       },
-      dataUpdated: false,     
+      dataUpdated: false,
       passwordCheck: false, //false default
       loading: false,
       bookedSlots: [],
@@ -176,7 +206,7 @@ export default {
       options_driver: [
         { value: "all", text: "No driver", disabled: false },
         { value: "Ammi Brink", text: "Ammi Brink" },
-        { value: "Anders Lövstedt", text: "Anders Lövstedt" },        
+        { value: "Anders Lövstedt", text: "Anders Lövstedt" },
         { value: "Anders Malmros", text: "Anders Malmros" },
         { value: "Bengt Karlsson", text: "Bengt Karlsson" },
         { value: "Bertil Andersson", text: "Bertil Andersson" },
@@ -188,20 +218,20 @@ export default {
         { value: "Gunnar Brink", text: "Gunnar Brink" },
         { value: "Hans Karlsson", text: "Hans Karlsson" },
         { value: "Harald Nabseth", text: "Harald Nabseth" },
-         { value: "Jonny Wiik", text: "Jonny Wiik" },        
+        { value: "Jonny Wiik", text: "Jonny Wiik" },
         { value: "Jörgen Ekdahl", text: "Jörgen Ekdahl" },
         { value: "Lars Altemark", text: "Lars Altemark" },
-         { value: "Lars Persson", text: "Lars Persson" },        
+        { value: "Lars Persson", text: "Lars Persson" },
         { value: "Lars G Persson", text: "Lars G Persson" },
         { value: "Lars-Göran Persson", text: "Lars-Göran Persson" },
         { value: "Lars-Gunnar Persson", text: "Lars-Gunnar Persson" },
         { value: "Martin Brolin", text: "Martin Brolin" },
         { value: "Mikael Swahn", text: "Mikael Swahn" },
-         { value: "Per-Olof Olsson", text: "Per-Olof Olsson" },        
+        { value: "Per-Olof Olsson", text: "Per-Olof Olsson" },
         { value: "Pär-Olof Olsson", text: "Pär-Olof Olsson" },
         { value: "Paul Andersson", text: "Paul Andersson" },
         { value: "Peter Svensson", text: "Peter Svensson" },
-        { value: "Richard Sandström", text: "Richard Sandström" },       
+        { value: "Richard Sandström", text: "Richard Sandström" },
         { value: "Roger Blohm", text: "Roger Blohm" },
         { value: "Ronny Könsberg", text: "Ronny Könsberg" },
         { value: "Stefan Löfkvist", text: "Stefan Löfkvist" },
@@ -223,12 +253,12 @@ export default {
         "name",
         "mobile",
         "persons",
-        "bags",       
+        "bags",
         "driver",
-        "action"
+        "action",
       ],
       options_day: [
-        { value: null, text: "Filter on day", disabled: true },
+      //  { value: null, text: "Filter on day", disabled: true },
         { value: "all", text: "Show whole week" },
         { value: "1 Monday", text: "Monday 27/5" },
         { value: "2 Tuesday", text: "Tuesday 28/5" },
@@ -243,7 +273,6 @@ export default {
 
   computed: {
     ...mapGetters([]),
-   
   },
   mixins: [tagsMixin],
   created() {},
@@ -256,152 +285,158 @@ export default {
     stripDay(day) {
       return day.substring(2);
     },
-    loadTable() {
-      this.loading=true;
-    this.axios
-      .get(globalState.admin_url + "getSchedule")
-      .then((response) => {
-        this.bookedSlots = response.data;
-        //console.log(this.bookedSlots);
-        this.bookedSlotsOrg = response.data;
-        //this.bookedSlots[0].driver = 'arne'
+    getDaysUpToToday(today) {
+        const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    let daysBeforeToday = [];
 
-        //filter away yesterday
-         const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-         const today = new Date();      
-         const dayOfWeek = today.getDay();
+    // Justera today om dagen är söndag, den borde vara 6 istället för 0
+    if (today === 0) {
+        today = 6;  // Söndag som det sista indexet
+    } else {
+        today -= 1; // Förskjut för att matcha den nya arraykonfigurationen
+    }
 
-         console.log('day of week ' + dayOfWeek)
-    
-        //for (var i = 1; i <= dayOfWeek;i++) {    
-          //this.options_day[i].disabled = true;
-          /*
-          this.bookedSlots = this.bookedSlotsOrg.filter((booking) => {
-          if (booking.day == this.driver) return true; 
-        })
-          */
-        //}
-        
+    for (let i = 0; i < today; i++) {
+        daysBeforeToday.push(daysOfWeek[i]);
+    }
 
-        this.loading = false;
-      })
-      .catch((error) => {
-        console.log(error);
-        this.loading = false;
-      });
+    return daysBeforeToday;
     },
-    confirmDelete(id) {        
-           
-        this.$bvModal.msgBoxConfirm('Please confirm that you want to delete this slot.', {
-          title: 'Please Confirm',
-          size: 'sm',
-          buttonSize: 'sm',
-          okVariant: 'danger',
-          okTitle: 'YES',
-          cancelTitle: 'NO',
-          footerClass: 'p-2',
-          hideHeaderClose: false,
-          centered: true
+    loadTable() {
+      this.loading = true;
+      this.axios
+        .get(globalState.admin_url + "getSchedule")
+        .then((response) => {
+          this.bookedSlots = response.data;
+          //console.log(this.bookedSlots);
+          this.bookedSlotsOrg = response.data;
+          //this.bookedSlots[0].driver = 'arne'
+
+          //FILTER OUT OLD PICKUPS
+          if (this.hide_old) {
+            const todayNumeric = new Date().getDay(); 
+            const days = this.getDaysUpToToday(todayNumeric);          
+
+            for (var i = 0; i < days.length;i++) {
+              //console.log('hide ' + days[i])
+          
+              this.bookedSlots = this.bookedSlotsOrg.filter((booking) => {
+                //console.log('found: ' + booking.pickup_day,days[i])
+              if (this.stripDay(booking.pickup_day) != days[i]) return true; 
+              })
+
+            }
+          }
+          //END FILTER OUT
+
+          this.loading = false;
         })
-          .then(value => {
-            if (value) {
-              this.deleteSlot(id)
-            }
-             
-          })
-          .catch(err => {
-            // An error occurred
-          })
-      },
-       showCommentModal(id) {        
-
-         const h = this.$createElement        
-        // More complex structure
-
-       
-       
-        const messageVNode = h('div', { class: ['foobar'] }, [         
-          h('b-form-textarea', {
-            props: {
-              id: 'textarea',                         
-              rows: '3',
-              maxRows: '6'
-            }
-          })
-
-        ])
-
-        
-           
-        this.$bvModal.msgBoxConfirm([messageVNode], {
-          title: 'Add comment',
-          size: 'sm',
-          buttonSize: 'sm',
-          okVariant: 'success',
-          okTitle: 'Save',
-          cancelTitle: 'Cancel',
-          footerClass: 'p-2',
+        .catch((error) => {
+          console.log(error);
+          this.loading = false;
+        });
+    },
+    confirmDelete(id) {
+      this.$bvModal
+        .msgBoxConfirm("Please confirm that you want to delete this slot.", {
+          title: "Please Confirm",
+          size: "sm",
+          buttonSize: "sm",
+          okVariant: "danger",
+          okTitle: "YES",
+          cancelTitle: "NO",
+          footerClass: "p-2",
           hideHeaderClose: false,
-          centered: true
+          centered: true,
         })
-          .then(value => {
-            if (value) {                       
-              this.addComment(id,document.getElementById('textarea').value)
-            }
-             
-          })
-          .catch(err => {
-            // An error occurred
-          })
-      },
-      addComment(id,comment) {
-        this.saving = true;
-        const dataObj = { comment: comment, _id: id };
+        .then((value) => {
+          if (value) {
+            this.deleteSlot(id);
+          }
+        })
+        .catch((err) => {
+          // An error occurred
+        });
+    },
+    showCommentModal(id) {
+      const h = this.$createElement;
+      // More complex structure
 
-        this.axios
-          .post(globalState.admin_url + "addComment", dataObj)
-          .then((response) => {
-            //console.log(response);
-            this.dataUpdated = true;
-             this.loadTable();
-            setTimeout(() => {
-              this.dataUpdated = false;
-            }, 3000);
-          })
-          .catch((error) => {
-            //console.log(error);
-            this.loading = false;
-          });
-      },
+      const messageVNode = h("div", { class: ["foobar"] }, [
+        h("b-form-textarea", {
+          props: {
+            id: "textarea",
+            rows: "3",
+            maxRows: "6",
+          },
+        }),
+      ]);
+
+      this.$bvModal
+        .msgBoxConfirm([messageVNode], {
+          title: "Add comment",
+          size: "sm",
+          buttonSize: "sm",
+          okVariant: "success",
+          okTitle: "Save",
+          cancelTitle: "Cancel",
+          footerClass: "p-2",
+          hideHeaderClose: false,
+          centered: true,
+        })
+        .then((value) => {
+          if (value) {
+            this.addComment(id, document.getElementById("textarea").value);
+          }
+        })
+        .catch((err) => {
+          // An error occurred
+        });
+    },
+    addComment(id, comment) {
+      this.saving = true;
+      const dataObj = { comment: comment, _id: id };
+
+      this.axios
+        .post(globalState.admin_url + "addComment", dataObj)
+        .then((response) => {
+          //console.log(response);
+          this.dataUpdated = true;
+          this.loadTable();
+          setTimeout(() => {
+            this.dataUpdated = false;
+          }, 3000);
+        })
+        .catch((error) => {
+          //console.log(error);
+          this.loading = false;
+        });
+    },
     filterDay(day) {
       if (day == "all") {
         this.bookedSlots = this.bookedSlotsOrg;
-        
+
         //if a driver is selected, use that value to filter
-        if (this.driver != 'all') {
-           this.bookedSlots = this.bookedSlotsOrg.filter((booking) => {
-            if (booking.driver == this.driver) return true; 
-           })
+        if (this.driver != "all") {
+          this.bookedSlots = this.bookedSlotsOrg.filter((booking) => {
+            if (booking.driver == this.driver) return true;
+          });
         }
         return;
       }
 
-
-       day = this.stripDay(day);         
+      day = this.stripDay(day);
 
       this.bookedSlots = this.bookedSlotsOrg.filter((booking) => {
-        
         if (this.stripDay(booking.pickup_day) == day) {
-        
-          if (this.driver != 'all') {            
+          if (this.driver != "all") {
             if (booking.driver == this.driver) return true;
-          } else {            
-            
-            if (this.stripDay(booking.pickup_day) == day) {             
+          } else {
+            if (this.stripDay(booking.pickup_day) == day) {
               return true;
             }
           }
-         // return true;
+          // return true;
         }
       });
     },
@@ -410,28 +445,32 @@ export default {
       if (driver == "all") {
         this.bookedSlots = this.bookedSlotsOrg;
 
-       //if a day is selected, use that value to filter
-       
-        if (this.day != 'all') {
-           this.bookedSlots = this.bookedSlotsOrg.filter((booking) => {
-            if (this.stripDay(booking.pickup_day) == this.stripDay(this.day)) return true; 
-           })
+        //if a day is selected, use that value to filter
+
+        if (this.day != "all") {
+          this.bookedSlots = this.bookedSlotsOrg.filter((booking) => {
+            if (this.stripDay(booking.pickup_day) == this.stripDay(this.day))
+              return true;
+          });
         }
 
         return;
       }
 
-      this.bookedSlots = this.bookedSlotsOrg.filter((booking) => {        
-        if (booking.driver == driver) {                
-          if (this.day != 'all') {            
-            if (this.stripDay(booking.pickup_day) == this.stripDay(this.day) && booking.driver == driver) return true;
-          } else {            
+      this.bookedSlots = this.bookedSlotsOrg.filter((booking) => {
+        if (booking.driver == driver) {
+          if (this.day != "all") {
+            if (
+              this.stripDay(booking.pickup_day) == this.stripDay(this.day) &&
+              booking.driver == driver
+            )
+              return true;
+          } else {
             if (booking.driver == driver) return true;
           }
-         // return true;
+          // return true;
         }
       });
-
     },
 
     checkPassword() {
@@ -459,8 +498,7 @@ export default {
         });
     },
 
- deleteSlot(id) {
-  
+    deleteSlot(id) {
       this.saving = true;
       const dataObj = { _id: id };
 
@@ -484,6 +522,11 @@ export default {
       this.updateDriver(driver, id, index);
     },
   },
+      watch: {
+      hide_old(newValue, oldValue) {
+        this.loadTable();
+      }
+    }
 };
 </script>
 
@@ -503,6 +546,7 @@ img {
 .selectDriver {
   min-width: 200px;
 }
+
 
 @media (max-width: 576px) {
   h2 {
