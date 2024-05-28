@@ -54,7 +54,7 @@
         </b-col>
          <b-col md="1" class="text-right">
           <b-button @click="loadTable()" variant="secondary" size="sm" v-b-tooltip.hover title="Refresh data">
-            <i class="fa fa-arrow-down"></i>
+            <i class="fa fa-arrows-rotate"></i>
           </b-button>
          </b-col>
 
@@ -320,11 +320,11 @@ export default {
         return;
       }
 
-      this.bookedSlots = this.bookedSlotsOrg.filter((booking) => {
-        if (booking.driver == driver) {
-          if (this.stripDay(this.day) != 'all') {
+      this.bookedSlots = this.bookedSlotsOrg.filter((booking) => {        
+        if (booking.driver == driver) {                
+          if (this.day != 'all') {            
             if (this.stripDay(booking.pickup_day) == this.stripDay(this.day) && booking.driver == driver) return true;
-          } else {
+          } else {            
             if (booking.driver == driver) return true;
           }
          // return true;
