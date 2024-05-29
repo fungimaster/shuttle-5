@@ -319,8 +319,8 @@ export default {
 
             for (var i = 0; i < days.length;i++) {
               //console.log('hide ' + days[i])
-          
-              this.bookedSlots = this.bookedSlotsOrg.filter((booking) => {
+
+              this.bookedSlots = this.bookedSlots.filter((booking) => {
                 //console.log('found: ' + booking.pickup_day,days[i])
               if (this.stripDay(booking.pickup_day) != days[i]) return true; 
               })
