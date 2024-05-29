@@ -536,22 +536,9 @@ button.Cookie--matchplay {
 		td:nth-of-type(8):before { content: "Action"; }
 	}
 	
-	/* Smartphones (portrait and landscape) ----------- */
-	@media only screen
-	and (min-device-width : 320px)
-	and (max-device-width : 480px) {
-		body { 
-			padding: 0; 
-			margin: 0; 
-			width: 320px; }
-		}
 	
-	/* iPads (portrait and landscape) ----------- */
-	@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
-		body { 
-			width: 495px; 
-		}
-	}
+	
+	
   
 
 
