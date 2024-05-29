@@ -131,7 +131,7 @@
                     :title="bookedSlots[data.index].comment"
                     variant="success"
                     size="sm"
-                    @click="showCommentModal(bookedSlots[data.index]._id)"
+                    @click="showCommentModal(bookedSlots[data.index]._id,bookedSlots[data.index].comment)"
                     ><i class="fa fa-comment"></i
                   ></b-button>
                   <b-button
@@ -199,7 +199,7 @@ export default {
         password: null,
       },
       dataUpdated: false,
-      passwordCheck: false, //false default
+      passwordCheck: true, //false default
       loading: false,
       bookedSlots: [],
       bookedSlotsOrg: [],
@@ -365,7 +365,7 @@ export default {
           // An error occurred
         });
     },
-    showCommentModal(id) {
+    showCommentModal(id,comment) {
       const h = this.$createElement;
       // More complex structure
 
@@ -375,6 +375,7 @@ export default {
             id: "textarea",
             rows: "3",
             maxRows: "6",
+            value: comment
           },
         }),
       ]);
