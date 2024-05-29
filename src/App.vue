@@ -479,8 +479,8 @@ button.Cookie--matchplay {
   
 
 	@media 
-	only screen and (max-width: 760px),
-	(min-device-width: 768px) and (max-device-width: 1024px)  {
+	only screen and (max-width: 560px),
+	(min-device-width: 320px) and (max-device-width: 560px)  {
 	
 		/* Force table to not be like tables anymore */
 		table, thead, tbody, th, td, tr { 
