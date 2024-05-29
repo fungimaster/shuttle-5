@@ -488,8 +488,8 @@ button.Cookie--matchplay {
 		}
 
     .table td {
-      padding-top: 1.4em;
-        padding-left: 1em;
+      padding-top: 1.4em !important;
+        padding-left: 1em !important;
     }
 		
 		/* Hide table headers (but not display: none;, for accessibility) */
