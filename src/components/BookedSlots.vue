@@ -277,8 +277,9 @@ export default {
   mixins: [tagsMixin],
   created() {},
   mounted: function () {
-    this.loading = true;
+    this.loading = true;   
     this.loadTable();
+
   },
 
   methods: {
@@ -311,6 +312,12 @@ export default {
           //console.log(this.bookedSlots);
           this.bookedSlotsOrg = response.data;
           //this.bookedSlots[0].driver = 'arne'
+
+           //set driver from local storage
+            if (localStorage.getItem("driver")) {
+              this.driver = localStorage.getItem("driver");
+              this.filterDriver(this.driver);
+            }
 
           //FILTER OUT OLD PICKUPS
           if (this.hide_old) {
@@ -443,6 +450,7 @@ export default {
 
     filterDriver(driver) {
       if (driver == "all") {
+        localStorage.setItem("driver", 'all');
         this.bookedSlots = this.bookedSlotsOrg;
 
         //if a day is selected, use that value to filter
@@ -453,12 +461,16 @@ export default {
               return true;
           });
         }
-
+        this.filterOutOld();
         return;
       }
 
+      localStorage.setItem("driver", driver);
+    
       this.bookedSlots = this.bookedSlotsOrg.filter((booking) => {
-        if (booking.driver == driver) {
+        if (booking.driver == driver) {    
+          //save local storage for driver to keep selection
+                    
           if (this.day != "all") {
             if (
               this.stripDay(booking.pickup_day) == this.stripDay(this.day) &&
@@ -468,11 +480,29 @@ export default {
           } else {
             if (booking.driver == driver) return true;
           }
-          // return true;
+          // return true;          
         }
       });
+      this.filterOutOld();
     },
+    filterOutOld() {
+          //FILTER OUT OLD PICKUPS
+          if (this.hide_old) {
+            const todayNumeric = new Date().getDay(); 
+            const days = this.getDaysUpToToday(todayNumeric);          
 
+            for (var i = 0; i < days.length;i++) {
+              //console.log('hide ' + days[i])
+
+              this.bookedSlots = this.bookedSlots.filter((booking) => {
+                //console.log('found: ' + booking.pickup_day,days[i])
+              if (this.stripDay(booking.pickup_day) != days[i]) return true; 
+              })
+
+            }
+          }
+          //END FILTER OUT
+    },
     checkPassword() {
       if (this.form.password == "borjeadmin") {
         this.passwordCheck = true;
@@ -565,4 +595,6 @@ img {
     font-size: 1.1rem !important;
   }
 }
+
+
 </style>

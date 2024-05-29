@@ -463,4 +463,96 @@ button.Cookie--matchplay {
 }
 
 
+//TABLE
+ /* 
+	Max width before this PARTICULAR table gets nasty
+	This query will take effect for any screen smaller than 760px
+	and also iPads specifically.
+	*/
+
+
+
+  .table-responsive-sm {
+    overflow-x:visible;
+  }
+
+  
+
+	@media 
+	only screen and (max-width: 760px),
+	(min-device-width: 768px) and (max-device-width: 1024px)  {
+	
+		/* Force table to not be like tables anymore */
+		table, thead, tbody, th, td, tr { 
+			display: block; 
+		}
+
+    .table td {
+      padding-top: 1.4em;
+        padding-left: 1em;
+    }
+		
+		/* Hide table headers (but not display: none;, for accessibility) */
+		thead tr { 
+			position: absolute;
+			top: -9999px;
+			left: -9999px;
+		}
+		
+		tr { border: 1px solid #ccc; 
+    margin-bottom:1em;}
+		
+		td { 
+			/* Behave  like a "row" */
+			border: none;
+			border-bottom: 1px solid #eee; 
+			position: relative;
+			padding-left: 50%; 
+		}
+		
+		td:before { 
+			/* Now like a table header */
+      font-weight: 500;
+			position: absolute;
+        top: 2px;
+        left: 6px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        font-size: 0.85em;
+        font-family: "Prompt SemiBold";
+		}
+		
+		/*
+		Label the data
+		*/
+		td:nth-of-type(1):before { content: "Day"; }
+		td:nth-of-type(2):before { content: "Time"; }
+		td:nth-of-type(3):before { content: "Name"; }
+		td:nth-of-type(4):before { content: "Mobile"; }
+		td:nth-of-type(5):before { content: "Persons"; }
+		td:nth-of-type(6):before { content: "Bags"; }
+		td:nth-of-type(7):before { content: "Driver"; }
+		td:nth-of-type(8):before { content: "Action"; }
+	}
+	
+	/* Smartphones (portrait and landscape) ----------- */
+	@media only screen
+	and (min-device-width : 320px)
+	and (max-device-width : 480px) {
+		body { 
+			padding: 0; 
+			margin: 0; 
+			width: 320px; }
+		}
+	
+	/* iPads (portrait and landscape) ----------- */
+	@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+		body { 
+			width: 495px; 
+		}
+	}
+  
+
+
 </style>

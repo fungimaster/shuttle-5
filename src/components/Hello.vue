@@ -36,6 +36,7 @@
             Submit a request for pickup at <a href="https://maps.app.goo.gl/8udWteUsUJ5djmPK7" target="_blank">Marina Plaza hotel in Helsingborg</a> for
             transport to the golf course. The ride will take approx. 25 minutes and is valid for <strong>player + caddie</strong>.
             <br><br>
+            <a href="/check">Click here</a> to check your existing pickups.<br>            
             <strong>NOTE: </strong>Booking closes at 9pm for the upcoming day.
           </p>
           
