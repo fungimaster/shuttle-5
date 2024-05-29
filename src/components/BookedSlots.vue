@@ -199,7 +199,7 @@ export default {
         password: null,
       },
       dataUpdated: false,
-      passwordCheck: true, //false default
+      passwordCheck: false, //false default
       loading: false,
       bookedSlots: [],
       bookedSlotsOrg: [],
