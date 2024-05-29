@@ -126,9 +126,7 @@
                     ><i class="fa fa-trash"></i
                   ></b-button>
                   <b-button
-                    v-if="bookedSlots[data.index].comment"
-                    v-b-tooltip.hover
-                    :title="bookedSlots[data.index].comment"
+                    v-if="bookedSlots[data.index].comment"                  
                     variant="success"
                     size="sm"
                     @click="showCommentModal(bookedSlots[data.index]._id,bookedSlots[data.index].comment)"
@@ -146,8 +144,8 @@
                 <span v-if="!passwordCheck">
                   <i
                     v-if="bookedSlots[data.index].comment"
-                    v-b-tooltip.hover
-                    :title="bookedSlots[data.index].comment"
+                     v-b-popover.hover.top="bookedSlots[data.index].comment"
+                    :title="'Comment'"
                     class="fa fa-comment text-success"
                   ></i>
                 </span>
