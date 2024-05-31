@@ -37,7 +37,7 @@
             transport to the golf course. The ride will take approx. 25 minutes and is valid for <strong>player + caddie</strong>.
             <br><br>
             <a href="/check">Click here</a> to check your existing pickups.<br>            
-            <strong>NOTE: </strong>Booking closes at 9pm for the upcoming day.
+            <strong>NOTE: </strong>Booking closes at 11pm (today Friday) for the upcoming day (Saturday).
           </p>
           
           <b-form 
@@ -404,7 +404,7 @@ app.get('/getData', (req, res) => {
       console.log('dag num:' + this.stripDay(day));
       console.log('currenthour:' + currentHour);
     
-      if (days[dayOfWeek] == this.stripDay(day) && currentHour > 20) {
+      if (days[dayOfWeek] == this.stripDay(day) && currentHour > 22) {
         console.log('to late to book for tomorrow')
         return true;
       } else {
