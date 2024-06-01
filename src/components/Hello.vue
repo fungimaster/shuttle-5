@@ -37,7 +37,7 @@
             transport to the golf course. The ride will take approx. 25 minutes and is valid for <strong>player + caddie</strong>.
             <br><br>
             <a href="/check">Click here</a> to check your existing pickups.<br>            
-            <strong>NOTE: </strong>Booking closes at 11pm (today Friday) for the upcoming day (Saturday).
+            <strong>NOTE: </strong>Booking closes at 9pm (today Saturday) for the tomorrow (Sunday).
           </p>
           
           <b-form 
@@ -212,6 +212,7 @@ export default {
       ],
       options_time: [
         { value: null, text: "Please select timeslot" ,disabled: true },
+        { value: "0530", text: "05:30" },
         { value: "0600", text: "06:00" },
         { value: "0630", text: "06:30" },
         { value: "0700", text: "07:00" },
@@ -359,7 +360,7 @@ app.get('/getData', (req, res) => {
 
       if (this.isAfterNinePM(this.form.pickup_day)) {
         validation = false;
-        this.errorDay = 'Shuttle booking is closed for tomorrow (closes at 9pm).'
+        this.errorDay = 'Shuttle booking is closed for tomorrow (closed at 9pm).'
       } else {
         this.errorDay = null;
       }
@@ -404,7 +405,7 @@ app.get('/getData', (req, res) => {
       console.log('dag num:' + this.stripDay(day));
       console.log('currenthour:' + currentHour);
     
-      if (days[dayOfWeek] == this.stripDay(day) && currentHour > 22) {
+      if (days[dayOfWeek] == this.stripDay(day) && currentHour > 20) {
         console.log('to late to book for tomorrow')
         return true;
       } else {
