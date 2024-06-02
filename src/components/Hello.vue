@@ -32,7 +32,10 @@
       <b-col md="8" class="mt-5 mt-md-5">     
         <p hidden>INFORMATION HERE, LANGUAGE? ENGLISH OR SWEDISH?</p>
           <h2>Request shuttle service pickup</h2>
-          <p class="mt-4 mb-5">
+           <p class="mt-4 mb-5">
+            Thank you for participating in the Dormy Open Helsingborg 2024!
+           </p>
+          <p hidden class="mt-4 mb-5">
             Submit a request for pickup at <a href="https://maps.app.goo.gl/8udWteUsUJ5djmPK7" target="_blank">Marina Plaza hotel in Helsingborg</a> for
             transport to the golf course. The ride will take approx. 25 minutes and is valid for <strong>player + caddie</strong>.
             <br><br>
@@ -40,7 +43,7 @@
             <strong>NOTE: </strong>Booking closes at 9pm (today Saturday) for the tomorrow (Sunday).
           </p>
           
-          <b-form 
+          <b-form hidden
             @submit.stop.prevent
             @submit="addPickup"
             @reset="onReset"
